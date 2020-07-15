@@ -22,29 +22,22 @@
 <meta name="generator" content="Hexo 4.2.1"></head>
 <body id="bodyx">
     <div class="hd posts">
+<meta name="referrer" content="no-referrer" />
     <a href="/index.html"><i class="fa fa-home
  replay-btn" aria-hidden="true"></i></a>
     <div class="post-title">
         <p>
-            Hello World
+            PWN入门（unsafe unlink）
         </p>
         <hr>
     </div>
     <div class="post-content">
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
+        <h1 id="介绍与原理"><a href="#介绍与原理" class="headerlink" title="介绍与原理"></a>介绍与原理</h1><p>主要是内存布局好之后，通过 unlink 来修改指针</p>
+<p>正常的 unlink 是当我们去 free 一个 chunk 的时候，如果这个 chunk 的前一个或后一个是 free 的状态，glibc 会把它从链表里面取出来，与现在要 free 的这个合并再放进去，取出来的这个过程就是 unlink</p>
+<p>wiki 上面的一个示意图，Fd 是前置指针，Bk 是后置指针</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593172846524-c2fc14af-bf0c-44db-8c3d-d2b26e5ea2c5.png#align=left&display=inline&height=670&margin=%5Bobject%20Object%5D&originHeight=670&originWidth=846&size=0&status=done&style=none&width=846" alt=""></p>
+<p>ulink 有一个保护检查机制，他会检查这个 chunk 的前一个 chunk 的 bk 指针是不是指向这个 chunk（后一个也一样）我们需要绕过他的检查</p>
+<h1 id="2014-HITCON-stkof"><a href="#2014-HITCON-stkof" class="headerlink" title="2014 HITCON stkof"></a>2014 HITCON stkof</h1>
     </div>
 
     

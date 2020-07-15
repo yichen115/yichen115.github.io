@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="google-site-verification" content="TZE0rZyIqLl10trYu3BWBWa1Vmz6HFwhb2OcNEK4u-s" />
+     <link rel="shortcut icon" href= /img/logo.ico >
+    <title>
+        yichen
+    </title>
+    
+<link rel="stylesheet" href="/libs/highlight/styles/monokai-sublime.css">
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+<body id="bodyx">
+    <div class="hd posts">
+<meta name="referrer" content="no-referrer" />
+    <a href="/index.html"><i class="fa fa-home
+ replay-btn" aria-hidden="true"></i></a>
+    <div class="post-title">
+        <p>
+            windows内核实验
+        </p>
+        <hr>
+    </div>
+    <div class="post-content">
+        <h1 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h1><p>虚拟机添加串口：<code>\\.\pipe\com_1</code><br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1578396203580-22d22d5e-9a9f-4ea4-bbde-d30497651fb6.png#align=left&display=inline&height=288&name=image.png&originHeight=576&originWidth=917&size=47685&status=done&style=none&width=458.5" alt="image.png"></p>
+<p>打开 C 盘下的 boot.ini，添加如下内容：<br><code>multi(0)disk(0)rdisk(0)partition(1)\WINDOWS=&quot;Microsoft Windows XP Professional Debug&quot; /noexecute=optin /fastdetect /debugport=COM1 /baudrate=115200</code><br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1578395871243-5299336d-128b-45e1-8def-131c56967345.png#align=left&display=inline&height=153&name=image.png&originHeight=262&originWidth=768&size=26942&status=done&style=none&width=449" alt="image.png"></p>
+<p>在 windbg 的快捷方式中添加一下内容：<br><code>D:\anquan\CTF-tools\RE\windbg\windbg_cn_6.11.0001.404.exe -b -k com:pipe,port=\\.\pipe\com_1,baud=115200,resets=0 -y SRV*D:\anquan\symbol*http://msdl.microsoft.com/download/symbols</code><br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1578395926067-a9890bd6-c805-41ce-9e4a-1e6bf68dcf93.png#align=left&display=inline&height=347&name=image.png&originHeight=574&originWidth=580&size=34990&status=done&style=none&width=351" alt="image.png"></p>
+<h1 id="实验-1：中断提权"><a href="#实验-1：中断提权" class="headerlink" title="实验 1：中断提权"></a>实验 1：中断提权</h1><p><strong>中断描述表</strong></p>
+<p>idt 就是中断描述表，idtr 就是中断描述表寄存器，用来记录  idt 在什么地方</p>
+<p><strong>windbg 命令</strong><br>**<br><code>r eax</code>  就是看一下  eax  的内容</p>
+<p><code>dq 地址 L140</code>  查看地址的内容，后面跟一个 L  可以查看的长度，也就是 range</p>
+<p>使用  <code>eq 8003f500 0040ee00</code>00081000<code>把 0040ee00</code>00081000 写到 8003f500 的地方</p>
+<p><strong>实验开始</strong></p>
+<p>使用命令 <code>r idtr</code>  查看中断描述表寄存器，找到中断表的位置<br>得到：<code>idtr=8003f400</code><br>使用  <code>dq ``8003f400 -L40</code>  查看中断描述表<br>会看到 80548e00`000831a0 等这些差不多的，其实真正的是两边那 8 个，805431a0，中间的是一些属性，后面再说</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1576504583166-215ed3ed-285e-4ded-bb7c-a0cc0da9d630.png#align=left&display=inline&height=447&name=image.png&originHeight=465&originWidth=387&size=23572&status=done&style=none&width=372" alt="image.png"></p>
+<p>我们要做的就是：用程序写一个函数，他会去触发中断，一旦执行中断之后就可以执行异常，异常的处理地址就是我们用 eq  写入的，触发异常之后就可以执行高权限的命令了</p>
+<p>具体做法是构造一个裸函数，这个裸函数是我们用来执行高权限代码的地方，这个函数的入口就是 401000</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> _declspec(naked) IdtEntry()</span><br><span class="line">&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用  <code>eq 8003f500 0040ee00</code>00081000`<br>把 00401000 写到 8003f500 的地方（这里注意应该是  ee  而不是 8e，否则用户态的进程是没法访问的）<br>ee  与 e8  的区别是 ee  允许用户态来触发，而 e8  只允许内核态</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1576505543753-34b5e866-e30d-4627-b5ea-ecd72374a04f.png#align=left&display=inline&height=458&name=image.png&originHeight=587&originWidth=896&size=77057&status=done&style=none&width=699" alt="image.png"></p>
+<p>对于普通的 int 3  断点，直接在代码里面就可以执行，它的前半部分是 ee00，如果是 e800 的就不行</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1576505702485-e22ba613-462a-4034-bbf4-f6c3cbc69586.png#align=left&display=inline&height=172&name=image.png&originHeight=181&originWidth=377&size=10297&status=done&style=none&width=359" alt="image.png"></p>
+<p>写一个函数，把函数的地址塞到向量表里面，使用裸函数</p>
+<p>然而每次运行地址都是不一样的，在属性里面把随即地址关了填上一个固定地址</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line">DWORD g_temp=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">void</span> _declspec(naked) IdtEntry()</span><br><span class="line">&#123;</span><br><span class="line">    _asm&#123;</span><br><span class="line">        mov eax,dword ptr ds:[<span class="number">0x8003f014</span>]</span><br><span class="line">        mov g_temp,eax</span><br><span class="line">        iretd</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">go</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    _asm <span class="keyword">int</span> <span class="number">0x20</span></span><br><span class="line"><span class="comment">/*这个地方，就涉及到属性了，要是 int 3 的话，因为属性 ee00 是允许 ring 3 也就是用户访问的，所以会提示触发了一个断点，如果是 int 0 的话就属于你是用户态却想访问内核态的东西 8e00，会报错，当正常出现这个异常的时候是由硬件访问这个地址的 */</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>((DWORD)IdtEntry != <span class="number">0x401000</span>)</span><br><span class="line">    &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%p\n"</span>,IdtEntry);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    go();</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%p\n"</span>,g_temp);</span><br><span class="line">    system(<span class="string">"pause"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>tips</strong>：release  版本的如果有的没用的话，会默认优化掉不生成<br>如果在 XP  上显示不是有效的  win32 =&gt;  右键项目 =&gt;  属性 =&gt;  配置属性 =&gt;  常规 =&gt;  平台工具集 =&gt;  选择 XP 的</p>
+<h1 id="实验-2：多核复杂性"><a href="#实验-2：多核复杂性" class="headerlink" title="实验 2：多核复杂性"></a>实验 2：多核复杂性</h1><p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1578389926192-cabd2bd7-d3d4-4ee1-9e99-ca2ac4df4de3.png#align=left&display=inline&height=175&name=image.png&originHeight=222&originWidth=514&size=11758&status=done&style=none&width=406" alt="image.png"></p>
+<p>默认 CE 是不会打开这个功能的，需要在设置-&gt;其他-&gt;勾上全部选项再重启</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1578390003463-eb426874-e3a1-468a-a9f6-fa9919a298d1.png#align=left&display=inline&height=303&name=image.png&originHeight=516&originWidth=814&size=110010&status=done&style=none&width=478" alt="image.png"></p>
+
+    </div>
+
+    
+        <hr class="fhr">
+        <div id="vcomments"></div>
+    
+</div>
+    <div class="footer" id="footer">
+    <p><h4>Copyright © 2020 | Author: yichen | <a href="https://github.com/Xunzhuo/hexo-theme-coder" target="_blank" rel="noopener">Theme: Hexo-Coder</a></h4>
+        <label class="el-switch el-switch-blue el-switch-sm" style="vertical-align: sub;">
+            <input type="checkbox" name="switch" id="update_style">
+            <span class="el-switch-style"></span>
+        </label>
+<!--         <script type="text/javascript">
+        var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+        document.write(unescape("%3Cspan id='cnzz_stat_icon_1278548644'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "v1.cnzz.com/stat.php%3Fid%3D1278548644%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+        </script> -->
+    </p>
+</div>
+<input type="hidden" id="web_style" value="black">
+<input type="hidden" id="valine_appid" value="NOsswOncKgc8HOxqo9oxIWlX-gzGzoHsz">
+<input type="hidden" id="valine_appKey" value="z1FihjWEbS8uIfUQdmCtK7zz">
+
+<script src="/libs/jquery.min.js"></script>
+
+
+<script src="/libs/highlight/highlight.pack.js"></script>
+
+<script src='//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+
+<script src="/js/js.js"></script>
+
+<style type="text/css">
+.v * {
+    color: #698fca;
+}
+
+.v .vlist .vcard .vhead .vsys {
+    color: #3a3e4a;
+}
+
+.v .vlist .vcard .vh .vmeta .vat {
+    color: #638fd5;
+}
+
+.v .vlist .vcard .vhead .vnick {
+    color: #6ba1ff;
+}
+
+.v a {
+    color: #8696b1;
+}
+
+.v .vlist .vcard .vhead .vnick:hover {
+    color: #669bfc;
+}
+</style>
+
+    <script type="text/javascript" color="173,174,173" opacity='1' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+</body>
+</html>
