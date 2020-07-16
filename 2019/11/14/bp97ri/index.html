@@ -1,82 +1,255 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="utf-8">
-  
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>
-    BUU-PWN题（1-40） |
     
-    yichen&#39;s blog</title>
-  
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>BUU-PWN题（1-40） | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="所有题目来自 buuctf：https:&#x2F;&#x2F;buuoj.cn&#x2F;challenges RIP首先查看一下保护  使用  cyclic 150  创建 150 个字符  r  运行之后输入，报错停住  x&#x2F;20s $rsp  查看此时的 rsp 寄存器中的值，以 s（字符串）的形式查看的 20 个  使用  cyclic -l agaa  （注意，后面只用 4  个字符）  只要填充上想要返回的地址就">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BUU-PWN题（1-40）">
+<meta property="og:url" content="https://yichen115.github.io/2019/11/14/bp97ri/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="所有题目来自 buuctf：https:&#x2F;&#x2F;buuoj.cn&#x2F;challenges RIP首先查看一下保护  使用  cyclic 150  创建 150 个字符  r  运行之后输入，报错停住  x&#x2F;20s $rsp  查看此时的 rsp 寄存器中的值，以 s（字符串）的形式查看的 20 个  使用  cyclic -l agaa  （注意，后面只用 4  个字符）  只要填充上想要返回的地址就">
+<meta property="og:locale" content="zh">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1573715584599-fcd96a83-6e11-446f-b401-2086b7f9c39c.png#align=left&display=inline&height=160&margin=%5Bobject%20Object%5D&name=image.png&originHeight=160&originWidth=327&size=25340&status=done&style=none&width=328">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1573715568767-e4982573-8d33-4f90-8d2f-5c40b03c30db.png#align=left&display=inline&height=101&margin=%5Bobject%20Object%5D&name=image.png&originHeight=201&originWidth=1124&size=199324&status=done&style=none&width=562">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1573715618795-46729f52-a26c-4768-aeab-b84316289c6a.png#align=left&display=inline&height=294&margin=%5Bobject%20Object%5D&name=image.png&originHeight=705&originWidth=1142&size=418403&status=done&style=none&width=476">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1573715637058-ecfd0f3c-13da-4676-ada5-29d32d114d13.png#align=left&display=inline&height=180&margin=%5Bobject%20Object%5D&name=image.png&originHeight=286&originWidth=733&size=92424&status=done&style=none&width=461">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1573716378344-e576e52e-c8ed-4e4d-b486-ff15d33a55d9.png#align=left&display=inline&height=64&margin=%5Bobject%20Object%5D&name=image.png&originHeight=99&originWidth=904&size=31010&status=done&style=none&width=580">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1573716215877-a8616ba5-2a3d-499f-9a61-993f66cec795.png#align=left&display=inline&height=178&margin=%5Bobject%20Object%5D&name=image.png&originHeight=146&originWidth=294&size=7055&status=done&style=none&width=359">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1573716226831-48b445b8-da9d-49fe-adbd-4601416a87fe.png#align=left&display=inline&height=241&margin=%5Bobject%20Object%5D&name=image.png&originHeight=366&originWidth=674&size=40272&status=done&style=none&width=444">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1573716470243-af217ecc-159b-472f-8fcd-595809e7e182.png#align=left&display=inline&height=192&margin=%5Bobject%20Object%5D&name=image.png&originHeight=337&originWidth=1031&size=95906&status=done&style=none&width=587">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1590128100082-6a9453dc-5ad7-440d-ae18-9062fb783572.png#align=left&display=inline&height=106&margin=%5Bobject%20Object%5D&name=image.png&originHeight=211&originWidth=843&size=27919&status=done&style=none&width=421.5">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1590128130714-888390c0-521a-495d-a430-183cefb6cdfb.png#align=left&display=inline&height=425&margin=%5Bobject%20Object%5D&name=image.png&originHeight=706&originWidth=976&size=70834&status=done&style=none&width=588">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1590128186006-b64eaef0-4a74-4857-ae65-f57897b7a509.png#align=left&display=inline&height=92&margin=%5Bobject%20Object%5D&name=image.png&originHeight=138&originWidth=754&size=17759&status=done&style=none&width=502">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1590239053514-4770e2bb-bb9b-4861-b620-3e45671e4d16.png#align=left&display=inline&height=97&margin=%5Bobject%20Object%5D&name=image.png&originHeight=123&originWidth=539&size=24310&status=done&style=none&width=426">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1590239123113-c903d57c-d05a-448b-8bd8-15d9e26b5440.png#align=left&display=inline&height=406&margin=%5Bobject%20Object%5D&name=image.png&originHeight=569&originWidth=572&size=47291&status=done&style=stroke&width=408">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1590290700663-4c527687-4690-4626-9d08-ddd5bb32a180.png#align=left&display=inline&height=252&margin=%5Bobject%20Object%5D&name=image.png&originHeight=308&originWidth=454&size=15984&status=done&style=stroke&width=372">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1590290800753-81bc7e0c-142a-4265-a7db-12d63e980d9d.png#align=left&display=inline&height=320&margin=%5Bobject%20Object%5D&name=image.png&originHeight=639&originWidth=971&size=68781&status=done&style=stroke&width=485.5">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1590291164673-277603ae-f16d-4c36-8c12-175ee200b1c5.png#align=left&display=inline&height=200&margin=%5Bobject%20Object%5D&name=image.png&originHeight=302&originWidth=562&size=17622&status=done&style=stroke&width=373">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1590385071575-1c916506-4211-4153-9444-6f101fdf5fd6.png#align=left&display=inline&height=140&margin=%5Bobject%20Object%5D&name=image.png&originHeight=198&originWidth=757&size=198837&status=done&style=none&width=536">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1590385372550-e45f40b7-8d49-4489-8f12-d73dda5e0598.png#align=left&display=inline&height=414&margin=%5Bobject%20Object%5D&name=image.png&originHeight=711&originWidth=841&size=581655&status=done&style=none&width=490">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1590385479436-45e2b217-48a5-481a-be31-342b65f19711.png#align=left&display=inline&height=483&margin=%5Bobject%20Object%5D&name=image.png&originHeight=721&originWidth=427&size=29682&status=done&style=stroke&width=286">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1590385714901-e2fdc1ea-1996-43d9-8d15-2d9bf0ad0a28.png#align=left&display=inline&height=419&margin=%5Bobject%20Object%5D&name=image.png&originHeight=625&originWidth=1046&size=227112&status=done&style=stroke&width=701">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1590387180877-8c9d00c2-394a-4e62-9f36-470ee6a64012.png#align=left&display=inline&height=418&margin=%5Bobject%20Object%5D&name=image.png&originHeight=712&originWidth=998&size=812119&status=done&style=none&width=586">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1590387003702-beb915b8-0cf2-4e53-b2c5-c71995631de3.png#align=left&display=inline&height=45&margin=%5Bobject%20Object%5D&name=image.png&originHeight=74&originWidth=1221&size=86960&status=done&style=none&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1590479187474-dfd88787-75ce-4d46-bce7-00899f45498b.png#align=left&display=inline&height=289&margin=%5Bobject%20Object%5D&name=image.png&originHeight=383&originWidth=403&size=22018&status=done&style=stroke&width=304">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1590479562887-ae135d41-2014-4d68-8220-a0b8642a72ca.png#align=left&display=inline&height=224&margin=%5Bobject%20Object%5D&name=image.png&originHeight=284&originWidth=290&size=13329&status=done&style=stroke&width=229">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1590480185946-a9f12205-abf7-4b8f-bffa-0cf997bec065.png#align=left&display=inline&height=292&margin=%5Bobject%20Object%5D&name=image.png&originHeight=583&originWidth=1450&size=1115053&status=done&style=none&width=725">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1590480355685-506fadef-a763-495b-9365-350be667c99f.png#align=left&display=inline&height=188&margin=%5Bobject%20Object%5D&name=image.png&originHeight=224&originWidth=332&size=10639&status=done&style=stroke&width=279">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1590482026479-e3f60c09-6c94-4d3d-9572-ec322645fe00.png#align=left&display=inline&height=279&margin=%5Bobject%20Object%5D&name=image.png&originHeight=481&originWidth=726&size=111469&status=done&style=stroke&width=421">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1590481786210-85abfbfd-cd84-43f9-ae13-206bd1d0fff0.png#align=left&display=inline&height=138&margin=%5Bobject%20Object%5D&name=image.png&originHeight=221&originWidth=326&size=10889&status=done&style=stroke&width=203">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1590650407122-b67125d0-133f-4073-95ea-b25da6f2a607.png#align=left&display=inline&height=313&margin=%5Bobject%20Object%5D&name=image.png&originHeight=431&originWidth=671&size=90952&status=done&style=none&width=488">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1590650033572-d8b45bc4-b951-4af7-9e4d-7d4e06ff206a.png#align=left&display=inline&height=297&margin=%5Bobject%20Object%5D&name=image.png&originHeight=418&originWidth=727&size=89788&status=done&style=none&width=516">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1590711569081-4e5922b5-9f5e-4659-8611-ee039439367e.png#align=left&display=inline&height=580&margin=%5Bobject%20Object%5D&name=image.png&originHeight=761&originWidth=371&size=41888&status=done&style=stroke&width=283">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1590711478594-a3bf8e96-e849-45ff-ae0f-9823a3ce0aec.png#align=left&display=inline&height=113&margin=%5Bobject%20Object%5D&name=image.png&originHeight=135&originWidth=722&size=26860&status=done&style=none&width=606">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1590804787387-0eb3a93a-92da-4b8c-b0d5-949f4e137ce4.png#align=left&display=inline&height=261&margin=%5Bobject%20Object%5D&name=image.png&originHeight=282&originWidth=381&size=14339&status=done&style=stroke&width=352">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1590805362613-efe9ceda-0e35-4cd2-bbc8-903e8d56dbc5.png#align=left&display=inline&height=269&margin=%5Bobject%20Object%5D&name=image.png&originHeight=389&originWidth=839&size=35739&status=done&style=stroke&width=580">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1590892361617-cfaed535-42ec-4a7c-9675-e62a634e2dde.png#align=left&display=inline&height=96&margin=%5Bobject%20Object%5D&name=image.png&originHeight=119&originWidth=558&size=23357&status=done&style=none&width=452">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1590892321968-36866e58-8f95-47c6-a3bb-01d9204f5c8d.png#align=left&display=inline&height=586&margin=%5Bobject%20Object%5D&name=image.png&originHeight=762&originWidth=581&size=39186&status=done&style=stroke&width=447">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1590995873647-5dff52c2-ce02-496d-a93d-8862a19fa62e.png#align=left&display=inline&height=136&margin=%5Bobject%20Object%5D&name=image.png&originHeight=163&originWidth=356&size=7326&status=done&style=stroke&width=298">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1590995929357-52e9dff7-19d7-46bf-aac6-f831b8ca1bb6.png#align=left&display=inline&height=205&margin=%5Bobject%20Object%5D&name=image.png&originHeight=300&originWidth=747&size=23036&status=done&style=stroke&width=510">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1591001929959-6234c71e-5d47-475b-be6c-5505abf4a9bf.png#align=left&display=inline&height=350&margin=%5Bobject%20Object%5D&name=image.png&originHeight=520&originWidth=673&size=109730&status=done&style=none&width=453">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1591068496677-9ad6318c-d6f2-4fb9-813d-bef2fcd3fb60.png#align=left&display=inline&height=105&margin=%5Bobject%20Object%5D&name=image.png&originHeight=122&originWidth=504&size=7481&status=done&style=stroke&width=433">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1591068650225-5be600d6-2323-4db5-9a36-fc73733f38b2.png#align=left&display=inline&height=278&margin=%5Bobject%20Object%5D&name=image.png&originHeight=556&originWidth=1452&size=715494&status=done&style=none&width=726">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1591322458381-14965ff2-1d7d-4bd0-89e5-001cda1176c2.png#align=left&display=inline&height=160&margin=%5Bobject%20Object%5D&name=image.png&originHeight=136&originWidth=372&size=13763&status=done&style=none&width=437">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1591408952277-d7c7063e-8502-4f0a-b1a3-82c9503a96ec.png#align=left&display=inline&height=173&margin=%5Bobject%20Object%5D&name=image.png&originHeight=194&originWidth=744&size=51625&status=done&style=none&width=662">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1591409267599-6ba320fc-a9c2-4643-8ce8-aff81657525f.png#align=left&display=inline&height=94&margin=%5Bobject%20Object%5D&name=image.png&originHeight=105&originWidth=744&size=25427&status=done&style=none&width=666">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1591360113037-1fcc6b87-487b-48ce-97e9-477dff6dc87b.png#align=left&display=inline&height=73&margin=%5Bobject%20Object%5D&name=image.png&originHeight=91&originWidth=710&size=24717&status=done&style=none&width=570">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1591426614536-957981f9-844a-41a3-9044-e032463693d2.png#align=left&display=inline&height=290&margin=%5Bobject%20Object%5D&name=image.png&originHeight=378&originWidth=744&size=34874&status=done&style=stroke&width=571">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1591519184510-a2f38f57-c3f8-4c9a-a150-54aba4bbb9ed.png#align=left&display=inline&height=72&margin=%5Bobject%20Object%5D&name=image.png&originHeight=73&originWidth=528&size=12054&status=done&style=none&width=524">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1591519501501-7870d832-c63d-49e8-bfb9-bda3f01e1d15.png#align=left&display=inline&height=540&margin=%5Bobject%20Object%5D&name=image.png&originHeight=893&originWidth=942&size=181279&status=done&style=none&width=570">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1591429659076-913e33bc-fbce-4dc1-8f56-740f6866df83.png#align=left&display=inline&height=323&margin=%5Bobject%20Object%5D&name=image.png&originHeight=404&originWidth=592&size=30987&status=done&style=stroke&width=474">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1591429864434-5924f71f-f09f-419c-bbbc-50ae74b71e9d.png#align=left&display=inline&height=166&margin=%5Bobject%20Object%5D&name=image.png&originHeight=331&originWidth=875&size=201640&status=done&style=none&width=437.5">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1591522737847-02db8eca-867c-4a7d-ae24-f6d82655afb6.png#align=left&display=inline&height=248&margin=%5Bobject%20Object%5D&name=image.png&originHeight=329&originWidth=697&size=27999&status=done&style=stroke&width=525">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1591522851289-5822c482-70ce-4b53-a38c-1096d9597d79.png#align=left&display=inline&height=327&margin=%5Bobject%20Object%5D&name=image.png&originHeight=400&originWidth=578&size=31810&status=done&style=stroke&width=473">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1591593143546-7979453c-b6ad-4078-8e5e-37ecac4a83b8.png#align=left&display=inline&height=227&margin=%5Bobject%20Object%5D&name=image.png&originHeight=389&originWidth=1099&size=512428&status=done&style=none&width=641">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1591661775747-0d2ab894-d35e-49b7-b3d7-200562cfb0ac.png#align=left&display=inline&height=195&margin=%5Bobject%20Object%5D&name=image.png&originHeight=243&originWidth=577&size=15782&status=done&style=stroke&width=462">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1591841830333-756aa18b-c807-46c3-9683-a610187bc416.png#align=left&display=inline&height=624&margin=%5Bobject%20Object%5D&name=image.png&originHeight=740&originWidth=350&size=28762&status=done&style=stroke&width=295">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1591842528353-b8de3a27-aa07-405e-add8-33845fffe593.png#align=left&display=inline&height=207&margin=%5Bobject%20Object%5D&name=image.png&originHeight=203&originWidth=459&size=12859&status=done&style=stroke&width=469">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592007300103-90fdaf2a-ae91-41d2-9601-392ad6355359.png#align=left&display=inline&height=378&margin=%5Bobject%20Object%5D&name=image.png&originHeight=424&originWidth=398&size=24624&status=done&style=stroke&width=355">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592013425471-500b0292-e960-4f43-a0db-0486241d1346.png#align=left&display=inline&height=341&margin=%5Bobject%20Object%5D&name=image.png&originHeight=673&originWidth=1474&size=427430&status=done&style=none&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592211327593-daf4c094-55de-464e-b33c-3e8289ce0b79.png#align=left&display=inline&height=95&margin=%5Bobject%20Object%5D&name=image.png&originHeight=82&originWidth=263&size=2963&status=done&style=stroke&width=306">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592211512775-6474a1c6-9909-4ce7-b1ad-e33a79b62c05.png#align=left&display=inline&height=110&margin=%5Bobject%20Object%5D&name=image.png&originHeight=140&originWidth=710&size=23134&status=done&style=none&width=556">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592216213131-f75082ac-a288-4cda-9609-d4edcf84021d.png#align=left&display=inline&height=412&margin=%5Bobject%20Object%5D&name=image.png&originHeight=764&originWidth=1099&size=175840&status=done&style=none&width=593">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592217825493-a03b7b13-c3d9-4411-b7af-ddaaa2a27a7f.png#align=left&display=inline&height=186&margin=%5Bobject%20Object%5D&name=image.png&originHeight=371&originWidth=1566&size=48212&status=done&style=stroke&width=783">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592354836519-b6e0b80a-c2b7-4087-9110-323abb616158.png#align=left&display=inline&height=159&margin=%5Bobject%20Object%5D&name=image.png&originHeight=256&originWidth=557&size=23049&status=done&style=stroke&width=346">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592354972043-8c03bfa8-5255-4329-b9bb-a421ee78320f.png#align=left&display=inline&height=285&margin=%5Bobject%20Object%5D&name=image.png&originHeight=461&originWidth=943&size=519410&status=done&style=none&width=583">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592548408614-0b8dae16-f881-4f8d-b7eb-69a34570d1d3.png#align=left&display=inline&height=163&margin=%5Bobject%20Object%5D&name=image.png&originHeight=203&originWidth=582&size=14870&status=done&style=stroke&width=466">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592549297813-1c08501d-ca3b-44d2-b49b-b24ba2397f66.png#align=left&display=inline&height=143&margin=%5Bobject%20Object%5D&name=image.png&originHeight=186&originWidth=728&size=43317&status=done&style=none&width=559">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592642138752-08f33ffa-494e-47c7-8d51-6f52c660aa72.png#align=left&display=inline&height=125&margin=%5Bobject%20Object%5D&name=image.png&originHeight=120&originWidth=367&size=13643&status=done&style=none&width=383">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592704298079-6b5d11ac-ac0e-4afe-86ff-3a1aa26705fd.png#align=left&display=inline&height=679&margin=%5Bobject%20Object%5D&name=image.png&originHeight=683&originWidth=390&size=35898&status=done&style=none&width=388">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592705590627-5040df9f-7795-42d0-b519-afc7b5d2ac23.png#align=left&display=inline&height=274&margin=%5Bobject%20Object%5D&name=image.png&originHeight=320&originWidth=555&size=23266&status=done&style=none&width=476">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592705780572-ca13b7f2-41f1-40de-95f3-b0aef2f71065.png#align=left&display=inline&height=232&margin=%5Bobject%20Object%5D&name=image.png&originHeight=273&originWidth=800&size=57936&status=done&style=none&width=681">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592705311646-6596d753-82d6-4fb3-8fb4-321ba557b8a3.png#align=left&display=inline&height=352&margin=%5Bobject%20Object%5D&name=image.png&originHeight=444&originWidth=621&size=34451&status=done&style=none&width=492">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592706783000-ee5edfa7-cbad-4275-bc20-f8eb311d1d4c.png#align=left&display=inline&height=245&margin=%5Bobject%20Object%5D&name=image.png&originHeight=415&originWidth=1264&size=67401&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592708904372-b44bec36-e7c8-44a2-b2e2-ee3aa0e8f21e.png#align=left&display=inline&height=116&margin=%5Bobject%20Object%5D&name=image.png&originHeight=213&originWidth=1368&size=103138&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592786346615-be93d9a6-649e-46ec-a341-9626478d6d88.png#align=left&display=inline&height=100&margin=%5Bobject%20Object%5D&name=image.png&originHeight=100&originWidth=306&size=4925&status=done&style=none&width=307">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592791321729-1aa50b1f-99eb-41a6-9d46-2563d507b66a.png#align=left&display=inline&height=231&margin=%5Bobject%20Object%5D&name=image.png&originHeight=295&originWidth=786&size=50398&status=done&style=none&width=616">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592786825573-bd26bb02-8dd6-4cc2-a24a-8f0eb5ecc3f5.png#align=left&display=inline&height=296&margin=%5Bobject%20Object%5D&name=image.png&originHeight=460&originWidth=909&size=50138&status=done&style=none&width=584">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592791422213-8b12f362-4ffc-4f56-bfe3-f29bcbb70386.png#align=left&display=inline&height=365&margin=%5Bobject%20Object%5D&name=image.png&originHeight=503&originWidth=391&size=28707&status=done&style=none&width=284">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592791549857-08740a87-1dec-4255-a846-31cfe2b3a943.png#align=left&display=inline&height=504&margin=%5Bobject%20Object%5D&name=image.png&originHeight=760&originWidth=560&size=55732&status=done&style=none&width=371">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592869557697-7fc6a6d0-c6e4-438d-9ed4-cc285a69084d.png#align=left&display=inline&height=274&margin=%5Bobject%20Object%5D&name=image.png&originHeight=361&originWidth=577&size=22603&status=done&style=none&width=438">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592869508869-4f4d7a8b-c153-422d-af1a-118018f92ae4.png#align=left&display=inline&height=538&margin=%5Bobject%20Object%5D&name=image.png&originHeight=816&originWidth=719&size=196999&status=done&style=none&width=474">
+<meta property="article:published_time" content="2019-11-14T07:01:38.000Z">
+<meta property="article:modified_time" content="2020-07-15T23:44:41.578Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1573715584599-fcd96a83-6e11-446f-b401-2086b7f9c39c.png#align=left&display=inline&height=160&margin=%5Bobject%20Object%5D&name=image.png&originHeight=160&originWidth=327&size=25340&status=done&style=none&width=328">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
     <link rel="shortcut icon" href="/favicon.ico">
-  
-  
-<link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
 
-  
+    <!-- custom head -->
     
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
 
-  
-  
-<script src="/js/pace.min.js"></script>
-
-<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
-</head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body>
-<main class="content">
-  <section class="outer">
-<meta name="referrer" content="no-referrer" />
-  <article id="post-bp97ri" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+    <div id="loading" class="active"></div>
 
-    <div class="article-inner">
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
         
-            <header class="article-header">
-                
-  
-    <h1 class="article-title" itemprop="name">
-      BUU-PWN题（1-40）
-    </h1>
-  
-  
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">BUU-PWN题（1-40）</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">BUU-PWN题（1-40）</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-11-14T07:01:38.000Z" itemprop="datePublished" class="page-time">
+  2019-11-14
+</time>
 
 
+            
+        </h5>
+    </div>
+
+    
 
 
-            </header>
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#RIP"><span class="post-toc-number">1.</span> <span class="post-toc-text">RIP</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#warmup-csaw-2016"><span class="post-toc-number">2.</span> <span class="post-toc-text">warmup_csaw_2016</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#pwn1-sctf-2016"><span class="post-toc-number">3.</span> <span class="post-toc-text">pwn1_sctf_2016</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ciscn-2019-n-1"><span class="post-toc-number">4.</span> <span class="post-toc-text">ciscn_2019_n_1</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ciscn-2019-c-1"><span class="post-toc-number">5.</span> <span class="post-toc-text">ciscn_2019_c_1</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#OGeek2019-babyrop"><span class="post-toc-number">6.</span> <span class="post-toc-text">OGeek2019 babyrop</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ciscn-2019-en-2"><span class="post-toc-number">7.</span> <span class="post-toc-text">ciscn_2019_en_2</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#get-started-3dsctf-2016"><span class="post-toc-number">8.</span> <span class="post-toc-text">get_started_3dsctf_2016</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#第五空间-2019-决赛-PWN5"><span class="post-toc-number">9.</span> <span class="post-toc-text">[第五空间 2019 决赛]PWN5</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#BJDCTF-2nd-r2t3-有一个长度的检查"><span class="post-toc-number">10.</span> <span class="post-toc-text">[BJDCTF 2nd]r2t3 有一个长度的检查</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ciscn-2019-n-8"><span class="post-toc-number">11.</span> <span class="post-toc-text">ciscn_2019_n_8</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#not-the-same-3dsctf-2016"><span class="post-toc-number">12.</span> <span class="post-toc-text">not_the_same_3dsctf_2016</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#jarvisoj-level0"><span class="post-toc-number">13.</span> <span class="post-toc-text">jarvisoj_level0</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#BJDCTF-2nd-one-gadget"><span class="post-toc-number">14.</span> <span class="post-toc-text">[BJDCTF 2nd]one_gadget</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#jarvisoj-level2"><span class="post-toc-number">15.</span> <span class="post-toc-text">jarvisoj_level2</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#HarekazeCTF2019-baby-rop"><span class="post-toc-number">16.</span> <span class="post-toc-text">[HarekazeCTF2019]baby_rop</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#babyheap-0ctf-2017"><span class="post-toc-number">17.</span> <span class="post-toc-text">babyheap_0ctf_2017</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ciscn-2019-s-3"><span class="post-toc-number">18.</span> <span class="post-toc-text">ciscn_2019_s_3</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#bjdctf-2020-babystack"><span class="post-toc-number">19.</span> <span class="post-toc-text">bjdctf_2020_babystack</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#jarvisoj-level2-x64"><span class="post-toc-number">20.</span> <span class="post-toc-text">jarvisoj_level2_x64</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ciscn-2019-n-5"><span class="post-toc-number">21.</span> <span class="post-toc-text">ciscn_2019_n_5</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#HarekazeCTF2019-baby-rop2"><span class="post-toc-number">22.</span> <span class="post-toc-text">[HarekazeCTF2019]baby_rop2</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ciscn-2019-ne-5"><span class="post-toc-number">23.</span> <span class="post-toc-text">ciscn_2019_ne_5</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#pwn2-sctf-2016"><span class="post-toc-number">24.</span> <span class="post-toc-text">pwn2_sctf_2016</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ez-pz-hackover-2016"><span class="post-toc-number">25.</span> <span class="post-toc-text">ez_pz_hackover_2016</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#铁人三项-第五赛区-2018-rop"><span class="post-toc-number">26.</span> <span class="post-toc-text">铁人三项(第五赛区)_2018_rop</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ciscn-2019-es-2"><span class="post-toc-number">27.</span> <span class="post-toc-text">ciscn_2019_es_2</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Black-Watch-入群题-PWN"><span class="post-toc-number">28.</span> <span class="post-toc-text">[Black Watch 入群题]PWN</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#BJDCTF-2nd-test"><span class="post-toc-number">29.</span> <span class="post-toc-text">[BJDCTF 2nd]test</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#bjdctf-2020-babyrop"><span class="post-toc-number">30.</span> <span class="post-toc-text">bjdctf_2020_babyrop</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#jarvisoj-level3"><span class="post-toc-number">31.</span> <span class="post-toc-text">jarvisoj_level3</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#BJDCTF-2nd-r2t4"><span class="post-toc-number">32.</span> <span class="post-toc-text">[BJDCTF 2nd]r2t4</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#others-shellcode"><span class="post-toc-number">33.</span> <span class="post-toc-text">others_shellcode</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#babyfengshui-33c3-2016"><span class="post-toc-number">34.</span> <span class="post-toc-text">babyfengshui_33c3_2016</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#BJDCTF-2nd-ydsneedgirlfriend2"><span class="post-toc-number">35.</span> <span class="post-toc-text">[BJDCTF 2nd]ydsneedgirlfriend2</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#jarvisoj-fm"><span class="post-toc-number">36.</span> <span class="post-toc-text">jarvisoj_fm</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#jarvisoj-tell-me-something"><span class="post-toc-number">37.</span> <span class="post-toc-text">jarvisoj_tell_me_something</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#jarvisoj-level3-x64"><span class="post-toc-number">38.</span> <span class="post-toc-text">jarvisoj_level3_x64</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#jarvisoj-level4"><span class="post-toc-number">39.</span> <span class="post-toc-text">jarvisoj_level4</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-bp97ri"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">BUU-PWN题（1-40）</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-11-14 15:01:38" datetime="2019-11-14T07:01:38.000Z"  itemprop="datePublished">2019-11-14</time>
+
             
 
-                
-                    <div class="article-meta">
-                        <a href="/2019/11/14/bp97ri/" class="article-date">
-  <time datetime="2019-11-14T07:01:38.000Z" itemprop="datePublished">2019-11-14</time>
-</a>
-                            
-                    </div>
-                    
 
-                        
-                            
-    <div class="tocbot"></div>
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
 
 
-
-
-
-                                
-
-                                    <div class="article-entry" itemprop="articleBody">
-                                        
-
-
-                                            
-
-                                                
-                                                                    <p>所有题目来自 buuctf：<a href="https://buuoj.cn/challenges" target="_blank" rel="noopener">https://buuoj.cn/challenges</a></p>
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>所有题目来自 buuctf：<a href="https://buuoj.cn/challenges" target="_blank" rel="noopener">https://buuoj.cn/challenges</a></p>
 <h1 id="RIP"><a href="#RIP" class="headerlink" title="RIP"></a>RIP</h1><p>首先查看一下保护</p>
 <p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573715584599-fcd96a83-6e11-446f-b401-2086b7f9c39c.png#align=left&display=inline&height=160&margin=%5Bobject%20Object%5D&name=image.png&originHeight=160&originWidth=327&size=25340&status=done&style=none&width=328" alt="image.png"></p>
 <p>使用  cyclic 150  创建 150 个字符</p>
@@ -354,177 +527,303 @@
 
 <p>**<br><strong>内容多了打开编辑有点卡，再开一篇</strong></p>
 
-                                                                        
-                                    </div>
-                                    <footer class="article-footer">
-                                        <a data-url="http://yoursite.com/2019/11/14/bp97ri/" data-id="ckco0hty7000ph4u9heyb87rb" class="article-share-link">
-                                            Share
-                                        </a>
-                                        
-                                    </footer>
-
-    </div>
-
-    
-        
-  <nav class="article-nav">
-    
-      <a href="/2019/11/14/sla2si/" class="article-nav-link">
-        <strong class="article-nav-caption">Newer</strong>
-        <div class="article-nav-title">
-          
-            tcpxtract（流量包提取文件）
-          
         </div>
-      </a>
+
+        <blockquote class="post-copyright">
     
-    
-      <a href="/2019/11/10/uq0cnx/" class="article-nav-link">
-        <strong class="article-nav-caption">Older</strong>
-        <div class="article-nav-title">python脚本</div>
-      </a>
-    
-  </nav>
+    <div class="content">
+        
+<span class="post-time">
+    最終更新：<time datetime="2020-07-15T23:44:41.578Z" itemprop="dateUpdated">2020-07-16 07:44:41</time>
+</span><br>
 
 
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2019/11/14/bp97ri/" target="_blank" rel="external">https://yichen115.github.io/2019/11/14/bp97ri/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
             
 
-                
-                    
-    <div class="vcomments" id="vcomments"></div>
+            
+<div class="page-share-wrap">
     
-<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
 
-        <script>
-            new Valine({
-                el: '#vcomments',
-                appId: '',
-                appKey: '',
-                notify: 'false',
-                verify: 'true',
-                avatar: 'mp',
-                pageSize: '10',
-                placeholder: '请输入...'
-            })
-        </script>
-        
-                        
-                            
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2019/11/14/bp97ri/&title=《BUU-PWN题（1-40）》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2019/11/14/bp97ri/&title=《BUU-PWN题（1-40）》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2019/11/14/bp97ri/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《BUU-PWN题（1-40）》 — yichen's blog&url=https://yichen115.github.io/2019/11/14/bp97ri/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2019/11/14/bp97ri/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/11/14/sla2si/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">tcpxtract（流量包提取文件）</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/11/10/uq0cnx/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">python脚本</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </article>
-</section>
-  <footer class="footer">
-  <div class="outer">
-    <div class="float-right">
-      <ul class="list-inline">
-  
-    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
-  
-    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
-  
-</ul>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
     </div>
-    <ul class="list-inline">
-      <li>&copy; 2020 yichen&#39;s blog</li>
-      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
-      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
-    </ul>
-  </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>このブログの内容物は<a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja" target="_blank">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
 </footer>
 
-</main>
-<aside class="sidebar">
-  <button class="navbar-toggle"></button>
-<nav class="navbar">
-  
-    <div class="logo">
-      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
-    </div>
-  
-  <ul class="nav nav-main">
-    
-      <li class="nav-item">
-        <a class="nav-item-link" href="/">主页</a>
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2019/11/14/bp97ri/&title=《BUU-PWN题（1-40）》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
       </li>
-    
-      <li class="nav-item">
-        <a class="nav-item-link" href="/archives">归档</a>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
       </li>
-    
-      <li class="nav-item">
-        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2019/11/14/bp97ri/&title=《BUU-PWN题（1-40）》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
       </li>
-    
-      <li class="nav-item">
-        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2019/11/14/bp97ri/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
       </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link nav-item-search" title="Search">
-        <i class="fe fe-search"></i>
-        Search
-      </a>
-    </li>
-  </ul>
-</nav>
-<nav class="navbar navbar-bottom">
-  <ul class="nav">
-    <li class="nav-item">
-      <div class="totop" id="totop">
-  <i class="fe fe-rocket"></i>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《BUU-PWN题（1-40）》 — yichen's blog&url=https://yichen115.github.io/2019/11/14/bp97ri/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2019/11/14/bp97ri/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2019/11/14/bp97ri/" alt="微信分享二维码">
 </div>
-    </li>
-    <li class="nav-item">
-      
-    </li>
-  </ul>
-</nav>
-<div class="search-form-wrap">
-  <div class="local-search local-search-plugin">
-  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
-  <div id="local-search-result" class="local-search-result"></div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
 </div>
-</div>
-</aside>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
 
-<script src="/js/jquery-2.0.3.min.js"></script>
-
-
-<script src="/js/jquery.justifiedGallery.min.js"></script>
-
-
-<script src="/js/lazyload.min.js"></script>
-
-
-<script src="/js/busuanzi-2.3.pure.min.js"></script>
-
-
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
 
 
 
 
-  
-<script src="/js/tocbot.min.js"></script>
 
-  <script>
-    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
-    tocbot.init({
-      tocSelector: '.tocbot',
-      contentSelector: '.article-entry',
-      headingSelector: 'h1, h2, h3, h4, h5, h6',
-      hasInnerContainers: true,
-      scrollSmooth: true,
-      positionFixedSelector: '.tocbot',
-      positionFixedClass: 'is-position-fixed',
-      fixedSidebarOffset: 'auto',
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
     });
-  </script>
+})();
+</script>
 
-
-
-<script src="/js/ocean.js"></script>
 
 
 </body>

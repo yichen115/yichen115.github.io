@@ -1,82 +1,201 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="utf-8">
-  
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>
-    PWN入门（格式化字符串漏洞） |
     
-    yichen&#39;s blog</title>
-  
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>PWN入门（格式化字符串漏洞） | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="格式化字符串函数：格式化字符串函数就是将计算机内存中表示的数据转化为我们人类可读的字符串格式    函数 基本介绍    printf 输出到 stdout   fprintf 输出到指定 FILE 流   vprintf 根据参数列表格式化输出到 stdout   vfprintf 根据参数列表格式化输出到指定 FILE 流   sprintf 输出到字符串   snprintf 输出指定字节数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PWN入门（格式化字符串漏洞）">
+<meta property="og:url" content="https://yichen115.github.io/2020/03/21/aedgn4/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="格式化字符串函数：格式化字符串函数就是将计算机内存中表示的数据转化为我们人类可读的字符串格式    函数 基本介绍    printf 输出到 stdout   fprintf 输出到指定 FILE 流   vprintf 根据参数列表格式化输出到 stdout   vfprintf 根据参数列表格式化输出到指定 FILE 流   sprintf 输出到字符串   snprintf 输出指定字节数">
+<meta property="og:locale" content="zh">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1584881426844-4eb92026-1e5c-4dc4-a113-854258f9b8f6.png#align=left&display=inline&height=125&originHeight=125&originWidth=525&size=0&status=done&style=stroke&width=525">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585227398796-15e937f1-ee06-4cae-b47a-1f00167df447.png#align=left&display=inline&height=300&name=image.png&originHeight=389&originWidth=706&size=94591&status=done&style=none&width=544">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585229064454-7d99e6b4-dfb5-48b7-ac6c-2dcf2a1a2b70.png#align=left&display=inline&height=431&name=image.png&originHeight=713&originWidth=1154&size=186762&status=done&style=stroke&width=697">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585229574564-bd35bc09-ba4d-4aa4-925e-4d996adb64f0.png#align=left&display=inline&height=454&name=image.png&originHeight=708&originWidth=1123&size=207129&status=done&style=stroke&width=720">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585229904431-8e2d648a-0645-4722-9814-6372bc62db3d.png#align=left&display=inline&height=470&name=image.png&originHeight=709&originWidth=726&size=149862&status=done&style=none&width=481">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585230546771-a92178c9-7490-444c-8e93-863fcfe97c71.png#align=left&display=inline&height=480&name=image.png&originHeight=710&originWidth=729&size=149912&status=done&style=none&width=493">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585230870018-5501de06-919f-4248-83a0-ba2baa0f6b15.png#align=left&display=inline&height=501&name=image.png&originHeight=761&originWidth=731&size=155390&status=done&style=none&width=481">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585293421106-806bcc27-062e-4cc7-ae5f-cfe723e3e4ea.png#align=left&display=inline&height=129&name=image.png&originHeight=152&originWidth=609&size=38244&status=done&style=none&width=517">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585295351751-a9f3d3b6-4eaa-4840-a392-ace6fddeaad0.png#align=left&display=inline&height=151&name=image.png&originHeight=178&originWidth=624&size=40188&status=done&style=none&width=531">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585750231946-e351aa8c-3ebc-4b7c-9205-292ee2ffb3d9.png#align=left&display=inline&height=363&name=image.png&originHeight=725&originWidth=1267&size=229503&status=done&style=none&width=633.5">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585314095222-b26d67ae-9cc9-48c3-b570-116018b80384.png#align=left&display=inline&height=129&name=image.png&originHeight=156&originWidth=726&size=40573&status=done&style=none&width=602">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585751018729-f22847f5-267c-4ba3-bd54-fd1a3c9c6331.png#align=left&display=inline&height=93&name=image.png&originHeight=185&originWidth=631&size=42834&status=done&style=none&width=315.5">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585835169146-4d95d935-c626-4658-b3b5-eec48feb8115.png#align=left&display=inline&height=103&name=image.png&originHeight=71&originWidth=407&size=8489&status=done&style=none&width=593">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585960844488-98e19bbf-06b5-435e-bd88-a17ae178da20.png#align=left&display=inline&height=456&name=image.png&originHeight=747&originWidth=805&size=67066&status=done&style=stroke&width=491">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586746084050-32cfc97b-b64f-4fcc-ba58-ba7d026b21fc.png#align=left&display=inline&height=377&name=image.png&originHeight=755&originWidth=726&size=187706&status=done&style=none&width=363">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585908267728-45389bdd-1aaa-4936-85ed-324333b84a2a.png#align=left&display=inline&height=293&name=image.png&originHeight=411&originWidth=728&size=90634&status=done&style=stroke&width=519">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585960998051-435e1511-c845-48da-bb00-5d2dc8e765d2.png#align=left&display=inline&height=204&name=image.png&originHeight=262&originWidth=548&size=21186&status=done&style=stroke&width=427">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585961032714-1b549c04-d735-4b13-bb77-4174fe753d80.png#align=left&display=inline&height=202&name=image.png&originHeight=180&originWidth=327&size=9092&status=done&style=stroke&width=367">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585963611414-8c37e46f-7e7d-46da-951a-ed8945cee40e.png#align=left&display=inline&height=84&name=image.png&originHeight=109&originWidth=610&size=21950&status=done&style=none&width=469">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585963664035-5f8c93a1-e431-4a66-b7a0-bbb31e442d47.png#align=left&display=inline&height=267&name=image.png&originHeight=267&originWidth=304&size=12367&status=done&style=stroke&width=304">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585963745718-199e9fea-bf4f-43d3-9b10-607be214b432.png#align=left&display=inline&height=350&name=image.png&originHeight=409&originWidth=610&size=26050&status=done&style=stroke&width=522">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586166998602-41052520-78d2-4b14-b174-fdb35d04bf22.png#align=left&display=inline&height=627&name=image.png&originHeight=881&originWidth=725&size=186532&status=done&style=none&width=516">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586167067004-e42aa4a6-8ec9-4de3-93cd-9d8712ad34c2.png#align=left&display=inline&height=403&name=image.png&originHeight=563&originWidth=727&size=121047&status=done&style=none&width=520">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586180859453-774f6e2f-ad26-49cf-a7fb-7277a4f61bcf.png#align=left&display=inline&height=167&name=image.png&originHeight=238&originWidth=701&size=21043&status=done&style=stroke&width=492">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586250033318-401bf7ea-c7ce-47ad-95a1-d90e6f24f48a.png#align=left&display=inline&height=528&name=image.png&originHeight=830&originWidth=725&size=162317&status=done&style=none&width=461">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586263648762-59759242-56cb-46d7-aedc-1b1f5caadabc.png#align=left&display=inline&height=401&name=image.png&originHeight=435&originWidth=307&size=37058&status=done&style=none&width=283">
+<meta property="article:published_time" content="2020-03-21T07:40:49.000Z">
+<meta property="article:modified_time" content="2020-07-15T23:44:40.649Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1584881426844-4eb92026-1e5c-4dc4-a113-854258f9b8f6.png#align=left&display=inline&height=125&originHeight=125&originWidth=525&size=0&status=done&style=stroke&width=525">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
     <link rel="shortcut icon" href="/favicon.ico">
-  
-  
-<link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
 
-  
+    <!-- custom head -->
     
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
 
-  
-  
-<script src="/js/pace.min.js"></script>
-
-<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
-</head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body>
-<main class="content">
-  <section class="outer">
-<meta name="referrer" content="no-referrer" />
-  <article id="post-aedgn4" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+    <div id="loading" class="active"></div>
 
-    <div class="article-inner">
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
         
-            <header class="article-header">
-                
-  
-    <h1 class="article-title" itemprop="name">
-      PWN入门（格式化字符串漏洞）
-    </h1>
-  
-  
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">PWN入门（格式化字符串漏洞）</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">PWN入门（格式化字符串漏洞）</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-03-21T07:40:49.000Z" itemprop="datePublished" class="page-time">
+  2020-03-21
+</time>
 
 
+            
+        </h5>
+    </div>
+
+    
 
 
-            </header>
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#漏洞原理利用"><span class="post-toc-number">1.</span> <span class="post-toc-text">漏洞原理利用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#程序崩溃"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">程序崩溃</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#泄露内存"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">泄露内存</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#泄露任意地址的内存"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">泄露任意地址的内存</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#覆盖栈内存"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">覆盖栈内存</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#覆盖任意地址内存"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">覆盖任意地址内存</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#覆盖小数字"><span class="post-toc-number">1.5.1.</span> <span class="post-toc-text">覆盖小数字</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#覆盖大数字"><span class="post-toc-number">1.5.2.</span> <span class="post-toc-text">覆盖大数字</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#x64-例题"><span class="post-toc-number">2.</span> <span class="post-toc-text">x64 例题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#UIUCTF-pwn200-GoodLuck"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">UIUCTF pwn200 GoodLuck</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#hijack-GOT"><span class="post-toc-number">3.</span> <span class="post-toc-text">hijack GOT</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2016-CCTF-pwn3"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">2016 CCTF pwn3</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#hijack-retaddr"><span class="post-toc-number">4.</span> <span class="post-toc-text">hijack retaddr</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#三个白帽-pwnme-k0"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">三个白帽 - pwnme_k0</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#格式化字符串盲打"><span class="post-toc-number">5.</span> <span class="post-toc-text">格式化字符串盲打</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#fmt-blind-stack"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">fmt_blind_stack</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#blind-fmt-got"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">blind_fmt_got</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-aedgn4"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">PWN入门（格式化字符串漏洞）</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-03-21 15:40:49" datetime="2020-03-21T07:40:49.000Z"  itemprop="datePublished">2020-03-21</time>
+
             
 
-                
-                    <div class="article-meta">
-                        <a href="/2020/03/21/aedgn4/" class="article-date">
-  <time datetime="2020-03-21T07:40:49.000Z" itemprop="datePublished">2020-03-21</time>
-</a>
-                            
-                    </div>
-                    
 
-                        
-                            
-    <div class="tocbot"></div>
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
 
 
-
-
-
-                                
-
-                                    <div class="article-entry" itemprop="articleBody">
-                                        
-
-
-                                            
-
-                                                
-                                                                    <p>格式化字符串函数：格式化字符串函数就是将计算机内存中表示的数据转化为我们人类可读的字符串格式</p>
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>格式化字符串函数：格式化字符串函数就是将计算机内存中表示的数据转化为我们人类可读的字符串格式</p>
 <table>
 <thead>
 <tr>
@@ -258,177 +377,303 @@
 <p>用 IDA 打开，注意选择二进制模式的</p>
 <p>然后在  0x4005F6 这块地方就是 main 函数的位置，我 IDA 不一样，看不出来</p>
 
-                                                                        
-                                    </div>
-                                    <footer class="article-footer">
-                                        <a data-url="http://yoursite.com/2020/03/21/aedgn4/" data-id="ckco0htxb000bh4u98wj055dq" class="article-share-link">
-                                            Share
-                                        </a>
-                                        
-                                    </footer>
-
-    </div>
-
-    
-        
-  <nav class="article-nav">
-    
-      <a href="/2020/03/21/xwwcoc/" class="article-nav-link">
-        <strong class="article-nav-caption">Newer</strong>
-        <div class="article-nav-title">
-          
-            DC-2
-          
         </div>
-      </a>
+
+        <blockquote class="post-copyright">
     
-    
-      <a href="/2020/03/16/dpzhhx/" class="article-nav-link">
-        <strong class="article-nav-caption">Older</strong>
-        <div class="article-nav-title">DC-1</div>
-      </a>
-    
-  </nav>
+    <div class="content">
+        
+<span class="post-time">
+    最終更新：<time datetime="2020-07-15T23:44:40.649Z" itemprop="dateUpdated">2020-07-16 07:44:40</time>
+</span><br>
 
 
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2020/03/21/aedgn4/" target="_blank" rel="external">https://yichen115.github.io/2020/03/21/aedgn4/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
             
 
-                
-                    
-    <div class="vcomments" id="vcomments"></div>
+            
+<div class="page-share-wrap">
     
-<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
 
-        <script>
-            new Valine({
-                el: '#vcomments',
-                appId: '',
-                appKey: '',
-                notify: 'false',
-                verify: 'true',
-                avatar: 'mp',
-                pageSize: '10',
-                placeholder: '请输入...'
-            })
-        </script>
-        
-                        
-                            
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/03/21/aedgn4/&title=《PWN入门（格式化字符串漏洞）》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/03/21/aedgn4/&title=《PWN入门（格式化字符串漏洞）》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/03/21/aedgn4/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《PWN入门（格式化字符串漏洞）》 — yichen's blog&url=https://yichen115.github.io/2020/03/21/aedgn4/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/03/21/aedgn4/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/03/21/xwwcoc/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">DC-2</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/03/16/dpzhhx/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">DC-1</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </article>
-</section>
-  <footer class="footer">
-  <div class="outer">
-    <div class="float-right">
-      <ul class="list-inline">
-  
-    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
-  
-    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
-  
-</ul>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
     </div>
-    <ul class="list-inline">
-      <li>&copy; 2020 yichen&#39;s blog</li>
-      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
-      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
-    </ul>
-  </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>このブログの内容物は<a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja" target="_blank">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
 </footer>
 
-</main>
-<aside class="sidebar">
-  <button class="navbar-toggle"></button>
-<nav class="navbar">
-  
-    <div class="logo">
-      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
-    </div>
-  
-  <ul class="nav nav-main">
-    
-      <li class="nav-item">
-        <a class="nav-item-link" href="/">主页</a>
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/03/21/aedgn4/&title=《PWN入门（格式化字符串漏洞）》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
       </li>
-    
-      <li class="nav-item">
-        <a class="nav-item-link" href="/archives">归档</a>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
       </li>
-    
-      <li class="nav-item">
-        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/03/21/aedgn4/&title=《PWN入门（格式化字符串漏洞）》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
       </li>
-    
-      <li class="nav-item">
-        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/03/21/aedgn4/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
       </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link nav-item-search" title="Search">
-        <i class="fe fe-search"></i>
-        Search
-      </a>
-    </li>
-  </ul>
-</nav>
-<nav class="navbar navbar-bottom">
-  <ul class="nav">
-    <li class="nav-item">
-      <div class="totop" id="totop">
-  <i class="fe fe-rocket"></i>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《PWN入门（格式化字符串漏洞）》 — yichen's blog&url=https://yichen115.github.io/2020/03/21/aedgn4/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/03/21/aedgn4/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2020/03/21/aedgn4/" alt="微信分享二维码">
 </div>
-    </li>
-    <li class="nav-item">
-      
-    </li>
-  </ul>
-</nav>
-<div class="search-form-wrap">
-  <div class="local-search local-search-plugin">
-  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
-  <div id="local-search-result" class="local-search-result"></div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
 </div>
-</div>
-</aside>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
 
-<script src="/js/jquery-2.0.3.min.js"></script>
-
-
-<script src="/js/jquery.justifiedGallery.min.js"></script>
-
-
-<script src="/js/lazyload.min.js"></script>
-
-
-<script src="/js/busuanzi-2.3.pure.min.js"></script>
-
-
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
 
 
 
 
-  
-<script src="/js/tocbot.min.js"></script>
 
-  <script>
-    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
-    tocbot.init({
-      tocSelector: '.tocbot',
-      contentSelector: '.article-entry',
-      headingSelector: 'h1, h2, h3, h4, h5, h6',
-      hasInnerContainers: true,
-      scrollSmooth: true,
-      positionFixedSelector: '.tocbot',
-      positionFixedClass: 'is-position-fixed',
-      fixedSidebarOffset: 'auto',
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
     });
-  </script>
+})();
+</script>
 
-
-
-<script src="/js/ocean.js"></script>
 
 
 </body>

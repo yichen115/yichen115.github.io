@@ -1,82 +1,204 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="utf-8">
-  
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>
-    PWN入门（Extend&amp;amp;Overlapping） |
     
-    yichen&#39;s blog</title>
-  
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>PWN入门（Extend&amp;amp;Overlapping） | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="用的是这个 peda-heap 插件  对 inuse 的 fastbin 进行 extend1234567891011121314gcc -g 1.cint main(void)&amp;#123;    void *ptr,*ptr1;    ptr&#x3D;malloc(0x10);&#x2F;&#x2F;分配第一个0x10的chunk    malloc(0x10);&#x2F;&#x2F;分配第二个0x10的chunk    *(long l">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PWN入门（Extend&amp;Overlapping）">
+<meta property="og:url" content="https://yichen115.github.io/2020/06/15/ucozlv/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="用的是这个 peda-heap 插件  对 inuse 的 fastbin 进行 extend1234567891011121314gcc -g 1.cint main(void)&amp;#123;    void *ptr,*ptr1;    ptr&#x3D;malloc(0x10);&#x2F;&#x2F;分配第一个0x10的chunk    malloc(0x10);&#x2F;&#x2F;分配第二个0x10的chunk    *(long l">
+<meta property="og:locale" content="zh">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592376395535-a4605578-9403-429a-93d7-329d4f6cc234.png#align=left&display=inline&height=102&margin=%5Bobject%20Object%5D&name=image.png&originHeight=127&originWidth=284&size=7704&status=done&style=stroke&width=229">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592375419167-837cdb41-e3fb-44e9-b482-2bfa2ed9d99f.png#align=left&display=inline&height=219&margin=%5Bobject%20Object%5D&name=image.png&originHeight=296&originWidth=780&size=44788&status=done&style=none&width=576">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592375746027-54c6d1db-6de7-47c8-80b2-6eb1b01b18a5.png#align=left&display=inline&height=202&margin=%5Bobject%20Object%5D&name=image.png&originHeight=274&originWidth=784&size=40668&status=done&style=none&width=578">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592375971215-2cb91bcd-d0e5-492f-9057-26fbf4b7c551.png#align=left&display=inline&height=220&margin=%5Bobject%20Object%5D&name=image.png&originHeight=294&originWidth=783&size=36886&status=done&style=none&width=586">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592376574124-5878387b-e274-44c0-953d-636880728b76.png#align=left&display=inline&height=280&margin=%5Bobject%20Object%5D&name=image.png&originHeight=380&originWidth=781&size=57552&status=done&style=none&width=575">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592376705241-0c7628d5-1a61-4dc0-8b7b-a2eb1a9f9404.png#align=left&display=inline&height=267&margin=%5Bobject%20Object%5D&name=image.png&originHeight=363&originWidth=781&size=52794&status=done&style=none&width=575">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592376820551-71f43eec-9d3c-4f9f-b1ad-4bfe1a434561.png#align=left&display=inline&height=319&margin=%5Bobject%20Object%5D&name=image.png&originHeight=433&originWidth=780&size=64333&status=done&style=none&width=575">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592378238750-fe513fcd-d616-4c54-8f45-d6e76db06501.png#align=left&display=inline&height=276&margin=%5Bobject%20Object%5D&name=image.png&originHeight=361&originWidth=784&size=53167&status=done&style=none&width=600">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592378857748-ca4d5fab-5468-4379-a02b-742ec937a75b.png#align=left&display=inline&height=331&margin=%5Bobject%20Object%5D&name=image.png&originHeight=431&originWidth=781&size=64472&status=done&style=none&width=600">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592380212489-1ec74d98-ac49-4d41-9aea-1c0fec7fa45c.png#align=left&display=inline&height=326&margin=%5Bobject%20Object%5D&name=image.png&originHeight=426&originWidth=783&size=61754&status=done&style=none&width=599">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592380531074-814f7cf9-4654-4e64-84c2-2ad0540e84fa.png#align=left&display=inline&height=293&margin=%5Bobject%20Object%5D&name=image.png&originHeight=394&originWidth=784&size=61952&status=done&style=none&width=583">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592380908771-b4ed5812-2625-4729-b974-8da661ad6be5.png#align=left&display=inline&height=269&margin=%5Bobject%20Object%5D&name=image.png&originHeight=362&originWidth=782&size=52310&status=done&style=none&width=581">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592381471158-0cec59ad-98f9-4303-aba3-cecf6d77a8ff.png#align=left&display=inline&height=318&margin=%5Bobject%20Object%5D&name=image.png&originHeight=434&originWidth=788&size=64440&status=done&style=none&width=578">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592382723827-7563b4c8-a1d3-4b8e-8199-0efed7614319.png#align=left&display=inline&height=421&margin=%5Bobject%20Object%5D&name=image.png&originHeight=582&originWidth=784&size=88000&status=done&style=none&width=567">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592382811425-0a5c94b9-c791-4129-b5e2-72b0cb0810bd.png#align=left&display=inline&height=473&margin=%5Bobject%20Object%5D&name=image.png&originHeight=653&originWidth=786&size=99964&status=done&style=none&width=569">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592385378726-0755474b-97d0-4b3d-b34f-a7b7761553a6.png#align=left&display=inline&height=422&margin=%5Bobject%20Object%5D&name=image.png&originHeight=583&originWidth=786&size=89020&status=done&style=none&width=569">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592385445847-37332f55-3fcb-49a5-8453-fa25d3485216.png#align=left&display=inline&height=432&margin=%5Bobject%20Object%5D&name=image.png&originHeight=603&originWidth=795&size=85210&status=done&style=none&width=570">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1593068531789-54bda6a0-99b1-4c03-ba60-b2e7ef3a0ade.png#align=left&display=inline&height=281&margin=%5Bobject%20Object%5D&name=image.png&originHeight=399&originWidth=1048&size=132942&status=done&style=none&width=739">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1593067469401-7bd6537e-68fa-405e-91b6-3f504c522fa7.png#align=left&display=inline&height=390&margin=%5Bobject%20Object%5D&name=image.png&originHeight=547&originWidth=719&size=36426&status=done&style=none&width=512">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1593067739915-0db7fe27-8ad5-4e2b-a7be-8311fa3ab0eb.png#align=left&display=inline&height=228&margin=%5Bobject%20Object%5D&name=image.png&originHeight=287&originWidth=443&size=23765&status=done&style=none&width=352">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592484469665-b7401126-733d-41c8-bba4-3bb38ec11d11.png#align=left&display=inline&height=251&margin=%5Bobject%20Object%5D&name=image.png&originHeight=360&originWidth=901&size=57120&status=done&style=stroke&width=628">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1593068672687-61bcb285-8d76-433c-be82-536728f9e2b4.png#align=left&display=inline&height=267&margin=%5Bobject%20Object%5D&name=image.png&originHeight=378&originWidth=783&size=64454&status=done&style=none&width=554">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1593071081718-28d9e04b-643d-4e33-ae5a-5f2285334b7e.png#align=left&display=inline&height=268&margin=%5Bobject%20Object%5D&name=image.png&originHeight=394&originWidth=779&size=68611&status=done&style=none&width=529">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1593156572605-ca89b57f-7c9b-4a4b-b65e-6e7ac6e67692.png#align=left&display=inline&height=426&margin=%5Bobject%20Object%5D&name=image.png&originHeight=754&originWidth=838&size=64753&status=done&style=none&width=474">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1593156727653-b20ea39b-33b5-48e2-bd23-7a069d7f065c.png#align=left&display=inline&height=280&margin=%5Bobject%20Object%5D&name=image.png&originHeight=381&originWidth=456&size=23197&status=done&style=none&width=335">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1593157503353-07996575-1916-4c6f-a0d0-413acaedd8b6.png#align=left&display=inline&height=147&margin=%5Bobject%20Object%5D&name=image.png&originHeight=160&originWidth=435&size=10185&status=done&style=none&width=399">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1593157695576-aa666983-d726-4813-a466-7c725e7b6238.png#align=left&display=inline&height=157&margin=%5Bobject%20Object%5D&name=image.png&originHeight=202&originWidth=522&size=12104&status=done&style=none&width=407">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1593158136462-2897da5f-b2bd-4568-9929-4dbdf1826f37.png#align=left&display=inline&height=303&margin=%5Bobject%20Object%5D&name=image.png&originHeight=467&originWidth=709&size=42051&status=done&style=none&width=460">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1593157830270-d80a6693-b4fb-4978-a601-7160d03a02a9.png#align=left&display=inline&height=78&margin=%5Bobject%20Object%5D&name=image.png&originHeight=63&originWidth=158&size=2677&status=done&style=none&width=195">
+<meta property="article:published_time" content="2020-06-15T12:38:04.000Z">
+<meta property="article:modified_time" content="2020-07-15T23:44:40.020Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592376395535-a4605578-9403-429a-93d7-329d4f6cc234.png#align=left&display=inline&height=102&margin=%5Bobject%20Object%5D&name=image.png&originHeight=127&originWidth=284&size=7704&status=done&style=stroke&width=229">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
     <link rel="shortcut icon" href="/favicon.ico">
-  
-  
-<link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
 
-  
+    <!-- custom head -->
     
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
 
-  
-  
-<script src="/js/pace.min.js"></script>
-
-<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
-</head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body>
-<main class="content">
-  <section class="outer">
-<meta name="referrer" content="no-referrer" />
-  <article id="post-ucozlv" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+    <div id="loading" class="active"></div>
 
-    <div class="article-inner">
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
         
-            <header class="article-header">
-                
-  
-    <h1 class="article-title" itemprop="name">
-      PWN入门（Extend&amp;amp;Overlapping）
-    </h1>
-  
-  
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">PWN入门（Extend&amp;amp;Overlapping）</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">PWN入门（Extend&amp;amp;Overlapping）</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-06-15T12:38:04.000Z" itemprop="datePublished" class="page-time">
+  2020-06-15
+</time>
 
 
+            
+        </h5>
+    </div>
+
+    
 
 
-            </header>
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#对-inuse-的-fastbin-进行-extend"><span class="post-toc-number">1.</span> <span class="post-toc-text">对 inuse 的 fastbin 进行 extend</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#对-inuse-的-smallbin-进行-extend"><span class="post-toc-number">2.</span> <span class="post-toc-text">对 inuse 的 smallbin 进行 extend</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#对-free-的-smallbin-进行-extend"><span class="post-toc-number">3.</span> <span class="post-toc-text">对 free 的 smallbin 进行 extend</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#通过-extend-后向-overlapping"><span class="post-toc-number">4.</span> <span class="post-toc-text">通过 extend 后向 overlapping</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#通过-extend-前向-overlapping"><span class="post-toc-number">5.</span> <span class="post-toc-text">通过 extend 前向 overlapping</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#HITCON-Trainging-lab13"><span class="post-toc-number">6.</span> <span class="post-toc-text">HITCON Trainging lab13</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#2015-hacklu-bookstore"><span class="post-toc-number">7.</span> <span class="post-toc-text">2015 hacklu bookstore</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-ucozlv"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">PWN入门（Extend&amp;Overlapping）</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-06-15 20:38:04" datetime="2020-06-15T12:38:04.000Z"  itemprop="datePublished">2020-06-15</time>
+
             
 
-                
-                    <div class="article-meta">
-                        <a href="/2020/06/15/ucozlv/" class="article-date">
-  <time datetime="2020-06-15T12:38:04.000Z" itemprop="datePublished">2020-06-15</time>
-</a>
-                            
-                    </div>
-                    
 
-                        
-                            
-    <div class="tocbot"></div>
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
 
 
-
-
-
-                                
-
-                                    <div class="article-entry" itemprop="articleBody">
-                                        
-
-
-                                            
-
-                                                
-                                                                    <p>用的是这个 <a href="https://github.com/Mipu94/peda-heap" target="_blank" rel="noopener">peda-heap</a> 插件</p>
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>用的是这个 <a href="https://github.com/Mipu94/peda-heap" target="_blank" rel="noopener">peda-heap</a> 插件</p>
 <p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592376395535-a4605578-9403-429a-93d7-329d4f6cc234.png#align=left&display=inline&height=102&margin=%5Bobject%20Object%5D&name=image.png&originHeight=127&originWidth=284&size=7704&status=done&style=stroke&width=229" alt="image.png"></p>
 <h1 id="对-inuse-的-fastbin-进行-extend"><a href="#对-inuse-的-fastbin-进行-extend" class="headerlink" title="对 inuse 的 fastbin 进行 extend"></a>对 inuse 的 fastbin 进行 extend</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">gcc -g <span class="number">1.</span>c</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">void</span> *ptr,*ptr1;</span><br><span class="line"></span><br><span class="line">    ptr=<span class="built_in">malloc</span>(<span class="number">0x10</span>);<span class="comment">//分配第一个0x10的chunk</span></span><br><span class="line">    <span class="built_in">malloc</span>(<span class="number">0x10</span>);<span class="comment">//分配第二个0x10的chunk</span></span><br><span class="line"></span><br><span class="line">    *(<span class="keyword">long</span> <span class="keyword">long</span> *)((<span class="keyword">long</span> <span class="keyword">long</span>)ptr<span class="number">-0x8</span>)=<span class="number">0x41</span>;<span class="comment">// 修改第一个块的size域</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">free</span>(ptr);</span><br><span class="line">    ptr1=<span class="built_in">malloc</span>(<span class="number">0x30</span>);<span class="comment">// 实现 extend，控制了第二个块的内容</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -159,177 +281,303 @@
 <p>程序 submit 之后就退出了，没法重复操作，程序退出后会执行 <code>.fini_array</code> 地址处的函数，但是只能利用一次，我们可以通过格式化字符串来修改它为 main 函数的地址</p>
 <p><strong>哎，以后再看</strong></p>
 
-                                                                        
-                                    </div>
-                                    <footer class="article-footer">
-                                        <a data-url="http://yoursite.com/2020/06/15/ucozlv/" data-id="ckco0htxg000fh4u95edt0foo" class="article-share-link">
-                                            Share
-                                        </a>
-                                        
-                                    </footer>
-
-    </div>
-
-    
-        
-  <nav class="article-nav">
-    
-      <a href="/2020/06/16/vprnxg/" class="article-nav-link">
-        <strong class="article-nav-caption">Newer</strong>
-        <div class="article-nav-title">
-          
-            angr
-          
         </div>
-      </a>
+
+        <blockquote class="post-copyright">
     
-    
-      <a href="/2020/06/15/bgxup4/" class="article-nav-link">
-        <strong class="article-nav-caption">Older</strong>
-        <div class="article-nav-title">Tr0ll</div>
-      </a>
-    
-  </nav>
+    <div class="content">
+        
+<span class="post-time">
+    最終更新：<time datetime="2020-07-15T23:44:40.020Z" itemprop="dateUpdated">2020-07-16 07:44:40</time>
+</span><br>
 
 
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2020/06/15/ucozlv/" target="_blank" rel="external">https://yichen115.github.io/2020/06/15/ucozlv/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
             
 
-                
-                    
-    <div class="vcomments" id="vcomments"></div>
+            
+<div class="page-share-wrap">
     
-<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
 
-        <script>
-            new Valine({
-                el: '#vcomments',
-                appId: '',
-                appKey: '',
-                notify: 'false',
-                verify: 'true',
-                avatar: 'mp',
-                pageSize: '10',
-                placeholder: '请输入...'
-            })
-        </script>
-        
-                        
-                            
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/06/15/ucozlv/&title=《PWN入门（Extend&amp;Overlapping）》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/06/15/ucozlv/&title=《PWN入门（Extend&amp;Overlapping）》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/06/15/ucozlv/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《PWN入门（Extend&amp;Overlapping）》 — yichen's blog&url=https://yichen115.github.io/2020/06/15/ucozlv/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/06/15/ucozlv/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/06/16/vprnxg/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">angr</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/06/15/bgxup4/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Tr0ll</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </article>
-</section>
-  <footer class="footer">
-  <div class="outer">
-    <div class="float-right">
-      <ul class="list-inline">
-  
-    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
-  
-    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
-  
-</ul>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
     </div>
-    <ul class="list-inline">
-      <li>&copy; 2020 yichen&#39;s blog</li>
-      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
-      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
-    </ul>
-  </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>このブログの内容物は<a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja" target="_blank">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
 </footer>
 
-</main>
-<aside class="sidebar">
-  <button class="navbar-toggle"></button>
-<nav class="navbar">
-  
-    <div class="logo">
-      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
-    </div>
-  
-  <ul class="nav nav-main">
-    
-      <li class="nav-item">
-        <a class="nav-item-link" href="/">主页</a>
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/06/15/ucozlv/&title=《PWN入门（Extend&amp;Overlapping）》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
       </li>
-    
-      <li class="nav-item">
-        <a class="nav-item-link" href="/archives">归档</a>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
       </li>
-    
-      <li class="nav-item">
-        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/06/15/ucozlv/&title=《PWN入门（Extend&amp;Overlapping）》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
       </li>
-    
-      <li class="nav-item">
-        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/06/15/ucozlv/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
       </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link nav-item-search" title="Search">
-        <i class="fe fe-search"></i>
-        Search
-      </a>
-    </li>
-  </ul>
-</nav>
-<nav class="navbar navbar-bottom">
-  <ul class="nav">
-    <li class="nav-item">
-      <div class="totop" id="totop">
-  <i class="fe fe-rocket"></i>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《PWN入门（Extend&amp;Overlapping）》 — yichen's blog&url=https://yichen115.github.io/2020/06/15/ucozlv/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/06/15/ucozlv/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2020/06/15/ucozlv/" alt="微信分享二维码">
 </div>
-    </li>
-    <li class="nav-item">
-      
-    </li>
-  </ul>
-</nav>
-<div class="search-form-wrap">
-  <div class="local-search local-search-plugin">
-  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
-  <div id="local-search-result" class="local-search-result"></div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
 </div>
-</div>
-</aside>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
 
-<script src="/js/jquery-2.0.3.min.js"></script>
-
-
-<script src="/js/jquery.justifiedGallery.min.js"></script>
-
-
-<script src="/js/lazyload.min.js"></script>
-
-
-<script src="/js/busuanzi-2.3.pure.min.js"></script>
-
-
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
 
 
 
 
-  
-<script src="/js/tocbot.min.js"></script>
 
-  <script>
-    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
-    tocbot.init({
-      tocSelector: '.tocbot',
-      contentSelector: '.article-entry',
-      headingSelector: 'h1, h2, h3, h4, h5, h6',
-      hasInnerContainers: true,
-      scrollSmooth: true,
-      positionFixedSelector: '.tocbot',
-      positionFixedClass: 'is-position-fixed',
-      fixedSidebarOffset: 'auto',
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
     });
-  </script>
+})();
+</script>
 
-
-
-<script src="/js/ocean.js"></script>
 
 
 </body>

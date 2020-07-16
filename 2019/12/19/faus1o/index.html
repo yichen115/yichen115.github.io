@@ -1,82 +1,223 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="utf-8">
-  
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>
-    流量分析 |
     
-    yichen&#39;s blog</title>
-  
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>流量分析 | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="流量分析wireshark 介绍Wireshark（前称 Ethereal）是一个网络封包分析软件 网络封包分析软件的功能是撷取网络封包，并尽可能显示出最为详细的网络封包资料。Wireshark 使用 WinPCAP 作为接口，直接与网卡进行数据报文交换 捕捉过滤器数据经过的第一层过滤器，  它用于控制捕捉数据的数量，以避免产生过大的日志文件，用于决定将什么样的信息记录在捕捉结果中，需要在开始捕捉">
+<meta property="og:type" content="article">
+<meta property="og:title" content="流量分析">
+<meta property="og:url" content="https://yichen115.github.io/2019/12/19/faus1o/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="流量分析wireshark 介绍Wireshark（前称 Ethereal）是一个网络封包分析软件 网络封包分析软件的功能是撷取网络封包，并尽可能显示出最为详细的网络封包资料。Wireshark 使用 WinPCAP 作为接口，直接与网卡进行数据报文交换 捕捉过滤器数据经过的第一层过滤器，  它用于控制捕捉数据的数量，以避免产生过大的日志文件，用于决定将什么样的信息记录在捕捉结果中，需要在开始捕捉">
+<meta property="og:locale" content="zh">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567141475266-23af32ac-a263-44d2-8786-e746c71cc2d4.png#align=left&display=inline&height=400&name=image.png&originHeight=521&originWidth=1103&size=46236&status=done&style=none&width=847.1039741484383">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567142590422-c5a9d6c1-29ba-4e1c-8bb6-5c9685134a2e.png#align=left&display=inline&height=367&name=image.png&originHeight=478&originWidth=1285&size=158276&status=done&style=none&width=986.8799698828134">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567142951306-77d27447-1f2b-409b-b0a3-17f2b954968e.png#align=left&display=inline&height=776&name=image.png&originHeight=1011&originWidth=1271&size=103219&status=done&style=none&width=976.1279702109384">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567142890127-41f6ff63-638a-47d0-87cb-bcb77e4d0462.png#align=left&display=inline&height=710&name=image.png&originHeight=924&originWidth=1111&size=165178&status=done&style=none&width=853.2479739609383">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567143044501-b1008685-8149-4789-b39a-f3f1c2f8d9ef.png#align=left&display=inline&height=504&name=image.png&originHeight=656&originWidth=1111&size=86363&status=done&style=none&width=853.2479739609383">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567152857082-88dd932b-24e1-4750-9bfb-46557cee3b27.png#align=left&display=inline&height=591&name=image.png&originHeight=769&originWidth=1789&size=133283&status=done&style=none&width=1373.9519580703138">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567151708808-bcf67967-52c9-453d-a6a5-dd443715a989.png#align=left&display=inline&height=577&name=image.png&originHeight=751&originWidth=1091&size=143871&status=done&style=none&width=837.8879744296883">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567151791673-ee553209-3148-4916-8754-894fb833cdaa.png#align=left&display=inline&height=613&name=image.png&originHeight=798&originWidth=729&size=81034&status=done&style=none&width=559.871982914063">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567151343348-ecfa7abf-6222-4d68-8abd-6ad10edcc35b.png#align=left&display=inline&height=419&name=image.png&originHeight=546&originWidth=731&size=60436&status=done&style=none&width=561.407982867188">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585618000569-de337cf2-9c09-4b68-9c56-29653a60624a.png#align=left&display=inline&height=818&originHeight=818&originWidth=1270&status=done&style=none&width=1270">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586428215689-c3c42ed6-6ae8-4a09-94dc-7ad541bd1c11.png#align=left&display=inline&height=343&name=image.png&originHeight=686&originWidth=1353&size=214610&status=done&style=none&width=676.5">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586428416686-839a10c7-f113-4de9-81a5-3fb1913ca696.png#align=left&display=inline&height=144&name=image.png&originHeight=135&originWidth=279&size=13410&status=done&style=none&width=297">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586428583671-090f6104-0af0-4659-9873-23e1bfde5538.png#align=left&display=inline&height=153&name=image.png&originHeight=256&originWidth=808&size=57311&status=done&style=none&width=484">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586438443535-af0c2625-d4d7-4f0a-a99b-3d1f5f085059.png#align=left&display=inline&height=363&name=image.png&originHeight=583&originWidth=746&size=83416&status=done&style=none&width=465">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586504045681-c1bd7dac-a3b0-4302-ba52-6fb70db6eff4.png#align=left&display=inline&height=303&name=image.png&originHeight=437&originWidth=801&size=131221&status=done&style=none&width=555">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586504180442-4df8d756-d961-4d3a-9b12-8b6a8081ffe6.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=154035&status=done&style=none&width=829">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586429343843-f9c95445-f23f-41ec-924e-903f0c638d59.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=385170&status=done&style=none&width=829">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586504968543-ffd72ba2-c112-43c4-a254-49bdda078319.png#align=left&display=inline&height=275&name=image.png&originHeight=549&originWidth=1481&size=196791&status=done&style=none&width=740.5">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586504696640-1ef803b6-cf47-4dea-8970-754b970186b2.png#align=left&display=inline&height=330&name=image.png&originHeight=584&originWidth=804&size=186121&status=done&style=none&width=454">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586505160445-7b954320-ad02-4fed-bfc3-87bf6490f70c.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=209295&status=done&style=none&width=829">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586510349624-f165fa3e-805c-46e4-aad6-fc192840008a.png#align=left&display=inline&height=221&name=image.png&originHeight=267&originWidth=601&size=102363&status=done&style=none&width=498">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586511122189-79da5028-a10a-4c4e-bc3a-cf0731ee353f.png#align=left&display=inline&height=160&name=image.png&originHeight=198&originWidth=637&size=84691&status=done&style=none&width=515">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586511229251-c1dd4ab5-8ae2-4cb0-a701-50a802377493.png#align=left&display=inline&height=413&name=image.png&originHeight=590&originWidth=810&size=284911&status=done&style=none&width=567">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586511383540-5e210056-9118-4f4e-88c9-a0421cc8a73a.png#align=left&display=inline&height=212&name=image.png&originHeight=339&originWidth=802&size=142795&status=done&style=none&width=502">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586511436416-cf262970-9e71-4134-85b0-5de1d6b9cef7.png#align=left&display=inline&height=62&name=image.png&originHeight=66&originWidth=426&size=16084&status=done&style=none&width=399">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586511523063-50045b17-9c80-4fbb-a7a1-0619b72feda3.png#align=left&display=inline&height=248&name=image.png&originHeight=286&originWidth=551&size=81606&status=done&style=none&width=478">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586512060460-33c1c7a4-96c3-4df2-87e8-2bd773f733ee.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=245469&status=done&style=none&width=829">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586512212653-c143b32d-5399-4b67-886b-eb8d24104b55.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=242158&status=done&style=none&width=829">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586512707653-831f391c-5345-40f9-87ac-5e60c8da9ce2.png#align=left&display=inline&height=121&name=image.png&originHeight=155&originWidth=658&size=65455&status=done&style=none&width=513">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586513198758-1000c7b5-431e-4d61-bb1f-3614b4a5eb54.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=205396&status=done&style=none&width=829">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586514006100-3dff8877-7010-44ec-a86c-f02252a7480f.png#align=left&display=inline&height=170&name=image.png&originHeight=224&originWidth=518&size=85538&status=done&style=none&width=393">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586575257153-7dbe0772-8611-4440-93d9-4f9f01e23b67.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=324378&status=done&style=none&width=829">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586575579816-014556c5-3d47-4e58-810f-4805a0091666.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=318773&status=done&style=none&width=829">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586572262028-add754dc-ce4e-4ff5-b954-3ed5c8cdf42a.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=282065&status=done&style=none&width=829">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586573824447-ceb632d9-a8f7-41b3-9ba6-89ac29d24284.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=280152&status=done&style=none&width=829">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586576141436-d729d1e8-8ca0-4d73-a6cc-ab21349aba6c.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=325659&status=done&style=none&width=829">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586576242802-95cb23f6-67f9-48ac-896b-ff906f6f118d.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=286937&status=done&style=none&width=829">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586576477419-5c19cb0a-4032-4873-af72-d633812116b4.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=292502&status=done&style=none&width=829">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586596634476-125489d9-433f-46c3-9787-2724d642bee7.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=531024&status=done&style=none&width=829">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586697956700-8ad412c7-28ca-4890-87b0-be7c35efd6ae.png#align=left&display=inline&height=362&name=image.png&originHeight=587&originWidth=802&size=107418&status=done&style=none&width=495">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586698432170-e3523601-0961-4b6c-a324-6f184aa0978a.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=214823&status=done&style=none&width=829">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586698433703-0ffd4c4b-ecaf-4337-99c0-8a7339a99f86.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=211608&status=done&style=none&width=829">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1587126080452-62cc2e9a-7b2d-445b-9834-20bae466e0ec.png#align=left&display=inline&height=416&name=image.png&originHeight=608&originWidth=806&size=192396&status=done&style=none&width=552">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1587126116207-133d8efe-ce35-472a-ad74-9c8e0ee20eeb.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=250069&status=done&style=none&width=829">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1587126148069-d016f026-f945-4d65-bddc-efb943af41b2.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=193803&status=done&style=none&width=829">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1587126285232-632c02e7-cc2d-49d4-b831-89bafe07ae4d.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=325566&status=done&style=none&width=829">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1587133057930-26bc475b-132a-45c4-aed9-002a639b7b03.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=147859&status=done&style=none&width=829">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1587133160851-4c1b5399-366d-4d66-bf17-b5849495af8d.png#align=left&display=inline&height=198&name=image.png&originHeight=265&originWidth=736&size=102717&status=done&style=none&width=548">
+<meta property="article:published_time" content="2019-12-19T12:09:21.000Z">
+<meta property="article:modified_time" content="2020-07-16T01:50:38.201Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567141475266-23af32ac-a263-44d2-8786-e746c71cc2d4.png#align=left&display=inline&height=400&name=image.png&originHeight=521&originWidth=1103&size=46236&status=done&style=none&width=847.1039741484383">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
     <link rel="shortcut icon" href="/favicon.ico">
-  
-  
-<link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
 
-  
+    <!-- custom head -->
     
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
 
-  
-  
-<script src="/js/pace.min.js"></script>
-
-<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
-</head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body>
-<main class="content">
-  <section class="outer">
-<meta name="referrer" content="no-referrer" />
-  <article id="post-faus1o" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+    <div id="loading" class="active"></div>
 
-    <div class="article-inner">
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
         
-            <header class="article-header">
-                
-  
-    <h1 class="article-title" itemprop="name">
-      流量分析
-    </h1>
-  
-  
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">流量分析</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">流量分析</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-12-19T12:09:21.000Z" itemprop="datePublished" class="page-time">
+  2019-12-19
+</time>
 
 
+            
+        </h5>
+    </div>
+
+    
 
 
-            </header>
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#流量分析"><span class="post-toc-number">1.</span> <span class="post-toc-text">流量分析</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#wireshark-介绍"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">wireshark 介绍</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#捕捉过滤器"><span class="post-toc-number">1.1.1.</span> <span class="post-toc-text">捕捉过滤器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#显示过滤器"><span class="post-toc-number">1.1.2.</span> <span class="post-toc-text">显示过滤器</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#基本语法"><span class="post-toc-number">1.1.2.1.</span> <span class="post-toc-text">基本语法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#实际使用"><span class="post-toc-number">1.1.2.2.</span> <span class="post-toc-text">实际使用</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#过滤数据"><span class="post-toc-number">1.1.2.3.</span> <span class="post-toc-text">过滤数据</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#wireshark-着色规则"><span class="post-toc-number">1.1.3.</span> <span class="post-toc-text">wireshark 着色规则</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Tshark"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">Tshark</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#键盘流量分析"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">键盘流量分析</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#wireshark-实战"><span class="post-toc-number">2.</span> <span class="post-toc-text">wireshark 实战</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#环境搭建"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">环境搭建</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#中间人攻击"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">中间人攻击</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#ARP-中间人攻击"><span class="post-toc-number">2.2.1.</span> <span class="post-toc-text">ARP 中间人攻击</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#DNS-中间人攻击"><span class="post-toc-number">2.2.2.</span> <span class="post-toc-text">DNS 中间人攻击</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#攻击相关"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">攻击相关</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#NMAP"><span class="post-toc-number">2.3.1.</span> <span class="post-toc-text">NMAP</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#全连接方式（-sT）"><span class="post-toc-number">2.3.1.1.</span> <span class="post-toc-text">全连接方式（-sT）</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#半连接方式（-sS）"><span class="post-toc-number">2.3.1.2.</span> <span class="post-toc-text">半连接方式（-sS）</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#秘密扫描-TCPFIN（-sN、-sF、-sX）"><span class="post-toc-number">2.3.1.3.</span> <span class="post-toc-text">秘密扫描 TCPFIN（-sN、-sF、-sX）</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#秘密扫描-TCPACK（-sA）"><span class="post-toc-number">2.3.1.4.</span> <span class="post-toc-text">秘密扫描 TCPACK（-sA）</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#漏洞利用"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">漏洞利用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#从-TCP-流里观察正向-shell"><span class="post-toc-number">2.4.1.</span> <span class="post-toc-text">从 TCP 流里观察正向 shell</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#从-TCP-流里观察反向-shell"><span class="post-toc-number">2.4.2.</span> <span class="post-toc-text">从 TCP 流里观察反向 shell</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解密-SSL-TLS"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">解密 SSL&#x2F;TLS</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#USB-和-wireshark"><span class="post-toc-number">2.6.</span> <span class="post-toc-text">USB 和 wireshark</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Linux-下捕获-USB-流量"><span class="post-toc-number">2.6.1.</span> <span class="post-toc-text">Linux 下捕获 USB 流量</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-faus1o"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">流量分析</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-12-19 20:09:21" datetime="2019-12-19T12:09:21.000Z"  itemprop="datePublished">2019-12-19</time>
+
             
 
-                
-                    <div class="article-meta">
-                        <a href="/2019/12/19/faus1o/" class="article-date">
-  <time datetime="2019-12-19T12:09:21.000Z" itemprop="datePublished">2019-12-19</time>
-</a>
-                            
-                    </div>
-                    
 
-                        
-                            
-    <div class="tocbot"></div>
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
 
 
-
-
-
-                                
-
-                                    <div class="article-entry" itemprop="articleBody">
-                                        
-
-
-                                            
-
-                                                
-                                                                    <h1 id="流量分析"><a href="#流量分析" class="headerlink" title="流量分析"></a>流量分析</h1><h2 id="wireshark-介绍"><a href="#wireshark-介绍" class="headerlink" title="wireshark 介绍"></a>wireshark 介绍</h2><p>Wireshark（前称 Ethereal）是一个网络封包分析软件</p>
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="流量分析"><a href="#流量分析" class="headerlink" title="流量分析"></a>流量分析</h1><h2 id="wireshark-介绍"><a href="#wireshark-介绍" class="headerlink" title="wireshark 介绍"></a>wireshark 介绍</h2><p>Wireshark（前称 Ethereal）是一个网络封包分析软件</p>
 <p>网络封包分析软件的功能是撷取网络封包，并尽可能显示出最为详细的网络封包资料。Wireshark 使用 WinPCAP 作为接口，直接与网卡进行数据报文交换</p>
 <h3 id="捕捉过滤器"><a href="#捕捉过滤器" class="headerlink" title="捕捉过滤器"></a>捕捉过滤器</h3><p>数据经过的第一层过滤器，  它用于控制捕捉数据的数量，以避免产生过大的日志文件，用于决定将什么样的信息记录在捕捉结果中，需要在开始捕捉前设置</p>
 <p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567141475266-23af32ac-a263-44d2-8786-e746c71cc2d4.png#align=left&display=inline&height=400&name=image.png&originHeight=521&originWidth=1103&size=46236&status=done&style=none&width=847.1039741484383" alt="image.png"></p>
@@ -275,177 +416,303 @@
 <p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587133160851-4c1b5399-366d-4d66-bf17-b5849495af8d.png#align=left&display=inline&height=198&name=image.png&originHeight=265&originWidth=736&size=102717&status=done&style=none&width=548" alt="image.png"></p>
 <p>这里可以看到 003 后面写着 鼠标(Mouse) 这是 vmware 为虚拟机提供的鼠标输入设备</p>
 
-                                                                        
-                                    </div>
-                                    <footer class="article-footer">
-                                        <a data-url="http://yoursite.com/2019/12/19/faus1o/" data-id="ckco50ddo000h2wu9c0ns4h1c" class="article-share-link">
-                                            Share
-                                        </a>
-                                        
-                                    </footer>
-
-    </div>
-
-    
-        
-  <nav class="article-nav">
-    
-      <a href="/2019/12/19/vmf5m3/" class="article-nav-link">
-        <strong class="article-nav-caption">Newer</strong>
-        <div class="article-nav-title">
-          
-            ssh配置与使用
-          
         </div>
-      </a>
+
+        <blockquote class="post-copyright">
     
-    
-      <a href="/2019/12/19/sun522/" class="article-nav-link">
-        <strong class="article-nav-caption">Older</strong>
-        <div class="article-nav-title">压缩包相关</div>
-      </a>
-    
-  </nav>
+    <div class="content">
+        
+<span class="post-time">
+    最終更新：<time datetime="2020-07-16T01:50:38.201Z" itemprop="dateUpdated">2020-07-16 09:50:38</time>
+</span><br>
 
 
+        
+        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2019/12/19/faus1o/" target="_blank" rel="external">https://yichen115.github.io/2019/12/19/faus1o/</a>
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
             
 
-                
-                    
-    <div class="vcomments" id="vcomments"></div>
+            
+<div class="page-share-wrap">
     
-<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
 
-        <script>
-            new Valine({
-                el: '#vcomments',
-                appId: '',
-                appKey: '',
-                notify: 'false',
-                verify: 'true',
-                avatar: 'mp',
-                pageSize: '10',
-                placeholder: '请输入...'
-            })
-        </script>
-        
-                        
-                            
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2019/12/19/faus1o/&title=《流量分析》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2019/12/19/faus1o/&title=《流量分析》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2019/12/19/faus1o/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《流量分析》 — yichen's blog&url=https://yichen115.github.io/2019/12/19/faus1o/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2019/12/19/faus1o/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/12/19/vmf5m3/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">ssh配置与使用</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/12/19/sun522/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">压缩包相关</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </article>
-</section>
-  <footer class="footer">
-  <div class="outer">
-    <div class="float-right">
-      <ul class="list-inline">
-  
-    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
-  
-    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
-  
-</ul>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
     </div>
-    <ul class="list-inline">
-      <li>&copy; 2020 yichen&#39;s blog</li>
-      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
-      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
-    </ul>
-  </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>このブログの内容物は<a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja" target="_blank">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
 </footer>
 
-</main>
-<aside class="sidebar">
-  <button class="navbar-toggle"></button>
-<nav class="navbar">
-  
-    <div class="logo">
-      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
-    </div>
-  
-  <ul class="nav nav-main">
-    
-      <li class="nav-item">
-        <a class="nav-item-link" href="/">主页</a>
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2019/12/19/faus1o/&title=《流量分析》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
       </li>
-    
-      <li class="nav-item">
-        <a class="nav-item-link" href="/archives">归档</a>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
       </li>
-    
-      <li class="nav-item">
-        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2019/12/19/faus1o/&title=《流量分析》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
       </li>
-    
-      <li class="nav-item">
-        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2019/12/19/faus1o/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
       </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link nav-item-search" title="Search">
-        <i class="fe fe-search"></i>
-        Search
-      </a>
-    </li>
-  </ul>
-</nav>
-<nav class="navbar navbar-bottom">
-  <ul class="nav">
-    <li class="nav-item">
-      <div class="totop" id="totop">
-  <i class="fe fe-rocket"></i>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《流量分析》 — yichen's blog&url=https://yichen115.github.io/2019/12/19/faus1o/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2019/12/19/faus1o/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2019/12/19/faus1o/" alt="微信分享二维码">
 </div>
-    </li>
-    <li class="nav-item">
-      
-    </li>
-  </ul>
-</nav>
-<div class="search-form-wrap">
-  <div class="local-search local-search-plugin">
-  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
-  <div id="local-search-result" class="local-search-result"></div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
 </div>
-</div>
-</aside>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
 
-<script src="/js/jquery-2.0.3.min.js"></script>
-
-
-<script src="/js/jquery.justifiedGallery.min.js"></script>
-
-
-<script src="/js/lazyload.min.js"></script>
-
-
-<script src="/js/busuanzi-2.3.pure.min.js"></script>
-
-
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
 
 
 
 
-  
-<script src="/js/tocbot.min.js"></script>
 
-  <script>
-    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
-    tocbot.init({
-      tocSelector: '.tocbot',
-      contentSelector: '.article-entry',
-      headingSelector: 'h1, h2, h3, h4, h5, h6',
-      hasInnerContainers: true,
-      scrollSmooth: true,
-      positionFixedSelector: '.tocbot',
-      positionFixedClass: 'is-position-fixed',
-      fixedSidebarOffset: 'auto',
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
     });
-  </script>
+})();
+</script>
 
-
-
-<script src="/js/ocean.js"></script>
 
 
 </body>
