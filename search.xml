@@ -5415,6 +5415,12 @@
 ]]></content>
   </entry>
   <entry>
+    <title>语雀自动同步hexo博客</title>
+    <url>/2020/07/16/gtb5ck/</url>
+    <content><![CDATA[<p>通过语雀+yuque-hexo+github pages+hexo+github actions+serverless 云函数<br>希望实现语雀写完文章能够自动同步到 hexo 博客</p>
+]]></content>
+  </entry>
+  <entry>
     <title>geth操作、Ethereum Wallet</title>
     <url>/2020/04/18/gwso5x/</url>
     <content><![CDATA[<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p><a href="https://geth.ethereum.org/downloads/" target="_blank" rel="noopener">geth</a>  直接去下载安装就好，下载界面要加载好久才会出来  🤪<br>我下载的版本：<a href="https://quqi.gblhgk.com/s/3109432/69adjDfUW6UFX5cU" target="_blank" rel="noopener">曲奇云盘</a></p>
