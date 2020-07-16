@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    SSRF |
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+<meta name="referrer" content="no-referrer" />
+  <article id="post-gh1ztw" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      SSRF
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2019/12/15/gh1ztw/" class="article-date">
+  <time datetime="2019-12-15T11:19:42.000Z" itemprop="datePublished">2019-12-15</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><p>SSRF，Server-Side Request Forgery，服务端请求伪造，是一种由攻击者构造形成由服务器端发起请求的一个漏洞。一般情况下，SSRF 攻击的目标是从外网无法访问的内部系统。<br>漏洞形成的原因大多是因为服务端提供了从其他服务器应用获取数据的功能且没有对目标地址作过滤和限制。</p>
+<h1 id="利用"><a href="#利用" class="headerlink" title="利用"></a>利用</h1><ol>
+<li>可以对外网、服务器所在内网、本地进行端口扫描，获取一些服务的 banner 信息</li>
+<li>攻击运行在内网或本地的应用程序（比如溢出）</li>
+<li>对内网 WEB 应用进行指纹识别，通过访问默认文件实现</li>
+<li>攻击内外网的 web 应用，主要是使用 GET 参数就可以实现的攻击（比如 Struts2，sqli 等）</li>
+<li>利用 <code>file</code> 协议读取本地文件等</li>
+</ol>
+<p>建立 ssrftest.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">curl</span><span class="params">($url)</span></span>&#123;</span><br><span class="line">                $ch = curl_init();</span><br><span class="line">                curl_setopt($ch, CURLOPT_URL, $url);</span><br><span class="line">                curl_setopt($ch, CURLOPT_HEADER, <span class="number">0</span>);</span><br><span class="line">                curl_exec($ch);</span><br><span class="line">                curl_close($ch);</span><br><span class="line">&#125;</span><br><span class="line">$url = $_GET[<span class="string">'url'</span>];</span><br><span class="line">curl($url);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="dict-协议查看端口"><a href="#dict-协议查看端口" class="headerlink" title="dict 协议查看端口"></a>dict 协议查看端口</h2><p>开着就显示<br><a href="http://127.0.0.1/php/csrf/ssrftest.php?url=dict://127.0.0.1:80" target="_blank" rel="noopener">http://127.0.0.1/php/csrf/ssrftest.php?url=dict://127.0.0.1:80</a><br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1565317815792-f3d01a5b-a533-4459-b343-34e79408e150.png#align=left&display=inline&height=328&name=image.png&originHeight=427&originWidth=1885&size=70012&status=done&style=none&width=1447.6799558203138" alt="image.png"></p>
+<h2 id="file-协议读取文件"><a href="#file-协议读取文件" class="headerlink" title="file 协议读取文件"></a>file 协议读取文件</h2><p><a href="http://127.0.0.1/php/csrf/ssrftest.php?url=file://D://anquan//localtest//WWW//php//csrf//1.txt" target="_blank" rel="noopener">http://127.0.0.1/php/csrf/ssrftest.php?url=file://D://anquan//localtest//WWW//php//csrf//1.txt</a><br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1565317900120-484af87c-18cb-414f-8691-540b669f5510.png#align=left&display=inline&height=455&name=image.png&originHeight=592&originWidth=1033&size=104765&status=done&style=none&width=793.3439757890633" alt="image.png"></p>
+<h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><h2 id="file-get-contents（）"><a href="#file-get-contents（）" class="headerlink" title="file_get_contents（）"></a>file_get_contents（）</h2><p>这段代码使用 file_get_contents 函数从用户指定的 URL 获取图片。然后把它用一个随即文件名保存在硬盘上，并展示给用户。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_POST[<span class="string">'url'</span>]))</span><br><span class="line">&#123;</span><br><span class="line">    $content = file_get_contents($_POST[<span class="string">'url'</span>]);</span><br><span class="line">    $filename =<span class="string">'./images/'</span>.rand().<span class="string">'.jpg'</span>;</span><br><span class="line">    file_put_contents($filename, $content);</span><br><span class="line">    <span class="keyword">echo</span> $_POST[<span class="string">'url'</span>];</span><br><span class="line">    $img = <span class="string">"&lt;img src=\""</span>.$filename.<span class="string">"\"/&gt;"</span>;</span><br><span class="line">    <span class="keyword">echo</span> $img;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"no url!"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>用 phpstudy 请求 https 的图片可能会出问题<br>解决：打开你的 php.ini 配置文件，定位到下图蓝色所示的位置，把 extension=php_openssl.dll 前面的; 分号去掉。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1565235172299-a4a70ca8-b574-4235-8268-be299765cff4.png#align=left&display=inline&height=687&name=image.png&originHeight=894&originWidth=1571&size=1073776&status=done&style=none&width=1206.5279631796886" alt="image.png"></p>
+<h2 id="fsockopen"><a href="#fsockopen" class="headerlink" title="fsockopen()"></a>fsockopen()</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">GetFile</span><span class="params">($host,$port,$link)</span> </span>&#123;</span><br><span class="line">    $fp = fsockopen($host, intval($port), $errno, $errstr, <span class="number">30</span>);</span><br><span class="line">    <span class="keyword">if</span> (!$fp) &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"$errstr (error number $errno) \n"</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        $out = <span class="string">"GET $link HTTP/1.1\r\n"</span>;</span><br><span class="line">        $out .= <span class="string">"Host: $host\r\n"</span>;</span><br><span class="line">        $out .= <span class="string">"Connection: Close\r\n\r\n"</span>;</span><br><span class="line">        $out .= <span class="string">"\r\n"</span>;</span><br><span class="line">        fwrite($fp, $out);</span><br><span class="line">        $contents=<span class="string">''</span>;</span><br><span class="line">        <span class="keyword">while</span> (!feof($fp)) &#123;</span><br><span class="line">            $contents.= fgets($fp, <span class="number">1024</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        fclose($fp);</span><br><span class="line">        <span class="keyword">return</span> $contents;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="IP-绕过"><a href="#IP-绕过" class="headerlink" title="IP 绕过"></a>IP 绕过</h1><h2 id="添加端口"><a href="#添加端口" class="headerlink" title="添加端口"></a>添加端口</h2><h2 id="短网址"><a href="#短网址" class="headerlink" title="短网址"></a>短网址</h2><h2 id="指向任意-IP-的域名"><a href="#指向任意-IP-的域名" class="headerlink" title="指向任意 IP 的域名"></a>指向任意 IP 的域名</h2><p><strong>xip.io</strong><br>127.0.0.1.xip.io 就会跳转到 127.0.0.1</p>
+<h2 id="进制转换"><a href="#进制转换" class="headerlink" title="进制转换"></a>进制转换</h2><p>0177.0.0.1 -&gt; 127.0.0.1（八进制）<br>0x7f.0.0.1 -&gt; 127.0.01（十六进制）<br>0x7f000001 -&gt; 127.0.0.1（十六进制整数）<br>2130706433 -&gt; 127.0.0.1（十进制整数）</p>
+<p><a href="http://www.baidu.com@127.0.0.1" target="_blank" rel="noopener">www.baidu.com@127.0.0.1</a> 会以 <a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a> 的身份访问 127.0.0.1<br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1565344973968-f21bb096-b733-49dc-b224-036cf53f6d10.png#align=left&display=inline&height=829&name=image.png&originHeight=1080&originWidth=1920&size=134035&status=done&style=none&width=1474.5599550000013" alt="image.png"></p>
+<h2 id="gopher-协议"><a href="#gopher-协议" class="headerlink" title="gopher 协议"></a>gopher 协议</h2><p>懵了，再说吧</p>
+<h3 id="在-redis-中利用"><a href="#在-redis-中利用" class="headerlink" title="在 redis 中利用"></a>在 redis 中利用</h3><h3 id="在-mysql-中的利用"><a href="#在-mysql-中的利用" class="headerlink" title="在 mysql 中的利用"></a>在 mysql 中的利用</h3>
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2019/12/15/gh1ztw/" data-id="ckco53qbb00068ou9et98ckcz" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2019/12/16/kim3zp/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer</strong>
+        <div class="article-nav-title">
+          
+            windows内核实验
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2019/12/07/pqc1nq/" class="article-nav-link">
+        <strong class="article-nav-caption">Older</strong>
+        <div class="article-nav-title">Pwn入门（Intermediate ROP）</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+    <div class="vcomments" id="vcomments"></div>
+    
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+        <script>
+            new Valine({
+                el: '#vcomments',
+                appId: '',
+                appKey: '',
+                notify: 'false',
+                verify: 'true',
+                avatar: 'mp',
+                pageSize: '10',
+                placeholder: '请输入...'
+            })
+        </script>
+        
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

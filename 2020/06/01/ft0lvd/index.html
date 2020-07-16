@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    Me-and-My-Girlfriend-1 |
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+<meta name="referrer" content="no-referrer" />
+  <article id="post-ft0lvd" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      Me-and-My-Girlfriend-1
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/06/01/ft0lvd/" class="article-date">
+  <time datetime="2020-06-01T00:13:32.000Z" itemprop="datePublished">2020-06-01</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>nmap  扫描一下 nmap -A -p- 192.168.149.172</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1590971826645-57917747-c8d2-4180-bddf-17eea27523e2.png#align=left&display=inline&height=401&margin=%5Bobject%20Object%5D&name=image.png&originHeight=612&originWidth=1022&size=147177&status=done&style=none&width=670" alt="image.png"></p>
+<p>访问一下，惊了，这不是 CTF  题嘛！？</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1590971503597-5d2b2d42-f70c-4d01-8ec2-2c422ef2c23a.png#align=left&display=inline&height=229&margin=%5Bobject%20Object%5D&name=image.png&originHeight=399&originWidth=742&size=47957&status=done&style=stroke&width=424" alt="image.png"></p>
+<p>local  那就是改 XFF  头了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1590971925453-e3c2232c-104d-4487-a075-5bc399a70508.png#align=left&display=inline&height=332&margin=%5Bobject%20Object%5D&name=image.png&originHeight=588&originWidth=1100&size=52468&status=done&style=stroke&width=621" alt="image.png"></p>
+<p>改好之后在访问就能访问的到了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1590971953557-71d63a45-229e-4f33-8c39-e08152e51817.png#align=left&display=inline&height=268&margin=%5Bobject%20Object%5D&name=image.png&originHeight=536&originWidth=1920&size=104347&status=done&style=stroke&width=960" alt="image.png"></p>
+<p>登录页面和个人页面 sqlmap  跑了一下没跑出啥东西来，在  profile 这里有个  id，改了之后能显示别人的信息</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1590972713588-276537ea-d2da-4f8a-b3a8-e57a9b3f3466.png#align=left&display=inline&height=350&margin=%5Bobject%20Object%5D&name=image.png&originHeight=701&originWidth=1920&size=124851&status=done&style=stroke&width=960" alt="image.png"></p>
+<p>burp  跑一下，因为我的是 12 就先跑到 12  就好了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1590972760876-e8d8d191-5257-4bfd-a227-e7c71becaa54.png#align=left&display=inline&height=476&margin=%5Bobject%20Object%5D&name=image.png&originHeight=952&originWidth=1262&size=81421&status=done&style=stroke&width=631" alt="image.png"></p>
+<p>发现了几个</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1590972846896-7e5ed6d7-79c6-4003-88e5-e1b554bbef75.png#align=left&display=inline&height=394&margin=%5Bobject%20Object%5D&name=image.png&originHeight=787&originWidth=840&size=83314&status=done&style=stroke&width=420" alt="image.png"></p>
+<p>分别是：</p>
+<blockquote>
+<p>Name：Alice Geulis<br>Username：alice<br>Password：4lic3</p>
+</blockquote>
+<blockquote>
+<p>Name：Sunda Tea<br>Username：sundatea<br>Password：indONEsia</p>
+</blockquote>
+<blockquote>
+<p>Name：Aing Maung<br>Username：aingmaung<br>Password：qwerty!!!</p>
+</blockquote>
+<blockquote>
+<p>Name：Abdi Kasep<br>Username：abdikasepak<br>Password：dorrrrr</p>
+</blockquote>
+<blockquote>
+<p>Name：Eweuh Tandingan<br>Username：eweuhtandingan<br>Password：skuyatuh</p>
+</blockquote>
+<blockquote>
+<p>Name：Sedih Aing Mah<br>Username：sedihaingmah<br>Password：cedihhihihi</p>
+</blockquote>
+<p>保存为字典用  hydra  跑一下，爆出了一个可以用的 alice:4lic3</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1590974450526-bd29581c-e851-4a13-9921-9648623e6b57.png#align=left&display=inline&height=314&margin=%5Bobject%20Object%5D&name=image.png&originHeight=578&originWidth=1279&size=187951&status=done&style=none&width=694" alt="image.png"></p>
+<p>ssh  登上去</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1590974546961-662c2c98-3796-4306-848b-fb5a83ccfb42.png#align=left&display=inline&height=154&margin=%5Bobject%20Object%5D&name=image.png&originHeight=217&originWidth=829&size=62822&status=done&style=none&width=587" alt="image.png"></p>
+<p>sudo -l  看一下，这岂不是写个  php  脚本，然后  sudo 一执行就是  root  权限了？</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1590974595479-fd5b8fd8-4629-4fd0-9592-d689d6b117b2.png#align=left&display=inline&height=82&margin=%5Bobject%20Object%5D&name=image.png&originHeight=130&originWidth=1178&size=29292&status=done&style=none&width=746" alt="image.png"></p>
+<p>果然…</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1590974888736-69597da9-c860-4e81-a67d-272a124cdd18.png#align=left&display=inline&height=149&margin=%5Bobject%20Object%5D&name=image.png&originHeight=146&originWidth=339&size=12962&status=done&style=none&width=347" alt="image.png"></p>
+<p>在  root  目录下有个  flag2.txt，这么说应该有个  flag1.txt ?</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1590974986904-4ae3a899-edff-42e0-9eb9-5692d6fb1592.png#align=left&display=inline&height=184&margin=%5Bobject%20Object%5D&name=image.png&originHeight=402&originWidth=1634&size=69935&status=done&style=none&width=746" alt="image.png"></p>
+<p>找一下  find / -name “flag*“</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1590975108841-bb01e9ac-8f8b-4f26-8c94-5da348b9cb52.png#align=left&display=inline&height=255&margin=%5Bobject%20Object%5D&name=image.png&originHeight=337&originWidth=719&size=91634&status=done&style=none&width=542" alt="image.png"></p>
+<p>在  alice  的目录下面有个隐藏文件夹 .my_secret  中存在  flag1.txt</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1590975266889-228ceeaf-3c3a-4ac8-ac33-bb4cd69f446e.png#align=left&display=inline&height=93&margin=%5Bobject%20Object%5D&name=image.png&originHeight=149&originWidth=1070&size=33997&status=done&style=none&width=663" alt="image.png"></p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2020/06/01/ft0lvd/" data-id="ckco53qba00048ou9h9ox60wh" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2020/06/01/oezo08/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer</strong>
+        <div class="article-nav-title">
+          
+            3、Raw input and output（上）
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/05/30/brolel/" class="article-nav-link">
+        <strong class="article-nav-caption">Older</strong>
+        <div class="article-nav-title">PWN入门（整数溢出）</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+    <div class="vcomments" id="vcomments"></div>
+    
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+        <script>
+            new Valine({
+                el: '#vcomments',
+                appId: '',
+                appKey: '',
+                notify: 'false',
+                verify: 'true',
+                avatar: 'mp',
+                pageSize: '10',
+                placeholder: '请输入...'
+            })
+        </script>
+        
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

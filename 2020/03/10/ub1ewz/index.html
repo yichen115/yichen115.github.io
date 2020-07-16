@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    Nosql注入 |
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+<meta name="referrer" content="no-referrer" />
+  <article id="post-ub1ewz" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      Nosql注入
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/03/10/ub1ewz/" class="article-date">
+  <time datetime="2020-03-10T07:56:51.000Z" itemprop="datePublished">2020-03-10</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <h1 id="NoSQL"><a href="#NoSQL" class="headerlink" title="NoSQL"></a>NoSQL</h1><p>NoSQL(NoSQL = Not Only SQL )，意即”不仅仅是 SQL”。</p>
+<p>NoSQL 是指非关系型数据库，用于超大规模的数据管理，这类数据不需要存储不需要固定的格式，无需多与操作就能横向扩展</p>
+<h1 id="MongoDB"><a href="#MongoDB" class="headerlink" title="MongoDB"></a>MongoDB</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>MongoDB  属于 NoSQL  数据库的一种，是 C++编写的基于分布式文件存储的开源数据库系统</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>部分代表</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>列存储</td>
+<td>Hbase</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>Cassandra<br>Hypertable | 顾名思义，是按列存储数据的。最大的特点是方便存储结构化和半结构化数据，方便做数据压缩，对针对某一列或者某几列的查询有非常大的 IO 优势。 |<br>| 文档存储 | <strong>MongoDB</strong><br>CouchDB | 文档存储一般用类似 json 的格式存储，存储的内容是文档型的。这样也就有机会对某些字段建立索引，实现关系数据库的某些功能。 |<br>| key-value 存储 | Tokyo Cabinet / Tyrant<br>Berkeley DB<br>MemcacheDB<br>Redis | 可以通过 key 快速查询到其 value。一般来说，存储不管 value 的格式，照单全收。（Redis 包含了其他功能） |<br>| 图存储 | Neo4J<br>FlockDB | 图形关系的最佳存储。使用传统关系数据库来解决的话性能低下，而且设计使用不方便。 |<br>| 对象存储 | db4o<br>Versant | 通过类似面向对象语言的语法操作数据库，通过对象的方式存取数据。 |<br>| xml 数据库 | Berkeley DB XML<br>BaseX | 高效的存储 XML 数据，并支持 XML 的内部查询语法，比如 XQuery,Xpath。 |</p>
+<p>MongoDB  将数据存储为一个文档，数据结构由键值(key=&gt;value)，组成，MongoDB  文档类似于 JSON  对象，字段值可以包含其他文档、数组、文档数组</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583828357084-acacfd6f-0dfd-4134-9fe8-3d755e63a1ea.png#align=left&display=inline&height=170&originHeight=170&originWidth=570&size=0&status=done&style=stroke&width=570" alt=""></p>
+<p>主要</p>
+<table>
+<thead>
+<tr>
+<th align="left">SQL 术语/概念</th>
+<th align="left">MongoDB 术语/概念</th>
+<th align="left">解释/说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">database</td>
+<td align="left">database</td>
+<td align="left">数据库</td>
+</tr>
+<tr>
+<td align="left">table</td>
+<td align="left">collection</td>
+<td align="left">数据库表/集合</td>
+</tr>
+<tr>
+<td align="left">row</td>
+<td align="left">document</td>
+<td align="left">数据记录行/文档</td>
+</tr>
+<tr>
+<td align="left">column</td>
+<td align="left">field</td>
+<td align="left">数据字段/域</td>
+</tr>
+<tr>
+<td align="left">index</td>
+<td align="left">index</td>
+<td align="left">索引</td>
+</tr>
+<tr>
+<td align="left">table joins</td>
+<td align="left"></td>
+<td align="left">表连接,MongoDB 不支持</td>
+</tr>
+<tr>
+<td align="left">primary key</td>
+<td align="left">primary key</td>
+<td align="left">主键,MongoDB 自动将_id 字段设置为主键</td>
+</tr>
+</tbody></table>
+<p>对比一下：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583831710280-f534af95-40c8-49a7-8145-36e980424a20.png#align=left&display=inline&height=245&originHeight=282&originWidth=858&size=0&status=done&style=stroke&width=746" alt=""></p>
+<h2 id="MongoDB-安装"><a href="#MongoDB-安装" class="headerlink" title="MongoDB 安装"></a>MongoDB 安装</h2><p>kali 上安装运行出现  *<em>段错误  *</em>未解决<br>ubuntu 上一次性成功<br><a href="https://www.yuque.com/attachments/yuque/0/2020/tgz/268938/1583930673254-c9d36d87-2079-4a2f-8cc5-c5ce29403965.tgz?_lake_card=%7B%22uid%22%3A%221583930645387-0%22%2C%22src%22%3A%22https%3A%2F%2Fwww.yuque.com%2Fattachments%2Fyuque%2F0%2F2020%2Ftgz%2F268938%2F1583930673254-c9d36d87-2079-4a2f-8cc5-c5ce29403965.tgz%22%2C%22name%22%3A%22mongodb-linux-x86_64-3.0.6.tgz%22%2C%22size%22%3A40282490%2C%22type%22%3A%22application%2Fx-compressed%22%2C%22ext%22%3A%22tgz%22%2C%22progress%22%3A%7B%22percent%22%3A99%7D%2C%22status%22%3A%22done%22%2C%22percent%22%3A0%2C%22id%22%3A%22kU0eB%22%2C%22card%22%3A%22file%22%7D" target="_blank" rel="noopener">mongodb-linux-x86_64-3.0.6.tgz</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar -xvzf mongodb-linux-x86_64-3.0.6.tgz    &#x2F;&#x2F;解压</span><br><span class="line">mv mongodb-linux-x86_64-3.0.6 &#x2F;usr&#x2F;local&#x2F;mongodb      &#x2F;&#x2F;将解压后的文件移动到指定目录并改名</span><br><span class="line">cd &#x2F;usr&#x2F;local&#x2F;mongodb&#x2F;    &#x2F;&#x2F;切换到mongodb</span><br></pre></td></tr></table></figure>
+
+<p>在 mongodb 目录下创建目录 data/db ，以及/log 目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir data  &#x2F;&#x2F;创建data目录</span><br><span class="line">mkdir log    &#x2F;&#x2F;创建log日志目录</span><br><span class="line">cd data       &#x2F;&#x2F;切换到data目录</span><br><span class="line">mkdir db     &#x2F;&#x2F;创建db 目录</span><br></pre></td></tr></table></figure>
+
+<p>系统 profile 配置，配置环境，这是每装一个软件的必备步骤，在 profile 文件最后面添加环境变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vi &#x2F;etc&#x2F;profile</span><br><span class="line"></span><br><span class="line">export MONGODB_HOME&#x3D;&#x2F;usr&#x2F;local&#x2F;mongodb</span><br><span class="line">export PATH&#x3D;$PATH:$MONGODB_HOME&#x2F;bin</span><br></pre></td></tr></table></figure>
+
+<p>保存后，重启系统配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source &#x2F;etc&#x2F;profile</span><br></pre></td></tr></table></figure>
+
+<p>在 mongodb 目录下创建 conf 目录，并创建 mongodb.conf 配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;mongodb&#x2F;    &#x2F;&#x2F;切换到mongodb</span><br><span class="line">mkdir conf &#x2F;&#x2F;创建conf目录</span><br><span class="line">cd conf  &#x2F;&#x2F;切换到conf</span><br><span class="line">touch mongodb.conf  &#x2F;&#x2F;创建mongodb.conf配置文件</span><br></pre></td></tr></table></figure>
+
+<p>配置一些信息在 mongodb.conf 中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dbpath &#x3D; &#x2F;usr&#x2F;local&#x2F;mongodb&#x2F;data&#x2F;db #数据文件存放目录</span><br><span class="line">logpath &#x3D; &#x2F;usr&#x2F;local&#x2F;mongodb&#x2F;log&#x2F;mongodb.log #日志文件存放目录</span><br><span class="line">port &#x3D; 27017  #端口</span><br><span class="line">fork &#x3D; true  #以守护程序的方式启用，即在后台运行</span><br></pre></td></tr></table></figure>
+
+<p>###</p>
+<p>一些准备好，启动服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;mongodb&#x2F;    &#x2F;&#x2F;切换到mongodb</span><br><span class="line">.&#x2F;bin&#x2F;mongod --config .&#x2F;conf&#x2F;mongodb.conf  &#x2F;&#x2F;启动服务</span><br></pre></td></tr></table></figure>
+
+<p>连接 mongodb</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;mongodb&#x2F;bin</span><br><span class="line">.&#x2F;mongo</span><br></pre></td></tr></table></figure>
+
+<p>停止服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;mongodb&#x2F;bin</span><br><span class="line"> .&#x2F;mongod -shutdown -dbpath&#x3D;&#x2F;usr&#x2F;local&#x2F;mongodb&#x2F;data&#x2F;db  &#x2F;&#x2F;停止mongodb</span><br></pre></td></tr></table></figure>
+
+<p>参考：<br><a href="https://www.jianshu.com/p/d8f471bdfa3b" target="_blank" rel="noopener">https://www.jianshu.com/p/d8f471bdfa3b</a></p>
+<h2 id="基础命令"><a href="#基础命令" class="headerlink" title="基础命令"></a>基础命令</h2><p>创建数据库：use database_name，如果有直接拿来用，没有会自动创建 <code>use yichen</code></p>
+<p>删除数据库：<code>db.dropDatabase()</code>  先  use  再删除</p>
+<p>创建集合（相当于 mysql 中的表）：<code>db.createCollection(&#39;hack&#39;)</code></p>
+<p>删除集合：<code>db.hack.drop()</code></p>
+<p>查看集合用的是：<code>show tables</code>  或者  <code>show collections</code></p>
+<p>插入数据：<code>db.yichen.insert({&#39;name&#39;:&#39;yichen&#39;})</code></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583927853962-463bea90-7961-433a-a761-5df74d08bf6b.png#align=left&display=inline&height=440&name=image.png&originHeight=420&originWidth=442&size=53805&status=done&style=none&width=463" alt="image.png"></p>
+<p>插入数据用逗号隔开：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">db.writeup.insert(&#123;</span><br><span class="line">  "name": "yichen",</span><br><span class="line">  "date": "2020-3-11",</span><br><span class="line">  "tags": "web",</span><br><span class="line">  "flag": "flag&#123;dhcbuyebcadwe&#125;",</span><br><span class="line">  "blog": "https://www.yuque.com/hxfqg9"</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583928255769-ac4e02f2-010b-48a8-97d6-1cf523c0f0ac.png#align=left&display=inline&height=201&name=image.png&originHeight=277&originWidth=731&size=49059&status=done&style=none&width=530" alt="image.png"></p>
+<p>也可以先把数据定义为一个变量再插入到文档里</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583928426150-506643e5-3c0f-41c2-bc84-dbf7de07065b.png#align=left&display=inline&height=296&name=image.png&originHeight=261&originWidth=345&size=25935&status=done&style=none&width=391" alt="image.png"></p>
+<p>更新：<br><code>db.writeup.update({name:&#39;yiyichen&#39;},{$set:{name:&#39;y1chen&#39;}})</code></p>
+<p>会把  name  为  yiyichen  的  name  改为 y1chen</p>
+<p>pretty()  可以更加美观的显示结果</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583930159506-f1da2df3-6456-4763-bbf8-9ba8bbdc37e0.png#align=left&display=inline&height=357&name=image.png&originHeight=343&originWidth=595&size=51621&status=done&style=none&width=620" alt="image.png"></p>
+<p>移除文档：<code>db.writeup.remove({&#39;name&#39;:&#39;y1chen&#39;})</code></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583930336013-e04b1ea6-e63d-4fc7-bba7-88552db87a52.png#align=left&display=inline&height=158&name=image.png&originHeight=190&originWidth=487&size=29982&status=done&style=none&width=405" alt="image.png"></p>
+<p>如果你熟悉常规的 SQL 数据，通过下表可以更好的理解 MongoDB 的条件语句查询：</p>
+<table>
+<thead>
+<tr>
+<th align="left">操作</th>
+<th align="left">范例</th>
+<th align="left">RDBMS 中的类似语句</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">等于</td>
+<td align="left"><code>db.col.find({&quot;by&quot;:&quot;菜鸟教程&quot;}).pretty()</code></td>
+<td align="left"><code>where by = &#39;菜鸟教程&#39;</code></td>
+</tr>
+<tr>
+<td align="left">小于</td>
+<td align="left"><code>db.col.find({&quot;likes&quot;:{$lt:50}}).pretty()</code></td>
+<td align="left"><code>where likes &lt; 50</code></td>
+</tr>
+<tr>
+<td align="left">小于或等于</td>
+<td align="left"><code>db.col.find({&quot;likes&quot;:{$lte:50}}).pretty()</code></td>
+<td align="left"><code>where likes &lt;= 50</code></td>
+</tr>
+<tr>
+<td align="left">大于</td>
+<td align="left"><code>db.col.find({&quot;likes&quot;:{$gt:50}}).pretty()</code></td>
+<td align="left"><code>where likes &gt; 50</code></td>
+</tr>
+<tr>
+<td align="left">大于或等于</td>
+<td align="left"><code>db.col.find({&quot;likes&quot;:{$gte:50}}).pretty()</code></td>
+<td align="left"><code>where likes &gt;= 50</code></td>
+</tr>
+<tr>
+<td align="left">不等于</td>
+<td align="left"><code>db.col.find({&quot;likes&quot;:{$ne:50}}).pretty()</code></td>
+<td align="left"><code>where likes != 50</code></td>
+</tr>
+</tbody></table>
+<p>and  条件(多个条件用逗号隔开)：<br><code>db.writeup.find({key1:value1, key2:value2}).pretty()</code></p>
+<p>or  条件：<br><code>db.writeup.find({$or:[{&quot;name&quot;:&quot;yichen&quot;},{&quot;name&quot;: &quot;yiyichen&quot;}]}).pretty()</code></p>
+<h1 id="NoSQL-注入"><a href="#NoSQL-注入" class="headerlink" title="NoSQL 注入"></a>NoSQL 注入</h1>
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2020/03/10/ub1ewz/" data-id="ckco53qbu000z8ou921g54h2m" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2020/03/13/gsl2vv/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer</strong>
+        <div class="article-nav-title">
+          
+            ROPEmporium
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/03/09/tp9x81/" class="article-nav-link">
+        <strong class="article-nav-caption">Older</strong>
+        <div class="article-nav-title">Mango</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+    <div class="vcomments" id="vcomments"></div>
+    
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+        <script>
+            new Valine({
+                el: '#vcomments',
+                appId: '',
+                appKey: '',
+                notify: 'false',
+                verify: 'true',
+                avatar: 'mp',
+                pageSize: '10',
+                placeholder: '请输入...'
+            })
+        </script>
+        
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

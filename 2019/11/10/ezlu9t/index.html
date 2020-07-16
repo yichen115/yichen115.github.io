@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    文件包含 |
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+<meta name="referrer" content="no-referrer" />
+  <article id="post-ezlu9t" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      文件包含
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2019/11/10/ezlu9t/" class="article-date">
+  <time datetime="2019-11-10T05:34:29.000Z" itemprop="datePublished">2019-11-10</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <h1 id="相关函数"><a href="#相关函数" class="headerlink" title="相关函数"></a>相关函数</h1><h2 id="include"><a href="#include" class="headerlink" title="include()"></a>include()</h2><p>使用 include 引用外部文件时，只有代码执行到 include 代码段时，调用的外部文件才会被引用并读取，当引用的文件发生错误时，系统只会给出个警告错误，而整个 php 文件会继续执行。</p>
+<h2 id="require"><a href="#require" class="headerlink" title="require()"></a>require()</h2><p>在 php 文件被执行之前，php 解析器会用被引用的文件的全部内容替换 require 语句，然后与 require 语句之外的其他语句组成个新的 php 文件，最好后按新的 php 文件执行程序代码。</p>
+<h2 id="include-once"><a href="#include-once" class="headerlink" title="include_once()"></a>include_once()</h2><p>使用 include_once 会在导入文件前先检测该文件是否在该页面的其他部分被应用过，如果有，则不会重复引用该文件，程序只能引用一次。（要导入的文件中存在一些自定义函数，那么如果在同一个程序中重复导入这个文件，在第二次导入时便会发生错误，因为 php 不允许相同名称的函数被重复声明）</p>
+<h2 id="require-once"><a href="#require-once" class="headerlink" title="require_once()"></a>require_once()</h2><p>语句是 require 语句的延伸，他的功能与 require 语句基本一致，不同的是，在应用 require_once 时，先会检查要引用的文件是不是已将在该程序中的其他地方被引用过，如果有，则不会在重复调用该文件。（同时使用 require_once 语句在同一页面中引用了两个不同的文件，那么在输出时，只有第一个文件被执行，第二个引用的文件则不会被执行）</p>
+<p>需要注意的区别是 include_once 和 require_once 函数，前者如果当前程序的某个文件（函数调用的文件）有第二次导入会报错，而后者则不报错，只是文件不会被执行</p>
+<h1 id="常见的敏感信息路径："><a href="#常见的敏感信息路径：" class="headerlink" title="常见的敏感信息路径："></a>常见的敏感信息路径：</h1><h2 id="Windows-系统"><a href="#Windows-系统" class="headerlink" title="Windows 系统"></a>Windows 系统</h2><blockquote>
+<p>c:\boot.ini // 查看系统版本<br>c:\windows\system32\inetsrv\MetaBase.xml // IIS 配置文件<br>c:\windows\repair\sam // 存储 Windows 系统初次安装的密码<br>c:\ProgramFiles\mysql\my.ini // MySQL 配置<br>c:\ProgramFiles\mysql\data\mysql\user.MYD // MySQL root 密码<br>c:\windows\php.ini // php 配置信息</p>
+</blockquote>
+<h2 id="Linux-Unix-系统"><a href="#Linux-Unix-系统" class="headerlink" title="Linux/Unix 系统"></a>Linux/Unix 系统</h2><blockquote>
+<p>/etc/passwd // 账户信息<br>/etc/shadow // 账户密码文件<br>/usr/local/app/apache2/conf/httpd.conf // Apache2 默认配置文件<br>/usr/local/app/apache2/conf/extra/httpd-vhost.conf // 虚拟网站配置<br>/usr/local/app/php5/lib/php.ini // PHP 相关配置<br>/etc/httpd/conf/httpd.conf // Apache 配置文件<br>/etc/my.conf // mysql 配置文件</p>
+</blockquote>
+<h1 id="本地包含"><a href="#本地包含" class="headerlink" title="本地包含"></a>本地包含</h1><p>如果包含的是可执行的 php 文件，会执行，如果包含的不是可执行的会进行读取</p>
+<h3 id="例题："><a href="#例题：" class="headerlink" title="例题："></a>例题：</h3><p><a href="http://123.206.31.85:49166/index.php?file=hello.php" target="_blank" rel="noopener">http://123.206.31.85:49166/index.php?file=hello.php</a></p>
+<p>如果?file=/etc/passwd<br>/etc/passwd 包含用户信息的文件</p>
+<p>在/etc/passwd 的源文件里有 upload.php，可以上传文件，上传一张图片马。直接包含执行<br>但是发现被过滤掉了<?php和?>替换为<em>和</em><br>直接用<script language=php>eval($_POST['cmd']);</script>替换就可以执行</p>
+<h1 id="远程包含"><a href="#远程包含" class="headerlink" title="远程包含"></a>远程包含</h1><h2 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h2><p>在 php.ini 里有两个重要的参数 allow_url_fopen 和 allow_url_include<br>allow_url_fopen:默认值是 ON，允许 url 里的封装协议访问文件<br>allow_url_include:默认值是 OFF,不允许包含 url 里的封装协议包含文件</p>
+<p>如果后缀名写死，比如传入的东西后面自动加上.php 可以用?来绕过<br>比如：<a href="http://xxxxx.index.php?file=1.txt?a.php，?是用来传参的，但是1.txt不需要任何参数，所以?没啥用，可以把帮助我们绕过.php" target="_blank" rel="noopener">http://xxxxx.index.php?file=1.txt?a.php，?是用来传参的，但是1.txt不需要任何参数，所以?没啥用，可以把帮助我们绕过.php</a></p>
+<p>#</p>
+<h2 id="伪协议"><a href="#伪协议" class="headerlink" title="伪协议"></a>伪协议</h2><h3 id="php-支持的伪协议"><a href="#php-支持的伪协议" class="headerlink" title="php 支持的伪协议"></a>php 支持的伪协议</h3><table>
+<thead>
+<tr>
+<th>file://</th>
+<th>访问本地文件系统</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>http://</td>
+<td>访问 HTTP(s)网址</td>
+</tr>
+<tr>
+<td>ftp://</td>
+<td>访问 ftp(s)URLs</td>
+</tr>
+<tr>
+<td>php://</td>
+<td>访问各个输入输出流</td>
+</tr>
+<tr>
+<td>zlib://</td>
+<td>压缩流</td>
+</tr>
+<tr>
+<td>data://</td>
+<td>数据（RFC 2379）</td>
+</tr>
+<tr>
+<td>glob://</td>
+<td>查找匹配的文件路径模式</td>
+</tr>
+<tr>
+<td>phar://</td>
+<td>PHP 归档</td>
+</tr>
+<tr>
+<td>ssh2://</td>
+<td>Secure Shell2</td>
+</tr>
+<tr>
+<td>rar://</td>
+<td>RAR</td>
+</tr>
+<tr>
+<td>ogg://</td>
+<td>音频流</td>
+</tr>
+<tr>
+<td>expect://</td>
+<td>处理交互式的流</td>
+</tr>
+</tbody></table>
+<h3 id="PHP-归档"><a href="#PHP-归档" class="headerlink" title="PHP 归档"></a>PHP 归档</h3><p>例题：106.12.37.37:10007<br>只要上传的是压缩包格式的文件，改个后缀啥的无所谓<br>phpar://upload/xxxxx.xxx/phpinfo（自动加.php 的）<br>zip://upload/xxxxx.xxx%23phpinfo（自动加.php 的）</p>
+<h3 id="利用-php-流"><a href="#利用-php-流" class="headerlink" title="利用 php 流"></a>利用 php 流</h3><h4 id="php-filter"><a href="#php-filter" class="headerlink" title="php://filter"></a>php://filter</h4><p>php://filter 是一种元封装器，设计用于数据流打开时的筛选过滤应用。这对于一体式的文件函数非常有用，类似 readfile()、file()和 file_get_contents()，在数据流内容没有读取之前没有机会应用其他过滤器<br>php://filter 目标使用以下的参数作为它路径的一部分<br>?file=php://filter/convert.base64-encode/resource=index.php</p>
+<p>例题：<a href="http://chinalover.sinaapp.com/web7/index.php" target="_blank" rel="noopener">http://chinalover.sinaapp.com/web7/index.php</a></p>
+<h4 id="php-input"><a href="#php-input" class="headerlink" title="php://input"></a>php://input</h4><p>利用条件：</p>
+<ul>
+<li>allow_url_include = on</li>
+<li>对 allow_url_fopen 不做要求</li>
+</ul>
+<p>php://input 可以读取没有处理过的 post 数据</p>
+<p>例题：<a href="http://106.12.37.37:10008" target="_blank" rel="noopener">http://106.12.37.37:10008</a></p>
+<h3 id="日志文件"><a href="#日志文件" class="headerlink" title="日志文件"></a>日志文件</h3><p>在 linux 下，日志一般都在 var/log 下面<br>通过 bp 抓包，改请求头上的内容，比如<?php phpinfo();?>就可以让日志文件包含我们需要的内容，通过包含日志文件就可以了，但是通常情况用户是没有权限去读取日志文件的</p>
+<h1 id="系统环境-mark-一下以后在写"><a href="#系统环境-mark-一下以后在写" class="headerlink" title="系统环境 mark 一下以后在写"></a>系统环境 mark 一下以后在写</h1><h3 id="session"><a href="#session" class="headerlink" title="session"></a>session</h3><p>PHP 默认生成 session 文件在/tmp 下<br>在 php.ini 文件中存在 session.upload_progress.enabled 这个参数，默认开启，会在上传过程中生成上传进度文件，它的存储路径可以在 phpinfo 中找到</p>
+<p>看烦了，先看点别的</p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2019/11/10/ezlu9t/" data-id="ckco53qba00038ou95c3agged" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2019/11/10/wq95oo/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer</strong>
+        <div class="article-nav-title">
+          
+            XSS/CSRF
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2019/11/10/zfbnui/" class="article-nav-link">
+        <strong class="article-nav-caption">Older</strong>
+        <div class="article-nav-title">文件上传</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+    <div class="vcomments" id="vcomments"></div>
+    
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+        <script>
+            new Valine({
+                el: '#vcomments',
+                appId: '',
+                appKey: '',
+                notify: 'false',
+                verify: 'true',
+                avatar: 'mp',
+                pageSize: '10',
+                placeholder: '请输入...'
+            })
+        </script>
+        
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

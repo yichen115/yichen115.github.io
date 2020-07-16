@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    DC-8 |
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+<meta name="referrer" content="no-referrer" />
+  <article id="post-sgtba8" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      DC-8
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/05/04/sgtba8/" class="article-date">
+  <time datetime="2020-05-03T23:38:42.000Z" itemprop="datePublished">2020-05-04</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>扫一下端口</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588549702654-da6bea67-ab46-478f-99f0-b138d714f4e8.png#align=left&display=inline&height=443&margin=%5Bobject%20Object%5D&name=image.png&originHeight=722&originWidth=689&size=155809&status=done&style=none&width=423" alt="image.png"></p>
+<p>在左边可能有 sql 注入</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588550850581-372ff1bb-f907-46c8-b5a5-e8b0d6c376a5.png#align=left&display=inline&height=420&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1080&originWidth=1920&size=147384&status=done&style=stroke&width=746" alt="image.png"></p>
+<p>sqlmap 跑一下</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588550949855-b2c62317-3c79-4749-9fc4-98c21a18ada6.png#align=left&display=inline&height=419&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1078&originWidth=1918&size=2410501&status=done&style=stroke&width=746" alt="image.png"></p>
+<p>跑出来两个密码</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588550778237-2cdc193d-c444-4a1b-b22d-67039e7e870e.png#align=left&display=inline&height=79&margin=%5Bobject%20Object%5D&name=image.png&originHeight=130&originWidth=930&size=20206&status=done&style=none&width=563" alt="image.png"></p>
+<p>保存成 txt 爆破一下</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588552399020-88684a41-78e9-478b-af61-b9f038a56d7e.png#align=left&display=inline&height=51&margin=%5Bobject%20Object%5D&name=image.png&originHeight=78&originWidth=1011&size=20563&status=done&style=stroke&width=665" alt="image.png"></p>
+<p>john 密码文件 –wordlist =”字典” 不加字典路径的话就用默认的字典<br>跑出来 john 密码是  turtle</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588556791212-c010fc57-75ec-4261-9bd8-f3468ee0f758.png#align=left&display=inline&height=178&margin=%5Bobject%20Object%5D&name=image.png&originHeight=235&originWidth=987&size=290714&status=done&style=none&width=746" alt="image.png"></p>
+<p>因为没截好图，所以直接看结果，这里也涨了个知识<br>john 工具对于同一个 shadow 文件只会进行一次爆破，如果第二次执行 john shadow 是不会得到结果的<br>如果想查看上一次爆破的结果，可以加上个 –show</p>
+<p>目录扫描发现了 user 是一个登陆界面</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588552884659-73d525c1-2967-4cac-9614-6085c1e47fdc.png#align=left&display=inline&height=414&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1022&originWidth=1840&size=325822&status=done&style=stroke&width=746" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588552918858-856b7b01-82c9-43e4-8d6e-a67f68663d80.png#align=left&display=inline&height=420&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1080&originWidth=1920&size=119966&status=done&style=none&width=746" alt="image.png"></p>
+<p>登上去之后找到一个可以编辑的界面，nc  反弹一个  shell</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588554690941-6b047d57-888c-442c-8171-b6cd696f113c.png#align=left&display=inline&height=540&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1080&originWidth=1920&size=150462&status=done&style=none&width=960" alt="image.png"><br>在  contact us  时得到  shell</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588554777865-b6844c79-147f-422c-9783-a08699d0a536.png#align=left&display=inline&height=420&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1080&originWidth=1920&size=672231&status=done&style=none&width=746" alt="image.png"></p>
+<p>find / -perm -u=s -type f 2&gt;/dev/null  搜一下看看能不能  suid  提权<br><a href="https://www.exploit-db.com/exploits/46996" target="_blank" rel="noopener">https://www.exploit-db.com/exploits/46996</a><br>直接复制然后写到  tmp  目录下面，然后  chmod 777 exp.sh  给他权限<br>./exp.sh -m netcat  拿到权限</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588556153113-09e750e6-65f0-4533-a663-873f71d193c7.png#align=left&display=inline&height=322&margin=%5Bobject%20Object%5D&name=image.png&originHeight=523&originWidth=673&size=423749&status=done&style=none&width=414" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588556245824-d3ba96a2-26bd-4ab3-94e0-4a46384dcb5e.png#align=left&display=inline&height=483&margin=%5Bobject%20Object%5D&name=image.png&originHeight=865&originWidth=1261&size=1309045&status=done&style=none&width=704" alt="image.png"></p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2020/05/04/sgtba8/" data-id="ckco53qbg000d8ou93fv1ad4v" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2020/05/04/kqhkza/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer</strong>
+        <div class="article-nav-title">
+          
+            Ethernaut 0-10
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/04/29/cs95s3/" class="article-nav-link">
+        <strong class="article-nav-caption">Older</strong>
+        <div class="article-nav-title">回退函数</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+    <div class="vcomments" id="vcomments"></div>
+    
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+        <script>
+            new Valine({
+                el: '#vcomments',
+                appId: '',
+                appKey: '',
+                notify: 'false',
+                verify: 'true',
+                avatar: 'mp',
+                pageSize: '10',
+                placeholder: '请输入...'
+            })
+        </script>
+        
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

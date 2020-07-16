@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    AI Web 1.0 |
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+<meta name="referrer" content="no-referrer" />
+  <article id="post-olf7wy" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      AI Web 1.0
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/06/22/olf7wy/" class="article-date">
+  <time datetime="2020-06-22T02:30:34.000Z" itemprop="datePublished">2020-06-22</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>这次给的是一个 vmware 的虚拟机，直接用 vmware 打开就行，然后 arp-scan -l 找一下 ip</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592793112035-c925ad1c-ac81-4ac7-9eb5-4f4441c2b6cb.png#align=left&display=inline&height=158&margin=%5Bobject%20Object%5D&name=image.png&originHeight=210&originWidth=895&size=60106&status=done&style=none&width=673" alt="image.png"></p>
+<p>nmap -p- -A 192.168.149.176 扫描一下端口</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592793175629-89633bad-b2a7-4e3f-865d-9bcd332bdc31.png#align=left&display=inline&height=299&margin=%5Bobject%20Object%5D&name=image.png&originHeight=506&originWidth=998&size=106966&status=done&style=none&width=589" alt="image.png"></p>
+<p>让后去访问一下 80 端口，看一下内容</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592793270426-b33f83ec-ee79-4fcc-93b4-0e8ad5e13ac2.png#align=left&display=inline&height=241&margin=%5Bobject%20Object%5D&name=image.png&originHeight=481&originWidth=1899&size=78910&status=done&style=stroke&width=949.5" alt="image.png"></p>
+<p>robots.txt，是搜索引擎爬虫不能去爬取的，访问一下看看藏了什么东西</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592793357399-179a43a7-c485-467a-b4d0-638004f95f5e.png#align=left&display=inline&height=96&margin=%5Bobject%20Object%5D&name=image.png&originHeight=86&originWidth=305&size=3263&status=done&style=stroke&width=340" alt="image.png"></p>
+<p>挨个去访问但是 403 Forbidden，然而删掉后面那个 uploads 就能访问到一个页面</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592793645480-f7e57307-e8a9-41a0-b6e1-1dce505387f9.png#align=left&display=inline&height=121&margin=%5Bobject%20Object%5D&name=image.png&originHeight=311&originWidth=1920&size=55785&status=done&style=stroke&width=746" alt="image.png"></p>
+<p>搜一下 1’ 报了错误，抓包，sqlmap 跑一下，有两个表</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592794078476-958de08c-655a-4dcb-9690-6e8b628771a4.png#align=left&display=inline&height=196&margin=%5Bobject%20Object%5D&name=image.png&originHeight=238&originWidth=382&size=111392&status=done&style=none&width=315" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592794047126-3ae58401-a1f1-4db2-a23a-d851d2a7b069.png#align=left&display=inline&height=165&margin=%5Bobject%20Object%5D&name=image.png&originHeight=237&originWidth=817&size=243169&status=done&style=none&width=570" alt="image.png"></p>
+<p>aiweb1pwn/MyEvilPass_f908sdaf9_sadfasf0sa</p>
+<p>扫之前 403 的目录，扫出来一个 info.php</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592794488428-d085b0f1-e5b7-431d-b971-ce5fedde2ace.png#align=left&display=inline&height=181&margin=%5Bobject%20Object%5D&name=image.png&originHeight=238&originWidth=460&size=17301&status=done&style=stroke&width=349" alt="image.png"></p>
+<p>访问是一个 phpinfo，在这里可以拿到绝对路径</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592794726312-fa661d8b-5211-4a02-bd1f-ebf28dbb3bd0.png#align=left&display=inline&height=476&margin=%5Bobject%20Object%5D&name=image.png&originHeight=902&originWidth=1203&size=102848&status=done&style=stroke&width=635" alt="image.png"></p>
+<p>使用 sqlmap 的 –os-shell 功能来拿到一个 shell，注意需要输入能写的路径，可以用那个 upload  的目录，与此同时  sqlmap  还帮我们生成了一个  backdoor  和一个上传页面，可以看 [info]  的输出</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592794932219-81b01d95-45e0-4bdf-988b-34fe603fa6b8.png#align=left&display=inline&height=308&margin=%5Bobject%20Object%5D&name=image.png&originHeight=780&originWidth=1889&size=1546388&status=done&style=none&width=746" alt="image.png"></p>
+<p>这时候去访问可以直接用这个传一个自己的  shell</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592808774508-0d84c5cb-9a3f-4faa-bb0e-f8f69c57e16e.png#align=left&display=inline&height=423&margin=%5Bobject%20Object%5D&name=image.png&originHeight=554&originWidth=629&size=89780&status=done&style=stroke&width=480" alt="image.png"></p>
+<p>kali  上面监听，然后浏览器访问，拿到  shell，可以发现  www-data  对于 /etc/passwd  是有写权限的，所以可以直接把添加一个用户进去，然后  su  一下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">openssl passwd -1 -salt hack yichen</span><br><span class="line"><span class="built_in">echo</span> <span class="string">'hack:$1$hack$gP1TCDm4c1ABbBzR6fMid1:0:0::/root:/bin/sh'</span> &gt;&gt; /etc/passwd</span><br></pre></td></tr></table></figure>
+
+<p>这样用户名为：hack，密码为：yichen，切换一下就是  root  权限</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592809819141-17ccd201-d362-485c-aa15-a36def96f475.png#align=left&display=inline&height=207&margin=%5Bobject%20Object%5D&name=image.png&originHeight=299&originWidth=1088&size=71485&status=done&style=none&width=747" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592809934108-3b67db46-38c3-4919-bd1b-efe0a5228399.png#align=left&display=inline&height=208&margin=%5Bobject%20Object%5D&name=image.png&originHeight=335&originWidth=530&size=35845&status=done&style=none&width=332" alt="image.png"></p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2020/06/22/olf7wy/" data-id="ckco53qbe000a8ou9bysw25h4" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2020/06/23/ygucy4/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer</strong>
+        <div class="article-nav-title">
+          
+            深思杯-PWN
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/06/19/hg3qeh/" class="article-nav-link">
+        <strong class="article-nav-caption">Older</strong>
+        <div class="article-nav-title">PWN虚拟机配置</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+    <div class="vcomments" id="vcomments"></div>
+    
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+        <script>
+            new Valine({
+                el: '#vcomments',
+                appId: '',
+                appKey: '',
+                notify: 'false',
+                verify: 'true',
+                avatar: 'mp',
+                pageSize: '10',
+                placeholder: '请输入...'
+            })
+        </script>
+        
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

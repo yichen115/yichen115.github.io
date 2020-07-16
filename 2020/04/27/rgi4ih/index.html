@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    DC-7 |
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+<meta name="referrer" content="no-referrer" />
+  <article id="post-rgi4ih" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      DC-7
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/04/27/rgi4ih/" class="article-date">
+  <time datetime="2020-04-27T00:49:27.000Z" itemprop="datePublished">2020-04-27</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>nmap 扫描一下端口</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587949995373-f736e5f1-dd4f-4b78-952c-4e5f4e0da84e.png#align=left&display=inline&height=361&margin=%5Bobject%20Object%5D&name=image.png&originHeight=721&originWidth=1018&size=172483&status=done&style=none&width=509" alt="image.png"></p>
+<p>访问 80 端口看一下</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587950175332-cec1e9d1-6e18-4c73-8ef8-2e1cef208ac2.png#align=left&display=inline&height=369&margin=%5Bobject%20Object%5D&name=image.png&originHeight=842&originWidth=1703&size=93464&status=done&style=stroke&width=746" alt="image.png"></p>
+<p>去搜一下这个 DC7USER，在 github 上找到一些信息</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587950132802-a8d1a196-aa22-44d3-9595-ae86f42d38a0.png#align=left&display=inline&height=420&margin=%5Bobject%20Object%5D&name=image.png&originHeight=840&originWidth=1124&size=122887&status=done&style=stroke&width=562" alt="image.png"></p>
+<p>在 config.php 里面找到数据库的用户名和密码</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587950317315-11a65d32-4687-44d0-9e0e-df4f64a05293.png#align=left&display=inline&height=364&margin=%5Bobject%20Object%5D&name=image.png&originHeight=727&originWidth=1302&size=75299&status=done&style=stroke&width=651" alt="image.png"></p>
+<p>$username = “dc7user”<br>    $password = “MdR3xOgB7#dW”<br>$dbname = “Staff”</p>
+<p>web 界面登陆失败，mysql 也连不上，ssh 连上了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587951113151-cc0339a4-65b7-479e-9a26-7e319ee5af1e.png#align=left&display=inline&height=250&margin=%5Bobject%20Object%5D&name=image.png&originHeight=363&originWidth=831&size=100975&status=done&style=none&width=570" alt="image.png"></p>
+<p>看一下邮件</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587954368602-2a12a159-7415-42f0-8f14-c0ac6437dc38.png#align=left&display=inline&height=332&margin=%5Bobject%20Object%5D&name=image.png&originHeight=663&originWidth=815&size=144396&status=done&style=none&width=408" alt="image.png"></p>
+<p>具体这个文件属主是 root 属组是 www-data</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587954480330-a273ca8a-993b-4e7b-84af-7f15828e5306.png#align=left&display=inline&height=62&margin=%5Bobject%20Object%5D&name=image.png&originHeight=66&originWidth=685&size=19066&status=done&style=none&width=643" alt="image.png"></p>
+<p>查阅 drush 是专门管理 drupal 站点的 shell，可以利用 drush 修改 admin 的密码<br>drush user-password admin –password=’yichen’</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587954748028-dda69355-8cfb-485f-8b72-4fa1832babce.png#align=left&display=inline&height=45&margin=%5Bobject%20Object%5D&name=image.png&originHeight=67&originWidth=1046&size=19397&status=done&style=none&width=691" alt="image.png"></p>
+<p>admin:yichen 登录后台</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587954824494-b2b252ba-aaf5-4ccf-9e9d-6b800eaf2db8.png#align=left&display=inline&height=367&margin=%5Bobject%20Object%5D&name=image.png&originHeight=944&originWidth=1920&size=119138&status=done&style=none&width=746" alt="image.png"></p>
+<p>去这里下个插件<br><a href="https://www.drupal.org/project/php" target="_blank" rel="noopener">https://www.drupal.org/project/php</a></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587955408786-9b275625-bd91-45c9-bc77-41b93760390e.png#align=left&display=inline&height=418&margin=%5Bobject%20Object%5D&name=image.png&originHeight=836&originWidth=1266&size=163463&status=done&style=stroke&width=633" alt="image.png"></p>
+<p>在这安装上</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587955442218-089a3bbf-2810-466a-973d-640eb3c9c664.png#align=left&display=inline&height=367&margin=%5Bobject%20Object%5D&name=image.png&originHeight=945&originWidth=1920&size=109605&status=done&style=stroke&width=746" alt="image.png"></p>
+<p>在安装成功界面去激活插件</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587955550063-e5e714bb-83d3-4fbf-b9fb-02cc1d76e450.png#align=left&display=inline&height=277&margin=%5Bobject%20Object%5D&name=image.png&originHeight=436&originWidth=552&size=20710&status=done&style=stroke&width=352" alt="image.png"></p>
+<p>勾上之后在最下面选择 install<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587955669782-1165b339-9934-430c-9cc5-063f486014ad.png#align=left&display=inline&height=472&margin=%5Bobject%20Object%5D&name=image.png&originHeight=943&originWidth=1894&size=103512&status=done&style=none&width=947" alt="image.png"></p>
+<p>然后在首页编辑一下</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587956355335-7488945e-74c0-4014-aae6-70d32e2e911c.png#align=left&display=inline&height=331&margin=%5Bobject%20Object%5D&name=image.png&originHeight=851&originWidth=1920&size=117859&status=done&style=stroke&width=746" alt="image.png"></p>
+<p>写个一句话进去</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587956318259-c4155615-a837-46d0-9836-1a8c29b6be46.png#align=left&display=inline&height=367&margin=%5Bobject%20Object%5D&name=image.png&originHeight=944&originWidth=1920&size=131010&status=done&style=stroke&width=746" alt="image.png"></p>
+<p>蚁剑连上</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587956393263-107c64a3-192f-4480-9b56-ca25ff530b21.png#align=left&display=inline&height=453&margin=%5Bobject%20Object%5D&name=image.png&originHeight=906&originWidth=1342&size=122620&status=done&style=none&width=671" alt="image.png"></p>
+<p>在后面加上一句 nc 的 shell，然后 kali 上监听一下，等一会，等到执行的时候就拿到 shell 了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587964671690-31e15828-32d8-43c4-96dd-c112fe602d3b.png#align=left&display=inline&height=323&margin=%5Bobject%20Object%5D&name=image.png&originHeight=452&originWidth=1045&size=59610&status=done&style=none&width=746" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587964609643-3fbc97bd-5c1c-4e84-8ae4-83cdd43870f0.png#align=left&display=inline&height=467&margin=%5Bobject%20Object%5D&name=image.png&originHeight=765&originWidth=914&size=91708&status=done&style=none&width=557" alt="image.png"></p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2020/04/27/rgi4ih/" data-id="ckco53qbg000f8ou962f73if2" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2020/04/27/moa35g/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer</strong>
+        <div class="article-nav-title">
+          
+            智能合约常见漏洞
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/04/26/zlohea/" class="article-nav-link">
+        <strong class="article-nav-caption">Older</strong>
+        <div class="article-nav-title">ERC721标准和加密收藏品</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+    <div class="vcomments" id="vcomments"></div>
+    
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+        <script>
+            new Valine({
+                el: '#vcomments',
+                appId: '',
+                appKey: '',
+                notify: 'false',
+                verify: 'true',
+                avatar: 'mp',
+                pageSize: '10',
+                placeholder: '请输入...'
+            })
+        </script>
+        
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

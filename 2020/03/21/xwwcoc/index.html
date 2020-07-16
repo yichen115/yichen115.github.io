@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    DC-2 |
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+<meta name="referrer" content="no-referrer" />
+  <article id="post-xwwcoc" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      DC-2
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/03/21/xwwcoc/" class="article-date">
+  <time datetime="2020-03-21T09:00:30.000Z" itemprop="datePublished">2020-03-21</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>扫一波端口，发现仅有 80  和 7744，需要注意的是 <a href="http://dc-2/" target="_blank" rel="noopener">http://dc-2/</a>  这样的话要改一下  hosts  文件，不然就会去访问：<a href="http://dc-2/" target="_blank" rel="noopener">http://dc-2/</a></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584781267188-64cb8fc7-f28a-401b-9116-8591a3a4e3f0.png#align=left&display=inline&height=436&name=image.png&originHeight=656&originWidth=1000&size=159324&status=done&style=none&width=665" alt="image.png"></p>
+<p>改完以后就可以访问了 vim /etc/hosts</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584781731824-8ed1c031-ee6f-4a13-8948-bd260099368d.png#align=left&display=inline&height=118&name=image.png&originHeight=179&originWidth=597&size=30834&status=done&style=none&width=395" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584781788511-7ae9d3d8-0632-4079-9383-5ce3b40043de.png#align=left&display=inline&height=411&name=image.png&originHeight=821&originWidth=1268&size=1045202&status=done&style=stroke&width=634" alt="image.png"></p>
+<p>flag1…</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584781823786-2f28ee9f-c662-4ffe-9953-7d45b5d5f149.png#align=left&display=inline&height=228&name=image.png&originHeight=455&originWidth=955&size=32904&status=done&style=stroke&width=478" alt="image.png"></p>
+<p>使用  wpscan  扫描一下用户名 wpscan –url dc-2 -eu</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584783101129-7abd83ec-c4fe-445c-bc61-da2be4126d34.png#align=left&display=inline&height=218&name=image.png&originHeight=307&originWidth=643&size=36280&status=done&style=none&width=456" alt="image.png"></p>
+<p>扫出来三个用户名  admin、jerry、tom</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584783151975-5c08c53e-94a3-4565-b51f-d5be6ac25a3e.png#align=left&display=inline&height=398&name=image.png&originHeight=706&originWidth=1074&size=149735&status=done&style=none&width=606" alt="image.png"></p>
+<p>提示我们的 <a href="https://www.freebuf.com/articles/network/190128.html" target="_blank" rel="noopener">cewl</a>，它是一个社会工程学爬虫，可以从 http 页面爬取信息生成密码字典，然后再用 wpscan 爆破密码</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584783587151-8f83d0f5-1b1d-4d1e-b0f9-8c82b786b92f.png#align=left&display=inline&height=421&name=image.png&originHeight=701&originWidth=1073&size=147507&status=done&style=none&width=645" alt="image.png"></p>
+<blockquote>
+<p>Username: jerry, Password: adipiscing<br>Username: tom, Password: parturient</p>
+</blockquote>
+<p>/wp-admin/是 WordPress 的默认管理员目录：用 jerry  用户进去，发现  flag2</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584784966974-9fbc3748-316a-4ecf-aa0c-9775f9a0d3f0.png#align=left&display=inline&height=426&name=image.png&originHeight=817&originWidth=1276&size=120888&status=done&style=stroke&width=665" alt="image.png"></p>
+<p>用之前发现的  tom  用户去登陆 ssh  成功，然而 cat 竟然不能用！？<br>用  vi  试了一下，看到了  flag3.txt🐷</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584795935237-49ac8da0-dad0-48cd-bc21-1b1bf3e142d2.png#align=left&display=inline&height=137&name=image.png&originHeight=221&originWidth=950&size=17613&status=done&style=none&width=580" alt="image.png"></p>
+<p>另外，rbash 这个东西是用来限制输入命令的</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584796237797-fe4c7701-cae8-4ea6-9359-fb6afbc1f596.png#align=left&display=inline&height=144&name=image.png&originHeight=158&originWidth=339&size=17695&status=done&style=none&width=308" alt="image.png"></p>
+<p>依次执行这三条指令：</p>
+<blockquote>
+<p>BASH_CMDS[a]=/bin/sh;a<br>export PATH=$PATH:/bin/<br>export PATH=$PATH:/usr/bin</p>
+</blockquote>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584796790339-1fe06870-cc59-444d-aa35-e66176d0746d.png#align=left&display=inline&height=82&name=image.png&originHeight=119&originWidth=958&size=15546&status=done&style=none&width=658" alt="image.png"><br><a href="https://xz.aliyun.com/t/2333" target="_blank" rel="noopener">绕过 Linux 受限 Shell 环境的技巧</a></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584796933527-3d824551-b629-4c53-84d2-e547d206dc4c.png#align=left&display=inline&height=296&name=image.png&originHeight=560&originWidth=703&size=69403&status=done&style=stroke&width=374" alt="image.png"></p>
+<p>看一下：/etc/passwd，尝试切换 jerry 用户，如果直接 ssh 登陆的话会提示：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584797023422-15417858-479a-45d3-99d1-403e5835aa69.png#align=left&display=inline&height=81&name=image.png&originHeight=95&originWidth=577&size=23039&status=done&style=none&width=479" alt="image.png"></p>
+<p>切换成功：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584797414194-eb642a6f-32cf-4149-bf79-60243b947d8c.png#align=left&display=inline&height=131&name=image.png&originHeight=110&originWidth=243&size=9098&status=done&style=none&width=288" alt="image.png"></p>
+<p>拿到 flag4.txt</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584797521731-07cc533d-ce87-4c4e-8a25-643d0084940c.png#align=left&display=inline&height=222&name=image.png&originHeight=324&originWidth=758&size=47385&status=done&style=none&width=520" alt="image.png"></p>
+<p>使用 sudo -l 看一下，git 命令可以以 root 权限执行，而且不需要密码</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584797577707-328f0278-c32e-49e4-bea0-e8b974c48895.png#align=left&display=inline&height=78&name=image.png&originHeight=156&originWidth=1071&size=32151&status=done&style=none&width=535.5" alt="image.png"></p>
+<p>使用 sudo git -p –help，注意窗口不要拉得太大，不然没法输入东西了 🐷</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584798675021-8ece2cff-af46-4d11-ac6e-b3bb93246757.png#align=left&display=inline&height=452&name=image.png&originHeight=671&originWidth=820&size=122971&status=done&style=stroke&width=552" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584798795282-9444904d-ef5f-4c55-a7ae-16b94b86e8ad.png#align=left&display=inline&height=402&name=image.png&originHeight=425&originWidth=537&size=39126&status=done&style=none&width=508" alt="image.png"></p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2020/03/21/xwwcoc/" data-id="ckco53qbm000m8ou9eznq2n9o" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2020/03/31/orht29/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer</strong>
+        <div class="article-nav-title">
+          
+            DC-3
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/03/21/aedgn4/" class="article-nav-link">
+        <strong class="article-nav-caption">Older</strong>
+        <div class="article-nav-title">PWN入门（格式化字符串漏洞）</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+    <div class="vcomments" id="vcomments"></div>
+    
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+        <script>
+            new Valine({
+                el: '#vcomments',
+                appId: '',
+                appKey: '',
+                notify: 'false',
+                verify: 'true',
+                avatar: 'mp',
+                pageSize: '10',
+                placeholder: '请输入...'
+            })
+        </script>
+        
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

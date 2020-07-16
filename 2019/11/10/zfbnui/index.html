@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    文件上传 |
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+<meta name="referrer" content="no-referrer" />
+  <article id="post-zfbnui" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      文件上传
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2019/11/10/zfbnui/" class="article-date">
+  <time datetime="2019-11-10T05:34:19.000Z" itemprop="datePublished">2019-11-10</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <h1 id="本地客户端验证"><a href="#本地客户端验证" class="headerlink" title="本地客户端验证"></a>本地客户端验证</h1><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>通过 JavaScript 验证上传的文件类型</p>
+<h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><p>禁用 JS，或先传允许的格式，burp 抓包改回来</p>
+<h3 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h3><p>106.12.37.37:10001</p>
+<h1 id="服务器端校验"><a href="#服务器端校验" class="headerlink" title="服务器端校验"></a>服务器端校验</h1><h2 id="content-type-字段校验"><a href="#content-type-字段校验" class="headerlink" title="content-type 字段校验"></a>content-type 字段校验</h2><h3 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h3><p>在 http 请求里面会显示传输的文件 MIME 类型<br>检验是不是允许的 MIME 类型</p>
+<h3 id="解决-1"><a href="#解决-1" class="headerlink" title="解决"></a>解决</h3><p>1、正常上传，抓包改 MIME<br>2、上传允许的文件类型，抓包改文件后缀</p>
+<p>一般允许的 MIME 类型：</p>
+<table>
+<thead>
+<tr>
+<th>拓展名</th>
+<th>MIME 类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>gif</td>
+<td>image/gif</td>
+</tr>
+<tr>
+<td>png</td>
+<td>image/png</td>
+</tr>
+<tr>
+<td>jpg</td>
+<td><strong>image/jpeg</strong></td>
+</tr>
+<tr>
+<td>js</td>
+<td>text/javascript</td>
+</tr>
+<tr>
+<td>htm</td>
+<td>text/html</td>
+</tr>
+<tr>
+<td>html</td>
+<td>text/html</td>
+</tr>
+</tbody></table>
+<h3 id="例题-1"><a href="#例题-1" class="headerlink" title="例题"></a>例题</h3><p>106.12.37.37:10002</p>
+<h2 id="黑名单校验"><a href="#黑名单校验" class="headerlink" title="黑名单校验"></a>黑名单校验</h2><h3 id="原理-2"><a href="#原理-2" class="headerlink" title="原理"></a>原理</h3><p>定义一个黑名单，如果上传文件的后缀名在黑名单里，不允许上传</p>
+<h3 id="解决-2"><a href="#解决-2" class="headerlink" title="解决"></a>解决</h3><h4 id="不在黑名单，但能解析后缀名"><a href="#不在黑名单，但能解析后缀名" class="headerlink" title="不在黑名单，但能解析后缀名"></a>不在黑名单，但能解析后缀名</h4><p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594542130867-30eb7a05-93d9-4469-abc4-00f0072f051c.png#align=left&display=inline&height=239&margin=%5Bobject%20Object%5D&name=image.png&originHeight=338&originWidth=411&size=41684&status=done&style=stroke&width=291" alt="image.png"></p>
+<p>大小写绕过：PhP/pHP…<br>php/php3/php4/php5/php7/pht/phtml/phps<br>Win 下  <strong>xx.jpg[空格]</strong> 或<strong>xx.jpg.</strong>这两类文件都是不允许存在的，若这样命名，windows 会默认除去空格或点<br>上传的时候可以用 burp 加上空格或点，逃出了黑名单后 windows 会把空格或点去掉</p>
+<h4 id="配合-apache-的-htaccess-文件"><a href="#配合-apache-的-htaccess-文件" class="headerlink" title="配合 apache 的.htaccess 文件"></a>配合 apache 的.htaccess 文件</h4><p>（分布式配置文件）上传解析：<br>.htaccess 文件：提供了针对目录改变配置的方法，在特定的文档目录放置一个包含一个或多个指令的文件，一次用作此目录及其所有子目录。作为用户，所能使用的命令受到限制，作为管理员可以通过 Apache 的 AllowOverride 指令来设置<br>传入文件为：.htaccess，文件类型为所有类型<br>内容：<br><code>AddType application/x-httpd-php .jpg</code><br>把所有 jpg 当成 php 来解析<br>或</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;FilesMatch <span class="string">"ma.jpg"</span>&gt;</span><br><span class="line">SetHandler application/x-httpd-php</span><br><span class="line">&lt;/FilesMatch&gt;</span><br></pre></td></tr></table></figure>
+
+<p>把指定的 ma.jpg 当成 php<br>制作：先创建一个 1.txt，写入上面的内容，然后当前目录下打开 cmd 输入：<br>ren 1.txt .htaccess</p>
+<h4 id="00-截断"><a href="#00-截断" class="headerlink" title="%00 截断"></a>%00 截断</h4><p>（大多数在老版本里，现在已经不多了）<br>0x00 是十六进制表示方法，是 ascii 码为 0 的字符，在有些函数处理时，会把这个字符当做结束符</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">name = getname(http request) <span class="comment">//假如这时候获取到的文件名是trst.asp.jpg(asp后面是0x00)</span></span><br><span class="line">type = gettype(name) <span class="comment">//而在gettype()函数里处理方式是从后往前扫描拓展名，所以判断为jpg</span></span><br><span class="line"><span class="keyword">if</span>(type == jpg)</span><br><span class="line">SaveFileToPath(UploadPath.name,name) <span class="comment">//但在这里却是以0x00 作为文件名截断</span></span><br><span class="line"><span class="comment">//最后以test.asp存入路径</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="超长文件名"><a href="#超长文件名" class="headerlink" title="超长文件名"></a>超长文件名</h4><h4 id="后缀加-DATA"><a href="#后缀加-DATA" class="headerlink" title="后缀加::$DATA"></a>后缀加::$DATA</h4><p>php 在 window 的时候,如果文件名+”::$DATA”会把::$DATA 之后的数据当成文件流处理,不会检测后缀名.且保持”::$DATA”之前的文件名<br>（pass-08，我这个地方做的时候想访问试试，访问的时候访问.php，不要带上后面的::$DATA）</p>
+<h4 id="双写绕过"><a href="#双写绕过" class="headerlink" title="双写绕过"></a>双写绕过</h4><p>如后缀写成：<strong>p</strong>php<strong>hp</strong></p>
+<h3 id="例题-2"><a href="#例题-2" class="headerlink" title="例题"></a>例题</h3><p>106.12.37.37:10002</p>
+<h2 id="白名单检验"><a href="#白名单检验" class="headerlink" title="白名单检验"></a>白名单检验</h2><h3 id="配合-apache-解析缺陷"><a href="#配合-apache-解析缺陷" class="headerlink" title="配合 apache 解析缺陷"></a>配合 apache 解析缺陷</h3><p>apache 读到不能识别的比如：test.php.bak，bak 不能识别，会往前识别 php</p>
+<h3 id="内容头校验"><a href="#内容头校验" class="headerlink" title="内容头校验"></a>内容头校验</h3><p>getimagesize()函数，是图片，就返回相关信息，不是就返回 false<br>这个函数检验的是文件头，水的很</p>
+<h3 id="竞争上传"><a href="#竞争上传" class="headerlink" title="竞争上传"></a>竞争上传</h3><p>文件上传后先保留在服务器，检验后不合法再删掉<br>利用方法：让上传的文件自己生成另一个文件，在访问生成的文件就行了</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$file = <span class="string">'web.php'</span>;</span><br><span class="line">$shell = <span class="string">'&lt;?php eval($_POST["key"])?&gt;'</span>;</span><br><span class="line">file_put_contets($file,$shell);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2019/11/10/zfbnui/" data-id="ckco53qbq000p8ou98zer7ief" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2019/11/10/ezlu9t/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer</strong>
+        <div class="article-nav-title">
+          
+            文件包含
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2019/11/10/hgohr1/" class="article-nav-link">
+        <strong class="article-nav-caption">Older</strong>
+        <div class="article-nav-title">SQL注入</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+    <div class="vcomments" id="vcomments"></div>
+    
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+        <script>
+            new Valine({
+                el: '#vcomments',
+                appId: '',
+                appKey: '',
+                notify: 'false',
+                verify: 'true',
+                avatar: 'mp',
+                pageSize: '10',
+                placeholder: '请输入...'
+            })
+        </script>
+        
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>
