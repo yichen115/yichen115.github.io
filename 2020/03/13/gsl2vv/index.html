@@ -27,7 +27,7 @@
 <meta property="og:url" content="https://yichen115.github.io/2020/03/13/gsl2vv/index.html">
 <meta property="og:site_name" content="yichen&#39;s blog">
 <meta property="og:description" content="ret2win实际上就是  ret2text 32 位分析运行看看 计算一下栈的大小，得到 44 在  ret2win  这个函数里面有个后门，输出了  flag.txt，地址是：0x8048659，只要把返回地址覆盖成这个就可以了  exp 12345from pwn import *p&#x3D;process(&#39;.&#x2F;ret2win32&#39;)payload&#x3D;&#39;a&#39;*44+p32(0x8048659)p.s">
-<meta property="og:locale" content="zh">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1584018544742-7be979e7-811a-4385-b7f0-0e3e5a9713d3.png#align=left&display=inline&height=226&name=image.png&originHeight=364&originWidth=731&size=67046&status=done&style=none&width=453">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1584018607198-e8879365-7a9d-4d99-b9e8-a7a91868558e.png#align=left&display=inline&height=185&name=image.png&originHeight=278&originWidth=783&size=81864&status=done&style=none&width=521">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1584018683236-2cd4a51c-c11f-40ad-9036-339df6d87089.png#align=left&display=inline&height=445&name=image.png&originHeight=890&originWidth=1309&size=167896&status=done&style=none&width=654.5">
@@ -167,7 +167,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -395,12 +395,10 @@
     <div class="content">
         
 <span class="post-time">
-    最終更新：<time datetime="2020-07-15T23:44:40.847Z" itemprop="dateUpdated">2020-07-16 07:44:40</time>
+    最后更新时间：<time datetime="2020-07-15T23:44:40.847Z" itemprop="dateUpdated">2020-07-16 07:44:40</time>
 </span><br>
 
 
-        
-        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2020/03/13/gsl2vv/" target="_blank" rel="external">https://yichen115.github.io/2020/03/13/gsl2vv/</a>
         
     </div>
     
@@ -566,7 +564,7 @@
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>このブログの内容物は<a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja" target="_blank">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
         </p>
     </div>
     <div class="bottom">

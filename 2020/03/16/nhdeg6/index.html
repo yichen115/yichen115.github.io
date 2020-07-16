@@ -27,7 +27,7 @@
 <meta property="og:url" content="https://yichen115.github.io/2020/03/16/nhdeg6/index.html">
 <meta property="og:site_name" content="yichen&#39;s blog">
 <meta property="og:description" content="关于栈迁移部分，之前已经介绍过了，就不记录了 Stack smash在程序加了  canary  保护之后，如果我们输入的内容覆盖掉  canary  的话就会报错，程序就会执行 *stack_chk_fail 函数来打印 argv[0] 指针所指向的字符串，正常情况下，这个指针指向了程序名，但是如果我们能够利用栈溢出控制这个东西，那我们就可以让  *stack_chk_fail  打印出我们想要">
-<meta property="og:locale" content="zh">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1584609692388-2c3ff4e3-640d-4ac7-8bee-242f5e4b894a.png#align=left&display=inline&height=218&name=image.png&originHeight=435&originWidth=1363&size=35746&status=done&style=shadow&width=682">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1584451935503-c357a4be-6cc5-4071-921c-a795f5ed9124.png#align=left&display=inline&height=178&name=image.png&originHeight=244&originWidth=772&size=65266&status=done&style=none&width=562">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1584605777623-6c838403-9c8a-4ed4-8d16-87937e66fbc9.png#align=left&display=inline&height=403&name=image.png&originHeight=610&originWidth=852&size=59161&status=done&style=stroke&width=563">
@@ -125,7 +125,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -257,12 +257,10 @@
     <div class="content">
         
 <span class="post-time">
-    最終更新：<time datetime="2020-07-15T23:44:40.758Z" itemprop="dateUpdated">2020-07-16 07:44:40</time>
+    最后更新时间：<time datetime="2020-07-15T23:44:40.758Z" itemprop="dateUpdated">2020-07-16 07:44:40</time>
 </span><br>
 
 
-        
-        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2020/03/16/nhdeg6/" target="_blank" rel="external">https://yichen115.github.io/2020/03/16/nhdeg6/</a>
         
     </div>
     
@@ -428,7 +426,7 @@
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>このブログの内容物は<a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja" target="_blank">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
         </p>
     </div>
     <div class="bottom">

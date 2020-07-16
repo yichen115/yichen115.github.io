@@ -27,7 +27,7 @@
 <meta property="og:url" content="https://yichen115.github.io/2019/11/10/vpgk9n/index.html">
 <meta property="og:site_name" content="yichen&#39;s blog">
 <meta property="og:description" content="LEVEL3首先检查一下保护 在 IDA 里面发现了 vulnerable_function read 函数存在溢出 计算溢出 可以看到溢出长度是 140  但同时我们 IDA 里没有发现 &#x2F;bin&#x2F;sh  等字符串  但是我们看到了 write，可以通过 write  泄漏 libc，来使用 libc  中的 system 和 &#x2F;bin&#x2F;sh 首先通过 write  得到 write  函数的地">
-<meta property="og:locale" content="zh">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1563605813789-ab0d1052-20be-4c90-81eb-23ca19e3458b.png#align=left&display=inline&height=213&originHeight=213&originWidth=730&size=0&status=done&style=none&width=730">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1563605813876-a0826a31-b0b4-4913-92c0-a031006a696f.png#align=left&display=inline&height=170&originHeight=170&originWidth=341&size=0&status=done&style=none&width=341">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1563605813720-1450a8a2-179d-4e49-97c7-d5b5e11e08f0.png#align=left&display=inline&height=416&originHeight=416&originWidth=1200&size=0&status=done&style=none&width=1200">
@@ -127,7 +127,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -241,12 +241,10 @@
     <div class="content">
         
 <span class="post-time">
-    最終更新：<time datetime="2020-07-15T23:44:41.617Z" itemprop="dateUpdated">2020-07-16 07:44:41</time>
+    最后更新时间：<time datetime="2020-07-15T23:44:41.617Z" itemprop="dateUpdated">2020-07-16 07:44:41</time>
 </span><br>
 
 
-        
-        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2019/11/10/vpgk9n/" target="_blank" rel="external">https://yichen115.github.io/2019/11/10/vpgk9n/</a>
         
     </div>
     
@@ -412,7 +410,7 @@
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>このブログの内容物は<a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja" target="_blank">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
         </p>
     </div>
     <div class="bottom">

@@ -27,7 +27,7 @@
 <meta property="og:url" content="https://yichen115.github.io/2020/06/04/nsmgp5/index.html">
 <meta property="og:site_name" content="yichen&#39;s blog">
 <meta property="og:description" content="只溢出一个字节，比如定义的数组是 a[4]，在操作的时候却操作 a[4]，实际上数组最大是到 a[3]  的 利用思路 溢出字节为可控制任意字节：通过修改大小造成块结构之间出现重叠，从而泄露其他块数据，或是覆盖其他块数据。  2) 溢出字节为 NULL 字节：在 size 为 0x100 的时候，溢出 NULL 字节可以使得 prev_in_use 位被清，这样前块会被认为是 free 块。这时可">
-<meta property="og:locale" content="zh">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1591275486900-75a41c00-881f-4ef5-b019-2cd0a0ad79f3.png#align=left&display=inline&height=137&margin=%5Bobject%20Object%5D&name=image.png&originHeight=140&originWidth=526&size=16245&status=done&style=none&width=516">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1591277575259-ff59a9f8-1b98-4bfe-b1a6-853b472235e2.png#align=left&display=inline&height=363&margin=%5Bobject%20Object%5D&name=image.png&originHeight=538&originWidth=935&size=123604&status=done&style=none&width=631">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1591278036204-ccaab188-d2fb-42a1-a953-8dcc0f67b0a8.png#align=left&display=inline&height=441&margin=%5Bobject%20Object%5D&name=image.png&originHeight=521&originWidth=733&size=107225&status=done&style=none&width=620">
@@ -122,7 +122,7 @@
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
                 <i class="icon icon-lg icon-chevron-left"></i>
             </a>
-            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="検索">
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
                 <i class="icon icon-lg icon-search"></i>
             </a>
@@ -255,12 +255,10 @@
     <div class="content">
         
 <span class="post-time">
-    最終更新：<time datetime="2020-07-15T23:44:40.097Z" itemprop="dateUpdated">2020-07-16 07:44:40</time>
+    最后更新时间：<time datetime="2020-07-15T23:44:40.097Z" itemprop="dateUpdated">2020-07-16 07:44:40</time>
 </span><br>
 
 
-        
-        这里可以写作者留言，标签和 hexo 中所有变量及辅助函数等均可调用，示例：<a href="/2020/06/04/nsmgp5/" target="_blank" rel="external">https://yichen115.github.io/2020/06/04/nsmgp5/</a>
         
     </div>
     
@@ -426,7 +424,7 @@
             
                 <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
             
-            <span>このブログの内容物は<a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja" target="_blank">クリエイティブ・コモンズ 表示 - 非営利 - 継承 4.0 国際ライセンスの下に提供されています</a></span>
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
         </p>
     </div>
     <div class="bottom">
