@@ -4001,4 +4001,941 @@
 <p>**<br><strong>内容多了打开编辑有点卡，再开一篇</strong></p>
 ]]></content>
   </entry>
+  <entry>
+    <title>图片隐写</title>
+    <url>/2019/12/19/btt8wc/</url>
+    <content><![CDATA[<p>置顶一个图片隐写神器，一键出 flag ![]]N499<a href="https://cdn.nlark.com/yuque/0/2020/jpeg/268938/1592054069578-5a68ef2f-c719-4637-9c02-5246f7e6055f.jpeg#align=left&display=inline&height=40&margin=%5Bobject%20Object%5D&name=%5D%5DN499%5B%24PGCZ%40OAK%252XOVNU.jpg&originHeight=60&originWidth=64&size=715&status=done&style=none&width=43" target="_blank" rel="noopener">$PGCZ@OAK%2XOVNU.jpg</a><br><a href="https://github.com/zed-0xff/zsteg" target="_blank" rel="noopener">https://github.com/zed-0xff/zsteg</a><br>安装：gem install zsteg</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592054337731-b0256fdb-ba7d-4114-ab5a-d8353dd753d5.png#align=left&display=inline&height=354&margin=%5Bobject%20Object%5D&name=image.png&originHeight=512&originWidth=1021&size=665770&status=done&style=none&width=705" alt="image.png"></p>
+<h1 id="图片相关"><a href="#图片相关" class="headerlink" title="图片相关"></a>图片相关</h1><h2 id="PNG-格式简介"><a href="#PNG-格式简介" class="headerlink" title="PNG  格式简介"></a>PNG  格式简介</h2><p><strong>文件格式</strong>：对于 PNG 文件来说，其文件头总是由固定的字节来描述的，剩余的部分由 3 个以上的 PNG 数据（Chunk）按照特定的顺序组成。</p>
+<p><strong>文件头</strong>：89 50 4E 47 0D 0A 1A 0A + 数据块 + 数据块 + 数据 块…..</p>
+<h2 id="修改图片高度"><a href="#修改图片高度" class="headerlink" title="修改图片高度"></a>修改图片高度</h2><p>如果 linux 下打不开，windows 下打得开可能就是该高度了<br>左边是宽度，圈起来的是高度，，把高度改成跟宽一样的<br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567165442893-464c4f58-d908-47a5-8fd5-634ba2a4eb67.png#align=left&display=inline&height=288&margin=%5Bobject%20Object%5D&name=image.png&originHeight=337&originWidth=723&size=32779&status=done&style=none&width=616.96" alt="image.png"></p>
+<h2 id="文件尾追加文件"><a href="#文件尾追加文件" class="headerlink" title="文件尾追加文件"></a>文件尾追加文件</h2><p>直接十六进制编辑器</p>
+<h2 id="图片元数据"><a href="#图片元数据" class="headerlink" title="图片元数据"></a>图片元数据</h2><p>元数据（Metadata），又称中介数据、中继数据，为描述数据的数据（Data about data），主要是描述数据属性（property）的信息，用来支持如指示存储位置、历史数据、资源查找、文件记录等功能。<br>元数据中隐藏信息在比赛中是最基本的一种手法，通常用来隐藏一些关键的 Hint 信息 或者一些重要的比如 password 等信息。</p>
+<p><strong>这类元数据可以 右键 -&gt; 属性 查看</strong></p>
+<h2 id="outguess"><a href="#outguess" class="headerlink" title="outguess"></a>outguess</h2><p>kali 下使用<code>outguess -r avatar.jpg -t 1.txt</code><br>把  avatar.jpg  图片破解信息的数据输出到 1.txt</p>
+<h2 id="f5-steganography"><a href="#f5-steganography" class="headerlink" title="f5-steganography"></a>f5-steganography</h2><p><a href="https://www.yuque.com/attachments/yuque/0/2020/zip/268938/1580385431356-329b3007-21b3-44d8-8461-9f7be0c2c616.zip?_lake_card=%7B%22uid%22%3A%221580385430537-0%22%2C%22src%22%3A%22https%3A%2F%2Fwww.yuque.com%2Fattachments%2Fyuque%2F0%2F2020%2Fzip%2F268938%2F1580385431356-329b3007-21b3-44d8-8461-9f7be0c2c616.zip%22%2C%22name%22%3A%22F5-steganography-james.zip%22%2C%22size%22%3A256258%2C%22type%22%3A%22application%2Fx-zip-compressed%22%2C%22ext%22%3A%22zip%22%2C%22progress%22%3A%7B%22percent%22%3A99%7D%2C%22status%22%3A%22done%22%2C%22percent%22%3A0%2C%22id%22%3A%22VapMC%22%2C%22card%22%3A%22file%22%7D" target="_blank" rel="noopener">F5-steganography-james.zip</a></p>
+<p>F5 隐写加密：<br>java Embed  原图片.jpg 生成的图片.jpg -e  隐藏的文件.txt -p  密码</p>
+<p>F5 隐写解密：<br>java Extract  生成的图片.jpg -p  密码</p>
+<p>演示：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1580386028734-a57f5911-0caa-4af7-8bab-1c151f768851.png#align=left&display=inline&height=426&margin=%5Bobject%20Object%5D&name=image.png&originHeight=739&originWidth=1145&size=541987&status=done&style=shadow&width=660" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1580385926648-4f6d39b0-7a77-407d-a9ad-5ecbf615382e.png#align=left&display=inline&height=398&margin=%5Bobject%20Object%5D&name=image.png&originHeight=958&originWidth=1797&size=1063305&status=done&style=shadow&width=746" alt="image.png"></p>
+<p>ps.  之所以使用 jview 是看自带的.bat 文件是用的这个，但是用 java 貌似没啥影响<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1580386387655-acda49cb-ca7a-434a-9671-6093853afe35.png#align=left&display=inline&height=489&margin=%5Bobject%20Object%5D&name=image.png&originHeight=978&originWidth=1716&size=986961&status=done&style=none&width=858" alt="image.png"></p>
+<h2 id="Beyond-Compare"><a href="#Beyond-Compare" class="headerlink" title="Beyond Compare"></a>Beyond Compare</h2><p>使用软件：<a href="https://pan.baidu.com/s/1IajuX2HQVSVONkbCfjobfQ" target="_blank" rel="noopener">Beyond Compare</a> 提取码: uuch</p>
+<p>安装打开后界面是这样的：点击红框框出来的</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1575086852035-092de3b1-ca79-47d8-bced-c07067993e54.png#align=left&display=inline&height=427&margin=%5Bobject%20Object%5D&name=image.png&originHeight=853&originWidth=1458&size=100353&status=done&style=none&width=729" alt="image.png"></p>
+<p>选择图片比较</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1575086897546-f92c1ce6-ab60-49bd-9807-427b62aa126d.png#align=left&display=inline&height=287&margin=%5Bobject%20Object%5D&name=image.png&originHeight=414&originWidth=1021&size=30259&status=done&style=none&width=709" alt="image.png"></p>
+<p>上面还有一些选项可以试试</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1575086957741-d29ddbd6-cbc9-4cd1-bab6-bd6db280fff9.png#align=left&display=inline&height=427&margin=%5Bobject%20Object%5D&name=image.png&originHeight=853&originWidth=1458&size=297689&status=done&style=none&width=729" alt="image.png"></p>
+<h2 id="IDAT-信息隐藏"><a href="#IDAT-信息隐藏" class="headerlink" title="IDAT 信息隐藏"></a>IDAT 信息隐藏</h2><p>IDAT：存储实际的数据，在数据流中可包含多 个连续顺序的图像数据块，储存图像像数数据。</p>
+<p>在数据流中可包含多个连续顺序的图像数据块。<br>采用 LZ77 算法的派生算法进行压缩。<br>可以用 zlib 解压缩。</p>
+<p><strong>IDAT 块只有当上一个块充满时，才会继续下 一个新块</strong><br>如果有 IDAT  还没填满就填充了下一个就要考虑是不是有问题</p>
+<p>命令：<code>pngcheck.exe -v sctf.png</code>  可以查看<br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567167857257-3fe4637c-dae1-496b-9f9c-28355804361d.png#align=left&display=inline&height=614&margin=%5Bobject%20Object%5D&name=image.png&originHeight=720&originWidth=672&size=368384&status=done&style=none&width=573.44" alt="image.png"></p>
+<p>也可以使用 <strong>Stegsolve -&gt; Analysis -&gt;</strong> ** File Format **有详细介绍</p>
+<p>这就说明这 138  是认为添加的，把这个位置的内容串保存出来，在进行其他操作（文本进制转换、写图片）</p>
+<h2 id="LSB-信息隐藏"><a href="#LSB-信息隐藏" class="headerlink" title="LSB 信息隐藏"></a>LSB 信息隐藏</h2><p>PNG 文件中的图像像数一般是由 RGB 三原色组成，每一种颜色占用 8 位，取值范围为 0×00~0xFF，即 256 种颜色，一共包含了 256 的三次方的颜色，即 16777216（1 千 677W）种 颜色。人类的眼睛可以区分约 1000 万种不同的颜色，这就意味着人类的眼睛无法区分余下的颜色大约有 6777216（677W）种</p>
+<p>LSB 隐写就是修改 RGB 颜色分量的最低二进制位（LSB），每个颜色都会有 8bit，LSB 隐写就是修改了像数中的最低的 1Bit，而人类的眼睛不会注意到这前后的区别，每个像数可以携带 3Bit 的信息，这样就把信息隐藏起来了</p>
+<p>使用  <strong>Stegsolve *<em>各个通道都看看，或者  *</em>Analysis -&gt; Data Extract</strong> 合起来看看，有什么熟悉的保存出来</p>
+<h2 id="GIF-信息隐藏"><a href="#GIF-信息隐藏" class="headerlink" title="GIF 信息隐藏"></a>GIF 信息隐藏</h2><p>在某一帧图片藏着信息，用 ps 或者爱奇艺万能播放器也可以一帧一帧的看</p>
+<p>每一帧图片间隔时间，可能藏着规律，或许是二进制编码、或许是摩斯密码</p>
+<h2 id="NTFS-流隐写"><a href="#NTFS-流隐写" class="headerlink" title="NTFS 流隐写"></a>NTFS 流隐写</h2><p>安恒的一道题：<strong>猫片</strong>，先是 LSB 提取一个 png，然后改高度得到完整的取反色，下载文件，得到 RAR，使用 NTFS 流隐写，打开软件，然后<strong>用 winrar 解压缩</strong>，然后扫描一下，发现一些其他的东西，导出就可以了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567171060656-78335963-22f5-4dcd-a716-ad28904092db.png#align=left&display=inline&height=786&margin=%5Bobject%20Object%5D&name=image.png&originHeight=921&originWidth=1271&size=302722&status=done&style=none&width=1084.5866666666666" alt="image.png"></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Hackme CTF</title>
+    <url>/2020/06/14/cwqnag/</url>
+    <content><![CDATA[<p><a href="https://hackme.inndy.tw/" target="_blank" rel="noopener">https://hackme.inndy.tw</a></p>
+<h1 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h1><h2 id="flag"><a href="#flag" class="headerlink" title="flag"></a>flag</h2><p>就摆在那里</p>
+<h2 id="corgi-can-fly"><a href="#corgi-can-fly" class="headerlink" title="corgi can fly"></a>corgi can fly</h2><p><a href="https://hackme.inndy.tw/static/corgi-can-fly.png" target="_blank" rel="noopener">https://hackme.inndy.tw/static/corgi-can-fly.png</a><br>一张柯基的图片</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592138366906-5159f62f-e774-4a0f-a165-0c83dc341c23.png#align=left&display=inline&height=428&margin=%5Bobject%20Object%5D&name=image.png&originHeight=856&originWidth=1290&size=2360070&status=done&style=none&width=645" alt="image.png"></p>
+<p>本来想着图片的或许能 zsteg 一把唆？然后翻车了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592138332540-ecbf1e06-cbe7-40de-86be-9a1ffb8c61f2.png#align=left&display=inline&height=194&margin=%5Bobject%20Object%5D&name=image.png&originHeight=342&originWidth=1115&size=65402&status=done&style=none&width=634" alt="image.png"></p>
+<p>还是抄起了 StegSolve 可以发现一个二维码</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592138548641-9a9874af-eebe-4028-8065-01bd44ac4519.png#align=left&display=inline&height=372&margin=%5Bobject%20Object%5D&name=image.png&originHeight=743&originWidth=1680&size=531010&status=done&style=stroke&width=840" alt="image.png"></p>
+<h2 id="television"><a href="#television" class="headerlink" title="television"></a>television</h2><p>我眼真尖，不愧是我 😄</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592139108958-a28fb79d-ea8c-4dd8-bc4d-f653decf6163.png#align=left&display=inline&height=759&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1053&originWidth=874&size=166698&status=done&style=stroke&width=630" alt="image.png"></p>
+<p>可以发现 PK 字样，图片里面藏了压缩包</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592139335300-762fd00f-3ba0-4a08-8f0a-8831dbbb2fee.png#align=left&display=inline&height=460&margin=%5Bobject%20Object%5D&name=image.png&originHeight=857&originWidth=858&size=106535&status=done&style=stroke&width=461" alt="image.png"></p>
+<p>foremost 分离一下，得到一个压缩包，里面有个 flag 文件，还有个图片，然后把同时分离出来的图片压缩一下发现 CRC 的值是一样的，可以使用明文攻击（要用 zip 命令做出来的压缩包，不然值一样但是没法跑）<br><code>zip -r 1.zip 文件名</code></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592139890996-9d7dbab0-13a6-491b-bf32-5c9307d550a6.png#align=left&display=inline&height=426&margin=%5Bobject%20Object%5D&name=image.png&originHeight=852&originWidth=1904&size=277536&status=done&style=stroke&width=952" alt="image.png"></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>正则</title>
+    <url>/2019/11/10/cyr73s/</url>
+    <content><![CDATA[<p>参考：<a href="http://deerchao.net/tutorials/regex/regex.htm" target="_blank" rel="noopener">http://deerchao.net/tutorials/regex/regex.htm</a><br><a href="https://www.cnblogs.com/kevin-yuan/archive/2012/09/25/2702167.html" target="_blank" rel="noopener">https://www.cnblogs.com/kevin-yuan/archive/2012/09/25/2702167.html</a></p>
+<p>正则可视化：<a href="https://regexper.com/" target="_blank" rel="noopener">https://regexper.com/</a><br>本地正则软件：<a href="https://www.yuque.com/attachments/yuque/0/2019/zip/268938/1568032102748-bd524e05-9b8d-41cb-adc8-997c605e368b.zip?_lake_card=%7B%22uid%22%3A%22rc-upload-1568032036558-4%22%2C%22src%22%3A%22https%3A%2F%2Fwww.yuque.com%2Fattachments%2Fyuque%2F0%2F2019%2Fzip%2F268938%2F1568032102748-bd524e05-9b8d-41cb-adc8-997c605e368b.zip%22%2C%22name%22%3A%22regester.zip%22%2C%22size%22%3A2148886%2C%22type%22%3A%22application%2Fx-zip-compressed%22%2C%22ext%22%3A%22zip%22%2C%22progress%22%3A%7B%22percent%22%3A0%7D%2C%22status%22%3A%22done%22%2C%22percent%22%3A0%2C%22id%22%3A%22cpWXO%22%2C%22card%22%3A%22file%22%7D" target="_blank" rel="noopener">regester.zip</a></p>
+<p>通常在//里面<br>^ 开始          $ 结束    /^  $/<br>\b \bhi\b  代表着单词的开头和结尾（匹配结果是单独的：hi）<br>. 匹配除了换行符以外的任意字符</p>
+<ul>
+<li>前边的内容可以连续重复任意次</li>
+</ul>
+<ul>
+<li>重复一次或更多次<br>? 重复零次或一次<br>{} 如果想连续匹配 8 次，{8}，{5,12} 必须是 5-12 次<br>\d 匹配的是任意的数字<br>\s 匹配任意空白符（包括空格、制表符、换行符、全角空格）<br>\w 匹配字符字母或数字或下划线或汉字<br>如果开启了处理多行的工具，^ $ 就变成了匹配行的开始和结束处<br>如果想要查找 . 或 * 时会被认为元字符，可以使用转义 \ （查找 \ 本身也要转义 \）<br>[yichen] 匹配里面任意一个字母</li>
+</ul>
+<p>例子：匹配 (010)88886666 或 022-23234567 或 05412367541 等格式的电话号码<br>(?0\d{2}[) -]?\d{8}<br>首先是 ( 匹配零次或一次 ?，然后是一个 0，再是两个数字，然后是 ) - 中的任意一个，后面再跟 8<br>有个问题，会出现 010)13293610 这种明显不正确的格式<br>要解决这种问题需要用 | 把不同的规则分隔开</p>
+<p>0\d{2}-\d{8}|0\d{3}-\d{7} 表示的是：23-79541357 和 213-4851247<br>(0\d{2})[- ]?\d{8}|0\d{2}[- ]?\d{8} 表示的是：(024)-14765423 或 043-54761258（也可以没有-或者空格）<br>需要注意的是使用分支条件时，会从左向右的测试每一个条件，如果满足了一个分支的话，就不会管其他条件了<br>这就意味着：\d{5}|\d{5}-\d{4}，只会匹配前五位</p>
+<p>如果想重复多个字符的话可以用小括号指定子表达式<br>(\d{1,3}.){3}\d{1,3} 可以用来匹配 IP 地址，\d{1,3} 匹配 1-3 位数字，. 是转义，直接显示 . ，(\d(1,3).){3} 会匹配三个数字加一个点这种形式 3 次，最后再加上 1-3 位数字<br>然而这样的还是会匹配到 500.900.456.852 这样的，但是这则表达式中不提供算数比较，所以只能使用冗长的分组进行描述：((2[0-4]\d|25[0-5]|[0-1]?\d\d?).){3}(2[0-4]\d|25[0-5}|[0-1]?\d\d?)</p>
+<p>如果需要查找不属于某个能简单定义的字符类的字符，比如想查找除了数字之外，其他任意字符都行<br>可以使用转义：<br>\W 匹配任意不是字母、数字、下划线、汉字的字符<br>\S 匹配任意不是空白符的字符    \S+ 匹配不包含空白符的字符串<br>\D 匹配任意非数字的字符<br>\B 匹配不是单词开头或结束的字符<br>[^x] 匹配除了 x 以外的任意字符<br>[^ aeiou] 匹配除了 aeiou 这几个字母以外的任意字符<br>&lt;a[^&gt;]+&gt; 匹配尖括号括起来的以 a 开头的字符串</p>
+<p>向后引用：使用小括号制定一个子表达式之后，匹配这个子表达式的文本可以在表达式或其它程序中作进一步引用处理。默认情况下，每个分组会自动拥有一个组号，规则：从左向右，以分组的左括号为标志，第一个出现的的分组组号为 1，第二个为 2，以此类推，\1 代表分组 1 匹配的文本（分组 0 代表着整个正则表达式）</p>
+<p>\b(\w+)\b\s+\1\b 首先是一个字母，然后是任意字符一次或多次，再是一个字母，然后是一个或任意多个空白符，到这里就用到了分组 1，也就是 (\w+) 匹配到的任意字符</p>
+<p>也可以自己定义子表达式的组名：(?<Word>\w+) 把尖括号换成 ‘ 也可以，这样就把 \w+ 的组名指定成了 Word 了，要使用这个分组可以使用 \k<Word></p>
+<table>
+<thead>
+<tr>
+<th>分类</th>
+<th>代码/语法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>捕获</td>
+<td>(exp)</td>
+<td>匹配 exp，并捕获文本到自动命名的组里</td>
+</tr>
+<tr>
+<td></td>
+<td>(?<name>exp)</td>
+<td>匹配 exp，并捕获文本到名称为 name 的组里面，也可以写成 (?’name’exp)</td>
+</tr>
+<tr>
+<td></td>
+<td>(?:exp)</td>
+<td>匹配 exp，不捕获匹配的文本，也不给此分组分配组号</td>
+</tr>
+<tr>
+<td>零宽断言</td>
+<td>(?=exp)</td>
+<td>匹配 exp 前面的位置</td>
+</tr>
+<tr>
+<td></td>
+<td>(?&lt;=exp)</td>
+<td>匹配 exp 后面的位置</td>
+</tr>
+<tr>
+<td></td>
+<td>(?!exp)</td>
+<td>匹配后面跟的不是 exp 的位置</td>
+</tr>
+<tr>
+<td></td>
+<td>(?&lt;!exp)</td>
+<td>匹配前面不是 exp 的位置</td>
+</tr>
+<tr>
+<td>注释</td>
+<td>(?#comment)</td>
+<td>这种类型的分组不对正则表达式的处理产生任何影响，用于提供注释让人阅读</td>
+</tr>
+</tbody></table>
+<p>//修正符:<strong>i</strong>  不区分大小写的匹配;</p>
+<p>//如:”/abc/i”可以与 abc 或 aBC 或 ABc 等匹配;<br>//修正符：<strong>g</strong>表示全局匹配<br>    //修正符:<strong>m</strong>  将字符串视为多行,不管是那行都能匹配;</p>
+<p>例://模式为:$mode=”/abc/m”;<br>         //要匹配的字符串为:$str=”bcefg5e\nabcdfe”<br>             //注意其中\n,换行了;abc 换到了下一行;<br>         //$str和$mode 仍可以匹配,修正符 m 使得多行也可匹配;<br>    //修正符:<strong>s</strong>  将字符串视为单行,换行符作为普通字符;</p>
+<p>例://模式为:$mode=”/pr.y/“;<br>           //要匹配字符串为:$str=”pr\ny”;<br>           //两者不可匹配; . 是除了换行以外的字符可匹配;<br>           //修改下模式为:$mode=”/pr.y/s”;<br>               //其中修正符 s 将\n 视为普通字符,即不是换行;<br>           //最后两者可以匹配;<br>    //修正符:<strong>x</strong>  将模式中的空白忽略;<br>    //修正符:<strong>A</strong>  强制从目标字符串开头匹配;</p>
+<p>例://$mode=”/abc/A”;<br>           //可以与$str=”abcsdfi”匹配,<br>           //不可以与$str2=”sdsdabc”匹配;<br>           //因为$str2 不是以 abc 开头;<br>    //修正符:<strong>D</strong>  如果使用$限制结尾字符,则不允许结尾有换行;</p>
+<p>例://模式为:$mode=”/abc$/“;<br>           //可以与最后有换行的$str=”adshabc\n”匹配;<br>           //元子符$会忽略最后的换行\n;<br>           //如果模式为:$mode=”/abc/D”,<br>           //则不能与$str=”adshabc\n”匹配,<br>           //修正符 D 限制其不可有换行;必需以 abc 结尾;<br>    //修正符:<strong>U</strong>  只匹配最近的一个字符串;不重复匹配;</p>
+<p>例:<br>             如模式为:<br>            $mode=”/a.*c/“;<br>            $str=”abcabbbcabbbbbc” ;<br>            preg_match($mode,$str,$content);<br>            echo $content[0]; //输出:abcabbbcabbbbbc;</p>
+<p>//如果$mode=”/a.<em>c/“;变成$mode=”/a.\</em>c/<strong>U</strong>“;<br>             // 则只匹配最近一个字符串,输出:abc;</p>
+<p>//修正符:<strong>e</strong>  配合函数 preg_replace()使用,             可以把匹配来的字符串当作正则表达式执行;</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>右键发送到程序</title>
+    <url>/2020/04/24/gqyrlf/</url>
+    <content><![CDATA[<p>1、在文件资源管理器中的地址栏输入：%AppData%\Microsoft\Windows\SendTo<br>2、把想要加进来的程序的 exe 文件复制，在这个目录右键粘贴快捷方式</p>
+<p>比如我想要把 foremost 加到右键发送到列表中<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587722674027-0332797e-5a0d-4a86-8b54-231699486741.png#align=left&display=inline&height=418&margin=%5Bobject%20Object%5D&name=image.png&originHeight=835&originWidth=1263&size=153815&status=done&style=none&width=631.5" alt="image.png"><br>找到那个 exe，复制<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587722724497-271fa11b-1324-4e14-9d6d-5569addadc84.png#align=left&display=inline&height=323&margin=%5Bobject%20Object%5D&name=image.png&originHeight=646&originWidth=559&size=61589&status=done&style=none&width=279.5" alt="image.png"><br>在  %AppData%\Microsoft\Windows\SendTo 目录下右键 -&gt; 粘贴快捷方式<br>可以按照序号排一下序，看这方便，这只是个快捷方式，名字随便改就可以<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587722755632-ead811f6-cf8f-4122-b711-0be8569be26e.png#align=left&display=inline&height=418&margin=%5Bobject%20Object%5D&name=image.png&originHeight=835&originWidth=1263&size=147773&status=done&style=none&width=631.5" alt="image.png"></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>docker相关</title>
+    <url>/2019/12/20/fucdy1/</url>
+    <content><![CDATA[<p><a href="https://www.bilibili.com/video/av58402749" target="_blank" rel="noopener">docker 快速入门</a><br><a href="http://play-with-docker.com/" target="_blank" rel="noopener">docker 在线实验</a></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1576829447658-5cd072ce-9953-4177-8c7d-1e49c2413016.png#align=left&display=inline&height=321&name=image.png&originHeight=641&originWidth=964&size=46462&status=done&style=none&width=482" alt="image.png"></p>
+<h1 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h1><p>启动<br><code>systemctl start docker</code></p>
+<p>守护进程重启<br><code>systemctl daemon-reload</code></p>
+<p>重启 docker 服务<br><code>systemctl restart docker / service docker restart</code></p>
+<p>关闭<br><code>docker service docker stop / docker systemctl stop docker</code></p>
+<p>运行一个容器，命名为 yichen<br><code>docker run -d -p 10001:80 --name yichen apacje</code></p>
+<p>进入容器里面，开一个 bash<br><code>docker exec -it id /bin/bash</code></p>
+<p>重启容器<br><code>docker restart id</code></p>
+<p>关闭容器<br><code>docker stop id</code></p>
+<p>删除容器<br><code>docker rm -f id</code></p>
+<p>通过提交一个镜像<br><code>docker commit id yichen</code></p>
+<p>查看运行的 docker<br><code>docker ps</code></p>
+<p>重命名一下<br><code>docker rename 原容器名 新容器名</code></p>
+<h1 id="搭建-web-环境"><a href="#搭建-web-环境" class="headerlink" title="搭建 web 环境"></a>搭建 web 环境</h1><p>拉取一个 apache-php5<br><code>docker pull registry.cn-hangzhou.aliyuncs.com/lxepoo/apache-php5</code></p>
+<p>运行<br><code>docker run -d -p 2027:80 registry.cn-hangzhou.aliyuncs.com/lxepoo/apache-php5</code></p>
+<p>把题目复制到/var/www 目录下面<br><code>docker cp ./web2 0c7b9ddc107a:/var/www</code></p>
+<p>出现这些问题使用  <code>chmod 777 文件名</code> 给权限</p>
+<blockquote>
+<p>Warning: Unknown: failed to open stream: Permission denied in Unknown on line 0<br>Fatal error: Unknown: Failed opening required ‘/var/www/index.php’ (include_path=’.:/usr/local/lib/php’) in Unknown on line 0</p>
+</blockquote>
+<h1 id="搭建-pwn-环境"><a href="#搭建-pwn-环境" class="headerlink" title="搭建 pwn 环境"></a>搭建 pwn 环境</h1><p>这样可以在实体机单个匹配一条命令<br><code>socat tcp-l:8887,fork exec:./pwn1</code></p>
+<p><del>把 xinetd 下下来  ~</del><a href="https://github.com/Eadom/ctf_xinetd" target="_blank" rel="noopener"><del>https://github.com/Eadom/ctf_xinetd</del></a><br><del>题目复制到 bin 文件夹，把 ctf.xinetd 的命令改成运行的</del><br><del>（之前是 ./helloworld，改成自己的文件名）</del><br><del>xinetd 里面 Dockerfile 里面的清华的源不行，换成阿里的</del></p>
+<p><del>打开，把 pub_port 改成想要的端口</del><br><del><code>docker run -d -p &quot;0.0.0.0:pub_port:9999&quot; -h &quot;helloworld&quot; --name=&quot;helloworld&quot; helloworld</code></del></p>
+<p><strong>有个更好的方法：</strong></p>
+<p>把文件下载下来<br><code>git clone https://github.com/giantbranch/pwn_deploy_chroot.git</code></p>
+<p>然后把所有题目直接改好名字，放在  bin  文件夹<br>运行 <code>python initialize.py</code>  分配好  flag，会把分配的  flag  放在  flags.txt<br>运行  <code>docker-compose up --build -d</code></p>
+<p>同时每个题目对应的端口也会放在 flags.txt</p>
+<p>改  config.py 这个选项为 True  可以使用  cat flag  代替 /bin/sh  提高安全性</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Whether to replace /bin/sh</span></span><br><span class="line">REPLACE_BINSH = <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="复现环境"><a href="#复现环境" class="headerlink" title="复现环境"></a>复现环境</h1><p>安装 docker-compose<br><code>sudo apt install docker-compose</code></p>
+<p>拉起环境</p>
+<p><code>docker-compose up -d</code><br>docker-compose.yml 中查看端口，访问即可</p>
+<p>出现 AttributeError: ‘module’ object has no attribute ‘SSL_ST_INIT’问题：<br>解决：<br><code>rm -rf /usr/lib/python2.7/dist-packages/OpenSSL</code><br><code>rm -rf /usr/lib/python2.7/dist-packages/pyOpenSSL-0.15.1.egg-info</code><br><code>sudo pip install pyopenssl</code></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>配置ftp</title>
+    <url>/2019/12/24/gghabh/</url>
+    <content><![CDATA[<p>安装 vsftpd 服务器<br><code>apt install vsftpd</code></p>
+<p><code>vim /etc/vsftpd.user_allowlist</code><br>添加用户名</p>
+<p>进入<br><code>vim /etc/vsftpd.conf</code></p>
+<p>把 write_enable=YES  前面的注释去掉，添加下面三行<br><code>userlist_file=/etc/vsftpd.user_allowlist</code><br><code>userlist_enable=YES</code><br><code>userlist_deny=NO</code></p>
+<p>重启：<br><code>/etc/init.d/vsftpd restart</code></p>
+<p>在主机上安装类似 ftp 工具（我用的是 FileZilla），连接就可以了</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>temp</title>
+    <url>/2020/06/29/iq0f33/</url>
+    <content><![CDATA[<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593439026231-81d80b11-2317-4782-bc34-69e26613c85d.png#align=left&display=inline&height=5380&margin=%5Bobject%20Object%5D&name=%E6%8F%92%E4%BB%B6%E4%B8%AD%E5%BF%83.png&originHeight=5380&originWidth=1152&size=289134&status=done&style=none&width=1152" alt="插件中心.png"></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>窗口失去焦点</title>
+    <url>/2020/04/21/kztei0/</url>
+    <content><![CDATA[<p>最近打着打着字，突然输入法就跑出去了<br>就像这样：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587450869192-459cd634-e692-4063-a93b-6946702c04c8.png#align=left&display=inline&height=420&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1080&originWidth=1920&size=407351&status=done&style=none&width=746" alt="image.png"></p>
+<p>偶尔几次就够烦的了，他还经常这么搞，受不了了，去搜了一下，有个大佬写了个软件捕获获得焦点的窗口</p>
+<p>一开始是记事本，没得问题</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587450677718-8cc70518-3da8-43e1-986d-84ad4f7b241d.png#align=left&display=inline&height=420&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1080&originWidth=1920&size=2238088&status=done&style=stroke&width=746" alt="image.png"></p>
+<p>过了一会，就变成 360 的安全通知了，可算让我找到你了！？</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587450780062-037fda2d-1fc9-4643-be49-ba94f0e44bea.png#align=left&display=inline&height=420&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1080&originWidth=1920&size=2245374&status=done&style=none&width=746" alt="image.png"></p>
+<p>因为之前 QQ 聊天文件都是下载到我的文档的，更新之后我改到了 D 盘，每次打开 QQ，360 会对聊天收到的图片啥的进行检测，然而他也测不出啥东西来，全是图片 🙃，没问题他还要提示没问题，简直是自己找存在感，关掉通知再观察一阵</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>curl使用</title>
+    <url>/2020/02/19/heis24/</url>
+    <content><![CDATA[<h1 id="无-正常-get"><a href="#无-正常-get" class="headerlink" title="无   正常 get"></a>无   正常 get</h1><p>通过 GET  方式正常请求<br>会把返回的内容保存下来<br><code>curl http://127.0.0.1</code></p>
+<h1 id="A-改-ua"><a href="#A-改-ua" class="headerlink" title="-A  改 ua"></a>-A  改 ua</h1><p>指定用户代理标头（user-agent）<br><code>curl -A &quot;chrome 5.1&quot; http://127.0.0.1</code></p>
+<h1 id="b-改-cookie"><a href="#b-改-cookie" class="headerlink" title="-b  改 cookie"></a>-b  改 cookie</h1><p>指定  cookie  访问<br><code>curl -b &#39;cookie=yichen123&#39; http://127.0.0.1</code><br><code>curl -b cookie.txt http://127.0.0.1</code></p>
+<h1 id="c-接收服务端-cookie"><a href="#c-接收服务端-cookie" class="headerlink" title="-c  接收服务端 cookie"></a>-c  接收服务端 cookie</h1><p>将服务器传过来的  cookie  写到文件里面<br>`curl -c cookie.txt <a href="http://127.0.0.1```" target="_blank" rel="noopener">http://127.0.0.1```</a></p>
+<h1 id="d-POST"><a href="#d-POST" class="headerlink" title="-d  POST"></a>-d  POST</h1><p>使用 -d  以后会自动改成 POST  方式请求<br><code>curl -d &quot;a=yichen&amp;b=password&quot; -X POST http://127.0.0.1</code></p>
+<h1 id="–data-urlencode"><a href="#–data-urlencode" class="headerlink" title="–data-urlencode"></a>–data-urlencode</h1><p>跟-d 差不多，不过会进行 url  编码</p>
+<h1 id="e-改-refer"><a href="#e-改-refer" class="headerlink" title="-e  改 refer"></a>-e  改 refer</h1><p>设置  refer  标明请求来源<br><code>curl -e &quot;39.105.32.48&quot; http://127.0.0.1</code></p>
+<h1 id="F-传文件"><a href="#F-传文件" class="headerlink" title="-F  传文件"></a>-F  传文件</h1><p><code>curl -F &quot;file=@yichen.png;filename=1.png&quot;</code><br>源文件名为 yichen.png  传上去的文件名叫 1.png</p>
+<h1 id="H-改请求头"><a href="#H-改请求头" class="headerlink" title="-H  改请求头"></a>-H  改请求头</h1><p><code>curl -H &#39;Accept-Language: en-US&#39; -H &#39;Secret-Message: xyzzy&#39; https://127.0.0.1</code></p>
+<h1 id="X-改请求方法"><a href="#X-改请求方法" class="headerlink" title="-X  改请求方法"></a>-X  改请求方法</h1><p><code>curl -X POST http://127.0.0.1</code></p>
+<h1 id="v-显示全过程"><a href="#v-显示全过程" class="headerlink" title="-v  显示全过程"></a>-v  显示全过程</h1><p><code>curl -v http://127.0.0.1</code><br>显示比较全的信息，便于调试</p>
+<h1 id="u-http-认证"><a href="#u-http-认证" class="headerlink" title="-u http 认证"></a>-u http 认证</h1><p><code>curl -u &quot;yichen:password&quot; http://127.0.0.1</code><br>这就是那个  base64  编码的</p>
+<h1 id="o-保存返回"><a href="#o-保存返回" class="headerlink" title="-o 保存返回"></a>-o 保存返回</h1><p><code>curl -o yichen.html http://127.0.0.1/index.html</code><br>与 wget 效果相同</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>ffmpeg（视频处理）</title>
+    <url>/2019/11/22/nuwzb3/</url>
+    <content><![CDATA[<p>多媒体视频处理工具 FFmpeg 有非常强大的功能包括视频采集功能、视频格式转换、视频抓图、给视频加水印</p>
+<h1 id="裁剪视频"><a href="#裁剪视频" class="headerlink" title="裁剪视频"></a>裁剪视频</h1><p><code>ffmpeg -i 1.mp4 -ss 00:00:00 -c copy -t 00:04:33 2.mp4</code><br>视频 1.mp4 从 00:00:00 开始到 00:04:33 位置，保存为新的 2.MP4</p>
+<h1 id="合并视频"><a href="#合并视频" class="headerlink" title="合并视频"></a>合并视频</h1><p>首先在文件夹下建立一个  txt ，内容格式如下：（按照想要拼接的顺序）<br><code>file &#39;1.mp4&#39;</code><br><code>file &#39;2.mp4&#39;</code></p>
+<p>执行这串命令就可以了<br><code>ffmpeg -f concat -i test.txt -c copy output.mp4</code></p>
+<h1 id="mp4-转-GIF"><a href="#mp4-转-GIF" class="headerlink" title="mp4  转 GIF"></a>mp4  转 GIF</h1><p>ffmpeg -ss 1 -t 10 -i yichen.mp4 -s 1920*1080 -r 15 res.gif</p>
+<ul>
+<li>-s：设定分辨率</li>
+<li>-ss 1 -t 10：从第 1 秒开始，往后截取 10 秒钟</li>
+<li>-r：设定帧数 15</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>Linux系统</title>
+    <url>/2020/02/22/pzhqyf/</url>
+    <content><![CDATA[<p><img src="https://cdn.nlark.com/yuque/0/2019/png/376408/1562993949602-26aebe9e-edff-4d1c-a7de-c6ddb618bfb4.png#align=left&display=inline&height=1326&originHeight=1326&originWidth=784&status=done&style=none&width=784" alt=""></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>tcpxtract（流量包提取文件）</title>
+    <url>/2019/11/14/sla2si/</url>
+    <content><![CDATA[<p>有个叫  tcpxtract  的工具，使用 apt-get install tcpxtract  可以安装<br>tcpxtract -f xxx.pcap  就可以把流量包中的文件图片提取出来啦</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573728183409-652465bb-368d-42f3-9151-e6f5b490e695.png#align=left&display=inline&height=107&originHeight=107&originWidth=1390&size=0&status=done&width=1390" alt=""></p>
+<p>提取出来的图片会放在  pcap 文件目录下</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573728183430-a174ed5f-c857-44bd-a041-6e01b704d0b6.png#align=left&display=inline&height=285&originHeight=285&originWidth=506&size=0&status=done&width=506" alt=""></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>电脑通过热点共享手机网络</title>
+    <url>/2020/04/15/qg8wx2/</url>
+    <content><![CDATA[<p>手机上连着 vpn，然后下载一个软件 proxy server</p>
+<h1 id="电脑设置"><a href="#电脑设置" class="headerlink" title="电脑设置"></a>电脑设置</h1><p>这个地址用 proxy server 中的 info 的地址，端口要跟待会手机上设置的一样<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586952125815-9e4de90a-d439-4629-ae50-67e58594e3c9.png#align=left&display=inline&height=444&margin=%5Bobject%20Object%5D&name=image.png&originHeight=888&originWidth=1198&size=368261&status=done&style=none&width=599" alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586953863954-5e928351-8d0f-4991-9913-d900f8ff6dbe.png#align=left&display=inline&height=68&margin=%5Bobject%20Object%5D&name=image.png&originHeight=136&originWidth=632&size=49587&status=done&style=none&width=316" alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586953943657-31496621-4009-4e6a-b66b-f6a082bd8e6e.png#align=left&display=inline&height=321&margin=%5Bobject%20Object%5D&name=image.png&originHeight=642&originWidth=655&size=152623&status=done&style=none&width=327.5" alt="image.png"></p>
+<h1 id="手机设置"><a href="#手机设置" class="headerlink" title="手机设置"></a>手机设置</h1><p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586950881345-f39c5294-c46a-4ef2-8e40-cfd0860a8f2a.png#align=left&display=inline&height=60&margin=%5Bobject%20Object%5D&name=image.png&originHeight=119&originWidth=548&size=38540&status=done&style=none&width=274" alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586950932960-9d8033cc-5f91-4810-9e11-b8990479ccce.png#align=left&display=inline&height=167&margin=%5Bobject%20Object%5D&name=image.png&originHeight=333&originWidth=668&size=120242&status=done&style=none&width=334" alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586950950709-d7422d35-a2f4-4320-8dc4-ff60ef574c49.png#align=left&display=inline&height=359&margin=%5Bobject%20Object%5D&name=image.png&originHeight=718&originWidth=462&size=258605&status=done&style=none&width=231" alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586950994160-1de598ce-5f04-4143-a5ca-5be089b0b868.png#align=left&display=inline&height=393&margin=%5Bobject%20Object%5D&name=image.png&originHeight=786&originWidth=465&size=210636&status=done&style=none&width=232.5" alt="image.png"></p>
+<p>手机开热点，电脑连上就可以</p>
+<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>电脑上可以了<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586952105435-3e9607e5-1683-4268-b462-d80ff6ab24f0.png#align=left&display=inline&height=540&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1080&originWidth=1920&size=193358&status=done&style=none&width=960" alt="image.png"></p>
+<p>虚拟机上…还要想办法</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>内存取证</title>
+    <url>/2019/11/16/seedcu/</url>
+    <content><![CDATA[<h1 id="volatility"><a href="#volatility" class="headerlink" title="volatility"></a>volatility</h1><p>在 kali 下直接使用就好</p>
+<p>确定 profile 的值：volatility -f filename imageinfo</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573865786563-2db53f91-ce0d-4943-b95f-83c4c3fea616.png#align=left&display=inline&height=216&name=image.png&originHeight=431&originWidth=1263&size=502820&status=done&width=631.5" alt="image.png"></p>
+<p>会出现多个结果，一般情况下取第一个结果</p>
+<p>列举进程：volatility -f xp.raw –profile=WinXPSP2x86 pslist</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573865966529-5f8588ab-f2b4-49ab-b5f3-b51c31958b6f.png#align=left&display=inline&height=337&name=image.png&originHeight=674&originWidth=1578&size=1172613&status=done&width=789" alt="image.png"></p>
+<p>查看缓存在内存中的注册表：volatility -f xp.raw –profile=WinXPSP2x86 hivelist</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573866565329-27c5cde5-0792-4def-aeed-32075fd694ed.png#align=left&display=inline&height=275&name=image.png&originHeight=550&originWidth=1401&size=871366&status=done&width=700.5" alt="image.png"></p>
+<p>获取 SAM 表中的用户：<br>volatility -f xp.raw –profile=WinXPSP2x86 printkey -K “SAM\Domains\Account\Users\Names”</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573866528790-901a4e08-97ef-4e72-a2e2-2d3468d8ff76.png#align=left&display=inline&height=267&name=image.png&originHeight=534&originWidth=1401&size=743277&status=done&width=700.5" alt="image.png"></p>
+<p>把内存中某个进程的数据以 dmp 的形式保存出来：<br>volatility -f xp.raw –profile=WinXPSP2x86 memdump -p [PID] -D [dump 出的文件保存的目录]</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573867574489-91f7556f-2529-4ac3-8266-6d117bd7c574.png#align=left&display=inline&height=79&name=image.png&originHeight=158&originWidth=1403&size=292383&status=done&width=701.5" alt="image.png"></p>
+<p>把内存中保留的 cmd  的命令打印出来：<br>volatility -f xp.raw –profile=WinXPSP2x86 cmdscan</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573867830202-786c8f68-17f1-4fe7-9b4f-11ef0f7d6a50.png#align=left&display=inline&height=350&name=image.png&originHeight=699&originWidth=1398&size=975373&status=done&width=699" alt="image.png"></p>
+<p>查看内存中的系统密码：<br>volatility -f xp.raw –profile=WinXPSP2x86 hashdump -y （注册表 system 的 virtual 地址 ）-s （SAM 的 virtual 地址）</p>
+<p>首先要获取注册表 system 的 virtual 地址和  SAM 的 virtual 地址，使用 hivelist 查看</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573868295441-b94af119-234b-4c85-83d7-22d4b872bb43.png#align=left&display=inline&height=288&name=image.png&originHeight=576&originWidth=1420&size=889401&status=done&width=710" alt="image.png"></p>
+<p>再使用：volatility -f xp.raw –profile=WinXPSP2x86 hashdump -y 0xe1035b60 -s 0xe13fbb60</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573868467734-f4690976-1a3f-4fe7-9892-d56e23a97527.png#align=left&display=inline&height=103&name=image.png&originHeight=205&originWidth=1401&size=405226&status=done&width=700.5" alt="image.png"></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>压缩包相关</title>
+    <url>/2019/12/19/sun522/</url>
+    <content><![CDATA[<h1 id="ZIP-相关"><a href="#ZIP-相关" class="headerlink" title="ZIP 相关"></a>ZIP 相关</h1><h2 id="ZIP-介绍"><a href="#ZIP-介绍" class="headerlink" title="ZIP 介绍"></a>ZIP 介绍</h2><p>ZIP 文件格式的组成：<br>压缩源文件数据区[文件头+文件数据+数据描述符]{此处可重复多次} +核心目录 +目录结束标识</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567161962704-41d3c616-0ded-4483-8cbf-320843db45be.png#align=left&display=inline&height=728&name=image.png&originHeight=853&originWidth=1001&size=505852&status=done&style=none&width=854.1866666666666" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567162073401-2e4a759a-d4b4-47ea-92b8-f9dca5ad074b.png#align=left&display=inline&height=590&name=image.png&originHeight=691&originWidth=1555&size=407814&status=done&style=none&width=1326.9333333333334" alt="image.png"></p>
+<h2 id="格式缺失"><a href="#格式缺失" class="headerlink" title="格式缺失"></a>格式缺失</h2><p>文件头删掉的，但不开，但是用 binwalk 分析可以查出有 zip 个文件尾，可以用 winhex  添上文件头</p>
+<h2 id="ZIP-伪加密"><a href="#ZIP-伪加密" class="headerlink" title="ZIP 伪加密"></a>ZIP 伪加密</h2><p>全局方式位标记，如果是 09 00  就会提示需要密码</p>
+<h2 id="密码爆破"><a href="#密码爆破" class="headerlink" title="密码爆破"></a>密码爆破</h2><p>。。。ARCHPR</p>
+<p>RAR 会比其他格式慢，RAR 不管密码对不对，直接去试，解不出来就不对，而 ZIP 是先检验密码是不是正确的</p>
+<h2 id="ZIP-明文攻击"><a href="#ZIP-明文攻击" class="headerlink" title="ZIP 明文攻击"></a>ZIP 明文攻击</h2><p>手里有原压缩包和压缩包内部分文件，可以使用明文攻击方式。<br>可以将压缩包内的文件进行压缩，然后用 ARCHPR 这个工具进行明文攻击</p>
+<p>举个例子，已知 <strong>明文攻击.zip</strong> 中存在的文件 <strong>明文.txt</strong></p>
+<p><em>*<br>因此将 <strong>明文*</strong>\</em>.txt** 压缩，这里需要判断明文压缩后的<strong>CRC32</strong>是否与加密文件中的一致，若不<br>一致可以换一个压缩工具。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567164221868-105cfbe6-30d7-4b3d-a84e-223c1de28bae.png#align=left&display=inline&height=641&name=image.png&originHeight=751&originWidth=1067&size=289884&status=done&style=none&width=910.5066666666667" alt="image.png"></p>
+<p>当明文的大小比较小时，攻击速度会比较慢；即使有时没有恢复密码，也可以使用明文攻<br>击，最后点保存还是能得到压缩包里内容的。</p>
+<p><strong>如果做题的时候，压缩包里有五个文件，是加密的，但是你有四个文件是直接可以查看的，就可以猜测是不是明文攻击</strong></p>
+<h2 id="CRC-爆破"><a href="#CRC-爆破" class="headerlink" title="CRC 爆破"></a>CRC 爆破</h2><p>CRC32:CRC 本身是“冗余校验码”的意思，CRC32 则表示会产生一个 32bit（8 位十六进制数）的校验值</p>
+<p>在产生 CRC32 时，源数据块的每一位都参与了运算，因此即使数据块中只有一位发生改变也<br>会得到不同的 CRC32 值，利用这个原理我们可以直接爆破出加密文件的内容</p>
+<p><a href="https://github.com/theonlypwner/crc32" target="_blank" rel="noopener">https://github.com/theonlypwner/crc32</a></p>
+<p>python crc32.py reverse crc 值     根据爆破出来的看看有是不是有啥特殊意思<br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567165033125-11580e03-67ff-4361-848a-00ef3ea6f0fc.png#align=left&display=inline&height=343&name=image.png&originHeight=402&originWidth=883&size=61260&status=done&style=none&width=753.4933333333333" alt="image.png"></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>python脚本</title>
+    <url>/2019/11/10/uq0cnx/</url>
+    <content><![CDATA[<p>python 解题脚本收集</p>
+<h1 id="misc"><a href="#misc" class="headerlink" title="misc"></a>misc</h1><h2 id="python-将字符串反转"><a href="#python-将字符串反转" class="headerlink" title="python 将字符串反转"></a>python 将字符串反转</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a=<span class="string">"hello world!"</span></span><br><span class="line">print(a[::<span class="number">-1</span>])</span><br><span class="line"><span class="comment">#输出结果为：!dlrow olleh</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="爆破-hash"><a href="#爆破-hash" class="headerlink" title="爆破 hash"></a>爆破 hash</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">md5</span><span class="params">(s)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> hashlib.md5(s).hexdigest()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">9999999</span>):</span><br><span class="line">    <span class="keyword">if</span> md5(str(i)).startswith(<span class="string">'bf5ede'</span>):</span><br><span class="line">        <span class="keyword">print</span> i</span><br><span class="line"><span class="comment">#找到md5前6位是bf5ede的值</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="web"><a href="#web" class="headerlink" title="web"></a>web</h1><h1 id="re"><a href="#re" class="headerlink" title="re"></a>re</h1><h1 id="pwn"><a href="#pwn" class="headerlink" title="pwn"></a>pwn</h1><h1 id="crypto"><a href="#crypto" class="headerlink" title="crypto"></a>crypto</h1><h2 id="AES-求-d"><a href="#AES-求-d" class="headerlink" title="AES 求 d"></a>AES 求 d</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line">p =gmpy2.mpz(<span class="number">7</span>)</span><br><span class="line">q =gmpy2.mpz(<span class="number">17</span>)</span><br><span class="line">e =gmpy2.mpz(<span class="number">5</span>)</span><br><span class="line">phi_n= (p - <span class="number">1</span>) * (q - <span class="number">1</span>)</span><br><span class="line">d = gmpy2.invert(e, phi_n)</span><br><span class="line">print(<span class="string">"d is:"</span>)</span><br><span class="line"><span class="keyword">print</span> (d)</span><br></pre></td></tr></table></figure>
+]]></content>
+  </entry>
+  <entry>
+    <title>ssh配置与使用</title>
+    <url>/2019/12/19/vmf5m3/</url>
+    <content><![CDATA[<p>我的环境：<br><strong>parrot</strong>：用户名：chen，ip：192.168.149.132<br><strong>ubuntu</strong>：用户名：yichen，ip：192.168.149.138</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1576758862716-5a5d1648-bece-4a97-8e6c-bc3cc1fdf69b.png#align=left&display=inline&height=481&name=image.png&originHeight=712&originWidth=798&size=813832&status=done&style=none&width=539" alt="image.png"></p>
+<h1 id="ssh-安装"><a href="#ssh-安装" class="headerlink" title="ssh 安装"></a>ssh 安装</h1><p>一般都自带了<br><code>sudo apt-get install openssh-client</code><br><code>sudo apt-get install openssh-server</code></p>
+<h1 id="开启服务"><a href="#开启服务" class="headerlink" title="开启服务"></a>开启服务</h1><p><code>sudo /etc/init.d/ssh start</code></p>
+<p><strong>相关：</strong><br><code>sudo /etc/init.d/ssh stop</code>       <strong>server 停止 ssh 服务  **<br><code>sudo /etc/init.d/ssh restart</code>       **server 重启 ssh 服务</strong></p>
+<h1 id="密码连接"><a href="#密码连接" class="headerlink" title="密码连接"></a>密码连接</h1><p><code>ssh chen@192.168.149.132</code>    默认端口：22<br>如果需要指定端口可以使用：<code>ssh -p 9527 chen@192.168.149.132</code></p>
+<p>第一次连接会出现：<br>意思是，该远程主机的真实性无法确定，其公钥指纹为 cxt65U8MP/XOzyxCsBSR7/kwxvsYmOl/Hgr/Mjs0FZ4，确定想要继续连接吗？</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1576758481718-ef61a024-4f0a-417e-9e52-dab6bc1e6080.png#align=left&display=inline&height=142&name=image.png&originHeight=159&originWidth=731&size=35957&status=done&style=none&width=652" alt="image.png"></p>
+<p>输入：yes  继续，同意之后远程主机的公钥会保存在 $HOME/.ssh/known_hosts 中，当下次连接的时候就可以直接跳过确认部分，直接输入密码<br>再输入想要链接的主机的 password</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1576758517324-9b527c5b-5a67-45e6-a706-55a5345c002e.png#align=left&display=inline&height=178&name=image.png&originHeight=198&originWidth=730&size=47292&status=done&style=none&width=656" alt="image.png"></p>
+<p>连接成功，可以操作了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1576758624699-70622167-c5ed-4322-b166-beb83215e9a8.png#align=left&display=inline&height=429&name=image.png&originHeight=459&originWidth=726&size=81498&status=done&style=none&width=678" alt="image.png"></p>
+<h1 id="密钥连接"><a href="#密钥连接" class="headerlink" title="密钥连接"></a>密钥连接</h1><p>每次输入密码很麻烦，所以可以使用公钥登录，用户将自己的公钥存储在远程主机上面，登陆的时候远程主机会向用户发送一段随机字符串，用户用私钥加密之后再将加密后的发送给主机，如果主机能够用公钥解密成功则可以连接</p>
+<p>使用 <code>ssh-keygen</code>  生成公钥和私钥，第一次要求输入的是生成在什么地方，默认：/root/.ssh/  目录下生成  id_rsa.pub 和 id_rsa，分别是公钥和私钥，输入想要给的名字的话会在当前目录生成输入的名字<br>第二次和第三次等待输入的时候设置的是密钥的密码，可以直接回车就没有密码了，有密码双重保险</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582026891725-7488ca4b-f615-4768-b6fc-3f52e19e8298.png#align=left&display=inline&height=373&name=image.png&originHeight=480&originWidth=751&size=69313&status=done&style=none&width=585" alt="image.png"></p>
+<p>生成的</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582026955696-94230064-3356-4136-9218-b975ea8259c3.png#align=left&display=inline&height=225&name=image.png&originHeight=228&originWidth=159&size=16281&status=done&style=none&width=158" alt="image.png"></p>
+<p>默认情况下运行结束以后在 $HOME/.ssh  目录下面会生成两个新文件：id_rsa.pub 和 id_rsa，分别是公钥和私钥</p>
+<p>使用 <code>ssh-copy-id user@host</code>  就可以把公钥发送到  host  主机，这样就可以使用密钥登陆了，连接的时候就不用输入密码了</p>
+<p>如果还是不行，就打开远程主机的/etc/ssh/sshd_config 这个文件，检查下面几行前面”#”注释是否取掉，改完重启  ssh  服务</p>
+<blockquote>
+<p>RSAAuthentication yes<br>PubkeyAuthentication yes<br>AuthorizedKeysFile .ssh/authorized_keys</p>
+</blockquote>
+]]></content>
+  </entry>
+  <entry>
+    <title>流量分析</title>
+    <url>/2019/12/19/faus1o/</url>
+    <content><![CDATA[<h1 id="流量分析"><a href="#流量分析" class="headerlink" title="流量分析"></a>流量分析</h1><h2 id="wireshark-介绍"><a href="#wireshark-介绍" class="headerlink" title="wireshark 介绍"></a>wireshark 介绍</h2><p>Wireshark（前称 Ethereal）是一个网络封包分析软件</p>
+<p>网络封包分析软件的功能是撷取网络封包，并尽可能显示出最为详细的网络封包资料。Wireshark 使用 WinPCAP 作为接口，直接与网卡进行数据报文交换</p>
+<h3 id="捕捉过滤器"><a href="#捕捉过滤器" class="headerlink" title="捕捉过滤器"></a>捕捉过滤器</h3><p>数据经过的第一层过滤器，  它用于控制捕捉数据的数量，以避免产生过大的日志文件，用于决定将什么样的信息记录在捕捉结果中，需要在开始捕捉前设置</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567141475266-23af32ac-a263-44d2-8786-e746c71cc2d4.png#align=left&display=inline&height=400&name=image.png&originHeight=521&originWidth=1103&size=46236&status=done&style=none&width=847.1039741484383" alt="image.png"></p>
+<h3 id="显示过滤器"><a href="#显示过滤器" class="headerlink" title="显示过滤器"></a>显示过滤器</h3><p>在 CTF  中基本都是给一个数据包，所以基本都是用显示过滤器来筛选</p>
+<h4 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h4><table>
+<thead>
+<tr>
+<th>语法</th>
+<th>protocol</th>
+<th>.</th>
+<th>string1</th>
+<th>.</th>
+<th>string2</th>
+<th>comparison operator</th>
+<th>value</th>
+<th>logical operations</th>
+<th>other expression</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>例子</td>
+<td>http</td>
+<td>.</td>
+<td>request</td>
+<td>.</td>
+<td>method</td>
+<td>==</td>
+<td>“post”</td>
+<td>or</td>
+<td>icmp.type</td>
+</tr>
+</tbody></table>
+<p>string1 和 string2 是可选的，依据协议过滤时，可直接通过协议来进行过滤，也能依据协议属性值进行过滤</p>
+<h4 id="实际使用"><a href="#实际使用" class="headerlink" title="实际使用"></a>实际使用</h4><p>打开一个数据包，点击** 表达式  **会看到很多字段<br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567142590422-c5a9d6c1-29ba-4e1c-8bb6-5c9685134a2e.png#align=left&display=inline&height=367&name=image.png&originHeight=478&originWidth=1285&size=158276&status=done&style=none&width=986.8799698828134" alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567142951306-77d27447-1f2b-409b-b0a3-17f2b954968e.png#align=left&display=inline&height=776&name=image.png&originHeight=1011&originWidth=1271&size=103219&status=done&style=none&width=976.1279702109384" alt="image.png"></p>
+<p>也可以直接输入 http  就会自动过滤<br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567142890127-41f6ff63-638a-47d0-87cb-bcb77e4d0462.png#align=left&display=inline&height=710&name=image.png&originHeight=924&originWidth=1111&size=165178&status=done&style=none&width=853.2479739609383" alt="image.png"></p>
+<p><code>http.request.method==GET</code><br>这样就可以过滤用 GET  方式请求的数据<br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567143044501-b1008685-8149-4789-b39a-f3f1c2f8d9ef.png#align=left&display=inline&height=504&name=image.png&originHeight=656&originWidth=1111&size=86363&status=done&style=none&width=853.2479739609383" alt="image.png"></p>
+<h4 id="过滤数据"><a href="#过滤数据" class="headerlink" title="过滤数据"></a>过滤数据</h4><p><strong>按照协议过滤：</strong><br>snmp || dns || icmp</p>
+<p><strong>按照协议属性值：</strong></p>
+<p>ip.src == 10.230.0.0/16    显示来自 10..230 网段的封包</p>
+<p>tcp.port == 25    显示来源或目的 TCP 端口号为 25 的封包</p>
+<p>tcp.dstport == 25    显示目的 TCP 端口号为 25 的封包</p>
+<p>http.request.method == “POST”    显示 post 请求方式的 http 封包</p>
+<p>http.host == “example.com”      显示请求域名为 example.com 的 http 封包</p>
+<p><strong>内容过滤语法：</strong></p>
+<p>tcp contains “http”    显示 payload 中包含”http”字符串封包</p>
+<p>http.request.url contains “online”    显示请求的 url 包含”online”的 http 封包</p>
+<p>还有个 matches 来做正则匹配，以后补充</p>
+<p>搜索字符串：ctrl+F  选择分组详情、字符串，然后输入想找的查找就可以</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567152857082-88dd932b-24e1-4750-9bfb-46557cee3b27.png#align=left&display=inline&height=591&name=image.png&originHeight=769&originWidth=1789&size=133283&status=done&style=none&width=1373.9519580703138" alt="image.png"></p>
+<p>右键 -&gt;  追踪 -&gt; TCP 流，可以跟踪 TCP 会话的过程</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567151708808-bcf67967-52c9-453d-a6a5-dd443715a989.png#align=left&display=inline&height=577&name=image.png&originHeight=751&originWidth=1091&size=143871&status=done&style=none&width=837.8879744296883" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567151791673-ee553209-3148-4916-8754-894fb833cdaa.png#align=left&display=inline&height=613&name=image.png&originHeight=798&originWidth=729&size=81034&status=done&style=none&width=559.871982914063" alt="image.png"></p>
+<p>有时候这里会有一些 zip、png、jpg 的信息，如果熟悉文件头的话一眼就能看出来，用下面的 save as…就可以保存成出来，然后用 winhex  保存成图片或压缩包</p>
+<h3 id="wireshark-着色规则"><a href="#wireshark-着色规则" class="headerlink" title="wireshark 着色规则"></a>wireshark 着色规则</h3><p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567151343348-ecfa7abf-6222-4d68-8abd-6ad10edcc35b.png#align=left&display=inline&height=419&name=image.png&originHeight=546&originWidth=731&size=60436&status=done&style=none&width=561.407982867188" alt="image.png"></p>
+<h2 id="Tshark"><a href="#Tshark" class="headerlink" title="Tshark"></a>Tshark</h2><p>在 wireshark 命令行里的工具<br>常用参数： -r 设置读取本地文件<br>-R</p>
+<h2 id="键盘流量分析"><a href="#键盘流量分析" class="headerlink" title="键盘流量分析"></a>键盘流量分析</h2><p>数据长度为八个字节</p>
+<p>USB 流量分为键盘流量和鼠标流量。</p>
+<p>键盘数据包的数据长度为 8 个字节，击键信息集中在第 3 个字节</p>
+<p>映射关系</p>
+<p><a href="https://usb.org/sites/default/files/documents/hut1_12v2.pdf" target="_blank" rel="noopener">https://usb.org/sites/default/files/documents/hut1_12v2.pdf</a></p>
+<p>可以用 tshark 命令可以将 leftover capture data 进行提取</p>
+<p>tshark -r 流量包 -T fields -e usb.capdata &gt; usbdata.txt</p>
+<p>提取出来后根据映射关系还原即可</p>
+<p>状态不好，以后再弄</p>
+<h1 id="wireshark-实战"><a href="#wireshark-实战" class="headerlink" title="wireshark 实战"></a>wireshark 实战</h1><p><strong>《wireshark 与 metasploit 实战指南》学习</strong></p>
+<h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><p>添加一个 w4sp-lab 用户<br><code>useradd -m w4sp-lab -s /bin/bash -G sudo -U</code><br>然后 <code>passwd w4sp-lab</code> ，设置好密码之后，使用 w4sp-lab 用户登录<br>把这个文件拷到虚拟机里面<br><a href="https://cdn.nlark.com/yuque/0/2020/zip/268938/1585643789882-80b56809-6ff0-4dbb-96bb-c62cb0838eb6.zip?_lake_card=%7B%22uid%22%3A%221585618597881-0%22%2C%22src%22%3A%22https%3A%2F%2Fcdn.nlark.com%2Fyuque%2F0%2F2020%2Fzip%2F268938%2F1585643789882-80b56809-6ff0-4dbb-96bb-c62cb0838eb6.zip%22%2C%22name%22%3A%22w4sp-lab.zip%22%2C%22size%22%3A1213743%2C%22type%22%3A%22application%2Fx-zip-compressed%22%2C%22ext%22%3A%22zip%22%2C%22progress%22%3A%7B%22percent%22%3A99%7D%2C%22status%22%3A%22done%22%2C%22percent%22%3A0%2C%22id%22%3A%22eNrCS%22%2C%22refSrc%22%3A%22https%3A%2F%2Fwww.yuque.com%2Fattachments%2Fyuque%2F0%2F2020%2Fzip%2F268938%2F1585618598552-f19203e4-f228-40b5-92db-71b3c7aa09d7.zip%22%2C%22card%22%3A%22file%22%7D" target="_blank" rel="noopener">w4sp-lab.zip</a></p>
+<p>直接用我这个压缩包里的文件，我改好了，用 parrot 反正是安装成功了（虽然不稳定）</p>
+<p>然后在文件夹里面：<code>sudo python w4sp_webapp.py</code><br>等待安装就好了，成功以后有个 setup 点一下就成了下面这样了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585618000569-de337cf2-9c09-4b68-9c56-29653a60624a.png#align=left&display=inline&height=818&originHeight=818&originWidth=1270&status=done&style=none&width=1270" alt=""></p>
+<h2 id="中间人攻击"><a href="#中间人攻击" class="headerlink" title="中间人攻击"></a>中间人攻击</h2><h3 id="ARP-中间人攻击"><a href="#ARP-中间人攻击" class="headerlink" title="ARP 中间人攻击"></a>ARP 中间人攻击</h3><p>首先 sudo python w4sp_webapp.py，把环境拉起来，然后访问 127.0.0.1:5000</p>
+<p>在一个新的终端里面打开 msf（命令：msfconsole），使用：<code>use auxiliary/spoof/arp/arp_poisoning</code><br>补充：打开 msf 的时候加个 sudo，不然待会<br>You don’t have permission to capture on that device (socket: Operation not permitted)</p>
+<p><code>show options</code>  看一下需要的参数，我们需要设置 DHOSTS 和 SHOSTS 以及 LOCALSIP（需要用 <code>show advanced</code>  查看）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586428215689-c3c42ed6-6ae8-4a09-94dc-7ad541bd1c11.png#align=left&display=inline&height=343&name=image.png&originHeight=686&originWidth=1353&size=214610&status=done&style=none&width=676.5" alt="image.png"></p>
+<p>在网络拓扑里面查看一下 我们攻击的目标 vic1 的 IP，<code>set DHOSTS 192.100.200.167</code></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586428416686-839a10c7-f113-4de9-81a5-3fb1913ca696.png#align=left&display=inline&height=144&name=image.png&originHeight=135&originWidth=279&size=13410&status=done&style=none&width=297" alt="image.png"></p>
+<p>在终端中查看一下我们的网关：<code>set SHOSTS 192.100.200.1</code></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586428583671-090f6104-0af0-4659-9873-23e1bfde5538.png#align=left&display=inline&height=153&name=image.png&originHeight=256&originWidth=808&size=57311&status=done&style=none&width=484" alt="image.png"></p>
+<p>把 LOCALSIP 设置为 本机的 ip：<code>set LOCALSIP 192.100.200.191</code></p>
+<p>打开 wireshark 抓包看一下<br>我。。卡死了</p>
+<p>重新开一下，同时记录一下各个设备的 ip</p>
+<table>
+<thead>
+<tr>
+<th>w4sp_lab（本机）</th>
+<th>vic1（靶机）</th>
+<th>ftp2（另一网段的 ftp）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>192.100.200.191</td>
+<td>192.100.200.174</td>
+<td>10.100.200.159</td>
+</tr>
+</tbody></table>
+<p>sudo setcap ‘CAP_NET_RAW+eip CAP_NET_ADMIN+eip’ /usr/bin/dumpcap<br>使用这条命令可以让 dumpcap 无需 root 权限即可使用原生 sockets</p>
+<p>抓包，选择 w4sp-lab 那个</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586438443535-af0c2625-d4d7-4f0a-a99b-3d1f5f085059.png#align=left&display=inline&height=363&name=image.png&originHeight=583&originWidth=746&size=83416&status=done&style=none&width=465" alt="image.png"></p>
+<p>同时用 arp-scan -l 可以看到 vic1 的 MAC 地址是  ea:d6:b0:9a:94:10</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586504045681-c1bd7dac-a3b0-4302-ba52-6fb70db6eff4.png#align=left&display=inline&height=303&name=image.png&originHeight=437&originWidth=801&size=131221&status=done&style=none&width=555" alt="image.png"></p>
+<p>正常的时候 ARP 流量是这样的，只有 vic1 这个机器不断地在询问</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586504180442-4df8d756-d961-4d3a-9b12-8b6a8081ffe6.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=154035&status=done&style=none&width=829" alt="image.png"></p>
+<p>当我们进行 ARP 欺骗之后：</p>
+<p><code>exploit</code> 开始攻击（之前的图）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586429343843-f9c95445-f23f-41ec-924e-903f0c638d59.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=385170&status=done&style=none&width=829" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586504968543-ffd72ba2-c112-43c4-a254-49bdda078319.png#align=left&display=inline&height=275&name=image.png&originHeight=549&originWidth=1481&size=196791&status=done&style=none&width=740.5" alt="image.png"></p>
+<p>本机开始不断地向 vic1 发送假的信息（可以看到不停发送 arp 信息的就是本机）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586504696640-1ef803b6-cf47-4dea-8970-754b970186b2.png#align=left&display=inline&height=330&name=image.png&originHeight=584&originWidth=804&size=186121&status=done&style=none&width=454" alt="image.png"></p>
+<p>同时，vic1 发送给另一个网段的 ftp 服务器的信息直接发到了我们这里</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586505160445-7b954320-ad02-4fed-bfc3-87bf6490f70c.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=209295&status=done&style=none&width=829" alt="image.png"></p>
+<p>针对这种攻击，可以使用 arp -s 添加静态的 arp 表<br><code>arp -s 192.100.200.1 00:00:5e:00:01:ee</code></p>
+<h3 id="DNS-中间人攻击"><a href="#DNS-中间人攻击" class="headerlink" title="DNS 中间人攻击"></a>DNS 中间人攻击</h3><p>通过篡改 DNS 流量，使得 DNS 响应把特定主机名解析给攻击者的机器，而不是主机名真正对应的机器<br>除非系统设置了静态 IP，否则 DNS 服务器的信息，是作为 DHCP 服务器的一个参数一起获得的</p>
+<p>DHCP 协议工作步骤：</p>
+<blockquote>
+<p>1、客户端发起一个”Discovery（发现）”广播：有没有 DHCP 服务器？<br>2、DHCP 服务器向客户端回一个”Offer（供应）”：你准备要这个 IP 嘛？<br>3、客户端对收到的 IP 地址发送”Request（请求）”：我准备要这个 IP！<br>4、DHCP 服务器最后回复”Acknowledgment（确认）”：这个 IP 归你了！</p>
+</blockquote>
+<p>除了 IP 地址，DHCP 服务器还会提供其他信息，例如分配的 IP 可以保留多久（租期），同时也提供 DNS 服务器信息<br>我们打算用 msf 伪造我们的机器位假的 DHCP 和 DNS 服务器提供出去</p>
+<p>先伪造 DHCP：<br><code>sudo msfconsole</code>，然后 <code>use auxiliary/server/dhcp</code></p>
+<p>分别设置 DNSSERVER、SRVHOST 位本机 IP，NETMASK 设置为 255.255.255.0<br><code>set DNSSERVER 192.100.200.191</code>  假的 DNS 服务器地址<br><code>set SRVHOST 192.100.200.191</code>  假的 DHCP 服务器的地址<br><code>set NETMASK 255.255.255.0</code>  网络掩码</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586510349624-f165fa3e-805c-46e4-aad6-fc192840008a.png#align=left&display=inline&height=221&name=image.png&originHeight=267&originWidth=601&size=102363&status=done&style=none&width=498" alt="image.png"></p>
+<p>再使用 <code>use auxiliary/server/fakedns</code>  来伪造 DNS 服务器</p>
+<p>分别攻击参数<br><code>set TARGETACTION FAKE</code>  对解析的域名采取什么动作，FAKE 表示假冒，如果想测试一下这个模块可以使用 BYPASS（放行）这样会转发给合法的 DNS 服务器<br><code>set TARGETDOMAIN ftp1.labs</code>  希望解析的域名<br><code>set TARGETHOST 192.100.200.191</code>  用于解析 DNS 查询的服务器</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586511122189-79da5028-a10a-4c4e-bc3a-cf0731ee353f.png#align=left&display=inline&height=160&name=image.png&originHeight=198&originWidth=637&size=84691&status=done&style=none&width=515" alt="image.png"></p>
+<p>过一会就会收到每条 DNS 查询信息了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586511229251-c1dd4ab5-8ae2-4cb0-a701-50a802377493.png#align=left&display=inline&height=413&name=image.png&originHeight=590&originWidth=810&size=284911&status=done&style=none&width=567" alt="image.png"></p>
+<p>如果不想显示这些东西可以 <code>jobs -l</code> 看一下在运行的任务</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586511383540-5e210056-9118-4f4e-88c9-a0421cc8a73a.png#align=left&display=inline&height=212&name=image.png&originHeight=339&originWidth=802&size=142795&status=done&style=none&width=502" alt="image.png"></p>
+<p>然后 <code>jobs -k 1</code>（删掉 id 位 1 的任务）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586511436416-cf262970-9e71-4134-85b0-5de1d6b9cef7.png#align=left&display=inline&height=62&name=image.png&originHeight=66&originWidth=426&size=16084&status=done&style=none&width=399" alt="image.png"></p>
+<p>然后 <code>exploit -q</code> 静默运行</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586511523063-50045b17-9c80-4fbb-a7a1-0619b72feda3.png#align=left&display=inline&height=248&name=image.png&originHeight=286&originWidth=551&size=81606&status=done&style=none&width=478" alt="image.png"></p>
+<p>可以看到 vic1 向我们的机器查询 ftp1.labs 的地址</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586512060460-33c1c7a4-96c3-4df2-87e8-2bd773f733ee.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=245469&status=done&style=none&width=829" alt="image.png"></p>
+<p>我们的机器又告诉他 ftp1.labs 是在 192.100.200.191 也就是本机 ip</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586512212653-c143b32d-5399-4b67-886b-eb8d24104b55.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=242158&status=done&style=none&width=829" alt="image.png"></p>
+<p>但问题是本机并没有 FTP 服务器，vic1 过来没人搭理他，我们需要再设置一个假的 FTP 服务器来捕获用户的身份信息</p>
+<p><code>use auxiliary/server/capture/ftp</code>，甚至不需要什么参数，直接 exploit 就可以了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586512707653-831f391c-5345-40f9-87ac-5e60c8da9ce2.png#align=left&display=inline&height=121&name=image.png&originHeight=155&originWidth=658&size=65455&status=done&style=none&width=513" alt="image.png"></p>
+<p>这样就可以用  wireshark  找到他了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586513198758-1000c7b5-431e-4d61-bb1f-3614b4a5eb54.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=205396&status=done&style=none&width=829" alt="image.png"></p>
+<p>（然而  msf  的终端里也会显示）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586514006100-3dff8877-7010-44ec-a86c-f02252a7480f.png#align=left&display=inline&height=170&name=image.png&originHeight=224&originWidth=518&size=85538&status=done&style=none&width=393" alt="image.png"></p>
+<h2 id="攻击相关"><a href="#攻击相关" class="headerlink" title="攻击相关"></a>攻击相关</h2><h3 id="NMAP"><a href="#NMAP" class="headerlink" title="NMAP"></a>NMAP</h3><table>
+<thead>
+<tr>
+<th>本机</th>
+<th>攻击机（ftp1）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>192.100.200.191</td>
+<td>192.100.200.172</td>
+</tr>
+</tbody></table>
+<p>使用 nmap 对 ftp1 进行扫描…<br>实在太卡了，这里就用 kali 扫 DC-5 抓包分析吧<br>141 是 kali 的 IP，163 是 DC-5 的 IP</p>
+<h4 id="全连接方式（-sT）"><a href="#全连接方式（-sT）" class="headerlink" title="全连接方式（-sT）"></a>全连接方式（-sT）</h4><p>使用 TCP 连接，与每个端口都进行完整的三次握手<br>如果目标端口开启：首先 kali 向目标发送 [SYN]，然后目标返回 [SYN,ACK]，kali 再发送 [ACK] 与 [RST,ACK]</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586575257153-7dbe0772-8611-4440-93d9-4f9f01e23b67.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=324378&status=done&style=none&width=829" alt="image.png"></p>
+<p>如果目标端口未开启：攻击方发起 [SYN] 包，然后攻击方返回 [RST,ACK]</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586575579816-014556c5-3d47-4e58-810f-4805a0091666.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=318773&status=done&style=none&width=829" alt="image.png"></p>
+<h4 id="半连接方式（-sS）"><a href="#半连接方式（-sS）" class="headerlink" title="半连接方式（-sS）"></a>半连接方式（-sS）</h4><p>SYN 扫描，默认就是这样的<br>如果端口是开着的，首先 kali 发一个 [SYN]，目标回一个 [SYN,ACK]，kali 再回一个 [RST]</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586572262028-add754dc-ce4e-4ff5-b954-3ed5c8cdf42a.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=282065&status=done&style=none&width=829" alt="image.png"></p>
+<p>如果是端口没有开，kali 发一个 [SYN]，目标返回一个 [RST,ACK]</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586573824447-ceb632d9-a8f7-41b3-9ba6-89ac29d24284.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=280152&status=done&style=none&width=829" alt="image.png"></p>
+<h4 id="秘密扫描-TCPFIN（-sN、-sF、-sX）"><a href="#秘密扫描-TCPFIN（-sN、-sF、-sX）" class="headerlink" title="秘密扫描 TCPFIN（-sN、-sF、-sX）"></a>秘密扫描 TCPFIN（-sN、-sF、-sX）</h4><p>如果端口存在：kali 发送一个 [FIN]，啥都不返回，Linux 会丢弃这个包，而 Windows 会返回一个 RST 包（可以用来判断系统）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586576141436-d729d1e8-8ca0-4d73-a6cc-ab21349aba6c.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=325659&status=done&style=none&width=829" alt="image.png"></p>
+<p>如果不存在：kali 发送一个 [FIN] 包，Linux 与 Windows 都会返回一个 [RST] 包</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586576242802-95cb23f6-67f9-48ac-896b-ff906f6f118d.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=286937&status=done&style=none&width=829" alt="image.png"></p>
+<h4 id="秘密扫描-TCPACK（-sA）"><a href="#秘密扫描-TCPACK（-sA）" class="headerlink" title="秘密扫描 TCPACK（-sA）"></a>秘密扫描 TCPACK（-sA）</h4><p>这种方式可以检测目标是否采用了数据包状态检测技术防火墙<br>发送一个 [ACK]，如果目标主机中回复 [RST] 则证明没有采用防火墙</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586576477419-5c19cb0a-4032-4873-af72-d633812116b4.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=292502&status=done&style=none&width=829" alt="image.png"></p>
+<h2 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h2><p>因为涉及到 Metasploitable 这个靶机，先 <code>docker pull w4sp/labs:sploitable</code>  拉下来，省的待会点击开启的时候在等，点击那个 start sploit 记录一下靶机的 IP：10.100.200.135</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586596634476-125489d9-433f-46c3-9787-2724d642bee7.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=531024&status=done&style=none&width=829" alt="image.png"></p>
+<p>然后启动 msf 进行攻击，使用 VSFTPD 漏洞<br><code>use exploit/unix/ftp/vsftpd_234_backdoor</code></p>
+<p>设置攻击目标 IP，然后开始攻击<br><code>set RHOST 10.100.200.135</code></p>
+<p>有时候建立不起来连接，多试几次</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586697956700-8ad412c7-28ca-4890-87b0-be7c35efd6ae.png#align=left&display=inline&height=362&name=image.png&originHeight=587&originWidth=802&size=107418&status=done&style=none&width=495" alt="image.png"></p>
+<p>使用过滤器 ip.addr==10.100.200.135 过滤一下，可以看到我们连接后执行的命令和返回的结果</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586698432170-e3523601-0961-4b6c-a324-6f184aa0978a.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=214823&status=done&style=none&width=829" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586698433703-0ffd4c4b-ecaf-4337-99c0-8a7339a99f86.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=211608&status=done&style=none&width=829" alt="image.png"></p>
+<h3 id="从-TCP-流里观察正向-shell"><a href="#从-TCP-流里观察正向-shell" class="headerlink" title="从 TCP 流里观察正向 shell"></a>从 TCP 流里观察正向 shell</h3><p>kali：192.100.200.114<br>metasploitable：10.100.200.156</p>
+<p><code>use exploit/multi/misc/java_rmi_server</code><br><code>set RHOST 10.100.200.156</code><br><code>set PAYLOAD java/meterpreter/bind_tcp</code></p>
+<p>我们使用  blind_tcp  方式的  meterpreter shell，在第一阶段，meterpreter shell  会在目标机器上监听一个 TCP  端口，等着  msf  连上去，把剩余的  payload  发过去。本质上说，就是我们在目标机器上创建了一个服务程序，然后我们再去连接到这个  shell  上，获得完整的  shell</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587126080452-62cc2e9a-7b2d-445b-9834-20bae466e0ec.png#align=left&display=inline&height=416&name=image.png&originHeight=608&originWidth=806&size=192396&status=done&style=none&width=552" alt="image.png"></p>
+<p>在  wireshark  里查看一下，因为我们攻击的是 1099  端口的  java RMI  服务，所以可以直接过滤一下<br>tcp.port==1099，然后右键追踪流看一下具体的流量</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587126116207-133d8efe-ce35-472a-ad74-9c8e0ee20eeb.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=250069&status=done&style=none&width=829" alt="image.png"></p>
+<p>可以看到，在我们本机的 8080  口，下载了一个 .jar  文件</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587126148069-d016f026-f945-4d65-bddc-efb943af41b2.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=193803&status=done&style=none&width=829" alt="image.png"></p>
+<p>可以过滤一下 8080  端口的流量，追踪流</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587126285232-632c02e7-cc2d-49d4-b831-89bafe07ae4d.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=325566&status=done&style=none&width=829" alt="image.png"></p>
+<p>然而我去过滤 4444 端口的时候，找不到 shell 交流的过程</p>
+<h3 id="从-TCP-流里观察反向-shell"><a href="#从-TCP-流里观察反向-shell" class="headerlink" title="从 TCP 流里观察反向 shell"></a>从 TCP 流里观察反向 shell</h3><p>有点没用…</p>
+<h2 id="解密-SSL-TLS"><a href="#解密-SSL-TLS" class="headerlink" title="解密 SSL/TLS"></a>解密 SSL/TLS</h2><p>要用 浏览器 和 wireshark 同时运行，电脑跑不起来，告辞</p>
+<h2 id="USB-和-wireshark"><a href="#USB-和-wireshark" class="headerlink" title="USB 和 wireshark"></a>USB 和 wireshark</h2><h3 id="Linux-下捕获-USB-流量"><a href="#Linux-下捕获-USB-流量" class="headerlink" title="Linux 下捕获 USB 流量"></a>Linux 下捕获 USB 流量</h3><p>linux 内核的 usbmon 模块支持 USB 实时抓包功能，usbmon 能够捕获经过 USB 总线的数据包</p>
+<p>sudo modprobe usbmon<br>lsmod | grep usbmon</p>
+<p>这时候打开 wireshark 就会看到</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587133057930-26bc475b-132a-45c4-aed9-002a639b7b03.png#align=left&display=inline&height=467&name=image.png&originHeight=933&originWidth=1658&size=147859&status=done&style=none&width=829" alt="image.png"></p>
+<p>每一个编号对应着一个 usb 设备，可以通过 lsusb 来看一下系统正在用的 USB 设备</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587133160851-4c1b5399-366d-4d66-bf17-b5849495af8d.png#align=left&display=inline&height=198&name=image.png&originHeight=265&originWidth=736&size=102717&status=done&style=none&width=548" alt="image.png"></p>
+<p>这里可以看到 003 后面写着 鼠标(Mouse) 这是 vmware 为虚拟机提供的鼠标输入设备</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>杂项随记（汇总）</title>
+    <url>/2019/11/10/uew75k/</url>
+    <content><![CDATA[<h1 id="常见编码"><a href="#常见编码" class="headerlink" title="常见编码"></a>常见编码</h1><p>对常见的编码进行整理，原文本与编码后进行对比，直观一点<br>参考：<a href="https://www.tuicool.com/articles/2E3INnm" target="_blank" rel="noopener">CTF 中那些脑洞大开的编码</a><a href="https://www.tuicool.com/articles/2E3INnm" target="_blank" rel="noopener">与加密</a><br><a href="https://www.yuque.com/attachments/yuque/0/2019/md/268938/1567171245383-6136aa53-cadd-4f26-81db-3c699e3dac8c.md?_lake_card=%7B%22uid%22%3A%22rc-upload-1566091842376-4%22%2C%22src%22%3A%22https%3A%2F%2Fwww.yuque.com%2Fattachments%2Fyuque%2F0%2F2019%2Fmd%2F268938%2F1567171245383-6136aa53-cadd-4f26-81db-3c699e3dac8c.md%22%2C%22name%22%3A%22CTF%E4%B8%AD%E9%82%A3%E4%BA%9B%E8%84%91%E6%B4%9E%E5%A4%A7%E5%BC%80%E7%9A%84%E7%BC%96%E7%A0%81%E5%92%8C%E5%8A%A0%E5%AF%86.md%22%2C%22size%22%3A58968%2C%22type%22%3A%22%22%2C%22ext%22%3A%22md%22%2C%22progress%22%3A%7B%22percent%22%3A0%7D%2C%22status%22%3A%22done%22%2C%22percent%22%3A0%2C%22id%22%3A%22bDTMg%22%2C%22refSrc%22%3A%22https%3A%2F%2Fwww.yuque.com%2Fattachments%2Fyuque%2F0%2F2019%2Fmd%2F268938%2F1566091854155-e514e931-3a13-4b31-beda-bf3c072fabba.md%22%2C%22card%22%3A%22file%22%7D" target="_blank" rel="noopener">CTF 中那些脑洞大开的编码和加密.md</a></p>
+<h2 id="ASCII-编码"><a href="#ASCII-编码" class="headerlink" title="ASCII 编码"></a>ASCII 编码</h2><table>
+<thead>
+<tr>
+<th>ASCII</th>
+<th>HEX</th>
+<th>DEC</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>flag{hello_ctfer}</td>
+<td>66 6c 61 67 7b 68 65 6c 6c 6f 5f 63 74 66 65 72 7d</td>
+<td>102 108 97 103 123 104 101 108 108 111 95 99 116 102 101 114 125</td>
+</tr>
+</tbody></table>
+<h2 id="Base64-58-32-16-编码"><a href="#Base64-58-32-16-编码" class="headerlink" title="Base64/58/32/16 编码"></a>Base64/58/32/16 编码</h2><table>
+<thead>
+<tr>
+<th>原文</th>
+<th>base64</th>
+<th>base58</th>
+<th>base32</th>
+<th>base16</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>flag{hello_ctfer}</td>
+<td>ZmxhZ3toZWxsb19jdGZlcn0=</td>
+<td>xpoetRPM7vtSVFL9Lrjejfr</td>
+<td>MZWGCZ33NBSWY3DPL5RXIZTFOJ6Q====</td>
+<td>666c61677b68656c6c6f5f63746665727d</td>
+</tr>
+</tbody></table>
+<h2 id="shellcode-编码"><a href="#shellcode-编码" class="headerlink" title="shellcode 编码"></a>shellcode 编码</h2><table>
+<thead>
+<tr>
+<th>原文</th>
+<th>shellcode 编码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>flag{hello_ctfer}</td>
+<td>\x66\x6c\x61\x67\x7b\x68\x65\x6c\x6c\x6f\x5f\x63\x74\x66\x65\x72\x7d</td>
+</tr>
+</tbody></table>
+<h2 id="Quoted-printable-编码"><a href="#Quoted-printable-编码" class="headerlink" title="Quoted-printable 编码"></a>Quoted-printable 编码</h2><table>
+<thead>
+<tr>
+<th>原文</th>
+<th>Quoted-printable 编码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>你好希提爱抚选手</td>
+<td>=E4=BD=A0=E5=A5=BD=E5=B8=8C=E6=8F=90=E7=88=B1=E6=8A=9A=E9=80=89=E6=89=8B</td>
+</tr>
+</tbody></table>
+<h2 id="Xxencode-编码"><a href="#Xxencode-编码" class="headerlink" title="Xxencode 编码"></a>Xxencode 编码</h2><table>
+<thead>
+<tr>
+<th>原文</th>
+<th>Xxencode 编码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>flag{welcome_yichen}</td>
+<td>INalVNrhrNKlXPqpZLrZdMqVZPbo+</td>
+</tr>
+</tbody></table>
+<h2 id="UUencode-编码"><a href="#UUencode-编码" class="headerlink" title="UUencode 编码"></a>UUencode 编码</h2><table>
+<thead>
+<tr>
+<th>原文</th>
+<th>Uuencode</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>flag{welcome_yichen}</td>
+<td>49FQA9WMW96QC;VUE7WEI8VAE;GT</td>
+</tr>
+</tbody></table>
+<h2 id="URL-编码"><a href="#URL-编码" class="headerlink" title="URL 编码"></a>URL 编码</h2><table>
+<thead>
+<tr>
+<th>原文</th>
+<th>URLencode</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>flag{welcome_yichen}</td>
+<td>%66%6c%61%67%7b%77%65%6c%63%6f%6d%65%5f%79%69%63%68%65%6e%7d</td>
+</tr>
+</tbody></table>
+<h2 id="Unicode-编码"><a href="#Unicode-编码" class="headerlink" title="Unicode 编码"></a>Unicode 编码</h2><table>
+<thead>
+<tr>
+<th>原文</th>
+<th>unicode</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>flag{welcome_yichen}</td>
+<td>\u0066006c00610067007b00770065006c0063006f006d0065005f00790069006300680065006e007d</td>
+</tr>
+</tbody></table>
+<h2 id="Escape-Unescape-编码"><a href="#Escape-Unescape-编码" class="headerlink" title="Escape/Unescape 编码"></a>Escape/Unescape 编码</h2><p>这是一个 js 函数，该方法不会对 ASCII 字母和数字进行编码，也不会对下面这些 ASCII 标点符号进行编码： * @ - _ + . / 。其他所有的字符都会被转义序列替换。</p>
+<table>
+<thead>
+<tr>
+<th>原文</th>
+<th>Escape</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>flag{welcome_yichen}</td>
+<td>flag%7Bwelcome_yichen%7D</td>
+</tr>
+</tbody></table>
+<h2 id="HTML-实体编码"><a href="#HTML-实体编码" class="headerlink" title="HTML 实体编码"></a>HTML 实体编码</h2><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>flag{welcome_yichen}</td>
+<td>flag{welcome_yichen}</td>
+</tr>
+</tbody></table>
+<h2 id="敲击码-Tap-code"><a href="#敲击码-Tap-code" class="headerlink" title="敲击码(Tap code)"></a>敲击码(Tap code)</h2><table>
+<thead>
+<tr>
+<th>原文</th>
+<th>Tap code</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>flag{welcome_yichen}</td>
+<td>2131112252153113343215542413231533</td>
+</tr>
+</tbody></table>
+<h2 id="莫尔斯电码-Morse-Code"><a href="#莫尔斯电码-Morse-Code" class="headerlink" title="莫尔斯电码(Morse Code)"></a>莫尔斯电码(Morse Code)</h2><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>welocme yichen</td>
+<td>·– · ·-·· — -·-· – ·/-·– ·· -·-· ···· · -·</td>
+</tr>
+</tbody></table>
+<h2 id="Ook-编码"><a href="#Ook-编码" class="headerlink" title="Ook 编码"></a>Ook 编码</h2><table>
+<thead>
+<tr>
+<th>原文</th>
+<th>Ook</th>
+<th>short Ook</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>yichen</td>
+<td>Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook.</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook! Ook? Ook! Ook! Ook. Ook? Ook. Ook.<br>Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook.<br>Ook. Ook. Ook. Ook. Ook. Ook? Ook. Ook? Ook! Ook. Ook? Ook! Ook. Ook? Ook.<br>Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook! Ook? Ook! Ook! Ook. Ook? Ook!<br>Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook? Ook. Ook? Ook! Ook. Ook? Ook! Ook.<br>Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook. Ook.<br>Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook! Ook. Ook! Ook! Ook! Ook!<br>Ook! Ook! Ook! Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook.<br>Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook! Ook. Ook? Ook.  | ….. ….. ….. ….. ..!?! !.?.. ….. ….. ….. ….. ?.?!. ?!.?.<br>….. …!? !!.?! !!!!! !!?.? !.?!. !!!!! !!!!! !!!.. ….. ….! .!!!!<br>!!!.. ….. ….. ….. ..!.? . |</p>
+<h2 id="brainfuck"><a href="#brainfuck" class="headerlink" title="brainfuck"></a>brainfuck</h2><table>
+<thead>
+<tr>
+<th>原文</th>
+<th>brainfuck</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>flag{welcome_to_misc_world}</td>
+<td>–[—–&gt;+&lt;]&gt;.++++++.———–.++++++.[—–&gt;+&lt;]&gt;.—-.[-&gt;+++&lt;]&gt;.+++++++.———.++++++++++++.–.——–.——.[—&gt;+&lt;]&gt;-.—–.+[—–&gt;++&lt;]&gt;-.++++++++++++++.—-.++++++++++.+++[-&gt;+++&lt;]&gt;+.—-.[—&gt;+&lt;]&gt;++.——–.+++.——.——–.&gt;–[–&gt;+++&lt;]&gt;.</td>
+</tr>
+</tbody></table>
+<h2 id="社会主义价值观编码"><a href="#社会主义价值观编码" class="headerlink" title="社会主义价值观编码"></a>社会主义价值观编码</h2><table>
+<thead>
+<tr>
+<th>原文</th>
+<th>社会主义价值观编码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>flag{welcome_to_misc_world}</td>
+<td>公正公正公正诚信文明公正民主公正法治法治诚信民主法治法治公正平等公正诚信文明公正和谐公正友善敬业公正诚信和谐公正平等平等诚信平等法治自由公正诚信平等平等诚信平等公正诚信和谐公正敬业法治和谐公正和谐平等友善敬业法治法治公正诚信平等法治文明公正友善公正公正自由法治友善法治</td>
+</tr>
+</tbody></table>
+<h2 id="Handycode"><a href="#Handycode" class="headerlink" title="Handycode"></a>Handycode</h2><table>
+<thead>
+<tr>
+<th>原文</th>
+<th>Handycode</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>flag{welcome_to_misc_world}</td>
+<td>333 555 2 4 9 33 555 222 666 6 33 8 666 6 444 7777 222 9 666 777 555 3</td>
+</tr>
+</tbody></table>
+<h2 id="BubbleBabble"><a href="#BubbleBabble" class="headerlink" title="BubbleBabble"></a>BubbleBabble</h2><table>
+<thead>
+<tr>
+<th>原文</th>
+<th>BubbleBabble</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>flag{welcome_to_misc_world}</td>
+<td>xinik-samak-luval-lanek-semyk-zerek-helol-gireh-ziryk-nusak-filol-luril-derik-gyzox</td>
+</tr>
+</tbody></table>
+<h2 id="AAencode"><a href="#AAencode" class="headerlink" title="AAencode"></a>AAencode</h2><table>
+<thead>
+<tr>
+<th>原文</th>
+<th>AAencode</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>yichen</td>
+<td>ﾟ ω ﾟﾉ= /｀ｍ ´）ﾉ ~┻━┻   //<em>´∇ ｀</em>/ [‘<em>‘]; o=(ﾟｰﾟ)  =</em>=3; c=(ﾟ Θ ﾟ) =(ﾟｰﾟ)-(ﾟｰﾟ); (ﾟ Д ﾟ) =(ﾟ Θ ﾟ)= (o^<em>^o)/ (o^</em>^o);(ﾟ Д ﾟ)={ﾟ Θ ﾟ: ‘<em>‘ ,ﾟ ω ﾟﾉ : ((ﾟ ω ﾟﾉ==3) +’</em>‘) [ﾟ Θ ﾟ] ,ﾟｰﾟﾉ :(ﾟ ω ﾟﾉ+ ‘<em>‘)[o^</em>^o -(ﾟ Θ ﾟ)] ,ﾟ Д ﾟﾉ:((ﾟｰﾟ==3) +’<em>‘)[ﾟｰﾟ] }; (ﾟ Д ﾟ) [ﾟ Θ ﾟ] =((ﾟ ω ﾟﾉ==3) +’</em>‘) [c^<em>^o];(ﾟ Д ﾟ) [‘c’] = ((ﾟ Д ﾟ)+’</em>‘) [ (ﾟｰﾟ)+(ﾟｰﾟ)-(ﾟ Θ ﾟ) ];(ﾟ Д ﾟ) [‘o’] = ((ﾟ Д ﾟ)+’<em>‘) [ﾟ Θ ﾟ];(ﾟ o ﾟ)=(ﾟ Д ﾟ) [‘c’]+(ﾟ Д ﾟ) [‘o’]+(ﾟ ω ﾟﾉ +’</em>‘)[ﾟ Θ ﾟ]+ ((ﾟ ω ﾟﾉ==3) +’<em>‘) [ﾟｰﾟ] + ((ﾟ Д ﾟ) +’</em>‘) [(ﾟｰﾟ)+(ﾟｰﾟ)]+ ((ﾟｰﾟ==3) +’<em>‘) [ﾟ Θ ﾟ]+((ﾟｰﾟ==3) +’</em>‘) [(ﾟｰﾟ) - (ﾟ Θ ﾟ)]+(ﾟ Д ﾟ) [‘c’]+((ﾟ Д ﾟ)+’<em>‘) [(ﾟｰﾟ)+(ﾟｰﾟ)]+ (ﾟ Д ﾟ) [‘o’]+((ﾟｰﾟ==3) +’</em>‘) [ﾟ Θ ﾟ];(ﾟ Д ﾟ) [‘<em>‘] =(o^</em>^o) [ﾟ o ﾟ][ﾟoﾟ];(ﾟ ε ﾟ)=((ﾟｰﾟ==3) +’<em>‘) [ﾟ Θ ﾟ]+ (ﾟ Д ﾟ) .ﾟ Д ﾟﾉ+((ﾟ Д ﾟ)+’</em>‘) [(ﾟｰﾟ) + (ﾟｰﾟ)]+((ﾟｰﾟ==3) +’<em>‘) [o^</em>^o -ﾟ Θ ﾟ]+((ﾟｰﾟ==3) +’<em>‘) [ﾟ Θ ﾟ]+ (ﾟ ω ﾟﾉ +’</em>‘) [ﾟ Θ ﾟ]; (ﾟｰﾟ)+=(ﾟ Θ ﾟ); (ﾟ Д ﾟ)[ﾟ ε ﾟ]=’\‘; (ﾟ Д ﾟ).ﾟ Θ ﾟﾉ=(ﾟ Д ﾟ+ ﾟｰﾟ)[o^<em>^o -(ﾟ Θ ﾟ)];(o ﾟｰﾟ o)=(ﾟ ω ﾟﾉ +’</em>‘)[c^<em>^o];(ﾟ Д ﾟ) [ﾟ o ﾟ]=’&quot;‘;(ﾟ Д ﾟ) [‘</em>‘] ( (ﾟ Д ﾟ) [‘<em>‘] (ﾟ ε ﾟ+(ﾟ Д ﾟ)[ﾟ o ﾟ]+ (ﾟ Д ﾟ)[ﾟ ε ﾟ]+(ﾟ Θ ﾟ)+ ((ﾟｰﾟ) + (o^</em>^o))+ (ﾟ Θ ﾟ)+ (ﾟ Д ﾟ)[ﾟ ε ﾟ]+(ﾟ Θ ﾟ)+ ((ﾟｰﾟ) + (ﾟ Θ ﾟ))+ (ﾟ Θ ﾟ)+ (ﾟ Д ﾟ)[ﾟ ε ﾟ]+(ﾟ Θ ﾟ)+ (ﾟｰﾟ)+ (o^<em>^o)+ (ﾟ Д ﾟ)[ﾟ ε ﾟ]+(ﾟ Θ ﾟ)+ ((ﾟｰﾟ) + (ﾟ Θ ﾟ))+ (c^</em>^o)+ (ﾟ Д ﾟ)[ﾟ ε ﾟ]+(ﾟ Θ ﾟ)+ (ﾟｰﾟ)+ ((ﾟｰﾟ) + (ﾟ Θ ﾟ))+ (ﾟ Д ﾟ)[ﾟ ε ﾟ]+(ﾟ Θ ﾟ)+ ((ﾟｰﾟ) + (ﾟ Θ ﾟ))+ ((o^<em>^o) +(o^</em>^o))+ (ﾟ Д ﾟ)[ﾟ o ﾟ]) (ﾟ Θ ﾟ)) (‘_’);</td>
+</tr>
+</tbody></table>
+<h2 id="Jsfuck"><a href="#Jsfuck" class="headerlink" title="Jsfuck"></a>Jsfuck</h2><table>
+<thead>
+<tr>
+<th>原文</th>
+<th>jsfuck</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>yichen</td>
+<td>(+[![]]+[+(+!+[]+(!+[]+[])[!+[]+!+[]+!+[]]+[+!+[]]+[+[]]+[+[]]+[+[]])])[+!+[]+[+[]]]+([![]]+[][]])[+!+[]+[+[]]]+(<a href="![]+[]"></a>[+[]]+([![]]+[][]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]]+[])[!+[]+!+[]+!+[]]+(+(+!+[]+[+[]]+[+!+[]]))[(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]])[+!+[]+[+[]]]+([]+[])[([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]][([][[]]+[])[+!+[]]+(![]+[])[+!+[]]+((+[])[([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]+[])[+!+[]+[+!+[]]]+(!![]+[])[!+[]+!+[]+!+[]]]](!+[]+!+[]+[+!+[]])[+!+[]]+(!![]+[])[!+[]+!+[]+!+[]]+([][]]+[])[+!+[]]</td>
+</tr>
+</tbody></table>
+<h2 id="与佛论禅"><a href="#与佛论禅" class="headerlink" title="与佛论禅"></a>与佛论禅</h2><table>
+<thead>
+<tr>
+<th>原文</th>
+<th>与佛论禅</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>flag{hello_world}</td>
+<td>佛曰：侄藝顛冥耨俱度哆所皤伽冥槃彌俱彌侄怛侄寫摩皤離冥蘇梵礙得怯真侄槃佛俱遮諳提知寫奢滅無究都依俱是呐依喝菩。殿智三集朋栗俱蒙僧侄輸冥大諳尼三冥栗侄是漫</td>
+</tr>
+</tbody></table>
+<h1 id="常见文件头汇总"><a href="#常见文件头汇总" class="headerlink" title="常见文件头汇总"></a>常见文件头汇总</h1><p>JPEG (jpg)，文件头：FFD8FF    文件尾：AE 42 60 82<br>PNG (png)，文件头：89504E470D0A1A0A<br>GIF (gif)，文件头：47494638<br>TIFF (tif)，文件头：49492A00<br>Windows Bitmap (bmp)，文件头：424D<br>CAD (dwg)，文件头：41433130<br>Adobe Photoshop (psd)，文件头：38425053<br>Rich Text Format (rtf)，文件头：7B5C727466<br>XML (xml)，文件头：3C3F786D6C<br>HTML (html)，文件头：68746D6C3E<br>Email <a href="eml">thorough only</a>，文件头：44656C69766572792D646174653A<br>Outlook Express (dbx)，文件头：CFAD12FEC5FD746F<br>Outlook (pst)，文件头：2142444E<br>MS Word/Excel (xls.or.doc)，文件头：D0CF11E0<br>MS Access (mdb)，文件头：5374616E64617264204A<br>WordPerfect (wpd)，文件头：FF575043<br>Adobe Acrobat (pdf)，文件头：255044462D312E<br>Quicken (qdf)，文件头：AC9EBD8F<br>Windows Password (pwl)，文件头：E3828596<br>ZIP Archive (zip)，文件头：504B0304<br>RAR Archive (rar)，文件头：52617221<br>Wave (wav)，文件头：57415645<br>AVI (avi)，文件头：41564920<br>Real Audio (ram)，文件头：2E7261FD<br>Real Media (rm)，文件头：2E524D46<br>MPEG (mpg)，文件头：000001BA<br>MPEG (mpg)，文件头：000001B3<br>Quicktime (mov)，文件头：6D6F6F76<br>Windows Media (asf)，文件头：3026B2758E66CF11<br>MIDI (mid)，文件头：4D546864</p>
+<h1 id="Word-隐写"><a href="#Word-隐写" class="headerlink" title="Word 隐写"></a>Word 隐写</h1><p>word 本质是一个压缩包，可以隐藏图片或 txt</p>
+<p>显示隐藏内容：文件-&gt;显示-&gt;隐藏文字</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567172238156-354bb9da-04b7-403d-852a-c8ea2b5477ec.png#align=left&display=inline&height=530&name=image.png&originHeight=621&originWidth=1294&size=81371&status=done&style=none&width=1104.2133333333334" alt="image.png"></p>
+<h1 id="图片相关"><a href="#图片相关" class="headerlink" title="图片相关"></a>图片相关</h1><h2 id="PNG-格式简介"><a href="#PNG-格式简介" class="headerlink" title="PNG  格式简介"></a>PNG  格式简介</h2><p><strong>文件格式</strong>：对于 PNG 文件来说，其文件头总是由固定的字节来描述的，剩余的部分由 3 个以上的 PNG 数据（Chunk）按照特定的顺序组成。</p>
+<p><strong>文件头</strong>：89 50 4E 47 0D 0A 1A 0A + 数据块 + 数据块 + 数据<br>块…..</p>
+<h2 id="修改图片高度"><a href="#修改图片高度" class="headerlink" title="修改图片高度"></a>修改图片高度</h2><p>如果 linux 下打不开，windows 下打得开可能就是该高度了<br>左边是宽度，圈起来的是高度，，把高度改成跟宽一样的<br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567165442893-464c4f58-d908-47a5-8fd5-634ba2a4eb67.png#align=left&display=inline&height=288&name=image.png&originHeight=337&originWidth=723&size=32779&status=done&style=none&width=616.96" alt="image.png"></p>
+<h2 id="文件尾追加文件"><a href="#文件尾追加文件" class="headerlink" title="文件尾追加文件"></a>文件尾追加文件</h2><p>直接十六进制编辑器</p>
+<h2 id="图片元数据"><a href="#图片元数据" class="headerlink" title="图片元数据"></a>图片元数据</h2><p>元数据（Metadata），又称中介数据、中继数据，为描述数据的数据（Data about<br>data），主要是描述数据属性（property）的信息，用来支持如指示存储位置、历史数据、资源查找、文件记录等功能。</p>
+<p>元数据中隐藏信息在比赛中是最基本的一种手法，通常用来隐藏一些关键的 Hint 信息<br>或者一些重要的比如 password 等信息。</p>
+<p><strong>这类元数据可以 右键 -&gt; 属性 查看</strong></p>
+<h2 id="outguess"><a href="#outguess" class="headerlink" title="outguess"></a>outguess</h2><p>kali 下使用<code>outguess -r avatar.jpg -t 1.txt</code><br>把  avatar.jpg  图片破解信息的数据输出到 1.txt</p>
+<h2 id="Beyond-Compare"><a href="#Beyond-Compare" class="headerlink" title="Beyond Compare"></a>Beyond Compare</h2><p>使用软件：<a href="https://pan.baidu.com/s/1IajuX2HQVSVONkbCfjobfQ" target="_blank" rel="noopener">Beyond Compare</a>  提取码: uuch</p>
+<p>安装打开后界面是这样的：点击红框框出来的</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1575086852035-092de3b1-ca79-47d8-bced-c07067993e54.png#align=left&display=inline&height=427&name=image.png&originHeight=853&originWidth=1458&size=100353&status=done&style=none&width=729" alt="image.png"></p>
+<p>选择图片比较</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1575086897546-f92c1ce6-ab60-49bd-9807-427b62aa126d.png#align=left&display=inline&height=287&name=image.png&originHeight=414&originWidth=1021&size=30259&status=done&style=none&width=709" alt="image.png"></p>
+<p>上面还有一些选项可以试试</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1575086957741-d29ddbd6-cbc9-4cd1-bab6-bd6db280fff9.png#align=left&display=inline&height=427&name=image.png&originHeight=853&originWidth=1458&size=297689&status=done&style=none&width=729" alt="image.png"></p>
+<h2 id="IDAT-信息隐藏"><a href="#IDAT-信息隐藏" class="headerlink" title="IDAT 信息隐藏"></a>IDAT 信息隐藏</h2><p>IDAT：存储实际的数据，在数据流中可包含多<br>个连续顺序的图像数据块，储存图像像数数据。</p>
+<p>在数据流中可包含多个连续顺序的图像数据块。</p>
+<p>采用 LZ77 算法的派生算法进行压缩。</p>
+<p>可以用 zlib 解压缩。</p>
+<p><strong>IDAT 块只有当上一个块充满时，才会继续下<br>一个新块</strong><br>如果有 IDAT  还没填满就填充了下一个就要考虑是不是有问题</p>
+<p>命令：<code>pngcheck.exe -v sctf.png</code>  可以查看<br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567167857257-3fe4637c-dae1-496b-9f9c-28355804361d.png#align=left&display=inline&height=614&name=image.png&originHeight=720&originWidth=672&size=368384&status=done&style=none&width=573.44" alt="image.png"></p>
+<p>也可以使用 <strong>Stegsolve -&gt; Analysis -&gt;</strong> ** File Format **有详细介绍</p>
+<p>这就说明这 138  是认为添加的，把这个位置的内容串保存出来，在进行其他操作（文本进制转换、写图片）</p>
+<h2 id="LSB-信息隐藏"><a href="#LSB-信息隐藏" class="headerlink" title="LSB 信息隐藏"></a>LSB 信息隐藏</h2><p>PNG 文件中的图像像数一般是由 RGB 三原色组成，每一种颜色占用 8 位，取值范围为<br>0×00~0xFF，即 256 种颜色，一共包含了 256 的三次方的颜色，即 16777216（1 千 677W）种<br>颜色。人类的眼睛可以区分约 1000 万种不同的颜色，这就意味着人类的眼睛无法区分余下的颜色大约有 6777216（677W）种</p>
+<p>LSB 隐写就是修改 RGB 颜色分量的最低二进制位（LSB），每个颜色都会有 8bit，LSB 隐写就是修改了像数中的最低的 1Bit，而人类的眼睛不会注意到这前后的区别，每个像数可以携带<br>3Bit 的信息，这样就把信息隐藏起来了</p>
+<p>使用  <strong>Stegsolve *<em>各个通道都看看，或者  *</em>Analysis -&gt; Data Extract</strong> 合起来看看，有什么熟悉的保存出来</p>
+<h2 id="GIF-信息隐藏"><a href="#GIF-信息隐藏" class="headerlink" title="GIF 信息隐藏"></a>GIF 信息隐藏</h2><p>在某一帧图片藏着信息，用 ps 或者爱奇艺万能播放器也可以一帧一帧的看</p>
+<p>每一帧图片间隔时间，可能藏着规律，或许是二进制编码、或许是摩斯密码</p>
+<h2 id="NTFS-流隐写"><a href="#NTFS-流隐写" class="headerlink" title="NTFS 流隐写"></a>NTFS 流隐写</h2><p>安恒的一道题：<strong>猫片</strong>，先是 LSB 提取一个 png，然后改高度得到完整的取反色，下载文件，得到 RAR，使用 NTFS 流隐写，打开软件，然后<strong>用 winrar 解压缩</strong>，然后扫描一下，发现一些其他的东西，导出就可以了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567171060656-78335963-22f5-4dcd-a716-ad28904092db.png#align=left&display=inline&height=786&name=image.png&originHeight=921&originWidth=1271&size=302722&status=done&style=none&width=1084.5866666666666" alt="image.png"></p>
+<h1 id="ZIP-相关"><a href="#ZIP-相关" class="headerlink" title="ZIP 相关"></a>ZIP 相关</h1><h2 id="ZIP-介绍"><a href="#ZIP-介绍" class="headerlink" title="ZIP 介绍"></a>ZIP 介绍</h2><p>ZIP 文件格式的组成：<br>压缩源文件数据区[文件头+文件数据+数据描述符]{此处可重复多次} +核心目录 +目录结束标识</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567161962704-41d3c616-0ded-4483-8cbf-320843db45be.png#align=left&display=inline&height=728&name=image.png&originHeight=853&originWidth=1001&size=505852&status=done&style=none&width=854.1866666666666" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567162073401-2e4a759a-d4b4-47ea-92b8-f9dca5ad074b.png#align=left&display=inline&height=590&name=image.png&originHeight=691&originWidth=1555&size=407814&status=done&style=none&width=1326.9333333333334" alt="image.png"></p>
+<h2 id="格式缺失"><a href="#格式缺失" class="headerlink" title="格式缺失"></a>格式缺失</h2><p>文件头删掉的，但不开，但是用 binwalk 分析可以查出有 zip 个文件尾，可以用 winhex  添上文件头</p>
+<h2 id="ZIP-伪加密"><a href="#ZIP-伪加密" class="headerlink" title="ZIP 伪加密"></a>ZIP 伪加密</h2><p>全局方式位标记，如果是 09 00  就会提示需要密码</p>
+<h2 id="密码爆破"><a href="#密码爆破" class="headerlink" title="密码爆破"></a>密码爆破</h2><p>。。。ARCHPR</p>
+<p>RAR 会比其他格式慢，RAR 不管密码对不对，直接去试，解不出来就不对，而 ZIP 是先检验密码是不是正确的</p>
+<h2 id="ZIP-明文攻击"><a href="#ZIP-明文攻击" class="headerlink" title="ZIP 明文攻击"></a>ZIP 明文攻击</h2><p>手里有原压缩包和压缩包内部分文件，可以使用明文攻击方式。<br>可以将压缩包内的文件进行压缩，然后用 ARCHPR 这个工具进行明文攻击</p>
+<p>举个例子，已知 <strong>明文攻击.zip</strong> 中存在的文件 <strong>明文.txt</strong></p>
+<p><em>*<br>因此将 <strong>明文*</strong>\</em>.txt** 压缩，这里需要判断明文压缩后的<strong>CRC32</strong>是否与加密文件中的一致，若不<br>一致可以换一个压缩工具。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567164221868-105cfbe6-30d7-4b3d-a84e-223c1de28bae.png#align=left&display=inline&height=641&name=image.png&originHeight=751&originWidth=1067&size=289884&status=done&style=none&width=910.5066666666667" alt="image.png"></p>
+<p>当明文的大小比较小时，攻击速度会比较慢；即使有时没有恢复密码，也可以使用明文攻<br>击，最后点保存还是能得到压缩包里内容的。</p>
+<p><strong>如果做题的时候，压缩包里有五个文件，是加密的，但是你有四个文件是直接可以查看的，就可以猜测是不是明文攻击</strong></p>
+<h2 id="CRC-爆破"><a href="#CRC-爆破" class="headerlink" title="CRC 爆破"></a>CRC 爆破</h2><p>CRC32:CRC 本身是“冗余校验码”的意思，CRC32 则表示会产生一个 32bit（8 位十六进制数）的校验值</p>
+<p>在产生 CRC32 时，源数据块的每一位都参与了运算，因此即使数据块中只有一位发生改变也<br>会得到不同的 CRC32 值，利用这个原理我们可以直接爆破出加密文件的内容</p>
+<p><a href="https://github.com/theonlypwner/crc32" target="_blank" rel="noopener">https://github.com/theonlypwner/crc32</a></p>
+<p>python crc32.py reverse crc 值     根据爆破出来的看看有是不是有啥特殊意思<br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567165033125-11580e03-67ff-4361-848a-00ef3ea6f0fc.png#align=left&display=inline&height=343&name=image.png&originHeight=402&originWidth=883&size=61260&status=done&style=none&width=753.4933333333333" alt="image.png"></p>
+<h1 id="流量分析"><a href="#流量分析" class="headerlink" title="流量分析"></a>流量分析</h1><h2 id="wireshark-介绍"><a href="#wireshark-介绍" class="headerlink" title="wireshark 介绍"></a>wireshark 介绍</h2><p>Wireshark（前称 Ethereal）是一个网络封包分析软件</p>
+<p>网络封包分析软件的功能是撷取网络封包，并尽可能显示出最为详细的网络封包资料。Wireshark 使用 WinPCAP 作为接口，直接与网卡进行数据报文交换</p>
+<h3 id="捕捉过滤器"><a href="#捕捉过滤器" class="headerlink" title="捕捉过滤器"></a>捕捉过滤器</h3><p>数据经过的第一层过滤器，  它用于控制捕捉数据的数量，以避免产生过大的日志文件，用于决定将什么样的信息记录在捕捉结果中，需要在开始捕捉前设置</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567141475266-23af32ac-a263-44d2-8786-e746c71cc2d4.png#align=left&display=inline&height=400&name=image.png&originHeight=521&originWidth=1103&size=46236&status=done&style=none&width=847.1039741484383" alt="image.png"></p>
+<h3 id="显示过滤器"><a href="#显示过滤器" class="headerlink" title="显示过滤器"></a>显示过滤器</h3><p>在 CTF  中基本都是给一个数据包，所以基本都是用显示过滤器来筛选</p>
+<h4 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h4><table>
+<thead>
+<tr>
+<th>语法</th>
+<th>protocol</th>
+<th>.</th>
+<th>string1</th>
+<th>.</th>
+<th>string2</th>
+<th>comparison operator</th>
+<th>value</th>
+<th>logical operations</th>
+<th>other expression</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>例子</td>
+<td>http</td>
+<td>.</td>
+<td>request</td>
+<td>.</td>
+<td>method</td>
+<td>==</td>
+<td>“post”</td>
+<td>or</td>
+<td>icmp.type</td>
+</tr>
+</tbody></table>
+<p>string1 和 string2 是可选的，依据协议过滤时，可直接通过协议来进行过滤，也能依据协议属性值进行过滤</p>
+<h4 id="实际使用"><a href="#实际使用" class="headerlink" title="实际使用"></a>实际使用</h4><p>打开一个数据包，点击** 表达式  **会看到很多字段<br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567142590422-c5a9d6c1-29ba-4e1c-8bb6-5c9685134a2e.png#align=left&display=inline&height=367&name=image.png&originHeight=478&originWidth=1285&size=158276&status=done&style=none&width=986.8799698828134" alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567142951306-77d27447-1f2b-409b-b0a3-17f2b954968e.png#align=left&display=inline&height=776&name=image.png&originHeight=1011&originWidth=1271&size=103219&status=done&style=none&width=976.1279702109384" alt="image.png"></p>
+<p>也可以直接输入 http  就会自动过滤<br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567142890127-41f6ff63-638a-47d0-87cb-bcb77e4d0462.png#align=left&display=inline&height=710&name=image.png&originHeight=924&originWidth=1111&size=165178&status=done&style=none&width=853.2479739609383" alt="image.png"></p>
+<p><code>http.request.method==GET</code><br>这样就可以过滤用 GET  方式请求的数据<br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567143044501-b1008685-8149-4789-b39a-f3f1c2f8d9ef.png#align=left&display=inline&height=504&name=image.png&originHeight=656&originWidth=1111&size=86363&status=done&style=none&width=853.2479739609383" alt="image.png"></p>
+<h4 id="过滤数据"><a href="#过滤数据" class="headerlink" title="过滤数据"></a>过滤数据</h4><p><strong>按照协议过滤：</strong><br>snmp || dns || icmp</p>
+<p><strong>按照协议属性值：</strong></p>
+<p>ip.src == 10.230.0.0/16    显示来自 10..230 网段的封包</p>
+<p>tcp.port == 25    显示来源或目的 TCP 端口号为 25 的封包</p>
+<p>tcp.dstport == 25    显示目的 TCP 端口号为 25 的封包</p>
+<p>http.request.method == “POST”    显示 post 请求方式的 http 封包</p>
+<p>http.host == “example.com”      显示请求域名为 example.com 的 http 封包</p>
+<p><strong>内容过滤语法：</strong></p>
+<p>tcp contains “http”    显示 payload 中包含”http”字符串封包</p>
+<p>http.request.url contains “online”    显示请求的 url 包含”online”的 http 封包</p>
+<p>还有个 matches 来做正则匹配，以后补充</p>
+<p>搜索字符串：ctrl+F  选择分组详情、字符串，然后输入想找的查找就可以</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567152857082-88dd932b-24e1-4750-9bfb-46557cee3b27.png#align=left&display=inline&height=591&name=image.png&originHeight=769&originWidth=1789&size=133283&status=done&style=none&width=1373.9519580703138" alt="image.png"></p>
+<p>右键 -&gt;  追踪 -&gt; TCP 流，可以跟踪 TCP 会话的过程</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567151708808-bcf67967-52c9-453d-a6a5-dd443715a989.png#align=left&display=inline&height=577&name=image.png&originHeight=751&originWidth=1091&size=143871&status=done&style=none&width=837.8879744296883" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567151791673-ee553209-3148-4916-8754-894fb833cdaa.png#align=left&display=inline&height=613&name=image.png&originHeight=798&originWidth=729&size=81034&status=done&style=none&width=559.871982914063" alt="image.png"></p>
+<p>有时候这里会有一些 zip、png、jpg 的信息，如果熟悉文件头的话一眼就能看出来，用下面的 save as…就可以保存成出来，然后用 winhex  保存成图片或压缩包</p>
+<h3 id="wireshark-着色规则"><a href="#wireshark-着色规则" class="headerlink" title="wireshark 着色规则"></a>wireshark 着色规则</h3><p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567151343348-ecfa7abf-6222-4d68-8abd-6ad10edcc35b.png#align=left&display=inline&height=419&name=image.png&originHeight=546&originWidth=731&size=60436&status=done&style=none&width=561.407982867188" alt="image.png"></p>
+<h2 id="Tshark"><a href="#Tshark" class="headerlink" title="Tshark"></a>Tshark</h2><p>在 wireshark 命令行里的工具<br>常用参数： -r 设置读取本地文件<br>-R</p>
+<h2 id="键盘流量分析"><a href="#键盘流量分析" class="headerlink" title="键盘流量分析"></a>键盘流量分析</h2><p>数据长度为八个字节</p>
+<p>USB 流量分为键盘流量和鼠标流量。</p>
+<p>键盘数据包的数据长度为 8 个字节，击键信息集中在第 3 个字节</p>
+<p>映射关系</p>
+<p><a href="https://usb.org/sites/default/files/documents/hut1_12v2.pdf" target="_blank" rel="noopener">https://usb.org/sites/default/files/documents/hut1_12v2.pdf</a></p>
+<p>可以用 tshark 命令可以将 leftover capture data 进行提取</p>
+<p>tshark -r 流量包 -T fields -e usb.capdata &gt; usbdata.txt</p>
+<p>提取出来后根据映射关系还原即可</p>
+<p>状态不好，以后再弄</p>
+]]></content>
+  </entry>
 </search>

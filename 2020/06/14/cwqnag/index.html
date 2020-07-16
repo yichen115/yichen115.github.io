@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    Hackme CTF |
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+<meta name="referrer" content="no-referrer" />
+  <article id="post-cwqnag" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      Hackme CTF
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/06/14/cwqnag/" class="article-date">
+  <time datetime="2020-06-14T12:38:42.000Z" itemprop="datePublished">2020-06-14</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p><a href="https://hackme.inndy.tw/" target="_blank" rel="noopener">https://hackme.inndy.tw</a></p>
+<h1 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h1><h2 id="flag"><a href="#flag" class="headerlink" title="flag"></a>flag</h2><p>就摆在那里</p>
+<h2 id="corgi-can-fly"><a href="#corgi-can-fly" class="headerlink" title="corgi can fly"></a>corgi can fly</h2><p><a href="https://hackme.inndy.tw/static/corgi-can-fly.png" target="_blank" rel="noopener">https://hackme.inndy.tw/static/corgi-can-fly.png</a><br>一张柯基的图片</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592138366906-5159f62f-e774-4a0f-a165-0c83dc341c23.png#align=left&display=inline&height=428&margin=%5Bobject%20Object%5D&name=image.png&originHeight=856&originWidth=1290&size=2360070&status=done&style=none&width=645" alt="image.png"></p>
+<p>本来想着图片的或许能 zsteg 一把唆？然后翻车了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592138332540-ecbf1e06-cbe7-40de-86be-9a1ffb8c61f2.png#align=left&display=inline&height=194&margin=%5Bobject%20Object%5D&name=image.png&originHeight=342&originWidth=1115&size=65402&status=done&style=none&width=634" alt="image.png"></p>
+<p>还是抄起了 StegSolve 可以发现一个二维码</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592138548641-9a9874af-eebe-4028-8065-01bd44ac4519.png#align=left&display=inline&height=372&margin=%5Bobject%20Object%5D&name=image.png&originHeight=743&originWidth=1680&size=531010&status=done&style=stroke&width=840" alt="image.png"></p>
+<h2 id="television"><a href="#television" class="headerlink" title="television"></a>television</h2><p>我眼真尖，不愧是我 😄</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592139108958-a28fb79d-ea8c-4dd8-bc4d-f653decf6163.png#align=left&display=inline&height=759&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1053&originWidth=874&size=166698&status=done&style=stroke&width=630" alt="image.png"></p>
+<p>可以发现 PK 字样，图片里面藏了压缩包</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592139335300-762fd00f-3ba0-4a08-8f0a-8831dbbb2fee.png#align=left&display=inline&height=460&margin=%5Bobject%20Object%5D&name=image.png&originHeight=857&originWidth=858&size=106535&status=done&style=stroke&width=461" alt="image.png"></p>
+<p>foremost 分离一下，得到一个压缩包，里面有个 flag 文件，还有个图片，然后把同时分离出来的图片压缩一下发现 CRC 的值是一样的，可以使用明文攻击（要用 zip 命令做出来的压缩包，不然值一样但是没法跑）<br><code>zip -r 1.zip 文件名</code></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592139890996-9d7dbab0-13a6-491b-bf32-5c9307d550a6.png#align=left&display=inline&height=426&margin=%5Bobject%20Object%5D&name=image.png&originHeight=852&originWidth=1904&size=277536&status=done&style=stroke&width=952" alt="image.png"></p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2020/06/14/cwqnag/" data-id="ckco50dd600012wu96kkwco97" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2020/06/15/ucozlv/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer</strong>
+        <div class="article-nav-title">
+          
+            PWN入门（Extend&amp;amp;Overlapping）
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/06/04/nsmgp5/" class="article-nav-link">
+        <strong class="article-nav-caption">Older</strong>
+        <div class="article-nav-title">PWN入门（Off-By-One）</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+    <div class="vcomments" id="vcomments"></div>
+    
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+        <script>
+            new Valine({
+                el: '#vcomments',
+                appId: '',
+                appKey: '',
+                notify: 'false',
+                verify: 'true',
+                avatar: 'mp',
+                pageSize: '10',
+                placeholder: '请输入...'
+            })
+        </script>
+        
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

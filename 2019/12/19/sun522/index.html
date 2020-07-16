@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    压缩包相关 |
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+<meta name="referrer" content="no-referrer" />
+  <article id="post-sun522" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      压缩包相关
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2019/12/19/sun522/" class="article-date">
+  <time datetime="2019-12-19T12:08:36.000Z" itemprop="datePublished">2019-12-19</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <h1 id="ZIP-相关"><a href="#ZIP-相关" class="headerlink" title="ZIP 相关"></a>ZIP 相关</h1><h2 id="ZIP-介绍"><a href="#ZIP-介绍" class="headerlink" title="ZIP 介绍"></a>ZIP 介绍</h2><p>ZIP 文件格式的组成：<br>压缩源文件数据区[文件头+文件数据+数据描述符]{此处可重复多次} +核心目录 +目录结束标识</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567161962704-41d3c616-0ded-4483-8cbf-320843db45be.png#align=left&display=inline&height=728&name=image.png&originHeight=853&originWidth=1001&size=505852&status=done&style=none&width=854.1866666666666" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567162073401-2e4a759a-d4b4-47ea-92b8-f9dca5ad074b.png#align=left&display=inline&height=590&name=image.png&originHeight=691&originWidth=1555&size=407814&status=done&style=none&width=1326.9333333333334" alt="image.png"></p>
+<h2 id="格式缺失"><a href="#格式缺失" class="headerlink" title="格式缺失"></a>格式缺失</h2><p>文件头删掉的，但不开，但是用 binwalk 分析可以查出有 zip 个文件尾，可以用 winhex  添上文件头</p>
+<h2 id="ZIP-伪加密"><a href="#ZIP-伪加密" class="headerlink" title="ZIP 伪加密"></a>ZIP 伪加密</h2><p>全局方式位标记，如果是 09 00  就会提示需要密码</p>
+<h2 id="密码爆破"><a href="#密码爆破" class="headerlink" title="密码爆破"></a>密码爆破</h2><p>。。。ARCHPR</p>
+<p>RAR 会比其他格式慢，RAR 不管密码对不对，直接去试，解不出来就不对，而 ZIP 是先检验密码是不是正确的</p>
+<h2 id="ZIP-明文攻击"><a href="#ZIP-明文攻击" class="headerlink" title="ZIP 明文攻击"></a>ZIP 明文攻击</h2><p>手里有原压缩包和压缩包内部分文件，可以使用明文攻击方式。<br>可以将压缩包内的文件进行压缩，然后用 ARCHPR 这个工具进行明文攻击</p>
+<p>举个例子，已知 <strong>明文攻击.zip</strong> 中存在的文件 <strong>明文.txt</strong></p>
+<p><em>*<br>因此将 <strong>明文*</strong>\</em>.txt** 压缩，这里需要判断明文压缩后的<strong>CRC32</strong>是否与加密文件中的一致，若不<br>一致可以换一个压缩工具。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567164221868-105cfbe6-30d7-4b3d-a84e-223c1de28bae.png#align=left&display=inline&height=641&name=image.png&originHeight=751&originWidth=1067&size=289884&status=done&style=none&width=910.5066666666667" alt="image.png"></p>
+<p>当明文的大小比较小时，攻击速度会比较慢；即使有时没有恢复密码，也可以使用明文攻<br>击，最后点保存还是能得到压缩包里内容的。</p>
+<p><strong>如果做题的时候，压缩包里有五个文件，是加密的，但是你有四个文件是直接可以查看的，就可以猜测是不是明文攻击</strong></p>
+<h2 id="CRC-爆破"><a href="#CRC-爆破" class="headerlink" title="CRC 爆破"></a>CRC 爆破</h2><p>CRC32:CRC 本身是“冗余校验码”的意思，CRC32 则表示会产生一个 32bit（8 位十六进制数）的校验值</p>
+<p>在产生 CRC32 时，源数据块的每一位都参与了运算，因此即使数据块中只有一位发生改变也<br>会得到不同的 CRC32 值，利用这个原理我们可以直接爆破出加密文件的内容</p>
+<p><a href="https://github.com/theonlypwner/crc32" target="_blank" rel="noopener">https://github.com/theonlypwner/crc32</a></p>
+<p>python crc32.py reverse crc 值     根据爆破出来的看看有是不是有啥特殊意思<br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567165033125-11580e03-67ff-4361-848a-00ef3ea6f0fc.png#align=left&display=inline&height=343&name=image.png&originHeight=402&originWidth=883&size=61260&status=done&style=none&width=753.4933333333333" alt="image.png"></p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2019/12/19/sun522/" data-id="ckco50ddm000e2wu9dtr65fyn" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2019/12/19/faus1o/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer</strong>
+        <div class="article-nav-title">
+          
+            流量分析
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2019/12/19/btt8wc/" class="article-nav-link">
+        <strong class="article-nav-caption">Older</strong>
+        <div class="article-nav-title">图片隐写</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+    <div class="vcomments" id="vcomments"></div>
+    
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+        <script>
+            new Valine({
+                el: '#vcomments',
+                appId: '',
+                appKey: '',
+                notify: 'false',
+                verify: 'true',
+                avatar: 'mp',
+                pageSize: '10',
+                placeholder: '请输入...'
+            })
+        </script>
+        
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

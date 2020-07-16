@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    内存取证 |
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+<meta name="referrer" content="no-referrer" />
+  <article id="post-seedcu" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      内存取证
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2019/11/16/seedcu/" class="article-date">
+  <time datetime="2019-11-16T00:46:55.000Z" itemprop="datePublished">2019-11-16</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <h1 id="volatility"><a href="#volatility" class="headerlink" title="volatility"></a>volatility</h1><p>在 kali 下直接使用就好</p>
+<p>确定 profile 的值：volatility -f filename imageinfo</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573865786563-2db53f91-ce0d-4943-b95f-83c4c3fea616.png#align=left&display=inline&height=216&name=image.png&originHeight=431&originWidth=1263&size=502820&status=done&width=631.5" alt="image.png"></p>
+<p>会出现多个结果，一般情况下取第一个结果</p>
+<p>列举进程：volatility -f xp.raw –profile=WinXPSP2x86 pslist</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573865966529-5f8588ab-f2b4-49ab-b5f3-b51c31958b6f.png#align=left&display=inline&height=337&name=image.png&originHeight=674&originWidth=1578&size=1172613&status=done&width=789" alt="image.png"></p>
+<p>查看缓存在内存中的注册表：volatility -f xp.raw –profile=WinXPSP2x86 hivelist</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573866565329-27c5cde5-0792-4def-aeed-32075fd694ed.png#align=left&display=inline&height=275&name=image.png&originHeight=550&originWidth=1401&size=871366&status=done&width=700.5" alt="image.png"></p>
+<p>获取 SAM 表中的用户：<br>volatility -f xp.raw –profile=WinXPSP2x86 printkey -K “SAM\Domains\Account\Users\Names”</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573866528790-901a4e08-97ef-4e72-a2e2-2d3468d8ff76.png#align=left&display=inline&height=267&name=image.png&originHeight=534&originWidth=1401&size=743277&status=done&width=700.5" alt="image.png"></p>
+<p>把内存中某个进程的数据以 dmp 的形式保存出来：<br>volatility -f xp.raw –profile=WinXPSP2x86 memdump -p [PID] -D [dump 出的文件保存的目录]</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573867574489-91f7556f-2529-4ac3-8266-6d117bd7c574.png#align=left&display=inline&height=79&name=image.png&originHeight=158&originWidth=1403&size=292383&status=done&width=701.5" alt="image.png"></p>
+<p>把内存中保留的 cmd  的命令打印出来：<br>volatility -f xp.raw –profile=WinXPSP2x86 cmdscan</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573867830202-786c8f68-17f1-4fe7-9b4f-11ef0f7d6a50.png#align=left&display=inline&height=350&name=image.png&originHeight=699&originWidth=1398&size=975373&status=done&width=699" alt="image.png"></p>
+<p>查看内存中的系统密码：<br>volatility -f xp.raw –profile=WinXPSP2x86 hashdump -y （注册表 system 的 virtual 地址 ）-s （SAM 的 virtual 地址）</p>
+<p>首先要获取注册表 system 的 virtual 地址和  SAM 的 virtual 地址，使用 hivelist 查看</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573868295441-b94af119-234b-4c85-83d7-22d4b872bb43.png#align=left&display=inline&height=288&name=image.png&originHeight=576&originWidth=1420&size=889401&status=done&width=710" alt="image.png"></p>
+<p>再使用：volatility -f xp.raw –profile=WinXPSP2x86 hashdump -y 0xe1035b60 -s 0xe13fbb60</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573868467734-f4690976-1a3f-4fe7-9892-d56e23a97527.png#align=left&display=inline&height=103&name=image.png&originHeight=205&originWidth=1401&size=405226&status=done&width=700.5" alt="image.png"></p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2019/11/16/seedcu/" data-id="ckco50ddl000d2wu9beoqdtx8" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2019/11/17/ug9gx5/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer</strong>
+        <div class="article-nav-title">
+          
+            pwn入门（Basic-ROP）
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2019/11/14/sla2si/" class="article-nav-link">
+        <strong class="article-nav-caption">Older</strong>
+        <div class="article-nav-title">tcpxtract（流量包提取文件）</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+    <div class="vcomments" id="vcomments"></div>
+    
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+        <script>
+            new Valine({
+                el: '#vcomments',
+                appId: '',
+                appKey: '',
+                notify: 'false',
+                verify: 'true',
+                avatar: 'mp',
+                pageSize: '10',
+                placeholder: '请输入...'
+            })
+        </script>
+        
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

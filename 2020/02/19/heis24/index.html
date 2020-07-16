@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    curl使用 |
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+<meta name="referrer" content="no-referrer" />
+  <article id="post-heis24" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      curl使用
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/02/19/heis24/" class="article-date">
+  <time datetime="2020-02-19T05:47:43.000Z" itemprop="datePublished">2020-02-19</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <h1 id="无-正常-get"><a href="#无-正常-get" class="headerlink" title="无   正常 get"></a>无   正常 get</h1><p>通过 GET  方式正常请求<br>会把返回的内容保存下来<br><code>curl http://127.0.0.1</code></p>
+<h1 id="A-改-ua"><a href="#A-改-ua" class="headerlink" title="-A  改 ua"></a>-A  改 ua</h1><p>指定用户代理标头（user-agent）<br><code>curl -A &quot;chrome 5.1&quot; http://127.0.0.1</code></p>
+<h1 id="b-改-cookie"><a href="#b-改-cookie" class="headerlink" title="-b  改 cookie"></a>-b  改 cookie</h1><p>指定  cookie  访问<br><code>curl -b &#39;cookie=yichen123&#39; http://127.0.0.1</code><br><code>curl -b cookie.txt http://127.0.0.1</code></p>
+<h1 id="c-接收服务端-cookie"><a href="#c-接收服务端-cookie" class="headerlink" title="-c  接收服务端 cookie"></a>-c  接收服务端 cookie</h1><p>将服务器传过来的  cookie  写到文件里面<br>`curl -c cookie.txt <a href="http://127.0.0.1```" target="_blank" rel="noopener">http://127.0.0.1```</a></p>
+<h1 id="d-POST"><a href="#d-POST" class="headerlink" title="-d  POST"></a>-d  POST</h1><p>使用 -d  以后会自动改成 POST  方式请求<br><code>curl -d &quot;a=yichen&amp;b=password&quot; -X POST http://127.0.0.1</code></p>
+<h1 id="–data-urlencode"><a href="#–data-urlencode" class="headerlink" title="–data-urlencode"></a>–data-urlencode</h1><p>跟-d 差不多，不过会进行 url  编码</p>
+<h1 id="e-改-refer"><a href="#e-改-refer" class="headerlink" title="-e  改 refer"></a>-e  改 refer</h1><p>设置  refer  标明请求来源<br><code>curl -e &quot;39.105.32.48&quot; http://127.0.0.1</code></p>
+<h1 id="F-传文件"><a href="#F-传文件" class="headerlink" title="-F  传文件"></a>-F  传文件</h1><p><code>curl -F &quot;file=@yichen.png;filename=1.png&quot;</code><br>源文件名为 yichen.png  传上去的文件名叫 1.png</p>
+<h1 id="H-改请求头"><a href="#H-改请求头" class="headerlink" title="-H  改请求头"></a>-H  改请求头</h1><p><code>curl -H &#39;Accept-Language: en-US&#39; -H &#39;Secret-Message: xyzzy&#39; https://127.0.0.1</code></p>
+<h1 id="X-改请求方法"><a href="#X-改请求方法" class="headerlink" title="-X  改请求方法"></a>-X  改请求方法</h1><p><code>curl -X POST http://127.0.0.1</code></p>
+<h1 id="v-显示全过程"><a href="#v-显示全过程" class="headerlink" title="-v  显示全过程"></a>-v  显示全过程</h1><p><code>curl -v http://127.0.0.1</code><br>显示比较全的信息，便于调试</p>
+<h1 id="u-http-认证"><a href="#u-http-认证" class="headerlink" title="-u http 认证"></a>-u http 认证</h1><p><code>curl -u &quot;yichen:password&quot; http://127.0.0.1</code><br>这就是那个  base64  编码的</p>
+<h1 id="o-保存返回"><a href="#o-保存返回" class="headerlink" title="-o 保存返回"></a>-o 保存返回</h1><p><code>curl -o yichen.html http://127.0.0.1/index.html</code><br>与 wget 效果相同</p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2020/02/19/heis24/" data-id="ckco50ddc00082wu982tn2je4" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2020/02/22/pzhqyf/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer</strong>
+        <div class="article-nav-title">
+          
+            Linux系统
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/02/19/bfte1r/" class="article-nav-link">
+        <strong class="article-nav-caption">Older</strong>
+        <div class="article-nav-title">IDA远程调试</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+    <div class="vcomments" id="vcomments"></div>
+    
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+        <script>
+            new Valine({
+                el: '#vcomments',
+                appId: '',
+                appKey: '',
+                notify: 'false',
+                verify: 'true',
+                avatar: 'mp',
+                pageSize: '10',
+                placeholder: '请输入...'
+            })
+        </script>
+        
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

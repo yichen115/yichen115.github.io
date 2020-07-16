@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    docker相关 |
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+<meta name="referrer" content="no-referrer" />
+  <article id="post-fucdy1" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      docker相关
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2019/12/20/fucdy1/" class="article-date">
+  <time datetime="2019-12-20T06:58:21.000Z" itemprop="datePublished">2019-12-20</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p><a href="https://www.bilibili.com/video/av58402749" target="_blank" rel="noopener">docker 快速入门</a><br><a href="http://play-with-docker.com/" target="_blank" rel="noopener">docker 在线实验</a></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1576829447658-5cd072ce-9953-4177-8c7d-1e49c2413016.png#align=left&display=inline&height=321&name=image.png&originHeight=641&originWidth=964&size=46462&status=done&style=none&width=482" alt="image.png"></p>
+<h1 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h1><p>启动<br><code>systemctl start docker</code></p>
+<p>守护进程重启<br><code>systemctl daemon-reload</code></p>
+<p>重启 docker 服务<br><code>systemctl restart docker / service docker restart</code></p>
+<p>关闭<br><code>docker service docker stop / docker systemctl stop docker</code></p>
+<p>运行一个容器，命名为 yichen<br><code>docker run -d -p 10001:80 --name yichen apacje</code></p>
+<p>进入容器里面，开一个 bash<br><code>docker exec -it id /bin/bash</code></p>
+<p>重启容器<br><code>docker restart id</code></p>
+<p>关闭容器<br><code>docker stop id</code></p>
+<p>删除容器<br><code>docker rm -f id</code></p>
+<p>通过提交一个镜像<br><code>docker commit id yichen</code></p>
+<p>查看运行的 docker<br><code>docker ps</code></p>
+<p>重命名一下<br><code>docker rename 原容器名 新容器名</code></p>
+<h1 id="搭建-web-环境"><a href="#搭建-web-环境" class="headerlink" title="搭建 web 环境"></a>搭建 web 环境</h1><p>拉取一个 apache-php5<br><code>docker pull registry.cn-hangzhou.aliyuncs.com/lxepoo/apache-php5</code></p>
+<p>运行<br><code>docker run -d -p 2027:80 registry.cn-hangzhou.aliyuncs.com/lxepoo/apache-php5</code></p>
+<p>把题目复制到/var/www 目录下面<br><code>docker cp ./web2 0c7b9ddc107a:/var/www</code></p>
+<p>出现这些问题使用  <code>chmod 777 文件名</code> 给权限</p>
+<blockquote>
+<p>Warning: Unknown: failed to open stream: Permission denied in Unknown on line 0<br>Fatal error: Unknown: Failed opening required ‘/var/www/index.php’ (include_path=’.:/usr/local/lib/php’) in Unknown on line 0</p>
+</blockquote>
+<h1 id="搭建-pwn-环境"><a href="#搭建-pwn-环境" class="headerlink" title="搭建 pwn 环境"></a>搭建 pwn 环境</h1><p>这样可以在实体机单个匹配一条命令<br><code>socat tcp-l:8887,fork exec:./pwn1</code></p>
+<p><del>把 xinetd 下下来  ~</del><a href="https://github.com/Eadom/ctf_xinetd" target="_blank" rel="noopener"><del>https://github.com/Eadom/ctf_xinetd</del></a><br><del>题目复制到 bin 文件夹，把 ctf.xinetd 的命令改成运行的</del><br><del>（之前是 ./helloworld，改成自己的文件名）</del><br><del>xinetd 里面 Dockerfile 里面的清华的源不行，换成阿里的</del></p>
+<p><del>打开，把 pub_port 改成想要的端口</del><br><del><code>docker run -d -p &quot;0.0.0.0:pub_port:9999&quot; -h &quot;helloworld&quot; --name=&quot;helloworld&quot; helloworld</code></del></p>
+<p><strong>有个更好的方法：</strong></p>
+<p>把文件下载下来<br><code>git clone https://github.com/giantbranch/pwn_deploy_chroot.git</code></p>
+<p>然后把所有题目直接改好名字，放在  bin  文件夹<br>运行 <code>python initialize.py</code>  分配好  flag，会把分配的  flag  放在  flags.txt<br>运行  <code>docker-compose up --build -d</code></p>
+<p>同时每个题目对应的端口也会放在 flags.txt</p>
+<p>改  config.py 这个选项为 True  可以使用  cat flag  代替 /bin/sh  提高安全性</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Whether to replace /bin/sh</span></span><br><span class="line">REPLACE_BINSH = <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="复现环境"><a href="#复现环境" class="headerlink" title="复现环境"></a>复现环境</h1><p>安装 docker-compose<br><code>sudo apt install docker-compose</code></p>
+<p>拉起环境</p>
+<p><code>docker-compose up -d</code><br>docker-compose.yml 中查看端口，访问即可</p>
+<p>出现 AttributeError: ‘module’ object has no attribute ‘SSL_ST_INIT’问题：<br>解决：<br><code>rm -rf /usr/lib/python2.7/dist-packages/OpenSSL</code><br><code>rm -rf /usr/lib/python2.7/dist-packages/pyOpenSSL-0.15.1.egg-info</code><br><code>sudo pip install pyopenssl</code></p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2019/12/20/fucdy1/" data-id="ckco50dd900042wu9hhh20fyk" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2019/12/24/gghabh/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer</strong>
+        <div class="article-nav-title">
+          
+            配置ftp
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2019/12/19/vmf5m3/" class="article-nav-link">
+        <strong class="article-nav-caption">Older</strong>
+        <div class="article-nav-title">ssh配置与使用</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+    <div class="vcomments" id="vcomments"></div>
+    
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+        <script>
+            new Valine({
+                el: '#vcomments',
+                appId: '',
+                appKey: '',
+                notify: 'false',
+                verify: 'true',
+                avatar: 'mp',
+                pageSize: '10',
+                placeholder: '请输入...'
+            })
+        </script>
+        
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/head.png" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener">语雀</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="https://mp.weixin.qq.com/s/_xKmbanQddRoX2SoAcihWA" target="_blank" rel="noopener">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>
