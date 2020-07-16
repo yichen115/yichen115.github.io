@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>docker相关 | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="docker 快速入门docker 在线实验                                                                                              image.png               基本操作启动systemctl start docker 守护进程重启systemctl daemon-reload 重">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker相关">
+<meta property="og:url" content="https://yichen115.github.io/2019/12/20/fucdy1/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="docker 快速入门docker 在线实验                                                                                              image.png               基本操作启动systemctl start docker 守护进程重启systemctl daemon-reload 重">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1576829447658-5cd072ce-9953-4177-8c7d-1e49c2413016.png#align=left&display=inline&height=321&name=image.png&originHeight=641&originWidth=964&size=46462&status=done&style=none&width=482">
+<meta property="article:published_time" content="2019-12-20T06:58:21.000Z">
+<meta property="article:modified_time" content="2020-07-16T12:42:36.484Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1576829447658-5cd072ce-9953-4177-8c7d-1e49c2413016.png#align=left&display=inline&height=321&name=image.png&originHeight=641&originWidth=964&size=46462&status=done&style=none&width=482">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-grav"></i>
+                语雀
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://passport.kanxue.com/user-center-837755.htm" target="_blank" >
+                <i class="icon icon-lg icon-snowflake-o"></i>
+                看雪
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://sighttp.qq.com/msgrd?v=1&uin=1097179511" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://img2020.cnblogs.com/blog/1558534/202003/1558534-20200331231408805-256812285.jpg" target="_blank" >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">docker相关</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">docker相关</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-12-20T06:58:21.000Z" itemprop="datePublished" class="page-time">
+  2019-12-20
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#基本操作"><span class="post-toc-number">1.</span> <span class="post-toc-text">基本操作</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#搭建-web-环境"><span class="post-toc-number">2.</span> <span class="post-toc-text">搭建 web 环境</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#搭建-pwn-环境"><span class="post-toc-number">3.</span> <span class="post-toc-text">搭建 pwn 环境</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#复现环境"><span class="post-toc-number">4.</span> <span class="post-toc-text">复现环境</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-fucdy1"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">docker相关</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-12-20 14:58:21" datetime="2019-12-20T06:58:21.000Z"  itemprop="datePublished">2019-12-20</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p><a href="https://www.bilibili.com/video/av58402749" target="_blank" rel="noopener">docker 快速入门</a><br><a href="http://play-with-docker.com/" target="_blank" rel="noopener">docker 在线实验</a></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1576829447658-5cd072ce-9953-4177-8c7d-1e49c2413016.png#align=left&display=inline&height=321&name=image.png&originHeight=641&originWidth=964&size=46462&status=done&style=none&width=482" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h1><p>启动<br><code>systemctl start docker</code></p>
+<p>守护进程重启<br><code>systemctl daemon-reload</code></p>
+<p>重启 docker 服务<br><code>systemctl restart docker / service docker restart</code></p>
+<p>关闭<br><code>docker service docker stop / docker systemctl stop docker</code></p>
+<p>运行一个容器，命名为 yichen<br><code>docker run -d -p 10001:80 --name yichen apacje</code></p>
+<p>进入容器里面，开一个 bash<br><code>docker exec -it id /bin/bash</code></p>
+<p>重启容器<br><code>docker restart id</code></p>
+<p>关闭容器<br><code>docker stop id</code></p>
+<p>删除容器<br><code>docker rm -f id</code></p>
+<p>通过提交一个镜像<br><code>docker commit id yichen</code></p>
+<p>查看运行的 docker<br><code>docker ps</code></p>
+<p>重命名一下<br><code>docker rename 原容器名 新容器名</code></p>
+<h1 id="搭建-web-环境"><a href="#搭建-web-环境" class="headerlink" title="搭建 web 环境"></a>搭建 web 环境</h1><p>拉取一个 apache-php5<br><code>docker pull registry.cn-hangzhou.aliyuncs.com/lxepoo/apache-php5</code></p>
+<p>运行<br><code>docker run -d -p 2027:80 registry.cn-hangzhou.aliyuncs.com/lxepoo/apache-php5</code></p>
+<p>把题目复制到/var/www 目录下面<br><code>docker cp ./web2 0c7b9ddc107a:/var/www</code></p>
+<p>出现这些问题使用  <code>chmod 777 文件名</code> 给权限</p>
+<blockquote>
+<p>Warning: Unknown: failed to open stream: Permission denied in Unknown on line 0<br>Fatal error: Unknown: Failed opening required ‘/var/www/index.php’ (include_path=’.:/usr/local/lib/php’) in Unknown on line 0</p>
+</blockquote>
+<h1 id="搭建-pwn-环境"><a href="#搭建-pwn-环境" class="headerlink" title="搭建 pwn 环境"></a>搭建 pwn 环境</h1><p>这样可以在实体机单个匹配一条命令<br><code>socat tcp-l:8887,fork exec:./pwn1</code></p>
+<p><del>把 xinetd 下下来  ~</del><a href="https://github.com/Eadom/ctf_xinetd" target="_blank" rel="noopener"><del>https://github.com/Eadom/ctf_xinetd</del></a><br><del>题目复制到 bin 文件夹，把 ctf.xinetd 的命令改成运行的</del><br><del>（之前是 ./helloworld，改成自己的文件名）</del><br><del>xinetd 里面 Dockerfile 里面的清华的源不行，换成阿里的</del></p>
+<p><del>打开，把 pub_port 改成想要的端口</del><br><del><code>docker run -d -p &quot;0.0.0.0:pub_port:9999&quot; -h &quot;helloworld&quot; --name=&quot;helloworld&quot; helloworld</code></del></p>
+<p><strong>有个更好的方法：</strong></p>
+<p>把文件下载下来<br><code>git clone https://github.com/giantbranch/pwn_deploy_chroot.git</code></p>
+<p>然后把所有题目直接改好名字，放在  bin  文件夹<br>运行 <code>python initialize.py</code>  分配好  flag，会把分配的  flag  放在  flags.txt<br>运行  <code>docker-compose up --build -d</code></p>
+<p>同时每个题目对应的端口也会放在 flags.txt</p>
+<p>改  config.py 这个选项为 True  可以使用  cat flag  代替 /bin/sh  提高安全性</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Whether to replace /bin/sh</span></span><br><span class="line">REPLACE_BINSH = <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="复现环境"><a href="#复现环境" class="headerlink" title="复现环境"></a>复现环境</h1><p>安装 docker-compose<br><code>sudo apt install docker-compose</code></p>
+<p>拉起环境</p>
+<p><code>docker-compose up -d</code><br>docker-compose.yml 中查看端口，访问即可</p>
+<p>出现 AttributeError: ‘module’ object has no attribute ‘SSL_ST_INIT’问题：<br>解决：<br><code>rm -rf /usr/lib/python2.7/dist-packages/OpenSSL</code><br><code>rm -rf /usr/lib/python2.7/dist-packages/pyOpenSSL-0.15.1.egg-info</code><br><code>sudo pip install pyopenssl</code></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-07-16T12:42:36.484Z" itemprop="dateUpdated">2020-07-16 20:42:36</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2019/12/20/fucdy1/&title=《docker相关》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2019/12/20/fucdy1/&title=《docker相关》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2019/12/20/fucdy1/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《docker相关》 — yichen's blog&url=https://yichen115.github.io/2019/12/20/fucdy1/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2019/12/20/fucdy1/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/12/24/gghabh/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">配置ftp</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/12/19/vmf5m3/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">ssh配置与使用</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2019/12/20/fucdy1/&title=《docker相关》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2019/12/20/fucdy1/&title=《docker相关》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2019/12/20/fucdy1/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《docker相关》 — yichen's blog&url=https://yichen115.github.io/2019/12/20/fucdy1/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2019/12/20/fucdy1/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2019/12/20/fucdy1/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>反序列化相关 | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="概念数据（变量）序列化（持久化） 将一个变量的数据“转换为”字符串，但并不是类型转换，目的是将该字符串存储在本地，相反的行为称为反序列化序列化和反序列化目的是是的程序间传输对象会更加方便 相关函数serialize()产生一个可存储的值的表示 unserialize()从已存储的表示中创建 php 的值 12345678910111213141516171819202122232425&lt;?p">
+<meta property="og:type" content="article">
+<meta property="og:title" content="反序列化相关">
+<meta property="og:url" content="https://yichen115.github.io/2019/11/10/svqdx3/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="概念数据（变量）序列化（持久化） 将一个变量的数据“转换为”字符串，但并不是类型转换，目的是将该字符串存储在本地，相反的行为称为反序列化序列化和反序列化目的是是的程序间传输对象会更加方便 相关函数serialize()产生一个可存储的值的表示 unserialize()从已存储的表示中创建 php 的值 12345678910111213141516171819202122232425&lt;?p">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1564188975245-ec3dbeb3-716d-4bb5-80c6-91d2adc0a572.png#align=left&display=inline&height=615&name=%7BQ9J%24%7B2WQL%40H5%60%5B3X75N6KI.png&originHeight=615&originWidth=1267&size=386579&status=done&width=1267">
+<meta property="article:published_time" content="2019-11-10T05:35:24.000Z">
+<meta property="article:modified_time" content="2020-07-16T12:42:37.908Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1564188975245-ec3dbeb3-716d-4bb5-80c6-91d2adc0a572.png#align=left&display=inline&height=615&name=%7BQ9J%24%7B2WQL%40H5%60%5B3X75N6KI.png&originHeight=615&originWidth=1267&size=386579&status=done&width=1267">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-grav"></i>
+                语雀
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://passport.kanxue.com/user-center-837755.htm" target="_blank" >
+                <i class="icon icon-lg icon-snowflake-o"></i>
+                看雪
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://sighttp.qq.com/msgrd?v=1&uin=1097179511" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://img2020.cnblogs.com/blog/1558534/202003/1558534-20200331231408805-256812285.jpg" target="_blank" >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">反序列化相关</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">反序列化相关</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-11-10T05:35:24.000Z" itemprop="datePublished" class="page-time">
+  2019-11-10
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#概念"><span class="post-toc-number">1.</span> <span class="post-toc-text">概念</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#相关函数"><span class="post-toc-number">2.</span> <span class="post-toc-text">相关函数</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#serialize"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">serialize()</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#unserialize"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">unserialize()</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#魔术方法"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">魔术方法</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#注意点"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">注意点</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#PHP-BUG"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">PHP BUG</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-svqdx3"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">反序列化相关</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-11-10 13:35:24" datetime="2019-11-10T05:35:24.000Z"  itemprop="datePublished">2019-11-10</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><p>数据（变量）序列化（持久化）</p>
+<p>将一个变量的数据“转换为”字符串，但并不是类型转换，目的是将该字符串存储在本地，相反的行为称为反序列化<br>序列化和反序列化目的是是的程序间传输对象会更加方便</p>
+<h1 id="相关函数"><a href="#相关函数" class="headerlink" title="相关函数"></a>相关函数</h1><h2 id="serialize"><a href="#serialize" class="headerlink" title="serialize()"></a>serialize()</h2><p>产生一个可存储的值的表示</p>
+<h2 id="unserialize"><a href="#unserialize" class="headerlink" title="unserialize()"></a>unserialize()</h2><p>从已存储的表示中创建 php 的值</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">user</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="comment">//变量</span></span><br><span class="line">	<span class="keyword">public</span> $age=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">public</span> $name=<span class="string">''</span>;</span><br><span class="line">	<span class="comment">#private $name2='leo';</span></span><br><span class="line">	<span class="comment">#protected $age2=19;</span></span><br><span class="line">	<span class="comment">//方法</span></span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">print_data</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">echo</span> <span class="keyword">$this</span>-&gt;name. <span class="string">' is '</span> . <span class="keyword">$this</span>-&gt;age.<span class="string">' years old&lt;br&gt;'</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//创建对象</span></span><br><span class="line">$usr = <span class="keyword">new</span> user();</span><br><span class="line"><span class="comment">//赋值</span></span><br><span class="line">$usr-&gt;age=<span class="number">18</span>;</span><br><span class="line">$usr-&gt;name=<span class="string">'leo'</span>;</span><br><span class="line"><span class="comment">//输出</span></span><br><span class="line">$usr-&gt;print_data();</span><br><span class="line"><span class="comment">//输出序列化后的内容</span></span><br><span class="line"><span class="keyword">echo</span> serialize($usr);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>结果：leo is 18 years old<br>O:4:”user”:2:{s:3:”age”;i:18;s:4:”name”;s:3:”leo”;}</p>
+<p>解释：O 表示对象，4 表示对象名的长度，后面跟的是对象名<br>2 里面有两个变量<br>s 表示变量是字符串，3 意思是变量有三个长度<br>i 意思是变量赋的值是整形<br>值为 18<br>后面类似</p>
+<h2 id="魔术方法"><a href="#魔术方法" class="headerlink" title="魔术方法"></a>魔术方法</h2><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1564188975245-ec3dbeb3-716d-4bb5-80c6-91d2adc0a572.png#align=left&display=inline&height=615&name=%7BQ9J%24%7B2WQL%40H5%60%5B3X75N6KI.png&originHeight=615&originWidth=1267&size=386579&status=done&width=1267" alt="{Q9J${2WQL@H5`[3X75N6KI.png" title="">
+                </div>
+                <div class="image-caption">{Q9J${2WQL@H5`[3X75N6KI.png</div>
+            </figure>
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line">header(<span class="string">"Content_type:text/html;charset=utf-8"</span>);</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">magic_test</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="keyword">public</span> $data1=<span class="string">"Tony"</span>;</span><br><span class="line">	<span class="keyword">public</span> $data2=<span class="string">"Leo"</span>;</span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">print_dat</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">echo</span> <span class="keyword">$this</span>-&gt;data1 .<span class="keyword">$this</span>-&gt;data2 . <span class="string">"&lt;br&gt;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">echo</span> <span class="string">"__construct&lt;br&gt;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">echo</span> <span class="string">"__destruct&lt;br&gt;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__wakeup</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">echo</span> <span class="string">"__wakeup&lt;br&gt;"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//__sleep() 该函数必须返回一个需要进行序列化保存的成员属性数组，并且只序列化该函数返回的这些成员属性</span></span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__sleep</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">echo</span> <span class="string">"__sleep&lt;br&gt;"</span>;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">array</span>(<span class="string">"data1"</span>,<span class="string">"data2"</span>);</span><br><span class="line">		<span class="comment">#return array("data");</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//创建对象，调用__construct</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">"准备创建对象&lt;br&gt;"</span>;</span><br><span class="line">$obj = <span class="keyword">new</span> magic_test();</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"创建对象完成&lt;br&gt;"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//序列化对象，调用__sleep</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">"准备序列化对象&lt;br&gt;"</span>;</span><br><span class="line">$serialized = serialize($obj);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"序列化对象完成&lt;br&gt;"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//输出序列化之后的字符串</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">"打印序列化之后的对象"</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"serialized： "</span>.$serialized.<span class="string">"&lt;br&gt;"</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"打印完成&lt;br&gt;"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//重建对象，调用__wakeup</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">"准备反序列化对象&lt;br&gt;"</span>;</span><br><span class="line">$obj2=unserialize($serialized);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"反序列化完成&lt;br&gt;"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//调用方法</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">"准备调用方法&lt;br&gt;"</span>;</span><br><span class="line">$obj2-&gt;print_dat();</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"调用结束&lt;br&gt;"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//反序列化后会额外在调用__destruct</span></span><br><span class="line"><span class="comment">//脚本结束 调用__destruct</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h2><p>直接变量名反序列化出来的是 public 变量<br>\x00+类名+\x00+变量名   反序列化出来是 private 变量<br>\x00+*+\x00+变量名   反序列化出来是 protected 变量<br>浏览器会不显示，用终端<br>在对象长度前面可以加符号（+-）</p>
+<h2 id="PHP-BUG"><a href="#PHP-BUG" class="headerlink" title="PHP BUG"></a>PHP BUG</h2><p>当序列化字符串中，如果表示对象属性的个数的值大于真实的属性个数时就会跳过__wakeup 的执行</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-07-16T12:42:37.908Z" itemprop="dateUpdated">2020-07-16 20:42:37</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2019/11/10/svqdx3/&title=《反序列化相关》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2019/11/10/svqdx3/&title=《反序列化相关》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2019/11/10/svqdx3/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《反序列化相关》 — yichen's blog&url=https://yichen115.github.io/2019/11/10/svqdx3/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2019/11/10/svqdx3/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/11/10/oxci5k/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">PHP代码审计</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/11/10/igzkae/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">代码/命令执行</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2019/11/10/svqdx3/&title=《反序列化相关》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2019/11/10/svqdx3/&title=《反序列化相关》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2019/11/10/svqdx3/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《反序列化相关》 — yichen's blog&url=https://yichen115.github.io/2019/11/10/svqdx3/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2019/11/10/svqdx3/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2019/11/10/svqdx3/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

