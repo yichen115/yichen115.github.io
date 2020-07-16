@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    pwntools使用 |
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+<meta name="referrer" content="no-referrer" />
+  <article id="post-yxegb6" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      pwntools使用
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/03/08/yxegb6/" class="article-date">
+  <time datetime="2020-03-08T04:44:43.000Z" itemprop="datePublished">2020-03-08</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>用过或者查到的一些功能汇总一下，官方文档有些也没看给个实例，不知道咋用 Orz…</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>安装的话直接 <code>pip install pwntools</code>  就可以了</p>
+<blockquote>
+<p>虽然 Pwntools 大部分的功能都是纯 python 实现的可以直接使用，其还是依赖一些外部的 python 库例如 capstone 等，如果使用 pip 安装的话可以发现安装了不少依赖的库。而如果需要使用其 ROP 链的构建功能的话，则需要安装 libcapstone 这个非 Python 的库，这个可以到  <a href="http://www.capstone-engine.org/download.html" target="_blank" rel="noopener">capstone-download</a>  去下载，不过需要注意的一点就是要保持 python 的 capstone 与这个 libcapstone 的版本一致否则可能出现 API Version 冲突的问题，在 pip 安装时可以指定其版本<code>pip install capstone==3.0.4</code></p>
+</blockquote>
+<h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><p>首先需要  <code>from pwn import *</code>  把  pwntools  导入进来，它同时会把一些系统库给导入进来</p>
+<p>本地打的话  <code>p=process(&#39;./filename&#39;)</code>，远程的话 <code>p=remote(&#39;192.168.1.103&#39;,10001)</code><br>p.close()  <code>关闭</code></p>
+<p>发送  payload<br><code>p.send(payload)</code>    发送 payload<br><code>p.sendline(payload)</code>    发送 payload，并进行换行（末尾\n）<br><code>p.sendafter(some_string, payload)</code>    接收到 some_string 后, 发送你的 payload<br><code>p.sendlineafter(some_string, payload)</code>    接收到 some_string 后, 发送你的 payload，加个换行</p>
+<p>接收返回内容<br><code>p.recvn(N)</code>    接受 N(数字) 字符<br><code>p.recvline()</code>  接收一行输出<br><code>p.recvlines(N)</code>    接收 N(数字) 行输出<br><code>p.recvuntil(some_string)</code>    接收到 some_string 为止<br><code>p.interactive()</code>     直接进行交互，相当于回到 shell 的模式，一般在取得 shell 之后使用</p>
+<p>生成  shellcode<br><code>asm(shellcraft.sh())</code></p>
+<h1 id="ELF"><a href="#ELF" class="headerlink" title="ELF"></a>ELF</h1><p>首先需要  <code>elf=ELF(&#39;./filename&#39;)</code>  来产生一个对象</p>
+<p><code>elf.symbols[&#39;a_function&#39;]</code>  找到 a_function 的地址<br><code>elf.got[&#39;a_function&#39;]</code>  找到 a_function 的 got<br><code>elf.plt[&#39;a_function&#39;]</code>  找到 a_function 的 plt<br><code>elf.next(e.search(&quot;some_characters&quot;))</code>  找到包含 some_characters  可以是字符串，汇编代码或者某个数值的地址</p>
+<h1 id="ROP"><a href="#ROP" class="headerlink" title="ROP"></a>ROP</h1><p><code>rop = ROP(&#39;./filename&#39;)</code> 还是要先创建一个对象</p>
+<p><code>rop.raw(&#39;a&#39;*32)</code>    在构造的  rop  链里面写 32 个 a<br><code>rop.call(&#39;read&#39;, (0, elf.bss(0x80)))</code>  调用一个函数，可以简写成：<code>rop.read(0, elf.bss(0x80))</code><br><code>rop.chain()</code>    就是整个  rop  链，发送的  payload<br><code>rop.dump()</code>  直观地展示当前的  rop  链<br><code>rop.migrate(base_stage)</code>    将程序流程转移到  base_stage（地址）<br><code>rop.unresolve(value)</code>  给出一个地址，反解析出符号<br><code>rop.search(regs=[&#39;ecx&#39;,&#39;ebx&#39;])</code>    搜索对  eax  进行操作的  gadgets<br><code>rop.find_gadget([&#39;pop eax&#39;,&#39;ret&#39;])</code>    搜索 pop eax ret  这样的  gadgets</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583645719544-d599cb73-5c7b-45da-80f8-3fac37f0c026.png#align=left&display=inline&height=225&margin=%5Bobject%20Object%5D&name=image.png&originHeight=260&originWidth=862&size=61441&status=done&style=none&width=746" alt="image.png"></p>
+<p>参考：<br><a href="http://brieflyx.me/2015/python-module/pwntools-intro/" target="_blank" rel="noopener">http://brieflyx.me/2015/python-module/pwntools-intro/</a><br><a href="https://icepng.github.io/2017/04/18/pwntools/" target="_blank" rel="noopener">https://icepng.github.io/2017/04/18/pwntools/</a></p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2020/03/08/yxegb6/" data-id="ckco0htwy000ah4u9cewzdurz" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2020/03/13/gsl2vv/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer</strong>
+        <div class="article-nav-title">
+          
+            ROPEmporium
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/02/25/erh0l7/" class="article-nav-link">
+        <strong class="article-nav-caption">Older</strong>
+        <div class="article-nav-title">PWN入门（Advanced ROP）</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+    <div class="vcomments" id="vcomments"></div>
+    
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+        <script>
+            new Valine({
+                el: '#vcomments',
+                appId: '',
+                appKey: '',
+                notify: 'false',
+                verify: 'true',
+                avatar: 'mp',
+                pageSize: '10',
+                placeholder: '请输入...'
+            })
+        </script>
+        
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/hexo.svg" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

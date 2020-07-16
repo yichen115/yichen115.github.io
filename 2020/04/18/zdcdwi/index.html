@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    由浅入深理解区块链 |
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+<meta name="referrer" content="no-referrer" />
+  <article id="post-zdcdwi" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      由浅入深理解区块链
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/04/18/zdcdwi/" class="article-date">
+  <time datetime="2020-04-18T00:57:21.000Z" itemprop="datePublished">2020-04-18</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <h1 id="简单点的理解"><a href="#简单点的理解" class="headerlink" title="简单点的理解"></a>简单点的理解</h1><p><a href="https://ethfans.org/posts/blockchain-for-beginners-what-is-blockchain-just-7-step" target="_blank" rel="noopener">七个步骤入门区块链</a></p>
+<h1 id="比特币白皮书"><a href="#比特币白皮书" class="headerlink" title="比特币白皮书"></a>比特币白皮书</h1><p><a href="https://bitcoin.org/files/bitcoin-paper/bitcoin_zh_cn.pdf" target="_blank" rel="noopener">比特币白皮书</a></p>
+<h2 id="交易"><a href="#交易" class="headerlink" title="交易"></a>交易</h2><p>我们定义一枚电子货币就是一条数字签名链，每个拥有者都通过将上一次交易和下一个拥有者的公钥的哈希值的数字签名添加到此货币末尾的方式将这枚货币转移给下一个拥有者。收款人可以通过数字签名来证实其为该链的所有者</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587175304705-13358e25-faee-422e-ad6c-e87fe2ef6bad.png#align=left&display=inline&height=355&margin=%5Bobject%20Object%5D&name=image.png&originHeight=637&originWidth=1063&size=156137&status=done&style=stroke&width=592" alt="image.png"></p>
+<p><strong>所有者 0 把上次交易和所有者 1 的公玥，做成哈希，作为所有者 0 的签名</strong></p>
+<p>这里有一个问题是收款人不能证实拥有者之一没有对此货币进行双重支付。通常的做法是引入一个可信任的中央机构或铸币厂来检查每笔交易是否存在双重支付。每笔交易之后，都需要将这枚货币退回铸币厂以换取发行一枚新的货币，只有由铸币厂直接发行的货币才能被确认没有被双重支付。这个方案的问题在于整个货币系统的命运都依赖于运营铸币厂的公司，每笔交易都需要经过它们，就像银行一样。</p>
+<p>我们需要一种能让收款人知道上一个货币拥有者没有对任何更早的交易签名的办法。对于我们来说，最早的那次交易是唯一有效的，所有我们不需要关心本次交易后面的双重支付尝试。唯一能确保一笔交易不存在的方法是知晓所有之前的交易。在铸币厂模型中，铸币厂知晓所有交易并能确定哪笔交易最先到达。在不引入一个可信任方的前提下要到达这个目的，所有交易就必须公开发布，而且需要一个能让所有参与者对交易收到顺序的单一历史达成共识的系统。收款人在每笔交易时，都需要多数节点认同此交易是最先收到的证据</p>
+<h2 id="时间戳服务器"><a href="#时间戳服务器" class="headerlink" title="时间戳服务器"></a>时间戳服务器</h2><p>我们提出的方案从时间戳服务器开始。时间戳服务器计算包含多个需要被打时间戳的数据项的区块的哈希值并广泛地发布这个哈希值，就像在报纸或新闻组帖子里。时间戳能证明要得到这个哈希值，显然这些数据当时一定存在。每个时间戳的哈希值都纳入了上一个时间戳，形成一条链，后面的时间戳进一步增强前一个时间戳。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587175266128-5da21660-351e-4d35-b739-691f2221544e.png#align=left&display=inline&height=160&margin=%5Bobject%20Object%5D&name=image.png&originHeight=272&originWidth=983&size=32817&status=done&style=stroke&width=579" alt="image.png"></p>
+<h2 id="工作量证明"><a href="#工作量证明" class="headerlink" title="工作量证明"></a>工作量证明</h2><p>为了实现一个基于点对点的时间戳服务器，我们需要使用一个类似 Adam Back 提出的哈希货币的工作量证明系统，而不是报纸或新闻组帖子那样。工作量证明采取搜索一个数，使得被哈希时，如使用 SHA-256，得到的哈希值以数个 0 比特开始。平均所需工作量将随所需 0 比特呈指数级增长而验证却只需执行一次哈希</p>
+<p>对于我们的时间戳网络。我们通过在区块中加入了一个随机数，直到使得区块的哈希值满足所需 0 比特的数被找到的方式实现工作量证明。一旦消耗了 CPU 算力使区块满足了工作量的证明，那么除非重做这个工作否则就无法更改区块。由于后面的区块是链接在这个区块后面的，改变这个区块将需要重做所有后面的区块</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587176525939-722b3883-8310-41ee-a3a1-198a9d52310d.png#align=left&display=inline&height=116&margin=%5Bobject%20Object%5D&name=image.png&originHeight=232&originWidth=1010&size=50134&status=done&style=stroke&width=505" alt="image.png"></p>
+<p>工作量证明同时解决了在多数决定中确定投票方式的问题。如果多数是按 IP 地址投票来决定，那么它将可能被能分配大量 IP 地址的人破坏。工作量证明本质上是按 CPU 投票。最长的链代表了多数决定，因为有最大的计算工作量证明的精力投入到这条链上。如果多数的 CPU 算力被诚实节点控制，诚实的链就会增长得最快并超过其他的竞争链。要修改过去的某区块，攻击者必须重做这个区块以及其后的所有区块的工作量证明从而赶上并超过诚实结点的工作。我们后面会证明随着后续的区块被添加，一个更慢的攻击者赶上诚实结点的概率将呈指数级递减。</p>
+<p>为了抵消硬件运算速度的增加及平衡不同时期运行节点的利益，工作量证明的难度酱将由移动平均数来确定每小时生成区块的平均数。如果区块生成的过快，那么生成的难度就会增加</p>
+<h2 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h2><p>运行网络而步骤如下：<br>1、新交易向所有节点广播<br>2、每个节点将新交易收集到一个区块<br>3、每个节点为它的区块寻找工作量证明<br>4、当一个节点找到了工作量证明，就向所有节点广播这个区块<br>5、节点只有在区块内所有交易都是有效的且之前没有被支付的情况下接受这个区块<br>6、节点通过使用这个区块的哈希值作为上一个哈希值在链中创建下一个区块的方式表示对这个区块的接受</p>
+<p>节点总认为最长的链为正确的并持续致力于延长它。如果两个节点同时广播了不同的下一个区块，有些节点可能先收到其中一个而其它节点先收到另一个。这种情况，节点基于他们收到的第一个区块工作，但是也保存另一个分支以防他变更为更长的链。当下一个工作量证明被找到后僵局就会被打破从而其中一个分支变得更长，在另一个分支上工作的节点将切换到更长的链上来</p>
+<p>新交易的广播不必到达所有的节点。只要到达一些节点，不久就会进入到一个区块。区块广播也是能容忍消息丢失的。如果一个节点没有收到某个区块，她将在收到下一个区块时发现它丢失了一个区块然后去请求这个区块</p>
+<h2 id="激励"><a href="#激励" class="headerlink" title="激励"></a>激励</h2><p>我们约定，区块中的第一笔交易时区块创建者开启一枚属于他的新货币的特殊的交易。这里就增加了对支持网络的结点的激励，并提供了一种分发货币到流通领域的办法，因为这里没有中央机构来发行货币。新货币按固定量稳定的增加就像金矿矿工消耗资源并增加黄金到流通领域一样，对我们而言，消耗的是 CPU 时间和电力</p>
+<p>激励也可以由交易费充当。如果交易的输出值小于其他输入值，差价就作为交易费被追加到包含此交易的区块的激励中。一旦预定量的货币进入了流通领域，激励将变为只含有交易费，这样就完全可以避免通货膨胀</p>
+<p>激励会有助于鼓励节点保持诚实。如果一个贪心的攻击者有能力聚集所有诚实的节点更多的 CPU 算力他将面临时以骗回已付款的方式欺诈别人还是使用这些算力生成新货币的抉择。他将发现遵守规则比破坏系统和他自己的财产的有效性更有利，因为这些规则准许他获得比所有其他人都多的新货币</p>
+<h2 id="回收磁盘空间"><a href="#回收磁盘空间" class="headerlink" title="回收磁盘空间"></a>回收磁盘空间</h2><p>一旦某个货币的最新交易已经足够多的区块覆盖，这之前的支付交易就可以被丢弃以节省磁盘空间。为便于此而又不破环区块的哈希值，交易将被哈希进默克尔树，只有根节点被纳入到区块的哈希值。老的区块可以通过剪除树枝的方式被压缩。树枝内部的哈希不需要被保存</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587180017944-0f087880-9344-4456-a38a-c64441cb41c7.png#align=left&display=inline&height=374&margin=%5Bobject%20Object%5D&name=image.png&originHeight=720&originWidth=1304&size=212033&status=done&style=stroke&width=677" alt="image.png"></p>
+<h2 id="简化支付验证"><a href="#简化支付验证" class="headerlink" title="简化支付验证"></a>简化支付验证</h2><p>不运行一个完整的网络节点也是可以进行支付验证的。用户只需拥有一个最长工作量的证明链的区块头副本，他可以通过向其他网络节点查询以确认他拥有了最长的链，并获取链接交易到给交易打时间戳区块的默尔克分支。虽然他自己不能核实这个消息，但如果交易已经链接到链中的某个位置，就说明一个网络节点已经接受了此交易，而其后追加的区块进一步确认网络已经接受了他它</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587180582640-4c4885e9-e4d7-472a-a642-514aa0153ec8.png#align=left&display=inline&height=287&margin=%5Bobject%20Object%5D&name=image.png&originHeight=573&originWidth=1333&size=124565&status=done&style=stroke&width=667" alt="image.png"></p>
+<p>同样的，只要诚实结点控制着网络这种简化验证就是可靠的，如果网络被攻击者控制简化验证会变得比较脆弱。虽然网络节点可以验证他们自己的交易，但只要攻击者持续控制网络那么这种简化的方法就可能被攻击者的伪造交易欺骗。一种策略是接受其他网络节点发现一个无效区块时发出的警告，提醒用户软件下载整个区块和被警告的交易来检查一致性。为了更加独立的安全性以及更快的支付确认，收款频繁的公司可能仍需运行他们自己的节点</p>
+<h2 id="合并和分割交易额"><a href="#合并和分割交易额" class="headerlink" title="合并和分割交易额"></a>合并和分割交易额</h2><p>尽管单独处理每个货币是可行的，但将一次转账按每一分拆成多次交易是笨拙的。为允许交易额被分割和合并，交易将包含多个输入值和输出值。通常是一个从前交易而得的较大输入值或多个较小输入值的组合，以及最多两个输出值：一个作为支付，另一个作为找零，如果有的话，退还给支付发送方</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587181761332-51fababc-23e7-477b-9fd5-c8661c472a6f.png#align=left&display=inline&height=204&margin=%5Bobject%20Object%5D&name=image.png&originHeight=302&originWidth=498&size=23415&status=done&style=stroke&width=336" alt="image.png"></p>
+<p>注意这里的扇出，即一笔交易依赖数笔交易，这数笔交易又依赖更多的交易，在这里是不存在问题的。永远不会需要获取一笔交易历史的完整独立副本</p>
+<h2 id="隐私"><a href="#隐私" class="headerlink" title="隐私"></a>隐私</h2><p>传统的银行模型通过限制参与方和可信任第三方对信息的访问来达到一定级别的隐私。交易必须要公开发布就不能使用这个方法，但隐私仍然可在其他地方通过阻断信息流的方式来保护：那就是保持公钥匿名。公众能看到有人正在发送一定量的货币给其他人，但是不能将交易关联到某个人。这和证券交易所发布的信息级别类似，每笔交易的时间和交易量，即行情是公开的，但是不会显示交易双方是谁</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587182134927-e74e0a97-1207-4f5c-af4b-a1d22c44b84c.png#align=left&display=inline&height=184&margin=%5Bobject%20Object%5D&name=image.png&originHeight=314&originWidth=1016&size=53852&status=done&style=stroke&width=594" alt="image.png"></p>
+<p>作为额外的防火墙，对每笔交易使用新密钥对可以防止他们关联到同一个的拥有者。由于多输入值交易存在，有些关联仍不可避免，因为多输入值交易必然暴露其多个输入属于同一个拥有者。风险就在于如果一个密钥的拥有者被暴露，关联性必将暴露其他属于同一个拥有者的交易</p>
+<h2 id="计算"><a href="#计算" class="headerlink" title="计算"></a>计算</h2><p>我们考虑一个攻击者试图生成一条比诚实链更快的替代链的情况。即使这个目标达到了，也不会使系统变得可以任意更改，比如凭空创建货币或拿走不属于他的钱，节点将不会接受无效的交易作为支付，而且诚实结点永远不会接受一个包含无效交易的区块。攻击者只可能改变他自己的某笔交易来拿回他不久前已经支出的钱</p>
+<p>诚实链与攻击者之间的竞争可描述为二项随机漫步。成功事件是诚实结点被延长一个区块，两条链的差距加 1，失败事件是攻击者的链延长一个区块，两条链的差距减 1。</p>
+<p>攻击者从某一落后的位置赶上诚实链的概率类似于赌徒破产理论。设想一个拥有无限信用的赌徒从一定亏损开始，进行可能无限次的赌博试图达到盈亏平衡。我们可计算他达到盈亏平衡，即一个攻击者赶上诚实链的概率：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587193760498-c75a3ae4-0058-4947-a3b8-ca042ed6d686.png#align=left&display=inline&height=192&margin=%5Bobject%20Object%5D&name=image.png&originHeight=384&originWidth=890&size=140518&status=done&style=stroke&width=445" alt="image.png"></p>
+<p>我们假设 p&gt;q，概率将随着攻击者需要赶上的区块数增加而呈指数下降。由于形势对他不利，如果他没有在早期幸运的快速赶上，他落得越远赶上的机会越渺茫</p>
+<p>我们现在考虑一个新交易的收款人要等多久才能确保收款人不再改变这个交易。我们假设付款人想让收款人相信他暂时已经付款，然后在一段时间后改变成支付回他自己。这是收款人会收到警告，但付款人希望警告已为时已晚</p>
+<p>收款人生成一个新密钥对并将公钥给付款人，这样付款人就无法提前对交易签名。这样能防止付款人通过持续工作直到他足够幸运获得大幅领先的方式预先准备一条区块链，然后执行交易。一旦交易被发出，不诚实的付款人就开始秘密地在一条包含了他的替换版交易的平行链上工作</p>
+<p>收款人等到交易被加到区块中且其后追加了 Z 个区块。他不知道攻击者确切的进度，但是假设诚实的区块按期望的平均时间生成，攻击者可能的进度竟是一个泊松分布，其期望值为：</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587194852894-aab84671-380b-41fe-9530-9a3f765b286c.png#align=left&display=inline&height=127&margin=%5Bobject%20Object%5D&name=image.png&originHeight=254&originWidth=329&size=11805&status=done&style=stroke&width=165" alt="image.png"></p>
+<p>为计算攻击者现在仍然能够赶上的概率，我们给每个他可能达到的进度的泊松密度乘以他在那个进度能赶上诚实链的概率</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587194960093-bf0752e0-45b2-43aa-920d-3f0d2deb133b.png#align=left&display=inline&height=172&margin=%5Bobject%20Object%5D&name=image.png&originHeight=343&originWidth=1290&size=66940&status=done&style=stroke&width=645" alt="image.png"></p>
+<p>变换以避免对分布的无限尾部求和</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587195013267-19180de6-ecf0-412e-9da2-2998e7b2d03e.png#align=left&display=inline&height=140&margin=%5Bobject%20Object%5D&name=image.png&originHeight=280&originWidth=1005&size=39127&status=done&style=stroke&width=503" alt="image.png"></p>
+<p><strong>看的我是一脸懵逼</strong></p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2020/04/18/zdcdwi/" data-id="ckco0gl1c0004vgu96zvf7ufu" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2020/04/18/gwso5x/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer</strong>
+        <div class="article-nav-title">
+          
+            geth操作、Ethereum Wallet
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/04/16/ape5up/" class="article-nav-link">
+        <strong class="article-nav-caption">Older</strong>
+        <div class="article-nav-title">PWN入门（堆利用）</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+    <div class="vcomments" id="vcomments"></div>
+    
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+        <script>
+            new Valine({
+                el: '#vcomments',
+                appId: '',
+                appKey: '',
+                notify: 'false',
+                verify: 'true',
+                avatar: 'mp',
+                pageSize: '10',
+                placeholder: '请输入...'
+            })
+        </script>
+        
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/hexo.svg" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

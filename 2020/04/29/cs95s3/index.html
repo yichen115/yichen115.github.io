@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    回退函数 |
+    
+    yichen&#39;s blog</title>
+  
+    <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.1"><link rel="alternate" href="/atom.xml" title="yichen's blog" type="application/atom+xml">
+</head>
+
+<body>
+<main class="content">
+  <section class="outer">
+<meta name="referrer" content="no-referrer" />
+  <article id="post-cs95s3" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal>
+
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+  
+    <h1 class="article-title" itemprop="name">
+      回退函数
+    </h1>
+  
+  
+
+
+
+
+            </header>
+            
+
+                
+                    <div class="article-meta">
+                        <a href="/2020/04/29/cs95s3/" class="article-date">
+  <time datetime="2020-04-29T02:52:26.000Z" itemprop="datePublished">2020-04-29</time>
+</a>
+                            
+                    </div>
+                    
+
+                        
+                            
+    <div class="tocbot"></div>
+
+
+
+
+
+                                
+
+                                    <div class="article-entry" itemprop="articleBody">
+                                        
+
+
+                                            
+
+                                                
+                                                                    <p>回退函数是智能合约的特殊函数，没有名字、没有参数、没有返回值。</p>
+<h1 id="一个简单的回退函数"><a href="#一个简单的回退函数" class="headerlink" title="一个简单的回退函数"></a>一个简单的回退函数</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.0</span>;</span><br><span class="line">contract simplefallback&#123;</span><br><span class="line">	<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="何时调用回退函数"><a href="#何时调用回退函数" class="headerlink" title="何时调用回退函数"></a>何时调用回退函数</h1><h2 id="合约调用未匹配函数签名"><a href="#合约调用未匹配函数签名" class="headerlink" title="合约调用未匹配函数签名"></a>合约调用未匹配函数签名</h2><p>当程序找不到要调用的函数的时候就会调用默认的回退函数，但是  solidity  提供了编译器检查机制，不能直接通过  solidity  调用一个不存在的函数，所以我们通过  solidity  提供的底层函数  address.call()  来模拟一下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.24</span>;</span><br><span class="line">contract ExecuteFallback&#123;</span><br><span class="line">  <span class="comment">//回退事件，会把调用的数据打印出来</span></span><br><span class="line">  event FallbackCalled(bytes data);</span><br><span class="line">  <span class="comment">//fallback函数，注意是没有名字的，没有参数，没有返回值的</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span>(<span class="params"></span>) <span class="title">public</span></span>&#123;</span><br><span class="line">    emit FallbackCalled(msg.data);</span><br><span class="line">    <span class="comment">//在这里返回的是functionNotExist()函数签名0x69774a91</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//调用已存在函数的事件，会把调用的原始数据，请求参数打印出来</span></span><br><span class="line">  event ExistFuncCalled(bytes data, uint256 para);</span><br><span class="line">  <span class="comment">//一个存在的函数</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">existFunc</span>(<span class="params">uint256 para</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">    emit ExistFuncCalled(msg.data, para);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 模拟从外部对一个存在的函数发起一个调用，将直接调用函数</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">callExistFunc</span>(<span class="params"></span>) <span class="title">public</span> <span class="title">returns</span>(<span class="params">bool</span>)</span>&#123;</span><br><span class="line">    bytes4 funcIdentifier = bytes4(keccak256(<span class="string">"existFunc(uint256)"</span>));</span><br><span class="line">    <span class="keyword">return</span> address(<span class="keyword">this</span>).call(funcIdentifier, uint256(<span class="number">1</span>));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//模拟从外部对一个不存在的函数发起一个调用，由于匹配不到函数，将调用回退函数</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">callNonExistFunc</span>(<span class="params"></span>) <span class="title">public</span> <span class="title">returns</span>(<span class="params">bool</span>)</span>&#123;</span><br><span class="line">    bytes4 funcIdentifier = bytes4(keccak256(<span class="string">"functionNotExist()"</span>));</span><br><span class="line">    <span class="keyword">return</span> address(<span class="keyword">this</span>).call(funcIdentifier);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//来自博客：https://www.cnblogs.com/wanghui-garcia/p/9580464.html</span></span><br></pre></td></tr></table></figure>
+
+<p>点击  callExistFunc  会看到</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588150909143-c56a2c14-e887-47be-b88f-d11e540e5b26.png#align=left&display=inline&height=420&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1080&originWidth=1920&size=176232&status=done&style=stroke&width=746" alt="image.png"></p>
+<p>这次点击  callNonExistFunc  看到对这次事件的描述是：”event”: “FallbackCalled”，而且要注意，这里 call 的返回值也为 true</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588150945455-c0149358-4309-453e-a69e-4c62d21a5e1b.png#align=left&display=inline&height=420&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1080&originWidth=1920&size=181786&status=done&style=stroke&width=746" alt="image.png"></p>
+<p>一个没有定义一个回退函数的合约。如果接收 ether，会触发异常，并返还 ether（solidity v0.4.0 开始）。所以合约要接收 ether，必须实现回退函数</p>
+<h2 id="合约调用未包含任何数据"><a href="#合约调用未包含任何数据" class="headerlink" title="合约调用未包含任何数据"></a>合约调用未包含任何数据</h2><p>当我们使用 address.send(ether to send)  函数向某个合约直接转账的时候，因为这个行为没有发送数据，所以也会调用  fallback 函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.24</span>;</span><br><span class="line">contract SendFallback&#123;</span><br><span class="line">  <span class="comment">//fallback函数及其事件</span></span><br><span class="line">  event FallbackTrigged(bytes data);</span><br><span class="line">  <span class="function"><span class="keyword">function</span>(<span class="params"></span>) <span class="title">public</span> <span class="title">payable</span></span>&#123;<span class="comment">//一定要声明为payable,否则send()执行结果将会始终为false</span></span><br><span class="line">      emit FallbackTrigged(msg.data);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//存入一些ether用于后面的测试</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">deposit</span>(<span class="params"></span>) <span class="title">public</span> <span class="title">payable</span></span>&#123;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//查询当前的余额</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">getBalance</span>(<span class="params"></span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span>(<span class="params">uint</span>)</span>&#123;</span><br><span class="line">      <span class="keyword">return</span> address(<span class="keyword">this</span>).balance;</span><br><span class="line">  &#125;</span><br><span class="line">  event SendEvent(address to, uint value, bool result);</span><br><span class="line">  <span class="comment">//使用send()发送ether，观察会触发fallback函数</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">sendEther</span>(<span class="params"></span>) <span class="title">public</span></span>&#123;</span><br><span class="line">      bool result = address(<span class="keyword">this</span>).send(<span class="number">1</span>);<span class="comment">//从合约地址的余额中发送1wei给它自己，所以其balance不会变，只是会消耗msg.sender账户gas</span></span><br><span class="line">      emit SendEvent(<span class="keyword">this</span>, <span class="number">1</span>, result);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>先给合约一些钱</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1588167894038-e7e4cc7c-cda7-4fe2-a836-c74cc0c6659d.png#align=left&display=inline&height=366&margin=%5Bobject%20Object%5D&name=image.png&originHeight=939&originWidth=1920&size=164514&status=done&style=stroke&width=746" alt="image.png"></p>
+
+                                                                        
+                                    </div>
+                                    <footer class="article-footer">
+                                        <a data-url="http://yoursite.com/2020/04/29/cs95s3/" data-id="ckco0gl060000vgu94ws80rav" class="article-share-link">
+                                            Share
+                                        </a>
+                                        
+                                    </footer>
+
+    </div>
+
+    
+        
+  <nav class="article-nav">
+    
+      <a href="/2020/05/04/kqhkza/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer</strong>
+        <div class="article-nav-title">
+          
+            Ethernaut 0-10
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/04/27/moa35g/" class="article-nav-link">
+        <strong class="article-nav-caption">Older</strong>
+        <div class="article-nav-title">智能合约常见漏洞</div>
+      </a>
+    
+  </nav>
+
+
+            
+
+                
+                    
+    <div class="vcomments" id="vcomments"></div>
+    
+<script src="https://unpkg.com/valine/dist/Valine.min.js"></script>
+
+        <script>
+            new Valine({
+                el: '#vcomments',
+                appId: '',
+                appKey: '',
+                notify: 'false',
+                verify: 'true',
+                avatar: 'mp',
+                pageSize: '10',
+                placeholder: '请输入...'
+            })
+        </script>
+        
+                        
+                            
+
+</article>
+</section>
+  <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+    <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+    <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>&copy; 2020 yichen&#39;s blog</li>
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>Theme  <a href="https://github.com/zhwangart/hexo-theme-ocean" target="_blank" rel="noopener">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+
+</main>
+<aside class="sidebar">
+  <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+    <div class="logo">
+      <a href="/"><img src="/images/hexo.svg" alt="yichen&#39;s blog"></a>
+    </div>
+  
+  <ul class="nav nav-main">
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/">主页</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/archives">归档</a>
+      </li>
+    
+      <li class="nav-item">
+        <a class="nav-item-link" href="/about">关于</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="Search">
+        <i class="fe fe-search"></i>
+        Search
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+</aside>
+
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+  
+<script src="/js/tocbot.min.js"></script>
+
+  <script>
+    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+    tocbot.init({
+      tocSelector: '.tocbot',
+      contentSelector: '.article-entry',
+      headingSelector: 'h1, h2, h3, h4, h5, h6',
+      hasInnerContainers: true,
+      scrollSmooth: true,
+      positionFixedSelector: '.tocbot',
+      positionFixedClass: 'is-position-fixed',
+      fixedSidebarOffset: 'auto',
+    });
+  </script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+
+</body>
+</html>
