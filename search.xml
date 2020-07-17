@@ -5415,10 +5415,10 @@
 ]]></content>
   </entry>
   <entry>
-    <title>语雀自动同步hexo博客</title>
+    <title>语雀自动同步到hexo博客</title>
     <url>/2020/07/16/gtb5ck/</url>
     <content><![CDATA[<blockquote>
-<p>语雀+yuque-hexo+github pages+hexo+github actions+serverless 云函数<br>实现语雀写完文章能够自动同步到 hexo 博客</p>
+<p>hexo+github pages+yuque-hexo 插件+github actions+serverless 云函数+语雀<br>实现语雀写完文章能够自动同步到 hexo 博客</p>
 </blockquote>
 <p>本文针对已经搭建好 hexo 博客的，如果没有搭好正常的 hexo 博客的可以去网上找一下，很方便</p>
 <h1 id="hexo-同步语雀内容"><a href="#hexo-同步语雀内容" class="headerlink" title="hexo 同步语雀内容"></a>hexo 同步语雀内容</h1><p>用到了这个项目：<a href="https://github.com/x-cold/yuque-hexo" target="_blank" rel="noopener">https://github.com/x-cold/yuque-hexo</a><br>安装：npm i -g yuque-hexo</p>
@@ -5593,7 +5593,7 @@
                 <div class="image-caption">image.png</div>
             </figure>
 
-<p>权限什么的随便选啦</p>
+<p>触发规则自己定就好啦</p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
@@ -5602,13 +5602,13 @@
                 <div class="image-caption">image.png</div>
             </figure>
 
-<p><strong>我的博客地址：</strong><a href="https://yichen115.github.io/"><strong>https://yichen115.github.io</strong></a><br>**<br><strong>这篇文章更新的时候发现有失败的可能</strong><br>**<br><strong><figure class="image-bubble">
+<p><em>*<br>这篇文章更新的时候发现有失败的可能<br>**<br><strong><figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
                     <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594909836406-93471a4a-4ea0-4417-89d3-d1230ca044f7.png#align=left&display=inline&height=155&margin=%5Bobject%20Object%5D&name=image.png&originHeight=172&originWidth=290&size=6687&status=done&style=stroke&width=262" alt="image.png" title="">
                 </div>
                 <div class="image-caption">image.png</div>
-            </figure></strong></p>
+            </figure></strong><br>*\</em><br><strong>我的博客地址：</strong><a href="https://yichen115.github.io/"><strong>https://yichen115.github.io</strong></a></p>
 ]]></content>
   </entry>
   <entry>
