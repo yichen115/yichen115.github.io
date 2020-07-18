@@ -34,12 +34,12 @@
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1594645572098-7bac98df-80a8-4cdc-853d-3dfc6ae0713f.png#align=left&display=inline&height=434&margin=%5Bobject%20Object%5D&name=image.png&originHeight=868&originWidth=1342&size=61281&status=done&style=none&width=671">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1594647866642-ff90fb94-9919-4916-8fb8-0b13415ed91f.png#align=left&display=inline&height=440&margin=%5Bobject%20Object%5D&name=image.png&originHeight=879&originWidth=1355&size=71468&status=done&style=none&width=677.5">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1594646298826-c9d32e2a-05c3-47e8-a601-a54f2590de9b.png#align=left&display=inline&height=381&margin=%5Bobject%20Object%5D&name=image.png&originHeight=627&originWidth=484&size=58714&status=done&style=none&width=294">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1594729131076-730906ca-990b-4d20-a117-e460d5e6e4cd.png#align=left&display=inline&height=347&margin=%5Bobject%20Object%5D&name=image.png&originHeight=693&originWidth=569&size=65184&status=done&style=none&width=284.5">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595081391698-4c27150a-af38-44e9-811a-d6e2eea0797a.png#align=left&display=inline&height=368&margin=%5Bobject%20Object%5D&name=image.png&originHeight=564&originWidth=549&size=50850&status=done&style=none&width=358">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595076906825-19570a20-6797-48be-8450-4f9f3aaf9dcd.png#align=left&display=inline&height=491&margin=%5Bobject%20Object%5D&name=image.png&originHeight=983&originWidth=1737&size=171697&status=done&style=stroke&width=868.5">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595080117627-645624df-afee-40bb-9045-f17fd6e0f94a.png#align=left&display=inline&height=478&margin=%5Bobject%20Object%5D&name=image.png&originHeight=956&originWidth=1864&size=215835&status=done&style=none&width=932">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595080224900-50103a8b-298f-4298-9c92-e62cc1ea3827.png#align=left&display=inline&height=38&margin=%5Bobject%20Object%5D&name=image.png&originHeight=56&originWidth=544&size=6633&status=done&style=none&width=370">
 <meta property="article:published_time" content="2020-07-12T08:22:49.000Z">
-<meta property="article:modified_time" content="2020-07-18T13:56:50.160Z">
+<meta property="article:modified_time" content="2020-07-18T14:14:27.124Z">
 <meta property="article:author" content="yichen">
 <meta property="article:tag" content="网络安全 CTF">
 <meta name="twitter:card" content="summary">
@@ -283,11 +283,15 @@
 <h1 id="pass-9"><a href="#pass-9" class="headerlink" title="pass-9"></a>pass-9</h1><p>代码里又去掉了 ::$DATA，所以在后缀加上 ::$DATA 绕过<br>（抓包的时候加上 ::$data，访问的时候不带着）</p>
 <h1 id="pass-10"><a href="#pass-10" class="headerlink" title="pass-10"></a>pass-10</h1><p><code>.空格.</code>绕过</p>
 <h1 id="pass-11"><a href="#pass-11" class="headerlink" title="pass-11"></a>pass-11</h1><p>双写绕过，代码中把检测到的黑名单中的后缀改为了空，所以多写一个嵌进去如：phphpp、</p>
-<h1 id="pass-12-13"><a href="#pass-12-13" class="headerlink" title="pass-12/13"></a>pass-12/13</h1><p>00 截断复现失败</p>
+<h1 id="pass-12-13"><a href="#pass-12-13" class="headerlink" title="pass-12/13"></a>pass-12/13</h1><p>需要满足以下条件：</p>
+<ul>
+<li>php 版本小于 5.3.4</li>
+<li>php 的 magic_quotes_gpc 为 OFF 状态</li>
+</ul>
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594729131076-730906ca-990b-4d20-a117-e460d5e6e4cd.png#align=left&display=inline&height=347&margin=%5Bobject%20Object%5D&name=image.png&originHeight=693&originWidth=569&size=65184&status=done&style=none&width=284.5" alt="image.png" title="">
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595081391698-4c27150a-af38-44e9-811a-d6e2eea0797a.png#align=left&display=inline&height=368&margin=%5Bobject%20Object%5D&name=image.png&originHeight=564&originWidth=549&size=50850&status=done&style=none&width=358" alt="image.png" title="">
                 </div>
                 <div class="image-caption">image.png</div>
             </figure>
@@ -333,7 +337,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2020-07-18T13:56:50.160Z" itemprop="dateUpdated">2020-07-18 21:56:50</time>
+    最后更新时间：<time datetime="2020-07-18T14:14:27.124Z" itemprop="dateUpdated">2020-07-18 22:14:27</time>
 </span><br>
 
 

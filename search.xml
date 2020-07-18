@@ -4692,11 +4692,15 @@
 <h1 id="pass-9"><a href="#pass-9" class="headerlink" title="pass-9"></a>pass-9</h1><p>代码里又去掉了 ::$DATA，所以在后缀加上 ::$DATA 绕过<br>（抓包的时候加上 ::$data，访问的时候不带着）</p>
 <h1 id="pass-10"><a href="#pass-10" class="headerlink" title="pass-10"></a>pass-10</h1><p><code>.空格.</code>绕过</p>
 <h1 id="pass-11"><a href="#pass-11" class="headerlink" title="pass-11"></a>pass-11</h1><p>双写绕过，代码中把检测到的黑名单中的后缀改为了空，所以多写一个嵌进去如：phphpp、</p>
-<h1 id="pass-12-13"><a href="#pass-12-13" class="headerlink" title="pass-12/13"></a>pass-12/13</h1><p>00 截断复现失败</p>
+<h1 id="pass-12-13"><a href="#pass-12-13" class="headerlink" title="pass-12/13"></a>pass-12/13</h1><p>需要满足以下条件：</p>
+<ul>
+<li>php 版本小于 5.3.4</li>
+<li>php 的 magic_quotes_gpc 为 OFF 状态</li>
+</ul>
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594729131076-730906ca-990b-4d20-a117-e460d5e6e4cd.png#align=left&display=inline&height=347&margin=%5Bobject%20Object%5D&name=image.png&originHeight=693&originWidth=569&size=65184&status=done&style=none&width=284.5" alt="image.png" title="">
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595081391698-4c27150a-af38-44e9-811a-d6e2eea0797a.png#align=left&display=inline&height=368&margin=%5Bobject%20Object%5D&name=image.png&originHeight=564&originWidth=549&size=50850&status=done&style=none&width=358" alt="image.png" title="">
                 </div>
                 <div class="image-caption">image.png</div>
             </figure>
