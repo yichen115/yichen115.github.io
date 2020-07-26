@@ -3807,7 +3807,6 @@
 <p>在/etc/passwd 的源文件里有 upload.php，可以上传文件，上传一张图片马。直接包含执行<br>但是发现被过滤掉了<?php和?>替换为<em>和</em><br>直接用<script language=php>eval($_POST['cmd']);</script>替换就可以执行</p>
 <h1 id="远程包含"><a href="#远程包含" class="headerlink" title="远程包含"></a>远程包含</h1><h2 id="条件"><a href="#条件" class="headerlink" title="条件"></a>条件</h2><p>在 php.ini 里有两个重要的参数 allow_url_fopen 和 allow_url_include<br>allow_url_fopen:默认值是 ON，允许 url 里的封装协议访问文件<br>allow_url_include:默认值是 OFF,不允许包含 url 里的封装协议包含文件</p>
 <p>如果后缀名写死，比如传入的东西后面自动加上.php 可以用?来绕过<br>比如：<a href="http://xxxxx.index.php?file=1.txt?a.php，?是用来传参的，但是1.txt不需要任何参数，所以?没啥用，可以把帮助我们绕过.php" target="_blank" rel="noopener">http://xxxxx.index.php?file=1.txt?a.php，?是用来传参的，但是1.txt不需要任何参数，所以?没啥用，可以把帮助我们绕过.php</a></p>
-<p>#</p>
 <h2 id="伪协议"><a href="#伪协议" class="headerlink" title="伪协议"></a>伪协议</h2><h3 id="php-支持的伪协议"><a href="#php-支持的伪协议" class="headerlink" title="php 支持的伪协议"></a>php 支持的伪协议</h3><table>
 <thead>
 <tr>
@@ -3869,7 +3868,25 @@
 <li>对 allow_url_fopen 不做要求</li>
 </ul>
 <p>php://input 可以读取没有处理过的 post 数据</p>
+<p>就是用它之后，post 直接放完整的 php 代码就可以</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595768130884-e6a2170d-ee92-4a62-bfc3-1fbc0d2e2086.png#align=left&display=inline&height=354&margin=%5Bobject%20Object%5D&name=image.png&originHeight=521&originWidth=543&size=46300&status=done&style=none&width=369" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
 <p>例题：<a href="http://106.12.37.37:10008" target="_blank" rel="noopener">http://106.12.37.37:10008</a></p>
+<h3 id="data"><a href="#data" class="headerlink" title="data://"></a>data://</h3><p>data://text/plain/;base64,php 马的 base64 形式，注意 + 要 url 编码</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595768507015-450a17a3-e2e0-409f-b7ac-33d09292012a.png#align=left&display=inline&height=326&margin=%5Bobject%20Object%5D&name=image.png&originHeight=471&originWidth=892&size=67215&status=done&style=none&width=617" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
 <h3 id="日志文件"><a href="#日志文件" class="headerlink" title="日志文件"></a>日志文件</h3><p>在 linux 下，日志一般都在 var/log 下面<br>通过 bp 抓包，改请求头上的内容，比如<?php phpinfo();?>就可以让日志文件包含我们需要的内容，通过包含日志文件就可以了，但是通常情况用户是没有权限去读取日志文件的</p>
 <h1 id="系统环境-mark-一下以后在写"><a href="#系统环境-mark-一下以后在写" class="headerlink" title="系统环境 mark 一下以后在写"></a>系统环境 mark 一下以后在写</h1><h3 id="session"><a href="#session" class="headerlink" title="session"></a>session</h3><p>PHP 默认生成 session 文件在/tmp 下<br>在 php.ini 文件中存在 session.upload_progress.enabled 这个参数，默认开启，会在上传过程中生成上传进度文件，它的存储路径可以在 phpinfo 中找到</p>
 <p>看烦了，先看点别的</p>
