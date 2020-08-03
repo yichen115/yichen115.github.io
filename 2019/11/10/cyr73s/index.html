@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>正则 | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="参考：http:&#x2F;&#x2F;deerchao.net&#x2F;tutorials&#x2F;regex&#x2F;regex.htmhttps:&#x2F;&#x2F;www.cnblogs.com&#x2F;kevin-yuan&#x2F;archive&#x2F;2012&#x2F;09&#x2F;25&#x2F;2702167.html 正则可视化：https:&#x2F;&#x2F;regexper.com&#x2F;本地正则软件：regester.zip 通常在&#x2F;&#x2F;里面^ 开始          $ 结束    &#x2F;^  $&#x2F;\b">
+<meta property="og:type" content="article">
+<meta property="og:title" content="正则">
+<meta property="og:url" content="https://yichen115.github.io/2019/11/10/cyr73s/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="参考：http:&#x2F;&#x2F;deerchao.net&#x2F;tutorials&#x2F;regex&#x2F;regex.htmhttps:&#x2F;&#x2F;www.cnblogs.com&#x2F;kevin-yuan&#x2F;archive&#x2F;2012&#x2F;09&#x2F;25&#x2F;2702167.html 正则可视化：https:&#x2F;&#x2F;regexper.com&#x2F;本地正则软件：regester.zip 通常在&#x2F;&#x2F;里面^ 开始          $ 结束    &#x2F;^  $&#x2F;\b">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-11-10T05:40:53.000Z">
+<meta property="article:modified_time" content="2020-08-03T02:52:13.942Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-grav"></i>
+                语雀
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://passport.kanxue.com/user-center-837755.htm" target="_blank" >
+                <i class="icon icon-lg icon-snowflake-o"></i>
+                看雪
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://sighttp.qq.com/msgrd?v=1&uin=1097179511" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://img2020.cnblogs.com/blog/1558534/202003/1558534-20200331231408805-256812285.jpg" target="_blank" >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">正则</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">正则</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-11-10T05:40:53.000Z" itemprop="datePublished" class="page-time">
+  2019-11-10
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+
+<article id="post-cyr73s"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">正则</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-11-10 13:40:53" datetime="2019-11-10T05:40:53.000Z"  itemprop="datePublished">2019-11-10</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>参考：<a href="http://deerchao.net/tutorials/regex/regex.htm" target="_blank" rel="noopener">http://deerchao.net/tutorials/regex/regex.htm</a><br><a href="https://www.cnblogs.com/kevin-yuan/archive/2012/09/25/2702167.html" target="_blank" rel="noopener">https://www.cnblogs.com/kevin-yuan/archive/2012/09/25/2702167.html</a></p>
+<p>正则可视化：<a href="https://regexper.com/" target="_blank" rel="noopener">https://regexper.com/</a><br>本地正则软件：<a href="https://www.yuque.com/attachments/yuque/0/2019/zip/268938/1568032102748-bd524e05-9b8d-41cb-adc8-997c605e368b.zip?_lake_card=%7B%22uid%22%3A%22rc-upload-1568032036558-4%22%2C%22src%22%3A%22https%3A%2F%2Fwww.yuque.com%2Fattachments%2Fyuque%2F0%2F2019%2Fzip%2F268938%2F1568032102748-bd524e05-9b8d-41cb-adc8-997c605e368b.zip%22%2C%22name%22%3A%22regester.zip%22%2C%22size%22%3A2148886%2C%22type%22%3A%22application%2Fx-zip-compressed%22%2C%22ext%22%3A%22zip%22%2C%22progress%22%3A%7B%22percent%22%3A0%7D%2C%22status%22%3A%22done%22%2C%22percent%22%3A0%2C%22id%22%3A%22cpWXO%22%2C%22card%22%3A%22file%22%7D" target="_blank" rel="noopener">regester.zip</a></p>
+<p>通常在//里面<br>^ 开始          $ 结束    /^  $/<br>\b \bhi\b  代表着单词的开头和结尾（匹配结果是单独的：hi）<br>. 匹配除了换行符以外的任意字符</p>
+<ul>
+<li>前边的内容可以连续重复任意次</li>
+</ul>
+<ul>
+<li>重复一次或更多次<br>? 重复零次或一次<br>{} 如果想连续匹配 8 次，{8}，{5,12} 必须是 5-12 次<br>\d 匹配的是任意的数字<br>\s 匹配任意空白符（包括空格、制表符、换行符、全角空格）<br>\w 匹配字符字母或数字或下划线或汉字<br>如果开启了处理多行的工具，^ $ 就变成了匹配行的开始和结束处<br>如果想要查找 . 或 * 时会被认为元字符，可以使用转义 \ （查找 \ 本身也要转义 \）<br>[yichen] 匹配里面任意一个字母</li>
+</ul>
+<p>例子：匹配 (010)88886666 或 022-23234567 或 05412367541 等格式的电话号码<br>(?0\d{2}[) -]?\d{8}<br>首先是 ( 匹配零次或一次 ?，然后是一个 0，再是两个数字，然后是 ) - 中的任意一个，后面再跟 8<br>有个问题，会出现 010)13293610 这种明显不正确的格式<br>要解决这种问题需要用 | 把不同的规则分隔开</p>
+<p>0\d{2}-\d{8}|0\d{3}-\d{7} 表示的是：23-79541357 和 213-4851247<br>(0\d{2})[- ]?\d{8}|0\d{2}[- ]?\d{8} 表示的是：(024)-14765423 或 043-54761258（也可以没有-或者空格）<br>需要注意的是使用分支条件时，会从左向右的测试每一个条件，如果满足了一个分支的话，就不会管其他条件了<br>这就意味着：\d{5}|\d{5}-\d{4}，只会匹配前五位</p>
+<p>如果想重复多个字符的话可以用小括号指定子表达式<br>(\d{1,3}.){3}\d{1,3} 可以用来匹配 IP 地址，\d{1,3} 匹配 1-3 位数字，. 是转义，直接显示 . ，(\d(1,3).){3} 会匹配三个数字加一个点这种形式 3 次，最后再加上 1-3 位数字<br>然而这样的还是会匹配到 500.900.456.852 这样的，但是这则表达式中不提供算数比较，所以只能使用冗长的分组进行描述：((2[0-4]\d|25[0-5]|[0-1]?\d\d?).){3}(2[0-4]\d|25[0-5}|[0-1]?\d\d?)</p>
+<p>如果需要查找不属于某个能简单定义的字符类的字符，比如想查找除了数字之外，其他任意字符都行<br>可以使用转义：<br>\W 匹配任意不是字母、数字、下划线、汉字的字符<br>\S 匹配任意不是空白符的字符    \S+ 匹配不包含空白符的字符串<br>\D 匹配任意非数字的字符<br>\B 匹配不是单词开头或结束的字符<br>[^x] 匹配除了 x 以外的任意字符<br>[^ aeiou] 匹配除了 aeiou 这几个字母以外的任意字符<br>&lt;a[^&gt;]+&gt; 匹配尖括号括起来的以 a 开头的字符串</p>
+<p>向后引用：使用小括号制定一个子表达式之后，匹配这个子表达式的文本可以在表达式或其它程序中作进一步引用处理。默认情况下，每个分组会自动拥有一个组号，规则：从左向右，以分组的左括号为标志，第一个出现的的分组组号为 1，第二个为 2，以此类推，\1 代表分组 1 匹配的文本（分组 0 代表着整个正则表达式）</p>
+<p>\b(\w+)\b\s+\1\b 首先是一个字母，然后是任意字符一次或多次，再是一个字母，然后是一个或任意多个空白符，到这里就用到了分组 1，也就是 (\w+) 匹配到的任意字符</p>
+<p>也可以自己定义子表达式的组名：(?<Word>\w+) 把尖括号换成 ‘ 也可以，这样就把 \w+ 的组名指定成了 Word 了，要使用这个分组可以使用 \k<Word></p>
+<table>
+<thead>
+<tr>
+<th>分类</th>
+<th>代码/语法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>捕获</td>
+<td>(exp)</td>
+<td>匹配 exp，并捕获文本到自动命名的组里</td>
+</tr>
+<tr>
+<td></td>
+<td>(?<name>exp)</td>
+<td>匹配 exp，并捕获文本到名称为 name 的组里面，也可以写成 (?’name’exp)</td>
+</tr>
+<tr>
+<td></td>
+<td>(?:exp)</td>
+<td>匹配 exp，不捕获匹配的文本，也不给此分组分配组号</td>
+</tr>
+<tr>
+<td>零宽断言</td>
+<td>(?=exp)</td>
+<td>匹配 exp 前面的位置</td>
+</tr>
+<tr>
+<td></td>
+<td>(?&lt;=exp)</td>
+<td>匹配 exp 后面的位置</td>
+</tr>
+<tr>
+<td></td>
+<td>(?!exp)</td>
+<td>匹配后面跟的不是 exp 的位置</td>
+</tr>
+<tr>
+<td></td>
+<td>(?&lt;!exp)</td>
+<td>匹配前面不是 exp 的位置</td>
+</tr>
+<tr>
+<td>注释</td>
+<td>(?#comment)</td>
+<td>这种类型的分组不对正则表达式的处理产生任何影响，用于提供注释让人阅读</td>
+</tr>
+</tbody></table>
+<p>//修正符:<strong>i</strong>  不区分大小写的匹配;</p>
+<p>//如:”/abc/i”可以与 abc 或 aBC 或 ABc 等匹配;<br>//修正符：<strong>g</strong>表示全局匹配<br>    //修正符:<strong>m</strong>  将字符串视为多行,不管是那行都能匹配;</p>
+<p>例://模式为:$mode=”/abc/m”;<br>         //要匹配的字符串为:$str=”bcefg5e\nabcdfe”<br>             //注意其中\n,换行了;abc 换到了下一行;<br>         //$str和$mode 仍可以匹配,修正符 m 使得多行也可匹配;<br>    //修正符:<strong>s</strong>  将字符串视为单行,换行符作为普通字符;</p>
+<p>例://模式为:$mode=”/pr.y/“;<br>           //要匹配字符串为:$str=”pr\ny”;<br>           //两者不可匹配; . 是除了换行以外的字符可匹配;<br>           //修改下模式为:$mode=”/pr.y/s”;<br>               //其中修正符 s 将\n 视为普通字符,即不是换行;<br>           //最后两者可以匹配;<br>    //修正符:<strong>x</strong>  将模式中的空白忽略;<br>    //修正符:<strong>A</strong>  强制从目标字符串开头匹配;</p>
+<p>例://$mode=”/abc/A”;<br>           //可以与$str=”abcsdfi”匹配,<br>           //不可以与$str2=”sdsdabc”匹配;<br>           //因为$str2 不是以 abc 开头;<br>    //修正符:<strong>D</strong>  如果使用$限制结尾字符,则不允许结尾有换行;</p>
+<p>例://模式为:$mode=”/abc$/“;<br>           //可以与最后有换行的$str=”adshabc\n”匹配;<br>           //元子符$会忽略最后的换行\n;<br>           //如果模式为:$mode=”/abc/D”,<br>           //则不能与$str=”adshabc\n”匹配,<br>           //修正符 D 限制其不可有换行;必需以 abc 结尾;<br>    //修正符:<strong>U</strong>  只匹配最近的一个字符串;不重复匹配;</p>
+<p>例:<br>             如模式为:<br>            $mode=”/a.*c/“;<br>            $str=”abcabbbcabbbbbc” ;<br>            preg_match($mode,$str,$content);<br>            echo $content[0]; //输出:abcabbbcabbbbbc;</p>
+<p>//如果$mode=”/a.<em>c/“;变成$mode=”/a.\</em>c/<strong>U</strong>“;<br>             // 则只匹配最近一个字符串,输出:abc;</p>
+<p>//修正符:<strong>e</strong>  配合函数 preg_replace()使用,             可以把匹配来的字符串当作正则表达式执行;</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-08-03T02:52:13.942Z" itemprop="dateUpdated">2020-08-03 10:52:13</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2019/11/10/cyr73s/&title=《正则》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2019/11/10/cyr73s/&title=《正则》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2019/11/10/cyr73s/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《正则》 — yichen's blog&url=https://yichen115.github.io/2019/11/10/cyr73s/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2019/11/10/cyr73s/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/11/10/zzg02e/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">pwn入门（蒸米ROP）</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/11/10/uew75k/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">杂项随记（汇总）</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2019/11/10/cyr73s/&title=《正则》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2019/11/10/cyr73s/&title=《正则》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2019/11/10/cyr73s/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《正则》 — yichen's blog&url=https://yichen115.github.io/2019/11/10/cyr73s/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2019/11/10/cyr73s/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2019/11/10/cyr73s/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

