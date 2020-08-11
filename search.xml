@@ -12010,6 +12010,133 @@
 ]]></content>
   </entry>
   <entry>
+    <title>SkyDogCTF</title>
+    <url>/2020/08/10/prsqxp/</url>
+    <content><![CDATA[<p>nmap 扫描一下端口</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1597065668337-6a875d5b-cad6-460b-8fd0-ae4155b31acf.png#align=left&display=inline&height=439&margin=%5Bobject%20Object%5D&name=image.png&originHeight=878&originWidth=1315&size=1170423&status=done&style=none&width=657.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>访问 80 口又是只有一张图，查看源代码啥都没有</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1597065754098-7812d1ad-dfc8-4bb9-ba34-dd8c7112f75d.png#align=left&display=inline&height=416&margin=%5Bobject%20Object%5D&name=image.png&originHeight=832&originWidth=1161&size=316401&status=done&style=stroke&width=580.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>访问 192.168.149.194/robots.txt 得到了一个 flag，同时可以看到有很多目录<br>（没截全）</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1597065908530-818e5365-6549-4a87-857c-0e2c4da13a58.png#align=left&display=inline&height=442&margin=%5Bobject%20Object%5D&name=image.png&originHeight=679&originWidth=751&size=49138&status=done&style=stroke&width=489" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>另外，下载的首页的图片中的属性里面还有一个 flag</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1597065981272-fed160da-1fd4-4121-8399-ff3d6f2dbb13.png#align=left&display=inline&height=307&margin=%5Bobject%20Object%5D&name=image.png&originHeight=449&originWidth=602&size=24278&status=done&style=stroke&width=412" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>写个小脚本简单处理一下 robots.txt，做成一个目录字典</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">file = open(<span class="string">'./flag.txt'</span>,<span class="string">'r'</span>)</span><br><span class="line">lines = file.readlines()</span><br><span class="line">new=[]</span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> lines:</span><br><span class="line">	str = line.split(<span class="string">': /'</span>)</span><br><span class="line">	<span class="comment">#print(str[1])</span></span><br><span class="line">	new.append(str[<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line">file_out=open(<span class="string">'out.txt'</span>,<span class="string">'w'</span>)</span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> new:</span><br><span class="line">	file_out.writelines(line)</span><br><span class="line">file_out.close()</span><br></pre></td></tr></table></figure>
+
+<p>扫到 <a href="http://192.168.149.194/Setec/" target="_blank" rel="noopener">http://192.168.149.194/Setec/</a> 得到一张图片</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1597067494669-979cbcc7-ec97-4781-b958-daa8d30e4013.png#align=left&display=inline&height=540&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1080&originWidth=1354&size=1061476&status=done&style=stroke&width=677" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>去访问一下源码里面泄露的地址</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1597067575251-f1b2e5ef-67ae-4943-9180-aa7527debd2c.png#align=left&display=inline&height=226&margin=%5Bobject%20Object%5D&name=image.png&originHeight=423&originWidth=1188&size=55134&status=done&style=stroke&width=634" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>得到一个压缩包</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1597067620278-24ab5934-7092-4884-a35b-b164632a42c8.png#align=left&display=inline&height=261&margin=%5Bobject%20Object%5D&name=image.png&originHeight=456&originWidth=1006&size=59907&status=done&style=stroke&width=575" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>用 rockyou.txt 破解一下<br>？？？怎么还骂人？？？你妈的</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1597067709782-f14249b9-78de-4129-8064-5427ef038b1d.png#align=left&display=inline&height=315&margin=%5Bobject%20Object%5D&name=image.png&originHeight=524&originWidth=1033&size=159861&status=done&style=stroke&width=620" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>打开 flag.txt 就能拿到一个 flag 了</p>
+<p>同时里面还有个 txt 应该是给了个提示，但完全 get 不到<br>最终是通过 cewl 在一个网站上爬出来一个字典，得到了目录 PlayTronics<br>…<br>拿到一个 flag 和一个流量包</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1597106802281-aab4b8e7-91bb-457d-bf46-4a714964686c.png#align=left&display=inline&height=288&margin=%5Bobject%20Object%5D&name=image.png&originHeight=455&originWidth=625&size=46796&status=done&style=stroke&width=396" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>其中 flag 的 MD5 解密后是 leroybrown</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1597106767530-060df2c1-b471-4fc7-8013-86458737b090.png#align=left&display=inline&height=193&margin=%5Bobject%20Object%5D&name=image.png&originHeight=298&originWidth=881&size=14584&status=done&style=stroke&width=570" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>从里面可以提取出来一个 mp3</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1597106992318-7aaef0e7-8433-4c93-a03e-394935f522e6.png#align=left&display=inline&height=279&margin=%5Bobject%20Object%5D&name=image.png&originHeight=557&originWidth=482&size=44812&status=done&style=stroke&width=241" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1597106920023-552e5f78-b9bd-4afc-b278-d1358c9d3f39.png#align=left&display=inline&height=455&margin=%5Bobject%20Object%5D&name=image.png&originHeight=910&originWidth=1526&size=180607&status=done&style=none&width=763" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>接下来竟然是听声音拿到用户名？？？？？？？？？？？？？？？？<br>我听出来也不知道咋拼啊！？？？？？？？？？？？<br>“Hi, my name is Werner Brandes. My voice is my passport. Verify Me.”<br><strong>wernerbrandes</strong><br><a href="https://www.youtube.com/watch?v=-zVgWpVXb64" target="_blank" rel="noopener">https://www.youtube.com/watch?v=-zVgWpVXb64</a><br>影片 ↑</p>
+<p>拿到用户名，上面那个 MD5 解出来的是密码，接下来 ssh 登录<br>wernerbrandes：leroybrown</p>
+<p>登录上之后当前目录又有一个 flag</p>
+<p>然后用这个 exp，本机编译好之后用 nc 传给靶机，给了运行权限之后运行就可以得到 root 权限<br><a href="https://www.exploit-db.com/exploits/39166" target="_blank" rel="noopener">https://www.exploit-db.com/exploits/39166</a></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1597108562067-fa278342-a713-4101-9faf-b7bafa94619e.png#align=left&display=inline&height=67&margin=%5Bobject%20Object%5D&name=image.png&originHeight=99&originWidth=1096&size=139039&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+]]></content>
+  </entry>
+  <entry>
     <title>Linux系统</title>
     <url>/2020/02/22/pzhqyf/</url>
     <content><![CDATA[<figure class="image-bubble">
@@ -16166,6 +16293,74 @@
 ]]></content>
   </entry>
   <entry>
+    <title>文件上传</title>
+    <url>/2019/11/10/zfbnui/</url>
+    <content><![CDATA[<h1 id="本地客户端验证"><a href="#本地客户端验证" class="headerlink" title="本地客户端验证"></a>本地客户端验证</h1><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>通过 JavaScript 验证上传的文件类型</p>
+<h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><p>禁用 JS，或先传允许的格式，burp 抓包改回来</p>
+<h3 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h3><p>106.12.37.37:10001</p>
+<h1 id="服务器端校验"><a href="#服务器端校验" class="headerlink" title="服务器端校验"></a>服务器端校验</h1><h2 id="content-type-字段校验"><a href="#content-type-字段校验" class="headerlink" title="content-type 字段校验"></a>content-type 字段校验</h2><h3 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h3><p>在 http 请求里面会显示传输的文件 MIME 类型<br>检验是不是允许的 MIME 类型</p>
+<h3 id="解决-1"><a href="#解决-1" class="headerlink" title="解决"></a>解决</h3><p>1、正常上传，抓包改 MIME<br>2、上传允许的文件类型，抓包改文件后缀</p>
+<p>一般允许的 MIME 类型：</p>
+<table>
+<thead>
+<tr>
+<th>拓展名</th>
+<th>MIME 类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>gif</td>
+<td>image/gif</td>
+</tr>
+<tr>
+<td>png</td>
+<td>image/png</td>
+</tr>
+<tr>
+<td>jpg</td>
+<td><strong>image/jpeg</strong></td>
+</tr>
+<tr>
+<td>js</td>
+<td>text/javascript</td>
+</tr>
+<tr>
+<td>htm</td>
+<td>text/html</td>
+</tr>
+<tr>
+<td>html</td>
+<td>text/html</td>
+</tr>
+</tbody></table>
+<h3 id="例题-1"><a href="#例题-1" class="headerlink" title="例题"></a>例题</h3><p>106.12.37.37:10002</p>
+<h2 id="黑名单校验"><a href="#黑名单校验" class="headerlink" title="黑名单校验"></a>黑名单校验</h2><h3 id="原理-2"><a href="#原理-2" class="headerlink" title="原理"></a>原理</h3><p>定义一个黑名单，如果上传文件的后缀名在黑名单里，不允许上传</p>
+<h3 id="解决-2"><a href="#解决-2" class="headerlink" title="解决"></a>解决</h3><h4 id="不在黑名单，但能解析后缀名"><a href="#不在黑名单，但能解析后缀名" class="headerlink" title="不在黑名单，但能解析后缀名"></a>不在黑名单，但能解析后缀名</h4><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594542130867-30eb7a05-93d9-4469-abc4-00f0072f051c.png#align=left&display=inline&height=239&margin=%5Bobject%20Object%5D&name=image.png&originHeight=338&originWidth=411&size=41684&status=done&style=stroke&width=291" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>大小写绕过：PhP/pHP…<br>php/php3/php4/php5/php7/pht/phtml/phps<br>Win 下  <strong>xx.jpg[空格]</strong> 或<strong>xx.jpg.</strong>这两类文件都是不允许存在的，若这样命名，windows 会默认除去空格或点<br>上传的时候可以用 burp 加上空格或点，逃出了黑名单后 windows 会把空格或点去掉</p>
+<h4 id="配合-apache-的-htaccess-文件"><a href="#配合-apache-的-htaccess-文件" class="headerlink" title="配合 apache 的.htaccess 文件"></a>配合 apache 的.htaccess 文件</h4><p>（分布式配置文件）上传解析：<br>.htaccess 文件：提供了针对目录改变配置的方法，在特定的文档目录放置一个包含一个或多个指令的文件，一次用作此目录及其所有子目录。作为用户，所能使用的命令受到限制，作为管理员可以通过 Apache 的 AllowOverride 指令来设置<br>传入文件为：.htaccess，文件类型为所有类型<br>内容：<br><code>AddType application/x-httpd-php .jpg</code><br>把所有 jpg 当成 php 来解析<br>或</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">&lt;FilesMatch <span class="string">"ma.jpg"</span>&gt;</span><br><span class="line">SetHandler application/x-httpd-php</span><br><span class="line">&lt;/FilesMatch&gt;</span><br></pre></td></tr></table></figure>
+
+<p>把指定的 ma.jpg 当成 php<br>制作：先创建一个 1.txt，写入上面的内容，然后当前目录下打开 cmd 输入：<br>ren 1.txt .htaccess</p>
+<h4 id="00-截断"><a href="#00-截断" class="headerlink" title="%00 截断"></a>%00 截断</h4><p>（大多数在老版本里，现在已经不多了）<br>0x00 是十六进制表示方法，是 ascii 码为 0 的字符，在有些函数处理时，会把这个字符当做结束符</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">name = getname(http request) <span class="comment">//假如这时候获取到的文件名是trst.asp.jpg(asp后面是0x00)</span></span><br><span class="line">type = gettype(name) <span class="comment">//而在gettype()函数里处理方式是从后往前扫描拓展名，所以判断为jpg</span></span><br><span class="line"><span class="keyword">if</span>(type == jpg)</span><br><span class="line">SaveFileToPath(UploadPath.name,name) <span class="comment">//但在这里却是以0x00 作为文件名截断</span></span><br><span class="line"><span class="comment">//最后以test.asp存入路径</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="超长文件名"><a href="#超长文件名" class="headerlink" title="超长文件名"></a>超长文件名</h4><h4 id="后缀加-DATA"><a href="#后缀加-DATA" class="headerlink" title="后缀加::$DATA"></a>后缀加::$DATA</h4><p>php 在 window 的时候,如果文件名+”::$DATA”会把::$DATA 之后的数据当成文件流处理,不会检测后缀名.且保持”::$DATA”之前的文件名<br>（pass-08，我这个地方做的时候想访问试试，访问的时候访问.php，不要带上后面的::$DATA）</p>
+<h4 id="双写绕过"><a href="#双写绕过" class="headerlink" title="双写绕过"></a>双写绕过</h4><p>如后缀写成：<strong>p</strong>php<strong>hp</strong></p>
+<h3 id="例题-2"><a href="#例题-2" class="headerlink" title="例题"></a>例题</h3><p>106.12.37.37:10002</p>
+<h2 id="白名单检验"><a href="#白名单检验" class="headerlink" title="白名单检验"></a>白名单检验</h2><h3 id="配合-apache-解析缺陷"><a href="#配合-apache-解析缺陷" class="headerlink" title="配合 apache 解析缺陷"></a>配合 apache 解析缺陷</h3><p>apache 读到不能识别的比如：test.php.bak，bak 不能识别，会往前识别 php</p>
+<h3 id="内容头校验"><a href="#内容头校验" class="headerlink" title="内容头校验"></a>内容头校验</h3><p>getimagesize()函数，是图片，就返回相关信息，不是就返回 false<br>这个函数检验的是文件头，水的很</p>
+<h3 id="竞争上传"><a href="#竞争上传" class="headerlink" title="竞争上传"></a>竞争上传</h3><p>文件上传后先保留在服务器，检验后不合法再删掉<br>利用方法：让上传的文件自己生成另一个文件，在访问生成的文件就行了</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$file = <span class="string">'web.php'</span>;</span><br><span class="line">$shell = <span class="string">'&lt;?php eval($_POST["key"])?&gt;'</span>;</span><br><span class="line">file_put_contets($file,$shell);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+]]></content>
+  </entry>
+  <entry>
     <title>由浅入深理解区块链</title>
     <url>/2020/04/18/zdcdwi/</url>
     <content><![CDATA[<h1 id="简单点的理解"><a href="#简单点的理解" class="headerlink" title="简单点的理解"></a>简单点的理解</h1><p><a href="https://ethfans.org/posts/blockchain-for-beginners-what-is-blockchain-just-7-step" target="_blank" rel="noopener">七个步骤入门区块链</a></p>
@@ -16293,71 +16488,107 @@
 ]]></content>
   </entry>
   <entry>
-    <title>文件上传</title>
-    <url>/2019/11/10/zfbnui/</url>
-    <content><![CDATA[<h1 id="本地客户端验证"><a href="#本地客户端验证" class="headerlink" title="本地客户端验证"></a>本地客户端验证</h1><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>通过 JavaScript 验证上传的文件类型</p>
-<h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><p>禁用 JS，或先传允许的格式，burp 抓包改回来</p>
-<h3 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h3><p>106.12.37.37:10001</p>
-<h1 id="服务器端校验"><a href="#服务器端校验" class="headerlink" title="服务器端校验"></a>服务器端校验</h1><h2 id="content-type-字段校验"><a href="#content-type-字段校验" class="headerlink" title="content-type 字段校验"></a>content-type 字段校验</h2><h3 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h3><p>在 http 请求里面会显示传输的文件 MIME 类型<br>检验是不是允许的 MIME 类型</p>
-<h3 id="解决-1"><a href="#解决-1" class="headerlink" title="解决"></a>解决</h3><p>1、正常上传，抓包改 MIME<br>2、上传允许的文件类型，抓包改文件后缀</p>
-<p>一般允许的 MIME 类型：</p>
-<table>
-<thead>
-<tr>
-<th>拓展名</th>
-<th>MIME 类型</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>gif</td>
-<td>image/gif</td>
-</tr>
-<tr>
-<td>png</td>
-<td>image/png</td>
-</tr>
-<tr>
-<td>jpg</td>
-<td><strong>image/jpeg</strong></td>
-</tr>
-<tr>
-<td>js</td>
-<td>text/javascript</td>
-</tr>
-<tr>
-<td>htm</td>
-<td>text/html</td>
-</tr>
-<tr>
-<td>html</td>
-<td>text/html</td>
-</tr>
-</tbody></table>
-<h3 id="例题-1"><a href="#例题-1" class="headerlink" title="例题"></a>例题</h3><p>106.12.37.37:10002</p>
-<h2 id="黑名单校验"><a href="#黑名单校验" class="headerlink" title="黑名单校验"></a>黑名单校验</h2><h3 id="原理-2"><a href="#原理-2" class="headerlink" title="原理"></a>原理</h3><p>定义一个黑名单，如果上传文件的后缀名在黑名单里，不允许上传</p>
-<h3 id="解决-2"><a href="#解决-2" class="headerlink" title="解决"></a>解决</h3><h4 id="不在黑名单，但能解析后缀名"><a href="#不在黑名单，但能解析后缀名" class="headerlink" title="不在黑名单，但能解析后缀名"></a>不在黑名单，但能解析后缀名</h4><figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594542130867-30eb7a05-93d9-4469-abc4-00f0072f051c.png#align=left&display=inline&height=239&margin=%5Bobject%20Object%5D&name=image.png&originHeight=338&originWidth=411&size=41684&status=done&style=stroke&width=291" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
+    <title>ERC721标准和加密收藏品</title>
+    <url>/2020/04/26/zlohea/</url>
+    <content><![CDATA[<h1 id="以太坊上的代币"><a href="#以太坊上的代币" class="headerlink" title="以太坊上的代币"></a>以太坊上的代币</h1><p>如果你对以太坊的世界有一些了解，你很可能听过人们聊到代币——尤其是 ERC20 代币<br>一个代币在以太坊基本上就是一个遵循一些共同规则的智能合约——即它实现了所有其他代币合约共享的一组标准函数，例如 transfer(address _to, uint256 _value) 和 balanceOf(address _owner)</p>
+<p>在智能合约内部，通常有一个映射，mapping(address =&gt; uint256) balances，用于追踪每个地址还有多少余额<br>所以基本上一个代币只是一个追踪谁拥有多少该代币的合约，和一些可以让那些用户将他们的代币转移到其他地址的函数</p>
+<p><strong>由于所有 ERC20 代币共享具有相同名称的同一组函数，它们都可以以相同的方式进行交互</strong><br>这意味着如果你构建的应用程序能够与一个 ERC20 代币进行交互，那么它就也能够与任何 ERC20 代币进行交互<br>这样一来，将来你就可以轻松地将更多的代币添加到你的应用中，而无需进行自定义编码。 你可以简单地插入新的代币合约地址，然后哗啦，你的应用程序有另一个它可以使用的代币了</p>
+<h2 id="其他代币标准"><a href="#其他代币标准" class="headerlink" title="其他代币标准"></a>其他代币标准</h2><p>对于像货币一样的代币来说，ERC20 代币非常酷。 但是要在我们僵尸游戏中代表僵尸就并不是特别有用<br>首先，僵尸不像货币可以分割 —— 我可以发给你 0.237 以太，但是转移给你 0.237 的僵尸听起来就有些搞笑。<br>其次，并不是所有僵尸都是平等的。 你的 2 级僵尸”Steve”完全不能等同于我 732 级的僵尸”H4XF13LD MORRIS 💯💯😎💯💯”。（你差得远呢，Steve）？？？我的僵尸叫 yichen，我的僵尸 7 级了，谢谢</p>
+<p>有另一个代币标准更适合如 CryptoZombies 这样的加密收藏品——它们被称为 ERC721 代币<br>ERC721 代币是不能互换的，因为每个代币都被认为是唯一且不可分割的。 你只能以整个单位交易它们，并且每个单位都有唯一的 ID。 这些特性正好让我们的僵尸可以用来交易<br>请注意，使用像 ERC721 这样的标准的优势就是，我们不必在我们的合约中实现拍卖或托管逻辑，这决定了玩家能够如何交易／出售我们的僵尸。 如果我们符合规范，其他人可以为加密可交易的 ERC721 资产搭建一个交易所平台，我们的 ERC721 僵尸将可以在该平台上使用。 所以使用代币标准相较于使用你自己的交易逻辑有明显的好处</p>
+<p>我们将把所有 ERC721 逻辑存储在一个叫 ZombieOwnership 的合约中</p>
+<ul>
+<li>在文件顶部声明我们 pragma 的版本（格式参考之前的课程）</li>
+<li>将 zombieattack.sol import 进来</li>
+<li>声明一个继承 ZombieAttack 的新合约， 命名为 ZombieOwnership。合约的其他部分先留空</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.19</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"./zombieattack.sol"</span>;</span><br><span class="line">contract ZombieOwnership is ZombieAttack &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>大小写绕过：PhP/pHP…<br>php/php3/php4/php5/php7/pht/phtml/phps<br>Win 下  <strong>xx.jpg[空格]</strong> 或<strong>xx.jpg.</strong>这两类文件都是不允许存在的，若这样命名，windows 会默认除去空格或点<br>上传的时候可以用 burp 加上空格或点，逃出了黑名单后 windows 会把空格或点去掉</p>
-<h4 id="配合-apache-的-htaccess-文件"><a href="#配合-apache-的-htaccess-文件" class="headerlink" title="配合 apache 的.htaccess 文件"></a>配合 apache 的.htaccess 文件</h4><p>（分布式配置文件）上传解析：<br>.htaccess 文件：提供了针对目录改变配置的方法，在特定的文档目录放置一个包含一个或多个指令的文件，一次用作此目录及其所有子目录。作为用户，所能使用的命令受到限制，作为管理员可以通过 Apache 的 AllowOverride 指令来设置<br>传入文件为：.htaccess，文件类型为所有类型<br>内容：<br><code>AddType application/x-httpd-php .jpg</code><br>把所有 jpg 当成 php 来解析<br>或</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">&lt;FilesMatch <span class="string">"ma.jpg"</span>&gt;</span><br><span class="line">SetHandler application/x-httpd-php</span><br><span class="line">&lt;/FilesMatch&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="ERC721-标准-多重继承"><a href="#ERC721-标准-多重继承" class="headerlink" title="ERC721 标准, 多重继承"></a>ERC721 标准, 多重继承</h1><p>让我们来看一看 ERC721 标准：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">contract ERC721 &#123;</span><br><span class="line"> event Transfer(address indexed _from, address indexed _to, uint256 _tokenId);</span><br><span class="line"> event Approval(address indexed _owner, address indexed _approved, uint256 _tokenId);</span><br><span class="line"> <span class="function"><span class="keyword">function</span> <span class="title">balanceOf</span>(<span class="params">address _owner</span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">uint256 _balance</span>);</span></span><br><span class="line"><span class="function"> <span class="title">function</span> <span class="title">ownerOf</span>(<span class="params">uint256 _tokenId</span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">address _owner</span>);</span></span><br><span class="line"><span class="function"> <span class="title">function</span> <span class="title">transfer</span>(<span class="params">address _to, uint256 _tokenId</span>) <span class="title">public</span>;</span></span><br><span class="line"><span class="function"> <span class="title">function</span> <span class="title">approve</span>(<span class="params">address _to, uint256 _tokenId</span>) <span class="title">public</span>;</span></span><br><span class="line"><span class="function"> <span class="title">function</span> <span class="title">takeOwnership</span>(<span class="params">uint256 _tokenId</span>) <span class="title">public</span>;</span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure>
 
-<p>把指定的 ma.jpg 当成 php<br>制作：先创建一个 1.txt，写入上面的内容，然后当前目录下打开 cmd 输入：<br>ren 1.txt .htaccess</p>
-<h4 id="00-截断"><a href="#00-截断" class="headerlink" title="%00 截断"></a>%00 截断</h4><p>（大多数在老版本里，现在已经不多了）<br>0x00 是十六进制表示方法，是 ascii 码为 0 的字符，在有些函数处理时，会把这个字符当做结束符</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">name = getname(http request) <span class="comment">//假如这时候获取到的文件名是trst.asp.jpg(asp后面是0x00)</span></span><br><span class="line">type = gettype(name) <span class="comment">//而在gettype()函数里处理方式是从后往前扫描拓展名，所以判断为jpg</span></span><br><span class="line"><span class="keyword">if</span>(type == jpg)</span><br><span class="line">SaveFileToPath(UploadPath.name,name) <span class="comment">//但在这里却是以0x00 作为文件名截断</span></span><br><span class="line"><span class="comment">//最后以test.asp存入路径</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意： ERC721 目前是一个 草稿，还没有正式商定的实现。在本教程中，我们使用的是 OpenZeppelin 库中的当前版本，但在未来正式发布之前它可能会有更改。 所以把这 一个 可能的实现当作考虑，但不要把它作为 ERC721 代币的官方标准</p>
+</blockquote>
+<h2 id="实现一个代币合约"><a href="#实现一个代币合约" class="headerlink" title="实现一个代币合约"></a>实现一个代币合约</h2><p>在实现一个代币合约的时候，我们首先要做的是将接口复制到它自己的 Solidity 文件并导入它，import “./erc721.sol”;。 接着，让我们的合约继承它，然后我们用一个函数定义来重写每个方法<br>但等一下—— ZombieOwnership 已经继承自 ZombieAttack 了 —— 它如何能够也继承于 ERC721 呢？<br>幸运的是在 Solidity，你的合约可以继承自多个合约，参考如下：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">contract SatoshiNakamoto is NickSzabo, HalFinney &#123;</span><br><span class="line"> <span class="comment">// 啧啧啧，宇宙的奥秘泄露了</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h4 id="超长文件名"><a href="#超长文件名" class="headerlink" title="超长文件名"></a>超长文件名</h4><h4 id="后缀加-DATA"><a href="#后缀加-DATA" class="headerlink" title="后缀加::$DATA"></a>后缀加::$DATA</h4><p>php 在 window 的时候,如果文件名+”::$DATA”会把::$DATA 之后的数据当成文件流处理,不会检测后缀名.且保持”::$DATA”之前的文件名<br>（pass-08，我这个地方做的时候想访问试试，访问的时候访问.php，不要带上后面的::$DATA）</p>
-<h4 id="双写绕过"><a href="#双写绕过" class="headerlink" title="双写绕过"></a>双写绕过</h4><p>如后缀写成：<strong>p</strong>php<strong>hp</strong></p>
-<h3 id="例题-2"><a href="#例题-2" class="headerlink" title="例题"></a>例题</h3><p>106.12.37.37:10002</p>
-<h2 id="白名单检验"><a href="#白名单检验" class="headerlink" title="白名单检验"></a>白名单检验</h2><h3 id="配合-apache-解析缺陷"><a href="#配合-apache-解析缺陷" class="headerlink" title="配合 apache 解析缺陷"></a>配合 apache 解析缺陷</h3><p>apache 读到不能识别的比如：test.php.bak，bak 不能识别，会往前识别 php</p>
-<h3 id="内容头校验"><a href="#内容头校验" class="headerlink" title="内容头校验"></a>内容头校验</h3><p>getimagesize()函数，是图片，就返回相关信息，不是就返回 false<br>这个函数检验的是文件头，水的很</p>
-<h3 id="竞争上传"><a href="#竞争上传" class="headerlink" title="竞争上传"></a>竞争上传</h3><p>文件上传后先保留在服务器，检验后不合法再删掉<br>利用方法：让上传的文件自己生成另一个文件，在访问生成的文件就行了</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$file = <span class="string">'web.php'</span>;</span><br><span class="line">$shell = <span class="string">'&lt;?php eval($_POST["key"])?&gt;'</span>;</span><br><span class="line">file_put_contets($file,$shell);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>正如你所见，当使用多重继承的时候，你只需要用逗号 , 来隔开几个你想要继承的合约。在上面的例子中，我们的合约继承自 NickSzabo 和 HalFinney</p>
+<p>我们已经在上面为你创建了带着接口的 erc721.sol</p>
+<ul>
+<li>将 erc721.sol 导入到 zombieownership.sol</li>
+<li>声明 ZombieOwnership 继承自 ZombieAttack 和 ERC721</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.19</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"./zombieattack.sol"</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"./erc721.sol"</span>;</span><br><span class="line">contract ZombieOwnership is ZombieAttack, ERC721 &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="balanceOf-和-ownerOf"><a href="#balanceOf-和-ownerOf" class="headerlink" title="balanceOf 和 ownerOf"></a>balanceOf 和 ownerOf</h1><p>我们已经把所有你需要在本课中实现的函数的空壳复制好了。<br>在本章节，我们将实现头两个方法： balanceOf 和 ownerOf。</p>
+<h2 id="balanceOf"><a href="#balanceOf" class="headerlink" title="balanceOf"></a>balanceOf</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">balanceOf</span>(<span class="params">address _owner</span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">uint256 _balance</span>);</span></span><br></pre></td></tr></table></figure>
+
+<p>这个函数只需要一个传入 address 参数，然后返回这个 address 拥有多少代币。<br>在我们的例子中，我们的“代币”是僵尸。你还记得在我们 DApp 的哪里存储了一个主人拥有多少只僵尸吗？</p>
+<h2 id="ownerOf"><a href="#ownerOf" class="headerlink" title="ownerOf"></a>ownerOf</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ownerOf</span>(<span class="params">uint256 _tokenId</span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">address _owner</span>);</span></span><br></pre></td></tr></table></figure>
+
+<p>这个函数需要传入一个代币 ID 作为参数 (我们的情况就是一个僵尸 ID)，然后返回该代币拥有者的 address。<br>同样的，因为在我们的 DApp 里已经有一个 mapping (映射) 存储了这个信息，所以对我们来说这个实现非常直接清晰。我们可以只用一行 return 语句来实现这个函数</p>
+<blockquote>
+<p>注意：要记得， uint256 等同于 uint。我们从课程的开始一直在代码中使用 uint，但从现在开始我们将在这里用 uint256，因为我们直接从规范中复制粘贴</p>
+</blockquote>
+<p>每个函数的代码都应该只有 1 行 return 语句。看看我们在之前课程中写的代码，想想我们都把这个数据存储在哪</p>
+<ul>
+<li>实现 balanceOf 来返回 _owner 拥有的僵尸数量</li>
+<li>实现 ownerOf 来返回拥有 ID 为 _tokenId 僵尸的所有者的地址</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.19</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"./zombieattack.sol"</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"./erc721.sol"</span>;</span><br><span class="line">contract ZombieOwnership is ZombieAttack, ERC721 &#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">balanceOf</span>(<span class="params">address _owner</span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">uint256 _balance</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> ownerZombieCount[_owner];<span class="comment">//新增的</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">ownerOf</span>(<span class="params">uint256 _tokenId</span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">address _owner</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> zombieToOwner[_tokenId];<span class="comment">//新增的</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">transfer</span>(<span class="params">address _to, uint256 _tokenId</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">approve</span>(<span class="params">address _to, uint256 _tokenId</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">takeOwnership</span>(<span class="params">uint256 _tokenId</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="重构"><a href="#重构" class="headerlink" title="重构"></a>重构</h1><p>在前一个章节我们定义了一个叫 ownerOf 的函数。但如果你还记得第 4 课的内容，我们同样在 zombiefeeding.sol 里以 ownerOf 命名创建了一个 modifier（修饰符）<br>如果你尝试编译这段代码，编译器会给你一个错误说你不能有相同名称的修饰符和函数</p>
+<p>所以我们应该把在 ZombieOwnership 里的函数名称改成别的吗？<br>不，我们不能那样做！！！要记得，我们正在用 ERC721 代币标准，意味着其他合约将期望我们的合约以这些确切的名称来定义函数。这就是这些标准实用的原因——如果另一个合约知道我们的合约符合 ERC721 标准，它可以直接与我们交互，而无需了解任何关于我们内部如何实现的细节</p>
+<p>所以，那意味着我们将必须重构我们第 4 课中的代码，将 modifier 的名称换成别的</p>
+<p>我们回到了 zombiefeeding.sol 。我们将把 modifier 的名称从 ownerOf 改成 onlyOwnerOf。</p>
+<ul>
+<li>把修饰符定义中的名称改成 onlyOwnerOf</li>
+<li>往下滑到使用此修饰符的函数 feedAndMultiply 。我们也需要改这里的名称<blockquote>
+<p>注意：我们在 zombiehelper.sol 和 zombieattack.sol 里也使用了这个修饰符</p>
+</blockquote>
+</li>
+</ul>
+<p><strong>就改个修饰符，就不复制代码了</strong></p>
+<h1 id="ERC721-转移标准"><a href="#ERC721-转移标准" class="headerlink" title="ERC721: 转移标准"></a>ERC721: 转移标准</h1><p>现在我们将通过学习把所有权从一个人转移给另一个人来继续我们的 ERC721 规范的实现。<br>注意 ERC721 规范有两种不同的方法来转移代币：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">transfer</span>(<span class="params">address _to, uint256 _tokenId</span>) <span class="title">public</span>;</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">function</span> <span class="title">approve</span>(<span class="params">address _to, uint256 _tokenId</span>) <span class="title">public</span>;</span></span><br><span class="line"><span class="function"><span class="title">function</span> <span class="title">takeOwnership</span>(<span class="params">uint256 _tokenId</span>) <span class="title">public</span>;</span></span><br></pre></td></tr></table></figure>
+
+<p>第一种方法是代币的拥有者调用 transfer 方法，传入他想转移到的 address 和他想转移的代币的 _tokenId<br>第二种方法是代币拥有者首先调用 approve，然后传入与以上相同的参数。接着，该合约会存储谁被允许提取代币，通常存储到一个 mapping (uint256 =&gt; address) 里。然后，当有人调用 takeOwnership 时，合约会检查 msg.sender 是否得到拥有者的批准来提取代币，如果是，则将代币转移给他<br>你注意到了吗，transfer 和 takeOwnership 都将包含相同的转移逻辑，只是以相反的顺序。 （一种情况是代币的发送者调用函数；另一种情况是代币的接收者调用它）</p>
+<p>我们把这个逻辑抽象成它自己的私有函数 _transfer，然后由这两个函数来调用它。 这样我们就不用写重复的代码了<br>让我们来定义 _transfer 的逻辑</p>
+<ul>
+<li>定义一个名为 _transfer 的函数。它会需要 3 个参数：address _from、address _to 和 uint256 _tokenId。它应该是一个 私有 函数</li>
+<li>我们有 2 个映射会在所有权改变的时候改变： ownerZombieCount （记录一个所有者有多少只僵尸）和 zombieToOwner （记录什么人拥有什么）</li>
+<li>我们的函数需要做的第一件事是为 接收 僵尸的人（address _to）增 加 ownerZombieCount。使用 ++ 来增加</li>
+<li>接下来，我们将需要为 发送 僵尸的人（address _from）减少 ownerZombieCount。使用 – 来扣减</li>
+<li>最后，我们将改变这个 _tokenId 的 zombieToOwner 映射，这样它现在就会指向 _to</li>
+<li>我们还需要再做一件事情。ERC721 规范包含了一个 Transfer 事件。这个函数的最后一行应该用正确的参数触发 Transfer ——查看 erc721.sol 看它期望传入的参数并在这里实现</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.19</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"./zombieattack.sol"</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"./erc721.sol"</span>;</span><br><span class="line">contract ZombieOwnership is ZombieAttack, ERC721 &#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">balanceOf</span>(<span class="params">address _owner</span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">uint256 _balance</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> ownerZombieCount[_owner];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">ownerOf</span>(<span class="params">uint256 _tokenId</span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">address _owner</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> zombieToOwner[_tokenId];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">_transfer</span>(<span class="params">address _from, address _to, uint256 _tokenId</span>) <span class="title">private</span> </span>&#123;</span><br><span class="line">      ownerZombieCount[_to]++;</span><br><span class="line">      ownerZombieCount[_from]--;</span><br><span class="line">      zombieToOwner[_tokenId] = _to;</span><br><span class="line">      Transfer(_from, _to, _tokenId);</span><br><span class="line">  &#125;<span class="comment">//新增↑</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">transfer</span>(<span class="params">address _to, uint256 _tokenId</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">approve</span>(<span class="params">address _to, uint256 _tokenId</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">takeOwnership</span>(<span class="params">uint256 _tokenId</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>我们想确保只有代币或僵尸的所有者可以转移它。还记得我们如何限制只有所有者才能访问某个功能吗？没错，我们已经有一个修饰符能够完成这个任务了。所以将修饰符 onlyOwnerOf 添加到这个函数中。</li>
+<li>现在该函数的正文只需要一行代码。它只需要调用 _transfer。</li>
+<li>记得把 msg.sender 作为参数传递进 address _from。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.19</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"./zombieattack.sol"</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"./erc721.sol"</span>;</span><br><span class="line">contract ZombieOwnership is ZombieAttack, ERC721 &#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">balanceOf</span>(<span class="params">address _owner</span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">uint256 _balance</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> ownerZombieCount[_owner];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">ownerOf</span>(<span class="params">uint256 _tokenId</span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">address _owner</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> zombieToOwner[_tokenId];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">_transfer</span>(<span class="params">address _from, address _to, uint256 _tokenId</span>) <span class="title">private</span> </span>&#123;</span><br><span class="line">    ownerZombieCount[_to]++;</span><br><span class="line">    ownerZombieCount[_from]--;</span><br><span class="line">    zombieToOwner[_tokenId] = _to;</span><br><span class="line">    Transfer(_from, _to, _tokenId);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 1. 在这里添加修饰符</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">transfer</span>(<span class="params">address _to, uint256 _tokenId</span>) <span class="title">public</span> <span class="title">onlyOwnerOf</span>(<span class="params">_tokenId</span>)</span>&#123;</span><br><span class="line">      _transfer(msg.sender,_to,_tokenId);</span><br><span class="line">    <span class="comment">// 2. 在这里定义方法</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">approve</span>(<span class="params">address _to, uint256 _tokenId</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">takeOwnership</span>(<span class="params">uint256 _tokenId</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="ERC721-批准"><a href="#ERC721-批准" class="headerlink" title="ERC721: 批准"></a>ERC721: 批准</h1><p>现在，让我们来实现 approve<br>记住，使用 approve 或者 takeOwnership 的时候，转移有 2 个步骤：<br>你，作为所有者，用新主人的 address 和你希望他获取的 _tokenId 来调用 approve<br>新主人用 _tokenId 来调用 takeOwnership，合约会检查确保他获得了批准，然后把代币转移给他<br>因为这发生在 2 个函数的调用中，所以在函数调用之间，我们需要一个数据结构来存储什么人被批准获取什么</p>
+<ul>
+<li>首先，让我们来定义一个映射 zombieApprovals。它应该将一个 uint 映射到一个 address</li>
+<li>这样一来，当有人用一个 _tokenId 调用 takeOwnership 时，我们可以用这个映射来快速查找谁被批准获取那个代币</li>
+<li>在函数 approve 上， 我们想要确保只有代币所有者可以批准某人来获取代币。所以我们需要添加修饰符 onlyOwnerOf 到 approve</li>
+<li>函数的正文部分，将 _tokenId 的 zombieApprovals 设置为和 _to 相等</li>
+<li>最后，在 ERC721 规范里有一个 Approval 事件。所以我们应该在这个函数的最后触发这个事件（参考 erc721.sol 来确认传入的参数，并确保 _owner 是 msg.sender）</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.19</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"./zombieattack.sol"</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"./erc721.sol"</span>;</span><br><span class="line">contract ZombieOwnership is ZombieAttack, ERC721 &#123;</span><br><span class="line">  mapping (<span class="function"><span class="params">uint</span> =&gt;</span> address) zombieApprovals;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">balanceOf</span>(<span class="params">address _owner</span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">uint256 _balance</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> ownerZombieCount[_owner];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">ownerOf</span>(<span class="params">uint256 _tokenId</span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">address _owner</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> zombieToOwner[_tokenId];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">_transfer</span>(<span class="params">address _from, address _to, uint256 _tokenId</span>) <span class="title">private</span> </span>&#123;</span><br><span class="line">    ownerZombieCount[_to]++;</span><br><span class="line">    ownerZombieCount[_from]--;</span><br><span class="line">    zombieToOwner[_tokenId] = _to;</span><br><span class="line">    Transfer(_from, _to, _tokenId);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">transfer</span>(<span class="params">address _to, uint256 _tokenId</span>) <span class="title">public</span> <span class="title">onlyOwnerOf</span>(<span class="params">_tokenId</span>) </span>&#123;</span><br><span class="line">    _transfer(msg.sender, _to, _tokenId);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 2. 在这里添加方法修饰符</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">approve</span>(<span class="params">address _to, uint256 _tokenId</span>) <span class="title">public</span> <span class="title">onlyOwnerOf</span>(<span class="params">_tokenId</span>) </span>&#123;</span><br><span class="line">      zombieApprovals[_tokenId] = _to;</span><br><span class="line">      Approval(msg.sender, _to, _tokenId);</span><br><span class="line">    <span class="comment">// 3. 在这里定义方法</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">takeOwnership</span>(<span class="params">uint256 _tokenId</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="ERC721-takeOwnership"><a href="#ERC721-takeOwnership" class="headerlink" title="ERC721: takeOwnership"></a>ERC721: takeOwnership</h1><p>最后一个函数 takeOwnership， 应该只是简单地检查以确保 msg.sender 已经被批准来提取这个代币或者僵尸。若确认，就调用 _transfer</p>
+<ul>
+<li>首先，我们要用一个 require 句式来检查 _tokenId 的 zombieApprovals 和 msg.sender 相等</li>
+<li>这样如果 msg.sender 未被授权来提取这个代币，将抛出一个错误</li>
+<li>为了调用 _transfer，我们需要知道代币所有者的地址（它需要一个 _from 来作为参数）。幸运的是我们可以在我们的 ownerOf 函数中来找到这个参数</li>
+<li>所以，定义一个名为 owner 的 address 变量，并使其等于 ownerOf(_tokenId)</li>
+<li>最后，调用 _transfer, 并传入所有必须的参数。（在这里你可以用 msg.sender 作为 _to， 因为代币正是要发送给调用这个函数的人）</li>
+</ul>
 ]]></content>
   </entry>
   <entry>
@@ -16539,110 +16770,6 @@
                 </div>
                 <div class="image-caption">image.png](https://cdn.nlark.com/yuque/0/2020/png/268938/1587695863611-8fae32c0-3629-4360-a857-aa444822faea.png#align=left&display=inline&height=338&margin=%5Bobject%20Object%5D&name=image.png&originHeight=801&originWidth=1769&size=687697&status=done&style=none&width=746)</div>
             </figure></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>ERC721标准和加密收藏品</title>
-    <url>/2020/04/26/zlohea/</url>
-    <content><![CDATA[<h1 id="以太坊上的代币"><a href="#以太坊上的代币" class="headerlink" title="以太坊上的代币"></a>以太坊上的代币</h1><p>如果你对以太坊的世界有一些了解，你很可能听过人们聊到代币——尤其是 ERC20 代币<br>一个代币在以太坊基本上就是一个遵循一些共同规则的智能合约——即它实现了所有其他代币合约共享的一组标准函数，例如 transfer(address _to, uint256 _value) 和 balanceOf(address _owner)</p>
-<p>在智能合约内部，通常有一个映射，mapping(address =&gt; uint256) balances，用于追踪每个地址还有多少余额<br>所以基本上一个代币只是一个追踪谁拥有多少该代币的合约，和一些可以让那些用户将他们的代币转移到其他地址的函数</p>
-<p><strong>由于所有 ERC20 代币共享具有相同名称的同一组函数，它们都可以以相同的方式进行交互</strong><br>这意味着如果你构建的应用程序能够与一个 ERC20 代币进行交互，那么它就也能够与任何 ERC20 代币进行交互<br>这样一来，将来你就可以轻松地将更多的代币添加到你的应用中，而无需进行自定义编码。 你可以简单地插入新的代币合约地址，然后哗啦，你的应用程序有另一个它可以使用的代币了</p>
-<h2 id="其他代币标准"><a href="#其他代币标准" class="headerlink" title="其他代币标准"></a>其他代币标准</h2><p>对于像货币一样的代币来说，ERC20 代币非常酷。 但是要在我们僵尸游戏中代表僵尸就并不是特别有用<br>首先，僵尸不像货币可以分割 —— 我可以发给你 0.237 以太，但是转移给你 0.237 的僵尸听起来就有些搞笑。<br>其次，并不是所有僵尸都是平等的。 你的 2 级僵尸”Steve”完全不能等同于我 732 级的僵尸”H4XF13LD MORRIS 💯💯😎💯💯”。（你差得远呢，Steve）？？？我的僵尸叫 yichen，我的僵尸 7 级了，谢谢</p>
-<p>有另一个代币标准更适合如 CryptoZombies 这样的加密收藏品——它们被称为 ERC721 代币<br>ERC721 代币是不能互换的，因为每个代币都被认为是唯一且不可分割的。 你只能以整个单位交易它们，并且每个单位都有唯一的 ID。 这些特性正好让我们的僵尸可以用来交易<br>请注意，使用像 ERC721 这样的标准的优势就是，我们不必在我们的合约中实现拍卖或托管逻辑，这决定了玩家能够如何交易／出售我们的僵尸。 如果我们符合规范，其他人可以为加密可交易的 ERC721 资产搭建一个交易所平台，我们的 ERC721 僵尸将可以在该平台上使用。 所以使用代币标准相较于使用你自己的交易逻辑有明显的好处</p>
-<p>我们将把所有 ERC721 逻辑存储在一个叫 ZombieOwnership 的合约中</p>
-<ul>
-<li>在文件顶部声明我们 pragma 的版本（格式参考之前的课程）</li>
-<li>将 zombieattack.sol import 进来</li>
-<li>声明一个继承 ZombieAttack 的新合约， 命名为 ZombieOwnership。合约的其他部分先留空</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.19</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"./zombieattack.sol"</span>;</span><br><span class="line">contract ZombieOwnership is ZombieAttack &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="ERC721-标准-多重继承"><a href="#ERC721-标准-多重继承" class="headerlink" title="ERC721 标准, 多重继承"></a>ERC721 标准, 多重继承</h1><p>让我们来看一看 ERC721 标准：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">contract ERC721 &#123;</span><br><span class="line"> event Transfer(address indexed _from, address indexed _to, uint256 _tokenId);</span><br><span class="line"> event Approval(address indexed _owner, address indexed _approved, uint256 _tokenId);</span><br><span class="line"> <span class="function"><span class="keyword">function</span> <span class="title">balanceOf</span>(<span class="params">address _owner</span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">uint256 _balance</span>);</span></span><br><span class="line"><span class="function"> <span class="title">function</span> <span class="title">ownerOf</span>(<span class="params">uint256 _tokenId</span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">address _owner</span>);</span></span><br><span class="line"><span class="function"> <span class="title">function</span> <span class="title">transfer</span>(<span class="params">address _to, uint256 _tokenId</span>) <span class="title">public</span>;</span></span><br><span class="line"><span class="function"> <span class="title">function</span> <span class="title">approve</span>(<span class="params">address _to, uint256 _tokenId</span>) <span class="title">public</span>;</span></span><br><span class="line"><span class="function"> <span class="title">function</span> <span class="title">takeOwnership</span>(<span class="params">uint256 _tokenId</span>) <span class="title">public</span>;</span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>注意： ERC721 目前是一个 草稿，还没有正式商定的实现。在本教程中，我们使用的是 OpenZeppelin 库中的当前版本，但在未来正式发布之前它可能会有更改。 所以把这 一个 可能的实现当作考虑，但不要把它作为 ERC721 代币的官方标准</p>
-</blockquote>
-<h2 id="实现一个代币合约"><a href="#实现一个代币合约" class="headerlink" title="实现一个代币合约"></a>实现一个代币合约</h2><p>在实现一个代币合约的时候，我们首先要做的是将接口复制到它自己的 Solidity 文件并导入它，import “./erc721.sol”;。 接着，让我们的合约继承它，然后我们用一个函数定义来重写每个方法<br>但等一下—— ZombieOwnership 已经继承自 ZombieAttack 了 —— 它如何能够也继承于 ERC721 呢？<br>幸运的是在 Solidity，你的合约可以继承自多个合约，参考如下：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">contract SatoshiNakamoto is NickSzabo, HalFinney &#123;</span><br><span class="line"> <span class="comment">// 啧啧啧，宇宙的奥秘泄露了</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>正如你所见，当使用多重继承的时候，你只需要用逗号 , 来隔开几个你想要继承的合约。在上面的例子中，我们的合约继承自 NickSzabo 和 HalFinney</p>
-<p>我们已经在上面为你创建了带着接口的 erc721.sol</p>
-<ul>
-<li>将 erc721.sol 导入到 zombieownership.sol</li>
-<li>声明 ZombieOwnership 继承自 ZombieAttack 和 ERC721</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.19</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"./zombieattack.sol"</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"./erc721.sol"</span>;</span><br><span class="line">contract ZombieOwnership is ZombieAttack, ERC721 &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="balanceOf-和-ownerOf"><a href="#balanceOf-和-ownerOf" class="headerlink" title="balanceOf 和 ownerOf"></a>balanceOf 和 ownerOf</h1><p>我们已经把所有你需要在本课中实现的函数的空壳复制好了。<br>在本章节，我们将实现头两个方法： balanceOf 和 ownerOf。</p>
-<h2 id="balanceOf"><a href="#balanceOf" class="headerlink" title="balanceOf"></a>balanceOf</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">balanceOf</span>(<span class="params">address _owner</span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">uint256 _balance</span>);</span></span><br></pre></td></tr></table></figure>
-
-<p>这个函数只需要一个传入 address 参数，然后返回这个 address 拥有多少代币。<br>在我们的例子中，我们的“代币”是僵尸。你还记得在我们 DApp 的哪里存储了一个主人拥有多少只僵尸吗？</p>
-<h2 id="ownerOf"><a href="#ownerOf" class="headerlink" title="ownerOf"></a>ownerOf</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ownerOf</span>(<span class="params">uint256 _tokenId</span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">address _owner</span>);</span></span><br></pre></td></tr></table></figure>
-
-<p>这个函数需要传入一个代币 ID 作为参数 (我们的情况就是一个僵尸 ID)，然后返回该代币拥有者的 address。<br>同样的，因为在我们的 DApp 里已经有一个 mapping (映射) 存储了这个信息，所以对我们来说这个实现非常直接清晰。我们可以只用一行 return 语句来实现这个函数</p>
-<blockquote>
-<p>注意：要记得， uint256 等同于 uint。我们从课程的开始一直在代码中使用 uint，但从现在开始我们将在这里用 uint256，因为我们直接从规范中复制粘贴</p>
-</blockquote>
-<p>每个函数的代码都应该只有 1 行 return 语句。看看我们在之前课程中写的代码，想想我们都把这个数据存储在哪</p>
-<ul>
-<li>实现 balanceOf 来返回 _owner 拥有的僵尸数量</li>
-<li>实现 ownerOf 来返回拥有 ID 为 _tokenId 僵尸的所有者的地址</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.19</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"./zombieattack.sol"</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"./erc721.sol"</span>;</span><br><span class="line">contract ZombieOwnership is ZombieAttack, ERC721 &#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">balanceOf</span>(<span class="params">address _owner</span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">uint256 _balance</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> ownerZombieCount[_owner];<span class="comment">//新增的</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">ownerOf</span>(<span class="params">uint256 _tokenId</span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">address _owner</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> zombieToOwner[_tokenId];<span class="comment">//新增的</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">transfer</span>(<span class="params">address _to, uint256 _tokenId</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">approve</span>(<span class="params">address _to, uint256 _tokenId</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">takeOwnership</span>(<span class="params">uint256 _tokenId</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="重构"><a href="#重构" class="headerlink" title="重构"></a>重构</h1><p>在前一个章节我们定义了一个叫 ownerOf 的函数。但如果你还记得第 4 课的内容，我们同样在 zombiefeeding.sol 里以 ownerOf 命名创建了一个 modifier（修饰符）<br>如果你尝试编译这段代码，编译器会给你一个错误说你不能有相同名称的修饰符和函数</p>
-<p>所以我们应该把在 ZombieOwnership 里的函数名称改成别的吗？<br>不，我们不能那样做！！！要记得，我们正在用 ERC721 代币标准，意味着其他合约将期望我们的合约以这些确切的名称来定义函数。这就是这些标准实用的原因——如果另一个合约知道我们的合约符合 ERC721 标准，它可以直接与我们交互，而无需了解任何关于我们内部如何实现的细节</p>
-<p>所以，那意味着我们将必须重构我们第 4 课中的代码，将 modifier 的名称换成别的</p>
-<p>我们回到了 zombiefeeding.sol 。我们将把 modifier 的名称从 ownerOf 改成 onlyOwnerOf。</p>
-<ul>
-<li>把修饰符定义中的名称改成 onlyOwnerOf</li>
-<li>往下滑到使用此修饰符的函数 feedAndMultiply 。我们也需要改这里的名称<blockquote>
-<p>注意：我们在 zombiehelper.sol 和 zombieattack.sol 里也使用了这个修饰符</p>
-</blockquote>
-</li>
-</ul>
-<p><strong>就改个修饰符，就不复制代码了</strong></p>
-<h1 id="ERC721-转移标准"><a href="#ERC721-转移标准" class="headerlink" title="ERC721: 转移标准"></a>ERC721: 转移标准</h1><p>现在我们将通过学习把所有权从一个人转移给另一个人来继续我们的 ERC721 规范的实现。<br>注意 ERC721 规范有两种不同的方法来转移代币：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">transfer</span>(<span class="params">address _to, uint256 _tokenId</span>) <span class="title">public</span>;</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">function</span> <span class="title">approve</span>(<span class="params">address _to, uint256 _tokenId</span>) <span class="title">public</span>;</span></span><br><span class="line"><span class="function"><span class="title">function</span> <span class="title">takeOwnership</span>(<span class="params">uint256 _tokenId</span>) <span class="title">public</span>;</span></span><br></pre></td></tr></table></figure>
-
-<p>第一种方法是代币的拥有者调用 transfer 方法，传入他想转移到的 address 和他想转移的代币的 _tokenId<br>第二种方法是代币拥有者首先调用 approve，然后传入与以上相同的参数。接着，该合约会存储谁被允许提取代币，通常存储到一个 mapping (uint256 =&gt; address) 里。然后，当有人调用 takeOwnership 时，合约会检查 msg.sender 是否得到拥有者的批准来提取代币，如果是，则将代币转移给他<br>你注意到了吗，transfer 和 takeOwnership 都将包含相同的转移逻辑，只是以相反的顺序。 （一种情况是代币的发送者调用函数；另一种情况是代币的接收者调用它）</p>
-<p>我们把这个逻辑抽象成它自己的私有函数 _transfer，然后由这两个函数来调用它。 这样我们就不用写重复的代码了<br>让我们来定义 _transfer 的逻辑</p>
-<ul>
-<li>定义一个名为 _transfer 的函数。它会需要 3 个参数：address _from、address _to 和 uint256 _tokenId。它应该是一个 私有 函数</li>
-<li>我们有 2 个映射会在所有权改变的时候改变： ownerZombieCount （记录一个所有者有多少只僵尸）和 zombieToOwner （记录什么人拥有什么）</li>
-<li>我们的函数需要做的第一件事是为 接收 僵尸的人（address _to）增 加 ownerZombieCount。使用 ++ 来增加</li>
-<li>接下来，我们将需要为 发送 僵尸的人（address _from）减少 ownerZombieCount。使用 – 来扣减</li>
-<li>最后，我们将改变这个 _tokenId 的 zombieToOwner 映射，这样它现在就会指向 _to</li>
-<li>我们还需要再做一件事情。ERC721 规范包含了一个 Transfer 事件。这个函数的最后一行应该用正确的参数触发 Transfer ——查看 erc721.sol 看它期望传入的参数并在这里实现</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.19</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"./zombieattack.sol"</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"./erc721.sol"</span>;</span><br><span class="line">contract ZombieOwnership is ZombieAttack, ERC721 &#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">balanceOf</span>(<span class="params">address _owner</span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">uint256 _balance</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> ownerZombieCount[_owner];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">ownerOf</span>(<span class="params">uint256 _tokenId</span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">address _owner</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> zombieToOwner[_tokenId];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">_transfer</span>(<span class="params">address _from, address _to, uint256 _tokenId</span>) <span class="title">private</span> </span>&#123;</span><br><span class="line">      ownerZombieCount[_to]++;</span><br><span class="line">      ownerZombieCount[_from]--;</span><br><span class="line">      zombieToOwner[_tokenId] = _to;</span><br><span class="line">      Transfer(_from, _to, _tokenId);</span><br><span class="line">  &#125;<span class="comment">//新增↑</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">transfer</span>(<span class="params">address _to, uint256 _tokenId</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">approve</span>(<span class="params">address _to, uint256 _tokenId</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">takeOwnership</span>(<span class="params">uint256 _tokenId</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>我们想确保只有代币或僵尸的所有者可以转移它。还记得我们如何限制只有所有者才能访问某个功能吗？没错，我们已经有一个修饰符能够完成这个任务了。所以将修饰符 onlyOwnerOf 添加到这个函数中。</li>
-<li>现在该函数的正文只需要一行代码。它只需要调用 _transfer。</li>
-<li>记得把 msg.sender 作为参数传递进 address _from。</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.19</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"./zombieattack.sol"</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"./erc721.sol"</span>;</span><br><span class="line">contract ZombieOwnership is ZombieAttack, ERC721 &#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">balanceOf</span>(<span class="params">address _owner</span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">uint256 _balance</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> ownerZombieCount[_owner];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">ownerOf</span>(<span class="params">uint256 _tokenId</span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">address _owner</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> zombieToOwner[_tokenId];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">_transfer</span>(<span class="params">address _from, address _to, uint256 _tokenId</span>) <span class="title">private</span> </span>&#123;</span><br><span class="line">    ownerZombieCount[_to]++;</span><br><span class="line">    ownerZombieCount[_from]--;</span><br><span class="line">    zombieToOwner[_tokenId] = _to;</span><br><span class="line">    Transfer(_from, _to, _tokenId);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 1. 在这里添加修饰符</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">transfer</span>(<span class="params">address _to, uint256 _tokenId</span>) <span class="title">public</span> <span class="title">onlyOwnerOf</span>(<span class="params">_tokenId</span>)</span>&#123;</span><br><span class="line">      _transfer(msg.sender,_to,_tokenId);</span><br><span class="line">    <span class="comment">// 2. 在这里定义方法</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">approve</span>(<span class="params">address _to, uint256 _tokenId</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">takeOwnership</span>(<span class="params">uint256 _tokenId</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="ERC721-批准"><a href="#ERC721-批准" class="headerlink" title="ERC721: 批准"></a>ERC721: 批准</h1><p>现在，让我们来实现 approve<br>记住，使用 approve 或者 takeOwnership 的时候，转移有 2 个步骤：<br>你，作为所有者，用新主人的 address 和你希望他获取的 _tokenId 来调用 approve<br>新主人用 _tokenId 来调用 takeOwnership，合约会检查确保他获得了批准，然后把代币转移给他<br>因为这发生在 2 个函数的调用中，所以在函数调用之间，我们需要一个数据结构来存储什么人被批准获取什么</p>
-<ul>
-<li>首先，让我们来定义一个映射 zombieApprovals。它应该将一个 uint 映射到一个 address</li>
-<li>这样一来，当有人用一个 _tokenId 调用 takeOwnership 时，我们可以用这个映射来快速查找谁被批准获取那个代币</li>
-<li>在函数 approve 上， 我们想要确保只有代币所有者可以批准某人来获取代币。所以我们需要添加修饰符 onlyOwnerOf 到 approve</li>
-<li>函数的正文部分，将 _tokenId 的 zombieApprovals 设置为和 _to 相等</li>
-<li>最后，在 ERC721 规范里有一个 Approval 事件。所以我们应该在这个函数的最后触发这个事件（参考 erc721.sol 来确认传入的参数，并确保 _owner 是 msg.sender）</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">pragma solidity ^<span class="number">0.4</span><span class="number">.19</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"./zombieattack.sol"</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">"./erc721.sol"</span>;</span><br><span class="line">contract ZombieOwnership is ZombieAttack, ERC721 &#123;</span><br><span class="line">  mapping (<span class="function"><span class="params">uint</span> =&gt;</span> address) zombieApprovals;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">balanceOf</span>(<span class="params">address _owner</span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">uint256 _balance</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> ownerZombieCount[_owner];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">ownerOf</span>(<span class="params">uint256 _tokenId</span>) <span class="title">public</span> <span class="title">view</span> <span class="title">returns</span> (<span class="params">address _owner</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> zombieToOwner[_tokenId];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">_transfer</span>(<span class="params">address _from, address _to, uint256 _tokenId</span>) <span class="title">private</span> </span>&#123;</span><br><span class="line">    ownerZombieCount[_to]++;</span><br><span class="line">    ownerZombieCount[_from]--;</span><br><span class="line">    zombieToOwner[_tokenId] = _to;</span><br><span class="line">    Transfer(_from, _to, _tokenId);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">transfer</span>(<span class="params">address _to, uint256 _tokenId</span>) <span class="title">public</span> <span class="title">onlyOwnerOf</span>(<span class="params">_tokenId</span>) </span>&#123;</span><br><span class="line">    _transfer(msg.sender, _to, _tokenId);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 2. 在这里添加方法修饰符</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">approve</span>(<span class="params">address _to, uint256 _tokenId</span>) <span class="title">public</span> <span class="title">onlyOwnerOf</span>(<span class="params">_tokenId</span>) </span>&#123;</span><br><span class="line">      zombieApprovals[_tokenId] = _to;</span><br><span class="line">      Approval(msg.sender, _to, _tokenId);</span><br><span class="line">    <span class="comment">// 3. 在这里定义方法</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">takeOwnership</span>(<span class="params">uint256 _tokenId</span>) <span class="title">public</span> </span>&#123;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="ERC721-takeOwnership"><a href="#ERC721-takeOwnership" class="headerlink" title="ERC721: takeOwnership"></a>ERC721: takeOwnership</h1><p>最后一个函数 takeOwnership， 应该只是简单地检查以确保 msg.sender 已经被批准来提取这个代币或者僵尸。若确认，就调用 _transfer</p>
-<ul>
-<li>首先，我们要用一个 require 句式来检查 _tokenId 的 zombieApprovals 和 msg.sender 相等</li>
-<li>这样如果 msg.sender 未被授权来提取这个代币，将抛出一个错误</li>
-<li>为了调用 _transfer，我们需要知道代币所有者的地址（它需要一个 _from 来作为参数）。幸运的是我们可以在我们的 ownerOf 函数中来找到这个参数</li>
-<li>所以，定义一个名为 owner 的 address 变量，并使其等于 ownerOf(_tokenId)</li>
-<li>最后，调用 _transfer, 并传入所有必须的参数。（在这里你可以用 msg.sender 作为 _to， 因为代币正是要发送给调用这个函数的人）</li>
-</ul>
 ]]></content>
   </entry>
   <entry>
