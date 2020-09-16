@@ -64,8 +64,13 @@
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1593264221770-5751713f-28dd-4e4f-b201-91d1829c3eb8.png#align=left&display=inline&height=313&margin=%5Bobject%20Object%5D&name=image.png&originHeight=358&originWidth=778&size=54377&status=done&style=none&width=681">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1593264386296-c4727e74-b4e5-45a2-b1f0-bf7c4ff5850f.png#align=left&display=inline&height=91&margin=%5Bobject%20Object%5D&name=image.png&originHeight=110&originWidth=680&size=23701&status=done&style=none&width=563">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1590933317452-d86adaa2-f101-40fa-ad55-00caa0b129c0.png#align=left&display=inline&height=137&margin=%5Bobject%20Object%5D&name=image.png&originHeight=173&originWidth=586&size=34724&status=done&style=none&width=464">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1596937419683-c396b488-001c-431a-b8fe-aefdf3f5238a.png#align=left&display=inline&height=205&margin=%5Bobject%20Object%5D&name=image.png&originHeight=222&originWidth=530&size=39001&status=done&style=none&width=490">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1596937534167-699baf7e-3dc8-4c1e-96e0-6c3b5aa0e1e1.png#align=left&display=inline&height=181&margin=%5Bobject%20Object%5D&name=image.png&originHeight=193&originWidth=530&size=30849&status=done&style=none&width=498">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1596937592428-f607a84f-a810-421a-926b-34176ed0ab15.png#align=left&display=inline&height=180&margin=%5Bobject%20Object%5D&name=image.png&originHeight=191&originWidth=529&size=30389&status=done&style=none&width=498">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1596937666208-ca4cb056-4032-462f-b872-9c1dd844ddb6.png#align=left&display=inline&height=189&margin=%5Bobject%20Object%5D&name=image.png&originHeight=257&originWidth=725&size=31628&status=done&style=none&width=532">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1596937756827-c9c82570-5780-46d6-bf24-a6f1e191129d.png#align=left&display=inline&height=192&margin=%5Bobject%20Object%5D&name=image.png&originHeight=192&originWidth=530&size=30832&status=done&style=none&width=530">
 <meta property="article:published_time" content="2020-04-16T13:14:22.000Z">
-<meta property="article:modified_time" content="2020-09-16T08:05:38.392Z">
+<meta property="article:modified_time" content="2020-09-16T08:07:05.691Z">
 <meta property="article:author" content="yichen">
 <meta property="article:tag" content="网络安全 CTF">
 <meta name="twitter:card" content="summary">
@@ -605,6 +610,57 @@
 
 <h1 id="house-of-spirit"><a href="#house-of-spirit" class="headerlink" title="house_of_spirit"></a>house_of_spirit</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">malloc</span>(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"We will overwrite a pointer to point to a fake 'fastbin' region. This region contains two chunks.\n"</span>);</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> *a, *b;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span> fake_chunks[<span class="number">10</span>] __attribute__ ((aligned (<span class="number">16</span>)));</span><br><span class="line"></span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"The first one:  %p\n"</span>, &amp;fake_chunks[<span class="number">0</span>]);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"The second one: %p\n"</span>, &amp;fake_chunks[<span class="number">4</span>]);</span><br><span class="line"></span><br><span class="line">    fake_chunks[<span class="number">1</span>] = <span class="number">0x20</span>;      <span class="comment">// the size</span></span><br><span class="line">    fake_chunks[<span class="number">5</span>] = <span class="number">0x1234</span>;    <span class="comment">// nextsize</span></span><br><span class="line"></span><br><span class="line">    fake_chunks[<span class="number">2</span>] = <span class="number">0x4141414141414141</span>LL;</span><br><span class="line">    fake_chunks[<span class="number">6</span>] = <span class="number">0x4141414141414141</span>LL;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Overwritting our pointer with the address of the fake region inside the fake first chunk, %p.\n"</span>, &amp;fake_chunks[<span class="number">0</span>]);</span><br><span class="line">    a = &amp;fake_chunks[<span class="number">2</span>];</span><br><span class="line"></span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Freeing the overwritten pointer.\n"</span>);</span><br><span class="line">    <span class="built_in">free</span>(a);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Now the next malloc will return the region of our fake chunk at %p, which will be %p!\n"</span>, &amp;fake_chunks[<span class="number">0</span>], &amp;fake_chunks[<span class="number">2</span>]);</span><br><span class="line">    b = <span class="built_in">malloc</span>(<span class="number">0x10</span>);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"malloc(0x10): %p\n"</span>, b);</span><br><span class="line">    b[<span class="number">0</span>] = <span class="number">0x4242424242424242</span>LL;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<p>通过构造 fake chunk，然后把它给释放掉，这样再次申请相同大小的 chunk 的时候就会匹配到这里<br>house-of-spirit 是一种通过堆的 fast bin 机制来辅助栈溢出的方法<br>如果栈溢出的时候溢出的长度不能覆盖掉返回地址的但是却可以覆盖栈上面一个即将 free 的指针的话，我们可以把这个指针覆盖为栈上的某一个地址，并且把这个地址上伪造一个 chunk，free 之后再次 malloc 就可以申请到栈上面伪造的那一块，这时候就有可能改写返回地址了</p>
+<p>通过上面那个程序直观的看一下<br><code>gcc -g house_of_spirit.c</code><br>首先在程序的第 14 行下个断点 <code>b 14</code></p>
+<p>运行到这里可以看到 fake_chunk 目前还没有被我们写入</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1596937419683-c396b488-001c-431a-b8fe-aefdf3f5238a.png#align=left&display=inline&height=205&margin=%5Bobject%20Object%5D&name=image.png&originHeight=222&originWidth=530&size=39001&status=done&style=none&width=490" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>我们直接让他写完，再来看一下，已经构造出 fake chunk 了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1596937534167-699baf7e-3dc8-4c1e-96e0-6c3b5aa0e1e1.png#align=left&display=inline&height=181&margin=%5Bobject%20Object%5D&name=image.png&originHeight=193&originWidth=530&size=30849&status=done&style=none&width=498" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>对 fake_chunk 进行 free 之后</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1596937592428-f607a84f-a810-421a-926b-34176ed0ab15.png#align=left&display=inline&height=180&margin=%5Bobject%20Object%5D&name=image.png&originHeight=191&originWidth=529&size=30389&status=done&style=none&width=498" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>可以看一下 fastbin 现在已经是有了我们构造的那个 fake_chunk 了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1596937666208-ca4cb056-4032-462f-b872-9c1dd844ddb6.png#align=left&display=inline&height=189&margin=%5Bobject%20Object%5D&name=image.png&originHeight=257&originWidth=725&size=31628&status=done&style=none&width=532" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>接下来再次 malloc 一个相同大小的 chunk 就会把这里申请过去</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">b = <span class="built_in">malloc</span>(<span class="number">0x10</span>);</span><br><span class="line">b[<span class="number">0</span>] = <span class="number">0x4242424242424242</span>LL;</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1596937756827-c9c82570-5780-46d6-bf24-a6f1e191129d.png#align=left&display=inline&height=192&margin=%5Bobject%20Object%5D&name=image.png&originHeight=192&originWidth=530&size=30832&status=done&style=none&width=530" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>构造 chunk 的时候要注意绕过一些检查：<br>后面那三个特殊的标志位前两个必须都为 0，写 size 位的时候直接 0xN0 就可以了，然后大小要注意符合 fastbin 的大小，next chunk 的大小也要注意，必须大于 2*SIZE_SZ，小于 av-&gt;system_mem<br>64 位下：16&lt; next chunk 的 size &lt; 128</p>
+
         </div>
 
         <blockquote class="post-copyright">
@@ -612,7 +668,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2020-09-16T08:05:38.392Z" itemprop="dateUpdated">2020-09-16 16:05:38</time>
+    最后更新时间：<time datetime="2020-09-16T08:07:05.691Z" itemprop="dateUpdated">2020-09-16 16:07:05</time>
 </span><br>
 
 

