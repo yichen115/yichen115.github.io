@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>flick | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="nmap 扫描端口                                                                                              image.png               当使用 ssh 去连接的时候又一长串的 \x 十六进制的字符串">
+<meta property="og:type" content="article">
+<meta property="og:title" content="flick">
+<meta property="og:url" content="https://yichen115.github.io/2020/09/25/fb84x0/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="nmap 扫描端口                                                                                              image.png               当使用 ssh 去连接的时候又一长串的 \x 十六进制的字符串">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1601016774447-e529d7b4-4366-4b46-8c39-2011354e2b97.png#align=left&display=inline&height=441&margin=%5Bobject%20Object%5D&name=image.png&originHeight=762&originWidth=1015&size=192062&status=done&style=none&width=587">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1601016958668-277af3ce-42d5-4acf-bdbf-adb450222d4c.png#align=left&display=inline&height=537&margin=%5Bobject%20Object%5D&name=image.png&originHeight=762&originWidth=825&size=204789&status=done&style=none&width=581">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1601017480553-6992062a-0264-41df-af29-202575a9581f.png#align=left&display=inline&height=133&margin=%5Bobject%20Object%5D&name=image.png&originHeight=203&originWidth=1126&size=227772&status=done&style=none&width=737">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1601018773902-29497ff3-87b8-4fdd-854d-ec9d1120333b.png#align=left&display=inline&height=441&margin=%5Bobject%20Object%5D&name=image.png&originHeight=720&originWidth=995&size=171161&status=done&style=none&width=610">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1601022567982-4eb08ac8-72c0-4774-9ba5-87054f94c91c.png#align=left&display=inline&height=287&margin=%5Bobject%20Object%5D&name=image.png&originHeight=375&originWidth=958&size=58627&status=done&style=stroke&width=732">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1601022920532-263ef207-e526-4544-b5d2-ec10a14fb9f2.png#align=left&display=inline&height=292&margin=%5Bobject%20Object%5D&name=image.png&originHeight=464&originWidth=895&size=504225&status=done&style=none&width=564">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1601023325420-f3bf2fe7-a3a1-4cd4-84e7-c51d52a24662.png#align=left&display=inline&height=223&margin=%5Bobject%20Object%5D&name=image.png&originHeight=447&originWidth=1466&size=106323&status=done&style=stroke&width=733">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1601023408306-bb9b00e6-4e61-4c3f-b4bc-e33def7cc2f5.png#align=left&display=inline&height=249&margin=%5Bobject%20Object%5D&name=image.png&originHeight=485&originWidth=1452&size=897213&status=done&style=none&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1601023979548-24d177ec-5e0a-40d8-b0c8-cc5ef7f87988.png#align=left&display=inline&height=503&margin=%5Bobject%20Object%5D&name=image.png&originHeight=761&originWidth=786&size=736415&status=done&style=none&width=520">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1601024275165-b4b68df6-8103-40f0-acf3-8c68eb477e34.png#align=left&display=inline&height=551&margin=%5Bobject%20Object%5D&name=image.png&originHeight=762&originWidth=906&size=781017&status=done&style=none&width=655">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1601026082114-ed2fdced-fbf8-4539-bba4-844b6eb1adaf.png#align=left&display=inline&height=265&margin=%5Bobject%20Object%5D&name=image.png&originHeight=465&originWidth=1141&size=598166&status=done&style=none&width=651">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1601025961992-d0244ddc-e7d7-451f-8e70-022013f92a40.png#align=left&display=inline&height=73&margin=%5Bobject%20Object%5D&name=image.png&originHeight=100&originWidth=900&size=107912&status=done&style=none&width=658">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1601026044098-dba4dfa5-3648-49e4-95e2-0ce91cb0c005.png#align=left&display=inline&height=165&margin=%5Bobject%20Object%5D&name=image.png&originHeight=289&originWidth=1304&size=465425&status=done&style=none&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1601026293874-27d5fddd-c81d-41f3-a3d0-a47e77e34c6d.png#align=left&display=inline&height=93&margin=%5Bobject%20Object%5D&name=image.png&originHeight=148&originWidth=1119&size=220016&status=done&style=none&width=704">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1601026513333-d434353b-6ad1-41b9-9702-5ba47ce3ac15.png#align=left&display=inline&height=176&margin=%5Bobject%20Object%5D&name=image.png&originHeight=444&originWidth=1882&size=892392&status=done&style=none&width=746">
+<meta property="article:published_time" content="2020-09-25T06:32:27.000Z">
+<meta property="article:modified_time" content="2020-09-25T11:06:23.939Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1601016774447-e529d7b4-4366-4b46-8c39-2011354e2b97.png#align=left&display=inline&height=441&margin=%5Bobject%20Object%5D&name=image.png&originHeight=762&originWidth=1015&size=192062&status=done&style=none&width=587">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-grav"></i>
+                语雀
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://passport.kanxue.com/user-center-837755.htm" target="_blank" >
+                <i class="icon icon-lg icon-snowflake-o"></i>
+                看雪
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://sighttp.qq.com/msgrd?v=1&uin=1097179511" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://img2020.cnblogs.com/blog/1558534/202003/1558534-20200331231408805-256812285.jpg" target="_blank" >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">flick</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">flick</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-09-25T06:32:27.000Z" itemprop="datePublished" class="page-time">
+  2020-09-25
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+
+<article id="post-fb84x0"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">flick</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-09-25 14:32:27" datetime="2020-09-25T06:32:27.000Z"  itemprop="datePublished">2020-09-25</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>nmap 扫描端口</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601016774447-e529d7b4-4366-4b46-8c39-2011354e2b97.png#align=left&display=inline&height=441&margin=%5Bobject%20Object%5D&name=image.png&originHeight=762&originWidth=1015&size=192062&status=done&style=none&width=587" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>当使用 ssh 去连接的时候又一长串的 \x 十六进制的字符串</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601016958668-277af3ce-42d5-4acf-bdbf-adb450222d4c.png#align=left&display=inline&height=537&margin=%5Bobject%20Object%5D&name=image.png&originHeight=762&originWidth=825&size=204789&status=done&style=none&width=581" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>在转成字符串然后解码多次 base64 之后出现了一串不知道啥意思的字符串 tabupJievas8Knoj</p>
+<p>使用 nc 去连接一下 8881 端口，要求输入一个 password，输入之前转出来的那串，结果成功了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601017480553-6992062a-0264-41df-af29-202575a9581f.png#align=left&display=inline&height=133&margin=%5Bobject%20Object%5D&name=image.png&originHeight=203&originWidth=1126&size=227772&status=done&style=none&width=737" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后再扫描端口就能扫到 80 端口了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601018773902-29497ff3-87b8-4fdd-854d-ec9d1120333b.png#align=left&display=inline&height=441&margin=%5Bobject%20Object%5D&name=image.png&originHeight=720&originWidth=995&size=171161&status=done&style=none&width=610" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>有个登录页面，但是没有测出来 sql 注入，旁边有个提示说是个 demo，然后爆破出来 demo/demo123 的账号密码</p>
+<p>通过 cookie laravel_session 可以知道这是个 Laravel 的框架，登录后存在文件上传，但是文件名是随机编码的，没法解析<br>那些图片可以下载下来，有个 filename 的参数，然后发现过滤掉了 <code>../</code><br>使用 download?filename=…/./public/index.php（双写绕过）可以把 php 文件下载下来<br>另外还有它的数据库文件 ../app/database/production.sqlite 下载下来用 navicat 打开</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601022567982-4eb08ac8-72c0-4774-9ba5-87054f94c91c.png#align=left&display=inline&height=287&margin=%5Bobject%20Object%5D&name=image.png&originHeight=375&originWidth=958&size=58627&status=done&style=stroke&width=732" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>保存下这些账号密码，然后去 shh 登录一下试试（那些 password 是明文存储的）<br>dean/FumKivcenfodErk0Chezauggyokyait5fojEpCayclEcyaj2heTwef0OlNiphAnA<br>登录成功了！</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601022920532-263ef207-e526-4544-b5d2-ec10a14fb9f2.png#align=left&display=inline&height=292&margin=%5Bobject%20Object%5D&name=image.png&originHeight=464&originWidth=895&size=504225&status=done&style=none&width=564" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>目录下有个 message.txt</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601023325420-f3bf2fe7-a3a1-4cd4-84e7-c51d52a24662.png#align=left&display=inline&height=223&margin=%5Bobject%20Object%5D&name=image.png&originHeight=447&originWidth=1466&size=106323&status=done&style=stroke&width=733" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>通过同一目录下的 read_docker 来读取文件，他会自己在后面加上 /Dockerfile</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601023408306-bb9b00e6-4e61-4c3f-b4bc-e33def7cc2f5.png#align=left&display=inline&height=249&margin=%5Bobject%20Object%5D&name=image.png&originHeight=485&originWidth=1452&size=897213&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>那我们可以通过软链接把 robin 的密钥跟 Dockerfile 链接起来<br><code>ln -s /home/robin/.ssh/id_rsa Dockerfile</code></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601023979548-24d177ec-5e0a-40d8-b0c8-cc5ef7f87988.png#align=left&display=inline&height=503&margin=%5Bobject%20Object%5D&name=image.png&originHeight=761&originWidth=786&size=736415&status=done&style=none&width=520" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>保存 i 下来，然后通过这个密钥登录 robin（注意文件权限别太高 600 就行，不然不能登录）<br><code>ssh -i 1.rsa robin@192.168.149.200</code></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601024275165-b4b68df6-8103-40f0-acf3-8c68eb477e34.png#align=left&display=inline&height=551&margin=%5Bobject%20Object%5D&name=image.png&originHeight=762&originWidth=906&size=781017&status=done&style=none&width=655" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>里面有 docker</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601026082114-ed2fdced-fbf8-4539-bba4-844b6eb1adaf.png#align=left&display=inline&height=265&margin=%5Bobject%20Object%5D&name=image.png&originHeight=465&originWidth=1141&size=598166&status=done&style=none&width=651" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后给一个 ubuntu 镜像挂载 /root/ 目录，想用哪个挂在哪个<br><code>docker run -v /root:/root/ -it ubuntu</code></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601025961992-d0244ddc-e7d7-451f-8e70-022013f92a40.png#align=left&display=inline&height=73&margin=%5Bobject%20Object%5D&name=image.png&originHeight=100&originWidth=900&size=107912&status=done&style=none&width=658" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601026044098-dba4dfa5-3648-49e4-95e2-0ce91cb0c005.png#align=left&display=inline&height=165&margin=%5Bobject%20Object%5D&name=image.png&originHeight=289&originWidth=1304&size=465425&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>通过 sudo -l 可以发现 /opt/start_apache/restart.sh 下面的不需要密码就可以 sudo 运行</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601026293874-27d5fddd-c81d-41f3-a3d0-a47e77e34c6d.png#align=left&display=inline&height=93&margin=%5Bobject%20Object%5D&name=image.png&originHeight=148&originWidth=1119&size=220016&status=done&style=none&width=704" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>那可以直接挂载 /opt 到 docker 然后改一下 /opt/start_apache/restart.sh<br>然后 sudo /opt/start_apache/restart.sh 就可以拿到 root 权限了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601026513333-d434353b-6ad1-41b9-9702-5ba47ce3ac15.png#align=left&display=inline&height=176&margin=%5Bobject%20Object%5D&name=image.png&originHeight=444&originWidth=1882&size=892392&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-09-25T11:06:23.939Z" itemprop="dateUpdated">2020-09-25 19:06:23</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/09/25/fb84x0/&title=《flick》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/09/25/fb84x0/&title=《flick》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/09/25/fb84x0/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《flick》 — yichen's blog&url=https://yichen115.github.io/2020/09/25/fb84x0/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/09/25/fb84x0/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/09/13/gwcg1c/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">House Of Force</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/09/25/fb84x0/&title=《flick》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/09/25/fb84x0/&title=《flick》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/09/25/fb84x0/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《flick》 — yichen's blog&url=https://yichen115.github.io/2020/09/25/fb84x0/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/09/25/fb84x0/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2020/09/25/fb84x0/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
