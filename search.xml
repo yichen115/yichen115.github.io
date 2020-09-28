@@ -492,11 +492,21 @@
                 <div class="image-caption">image.png</div>
             </figure>
 
-<p>过滤了上面的 <code>1&#39; or &#39;1&#39;=&#39;1</code> 是可以查询的</p>
+<p>学到一种新姿势<br><code>1&#39;;handler FlagHere open; handler FlagHere read first;--+</code></p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601255177279-803685b9-8a0c-4582-b2be-d5e8531d6f14.png#align=left&display=inline&height=445&margin=%5Bobject%20Object%5D&name=image.png&originHeight=552&originWidth=366&size=28419&status=done&style=stroke&width=296" alt="image.png" title="">
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601257660612-6eb32195-a92c-4fa2-86ba-9101c0997031.png#align=left&display=inline&height=238&margin=%5Bobject%20Object%5D&name=image.png&originHeight=363&originWidth=617&size=24362&status=done&style=stroke&width=405" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="MRCTF2020-你传你-🐎-呢"><a href="#MRCTF2020-你传你-🐎-呢" class="headerlink" title="[MRCTF2020]你传你 🐎 呢"></a>[MRCTF2020]你传你 🐎 呢</h1><p>上传个 .htaccess（burp 抓包改 Content-Type: image/jpeg）<br>然后上传一个图片马就可以解析了<br>flag 在根目录</p>
+<h1 id="MRCTF2020-Ez-bypass"><a href="#MRCTF2020-Ez-bypass" class="headerlink" title="[MRCTF2020]Ez_bypass"></a>[MRCTF2020]Ez_bypass</h1><p><a href="https://www.yuque.com/hxfqg9/web/oxci5k#naqjq" target="_blank" rel="noopener">https://www.yuque.com/hxfqg9/web/oxci5k#naqjq</a></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601259164530-70f05507-258c-4f3a-90dd-8c537c37fcac.png#align=left&display=inline&height=230&margin=%5Bobject%20Object%5D&name=image.png&originHeight=459&originWidth=1889&size=138840&status=done&style=stroke&width=944.5" alt="image.png" title="">
                 </div>
                 <div class="image-caption">image.png</div>
             </figure>
