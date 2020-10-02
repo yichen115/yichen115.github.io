@@ -18696,6 +18696,109 @@
 ]]></content>
   </entry>
   <entry>
+    <title>Acid</title>
+    <url>/2020/10/01/ywnve7/</url>
+    <content><![CDATA[<p>nmap 是扫描出 33447 开着 apache 的服务</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601601437731-eb9ff3be-5fa2-4bfe-817f-57978b4bfacc.png#align=left&display=inline&height=321&margin=%5Bobject%20Object%5D&name=image.png&originHeight=461&originWidth=996&size=101106&status=done&style=none&width=693" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>访问的时候网页标题提示 /Challenge，然后去访问一下，有个登陆框但是没测出来 sqli，扫目录得到下面这些</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601602467657-b1d79f7a-ad87-4b2b-ad23-17898b30f028.png#align=left&display=inline&height=250&margin=%5Bobject%20Object%5D&name=image.png&originHeight=321&originWidth=801&size=83598&status=done&style=stroke&width=623" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>再去扫描 Magic_Box 目录，得到以下：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601603013787-7a10c4a6-1b5e-4c93-84ba-cea4e44f5767.png#align=left&display=inline&height=175&margin=%5Bobject%20Object%5D&name=image.png&originHeight=197&originWidth=648&size=51389&status=done&style=stroke&width=575" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>在 command.php 可以命令执行，用 echo 写一句话进去，这里 Magic_Box 目录写不上，可以写在 ../ 中</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601603388354-75e5df6e-c613-4a65-b6d8-2225154a908d.png#align=left&display=inline&height=563&margin=%5Bobject%20Object%5D&name=image.png&originHeight=952&originWidth=1262&size=117256&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>蚁剑连接</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601603421940-078eb4e0-aaef-4a74-8422-fc4cf69512b3.png#align=left&display=inline&height=475&margin=%5Bobject%20Object%5D&name=image.png&originHeight=898&originWidth=1339&size=125162&status=done&style=none&width=709" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>找到了 mysql 的 root 账号的密码，然而不能连</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601604047929-121eaa5b-b67d-468b-a9d7-270b5e2d0601.png#align=left&display=inline&height=516&margin=%5Bobject%20Object%5D&name=image.png&originHeight=736&originWidth=761&size=79045&status=done&style=none&width=534" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>find / -user acid 找到几个比较有意思的东西，可以用<br>find / -user acid 2&gt;/dev/null<br>2 是标准错误<br>/dev/null 是一个特殊的设备文件，这个文件接收到任何数据都会丢弃，就可以不输出那些 Permission denied 了<br><a href="https://blog.csdn.net/gramdog/article/details/80374119" target="_blank" rel="noopener">https://blog.csdn.net/gramdog/article/details/80374119</a></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601604724303-970cce1e-fa59-4b6c-854e-72aae59be639.png#align=left&display=inline&height=525&margin=%5Bobject%20Object%5D&name=image.png&originHeight=706&originWidth=728&size=84888&status=done&style=none&width=540" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>把那个流量包传出来看看</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601605083468-c76f52b5-db74-4068-832d-bb48d92b4053.png#align=left&display=inline&height=150&margin=%5Bobject%20Object%5D&name=image.png&originHeight=223&originWidth=907&size=144784&status=done&style=none&width=610" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>追踪 tcp 流发现一个对话？saman/1337hax0r 这个就是用户名跟密码了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601605163541-65129180-dfe4-4587-bbcc-df24f9e50369.png#align=left&display=inline&height=144&margin=%5Bobject%20Object%5D&name=image.png&originHeight=187&originWidth=582&size=14254&status=done&style=stroke&width=447" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>额，蚁剑连上貌似很多都不能用，直接写个 php 的反弹 shell</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601605856918-e1b08e3c-019d-4b0c-bbe3-2453db325cc2.png#align=left&display=inline&height=326&margin=%5Bobject%20Object%5D&name=image.png&originHeight=652&originWidth=1484&size=504121&status=done&style=stroke&width=742" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>既然知道用户名跟密码了…直接 sudo 就可以了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601606008921-e955cb42-6152-4c9e-87de-11edc6466ee6.png#align=left&display=inline&height=330&margin=%5Bobject%20Object%5D&name=image.png&originHeight=541&originWidth=909&size=589228&status=done&style=none&width=555" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+]]></content>
+  </entry>
+  <entry>
     <title>pwntools使用</title>
     <url>/2020/03/08/yxegb6/</url>
     <content><![CDATA[<p>用过或者查到的一些功能汇总一下，官方文档有些也没看给个实例，不知道咋用 Orz…</p>
