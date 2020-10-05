@@ -8192,6 +8192,174 @@
 <h2 id="passthur"><a href="#passthur" class="headerlink" title="passthur()"></a>passthur()</h2><p>类似 system 直接返回结果</p>
 <h2 id="shell-exec"><a href="#shell-exec" class="headerlink" title="shell_exec()"></a>shell_exec()</h2><p>还是要用 var_dump(exec(‘ls’));</p>
 <h2 id="运算符"><a href="#运算符" class="headerlink" title="``运算符"></a>``运算符</h2><p>echo <code>ls</code><br>会直接打印出 ls  产生的结果</p>
+<h2 id="preg-replace-e"><a href="#preg-replace-e" class="headerlink" title="preg_replace /e"></a>preg_replace /e</h2><p>执行一个正则表达式的搜索和替换<br>preg_replace($pattern, $replacement, $subject)<br>搜索 subject 中匹配 pattern 的部分，以 replacement 进行替换</p>
+<p>例如</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$str = <span class="string">'fl    ag'</span>;</span><br><span class="line">$str = preg_replace(<span class="string">'/\s+/'</span>, <span class="string">' '</span>, $str);</span><br><span class="line"><span class="keyword">echo</span> $str;<span class="comment">// 将会改变为'fl ag'</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601864927870-223a942f-0d75-4733-b4b6-e31ffeb2b456.png#align=left&display=inline&height=161&margin=%5Bobject%20Object%5D&name=image.png&originHeight=229&originWidth=519&size=69281&status=done&style=none&width=364" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<blockquote>
+<p>如果您尝试匹配该字符，则应转义以下内容<br>\ ^。 $ | （）[]</p>
+<ul>
+<li>+？ {}，<br>特殊字符定义</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>\引用下一个元字符</p>
+</blockquote>
+<blockquote>
+<p>^匹配行首</p>
+</blockquote>
+<blockquote>
+<p>。匹配任何字符（换行符除外）</p>
+</blockquote>
+<blockquote>
+<p>$匹配行尾（或在换行符之前）</p>
+</blockquote>
+<blockquote>
+<p>|轮换</p>
+</blockquote>
+<blockquote>
+<p>（）分组</p>
+</blockquote>
+<blockquote>
+<p>[]角色类别</p>
+</blockquote>
+<blockquote>
+<p>*匹配 0 次或更多次</p>
+</blockquote>
+<blockquote>
+<p>+匹配 1 次或更多次</p>
+</blockquote>
+<blockquote>
+<p>？匹配 1 或 0 次</p>
+</blockquote>
+<blockquote>
+<p>{n}完全匹配 n 次</p>
+</blockquote>
+<blockquote>
+<p>{n，}至少匹配 n 次</p>
+</blockquote>
+<blockquote>
+<p>{n，m}至少匹配 n 次，但不超过 m 次</p>
+</blockquote>
+<blockquote>
+<p>更多特殊字符的东西</p>
+</blockquote>
+<blockquote>
+<p>\t 标签（HT，TAB）</p>
+</blockquote>
+<blockquote>
+<p>\n 换行符（LF，NL）</p>
+</blockquote>
+<blockquote>
+<p>\r 返回（CR）</p>
+</blockquote>
+<blockquote>
+<p>\f 换页（FF）</p>
+</blockquote>
+<blockquote>
+<p>\a 警报（响铃）（BEL）</p>
+</blockquote>
+<blockquote>
+<p>\e 转义（认为 troff）（ESC）</p>
+</blockquote>
+<blockquote>
+<p>\033 八进制字符（以 PDP-11 为例）</p>
+</blockquote>
+<blockquote>
+<p>\x1B 十六进制字符</p>
+</blockquote>
+<blockquote>
+<p>\c[ 控制字符</p>
+</blockquote>
+<blockquote>
+<p>\l 小写的下一个字符（想想 vi）</p>
+</blockquote>
+<blockquote>
+<p>\u 大写的下一个字符（想想 vi）</p>
+</blockquote>
+<blockquote>
+<p>\L 小写字母到\ E（想 vi）</p>
+</blockquote>
+<blockquote>
+<p>\U 大写字母直到\ E（想 vi）</p>
+</blockquote>
+<blockquote>
+<p>\E 结束案例修改（想想 vi）</p>
+</blockquote>
+<blockquote>
+<p>\Q 引用（禁用）模式元字符，直到\ E</p>
+</blockquote>
+<blockquote>
+<p>甚至更多特殊字符</p>
+</blockquote>
+<blockquote>
+<p>\w 匹配一个“单词”字符（字母数字加“ _”）</p>
+</blockquote>
+<blockquote>
+<p>\W 匹配非单词字符</p>
+</blockquote>
+<blockquote>
+<p>\s 匹配空白字符</p>
+</blockquote>
+<blockquote>
+<p>\S 匹配非空格字符</p>
+</blockquote>
+<blockquote>
+<p>\d 匹配数字字符</p>
+</blockquote>
+<blockquote>
+<p>\D 匹配一个非数字字符</p>
+</blockquote>
+<blockquote>
+<p>\b 匹配单词边界</p>
+</blockquote>
+<blockquote>
+<p>\B 匹配非（单词边界）</p>
+</blockquote>
+<blockquote>
+<p>\A 仅在字符串开头匹配</p>
+</blockquote>
+<blockquote>
+<p>\Z 仅在字符串末尾或换行符末尾匹配</p>
+</blockquote>
+<blockquote>
+<p>\z 仅在字符串末尾匹配</p>
+</blockquote>
+<blockquote>
+<p>\G 仅在上一个 m // g 停止的地方匹配（仅适用于/ g）</p>
+</blockquote>
+<p>如果他的 $pattern 有一个 /e 的修饰符，则可能有代码执行的风险</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">complexStrtolower</span><span class="params">($regex,$value)</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> preg_replace(</span><br><span class="line">			<span class="string">'/('</span>. $regex . <span class="string">')/ei'</span>,</span><br><span class="line">			<span class="string">'strtolower("\\1")'</span>,</span><br><span class="line">			$value</span><br><span class="line">		);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">foreach</span>($_GET <span class="keyword">as</span> $regex =&gt; $value)&#123;</span><br><span class="line">		<span class="keyword">echo</span> complexStrtolower($regex,$value) . <span class="string">"\n"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	print_r($_GET);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>相当于 eval(‘strtolower(“\1”);’)<br>而 \1 就是 \1 也就是匹配到的第一个</p>
+<p>如果是这样的话就可以执行 phpinfo</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">preg_replace(<span class="string">'/(.*)/ie'</span>,<span class="string">'strtolower("\\1")'</span>,<span class="string">'&#123;$&#123;phpinfo()&#125;&#125;'</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601871676660-1a93cc4d-f6d4-4235-931a-dbc8cb62f733.png#align=left&display=inline&height=259&margin=%5Bobject%20Object%5D&name=image.png&originHeight=518&originWidth=1304&size=101694&status=done&style=stroke&width=652" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>但是如果传入的话 <code>.</code> 会被替换为 <code>_</code>，可以用其他通配符代替，比如\S*</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601871768591-eac48179-1553-41d1-9eaf-cbc2a5cd3230.png#align=left&display=inline&height=274&margin=%5Bobject%20Object%5D&name=image.png&originHeight=548&originWidth=1344&size=95797&status=done&style=stroke&width=672" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
 <h1 id="命令执行绕过"><a href="#命令执行绕过" class="headerlink" title="命令执行绕过"></a>命令执行绕过</h1><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$rce =<span class="string">"echo"</span>;</span><br><span class="line">system($rce.$_GET[<span class="number">1</span>])</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>如果传参 1=123，就会打印 123，这是系统调用 echo 函数的原因</p>
