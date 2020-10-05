@@ -538,6 +538,9 @@
                 </div>
                 <div class="image-caption">image.png</div>
             </figure>
+
+<h1 id="SUCTF-2019-Pythonginx"><a href="#SUCTF-2019-Pythonginx" class="headerlink" title="[SUCTF 2019]Pythonginx"></a>[SUCTF 2019]Pythonginx</h1><p><a href="https://team-su.github.io/passages/2019-08-22-SUCTF/" target="_blank" rel="noopener">https://team-su.github.io/passages/2019-08-22-SUCTF/</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">file:&#x2F;&#x2F;suctf.c℆sr%2ffffffflag @111</span><br></pre></td></tr></table></figure>
 ]]></content>
   </entry>
   <entry>
@@ -11912,21 +11915,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>ffmpeg（视频处理）</title>
-    <url>/2019/11/22/nuwzb3/</url>
-    <content><![CDATA[<p>多媒体视频处理工具 FFmpeg 有非常强大的功能包括视频采集功能、视频格式转换、视频抓图、给视频加水印</p>
-<h1 id="裁剪视频"><a href="#裁剪视频" class="headerlink" title="裁剪视频"></a>裁剪视频</h1><p><code>ffmpeg -i 1.mp4 -ss 00:00:00 -c copy -t 00:04:33 2.mp4</code><br>视频 1.mp4 从 00:00:00 开始到 00:04:33 位置，保存为新的 2.MP4</p>
-<h1 id="合并视频"><a href="#合并视频" class="headerlink" title="合并视频"></a>合并视频</h1><p>首先在文件夹下建立一个  txt ，内容格式如下：（按照想要拼接的顺序）<br><code>file &#39;1.mp4&#39;</code><br><code>file &#39;2.mp4&#39;</code></p>
-<p>执行这串命令就可以了<br><code>ffmpeg -f concat -i test.txt -c copy output.mp4</code></p>
-<h1 id="mp4-转-GIF"><a href="#mp4-转-GIF" class="headerlink" title="mp4  转 GIF"></a>mp4  转 GIF</h1><p>ffmpeg -ss 1 -t 10 -i yichen.mp4 -s 1920*1080 -r 15 res.gif</p>
-<ul>
-<li>-s：设定分辨率</li>
-<li>-ss 1 -t 10：从第 1 秒开始，往后截取 10 秒钟</li>
-<li>-r：设定帧数 15</li>
-</ul>
-]]></content>
-  </entry>
-  <entry>
     <title>3、Raw input and output（上）</title>
     <url>/2020/06/01/oezo08/</url>
     <content><![CDATA[<h1 id="按-Ctrl-Q-退出"><a href="#按-Ctrl-Q-退出" class="headerlink" title="按 Ctrl-Q 退出"></a>按 Ctrl-Q 退出</h1><p>在上一章中，我们看到 Ctrl 键和字母键组合起来似乎映射到 1–26 字节。 我们可以使用它来检测 Ctrl 键组合并将其映射到编辑器中的不同操作。 首先，将 Ctrl-Q 映射到退出操作</p>
@@ -20028,6 +20016,21 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install       \</span><br><span class="line">    cmake                  \</span><br><span class="line">    build-essential        \</span><br><span class="line">    libboost-dev           \</span><br><span class="line">    libqt5xmlpatterns5-dev \</span><br><span class="line">    qtbase5-dev            \</span><br><span class="line">    qt5-default            \</span><br><span class="line">    libqt5svg5-dev         \</span><br><span class="line">    libgraphviz-dev        \</span><br><span class="line">    libcapstone-dev        \</span><br><span class="line">    pkg-config</span><br><span class="line"></span><br><span class="line">git <span class="built_in">clone</span> --recursive https://github.com/eteran/edb-debugger.git</span><br><span class="line"><span class="built_in">cd</span> edb-debugger</span><br><span class="line">cmake -DCMAKE_INSTALL_PREFIX=/usr/<span class="built_in">local</span>/ ..</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
 
 <p>安装完成后直接在命令行里使用  edb 运行</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>ffmpeg（视频处理）</title>
+    <url>/2019/11/22/nuwzb3/</url>
+    <content><![CDATA[<p>多媒体视频处理工具 FFmpeg 有非常强大的功能包括视频采集功能、视频格式转换、视频抓图、给视频加水印</p>
+<h1 id="裁剪视频"><a href="#裁剪视频" class="headerlink" title="裁剪视频"></a>裁剪视频</h1><p><code>ffmpeg -i 1.mp4 -ss 00:00:00 -c copy -t 00:04:33 2.mp4</code><br>视频 1.mp4 从 00:00:00 开始到 00:04:33 位置，保存为新的 2.MP4</p>
+<h1 id="合并视频"><a href="#合并视频" class="headerlink" title="合并视频"></a>合并视频</h1><p>首先在文件夹下建立一个  txt ，内容格式如下：（按照想要拼接的顺序）<br><code>file &#39;1.mp4&#39;</code><br><code>file &#39;2.mp4&#39;</code></p>
+<p>执行这串命令就可以了<br><code>ffmpeg -f concat -i test.txt -c copy output.mp4</code></p>
+<h1 id="mp4-转-GIF"><a href="#mp4-转-GIF" class="headerlink" title="mp4  转 GIF"></a>mp4  转 GIF</h1><p>ffmpeg -ss 1 -t 10 -i yichen.mp4 -s 1920*1080 -r 15 res.gif</p>
+<ul>
+<li>-s：设定分辨率</li>
+<li>-ss 1 -t 10：从第 1 秒开始，往后截取 10 秒钟</li>
+<li>-r：设定帧数 15</li>
+</ul>
 ]]></content>
   </entry>
 </search>
