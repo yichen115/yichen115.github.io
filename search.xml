@@ -7031,6 +7031,65 @@
 ]]></content>
   </entry>
   <entry>
+    <title>SkyDog</title>
+    <url>/2020/10/12/gxlt99/</url>
+    <content><![CDATA[<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1602473497754-b3a71c68-491d-4c46-b678-c81c176eedd7.png#align=left&display=inline&height=362&margin=%5Bobject%20Object%5D&name=image.png&originHeight=765&originWidth=1577&size=198498&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="flag1"><a href="#flag1" class="headerlink" title="flag1"></a>flag1</h1><p>查看源代码的时候有这么一段</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1602470419258-c746895f-09fb-435b-a3c5-7a03329b5946.png#align=left&display=inline&height=166&margin=%5Bobject%20Object%5D&name=image.png&originHeight=235&originWidth=945&size=17690&status=done&style=stroke&width=668" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>访问一下这个 js 文件</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1602470486866-f3a1ec0b-2048-4a50-afb4-cba3356be3e4.png#align=left&display=inline&height=176&margin=%5Bobject%20Object%5D&name=image.png&originHeight=236&originWidth=812&size=35244&status=done&style=stroke&width=605" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>hex 转 text</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1602470538571-daeb4ad8-c7ec-4492-80cb-7fa07f525569.png#align=left&display=inline&height=362&margin=%5Bobject%20Object%5D&name=image.png&originHeight=564&originWidth=826&size=88066&status=done&style=stroke&width=532" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>flag{7c0132070a0ef71d542663e9dc1f5dee}</p>
+<h1 id="flag2"><a href="#flag2" class="headerlink" title="flag2"></a>flag2</h1><p>使用 ssh 去连接 22222 端口</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1602472691806-d8422c84-b7db-46c6-b415-bc85b98a5a74.png#align=left&display=inline&height=207&margin=%5Bobject%20Object%5D&name=image.png&originHeight=301&originWidth=890&size=77040&status=done&style=none&width=612" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>Flag{53c82eba31f6d416f331de9162ebe997}</p>
+<h1 id="flag3"><a href="#flag3" class="headerlink" title="flag3"></a>flag3</h1><p>使用 https 访问，然后查看一下证书拿到 flag3</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1602472971216-8231787e-cca8-437d-902b-49f6c1c7976d.png#align=left&display=inline&height=405&margin=%5Bobject%20Object%5D&name=image.png&originHeight=565&originWidth=668&size=38606&status=done&style=none&width=479" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>flag3{f82366a9ddc064585d54e3f78bde3221}</p>
+<p>啊啊啊，我懂了，这是个 CTF 靶机，要根据题目来找 flag！Orz</p>
+]]></content>
+  </entry>
+  <entry>
     <title>curl使用</title>
     <url>/2020/02/19/heis24/</url>
     <content><![CDATA[<h1 id="无-正常-get"><a href="#无-正常-get" class="headerlink" title="无   正常 get"></a>无   正常 get</h1><p>通过 GET  方式正常请求<br>会把返回的内容保存下来<br><code>curl http://127.0.0.1</code></p>
@@ -11915,6 +11974,21 @@
 ]]></content>
   </entry>
   <entry>
+    <title>ffmpeg（视频处理）</title>
+    <url>/2019/11/22/nuwzb3/</url>
+    <content><![CDATA[<p>多媒体视频处理工具 FFmpeg 有非常强大的功能包括视频采集功能、视频格式转换、视频抓图、给视频加水印</p>
+<h1 id="裁剪视频"><a href="#裁剪视频" class="headerlink" title="裁剪视频"></a>裁剪视频</h1><p><code>ffmpeg -i 1.mp4 -ss 00:00:00 -c copy -t 00:04:33 2.mp4</code><br>视频 1.mp4 从 00:00:00 开始到 00:04:33 位置，保存为新的 2.MP4</p>
+<h1 id="合并视频"><a href="#合并视频" class="headerlink" title="合并视频"></a>合并视频</h1><p>首先在文件夹下建立一个  txt ，内容格式如下：（按照想要拼接的顺序）<br><code>file &#39;1.mp4&#39;</code><br><code>file &#39;2.mp4&#39;</code></p>
+<p>执行这串命令就可以了<br><code>ffmpeg -f concat -i test.txt -c copy output.mp4</code></p>
+<h1 id="mp4-转-GIF"><a href="#mp4-转-GIF" class="headerlink" title="mp4  转 GIF"></a>mp4  转 GIF</h1><p>ffmpeg -ss 1 -t 10 -i yichen.mp4 -s 1920*1080 -r 15 res.gif</p>
+<ul>
+<li>-s：设定分辨率</li>
+<li>-ss 1 -t 10：从第 1 秒开始，往后截取 10 秒钟</li>
+<li>-r：设定帧数 15</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
     <title>3、Raw input and output（上）</title>
     <url>/2020/06/01/oezo08/</url>
     <content><![CDATA[<h1 id="按-Ctrl-Q-退出"><a href="#按-Ctrl-Q-退出" class="headerlink" title="按 Ctrl-Q 退出"></a>按 Ctrl-Q 退出</h1><p>在上一章中，我们看到 Ctrl 键和字母键组合起来似乎映射到 1–26 字节。 我们可以使用它来检测 Ctrl 键组合并将其映射到编辑器中的不同操作。 首先，将 Ctrl-Q 映射到退出操作</p>
@@ -13724,6 +13798,162 @@
                 <div class="img-lightbox">
                     <div class="overlay"></div>
                     <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1587797956205-ace079a5-b258-4b52-9884-b88724fa802b.png#align=left&display=inline&height=284&margin=%5Bobject%20Object%5D&name=image.png&originHeight=636&originWidth=1672&size=531028&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+]]></content>
+  </entry>
+  <entry>
+    <title>Acid-Reloaded</title>
+    <url>/2020/10/05/plc222/</url>
+    <content><![CDATA[<p>nmap 扫描端口，33447 没有开着</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601900791564-5d8cea3a-fe5b-4ba6-b07d-ffb61b004fba.png#align=left&display=inline&height=378&margin=%5Bobject%20Object%5D&name=image.png&originHeight=569&originWidth=1000&size=133718&status=done&style=none&width=665" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>ssh 去连接一下得到提示 knock</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601900946710-a8058609-3ca4-45c6-a70a-79ef32030f1a.png#align=left&display=inline&height=260&margin=%5Bobject%20Object%5D&name=image.png&originHeight=361&originWidth=814&size=66823&status=done&style=none&width=583" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>依次 nmap 扫描一下 3 2 1 端口</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601900531486-82f7ea1e-cb28-41c1-8594-55080dd13835.png#align=left&display=inline&height=425&margin=%5Bobject%20Object%5D&name=image.png&originHeight=634&originWidth=642&size=129360&status=done&style=none&width=430" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后再去扫描就可以发现 33447 已经打开了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601900993915-2cea97a4-0bde-4672-8af4-38e5eb14412e.png#align=left&display=inline&height=381&margin=%5Bobject%20Object%5D&name=image.png&originHeight=612&originWidth=1000&size=144755&status=done&style=none&width=622" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>访问浏览器 33447 端口，有个图片，没啥用</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601902933930-abd8f3d4-9b3e-4879-aaab-a209d3605cb6.png#align=left&display=inline&height=404&margin=%5Bobject%20Object%5D&name=image.png&originHeight=807&originWidth=1272&size=635498&status=done&style=stroke&width=636" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p><code>nikto -host 192.168.17.134 -port 33447</code><br>扫描一下，看看有啥东西</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601903004800-095cf382-a5ae-4386-bf66-d78bd59c955b.png#align=left&display=inline&height=241&margin=%5Bobject%20Object%5D&name=image.png&originHeight=481&originWidth=1539&size=141077&status=done&style=none&width=769.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>访问那个 /bin/ 目录，当访问 <a href="http://192.168.17.134:33447/bin/dashboard.php" target="_blank" rel="noopener">http://192.168.17.134:33447/bin/dashboard.php</a> 的时候提示了没有权限访问</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601906055219-9ccdd396-549f-4a13-8720-14b295f355ca.png#align=left&display=inline&height=467&margin=%5Bobject%20Object%5D&name=image.png&originHeight=933&originWidth=1658&size=272464&status=done&style=stroke&width=829" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>在访问的时候 burp 抓包，改 referer 为 /bin/includes/validation.php<br><code>Referer: http://192.168.17.134:33447/bin/includes/validation.php</code></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601906033037-22205ca0-c151-4b4b-b5c4-e43c6cf8ca19.png#align=left&display=inline&height=297&margin=%5Bobject%20Object%5D&name=image.png&originHeight=399&originWidth=502&size=49141&status=done&style=stroke&width=374" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>这样放过去就可以访问到 /bin/dashboard.php</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601906226715-87f59d06-2a20-470c-9ea2-71a93f2635b1.png#align=left&display=inline&height=228&margin=%5Bobject%20Object%5D&name=image.png&originHeight=346&originWidth=793&size=33494&status=done&style=stroke&width=522" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>要注意到有一个 id 的参数</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601906451058-87254db9-9cf9-4138-91a5-a854b9827e4b.png#align=left&display=inline&height=325&margin=%5Bobject%20Object%5D&name=image.png&originHeight=649&originWidth=1438&size=96919&status=done&style=stroke&width=719" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>测试存在 sqli（–tamper=space2comment）</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601906506558-d377b42c-27df-403d-8374-0c1805828c09.png#align=left&display=inline&height=108&margin=%5Bobject%20Object%5D&name=image.png&originHeight=194&originWidth=1262&size=36077&status=done&style=stroke&width=703" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后扫出来一个 UB3R/strcpy.exe</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601907038454-f7bbb5f8-2ae4-4b7d-8206-8b3cdaf330df.png#align=left&display=inline&height=380&margin=%5Bobject%20Object%5D&name=image.png&originHeight=760&originWidth=1630&size=194377&status=done&style=stroke&width=815" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>下下来实际是 pdf，foremost 分离一下，可以分离出来一个 rar，里面有张图片，再次分离，又有一个 rar，里面有个 Avinash.contact</p>
+<p>把里面那些东西做成一个字典<br>Avinash&gt; Makke</p>
+<blockquote>
+<p>avinash<br>makke<br>acid.exploit</p>
+</blockquote>
+<blockquote>
+<p>acid</p>
+</blockquote>
+<blockquote>
+<p>exploit</p>
+</blockquote>
+<blockquote>
+<p><a href="mailto:acid.exploit@gmail.com">acid.exploit@gmail.com</a></p>
+</blockquote>
+<blockquote>
+<p>NooB@123（这个是一个 base64 转出来的）</p>
+</blockquote>
+<p>hydra 爆破 ssh 密码，得到 makke/NooB@123，ssh 登录</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601907745763-6202b403-a82b-4e59-bff0-3abb58358f17.png#align=left&display=inline&height=422&margin=%5Bobject%20Object%5D&name=image.png&originHeight=844&originWidth=1483&size=1443572&status=done&style=none&width=741.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>登录进去以后在命令历史中找到一个可疑的可执行文件</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601907838392-b93245ab-950f-4280-8944-72bae7e5ca26.png#align=left&display=inline&height=382&margin=%5Bobject%20Object%5D&name=image.png&originHeight=677&originWidth=697&size=566054&status=done&style=none&width=393" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>运行一下试试，结果？？？？直接 root 权限了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601907922724-418d108b-fb9b-454b-b3f4-a3c13c9b67ab.png#align=left&display=inline&height=439&margin=%5Bobject%20Object%5D&name=image.png&originHeight=844&originWidth=1049&size=1026549&status=done&style=none&width=546" alt="image.png" title="">
                 </div>
                 <div class="image-caption">image.png</div>
             </figure>
@@ -20016,21 +20246,6 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install       \</span><br><span class="line">    cmake                  \</span><br><span class="line">    build-essential        \</span><br><span class="line">    libboost-dev           \</span><br><span class="line">    libqt5xmlpatterns5-dev \</span><br><span class="line">    qtbase5-dev            \</span><br><span class="line">    qt5-default            \</span><br><span class="line">    libqt5svg5-dev         \</span><br><span class="line">    libgraphviz-dev        \</span><br><span class="line">    libcapstone-dev        \</span><br><span class="line">    pkg-config</span><br><span class="line"></span><br><span class="line">git <span class="built_in">clone</span> --recursive https://github.com/eteran/edb-debugger.git</span><br><span class="line"><span class="built_in">cd</span> edb-debugger</span><br><span class="line">cmake -DCMAKE_INSTALL_PREFIX=/usr/<span class="built_in">local</span>/ ..</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
 
 <p>安装完成后直接在命令行里使用  edb 运行</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>ffmpeg（视频处理）</title>
-    <url>/2019/11/22/nuwzb3/</url>
-    <content><![CDATA[<p>多媒体视频处理工具 FFmpeg 有非常强大的功能包括视频采集功能、视频格式转换、视频抓图、给视频加水印</p>
-<h1 id="裁剪视频"><a href="#裁剪视频" class="headerlink" title="裁剪视频"></a>裁剪视频</h1><p><code>ffmpeg -i 1.mp4 -ss 00:00:00 -c copy -t 00:04:33 2.mp4</code><br>视频 1.mp4 从 00:00:00 开始到 00:04:33 位置，保存为新的 2.MP4</p>
-<h1 id="合并视频"><a href="#合并视频" class="headerlink" title="合并视频"></a>合并视频</h1><p>首先在文件夹下建立一个  txt ，内容格式如下：（按照想要拼接的顺序）<br><code>file &#39;1.mp4&#39;</code><br><code>file &#39;2.mp4&#39;</code></p>
-<p>执行这串命令就可以了<br><code>ffmpeg -f concat -i test.txt -c copy output.mp4</code></p>
-<h1 id="mp4-转-GIF"><a href="#mp4-转-GIF" class="headerlink" title="mp4  转 GIF"></a>mp4  转 GIF</h1><p>ffmpeg -ss 1 -t 10 -i yichen.mp4 -s 1920*1080 -r 15 res.gif</p>
-<ul>
-<li>-s：设定分辨率</li>
-<li>-ss 1 -t 10：从第 1 秒开始，往后截取 10 秒钟</li>
-<li>-r：设定帧数 15</li>
-</ul>
 ]]></content>
   </entry>
 </search>
