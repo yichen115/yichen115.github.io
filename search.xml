@@ -7031,12 +7031,21 @@
 ]]></content>
   </entry>
   <entry>
-    <title>SkyDog</title>
+    <title>SkyDog 2016</title>
     <url>/2020/10/12/gxlt99/</url>
     <content><![CDATA[<figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
                     <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1602473497754-b3a71c68-491d-4c46-b678-c81c176eedd7.png#align=left&display=inline&height=362&margin=%5Bobject%20Object%5D&name=image.png&originHeight=765&originWidth=1577&size=198498&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>nmap 扫端口</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1602499037698-cd0755b2-2ab8-4d7f-9ab1-d1196c7a43a8.png#align=left&display=inline&height=309&margin=%5Bobject%20Object%5D&name=image.png&originHeight=489&originWidth=886&size=124793&status=done&style=none&width=560" alt="image.png" title="">
                 </div>
                 <div class="image-caption">image.png</div>
             </figure>
@@ -7063,11 +7072,12 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1602470538571-daeb4ad8-c7ec-4492-80cb-7fa07f525569.png#align=left&display=inline&height=362&margin=%5Bobject%20Object%5D&name=image.png&originHeight=564&originWidth=826&size=88066&status=done&style=stroke&width=532" alt="image.png" title="">
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1602470538571-daeb4ad8-c7ec-4492-80cb-7fa07f525569.png#align=left&display=inline&height=363&margin=%5Bobject%20Object%5D&name=image.png&originHeight=564&originWidth=826&size=88066&status=done&style=stroke&width=532" alt="image.png" title="">
                 </div>
                 <div class="image-caption">image.png</div>
             </figure>
 <p>flag{7c0132070a0ef71d542663e9dc1f5dee}</p>
+<p>这个 flag 中的 md5 解出来是 nmap</p>
 <h1 id="flag2"><a href="#flag2" class="headerlink" title="flag2"></a>flag2</h1><p>使用 ssh 去连接 22222 端口</p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
@@ -7077,6 +7087,7 @@
                 <div class="image-caption">image.png</div>
             </figure>
 <p>Flag{53c82eba31f6d416f331de9162ebe997}</p>
+<p>这个 md5 解出来是 encrypt</p>
 <h1 id="flag3"><a href="#flag3" class="headerlink" title="flag3"></a>flag3</h1><p>使用 https 访问，然后查看一下证书拿到 flag3</p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
@@ -7086,7 +7097,28 @@
                 <div class="image-caption">image.png</div>
             </figure>
 <p>flag3{f82366a9ddc064585d54e3f78bde3221}</p>
-<p>啊啊啊，我懂了，这是个 CTF 靶机，要根据题目来找 flag！Orz</p>
+<p>这个 md5 解出来是 personnel</p>
+<h1 id="flag4"><a href="#flag4" class="headerlink" title="flag4"></a>flag4</h1><p>访问目录 /personnel，说不能访问</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1602499200365-970002f1-0109-4a53-bc9d-e99f664a6057.png#align=left&display=inline&height=91&margin=%5Bobject%20Object%5D&name=image.png&originHeight=181&originWidth=1395&size=33330&status=done&style=stroke&width=697.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>在之前的 js 文件里面找，有一句 Adding temporary support for IE4 FBI Workstations</p>
+<p>把 user_agent 改为 Mozilla/4.0 (compatible; MSIE 4.0; Windows NT)</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1602580517320-f8f6ac3d-a2c7-4254-9765-18b71b9f716b.png#align=left&display=inline&height=545&margin=%5Bobject%20Object%5D&name=image.png&originHeight=816&originWidth=745&size=78342&status=done&style=stroke&width=498" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>flag{14e10d570047667f904261e6d08f520f}</p>
+<p>md5 解出来是 evidence</p>
+<h1 id="flag5"><a href="#flag5" class="headerlink" title="flag5"></a>flag5</h1><p>前面加上个 new，作为目录去访问，跟上一关一样，需要换一下 UA，然后有个 HTTP 的认证</p>
 ]]></content>
   </entry>
   <entry>
