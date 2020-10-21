@@ -18518,8 +18518,8 @@
                 <div class="image-caption">image.png</div>
             </figure>
 
-<p>可以利用 apache 的解析漏洞传一个 xxx.php.jpg 的上去</p>
-<p>然后没找到什么东西了</p>
+<p>可以利用 apache 的解析漏洞传一个 xxx.php.jpg 的上去<br>然后反弹个 shell</p>
+<p>python3-c”import pty;pty.spawn(‘/bin/bash’)”</p>
 ]]></content>
   </entry>
   <entry>
