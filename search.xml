@@ -18495,7 +18495,7 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1603277811311-18ca785c-4b3a-41af-ae78-7275cd1d8b0f.png#align=left&display=inline&height=84&margin=%5Bobject%20Object%5D&name=image.png&originHeight=116&originWidth=835&size=6598&status=done&style=stroke&width=613" alt="image.png" title="">
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1603277811311-18ca785c-4b3a-41af-ae78-7275cd1d8b0f.png#align=left&display=inline&height=85&margin=%5Bobject%20Object%5D&name=image.png&originHeight=116&originWidth=835&size=6598&status=done&style=stroke&width=613" alt="image.png" title="">
                 </div>
                 <div class="image-caption">image.png</div>
             </figure>
@@ -18520,7 +18520,6 @@
 
 <p>可以利用 apache 的解析漏洞传一个 xxx.php.jpg 的上去</p>
 <p>然后没找到什么东西了</p>
-<p>脏牛提权</p>
 ]]></content>
   </entry>
   <entry>
