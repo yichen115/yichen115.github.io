@@ -36,8 +36,9 @@
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1603277811311-18ca785c-4b3a-41af-ae78-7275cd1d8b0f.png#align=left&display=inline&height=85&margin=%5Bobject%20Object%5D&name=image.png&originHeight=116&originWidth=835&size=6598&status=done&style=stroke&width=613">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1603277893559-bdf0ac05-1b16-4288-9e21-04cf98e3b57c.png#align=left&display=inline&height=53&margin=%5Bobject%20Object%5D&name=image.png&originHeight=80&originWidth=482&size=5527&status=done&style=stroke&width=321">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1603278793678-7dfd36a1-ffbb-486a-a236-34262a6fb34b.png#align=left&display=inline&height=257&margin=%5Bobject%20Object%5D&name=image.png&originHeight=399&originWidth=805&size=36459&status=done&style=stroke&width=519">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1603589780205-b77deb3d-e098-4740-b9f2-0a5dc42894d3.png#align=left&display=inline&height=475&margin=%5Bobject%20Object%5D&name=image.png&originHeight=735&originWidth=859&size=711963&status=done&style=none&width=554">
 <meta property="article:published_time" content="2020-10-21T08:41:50.000Z">
-<meta property="article:modified_time" content="2020-10-21T12:08:26.557Z">
+<meta property="article:modified_time" content="2020-10-25T01:40:51.720Z">
 <meta property="article:author" content="yichen">
 <meta property="article:tag" content="网络安全 CTF">
 <meta name="twitter:card" content="summary">
@@ -271,8 +272,15 @@
                 <div class="image-caption">image.png</div>
             </figure>
 
-<p>可以利用 apache 的解析漏洞传一个 xxx.php.jpg 的上去<br>然后反弹个 shell</p>
-<p>python3-c”import pty;pty.spawn(‘/bin/bash’)”</p>
+<p>可以利用 apache 的解析漏洞传一个 xxx.php.jpg 的上去，然后 php 写个反弹 shell<br>（再次记录一下下面这一句，总是忘了 Orz）<br><code>python -c &quot;import pty;pty.spawn(&#39;/bin/bash&#39;)&quot;</code></p>
+<p>利用脏牛提权<br><a href="https://www.exploit-db.com/exploits/40839" target="_blank" rel="noopener">https://www.exploit-db.com/exploits/40839</a><br><code>gcc -pthread 40839.c -o exe -lcrypt</code><br>用这个的时候注意换到 /bin/bash 这一个，之前在蚁剑的终端里试了几次没交互效果</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1603589780205-b77deb3d-e098-4740-b9f2-0a5dc42894d3.png#align=left&display=inline&height=475&margin=%5Bobject%20Object%5D&name=image.png&originHeight=735&originWidth=859&size=711963&status=done&style=none&width=554" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
 
         </div>
 
@@ -281,7 +289,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2020-10-21T12:08:26.557Z" itemprop="dateUpdated">2020-10-21 20:08:26</time>
+    最后更新时间：<time datetime="2020-10-25T01:40:51.720Z" itemprop="dateUpdated">2020-10-25 09:40:51</time>
 </span><br>
 
 
