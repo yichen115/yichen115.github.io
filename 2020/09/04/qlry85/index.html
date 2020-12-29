@@ -52,7 +52,7 @@
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1599478344546-0211c99d-2424-42ec-ac08-cc1c9a47e734.png#align=left&display=inline&height=118&margin=%5Bobject%20Object%5D&name=image.png&originHeight=144&originWidth=529&size=11521&status=done&style=none&width=432">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1599480074339-bfc7c47a-ee39-40c2-a4ca-af143c252fd6.png#align=left&display=inline&height=421&margin=%5Bobject%20Object%5D&name=image.png&originHeight=502&originWidth=598&size=30637&status=done&style=none&width=501">
 <meta property="article:published_time" content="2020-09-04T05:11:54.000Z">
-<meta property="article:modified_time" content="2020-12-29T01:45:59.691Z">
+<meta property="article:modified_time" content="2020-12-29T01:58:38.702Z">
 <meta property="article:author" content="yichen">
 <meta property="article:tag" content="网络安全 CTF">
 <meta name="twitter:card" content="summary">
@@ -239,7 +239,7 @@
                 <div class="image-caption">image.png</div>
             </figure>
 
-<p>程序再次申请内存块的时候首先判断在 tchche 中是否存在，如果存在的话会先从 tcache 中拿</p>
+<p>程序再次申请内存块的时候首先判断在 tchche 中是否存在，如果存在的话会先从 tcache 中拿<br><strong>后进先出</strong></p>
 <h1 id="tcache-dup"><a href="#tcache-dup" class="headerlink" title="tcache_dup"></a>tcache_dup</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"先申请一块内存\n"</span>);</span><br><span class="line">	<span class="keyword">int</span> *a = <span class="built_in">malloc</span>(<span class="number">8</span>);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"申请的内存地址是: %p\n"</span>, a);</span><br><span class="line">	<span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"对这块内存地址 free两次\n"</span>);</span><br><span class="line">	<span class="built_in">free</span>(a);</span><br><span class="line">	<span class="built_in">free</span>(a);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"这时候链表是这样的 [ %p, %p ].\n"</span>, a, a);</span><br><span class="line">	<span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"接下来再去 malloc 两次: [ %p, %p ].\n"</span>, <span class="built_in">malloc</span>(<span class="number">8</span>), <span class="built_in">malloc</span>(<span class="number">8</span>));</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"ojbk\n"</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><code>gcc -g tcache_dup.c</code><br>运行之后的结果：</p>
@@ -449,7 +449,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2020-12-29T01:45:59.691Z" itemprop="dateUpdated">2020-12-29 09:45:59</time>
+    最后更新时间：<time datetime="2020-12-29T01:58:38.702Z" itemprop="dateUpdated">2020-12-29 09:58:38</time>
 </span><br>
 
 

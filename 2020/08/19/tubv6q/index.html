@@ -29,11 +29,16 @@
 <meta property="og:description" content="Unsorted Bin双向循环链表，先进先出，以下几种情况会分到 unsorted bin 中  1、当一个较大的 chunk 被分割成两半后，如果剩下的部分大于 MINSIZE，就会被放到 unsorted bin 中2、释放一个不属于 fast bin 的 chunk，并且该 chunk 不和 top chunk 紧邻时，该 chunk 会被首先放到 unsorted bin 中3、当进行">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1597930574266-a2ff2303-386d-4f23-82f7-a60d78dc56cd.png#align=left&display=inline&height=75&margin=%5Bobject%20Object%5D&name=image.png&originHeight=87&originWidth=781&size=19190&status=done&style=none&width=669">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1606572766348-8e1d59d7-ba40-4689-9a98-3d68ed03919d.png#align=left&display=inline&height=343&margin=%5Bobject%20Object%5D&name=image.png&originHeight=494&originWidth=551&size=16018&status=done&style=stroke&width=383">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1606572820505-69cf3182-989d-440f-9b87-6b0c8b845105.png#align=left&display=inline&height=305&margin=%5Bobject%20Object%5D&name=image.png&originHeight=404&originWidth=825&size=17386&status=done&style=stroke&width=622">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1606572866040-8c8283f8-2e23-4716-8b13-ac2fc7f19447.png#align=left&display=inline&height=303&margin=%5Bobject%20Object%5D&name=image.png&originHeight=458&originWidth=1056&size=29230&status=done&style=stroke&width=698">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1606572899992-2fc6079d-41af-4a93-af85-17b8ee334b7c.png#align=left&display=inline&height=340&margin=%5Bobject%20Object%5D&name=image.png&originHeight=528&originWidth=1108&size=34447&status=done&style=stroke&width=714">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1597930824435-64316a8a-4378-441f-9726-24792698968d.png#align=left&display=inline&height=521&margin=%5Bobject%20Object%5D&originHeight=521&originWidth=1091&size=0&status=done&style=none&width=1091">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1601689629963-ed06c60a-cf08-4b7a-8861-7221d5867530.png#align=left&display=inline&height=217&margin=%5Bobject%20Object%5D&name=image.png&originHeight=298&originWidth=815&size=120558&status=done&style=none&width=594">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1598002637861-61cc6011-de6c-420d-ac94-4e828b65d054.png#align=left&display=inline&height=204&margin=%5Bobject%20Object%5D&name=image.png&originHeight=222&originWidth=665&size=18194&status=done&style=none&width=611">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1598004480060-20c9bec2-bdf9-4330-9c7e-1ff46b8a30d3.png#align=left&display=inline&height=217&margin=%5Bobject%20Object%5D&name=image.png&originHeight=222&originWidth=408&size=13059&status=done&style=none&width=399">
 <meta property="article:published_time" content="2020-08-19T02:17:39.000Z">
-<meta property="article:modified_time" content="2020-12-29T01:45:59.735Z">
+<meta property="article:modified_time" content="2020-12-29T01:58:38.742Z">
 <meta property="article:author" content="yichen">
 <meta property="article:tag" content="网络安全 CTF">
 <meta name="twitter:card" content="summary">
@@ -177,7 +182,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Unsorted-Bin"><span class="post-toc-number">1.</span> <span class="post-toc-text">Unsorted Bin</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#HITCON-Training-lab14-magic-heap"><span class="post-toc-number">2.</span> <span class="post-toc-text">HITCON Training lab14 magic heap</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#2016-0CTF-zerostorage"><span class="post-toc-number">3.</span> <span class="post-toc-text">2016 0CTF zerostorage</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Unsorted-Bin"><span class="post-toc-number">1.</span> <span class="post-toc-text">Unsorted Bin</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#unsorted-bin-attack"><span class="post-toc-number">2.</span> <span class="post-toc-text">unsorted bin attack</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#HITCON-Training-lab14-magic-heap"><span class="post-toc-number">3.</span> <span class="post-toc-text">HITCON Training lab14 magic heap</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#2016-0CTF-zerostorage"><span class="post-toc-number">4.</span> <span class="post-toc-text">2016 0CTF zerostorage</span></a></li></ol>
         </nav>
     </aside>
 
@@ -205,8 +210,8 @@
 <blockquote>
 <p>1、当一个较大的 chunk 被分割成两半后，如果剩下的部分大于 MINSIZE，就会被放到 unsorted bin 中<br>2、释放一个不属于 fast bin 的 chunk，并且该 chunk 不和 top chunk 紧邻时，该 chunk 会被首先放到 unsorted bin 中<br>3、当进行 malloc_consolidate 时，可能会把合并后的 chunk 放到 unsorted bin 中，如果不是和 top chunk 近邻的话</p>
 </blockquote>
-<p>unsorted bin attack 是控制 unsorted bin 的 bk 指针，达到任意地址改为一个较大的数的目的</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> stack_var = <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"The target we want to rewrite on stack: %p -&gt; %ld\n\n"</span>, &amp;stack_var, stack_var);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> *p  = <span class="built_in">malloc</span>(<span class="number">0x80</span>);</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> *p1 = <span class="built_in">malloc</span>(<span class="number">0x10</span>);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Now, we allocate first small chunk on the heap at: %p\n"</span>,p);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">free</span>(p);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"We free the first chunk now. Its bk pointer point to %p\n"</span>, (<span class="keyword">void</span>*)p[<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">    p[<span class="number">1</span>] = (<span class="keyword">unsigned</span> <span class="keyword">long</span>)(&amp;stack_var - <span class="number">2</span>);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"We write it with the target address-0x10: %p\n\n"</span>, (<span class="keyword">void</span>*)p[<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">malloc</span>(<span class="number">0x80</span>);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"Let's malloc again to get the chunk we just free: %p -&gt; %p\n"</span>, &amp;stack_var, (<span class="keyword">void</span>*)stack_var);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="unsorted-bin-attack"><a href="#unsorted-bin-attack" class="headerlink" title="unsorted bin attack"></a>unsorted bin attack</h1><p>unsorted bin attack 是控制 unsorted bin 的 bk 指针，达到任意地址改为一个较大的数的目的</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"unsorted bin attack 实现了把一个超级大的数（unsorted bin 的地址）写到一个地方\n"</span>);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"实际上这种攻击方法常常用来修改 global_max_fast 来为进一步的 fastbin attack 做准备\n\n"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> stack_var=<span class="number">0</span>;</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"我们准备把这个地方 %p 的值 %ld 更改为一个很大的数\n\n"</span>, &amp;stack_var, stack_var);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> *p=<span class="built_in">malloc</span>(<span class="number">0x410</span>);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"一开始先申请一个比较正常的 chunk: %p\n"</span>,p);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"再分配一个避免与 top chunk 合并\n\n"</span>);</span><br><span class="line">    <span class="built_in">malloc</span>(<span class="number">500</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">free</span>(p);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"当我们释放掉第一个 chunk 之后他会被放到 unsorted bin 中，同时它的 bk 指针为 %p\n"</span>,(<span class="keyword">void</span>*)p[<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">    p[<span class="number">1</span>]=(<span class="keyword">unsigned</span> <span class="keyword">long</span>)(&amp;stack_var<span class="number">-2</span>);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"现在假设有个漏洞，可以让我们修改 free 了的 chunk 的 bk 指针\n"</span>);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"我们把目标地址（想要改为超大值的那个地方）减去 0x10 写到 bk 指针:%p\n\n"</span>,(<span class="keyword">void</span>*)p[<span class="number">1</span>]);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">malloc</span>(<span class="number">0x410</span>);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"再去 malloc 的时候可以发现那里的值已经改变为 unsorted bin 的地址\n"</span>);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"%p: %p\n"</span>, &amp;stack_var, (<span class="keyword">void</span>*)stack_var);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><code>gcc -g unsorted_bin_attack.c</code><br>分别在 10、13、16、19 下断点<br>然后运行，一开始先申请两个 chunk，第二个是为了防止与 top chunk 合并</p>
 <figure class="image-bubble">
@@ -218,10 +223,44 @@
             </figure>
 
 <p>当 free 之后，这个 chunk 的 fd、bk 都指向了 unsorted bin 的位置，因为 unsorted bin 是双向链表嘛</p>
-<p>继续，通过 <code>p[1] = (unsigned long)(&amp;stack_var - 2);</code> 把 bk 指针给改掉了 unsigned long 是 8 字节大小的，所以减去 2 之后正好是在 address 这个地方<br>然后再去申请的时候需要把释放的那一块给拿出来，操作如下：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1606572766348-8e1d59d7-ba40-4689-9a98-3d68ed03919d.png#align=left&display=inline&height=343&margin=%5Bobject%20Object%5D&name=image.png&originHeight=494&originWidth=551&size=16018&status=done&style=stroke&width=383" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>继续，通过 <code>p[1] = (unsigned long)(&amp;stack_var - 2);</code> 把 bk 指针给改掉了 unsigned long 是 8 字节大小的，所以减去 2 之后正好是在 address 这个地方</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1606572820505-69cf3182-989d-440f-9b87-6b0c8b845105.png#align=left&display=inline&height=305&margin=%5Bobject%20Object%5D&name=image.png&originHeight=404&originWidth=825&size=17386&status=done&style=stroke&width=622" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后再去申请的时候需要把释放的那一块给拿出来，操作如下：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* remove from unsorted list */</span></span><br><span class="line"><span class="comment">//bck = chunk-&gt;bk</span></span><br><span class="line">unsorted_chunks (av)-&gt;bk = bck;</span><br><span class="line">bck-&gt;fd = unsorted_chunks (av);</span><br></pre></td></tr></table></figure>
 
-<p>把 unsorted bin 的 bk 改为 chunk 的 bk，然后将 chunk 的 bk 所指向的 fd 改为 unsorted bin 的地址<br>同时因为对于一个 chunk 来说 chunk 头是占据 0x10 大小的（也就是图中 address），所以 fd 正好是我们想要改的那个地址</p>
+<p>把 unsorted bin 的 bk 改为 chunk 的 bk，然后将 chunk 的 bk 所指向的 fd 改为 unsorted bin 的地址</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1606572866040-8c8283f8-2e23-4716-8b13-ac2fc7f19447.png#align=left&display=inline&height=303&margin=%5Bobject%20Object%5D&name=image.png&originHeight=458&originWidth=1056&size=29230&status=done&style=stroke&width=698" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1606572899992-2fc6079d-41af-4a93-af85-17b8ee334b7c.png#align=left&display=inline&height=340&margin=%5Bobject%20Object%5D&name=image.png&originHeight=528&originWidth=1108&size=34447&status=done&style=stroke&width=714" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>同时因为对于一个 chunk 来说 chunk 头是占据 0x10 大小的（也就是图中 address），所以 fd 正好是我们想要改的那个地址</p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
@@ -230,6 +269,14 @@
                 <div class="image-caption"></div>
             </figure>
 <p>wiki 的图示</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601689629963-ed06c60a-cf08-4b7a-8861-7221d5867530.png#align=left&display=inline&height=217&margin=%5Bobject%20Object%5D&name=image.png&originHeight=298&originWidth=815&size=120558&status=done&style=none&width=594" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
 <h1 id="HITCON-Training-lab14-magic-heap"><a href="#HITCON-Training-lab14-magic-heap" class="headerlink" title="HITCON Training lab14 magic heap"></a>HITCON Training lab14 magic heap</h1><h1 id="2016-0CTF-zerostorage"><a href="#2016-0CTF-zerostorage" class="headerlink" title="2016 0CTF zerostorage"></a>2016 0CTF zerostorage</h1><p>程序功能如下：</p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
@@ -258,7 +305,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2020-12-29T01:45:59.735Z" itemprop="dateUpdated">2020-12-29 09:45:59</time>
+    最后更新时间：<time datetime="2020-12-29T01:58:38.742Z" itemprop="dateUpdated">2020-12-29 09:58:38</time>
 </span><br>
 
 

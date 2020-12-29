@@ -14,35 +14,30 @@
     
     
     
-    <title>FristiLeaks_1.3 | yichen&#39;s blog</title>
+    <title>[CVE-2010-3333]Microsoft Office RTF 文件 pFragments 属性栈缓冲区溢出漏洞 | yichen&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <meta name="theme-color" content="#3F51B5">
     
     
     <meta name="keywords" content="">
-    <meta name="description" content="要把 MAC 地址改为 08:00:27:A5:A6:76                                                                                              image.png               访问 80 端口，nmap 的结果上有个 robots.txt，挨个访问里面的网址没啥发现扫描目录的结果：">
+    <meta name="description" content="上一篇文档是通过字符串来定位漏洞，这次通过栈回溯来分析漏洞 在这之前貌似先要配置一下符号表：C 盘建一个文件夹：Symbols                                                                                              image.png               SRVC:\Symbolshttp:&#x2F;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="FristiLeaks_1.3">
-<meta property="og:url" content="https://yichen115.github.io/2020/10/21/vtgisq/index.html">
+<meta property="og:title" content="[CVE-2010-3333]Microsoft Office RTF 文件 pFragments 属性栈缓冲区溢出漏洞">
+<meta property="og:url" content="https://yichen115.github.io/2020/12/23/hzyxvk/index.html">
 <meta property="og:site_name" content="yichen&#39;s blog">
-<meta property="og:description" content="要把 MAC 地址改为 08:00:27:A5:A6:76                                                                                              image.png               访问 80 端口，nmap 的结果上有个 robots.txt，挨个访问里面的网址没啥发现扫描目录的结果：">
+<meta property="og:description" content="上一篇文档是通过字符串来定位漏洞，这次通过栈回溯来分析漏洞 在这之前貌似先要配置一下符号表：C 盘建一个文件夹：Symbols                                                                                              image.png               SRVC:\Symbolshttp:&#x2F;">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1603276965506-e5b69b3d-0217-479d-a85c-75dfaf647565.png#align=left&display=inline&height=431&margin=%5Bobject%20Object%5D&name=image.png&originHeight=612&originWidth=886&size=137279&status=done&style=none&width=624">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1603277117844-e33d3308-aae9-4a7b-a6b9-1de1898b1e89.png#align=left&display=inline&height=172&margin=%5Bobject%20Object%5D&name=image.png&originHeight=211&originWidth=434&size=33034&status=done&style=stroke&width=353">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1603277163102-7ebf34c3-8ae5-492d-8a59-dacce9a3e7bd.png#align=left&display=inline&height=418&margin=%5Bobject%20Object%5D&name=image.png&originHeight=836&originWidth=822&size=269300&status=done&style=stroke&width=411">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1603277269316-22aaa0de-fd05-409e-834e-cd764cedcd72.png#align=left&display=inline&height=256&margin=%5Bobject%20Object%5D&name=image.png&originHeight=452&originWidth=1260&size=91222&status=done&style=stroke&width=715">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1603277725733-d00f5885-770d-40b4-88d7-b2010383d2aa.png#align=left&display=inline&height=82&margin=%5Bobject%20Object%5D&name=image.png&originHeight=163&originWidth=830&size=47904&status=done&style=stroke&width=415">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1603277811311-18ca785c-4b3a-41af-ae78-7275cd1d8b0f.png#align=left&display=inline&height=85&margin=%5Bobject%20Object%5D&name=image.png&originHeight=116&originWidth=835&size=6598&status=done&style=stroke&width=613">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1603277893559-bdf0ac05-1b16-4288-9e21-04cf98e3b57c.png#align=left&display=inline&height=53&margin=%5Bobject%20Object%5D&name=image.png&originHeight=80&originWidth=482&size=5527&status=done&style=stroke&width=321">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1603278793678-7dfd36a1-ffbb-486a-a236-34262a6fb34b.png#align=left&display=inline&height=257&margin=%5Bobject%20Object%5D&name=image.png&originHeight=399&originWidth=805&size=36459&status=done&style=stroke&width=519">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1603589780205-b77deb3d-e098-4740-b9f2-0a5dc42894d3.png#align=left&display=inline&height=475&margin=%5Bobject%20Object%5D&name=image.png&originHeight=735&originWidth=859&size=711963&status=done&style=none&width=554">
-<meta property="article:published_time" content="2020-10-21T08:41:50.000Z">
-<meta property="article:modified_time" content="2020-12-29T01:45:59.831Z">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608731650857-9ef05c42-9a92-41c0-b847-d2b78e7306ae.png#align=left&display=inline&height=270&margin=%5Bobject%20Object%5D&name=image.png&originHeight=328&originWidth=343&size=15217&status=done&style=none&width=282">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608731706790-52e60fff-b238-44d5-888f-74124c6308c5.png#align=left&display=inline&height=213&margin=%5Bobject%20Object%5D&name=image.png&originHeight=213&originWidth=561&size=15599&status=done&style=none&width=561">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608727763192-c414fc0f-16cf-4189-8f66-8911a7613db2.png#align=left&display=inline&height=330&margin=%5Bobject%20Object%5D&name=image.png&originHeight=393&originWidth=694&size=52799&status=done&style=none&width=582">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608731790878-2d6af5d1-7848-4a1b-b333-0b1e3963b36b.png#align=left&display=inline&height=83&margin=%5Bobject%20Object%5D&name=image.png&originHeight=83&originWidth=411&size=4119&status=done&style=stroke&width=411">
+<meta property="article:published_time" content="2020-12-23T05:17:58.000Z">
+<meta property="article:modified_time" content="2020-12-29T01:58:38.830Z">
 <meta property="article:author" content="yichen">
 <meta property="article:tag" content="网络安全 CTF">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1603276965506-e5b69b3d-0217-479d-a85c-75dfaf647565.png#align=left&display=inline&height=431&margin=%5Bobject%20Object%5D&name=image.png&originHeight=612&originWidth=886&size=137279&status=done&style=none&width=624">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1608731650857-9ef05c42-9a92-41c0-b847-d2b78e7306ae.png#align=left&display=inline&height=270&margin=%5Bobject%20Object%5D&name=image.png&originHeight=328&originWidth=343&size=15217&status=done&style=none&width=282">
     
         <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
     
@@ -137,7 +132,7 @@
         <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
           <i class="icon icon-lg icon-navicon"></i>
         </a>
-        <div class="flex-col header-title ellipsis">FristiLeaks_1.3</div>
+        <div class="flex-col header-title ellipsis">[CVE-2010-3333]Microsoft Office RTF 文件 pFragments 属性栈缓冲区溢出漏洞</div>
         
         <div class="search-wrap" id="search-wrap">
             <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
@@ -159,11 +154,11 @@
 <header class="content-header post-header">
 
     <div class="container fade-scale">
-        <h1 class="title">FristiLeaks_1.3</h1>
+        <h1 class="title">[CVE-2010-3333]Microsoft Office RTF 文件 pFragments 属性栈缓冲区溢出漏洞</h1>
         <h5 class="subtitle">
             
-                <time datetime="2020-10-21T08:41:50.000Z" itemprop="datePublished" class="page-time">
-  2020-10-21
+                <time datetime="2020-12-23T05:17:58.000Z" itemprop="datePublished" class="page-time">
+  2020-12-23
 </time>
 
 
@@ -180,13 +175,13 @@
 <div class="container body-wrap">
     
 
-<article id="post-vtgisq"
+<article id="post-hzyxvk"
   class="post-article article-type-post fade" itemprop="blogPost">
 
     <div class="post-card">
-        <h1 class="post-card-title">FristiLeaks_1.3</h1>
+        <h1 class="post-card-title">[CVE-2010-3333]Microsoft Office RTF 文件 pFragments 属性栈缓冲区溢出漏洞</h1>
         <div class="post-meta">
-            <time class="post-time" title="2020-10-21 16:41:50" datetime="2020-10-21T08:41:50.000Z"  itemprop="datePublished">2020-10-21</time>
+            <time class="post-time" title="2020-12-23 13:17:58" datetime="2020-12-23T05:17:58.000Z"  itemprop="datePublished">2020-12-23</time>
 
             
 
@@ -199,88 +194,50 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <p>要把 MAC 地址改为 08:00:27:A5:A6:76</p>
+            <p>上一篇文档是通过字符串来定位漏洞，这次通过栈回溯来分析漏洞</p>
+<p>在这之前貌似先要配置一下符号表：<br>C 盘建一个文件夹：Symbols</p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1603276965506-e5b69b3d-0217-479d-a85c-75dfaf647565.png#align=left&display=inline&height=431&margin=%5Bobject%20Object%5D&name=image.png&originHeight=612&originWidth=886&size=137279&status=done&style=none&width=624" alt="image.png" title="">
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608731650857-9ef05c42-9a92-41c0-b847-d2b78e7306ae.png#align=left&display=inline&height=270&margin=%5Bobject%20Object%5D&name=image.png&originHeight=328&originWidth=343&size=15217&status=done&style=none&width=282" alt="image.png" title="">
                 </div>
                 <div class="image-caption">image.png</div>
             </figure>
 
-<p>访问 80 端口，nmap 的结果上有个 robots.txt，挨个访问里面的网址没啥发现<br>扫描目录的结果：</p>
+<p>SRV<em>C:\Symbols</em><a href="http://msdl.microsoft.com/download/symbols" target="_blank" rel="noopener">http://msdl.microsoft.com/download/symbols</a></p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1603277117844-e33d3308-aae9-4a7b-a6b9-1de1898b1e89.png#align=left&display=inline&height=172&margin=%5Bobject%20Object%5D&name=image.png&originHeight=211&originWidth=434&size=33034&status=done&style=stroke&width=353" alt="image.png" title="">
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608731706790-52e60fff-b238-44d5-888f-74124c6308c5.png#align=left&display=inline&height=213&margin=%5Bobject%20Object%5D&name=image.png&originHeight=213&originWidth=561&size=15599&status=done&style=none&width=561" alt="image.png" title="">
                 </div>
                 <div class="image-caption">image.png</div>
             </figure>
 
-<p><a href="http://192.168.17.139/fristi/" target="_blank" rel="noopener">http://192.168.17.139/fristi/</a> 是一个登录页面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">search cve-2010-3333</span><br><span class="line">use exploit&#x2F;windows&#x2F;fileformat&#x2F;ms10_087_rtf_pfragments_bof</span><br><span class="line">set target 6</span><br><span class="line">exploit</span><br></pre></td></tr></table></figure>
+
+<p>使用 msf 生成一个能够 crash 的文件，然后打开 office word，windbg 附加进程之后 g 运行起来</p>
+<p>然后把 msf 生成的文件拖进去打开，这时候 windbg 会断下来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">30e9eb88 f3a5            rep movs dword ptr es:[edi],dword ptr [esi]</span><br></pre></td></tr></table></figure>
+
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1603277163102-7ebf34c3-8ae5-492d-8a59-dacce9a3e7bd.png#align=left&display=inline&height=418&margin=%5Bobject%20Object%5D&name=image.png&originHeight=836&originWidth=822&size=269300&status=done&style=stroke&width=411" alt="image.png" title="">
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608727763192-c414fc0f-16cf-4189-8f66-8911a7613db2.png#align=left&display=inline&height=330&margin=%5Bobject%20Object%5D&name=image.png&originHeight=393&originWidth=694&size=52799&status=done&style=none&width=582" alt="image.png" title="">
                 </div>
                 <div class="image-caption">image.png</div>
             </figure>
 
-<p>注释里面有串 base64，解出来 png 开头，应该是个图片</p>
+<p>这时候看一下 edi 中的地址：<code>!address edi</code></p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1603277269316-22aaa0de-fd05-409e-834e-cd764cedcd72.png#align=left&display=inline&height=256&margin=%5Bobject%20Object%5D&name=image.png&originHeight=452&originWidth=1260&size=91222&status=done&style=stroke&width=715" alt="image.png" title="">
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1608731790878-2d6af5d1-7848-4a1b-b333-0b1e3963b36b.png#align=left&display=inline&height=83&margin=%5Bobject%20Object%5D&name=image.png&originHeight=83&originWidth=411&size=4119&status=done&style=stroke&width=411" alt="image.png" title="">
                 </div>
                 <div class="image-caption">image.png</div>
             </figure>
 
-<p>kali 下直接 <code>base64 -d flag &gt; 1.png</code></p>
-<p>得到一张图片，内容是：keKkeKKeKKeKkEkkEk</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1603277725733-d00f5885-770d-40b4-88d7-b2010383d2aa.png#align=left&display=inline&height=82&margin=%5Bobject%20Object%5D&name=image.png&originHeight=163&originWidth=830&size=47904&status=done&style=stroke&width=415" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>同时注释中还有这么一段</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1603277811311-18ca785c-4b3a-41af-ae78-7275cd1d8b0f.png#align=left&display=inline&height=85&margin=%5Bobject%20Object%5D&name=image.png&originHeight=116&originWidth=835&size=6598&status=done&style=stroke&width=613" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>试一下 eezeepz::keKkeKKeKKeKkEkkEk 登录一下<br>登录成功！有一个上传文件的地方</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1603277893559-bdf0ac05-1b16-4288-9e21-04cf98e3b57c.png#align=left&display=inline&height=53&margin=%5Bobject%20Object%5D&name=image.png&originHeight=80&originWidth=482&size=5527&status=done&style=stroke&width=321" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>只能上传 png、jpg、gif</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1603278793678-7dfd36a1-ffbb-486a-a236-34262a6fb34b.png#align=left&display=inline&height=257&margin=%5Bobject%20Object%5D&name=image.png&originHeight=399&originWidth=805&size=36459&status=done&style=stroke&width=519" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
-
-<p>可以利用 apache 的解析漏洞传一个 xxx.php.jpg 的上去，然后 php 写个反弹 shell<br>（再次记录一下下面这一句，总是忘了 Orz）<br><code>python -c &quot;import pty;pty.spawn(&#39;/bin/bash&#39;)&quot;</code></p>
-<p>利用脏牛提权<br><a href="https://www.exploit-db.com/exploits/40839" target="_blank" rel="noopener">https://www.exploit-db.com/exploits/40839</a><br><code>gcc -pthread 40839.c -o exe -lcrypt</code><br>用这个的时候注意换到 /bin/bash 这一个，之前在蚁剑的终端里试了几次没交互效果</p>
-<figure class="image-bubble">
-                <div class="img-lightbox">
-                    <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1603589780205-b77deb3d-e098-4740-b9f2-0a5dc42894d3.png#align=left&display=inline&height=475&margin=%5Bobject%20Object%5D&name=image.png&originHeight=735&originWidth=859&size=711963&status=done&style=none&width=554" alt="image.png" title="">
-                </div>
-                <div class="image-caption">image.png</div>
-            </figure>
+<p>可以看到权限是 PAGE_READONLY，所以往这里写的时候出现了异常</p>
+<p>摁下 ctrl+shift+f5 重新运行软件，会有个 int 3 断下来，g 让他运行起来，然后 ctrl+pause break 暂停，下个断点<br>bp 30e9eb88 再运行起来，把文件拖进去打开，断下来之后使用 kv 查看函数调用栈</p>
 
         </div>
 
@@ -289,7 +246,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2020-12-29T01:45:59.831Z" itemprop="dateUpdated">2020-12-29 09:45:59</time>
+    最后更新时间：<time datetime="2020-12-29T01:58:38.830Z" itemprop="dateUpdated">2020-12-29 09:58:38</time>
 </span><br>
 
 
@@ -321,7 +278,7 @@
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/10/21/vtgisq/&title=《FristiLeaks_1.3》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/12/23/hzyxvk/&title=《[CVE-2010-3333]Microsoft Office RTF 文件 pFragments 属性栈缓冲区溢出漏洞》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -331,22 +288,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/10/21/vtgisq/&title=《FristiLeaks_1.3》 — yichen's blog&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/12/23/hzyxvk/&title=《[CVE-2010-3333]Microsoft Office RTF 文件 pFragments 属性栈缓冲区溢出漏洞》 — yichen's blog&source=" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/10/21/vtgisq/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/12/23/hzyxvk/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《FristiLeaks_1.3》 — yichen's blog&url=https://yichen115.github.io/2020/10/21/vtgisq/&via=https://yichen115.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《[CVE-2010-3333]Microsoft Office RTF 文件 pFragments 属性栈缓冲区溢出漏洞》 — yichen's blog&url=https://yichen115.github.io/2020/12/23/hzyxvk/&via=https://yichen115.github.io" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/10/21/vtgisq/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/12/23/hzyxvk/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -371,9 +328,9 @@
 
   
     <div class="waves-block waves-effect next">
-      <a href="/2020/10/17/oiegm9/" id="post-next" class="post-nav-link">
+      <a href="/2020/12/20/rfnt46/" id="post-next" class="post-nav-link">
         <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
-        <h4 class="title">SickOs1.1</h4>
+        <h4 class="title">[CVE-2010-2883]Adobe Reader TTF 字体SING表栈溢出漏洞</h4>
       </a>
     </div>
   
@@ -473,7 +430,7 @@
 <div class="global-share" id="globalShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/10/21/vtgisq/&title=《FristiLeaks_1.3》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/12/23/hzyxvk/&title=《[CVE-2010-3333]Microsoft Office RTF 文件 pFragments 属性栈缓冲区溢出漏洞》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -483,22 +440,22 @@
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/10/21/vtgisq/&title=《FristiLeaks_1.3》 — yichen's blog&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/12/23/hzyxvk/&title=《[CVE-2010-3333]Microsoft Office RTF 文件 pFragments 属性栈缓冲区溢出漏洞》 — yichen's blog&source=" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/10/21/vtgisq/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/12/23/hzyxvk/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《FristiLeaks_1.3》 — yichen's blog&url=https://yichen115.github.io/2020/10/21/vtgisq/&via=https://yichen115.github.io" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《[CVE-2010-3333]Microsoft Office RTF 文件 pFragments 属性栈缓冲区溢出漏洞》 — yichen's blog&url=https://yichen115.github.io/2020/12/23/hzyxvk/&via=https://yichen115.github.io" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/10/21/vtgisq/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/12/23/hzyxvk/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -509,7 +466,7 @@
 <div class="page-modal wx-share" id="wxShare">
     <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
-    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2020/10/21/vtgisq/" alt="微信分享二维码">
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2020/12/23/hzyxvk/" alt="微信分享二维码">
 </div>
 
 

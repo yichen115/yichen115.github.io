@@ -21,12 +21,12 @@
     
     
     <meta name="keywords" content="">
-    <meta name="description" content="Use After Free内存释放后没有进行置 NULL，导致可以对这块内存再次使用                                                                                              image.png               HITCON training lab10 hacknote有一个 cat f">
+    <meta name="description" content="Use After Free内存释放后没有把指针置 NULL，导致可以对这块内存再次使用                                                                                              image.png               HITCON training lab10 hacknote有一个 cat">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Use After Free">
 <meta property="og:url" content="https://yichen115.github.io/2020/08/06/hudwg3/index.html">
 <meta property="og:site_name" content="yichen&#39;s blog">
-<meta property="og:description" content="Use After Free内存释放后没有进行置 NULL，导致可以对这块内存再次使用                                                                                              image.png               HITCON training lab10 hacknote有一个 cat f">
+<meta property="og:description" content="Use After Free内存释放后没有把指针置 NULL，导致可以对这块内存再次使用                                                                                              image.png               HITCON training lab10 hacknote有一个 cat">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1596671864413-16ed8e79-4fe9-496a-8706-932bc6a81238.png#align=left&display=inline&height=308&margin=%5Bobject%20Object%5D&name=image.png&originHeight=451&originWidth=572&size=95448&status=done&style=stroke&width=390">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1596672767373-25f341f9-7ae5-458d-89b1-8b64ea9c12ee.png#align=left&display=inline&height=256&margin=%5Bobject%20Object%5D&name=image.png&originHeight=383&originWidth=836&size=38494&status=done&style=none&width=558">
@@ -43,7 +43,7 @@
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1596707644143-0daa40aa-b985-468a-86af-09d479a18b98.png#align=left&display=inline&height=198&margin=%5Bobject%20Object%5D&name=image.png&originHeight=276&originWidth=902&size=71546&status=done&style=none&width=647">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1596721846641-90005680-cd99-4dfc-83ac-fe0369e3a1ac.png#align=left&display=inline&height=355&margin=%5Bobject%20Object%5D&name=image.png&originHeight=468&originWidth=773&size=104677&status=done&style=none&width=587">
 <meta property="article:published_time" content="2020-08-05T23:33:35.000Z">
-<meta property="article:modified_time" content="2020-12-29T01:45:59.819Z">
+<meta property="article:modified_time" content="2020-12-29T01:58:38.822Z">
 <meta property="article:author" content="yichen">
 <meta property="article:tag" content="网络安全 CTF">
 <meta name="twitter:card" content="summary">
@@ -211,7 +211,7 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <h1 id="Use-After-Free"><a href="#Use-After-Free" class="headerlink" title="Use After Free"></a>Use After Free</h1><p>内存释放后没有进行置 NULL，导致可以对这块内存再次使用</p>
+            <h1 id="Use-After-Free"><a href="#Use-After-Free" class="headerlink" title="Use After Free"></a>Use After Free</h1><p>内存释放后没有把指针置 NULL，导致可以对这块内存再次使用</p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
@@ -362,7 +362,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2020-12-29T01:45:59.819Z" itemprop="dateUpdated">2020-12-29 09:45:59</time>
+    最后更新时间：<time datetime="2020-12-29T01:58:38.822Z" itemprop="dateUpdated">2020-12-29 09:58:38</time>
 </span><br>
 
 

