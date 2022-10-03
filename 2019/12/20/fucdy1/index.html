@@ -21,21 +21,21 @@
     
     
     <meta name="keywords" content="">
-    <meta name="description" content="docker 快速入门docker 在线实验                                                                                              image.png               基本操作启动systemctl start docker 守护进程重启systemctl daemon-reload 重">
+    <meta name="description" content="docker 快速入门docker 在线实验                                                                                              image.png               安装curl -fsSL https:&#x2F;&#x2F;get.docker.com -o get-docker.shsh get-d">
 <meta property="og:type" content="article">
 <meta property="og:title" content="docker相关">
 <meta property="og:url" content="https://yichen115.github.io/2019/12/20/fucdy1/index.html">
 <meta property="og:site_name" content="yichen&#39;s blog">
-<meta property="og:description" content="docker 快速入门docker 在线实验                                                                                              image.png               基本操作启动systemctl start docker 守护进程重启systemctl daemon-reload 重">
+<meta property="og:description" content="docker 快速入门docker 在线实验                                                                                              image.png               安装curl -fsSL https:&#x2F;&#x2F;get.docker.com -o get-docker.shsh get-d">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1576829447658-5cd072ce-9953-4177-8c7d-1e49c2413016.png#align=left&display=inline&height=321&margin=%5Bobject%20Object%5D&name=image.png&originHeight=641&originWidth=964&size=46462&status=done&style=none&width=482">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1598164967355-e9d8c25a-e001-4bfb-9fec-3fdb674cfc99.png#align=left&display=inline&height=282&margin=%5Bobject%20Object%5D&name=image.png&originHeight=563&originWidth=1886&size=78548&status=done&style=stroke&width=943">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1576829447658-5cd072ce-9953-4177-8c7d-1e49c2413016.png#height=321&id=YWEPu&name=image.png&originHeight=641&originWidth=964&originalType=binary%E2%88%B6=1&size=46462&status=done&style=none&width=482">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1598164967355-e9d8c25a-e001-4bfb-9fec-3fdb674cfc99.png#height=282&id=ZvPwx&name=image.png&originHeight=563&originWidth=1886&originalType=binary%E2%88%B6=1&size=78548&status=done&style=stroke&width=943">
 <meta property="article:published_time" content="2019-12-20T06:58:21.000Z">
-<meta property="article:modified_time" content="2022-10-03T13:52:43.665Z">
+<meta property="article:modified_time" content="2022-10-03T14:07:54.898Z">
 <meta property="article:author" content="yichen">
 <meta property="article:tag" content="网络安全 CTF">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1576829447658-5cd072ce-9953-4177-8c7d-1e49c2413016.png#align=left&display=inline&height=321&margin=%5Bobject%20Object%5D&name=image.png&originHeight=641&originWidth=964&size=46462&status=done&style=none&width=482">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1576829447658-5cd072ce-9953-4177-8c7d-1e49c2413016.png#height=321&id=YWEPu&name=image.png&originHeight=641&originWidth=964&originalType=binary%E2%88%B6=1&size=46462&status=done&style=none&width=482">
     
         <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
     
@@ -175,7 +175,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#基本操作"><span class="post-toc-number">1.</span> <span class="post-toc-text">基本操作</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#搭建-web-环境"><span class="post-toc-number">2.</span> <span class="post-toc-text">搭建 web 环境</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#搭建-pwn-环境"><span class="post-toc-number">3.</span> <span class="post-toc-text">搭建 pwn 环境</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#复现环境"><span class="post-toc-number">4.</span> <span class="post-toc-text">复现环境</span></a></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#安装"><span class="post-toc-number">1.</span> <span class="post-toc-text">安装</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#基本操作"><span class="post-toc-number">2.</span> <span class="post-toc-text">基本操作</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#搭建-web-环境"><span class="post-toc-number">3.</span> <span class="post-toc-text">搭建 web 环境</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#搭建-pwn-环境"><span class="post-toc-number">4.</span> <span class="post-toc-text">搭建 pwn 环境</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#复现环境"><span class="post-toc-number">5.</span> <span class="post-toc-text">复现环境</span></a></li></ol>
         </nav>
     </aside>
 
@@ -203,16 +203,18 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1576829447658-5cd072ce-9953-4177-8c7d-1e49c2413016.png#align=left&display=inline&height=321&margin=%5Bobject%20Object%5D&name=image.png&originHeight=641&originWidth=964&size=46462&status=done&style=none&width=482" alt="image.png" title="">
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1576829447658-5cd072ce-9953-4177-8c7d-1e49c2413016.png#height=321&id=YWEPu&name=image.png&originHeight=641&originWidth=964&originalType=binary∶=1&size=46462&status=done&style=none&width=482" alt="image.png" title="">
                 </div>
                 <div class="image-caption">image.png</div>
             </figure>
 
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>curl -fsSL <a href="https://get.docker.com" target="_blank" rel="noopener">https://get.docker.com</a> -o get-docker.sh<br>sh get-docker.sh –mirror Aliyun</p>
 <h1 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h1><p>启动<br><code>systemctl start docker</code></p>
 <p>守护进程重启<br><code>systemctl daemon-reload</code></p>
 <p>重启 docker 服务<br><code>systemctl restart docker / service docker restart</code></p>
 <p>关闭<br><code>docker service docker stop / docker systemctl stop docker</code></p>
 <p>运行一个容器，命名为 yichen<br><code>docker run -d -p 10001:80 --name yichen apacje</code></p>
+<p>挂载目录<br><code>-v /root/:/root/</code></p>
 <p>进入容器里面，开一个 bash<br><code>docker exec -it id /bin/bash</code></p>
 <p>重启容器<br><code>docker restart id</code></p>
 <p>关闭容器<br><code>docker stop id</code></p>
@@ -224,7 +226,7 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1598164967355-e9d8c25a-e001-4bfb-9fec-3fdb674cfc99.png#align=left&display=inline&height=282&margin=%5Bobject%20Object%5D&name=image.png&originHeight=563&originWidth=1886&size=78548&status=done&style=stroke&width=943" alt="image.png" title="">
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1598164967355-e9d8c25a-e001-4bfb-9fec-3fdb674cfc99.png#height=282&id=ZvPwx&name=image.png&originHeight=563&originWidth=1886&originalType=binary∶=1&size=78548&status=done&style=stroke&width=943" alt="image.png" title="">
                 </div>
                 <div class="image-caption">image.png</div>
             </figure>
@@ -241,7 +243,7 @@
 </blockquote>
 <h1 id="搭建-pwn-环境"><a href="#搭建-pwn-环境" class="headerlink" title="搭建 pwn 环境"></a>搭建 pwn 环境</h1><p>这样可以在实体机单个匹配一条命令<br><code>socat tcp-l:8887,fork exec:./pwn1</code></p>
 <p><del>把 xinetd 下下来  ~</del><a href="https://github.com/Eadom/ctf_xinetd" target="_blank" rel="noopener"><del>https://github.com/Eadom/ctf_xinetd</del></a><br><del>题目复制到 bin 文件夹，把 ctf.xinetd 的命令改成运行的</del><br><del>（之前是 ./helloworld，改成自己的文件名）</del><br><del>xinetd 里面 Dockerfile 里面的清华的源不行，换成阿里的</del></p>
-<p><del>打开，把 pub_port 改成想要的端口</del><br><del><code>docker run -d -p &quot;0.0.0.0:pub_port:9999&quot; -h &quot;helloworld&quot; --name=&quot;helloworld&quot; helloworld</code></del></p>
+<p><del>打开，把 pub_port 改成想要的端口</del><br><code>~~docker run -d -p &quot;0.0.0.0:pub_port:9999&quot; -h &quot;helloworld&quot; --name=&quot;helloworld&quot; helloworld~~</code></p>
 <p><strong>有个更好的方法：</strong></p>
 <p>把文件下载下来<br><code>git clone https://github.com/giantbranch/pwn_deploy_chroot.git</code></p>
 <p>然后把所有题目直接改好名字，放在  bin  文件夹<br>运行 <code>python initialize.py</code>  分配好  flag，会把分配的  flag  放在  flags.txt<br>运行  <code>docker-compose up --build -d</code></p>
@@ -250,8 +252,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Whether to replace /bin/sh</span></span><br><span class="line">REPLACE_BINSH = <span class="literal">False</span></span><br></pre></td></tr></table></figure>
 
 <h1 id="复现环境"><a href="#复现环境" class="headerlink" title="复现环境"></a>复现环境</h1><p>安装 docker-compose<br><code>sudo apt install docker-compose</code></p>
-<p>拉起环境</p>
-<p><code>docker-compose up -d</code><br>docker-compose.yml 中查看端口，访问即可</p>
+<p>拉起环境<br><code>docker-compose up -d</code><br>docker-compose.yml 中查看端口，访问即可</p>
 <p>出现 AttributeError: ‘module’ object has no attribute ‘SSL_ST_INIT’问题：<br>解决：<br><code>rm -rf /usr/lib/python2.7/dist-packages/OpenSSL</code><br><code>rm -rf /usr/lib/python2.7/dist-packages/pyOpenSSL-0.15.1.egg-info</code><br><code>sudo pip install pyopenssl</code></p>
 
         </div>
@@ -261,7 +262,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2022-10-03T13:52:43.665Z" itemprop="dateUpdated">2022-10-03 21:52:43</time>
+    最后更新时间：<time datetime="2022-10-03T14:07:54.898Z" itemprop="dateUpdated">2022-10-03 22:07:54</time>
 </span><br>
 
 

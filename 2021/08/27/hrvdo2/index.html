@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>MISC磁盘内存取证 | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="磁盘取证encrypt.vmdk使用 7zip 可以直接打开                                                                                              image.png               在 winhex 里面找到了一部分 flag">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MISC磁盘内存取证">
+<meta property="og:url" content="https://yichen115.github.io/2021/08/27/hrvdo2/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="磁盘取证encrypt.vmdk使用 7zip 可以直接打开                                                                                              image.png               在 winhex 里面找到了一部分 flag">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630025751782-75e30550-ce77-4303-8654-41e2c8a7528e.png#clientId=u3e5c2c48-000c-4&from=paste&height=198&id=ubed11061&name=image.png&originHeight=221&originWidth=475&originalType=binary%E2%88%B6=1&size=18751&status=done&style=stroke&taskId=ua9e1bbc9-e01d-4b8f-8312-b82310ee74b&width=426.4919891357422">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630025803358-237c6b6f-63e7-4c5e-ac80-8f339bd5a61f.png#clientId=u3e5c2c48-000c-4&from=paste&height=349&id=u1b153f0f&name=image.png&originHeight=467&originWidth=717&originalType=binary%E2%88%B6=1&size=55184&status=done&style=stroke&taskId=u543ff3e0-116f-4b18-98d2-37efd0db212&width=535.4999694824219">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630030983442-33e2d0dd-f04f-47e3-8aac-b918dbc87772.png#clientId=u85339439-0fc3-4&from=paste&height=487&id=uee7096fa&name=image.png&originHeight=637&originWidth=752&originalType=binary%E2%88%B6=1&size=41090&status=done&style=stroke&taskId=u679b7dce-38cf-4e0b-b607-32bc4237c2f&width=574.9959716796875">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630031055335-f830f76e-ba26-457d-9afc-acb7290105dd.png#clientId=u85339439-0fc3-4&from=paste&height=176&id=ud1791609&name=image.png&originHeight=242&originWidth=660&originalType=binary%E2%88%B6=1&size=15386&status=done&style=none&taskId=ua7df83e3-ffed-447e-84ab-53dcd7f8d3b&width=480.9999694824219">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630031081707-c482dd17-95a3-4a80-a795-0de1f21ce5cd.png#clientId=u85339439-0fc3-4&from=paste&height=47&id=u97ccb38e&name=image.png&originHeight=54&originWidth=720&originalType=binary%E2%88%B6=1&size=5117&status=done&style=none&taskId=uff6f3a90-5ba6-42d2-b589-56c62aeb10c&width=631.9999694824219">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630031106752-fa96cc6b-75e0-47b9-ba20-7c4b9c2a8ec4.png#clientId=u85339439-0fc3-4&from=paste&height=313&id=ub8b30545&name=image.png&originHeight=494&originWidth=382&originalType=binary%E2%88%B6=1&size=53005&status=done&style=stroke&taskId=u6ed3dff0-6535-49b5-b2f7-3d543094ac0&width=241.99197387695312">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630031271175-2e11feb9-6dea-4667-aa87-5d10fb0e86ae.png#clientId=u85339439-0fc3-4&from=paste&height=184&id=u725aa427&name=image.png&originHeight=231&originWidth=526&originalType=binary%E2%88%B6=1&size=13569&status=done&style=stroke&taskId=uf91ea6f0-8680-4b78-86ee-350ec3bcf26&width=417.9919738769531">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630032671841-6ac6cb46-c593-49cf-a17f-e72c8973d45c.png#clientId=u85339439-0fc3-4&from=paste&height=127&id=u59e7666b&name=image.png&originHeight=204&originWidth=448&originalType=binary%E2%88%B6=1&size=17089&status=done&style=stroke&taskId=uf0eca323-e930-4368-b3fa-566a0bcc790&width=279.9919891357422">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630032685968-8200ab67-d23d-465b-bb51-2fc5ea7602e9.png#clientId=u85339439-0fc3-4&from=paste&height=180&id=uee00709d&name=image.png&originHeight=280&originWidth=469&originalType=binary%E2%88%B6=1&size=20457&status=done&style=stroke&taskId=u509a9de5-2893-4e35-9779-9e9fd54939f&width=301.4919891357422">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630032720459-b2610fc6-a829-4804-b11c-aa2e35c84957.png#clientId=u85339439-0fc3-4&from=paste&height=238&id=u0b6f13ae&name=image.png&originHeight=250&originWidth=155&originalType=binary%E2%88%B6=1&size=4578&status=done&style=stroke&taskId=udba56c82-1b55-4e46-9dda-1da98823460&width=147.4959945678711">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630044653471-70ab365d-2e03-4262-9c79-d7e96187331e.png#clientId=u02bd8564-bc96-4&from=paste&height=238&id=u0f79dc37&name=image.png&originHeight=450&originWidth=1221&originalType=binary%E2%88%B6=1&size=82586&status=done&style=none&taskId=uc6a4138a-e58b-4476-b591-efea2dc3919&width=644.4999389648438">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630045327135-b8238655-edb0-4ca1-9665-6dd3c208b477.png#clientId=u6846ba66-e36b-4&from=paste&height=216&id=uaa0883cd&name=image.png&originHeight=432&originWidth=1491&originalType=binary%E2%88%B6=1&size=95077&status=done&style=none&taskId=u70206a88-0b93-4743-b59b-1336661961d&width=745.5">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630044760392-44f7da3e-7e16-4946-be40-9dbe80559b48.png#clientId=u02bd8564-bc96-4&from=paste&height=149&id=u8b1077a1&name=image.png&originHeight=239&originWidth=1223&originalType=binary%E2%88%B6=1&size=56531&status=done&style=none&taskId=u85f1abd5-cb3b-4826-8825-896d81eea7b&width=760.4959716796875">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630045534120-94a463af-c041-4a46-a927-044bed9a762f.png#clientId=u6846ba66-e36b-4&from=paste&height=52&id=u2f33b3ea&name=image.png&originHeight=89&originWidth=1463&originalType=binary%E2%88%B6=1&size=22213&status=done&style=none&taskId=uba7ce75c-3808-40af-b8b5-fbe5a5502ef&width=850.4959716796875">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630046097459-afc866e6-3721-49b1-8a64-2feda3576fa9.png#clientId=u6846ba66-e36b-4&from=paste&height=453&id=u0000a190&name=image.png&originHeight=670&originWidth=878&originalType=binary%E2%88%B6=1&size=122079&status=done&style=stroke&taskId=u5241c489-1921-4b6f-8728-df93516631b&width=592.9959716796875">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630046200122-b37b6adf-6ae4-4cb5-ab8e-d8592a7173e4.png#clientId=u6846ba66-e36b-4&from=paste&height=150&id=uce8c5e1e&name=image.png&originHeight=160&originWidth=441&originalType=binary%E2%88%B6=1&size=54445&status=done&style=none&taskId=u07ba9222-6e09-45f4-ad6a-381a0d4e579&width=414.49998474121094">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630046290170-f72b642d-6e4e-4b27-a569-e096e9b7d335.png#clientId=u6846ba66-e36b-4&from=paste&height=105&id=u8387dbdf&name=image.png&originHeight=107&originWidth=254&originalType=binary%E2%88%B6=1&size=19989&status=done&style=none&taskId=ua4ad43e7-d832-4c7c-95e5-2eb585c0da8&width=248.9959945678711">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630046512192-a0a3a9eb-127b-4687-8395-e3aa74a0378d.png#clientId=u6846ba66-e36b-4&from=paste&height=196&id=uc071726d&name=image.png&originHeight=335&originWidth=1170&originalType=binary%E2%88%B6=1&size=30528&status=done&style=stroke&taskId=u1e6c0122-1196-4a1c-8fad-1bb17eb0ac0&width=685.9999389648438">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630048978012-df376076-9d33-4f69-b513-9601a02f309c.png#clientId=u6846ba66-e36b-4&from=paste&height=201&id=uc4f6a2e6&name=image.png&originHeight=204&originWidth=282&originalType=binary%E2%88%B6=1&size=12588&status=done&style=none&taskId=u54d7238f-5a1e-4278-ad88-743c3a71d77&width=277.9999694824219">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630048731068-5b75cca2-6aff-4d32-a71a-38272394fc9d.png#clientId=u6846ba66-e36b-4&from=paste&height=260&id=u1979cdb1&name=image.png&originHeight=347&originWidth=760&originalType=binary%E2%88%B6=1&size=20376&status=done&style=none&taskId=u1bc02c4c-1481-4911-ae42-baa7025dfbd&width=569.9879760742188">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630049023395-7963315e-d8f2-4291-9d62-efa4a51f8dd3.png#clientId=u6846ba66-e36b-4&from=paste&height=196&id=u4b4094df&name=image.png&originHeight=328&originWidth=1024&originalType=binary%E2%88%B6=1&size=40137&status=done&style=none&taskId=u33f574a0-8d36-4689-a3bd-6fd846fdfba&width=612.991943359375">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630049083921-a7a210b3-dd57-464e-8dff-a36a5185f79b.png#clientId=u6846ba66-e36b-4&from=paste&height=211&id=u54421bf9&name=image.png&originHeight=284&originWidth=667&originalType=binary%E2%88%B6=1&size=25634&status=done&style=stroke&taskId=u7900bd6e-2554-4d39-9c29-7ddae09ed85&width=496.4919738769531">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630049192003-6e6b01ec-4633-4601-9f86-9de271a4e382.png#clientId=u6846ba66-e36b-4&from=paste&height=222&id=uc9af3167&name=image.png&originHeight=252&originWidth=371&originalType=binary%E2%88%B6=1&size=16436&status=done&style=stroke&taskId=u34c28efa-561f-428c-9602-8348ee32820&width=327.48797607421875">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630049245325-4faca7e9-eef2-4e40-9a4d-9407cd5b15ab.png#clientId=u6846ba66-e36b-4&from=paste&height=231&id=ufd17ed3b&name=image.png&originHeight=359&originWidth=623&originalType=binary%E2%88%B6=1&size=18412&status=done&style=none&taskId=u820e8e60-d190-4f5b-a96a-8636bc78504&width=400.4959716796875">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630049275563-ca0b22b2-908b-4d94-a929-63c6c5605a81.png#clientId=u6846ba66-e36b-4&from=paste&height=341&id=ued541314&name=image.png&originHeight=509&originWidth=574&originalType=binary%E2%88%B6=1&size=25659&status=done&style=none&taskId=u664e202a-9fc4-4554-b163-314be354582&width=384.9919738769531">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630049289583-66ad6950-8eef-41ee-9360-e959c93ebcfa.png#clientId=u6846ba66-e36b-4&from=paste&height=241&id=u7cb707d1&name=image.png&originHeight=322&originWidth=408&originalType=binary%E2%88%B6=1&size=12922&status=done&style=none&taskId=u9adcb782-dfb6-4c6b-b821-f59bcc7f01b&width=305.99998474121094">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630049302622-d23749ae-9e6f-4023-9175-b443915a8afe.png#clientId=u6846ba66-e36b-4&from=paste&height=272&id=u9222572d&name=image.png&originHeight=512&originWidth=725&originalType=binary%E2%88%B6=1&size=18838&status=done&style=none&taskId=u6524ee10-0fb8-46e3-a460-9d2dd56e602&width=384.4959716796875">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630049532343-0b73b592-e15b-4e69-af66-b0b1047211bc.png#clientId=u6846ba66-e36b-4&from=paste&height=273&id=u96086f7f&name=image.png&originHeight=396&originWidth=725&originalType=binary%E2%88%B6=1&size=22463&status=done&style=none&taskId=u9b4a9a67-740b-41c6-b3d9-bb7230e60b0&width=499.4959716796875">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630050111716-97eb58af-6577-451d-856c-1c1e6065397f.png#clientId=u6846ba66-e36b-4&from=paste&height=270&id=u6bbf09f9&name=image.png&originHeight=376&originWidth=452&originalType=binary%E2%88%B6=1&size=18062&status=done&style=stroke&taskId=u4f5b114b-2567-46aa-b232-af47acb219e&width=323.99598693847656">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630050157502-7f578891-3057-47a2-9fc6-0b35e1c3f0ec.png#clientId=u6846ba66-e36b-4&from=paste&height=130&id=u73b3e2ad&name=image.png&originHeight=157&originWidth=466&originalType=binary%E2%88%B6=1&size=6152&status=done&style=stroke&taskId=ua4be5ef7-b95f-4368-83a7-8a73f6b4831&width=384.97198486328125">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630050167570-ba0d7ab0-e740-4952-9ea6-c3203e207e57.png#clientId=u6846ba66-e36b-4&from=paste&height=122&id=u6d62d0bb&name=image.png&originHeight=151&originWidth=386&originalType=binary%E2%88%B6=1&size=5875&status=done&style=stroke&taskId=u755917f8-2419-4dcd-9794-77b9b673ca8&width=311.99598693847656">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630050654138-1b2c121b-e6f7-4ad0-b0b1-2de735cc36ea.png#clientId=u6846ba66-e36b-4&from=paste&height=323&id=uc9f3462f&name=image.png&originHeight=391&originWidth=639&originalType=binary%E2%88%B6=1&size=25610&status=done&style=stroke&taskId=u6fa67e41-1276-49ff-b314-05dde5ec047&width=527.4999694824219">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630050857439-8a0e2d1b-aa98-4ed4-b089-4ddd7e100587.png#clientId=u6846ba66-e36b-4&from=paste&height=467&id=uda719e81&margin=%5Bobject%20Object%5D&name=image.png&originHeight=933&originWidth=1631&originalType=binary%E2%88%B6=1&size=1374992&status=done&style=none&taskId=u0d2acb17-c321-42a4-9ba1-f00fcd6ba85&width=815.5">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630051157760-65f3f042-e05d-4d84-aeb2-9052264051fd.png#clientId=u6846ba66-e36b-4&from=paste&height=112&id=u46a5fcc4&name=image.png&originHeight=189&originWidth=1366&originalType=binary%E2%88%B6=1&size=33899&status=done&style=none&taskId=u8ebb0a9e-ba84-4f93-a0eb-03db1b84f22&width=805.991943359375">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630051579996-f6ab6f3c-ffe9-4f4c-b316-606d877ceebe.png#clientId=u6846ba66-e36b-4&from=paste&height=467&id=uaab0bc7a&name=image.png&originHeight=933&originWidth=1631&originalType=binary%E2%88%B6=1&size=1064091&status=done&style=none&taskId=u0137de52-3318-406e-b170-aaef142d383&width=815.5">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630051826619-6bf66a81-e9ef-4c79-a8c6-86c86dd126d7.png#clientId=u6846ba66-e36b-4&from=paste&height=321&id=uf8263a86&name=image.png&originHeight=373&originWidth=467&originalType=binary%E2%88%B6=1&size=37822&status=done&style=stroke&taskId=u9c151a22-7a9a-4bd3-950a-ac2695428d6&width=402.48797607421875">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630051838554-a933df90-4033-403f-b637-c5d5ab1cec4c.png#clientId=u6846ba66-e36b-4&from=paste&height=258&id=u111c1109&name=image.png&originHeight=230&originWidth=269&originalType=binary%E2%88%B6=1&size=17784&status=done&style=stroke&taskId=u33270a41-89a5-4392-8a7f-ad4f66d1569&width=301.49598693847656">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630051993537-d5bffedd-b7de-4177-bcdf-0fece3d1fbac.png#clientId=u6846ba66-e36b-4&from=paste&height=346&id=ue7552481&name=image.png&originHeight=442&originWidth=489&originalType=binary%E2%88%B6=1&size=40070&status=done&style=stroke&taskId=uabdc1706-124b-4da9-badb-627fdb63d7e&width=382.49998474121094">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630052033193-566b5d9e-3d6d-40ec-ac61-63859fd9e9d2.png#clientId=u6846ba66-e36b-4&from=paste&height=312&id=u0150f444&name=image.png&originHeight=352&originWidth=454&originalType=binary%E2%88%B6=1&size=31505&status=done&style=stroke&taskId=u6e3a5cb5-41a3-471a-9baa-98599e173a5&width=402.98797607421875">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630052115006-9d2f7a8a-1c1c-4668-a9d9-64216c86f521.png#clientId=u6846ba66-e36b-4&from=paste&height=329&id=u18734435&name=image.png&originHeight=372&originWidth=480&originalType=binary%E2%88%B6=1&size=33522&status=done&style=stroke&taskId=ub14ba9e4-6f89-4110-a79a-36304ed3986&width=423.99998474121094">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630052272413-58f54295-8634-4a8a-824b-9f3792782087.png#clientId=u6846ba66-e36b-4&from=paste&height=467&id=u580b5968&name=image.png&originHeight=933&originWidth=1631&originalType=binary%E2%88%B6=1&size=581885&status=done&style=stroke&taskId=u6293db15-adab-4b03-bad4-23a3c67d8b2&width=815.5">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630052306845-309f05e0-8aca-41ca-be0b-6c7fe19244b4.png#clientId=u6846ba66-e36b-4&from=paste&height=209&id=u554c1595&name=image.png&originHeight=212&originWidth=537&originalType=binary%E2%88%B6=1&size=28970&status=done&style=stroke&taskId=u15f87588-a91e-4225-8836-6d6bfc9e5ab&width=530.4959716796875">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630052474194-fa8ac8aa-c9e4-43b6-b241-c05e9cc41914.png#clientId=u6846ba66-e36b-4&from=paste&height=198&id=u2cf331b2&name=image.png&originHeight=335&originWidth=943&originalType=binary%E2%88%B6=1&size=46993&status=done&style=stroke&taskId=u6788b1a3-d6aa-4d97-8422-aa72b53ccb7&width=556.4919738769531">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630052739237-0325c07b-2f3f-4935-ae02-86a6e42543f0.png#clientId=u6846ba66-e36b-4&from=paste&height=134&id=u4badef15&name=image.png&originHeight=148&originWidth=350&originalType=binary%E2%88%B6=1&size=6719&status=done&style=stroke&taskId=u8203c27f-202f-4f99-a745-25bd6c062ba&width=315.99598693847656">
+<meta property="article:published_time" content="2021-08-27T00:35:47.000Z">
+<meta property="article:modified_time" content="2022-10-03T14:07:55.024Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1630025751782-75e30550-ce77-4303-8654-41e2c8a7528e.png#clientId=u3e5c2c48-000c-4&from=paste&height=198&id=ubed11061&name=image.png&originHeight=221&originWidth=475&originalType=binary%E2%88%B6=1&size=18751&status=done&style=stroke&taskId=ua9e1bbc9-e01d-4b8f-8312-b82310ee74b&width=426.4919891357422">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-grav"></i>
+                语雀
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://passport.kanxue.com/user-center-837755.htm" target="_blank" >
+                <i class="icon icon-lg icon-snowflake-o"></i>
+                看雪
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://sighttp.qq.com/msgrd?v=1&uin=1097179511" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://img2020.cnblogs.com/blog/1558534/202003/1558534-20200331231408805-256812285.jpg" target="_blank" >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">MISC磁盘内存取证</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">MISC磁盘内存取证</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2021-08-27T00:35:47.000Z" itemprop="datePublished" class="page-time">
+  2021-08-27
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#磁盘取证"><span class="post-toc-number">1.</span> <span class="post-toc-text">磁盘取证</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#encrypt-vmdk"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">encrypt.vmdk</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#内存取证"><span class="post-toc-number">2.</span> <span class="post-toc-text">内存取证</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#easy-dump-img"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">easy_dump.img</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#memdump-zip-disk-zip"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">memdump.zip+disk.zip</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#补充-PNG-相关"><span class="post-toc-number">3.</span> <span class="post-toc-text">补充 PNG 相关</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-hrvdo2"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">MISC磁盘内存取证</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2021-08-27 08:35:47" datetime="2021-08-27T00:35:47.000Z"  itemprop="datePublished">2021-08-27</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="磁盘取证"><a href="#磁盘取证" class="headerlink" title="磁盘取证"></a>磁盘取证</h1><h2 id="encrypt-vmdk"><a href="#encrypt-vmdk" class="headerlink" title="encrypt.vmdk"></a>encrypt.vmdk</h2><p>使用 7zip 可以直接打开</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630025751782-75e30550-ce77-4303-8654-41e2c8a7528e.png#clientId=u3e5c2c48-000c-4&from=paste&height=198&id=ubed11061&name=image.png&originHeight=221&originWidth=475&originalType=binary∶=1&size=18751&status=done&style=stroke&taskId=ua9e1bbc9-e01d-4b8f-8312-b82310ee74b&width=426.4919891357422" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>在 winhex 里面找到了一部分 flag</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630025803358-237c6b6f-63e7-4c5e-ac80-8f339bd5a61f.png#clientId=u3e5c2c48-000c-4&from=paste&height=349&id=u1b153f0f&name=image.png&originHeight=467&originWidth=717&originalType=binary∶=1&size=55184&status=done&style=stroke&taskId=u543ff3e0-116f-4b18-98d2-37efd0db212&width=535.4999694824219" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>用 VeraCrypt 挂载 0.fat，选中一个盘符，选择好文件，加载即可</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630030983442-33e2d0dd-f04f-47e3-8aac-b918dbc87772.png#clientId=u85339439-0fc3-4&from=paste&height=487&id=uee7096fa&name=image.png&originHeight=637&originWidth=752&originalType=binary∶=1&size=41090&status=done&style=stroke&taskId=u679b7dce-38cf-4e0b-b607-32bc4237c2f&width=574.9959716796875" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>会要求密码，题目给了，rctf</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630031055335-f830f76e-ba26-457d-9afc-acb7290105dd.png#clientId=u85339439-0fc3-4&from=paste&height=176&id=ud1791609&name=image.png&originHeight=242&originWidth=660&originalType=binary∶=1&size=15386&status=done&style=none&taskId=ua7df83e3-ffed-447e-84ab-53dcd7f8d3b&width=480.9999694824219" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>挂载成功</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630031081707-c482dd17-95a3-4a80-a795-0de1f21ce5cd.png#clientId=u85339439-0fc3-4&from=paste&height=47&id=u97ccb38e&name=image.png&originHeight=54&originWidth=720&originalType=binary∶=1&size=5117&status=done&style=none&taskId=uff6f3a90-5ba6-42d2-b589-56c62aeb10c&width=631.9999694824219" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>打开有个 password.txt 给了另外一个密码</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630031106752-fa96cc6b-75e0-47b9-ba20-7c4b9c2a8ec4.png#clientId=u85339439-0fc3-4&from=paste&height=313&id=ub8b30545&name=image.png&originHeight=494&originWidth=382&originalType=binary∶=1&size=53005&status=done&style=stroke&taskId=u6ed3dff0-6535-49b5-b2f7-3d543094ac0&width=241.99197387695312" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>先卸载，再用这个密码挂载上，这次打不开</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630031271175-2e11feb9-6dea-4667-aa87-5d10fb0e86ae.png#clientId=u85339439-0fc3-4&from=paste&height=184&id=u725aa427&name=image.png&originHeight=231&originWidth=526&originalType=binary∶=1&size=13569&status=done&style=stroke&taskId=uf91ea6f0-8680-4b78-86ee-350ec3bcf26&width=417.9919738769531" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>用 winhex 打开硬盘（winhex 管理员方式打开）文件系统是 FAT32</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630032671841-6ac6cb46-c593-49cf-a17f-e72c8973d45c.png#clientId=u85339439-0fc3-4&from=paste&height=127&id=u59e7666b&name=image.png&originHeight=204&originWidth=448&originalType=binary∶=1&size=17089&status=done&style=stroke&taskId=uf0eca323-e930-4368-b3fa-566a0bcc790&width=279.9919891357422" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630032685968-8200ab67-d23d-465b-bb51-2fc5ea7602e9.png#clientId=u85339439-0fc3-4&from=paste&height=180&id=uee00709d&name=image.png&originHeight=280&originWidth=469&originalType=binary∶=1&size=20457&status=done&style=stroke&taskId=u509a9de5-2893-4e35-9779-9e9fd54939f&width=301.4919891357422" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630032720459-b2610fc6-a829-4804-b11c-aa2e35c84957.png#clientId=u85339439-0fc3-4&from=paste&height=238&id=u0b6f13ae&name=image.png&originHeight=250&originWidth=155&originalType=binary∶=1&size=4578&status=done&style=stroke&taskId=udba56c82-1b55-4e46-9dda-1da98823460&width=147.4959945678711" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>随便翻翻找到后半段 flag</p>
+<p>知识点：VeraCrypt 可以使用密码挂载磁盘<br>使用不同密码挂载显示的不一样</p>
+<h1 id="内存取证"><a href="#内存取证" class="headerlink" title="内存取证"></a>内存取证</h1><h2 id="easy-dump-img"><a href="#easy-dump-img" class="headerlink" title="easy_dump.img"></a>easy_dump.img</h2><p>首先 vol -f easy_dump.img imageinfo 查看基本信息</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630044653471-70ab365d-2e03-4262-9c79-d7e96187331e.png#clientId=u02bd8564-bc96-4&from=paste&height=238&id=u0f79dc37&name=image.png&originHeight=450&originWidth=1221&originalType=binary∶=1&size=82586&status=done&style=none&taskId=uc6a4138a-e58b-4476-b591-efea2dc3919&width=644.4999389648438" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后找一下进程 <code>vol.py -f easy_dump.img --profile=Win7SP1x64 pstree</code><br>发现有 notepad，考虑会不会写在 notepad 里面了，使用 memdump 把 notepad 的内存保存出来<br><code>vol.py -f easy_dump.img --profile=Win7SP1x64 memdump -p 2616 -D ./</code></p>
+<p><code>strings -e l 2616.dmp | grep flag</code><br>按照字符大小和顺序排序，发现假的 flag 给了个提示，说放在了一个 jpg 里面了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630045327135-b8238655-edb0-4ca1-9665-6dd3c208b477.png#clientId=u6846ba66-e36b-4&from=paste&height=216&id=uaa0883cd&name=image.png&originHeight=432&originWidth=1491&originalType=binary∶=1&size=95077&status=done&style=none&taskId=u70206a88-0b93-4743-b59b-1336661961d&width=745.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>搜索图片 <code>vol.py -f easy_dump.img --profile=Win7SP1x64 filescan | grep -E &#39;png|jpg&#39;</code><br>并保存 <code>vol.py -f easy_dump.img --profile=Win7SP1x64 dumpfiles -Q 0x000000002408c460 -D ./</code></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630044760392-44f7da3e-7e16-4946-be40-9dbe80559b48.png#clientId=u02bd8564-bc96-4&from=paste&height=149&id=u8b1077a1&name=image.png&originHeight=239&originWidth=1223&originalType=binary∶=1&size=56531&status=done&style=none&taskId=u85f1abd5-cb3b-4826-8825-896d81eea7b&width=760.4959716796875" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后用 foremost 分离文件，找到一个压缩包，里面是 message.img，使用 file 检查一下发现是个 linux 下的 ext2 磁盘</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630045534120-94a463af-c041-4a46-a927-044bed9a762f.png#clientId=u6846ba66-e36b-4&from=paste&height=52&id=u2f33b3ea&name=image.png&originHeight=89&originWidth=1463&originalType=binary∶=1&size=22213&status=done&style=none&taskId=uba7ce75c-3808-40af-b8b5-fbe5a5502ef&width=850.4959716796875" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>使用 mount 挂载，打开有个 hint.txt 里面是些坐标使用 gnuplot 画出来，扫码结果是<br>Here is the vigenere key: aeolus, but i deleted the encrypted message。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630046097459-afc866e6-3721-49b1-8a64-2feda3576fa9.png#clientId=u6846ba66-e36b-4&from=paste&height=453&id=u0000a190&name=image.png&originHeight=670&originWidth=878&originalType=binary∶=1&size=122079&status=done&style=stroke&taskId=u5241c489-1921-4b6f-8728-df93516631b&width=592.9959716796875" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>ls -al 逛逛，发现了 .swp 文件，使用 vim -r 读取</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630046200122-b37b6adf-6ae4-4cb5-ab8e-d8592a7173e4.png#clientId=u6846ba66-e36b-4&from=paste&height=150&id=uce8c5e1e&name=image.png&originHeight=160&originWidth=441&originalType=binary∶=1&size=54445&status=done&style=none&taskId=u07ba9222-6e09-45f4-ad6a-381a0d4e579&width=414.49998474121094" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>内容是：yise!dmsx_tthv_aar_didvi</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630046290170-f72b642d-6e4e-4b27-a569-e096e9b7d335.png#clientId=u6846ba66-e36b-4&from=paste&height=105&id=u8387dbdf&name=image.png&originHeight=107&originWidth=254&originalType=binary∶=1&size=19989&status=done&style=none&taskId=ua4ad43e7-d832-4c7c-95e5-2eb585c0da8&width=248.9959945678711" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630046512192-a0a3a9eb-127b-4687-8395-e3aa74a0378d.png#clientId=u6846ba66-e36b-4&from=paste&height=196&id=uc071726d&name=image.png&originHeight=335&originWidth=1170&originalType=binary∶=1&size=30528&status=done&style=stroke&taskId=u1e6c0122-1196-4a1c-8fad-1bb17eb0ac0&width=685.9999389648438" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>知识点：volatility 使用<br>.swp 读取（vim -r）</p>
+<h2 id="memdump-zip-disk-zip"><a href="#memdump-zip-disk-zip" class="headerlink" title="memdump.zip+disk.zip"></a>memdump.zip+disk.zip</h2><p>首先使用 FTK 挂载磁盘</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630048978012-df376076-9d33-4f69-b513-9601a02f309c.png#clientId=u6846ba66-e36b-4&from=paste&height=201&id=uc4f6a2e6&name=image.png&originHeight=204&originWidth=282&originalType=binary∶=1&size=12588&status=done&style=none&taskId=u54d7238f-5a1e-4278-ad88-743c3a71d77&width=277.9999694824219" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>注意选择挂载方法可写那个</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630048731068-5b75cca2-6aff-4d32-a71a-38272394fc9d.png#clientId=u6846ba66-e36b-4&from=paste&height=260&id=u1979cdb1&name=image.png&originHeight=347&originWidth=760&originalType=binary∶=1&size=20376&status=done&style=none&taskId=u1bc02c4c-1481-4911-ae42-baa7025dfbd&width=569.9879760742188" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>挂载完成之后可以看到多了几个盘符</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630049023395-7963315e-d8f2-4291-9d62-efa4a51f8dd3.png#clientId=u6846ba66-e36b-4&from=paste&height=196&id=u4b4094df&name=image.png&originHeight=328&originWidth=1024&originalType=binary∶=1&size=40137&status=done&style=none&taskId=u33f574a0-8d36-4689-a3bd-6fd846fdfba&width=612.991943359375" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>逛一逛，要求仿真打开</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630049083921-a7a210b3-dd57-464e-8dff-a36a5185f79b.png#clientId=u6846ba66-e36b-4&from=paste&height=211&id=u54421bf9&name=image.png&originHeight=284&originWidth=667&originalType=binary∶=1&size=25634&status=done&style=stroke&taskId=u7900bd6e-2554-4d39-9c29-7ddae09ed85&width=496.4919738769531" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>使用 FTK 的 create disk image 转换格式为 img</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630049192003-6e6b01ec-4633-4601-9f86-9de271a4e382.png#clientId=u6846ba66-e36b-4&from=paste&height=222&id=uc9af3167&name=image.png&originHeight=252&originWidth=371&originalType=binary∶=1&size=16436&status=done&style=stroke&taskId=u34c28efa-561f-428c-9602-8348ee32820&width=327.48797607421875" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630049245325-4faca7e9-eef2-4e40-9a4d-9407cd5b15ab.png#clientId=u6846ba66-e36b-4&from=paste&height=231&id=ufd17ed3b&name=image.png&originHeight=359&originWidth=623&originalType=binary∶=1&size=18412&status=done&style=none&taskId=u820e8e60-d190-4f5b-a96a-8636bc78504&width=400.4959716796875" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630049275563-ca0b22b2-908b-4d94-a929-63c6c5605a81.png#clientId=u6846ba66-e36b-4&from=paste&height=341&id=ued541314&name=image.png&originHeight=509&originWidth=574&originalType=binary∶=1&size=25659&status=done&style=none&taskId=u664e202a-9fc4-4554-b163-314be354582&width=384.9919738769531" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630049289583-66ad6950-8eef-41ee-9360-e959c93ebcfa.png#clientId=u6846ba66-e36b-4&from=paste&height=241&id=u7cb707d1&name=image.png&originHeight=322&originWidth=408&originalType=binary∶=1&size=12922&status=done&style=none&taskId=u9adcb782-dfb6-4c6b-b821-f59bcc7f01b&width=305.99998474121094" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>空着就行</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630049302622-d23749ae-9e6f-4023-9175-b443915a8afe.png#clientId=u6846ba66-e36b-4&from=paste&height=272&id=u9222572d&name=image.png&originHeight=512&originWidth=725&originalType=binary∶=1&size=18838&status=done&style=none&taskId=u6524ee10-0fb8-46e3-a460-9d2dd56e602&width=384.4959716796875" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>注意改成 0<br>以及目标位置要是 C 盘</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630049532343-0b73b592-e15b-4e69-af66-b0b1047211bc.png#clientId=u6846ba66-e36b-4&from=paste&height=273&id=u96086f7f&name=image.png&originHeight=396&originWidth=725&originalType=binary∶=1&size=22463&status=done&style=none&taskId=u9b4a9a67-740b-41c6-b3d9-bb7230e60b0&width=499.4959716796875" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>等生成完了把后缀名改为 img，再用 V2V 转换为 vmdk 格式</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630050111716-97eb58af-6577-451d-856c-1c1e6065397f.png#clientId=u6846ba66-e36b-4&from=paste&height=270&id=u6bbf09f9&name=image.png&originHeight=376&originWidth=452&originalType=binary∶=1&size=18062&status=done&style=stroke&taskId=u4f5b114b-2567-46aa-b232-af47acb219e&width=323.99598693847656" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630050157502-7f578891-3057-47a2-9fc6-0b35e1c3f0ec.png#clientId=u6846ba66-e36b-4&from=paste&height=130&id=u73b3e2ad&name=image.png&originHeight=157&originWidth=466&originalType=binary∶=1&size=6152&status=done&style=stroke&taskId=ua4be5ef7-b95f-4368-83a7-8a73f6b4831&width=384.97198486328125" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630050167570-ba0d7ab0-e740-4952-9ea6-c3203e207e57.png#clientId=u6846ba66-e36b-4&from=paste&height=122&id=u6d62d0bb&name=image.png&originHeight=151&originWidth=386&originalType=binary∶=1&size=5875&status=done&style=stroke&taskId=u755917f8-2419-4dcd-9794-77b9b673ca8&width=311.99598693847656" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后打开 vmware，新建虚拟机，选择使用现有的虚拟磁盘</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630050654138-1b2c121b-e6f7-4ad0-b0b1-2de735cc36ea.png#clientId=u6846ba66-e36b-4&from=paste&height=323&id=uc9f3462f&name=image.png&originHeight=391&originWidth=639&originalType=binary∶=1&size=25610&status=done&style=stroke&taskId=u6fa67e41-1276-49ff-b314-05dde5ec047&width=527.4999694824219" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>开机就可以啦</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630050857439-8a0e2d1b-aa98-4ed4-b089-4ddd7e100587.png#clientId=u6846ba66-e36b-4&from=paste&height=467&id=uda719e81&margin=%5Bobject%20Object%5D&name=image.png&originHeight=933&originWidth=1631&originalType=binary∶=1&size=1374992&status=done&style=none&taskId=u0d2acb17-c321-42a4-9ba1-f00fcd6ba85&width=815.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>但是都有密码，进不去，转过头来分析一下内存文件，volatility 插件 mimikatz 获取密码<br><code>XiaoMing::xiaoming_handsome</code></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630051157760-65f3f042-e05d-4d84-aeb2-9052264051fd.png#clientId=u6846ba66-e36b-4&from=paste&height=112&id=u46a5fcc4&name=image.png&originHeight=189&originWidth=1366&originalType=binary∶=1&size=33899&status=done&style=none&taskId=u8ebb0a9e-ba84-4f93-a0eb-03db1b84f22&width=805.991943359375" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>登录成功，桌面上便签重叠了，藏了一个，以及 F 盘用了 bitlocker 加密</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630051579996-f6ab6f3c-ffe9-4f4c-b316-606d877ceebe.png#clientId=u6846ba66-e36b-4&from=paste&height=467&id=uaab0bc7a&name=image.png&originHeight=933&originWidth=1631&originalType=binary∶=1&size=1064091&status=done&style=none&taskId=u0137de52-3318-406e-b170-aaef142d383&width=815.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>首先使用 EFDD 来获取恢复密钥</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630051826619-6bf66a81-e9ef-4c79-a8c6-86c86dd126d7.png#clientId=u6846ba66-e36b-4&from=paste&height=321&id=uf8263a86&name=image.png&originHeight=373&originWidth=467&originalType=binary∶=1&size=37822&status=done&style=stroke&taskId=u9c151a22-7a9a-4bd3-950a-ac2695428d6&width=402.48797607421875" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630051838554-a933df90-4033-403f-b637-c5d5ab1cec4c.png#clientId=u6846ba66-e36b-4&from=paste&height=258&id=u111c1109&name=image.png&originHeight=230&originWidth=269&originalType=binary∶=1&size=17784&status=done&style=stroke&taskId=u33270a41-89a5-4392-8a7f-ad4f66d1569&width=301.49598693847656" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>把 memdump.mem 放到虚拟机里面</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630051993537-d5bffedd-b7de-4177-bcdf-0fece3d1fbac.png#clientId=u6846ba66-e36b-4&from=paste&height=346&id=ue7552481&name=image.png&originHeight=442&originWidth=489&originalType=binary∶=1&size=40070&status=done&style=stroke&taskId=uabdc1706-124b-4da9-badb-627fdb63d7e&width=382.49998474121094" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后等他跑出来</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630052033193-566b5d9e-3d6d-40ec-ac61-63859fd9e9d2.png#clientId=u6846ba66-e36b-4&from=paste&height=312&id=u0150f444&name=image.png&originHeight=352&originWidth=454&originalType=binary∶=1&size=31505&status=done&style=stroke&taskId=u6e3a5cb5-41a3-471a-9baa-98599e173a5&width=402.98797607421875" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">BEGIN KEYS SEARCH</span><br><span class="line">Progress: 100% [ 1024  &#x2F;  1024 MB]</span><br><span class="line"></span><br><span class="line">END SEARCHING</span><br><span class="line"></span><br><span class="line">Search result:</span><br><span class="line">Algorithm:&#39;BitLocker&#39; (incl. &#39;To Go&#39;) Volume Master Key</span><br><span class="line">Key data (hex): 9dc9d924d0c693aa9ec9fb9b389e2f24c96c11c231a18ea9dbd3722a6440bb9f</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630052115006-9d2f7a8a-1c1c-4668-a9d9-64216c86f521.png#clientId=u6846ba66-e36b-4&from=paste&height=329&id=u18734435&name=image.png&originHeight=372&originWidth=480&originalType=binary∶=1&size=33522&status=done&style=stroke&taskId=ub14ba9e4-6f89-4110-a79a-36304ed3986&width=423.99998474121094" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>拿到恢复的密钥<br>549714-116633-006446-278597-176000-708532-618101-131406</p>
+<p>使用 DiskGenius 解锁磁盘</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630052272413-58f54295-8634-4a8a-824b-9f3792782087.png#clientId=u6846ba66-e36b-4&from=paste&height=467&id=u580b5968&name=image.png&originHeight=933&originWidth=1631&originalType=binary∶=1&size=581885&status=done&style=stroke&taskId=u6293db15-adab-4b03-bad4-23a3c67d8b2&width=815.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>用 EFDD 找到的密钥</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630052306845-309f05e0-8aca-41ca-be0b-6c7fe19244b4.png#clientId=u6846ba66-e36b-4&from=paste&height=209&id=u554c1595&name=image.png&originHeight=212&originWidth=537&originalType=binary∶=1&size=28970&status=done&style=stroke&taskId=u15f87588-a91e-4225-8836-6d6bfc9e5ab&width=530.4959716796875" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后打开，发现里面有个 2.pcapng，保存出来</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630052474194-fa8ac8aa-c9e4-43b6-b241-c05e9cc41914.png#clientId=u6846ba66-e36b-4&from=paste&height=198&id=u2cf331b2&name=image.png&originHeight=335&originWidth=943&originalType=binary∶=1&size=46993&status=done&style=stroke&taskId=u6788b1a3-d6aa-4d97-8422-aa72b53ccb7&width=556.4919738769531" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>wireshark 追踪了一个 UDP 流发现有 rar，保存出来打开，压缩包密码是开机密码 xiaoming_handsome</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1630052739237-0325c07b-2f3f-4935-ae02-86a6e42543f0.png#clientId=u6846ba66-e36b-4&from=paste&height=134&id=u4badef15&name=image.png&originHeight=148&originWidth=350&originalType=binary∶=1&size=6719&status=done&style=stroke&taskId=u8203c27f-202f-4f99-a745-25bd6c062ba&width=315.99598693847656" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>文档也有个密码，桌面便签写着了 xiaoming1314</p>
+<p>知识点：<br>使用 FTK 转换磁盘格式为 img，使用 V2V 转换磁盘格式为 vmdk，然后使用 vmware 打开磁盘仿真<br>便签可以移动<br>EFDD 通过内存文件找到恢复密钥，然后使用 DiskGenius 解密 bitlocker</p>
+<h1 id="补充-PNG-相关"><a href="#补充-PNG-相关" class="headerlink" title="补充 PNG 相关"></a>补充 PNG 相关</h1><p>PNG 格式<br>(1)分成很多 IDAT 数据块，然后每一块里面数据是以 zlib 格式压缩的<br>(2)第一块 IDAT 数据块，他有一个 zlib 格式的标志，比如说 789c<br>(3)所以说一个图片按理来说只有一个 789c 这种标志</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2022-10-03T14:07:55.024Z" itemprop="dateUpdated">2022-10-03 22:07:55</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2021/08/27/hrvdo2/&title=《MISC磁盘内存取证》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2021/08/27/hrvdo2/&title=《MISC磁盘内存取证》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2021/08/27/hrvdo2/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MISC磁盘内存取证》 — yichen's blog&url=https://yichen115.github.io/2021/08/27/hrvdo2/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2021/08/27/hrvdo2/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2021/09/02/ctfd/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">CTFd&amp;ctfd-whale动态靶机搭建与维护</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2021/08/26/btg45s/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">MISC流量分析</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020 - 2022</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2021/08/27/hrvdo2/&title=《MISC磁盘内存取证》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2021/08/27/hrvdo2/&title=《MISC磁盘内存取证》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2021/08/27/hrvdo2/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MISC磁盘内存取证》 — yichen's blog&url=https://yichen115.github.io/2021/08/27/hrvdo2/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2021/08/27/hrvdo2/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2021/08/27/hrvdo2/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

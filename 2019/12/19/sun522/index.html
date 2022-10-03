@@ -21,23 +21,30 @@
     
     
     <meta name="keywords" content="">
-    <meta name="description" content="ZIP 相关ZIP 介绍ZIP 文件格式的组成：压缩源文件数据区[文件头+文件数据+数据描述符]{此处可重复多次} +核心目录 +目录结束标识                                                                                              image.png">
+    <meta name="description" content="ZIP 相关ZIP 介绍ZIP 文件格式的组成： 压缩源文件数据区[文件头+文件数据+数据描述符]{此处可重复多次} +核心目录 +目录结束标识                                                                                              image.png">
 <meta property="og:type" content="article">
 <meta property="og:title" content="压缩包相关">
 <meta property="og:url" content="https://yichen115.github.io/2019/12/19/sun522/index.html">
 <meta property="og:site_name" content="yichen&#39;s blog">
-<meta property="og:description" content="ZIP 相关ZIP 介绍ZIP 文件格式的组成：压缩源文件数据区[文件头+文件数据+数据描述符]{此处可重复多次} +核心目录 +目录结束标识                                                                                              image.png">
+<meta property="og:description" content="ZIP 相关ZIP 介绍ZIP 文件格式的组成： 压缩源文件数据区[文件头+文件数据+数据描述符]{此处可重复多次} +核心目录 +目录结束标识                                                                                              image.png">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567161962704-41d3c616-0ded-4483-8cbf-320843db45be.png#align=left&display=inline&height=728&name=image.png&originHeight=853&originWidth=1001&size=505852&status=done&style=none&width=854.1866666666666">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567162073401-2e4a759a-d4b4-47ea-92b8-f9dca5ad074b.png#align=left&display=inline&height=590&name=image.png&originHeight=691&originWidth=1555&size=407814&status=done&style=none&width=1326.9333333333334">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567164221868-105cfbe6-30d7-4b3d-a84e-223c1de28bae.png#align=left&display=inline&height=641&name=image.png&originHeight=751&originWidth=1067&size=289884&status=done&style=none&width=910.5066666666667">
-<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567165033125-11580e03-67ff-4361-848a-00ef3ea6f0fc.png#align=left&display=inline&height=343&name=image.png&originHeight=402&originWidth=883&size=61260&status=done&style=none&width=753.4933333333333">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567161962704-41d3c616-0ded-4483-8cbf-320843db45be.png#height=728&id=jH3M3&name=image.png&originHeight=853&originWidth=1001&originalType=binary%E2%88%B6=1&size=505852&status=done&style=none&width=854.1866666666666">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567162073401-2e4a759a-d4b4-47ea-92b8-f9dca5ad074b.png#height=590&id=H3Deh&name=image.png&originHeight=691&originWidth=1555&originalType=binary%E2%88%B6=1&size=407814&status=done&style=none&width=1326.9333333333334">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1606460250424-ff6a64ea-3a51-4c7d-af8c-f985ffe146c0.png#height=463&id=GAGyE&name=image.png&originHeight=714&originWidth=719&originalType=binary%E2%88%B6=1&size=128921&status=done&style=none&width=466">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1606459522313-c6262f37-5c73-4b0f-aade-6f4f4b5e7729.png#height=516&id=vBsuk&name=image.png&originHeight=809&originWidth=717&originalType=binary%E2%88%B6=1&size=118351&status=done&style=none&width=457">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1635084193893-4f8a5ef9-7f8b-4163-82e8-6b7fe91806d2.png#clientId=u3c2ed88d-55ce-4&from=paste&height=248&id=ufd842778&name=image.png&originHeight=333&originWidth=961&originalType=binary%E2%88%B6=1&size=280638&status=done&style=stroke&taskId=u9ba44432-3437-4724-ae3d-4aacbf7f7f4&width=714.491943359375">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1635084438091-1d4fa27c-4532-4f05-beed-af737785d742.png#clientId=u3c2ed88d-55ce-4&from=paste&height=417&id=u77137ff4&name=image.png&originHeight=562&originWidth=606&originalType=binary%E2%88%B6=1&size=37763&status=done&style=stroke&taskId=uc6b3f4b1-c9f1-4c14-b799-d181a0df627&width=449.9999694824219">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1635084578017-f1bbcfcb-ba46-49a6-930f-952dab91c98d.png#clientId=u3c2ed88d-55ce-4&from=paste&height=266&id=ucdbb2c00&name=image.png&originHeight=397&originWidth=661&originalType=binary%E2%88%B6=1&size=64241&status=done&style=stroke&taskId=u46e01442-c2c5-4c4d-b3fb-a84e6b38ed4&width=442.4919738769531">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1635085346320-c15e32f0-b345-4f27-b4a6-bea6ccb47e1f.png#clientId=u3c2ed88d-55ce-4&from=paste&height=397&id=u7d3b9218&name=image.png&originHeight=605&originWidth=603&originalType=binary%E2%88%B6=1&size=143043&status=done&style=stroke&taskId=u89542c36-ed12-4ced-b75f-a6064dab9ad&width=395.4999694824219">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/png/268938/1635085393635-db083b51-6a14-4f9f-b46f-ec77f35da15f.png#clientId=u3c2ed88d-55ce-4&from=paste&height=348&id=u6c1fc48f&name=image.png&originHeight=377&originWidth=696&originalType=binary%E2%88%B6=1&size=58703&status=done&style=stroke&taskId=udeeee855-67f1-4d67-83a9-8473e507f42&width=642.9999694824219">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567165033125-11580e03-67ff-4361-848a-00ef3ea6f0fc.png#height=343&id=RZBwx&name=image.png&originHeight=402&originWidth=883&originalType=binary%E2%88%B6=1&size=61260&status=done&style=none&width=753.4933333333333">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567171060656-78335963-22f5-4dcd-a716-ad28904092db.png#height=786&id=I6xtg&name=image.png&originHeight=921&originWidth=1271&originalType=binary%E2%88%B6=1&size=302722&status=done&style=none&width=1084.5866666666666">
 <meta property="article:published_time" content="2019-12-19T12:08:36.000Z">
-<meta property="article:modified_time" content="2022-10-03T13:52:43.665Z">
+<meta property="article:modified_time" content="2022-10-03T14:07:54.898Z">
 <meta property="article:author" content="yichen">
 <meta property="article:tag" content="网络安全 CTF">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567161962704-41d3c616-0ded-4483-8cbf-320843db45be.png#align=left&display=inline&height=728&name=image.png&originHeight=853&originWidth=1001&size=505852&status=done&style=none&width=854.1866666666666">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567161962704-41d3c616-0ded-4483-8cbf-320843db45be.png#height=728&id=jH3M3&name=image.png&originHeight=853&originWidth=1001&originalType=binary%E2%88%B6=1&size=505852&status=done&style=none&width=854.1866666666666">
     
         <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
     
@@ -177,7 +184,7 @@
     <aside class="post-widget">
         <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
             <h4>TOC</h4>
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ZIP-相关"><span class="post-toc-number">1.</span> <span class="post-toc-text">ZIP 相关</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ZIP-介绍"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">ZIP 介绍</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#格式缺失"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">格式缺失</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ZIP-伪加密"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">ZIP 伪加密</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#密码爆破"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">密码爆破</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ZIP-明文攻击"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">ZIP 明文攻击</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#CRC-爆破"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">CRC 爆破</span></a></li></ol></li></ol>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ZIP-相关"><span class="post-toc-number">1.</span> <span class="post-toc-text">ZIP 相关</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ZIP-介绍"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">ZIP 介绍</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#格式缺失"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">格式缺失</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ZIP-伪加密"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">ZIP 伪加密</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#密码爆破"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">密码爆破</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ZIP-明文攻击"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">ZIP 明文攻击</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#CRC-爆破"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">CRC 爆破</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#NTFS-流隐写"><span class="post-toc-number">1.7.</span> <span class="post-toc-text">NTFS 流隐写</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#zlib-解压"><span class="post-toc-number">1.8.</span> <span class="post-toc-text">zlib 解压</span></a></li></ol></li></ol>
         </nav>
     </aside>
 
@@ -201,11 +208,11 @@
 
         </div>
         <div class="post-content" id="post-content" itemprop="postContent">
-            <h1 id="ZIP-相关"><a href="#ZIP-相关" class="headerlink" title="ZIP 相关"></a>ZIP 相关</h1><h2 id="ZIP-介绍"><a href="#ZIP-介绍" class="headerlink" title="ZIP 介绍"></a>ZIP 介绍</h2><p>ZIP 文件格式的组成：<br>压缩源文件数据区[文件头+文件数据+数据描述符]{此处可重复多次} +核心目录 +目录结束标识</p>
+            <h1 id="ZIP-相关"><a href="#ZIP-相关" class="headerlink" title="ZIP 相关"></a>ZIP 相关</h1><h2 id="ZIP-介绍"><a href="#ZIP-介绍" class="headerlink" title="ZIP 介绍"></a>ZIP 介绍</h2><p>ZIP 文件格式的组成： 压缩源文件数据区[文件头+文件数据+数据描述符]{此处可重复多次} +核心目录 +目录结束标识</p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567161962704-41d3c616-0ded-4483-8cbf-320843db45be.png#align=left&display=inline&height=728&name=image.png&originHeight=853&originWidth=1001&size=505852&status=done&style=none&width=854.1866666666666" alt="image.png" title="">
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567161962704-41d3c616-0ded-4483-8cbf-320843db45be.png#height=728&id=jH3M3&name=image.png&originHeight=853&originWidth=1001&originalType=binary∶=1&size=505852&status=done&style=none&width=854.1866666666666" alt="image.png" title="">
                 </div>
                 <div class="image-caption">image.png</div>
             </figure>
@@ -213,39 +220,98 @@
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567162073401-2e4a759a-d4b4-47ea-92b8-f9dca5ad074b.png#align=left&display=inline&height=590&name=image.png&originHeight=691&originWidth=1555&size=407814&status=done&style=none&width=1326.9333333333334" alt="image.png" title="">
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567162073401-2e4a759a-d4b4-47ea-92b8-f9dca5ad074b.png#height=590&id=H3Deh&name=image.png&originHeight=691&originWidth=1555&originalType=binary∶=1&size=407814&status=done&style=none&width=1326.9333333333334" alt="image.png" title="">
                 </div>
                 <div class="image-caption">image.png</div>
             </figure>
 
 <h2 id="格式缺失"><a href="#格式缺失" class="headerlink" title="格式缺失"></a>格式缺失</h2><p>文件头删掉的，但不开，但是用 binwalk 分析可以查出有 zip 个文件尾，可以用 winhex  添上文件头</p>
-<h2 id="ZIP-伪加密"><a href="#ZIP-伪加密" class="headerlink" title="ZIP 伪加密"></a>ZIP 伪加密</h2><p>全局方式位标记，如果是 09 00  就会提示需要密码</p>
-<h2 id="密码爆破"><a href="#密码爆破" class="headerlink" title="密码爆破"></a>密码爆破</h2><p>。。。ARCHPR</p>
-<p>RAR 会比其他格式慢，RAR 不管密码对不对，直接去试，解不出来就不对，而 ZIP 是先检验密码是不是正确的</p>
-<h2 id="ZIP-明文攻击"><a href="#ZIP-明文攻击" class="headerlink" title="ZIP 明文攻击"></a>ZIP 明文攻击</h2><p>手里有原压缩包和压缩包内部分文件，可以使用明文攻击方式。<br>可以将压缩包内的文件进行压缩，然后用 ARCHPR 这个工具进行明文攻击</p>
-<p>举个例子，已知 <strong>明文攻击.zip</strong> 中存在的文件 <strong>明文.txt</strong></p>
-<p><em>*<br>因此将 <strong>明文*</strong>\</em>.txt** 压缩，这里需要判断明文压缩后的<strong>CRC32</strong>是否与加密文件中的一致，若不<br>一致可以换一个压缩工具。</p>
+<h2 id="ZIP-伪加密"><a href="#ZIP-伪加密" class="headerlink" title="ZIP 伪加密"></a>ZIP 伪加密</h2><p>全局方式位标记，如果是 09 00  就会提示需要密码，一共有两处，如果想要实现伪加密，改前面的压缩源文件数据区的是不管用的</p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567164221868-105cfbe6-30d7-4b3d-a84e-223c1de28bae.png#align=left&display=inline&height=641&name=image.png&originHeight=751&originWidth=1067&size=289884&status=done&style=none&width=910.5066666666667" alt="image.png" title="">
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1606460250424-ff6a64ea-3a51-4c7d-af8c-f985ffe146c0.png#height=463&id=GAGyE&name=image.png&originHeight=714&originWidth=719&originalType=binary∶=1&size=128921&status=done&style=none&width=466" alt="image.png" title="">
                 </div>
                 <div class="image-caption">image.png</div>
             </figure>
 
-<p>当明文的大小比较小时，攻击速度会比较慢；即使有时没有恢复密码，也可以使用明文攻<br>击，最后点保存还是能得到压缩包里内容的。</p>
-<p><strong>如果做题的时候，压缩包里有五个文件，是加密的，但是你有四个文件是直接可以查看的，就可以猜测是不是明文攻击</strong></p>
+<p>在后面的压缩源文件目标区管用，甚至只改后面这个就行</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1606459522313-c6262f37-5c73-4b0f-aade-6f4f4b5e7729.png#height=516&id=vBsuk&name=image.png&originHeight=809&originWidth=717&originalType=binary∶=1&size=118351&status=done&style=none&width=457" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>当然，如果本来是有密码的，你改掉是会出错的</p>
+<h2 id="密码爆破"><a href="#密码爆破" class="headerlink" title="密码爆破"></a>密码爆破</h2><p>。。。ARCHPR</p>
+<p>RAR 会比其他格式慢，RAR 不管密码对不对，直接去试，解不出来就不对，而 ZIP 是先检验密码是不是正确的</p>
+<h2 id="ZIP-明文攻击"><a href="#ZIP-明文攻击" class="headerlink" title="ZIP 明文攻击"></a>ZIP 明文攻击</h2><p>手里有加密的压缩包和压缩包内部分文件，可以使用明文攻击方式。可以将压缩包内加密但是的另外未加密的文件进行压缩，然后用 ARCHPR 这个工具进行明文攻击<br>这个工具的 4.54 版本（起码我手上的这个）有问题，跑了两小时没跑出来，用低版本 4.0 几秒钟出结果</p>
+<p>举个例子有个压缩包，里面俩加密的文件，但是有个相同名字的未被压缩的文件</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1635084193893-4f8a5ef9-7f8b-4163-82e8-6b7fe91806d2.png#clientId=u3c2ed88d-55ce-4&from=paste&height=248&id=ufd842778&name=image.png&originHeight=333&originWidth=961&originalType=binary∶=1&size=280638&status=done&style=stroke&taskId=u9ba44432-3437-4724-ae3d-4aacbf7f7f4&width=714.491943359375" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>这时候可以对外边的图片进行压缩，用 winrar，选择好压缩方式，不知道选啥就都试试</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1635084438091-1d4fa27c-4532-4f05-beed-af737785d742.png#clientId=u3c2ed88d-55ce-4&from=paste&height=417&id=u77137ff4&name=image.png&originHeight=562&originWidth=606&originalType=binary∶=1&size=37763&status=done&style=stroke&taskId=uc6b3f4b1-c9f1-4c14-b799-d181a0df627&width=449.9999694824219" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1635084578017-f1bbcfcb-ba46-49a6-930f-952dab91c98d.png#clientId=u3c2ed88d-55ce-4&from=paste&height=266&id=ucdbb2c00&name=image.png&originHeight=397&originWidth=661&originalType=binary∶=1&size=64241&status=done&style=stroke&taskId=u46e01442-c2c5-4c4d-b3fb-a84e6b38ed4&width=442.4919738769531" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1635085346320-c15e32f0-b345-4f27-b4a6-bea6ccb47e1f.png#clientId=u3c2ed88d-55ce-4&from=paste&height=397&id=u7d3b9218&name=image.png&originHeight=605&originWidth=603&originalType=binary∶=1&size=143043&status=done&style=stroke&taskId=u89542c36-ed12-4ced-b75f-a6064dab9ad&width=395.4999694824219" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2021/png/268938/1635085393635-db083b51-6a14-4f9f-b46f-ec77f35da15f.png#clientId=u3c2ed88d-55ce-4&from=paste&height=348&id=u6c1fc48f&name=image.png&originHeight=377&originWidth=696&originalType=binary∶=1&size=58703&status=done&style=stroke&taskId=udeeee855-67f1-4d67-83a9-8473e507f42&width=642.9999694824219" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
 <h2 id="CRC-爆破"><a href="#CRC-爆破" class="headerlink" title="CRC 爆破"></a>CRC 爆破</h2><p>CRC32:CRC 本身是“冗余校验码”的意思，CRC32 则表示会产生一个 32bit（8 位十六进制数）的校验值</p>
-<p>在产生 CRC32 时，源数据块的每一位都参与了运算，因此即使数据块中只有一位发生改变也<br>会得到不同的 CRC32 值，利用这个原理我们可以直接爆破出加密文件的内容</p>
+<p>在产生 CRC32 时，源数据块的每一位都参与了运算，因此即使数据块中只有一位发生改变也 会得到不同的 CRC32 值，利用这个原理我们可以直接爆破出加密文件的内容</p>
 <p><a href="https://github.com/theonlypwner/crc32" target="_blank" rel="noopener">https://github.com/theonlypwner/crc32</a></p>
 <p>python crc32.py reverse crc 值     根据爆破出来的看看有是不是有啥特殊意思</p>
 <figure class="image-bubble">
                 <div class="img-lightbox">
                     <div class="overlay"></div>
-                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567165033125-11580e03-67ff-4361-848a-00ef3ea6f0fc.png#align=left&display=inline&height=343&name=image.png&originHeight=402&originWidth=883&size=61260&status=done&style=none&width=753.4933333333333" alt="image.png" title="">
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567165033125-11580e03-67ff-4361-848a-00ef3ea6f0fc.png#height=343&id=RZBwx&name=image.png&originHeight=402&originWidth=883&originalType=binary∶=1&size=61260&status=done&style=none&width=753.4933333333333" alt="image.png" title="">
                 </div>
                 <div class="image-caption">image.png</div>
             </figure>
+
+<h2 id="NTFS-流隐写"><a href="#NTFS-流隐写" class="headerlink" title="NTFS 流隐写"></a>NTFS 流隐写</h2><p>安恒的一道题：<strong>猫片</strong>，先是 LSB 提取一个 png，然后改高度得到完整的取反色，下载文件，得到 RAR，使用 NTFS 流隐写，打开软件，然后<strong>用 winrar 解压缩</strong>，然后扫描一下，发现一些其他的东西，导出就可以了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567171060656-78335963-22f5-4dcd-a716-ad28904092db.png#height=786&id=I6xtg&name=image.png&originHeight=921&originWidth=1271&originalType=binary∶=1&size=302722&status=done&style=none&width=1084.5866666666666" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h2 id="zlib-解压"><a href="#zlib-解压" class="headerlink" title="zlib 解压"></a>zlib 解压</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> zlib</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">compress</span><span class="params">(infile, dst, level=<span class="number">9</span>)</span>:</span></span><br><span class="line">    infile = open(infile, <span class="string">'rb'</span>)</span><br><span class="line">    dst = open(dst, <span class="string">'wb'</span>)</span><br><span class="line">    compress = zlib.compressobj(level)</span><br><span class="line">    data = infile.read(<span class="number">1024</span>)</span><br><span class="line">    <span class="keyword">while</span> data:</span><br><span class="line">        dst.write(compress.compress(data))</span><br><span class="line">        data = infile.read(<span class="number">1024</span>)</span><br><span class="line">    dst.write(compress.flush())</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decompress</span><span class="params">(infile, dst)</span>:</span></span><br><span class="line">    infile = open(infile, <span class="string">'rb'</span>)</span><br><span class="line">    dst = open(dst, <span class="string">'wb'</span>)</span><br><span class="line">    decompress = zlib.decompressobj()</span><br><span class="line">    data = infile.read(<span class="number">1024</span>)</span><br><span class="line">    <span class="keyword">while</span> data:</span><br><span class="line">        dst.write(decompress.decompress(data))</span><br><span class="line">        data = infile.read(<span class="number">1024</span>)</span><br><span class="line">    dst.write(decompress.flush())</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    <span class="comment">#compress('in.txt', 'out.txt')</span></span><br><span class="line">    decompress(<span class="string">'zlib_out'</span>, <span class="string">'out_decompress.txt'</span>)</span><br></pre></td></tr></table></figure>
 
         </div>
 
@@ -254,7 +320,7 @@
     <div class="content">
         
 <span class="post-time">
-    最后更新时间：<time datetime="2022-10-03T13:52:43.665Z" itemprop="dateUpdated">2022-10-03 21:52:43</time>
+    最后更新时间：<time datetime="2022-10-03T14:07:54.898Z" itemprop="dateUpdated">2022-10-03 22:07:54</time>
 </span><br>
 
 
