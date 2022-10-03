@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>对某款智能手环的分析与攻击 | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="首先确定手环的 MAC 地址，使用 APP 进行扫描连接，连接成功就会显示设备的 MAC 地址：A4:C1:38:6A:1C:BF                                                                                                             接下来解除绑定，使用 TI 的 packet sni">
+<meta property="og:type" content="article">
+<meta property="og:title" content="对某款智能手环的分析与攻击">
+<meta property="og:url" content="https://yichen115.github.io/2022/03/03/ltx5lr/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="首先确定手环的 MAC 地址，使用 APP 进行扫描连接，连接成功就会显示设备的 MAC 地址：A4:C1:38:6A:1C:BF                                                                                                             接下来解除绑定，使用 TI 的 packet sni">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310527446-1f0c26d7-9048-47cb-b0f7-517aa0072443.png#crop=0&crop=0&crop=1&crop=1&id=lejnl&originHeight=274&originWidth=513&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310527893-14baf1cb-47ca-48aa-99bf-6db67148ac10.png#crop=0&crop=0&crop=1&crop=1&id=xgvd6&originHeight=758&originWidth=1680&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310528459-d552ab52-5b76-4cee-bf65-f9185039d6fd.png#crop=0&crop=0&crop=1&crop=1&id=BOmPr&originHeight=933&originWidth=1685&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310528955-8b417aef-bcf5-4849-8787-cf192f54a029.png#crop=0&crop=0&crop=1&crop=1&id=kX9k1&originHeight=933&originWidth=1686&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310529487-7c6ef1ce-3d36-4405-9c46-c11ca91ac4b6.png#crop=0&crop=0&crop=1&crop=1&id=y3xAg&originHeight=933&originWidth=1680&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310529948-c6d5e486-0b4c-4eb6-9412-d723be51a78d.png#crop=0&crop=0&crop=1&crop=1&id=q0t8G&originHeight=139&originWidth=945&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310530442-b0643c0a-3584-427e-9b84-1449f7855405.png#crop=0&crop=0&crop=1&crop=1&id=wkTO6&originHeight=209&originWidth=713&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310531074-21a78471-a72a-4f11-bd12-4ccbbc6a00b8.png#crop=0&crop=0&crop=1&crop=1&id=DhKqk&originHeight=577&originWidth=1269&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310531632-a2ef627c-5ce1-4b70-bfd4-1d28414c3602.png#crop=0&crop=0&crop=1&crop=1&id=WMdhB&originHeight=577&originWidth=1269&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310532238-31c65d2e-c800-44ce-80b3-9069943d6b9b.png#crop=0&crop=0&crop=1&crop=1&id=O4CHB&originHeight=577&originWidth=1269&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310532766-4463e106-7c3d-4666-9cc7-292548e95538.png#crop=0&crop=0&crop=1&crop=1&id=TaRL9&originHeight=577&originWidth=1269&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310533742-4c5e16c5-dc45-40d2-889e-c0d6e725e06d.png#crop=0&crop=0&crop=1&crop=1&id=XQJpS&originHeight=577&originWidth=1269&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310534346-68f78b1f-35de-483c-b198-946da661ce65.png#crop=0&crop=0&crop=1&crop=1&id=YCMsJ&originHeight=577&originWidth=1269&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310535157-90648b81-d4ea-470e-ae13-f51c83c6d7b4.png#crop=0&crop=0&crop=1&crop=1&id=xoyi0&originHeight=585&originWidth=1267&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310535831-32009bdd-be41-4a48-8f5a-7958ae7bf16c.png#crop=0&crop=0&crop=1&crop=1&id=BKf7J&originHeight=585&originWidth=1267&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310536340-129dbe9e-e956-409e-bb9b-f143ae7b8c66.png#crop=0&crop=0&crop=1&crop=1&id=WxDAf&originHeight=596&originWidth=1267&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310536946-6cca6462-10b0-4ab1-aee4-5a3d5975a720.png#crop=0&crop=0&crop=1&crop=1&id=XQNyu&originHeight=585&originWidth=1267&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/jpeg/268938/1646310537385-f03a4fd2-763c-46c9-96a2-26fd6634236b.jpeg#crop=0&crop=0&crop=1&crop=1&id=VxLVh&originHeight=594&originWidth=297&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/jpeg/268938/1646310537854-17f77442-fcd9-4341-b0e5-4100076d3733.jpeg#crop=0&crop=0&crop=1&crop=1&id=FFP28&originHeight=175&originWidth=466&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310538398-419b6b95-f583-4480-a009-d4a06f41e217.png#crop=0&crop=0&crop=1&crop=1&id=ladW1&originHeight=238&originWidth=1128&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310539468-2aabe2f0-a877-44bf-aea6-2d7f87beb9c4.png#crop=0&crop=0&crop=1&crop=1&id=ElDyn&originHeight=204&originWidth=1223&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310539892-17cdbcd7-0b3b-4fd2-9d94-33220bb34fad.png#crop=0&crop=0&crop=1&crop=1&id=kYG5k&originHeight=159&originWidth=1215&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310540509-8ab1128a-61b4-4a79-886c-d1685a97068b.png#crop=0&crop=0&crop=1&crop=1&id=W9aoT&originHeight=102&originWidth=862&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310541093-f83d1f5c-3357-4c62-a857-90cab447ba33.png#crop=0&crop=0&crop=1&crop=1&id=Q9Fl0&originHeight=430&originWidth=865&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310541594-4824c787-d7c9-4aa3-bfb7-67a07e98af84.png#crop=0&crop=0&crop=1&crop=1&id=KE963&originHeight=698&originWidth=800&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310542130-30c8ce5b-1e8c-4715-bee3-bb5b92fa1918.png#crop=0&crop=0&crop=1&crop=1&id=DTQ9n&originHeight=206&originWidth=747&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310542583-69841216-b4ed-485c-a0a1-0ce01c06f8fe.png#crop=0&crop=0&crop=1&crop=1&id=gifrs&originHeight=143&originWidth=470&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310543234-754dbbc2-1917-4a52-bab9-be40551541d5.png#crop=0&crop=0&crop=1&crop=1&id=WJPeF&originHeight=136&originWidth=485&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310543708-4b33b1f0-ee62-4f8b-a161-5f85994d3b22.png#crop=0&crop=0&crop=1&crop=1&id=QxVV0&originHeight=187&originWidth=570&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310544222-119fb88f-6384-4511-8c89-e0f2fa6db774.png#crop=0&crop=0&crop=1&crop=1&id=aicAV&originHeight=359&originWidth=762&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310544714-5f0d6c46-e17a-46fb-aef5-ab534e0e1d80.png#crop=0&crop=0&crop=1&crop=1&id=sPJbO&originHeight=151&originWidth=876&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/jpeg/268938/1646310545205-ba992fff-be22-406e-adea-6736231b2625.jpeg#crop=0&crop=0&crop=1&crop=1&id=vQjPu&originHeight=390&originWidth=700&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="article:published_time" content="2022-03-03T12:28:41.000Z">
+<meta property="article:modified_time" content="2022-10-03T13:52:43.728Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310527446-1f0c26d7-9048-47cb-b0f7-517aa0072443.png#crop=0&crop=0&crop=1&crop=1&id=lejnl&originHeight=274&originWidth=513&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-grav"></i>
+                语雀
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://passport.kanxue.com/user-center-837755.htm" target="_blank" >
+                <i class="icon icon-lg icon-snowflake-o"></i>
+                看雪
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://sighttp.qq.com/msgrd?v=1&uin=1097179511" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://img2020.cnblogs.com/blog/1558534/202003/1558534-20200331231408805-256812285.jpg" target="_blank" >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">对某款智能手环的分析与攻击</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">对某款智能手环的分析与攻击</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2022-03-03T12:28:41.000Z" itemprop="datePublished" class="page-time">
+  2022-03-03
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+
+<article id="post-ltx5lr"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">对某款智能手环的分析与攻击</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2022-03-03 20:28:41" datetime="2022-03-03T12:28:41.000Z"  itemprop="datePublished">2022-03-03</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>首先确定手环的 MAC 地址，使用 APP 进行扫描连接，连接成功就会显示设备的 MAC 地址：A4:C1:38:6A:1C:BF</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310527446-1f0c26d7-9048-47cb-b0f7-517aa0072443.png#crop=0&crop=0&crop=1&crop=1&id=lejnl&originHeight=274&originWidth=513&originalType=binary∶=1&rotation=0&showTitle=false&status=done&style=none&title=" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>接下来解除绑定，使用 TI 的 packet sniffer 进行蓝牙数据包的捕获，插入 CC2540 后选择好类型，开始捕获后再查找手环进行绑定，因为 BLE 会随机在 37、38、39 三个信道中选择一个，而 packet sniffer 只能监听一个信道，所以可能需要多试几次才能捕获到，其中 M-&gt;S 表示是手机发送给手环，S-&gt;M 是手环发送给手机</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310527893-14baf1cb-47ca-48aa-99bf-6db67148ac10.png#crop=0&crop=0&crop=1&crop=1&id=xgvd6&originHeight=758&originWidth=1680&originalType=binary∶=1&rotation=0&showTitle=false&status=done&style=none&title=" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>有些可疑的包标记一下，这两个都包含了当前的步数 100，即 0x64，且都是从手机端发送一个请求之后从手环发回来的</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310528459-d552ab52-5b76-4cee-bf65-f9185039d6fd.png#crop=0&crop=0&crop=1&crop=1&id=BOmPr&originHeight=933&originWidth=1685&originalType=binary∶=1&rotation=0&showTitle=false&status=done&style=none&title=" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310528955-8b417aef-bcf5-4849-8787-cf192f54a029.png#crop=0&crop=0&crop=1&crop=1&id=kX9k1&originHeight=933&originWidth=1686&originalType=binary∶=1&rotation=0&showTitle=false&status=done&style=none&title=" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>在捕获的最后阶段，我摁下了几次查找手环的命令，这应该是查找手环的震动效果</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310529487-7c6ef1ce-3d36-4405-9c46-c11ca91ac4b6.png#crop=0&crop=0&crop=1&crop=1&id=y3xAg&originHeight=933&originWidth=1680&originalType=binary∶=1&rotation=0&showTitle=false&status=done&style=none&title=" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>但是此时通过 gatttool 或者 nRFconnect 进行发送是不成功的，因为手环需要进行绑定才能通信，接下来使用 AndroidKiller 抓取 APP 的日志进行分析，查看 APP 是如何与手环进行通信的</p>
+<p>打开 AndroidKiller 后连接手机，在 Android 中已找到设备中就可以看到手机了，然后点击日志</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310529948-c6d5e486-0b4c-4eb6-9412-d723be51a78d.png#crop=0&crop=0&crop=1&crop=1&id=q0t8G&originHeight=139&originWidth=945&originalType=binary∶=1&rotation=0&showTitle=false&status=done&style=none&title=" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>点击开始进行日志的捕获</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310530442-b0643c0a-3584-427e-9b84-1449f7855405.png#crop=0&crop=0&crop=1&crop=1&id=wkTO6&originHeight=209&originWidth=713&originalType=binary∶=1&rotation=0&showTitle=false&status=done&style=none&title=" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>打开 APP，进行绑定等操作，这里进行 ble 扫描</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310531074-21a78471-a72a-4f11-bd12-4ccbbc6a00b8.png#crop=0&crop=0&crop=1&crop=1&id=DhKqk&originHeight=577&originWidth=1269&originalType=binary∶=1&rotation=0&showTitle=false&status=done&style=none&title=" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>这里进行 BLE 的连接</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310531632-a2ef627c-5ce1-4b70-bfd4-1d28414c3602.png#crop=0&crop=0&crop=1&crop=1&id=WMdhB&originHeight=577&originWidth=1269&originalType=binary∶=1&rotation=0&showTitle=false&status=done&style=none&title=" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>BLE 连接成功，此时虽然连接成功但是仍然没有绑定设备</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310532238-31c65d2e-c800-44ce-80b3-9069943d6b9b.png#crop=0&crop=0&crop=1&crop=1&id=O4CHB&originHeight=577&originWidth=1269&originalType=binary∶=1&rotation=0&showTitle=false&status=done&style=none&title=" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>向手环发送了一条指令：430000dc，猜测是用来进行绑定，可以先记录下来，后边通过 gatttool 进行验证</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310532766-4463e106-7c3d-4666-9cc7-292548e95538.png#crop=0&crop=0&crop=1&crop=1&id=TaRL9&originHeight=577&originWidth=1269&originalType=binary∶=1&rotation=0&showTitle=false&status=done&style=none&title=" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>这里发送了指令：0100000b，用来同步配置信息 getDeviceInfo</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310533742-4c5e16c5-dc45-40d2-889e-c0d6e725e06d.png#crop=0&crop=0&crop=1&crop=1&id=XQJpS&originHeight=577&originWidth=1269&originalType=binary∶=1&rotation=0&showTitle=false&status=done&style=none&title=" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>指令：02000006 作用仍然是同步配置信息 getDeviceState</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310534346-68f78b1f-35de-483c-b198-946da661ce65.png#crop=0&crop=0&crop=1&crop=1&id=YCMsJ&originHeight=577&originWidth=1269&originalType=binary∶=1&rotation=0&showTitle=false&status=done&style=none&title=" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>获取手环电量指令：27000074</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310535157-90648b81-d4ea-470e-ae13-f51c83c6d7b4.png#crop=0&crop=0&crop=1&crop=1&id=xoyi0&originHeight=585&originWidth=1267&originalType=binary∶=1&rotation=0&showTitle=false&status=done&style=none&title=" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>获取步数、卡路里、距离等指令：2001000070<br>获取心率等指令：21010000c6<br>(这里只是根据值大致推测了一下，并没有逆向 APP 查看每个字段的范围)</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310535831-32009bdd-be41-4a48-8f5a-7958ae7bf16c.png#crop=0&crop=0&crop=1&crop=1&id=BKf7J&originHeight=585&originWidth=1267&originalType=binary∶=1&rotation=0&showTitle=false&status=done&style=none&title=" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>获取体温数据指令：2c01000078</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310536340-129dbe9e-e956-409e-bb9b-f143ae7b8c66.png#crop=0&crop=0&crop=1&crop=1&id=WxDAf&originHeight=596&originWidth=1267&originalType=binary∶=1&rotation=0&showTitle=false&status=done&style=none&title=" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>查找手环指令：1008000000000001000000c00000000000000000，效果是三次长时间的震动</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310536946-6cca6462-10b0-4ab1-aee4-5a3d5975a720.png#crop=0&crop=0&crop=1&crop=1&id=XQNyu&originHeight=585&originWidth=1267&originalType=binary∶=1&rotation=0&showTitle=false&status=done&style=none&title=" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>手环还支持将 APP 收到的消息推送到手环上显示</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/jpeg/268938/1646310537385-f03a4fd2-763c-46c9-96a2-26fd6634236b.jpeg#crop=0&crop=0&crop=1&crop=1&id=VxLVh&originHeight=594&originWidth=297&originalType=binary∶=1&rotation=0&showTitle=false&status=done&style=none&title=" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>打开后给上面列表中支持的 APP 发送消息，手环就会显示收到的消息</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/jpeg/268938/1646310537854-17f77442-fcd9-4341-b0e5-4100076d3733.jpeg#crop=0&crop=0&crop=1&crop=1&id=FFP28&originHeight=175&originWidth=466&originalType=binary∶=1&rotation=0&showTitle=false&status=done&style=none&title=" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>查看一下这个过程的日志，可以发现如下信息：<br>首先是 0a020000020e，告诉手环要推送消息</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310538398-419b6b95-f583-4480-a009-d4a06f41e217.png#crop=0&crop=0&crop=1&crop=1&id=ladW1&originHeight=238&originWidth=1128&originalType=binary∶=1&rotation=0&showTitle=false&status=done&style=none&title=" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>然后是发送人的昵称：test，这里的指令为 0a050001746573743a</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310539468-2aabe2f0-a877-44bf-aea6-2d7f87beb9c4.png#crop=0&crop=0&crop=1&crop=1&id=ElDyn&originHeight=204&originWidth=1223&originalType=binary∶=1&rotation=0&showTitle=false&status=done&style=none&title=" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>这里是发送的消息，1234，指令为 0a05000231323334</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310539892-17cdbcd7-0b3b-4fd2-9d94-33220bb34fad.png#crop=0&crop=0&crop=1&crop=1&id=kYG5k&originHeight=159&originWidth=1215&originalType=binary∶=1&rotation=0&showTitle=false&status=done&style=none&title=" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>最后是指令 0a0100030e 表示消息都发送完了，手环可以显示了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310540509-8ab1128a-61b4-4a79-886c-d1685a97068b.png#crop=0&crop=0&crop=1&crop=1&id=W9aoT&originHeight=102&originWidth=862&originalType=binary∶=1&rotation=0&showTitle=false&status=done&style=none&title=" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>除了前后两条指令，消息部分指令中间一部分可以很明显知道是 ASCII 的十六进制，但是整条指令的构成需要对 APP 进行逆向分析，通过日志前面的 tag 可以知道这是在 CmdHelper.java 中实现的，使用 jadx 打开 APP，找到 CmdHelper，位置在 com-&gt;runmifit.android-&gt;util-&gt;ble-&gt;CmdHelper，找到 setMessage2，可以看到他接收的参数是一个整形一个字符串，根据日志的上下文可以推测是 IntelligentNotificationService 传给他的参数，定位到 com-&gt;runmifit.android-&gt;sevice-&gt;IntelligentNotificationService，发现只有两个地方调用了 setMessage2，一个传 1 一个传 2</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310541093-f83d1f5c-3357-4c62-a857-90cab447ba33.png#crop=0&crop=0&crop=1&crop=1&id=Q9Fl0&originHeight=430&originWidth=865&originalType=binary∶=1&rotation=0&showTitle=false&status=done&style=none&title=" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>此时再回来看一下 setMessage2 中参数 i 的用途，猜测这个是用来区分是发送人昵称还是消息的字段</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310541594-4824c787-d7c9-4aa3-bfb7-67a07e98af84.png#crop=0&crop=0&crop=1&crop=1&id=KE963&originHeight=698&originWidth=800&originalType=binary∶=1&rotation=0&showTitle=false&status=done&style=none&title=" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>setMessage2 函数主要作用是构造一个 bArr2 数组给 spliteData 函数，这里主要看以下 bArr2 的构成</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310542130-30c8ce5b-1e8c-4715-bee3-bb5b92fa1918.png#crop=0&crop=0&crop=1&crop=1&id=DTQ9n&originHeight=206&originWidth=747&originalType=binary∶=1&rotation=0&showTitle=false&status=done&style=none&title=" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>这里的 i2 是之前计算的长度，它加了 5 个字节作为构造出的指令的长度，bArr2[0] = 10; 开头是固定的 0a，然后两个是用来存放长度+1 的，然后是区分昵称还是消息的字段，接着把消息拼接上，最后是一个 completeCheckCode，往上面翻一下定位到该函数</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310542583-69841216-b4ed-485c-a0a1-0ce01c06f8fe.png#crop=0&crop=0&crop=1&crop=1&id=gifrs&originHeight=143&originWidth=470&originalType=binary∶=1&rotation=0&showTitle=false&status=done&style=none&title=" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>他只是把传进去的数组挨个遍历加起来然后乘上 86 再加上 90，得到的结果取末尾一字节，作为一个校验。因为昵称和消息内容都是用 setMessage2 函数生成的，所以构成方法一致</p>
+<p>至此，消息指令的构成就分析完了，试着来构造一个消息：sec 发送的 hacked</p>
+<p>sec 的 ascii 码分别是 73 65 63，长度是 3+1=4，计算最后的校验位 0a+04+01+73+65+63=14A 即十进制的 330，330*86+90=28470，也就是 6F36，取末尾一位 36</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310543234-754dbbc2-1917-4a52-bab9-be40551541d5.png#crop=0&crop=0&crop=1&crop=1&id=WJPeF&originHeight=136&originWidth=485&originalType=binary∶=1&rotation=0&showTitle=false&status=done&style=none&title=" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>所以昵称的指令为：0a04000173656336，同理消息的指令为：0a0700026861636b6564fc<br>接下来使用 gatttool 进行验证，需要蓝牙适配器支持 ble 通信，使用命令 hciconfig hci0 up 将蓝牙适配器激活</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310543708-4b33b1f0-ee62-4f8b-a161-5f85994d3b22.png#crop=0&crop=0&crop=1&crop=1&id=QxVV0&originHeight=187&originWidth=570&originalType=binary∶=1&rotation=0&showTitle=false&status=done&style=none&title=" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>gatttool -I -b A4:C1:38:6A:1C:BF 进入交互模式，其中 -I 表示进入交互模式，-b 指定 MAC 地址，进入后使用 connect 进行连接，输入 help 查看帮助</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310544222-119fb88f-6384-4511-8c89-e0f2fa6db774.png#crop=0&crop=0&crop=1&crop=1&id=aicAV&originHeight=359&originWidth=762&originalType=binary∶=1&rotation=0&showTitle=false&status=done&style=none&title=" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>输入 characteristics 查看所有的特征，我们要使用的句柄是 0x11</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1646310544714-5f0d6c46-e17a-46fb-aef5-ab534e0e1d80.png#crop=0&crop=0&crop=1&crop=1&id=sPJbO&originHeight=151&originWidth=876&originalType=binary∶=1&rotation=0&showTitle=false&status=done&style=none&title=" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>首先发送 430000dc 进行绑定，然后就可以发送其他的指令。例如获取手环步数、查找手环让手环震动、获取手环心率等，我们先给手环推送一下之前分析的消息，测试一下判断的是否正确</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/jpeg/268938/1646310545205-ba992fff-be22-406e-adea-6736231b2625.jpeg#crop=0&crop=0&crop=1&crop=1&id=vQjPu&originHeight=390&originWidth=700&originalType=binary∶=1&rotation=0&showTitle=false&status=done&style=none&title=" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>可以看到我们自定义的消息成功被推送到了手环上并显示出来</p>
+<p>附：<br>021000320500010001010001ff000000000000e2 打开消息推送<br>021000320500010001010000ff0000000000008c 关闭消息推送</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2022-10-03T13:52:43.728Z" itemprop="dateUpdated">2022-10-03 21:52:43</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2022/03/03/ltx5lr/&title=《对某款智能手环的分析与攻击》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2022/03/03/ltx5lr/&title=《对某款智能手环的分析与攻击》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2022/03/03/ltx5lr/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《对某款智能手环的分析与攻击》 — yichen's blog&url=https://yichen115.github.io/2022/03/03/ltx5lr/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2022/03/03/ltx5lr/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2022/03/05/czhqlu/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">找调试口</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2022/02/25/dgd67v/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">ESP32使用BLE</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020 - 2022</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2022/03/03/ltx5lr/&title=《对某款智能手环的分析与攻击》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2022/03/03/ltx5lr/&title=《对某款智能手环的分析与攻击》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2022/03/03/ltx5lr/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《对某款智能手环的分析与攻击》 — yichen's blog&url=https://yichen115.github.io/2022/03/03/ltx5lr/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2022/03/03/ltx5lr/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2022/03/03/ltx5lr/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

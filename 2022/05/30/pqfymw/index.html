@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>MQTT协议 | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="MQTT 服务使用的 emqx，在 https:&#x2F;&#x2F;www.emqx.com&#x2F;zh&#x2F;try?product&#x3D;broker 下载开源版本即可下载下来之后解压，进到里面的 bin 文件夹下面运行：emqx start服务就启动了，访问浏览器 ip:18083 就可以来到 WEB 端的控制台，默认密码 admin&#x2F;public在监听器中可以看到对应的协议以及监听的端口">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MQTT协议">
+<meta property="og:url" content="https://yichen115.github.io/2022/05/30/pqfymw/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="MQTT 服务使用的 emqx，在 https:&#x2F;&#x2F;www.emqx.com&#x2F;zh&#x2F;try?product&#x3D;broker 下载开源版本即可下载下来之后解压，进到里面的 bin 文件夹下面运行：emqx start服务就启动了，访问浏览器 ip:18083 就可以来到 WEB 端的控制台，默认密码 admin&#x2F;public在监听器中可以看到对应的协议以及监听的端口">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1654089614768-40fb442d-43e3-4bc3-be9e-062ac7028d91.png#clientId=ud628be43-4f89-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=755&id=u9b8bccfe&margin=%5Bobject%20Object%5D&name=image.png&originHeight=944&originWidth=1325&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=71515&status=done&style=stroke&taskId=u100b5b7b-39ec-44b2-9066-d3a34de1cba&title=&width=1060">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1654089631130-5a3b9aae-f76b-4fd8-8e82-64fb354e4180.png#clientId=ud628be43-4f89-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=184&id=u70b6c420&margin=%5Bobject%20Object%5D&name=image.png&originHeight=230&originWidth=734&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=12130&status=done&style=stroke&taskId=ud34f7b70-d925-44be-9cb3-34c6ca109ce&title=&width=587.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1653969028123-06888308-33f0-4982-b715-dd78d826a83e.png#clientId=ua8061cea-07b4-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=314&id=ua73f1472&margin=%5Bobject%20Object%5D&name=image.png&originHeight=611&originWidth=1661&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=87471&status=done&style=none&taskId=u5e5b34b1-4fa8-4a0c-b2f1-4d4fd5fe782&title=&width=853">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1653968679951-9fff5023-01ec-43fb-9760-bced4166e98d.png#clientId=ua8061cea-07b4-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=232&id=ue103b23d&margin=%5Bobject%20Object%5D&name=image.png&originHeight=290&originWidth=402&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=25046&status=done&style=none&taskId=uaf4996d1-349f-41ff-9270-18901d5e192&title=&width=321.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1653968750380-2cd72d7b-a73d-43ef-8380-b5dee0a906f0.png#clientId=ua8061cea-07b4-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=164&id=uf8df1cfe&margin=%5Bobject%20Object%5D&name=image.png&originHeight=205&originWidth=415&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=17085&status=done&style=none&taskId=u3f691329-c366-4023-906a-0098638ae45&title=&width=332">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1653968851905-e9074489-5743-457b-8028-64c0c51adecf.png#clientId=ua8061cea-07b4-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=238&id=uff77fcc6&margin=%5Bobject%20Object%5D&name=image.png&originHeight=297&originWidth=814&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=25759&status=done&style=none&taskId=u5bb625af-3dfe-4dfd-b8b0-fee08217951&title=&width=651.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1653988276486-1fcbb7ac-7e44-4216-aa94-6846dbec48dd.png#clientId=ua3289919-936f-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=114&id=x94Ep&margin=%5Bobject%20Object%5D&name=image.png&originHeight=143&originWidth=342&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=6860&status=done&style=none&taskId=uaa758d83-6992-476e-9c2e-da1c5be475a&title=&width=273.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1654156035529-f6ce5913-6bd0-4d0b-a610-31a259629b70.png#clientId=u58a8683b-5df5-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=638&id=u1a90efa9&margin=%5Bobject%20Object%5D&name=image.png&originHeight=798&originWidth=817&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=31755&status=done&style=none&taskId=ufb833701-24b7-4d5c-8492-bafbed39ec5&title=&width=653.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1654156519249-dac6b2eb-ccd8-4bf9-a171-d346f67e5799.png#clientId=u58a8683b-5df5-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=83&id=u9c0e8375&margin=%5Bobject%20Object%5D&name=image.png&originHeight=104&originWidth=875&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=12234&status=done&style=none&taskId=u6f79342b-ce43-4a2d-8c98-6a756edc020&title=&width=700">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1654130762561-73a83aa7-ea9b-4470-868d-ae7ce7d9eeeb.png#clientId=u3043f5f1-c9c0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=577&id=u18838bff&margin=%5Bobject%20Object%5D&name=image.png&originHeight=721&originWidth=965&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=144266&status=done&style=none&taskId=u44f3fa24-cbf2-4e98-bc7c-5fb514aac36&title=&width=772">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1654156732464-1e6f920b-086e-458b-b515-f56e7ba69368.png#clientId=u58a8683b-5df5-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=626&id=ub5dc14cc&margin=%5Bobject%20Object%5D&name=image.png&originHeight=783&originWidth=1079&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=105035&status=done&style=none&taskId=u2f5b188f-8e20-4c81-a797-0579e8f37d3&title=&width=863.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1654130904444-a20d23a5-6bef-4bd4-bd74-abd2b1e64923.png#clientId=u3043f5f1-c9c0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=394&id=ua43f8bac&margin=%5Bobject%20Object%5D&name=image.png&originHeight=492&originWidth=930&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=43086&status=done&style=none&taskId=uc7689437-95a4-46f4-899f-c8be3f8e105&title=&width=744">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1654132374526-ef36cf4d-0ca8-413b-ac4e-29f451a3213f.png#clientId=u3043f5f1-c9c0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=502&id=u5a314338&margin=%5Bobject%20Object%5D&name=image.png&originHeight=628&originWidth=1191&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=121291&status=done&style=none&taskId=u3196ba64-2917-4219-a907-c234986af58&title=&width=952.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1654153945802-b9ff1330-742d-46fe-a3d8-2dd85d70e9cc.png#clientId=ucffbd8a0-2430-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=131&id=u48a29b35&margin=%5Bobject%20Object%5D&name=image.png&originHeight=164&originWidth=973&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=22610&status=done&style=none&taskId=u7037a0c8-4454-403e-8699-dbc14d3300f&title=&width=778.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1654132763918-14850306-d020-4450-8922-9cce07c37644.png#clientId=u3043f5f1-c9c0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=512&id=u431a863e&margin=%5Bobject%20Object%5D&name=image.png&originHeight=640&originWidth=1079&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=66840&status=done&style=none&taskId=uaa1b4fd7-da9a-46b3-8553-9f429167871&title=&width=863.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1654148225405-0981554e-4eb9-4f10-a074-50454d4edb41.png#clientId=ufbf6f20e-bc95-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=474&id=u53b111fc&margin=%5Bobject%20Object%5D&name=image.png&originHeight=593&originWidth=1093&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=60189&status=done&style=none&taskId=u61337ace-c361-43ca-8039-94d33534eab&title=&width=874.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1654083472492-42699252-e08b-4e60-b7e4-314ae6198640.png#clientId=ua2dd964c-a042-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=421&id=uf4e1d22b&margin=%5Bobject%20Object%5D&name=image.png&originHeight=526&originWidth=602&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=24714&status=done&style=none&taskId=ub6e8720c-f276-49f2-8224-0c607a72121&title=&width=481.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1654083628102-4df5ace0-717a-4942-a475-7dac90443320.png#clientId=ua2dd964c-a042-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=208&id=u0fb339da&margin=%5Bobject%20Object%5D&name=image.png&originHeight=260&originWidth=751&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=22386&status=done&style=none&taskId=uc1f8f6ae-9a5f-48eb-a47e-4a94bd5e9f7&title=&width=600.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1654085327049-58489a5c-f14c-4a7e-a637-38bda4cfb0eb.png#clientId=uea783b4d-856c-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=305&id=u1a7e35fb&margin=%5Bobject%20Object%5D&name=image.png&originHeight=381&originWidth=938&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=39418&status=done&style=none&taskId=uf3dcf751-eda5-421a-93dd-5e594283f4c&title=&width=750.4">
+<meta property="og:image" content="https://www.wangan.com/p/7fy7f67838fafafb">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1654089110308-4ce68ee8-83c3-4fa3-b477-f1b91e136872.png#clientId=ud628be43-4f89-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=310&id=u92f2048e&margin=%5Bobject%20Object%5D&name=image.png&originHeight=388&originWidth=730&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=16921&status=done&style=stroke&taskId=ufb06ef3b-b10e-4766-aad2-9d14f451077&title=&width=584">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1654089394789-dfb7c416-744b-4d8f-a9cd-3357516031f0.png#clientId=ud628be43-4f89-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=558&id=u93c614c5&margin=%5Bobject%20Object%5D&name=image.png&originHeight=697&originWidth=1093&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=48575&status=done&style=stroke&taskId=u8b7b735f-f75e-4f3d-87c3-75b4c34b62d&title=&width=874.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1653977135315-a4cf7711-7a28-4e00-8cc1-78d19923db6a.png#clientId=ua8061cea-07b4-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=226&id=KzyHF&margin=%5Bobject%20Object%5D&name=image.png&originHeight=283&originWidth=1043&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=92209&status=done&style=none&taskId=ub69d4e4f-af97-4af0-b5f4-6fea8a3b809&title=&width=834.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1653977439399-2647aa70-86a8-4e5c-9f81-939830377503.png#clientId=ua8061cea-07b4-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=594&id=cwKjS&margin=%5Bobject%20Object%5D&name=image.png&originHeight=743&originWidth=1370&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=224613&status=done&style=none&taskId=u689da26c-8f09-45cb-b3b0-6a90c1a898a&title=&width=1096">
+<meta property="article:published_time" content="2022-05-30T11:44:43.000Z">
+<meta property="article:modified_time" content="2022-10-03T13:52:43.790Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1654089614768-40fb442d-43e3-4bc3-be9e-062ac7028d91.png#clientId=ud628be43-4f89-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=755&id=u9b8bccfe&margin=%5Bobject%20Object%5D&name=image.png&originHeight=944&originWidth=1325&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=71515&status=done&style=stroke&taskId=u100b5b7b-39ec-44b2-9066-d3a34de1cba&title=&width=1060">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-grav"></i>
+                语雀
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://passport.kanxue.com/user-center-837755.htm" target="_blank" >
+                <i class="icon icon-lg icon-snowflake-o"></i>
+                看雪
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://sighttp.qq.com/msgrd?v=1&uin=1097179511" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://img2020.cnblogs.com/blog/1558534/202003/1558534-20200331231408805-256812285.jpg" target="_blank" >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">MQTT协议</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">MQTT协议</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2022-05-30T11:44:43.000Z" itemprop="datePublished" class="page-time">
+  2022-05-30
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#MQTT"><span class="post-toc-number">1.</span> <span class="post-toc-text">MQTT</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#MQTTS"><span class="post-toc-number">2.</span> <span class="post-toc-text">MQTTS</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#WS"><span class="post-toc-number">3.</span> <span class="post-toc-text">WS</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#WSS"><span class="post-toc-number">4.</span> <span class="post-toc-text">WSS</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#用-Python-连接"><span class="post-toc-number">5.</span> <span class="post-toc-text">用 Python 连接</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-pqfymw"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">MQTT协议</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2022-05-30 19:44:43" datetime="2022-05-30T11:44:43.000Z"  itemprop="datePublished">2022-05-30</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>MQTT 服务使用的 emqx，在 <a href="https://www.emqx.com/zh/try?product=broker" target="_blank" rel="noopener">https://www.emqx.com/zh/try?product=broker</a> 下载开源版本即可<br>下载下来之后解压，进到里面的 bin 文件夹下面运行：<code>emqx start</code>服务就启动了，访问浏览器 ip:18083 就可以来到 WEB 端的控制台，默认密码 admin/public<br>在监听器中可以看到对应的协议以及监听的端口</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1654089614768-40fb442d-43e3-4bc3-be9e-062ac7028d91.png#clientId=ud628be43-4f89-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=755&id=u9b8bccfe&margin=%5Bobject%20Object%5D&name=image.png&originHeight=944&originWidth=1325&originalType=binary∶=1&rotation=0&showTitle=false&size=71515&status=done&style=stroke&taskId=u100b5b7b-39ec-44b2-9066-d3a34de1cba&title=&width=1060" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="MQTT"><a href="#MQTT" class="headerlink" title="MQTT"></a>MQTT</h1><p>默认情况下，连账号密码都不用，<a href="https://www.emqx.com/zh/products/mqttx" target="_blank" rel="noopener">mqttx</a> 直接填好地址和端口就行，其他的随意</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1654089631130-5a3b9aae-f76b-4fd8-8e82-64fb354e4180.png#clientId=ud628be43-4f89-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=184&id=u70b6c420&margin=%5Bobject%20Object%5D&name=image.png&originHeight=230&originWidth=734&originalType=binary∶=1&rotation=0&showTitle=false&size=12130&status=done&style=stroke&taskId=ud34f7b70-d925-44be-9cb3-34c6ca109ce&title=&width=587.2" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>去 WEB 端插件页面把 emqx_auth_mnesia 插件启动了，就需要账号密码认证了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1653969028123-06888308-33f0-4982-b715-dd78d826a83e.png#clientId=ua8061cea-07b4-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=314&id=ua73f1472&margin=%5Bobject%20Object%5D&name=image.png&originHeight=611&originWidth=1661&originalType=binary∶=1&rotation=0&showTitle=false&size=87471&status=done&style=none&taskId=u5e5b34b1-4fa8-4a0c-b2f1-4d4fd5fe782&title=&width=853" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>然后找到下载的文件夹里的 etc 目录里的 emqx.conf 搜索 allow_anonymous 改为 false</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1653968679951-9fff5023-01ec-43fb-9760-bced4166e98d.png#clientId=ua8061cea-07b4-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=232&id=ue103b23d&margin=%5Bobject%20Object%5D&name=image.png&originHeight=290&originWidth=402&originalType=binary∶=1&rotation=0&showTitle=false&size=25046&status=done&style=none&taskId=uaf4996d1-349f-41ff-9270-18901d5e192&title=&width=321.6" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>去 etc/plugins 下面把想要使用的用户名去掉注释或者自己根据他的样子写一个</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1653968750380-2cd72d7b-a73d-43ef-8380-b5dee0a906f0.png#clientId=ua8061cea-07b4-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=164&id=uf8df1cfe&margin=%5Bobject%20Object%5D&name=image.png&originHeight=205&originWidth=415&originalType=binary∶=1&rotation=0&showTitle=false&size=17085&status=done&style=none&taskId=u3f691329-c366-4023-906a-0098638ae45&title=&width=332" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>然后重启 emqx 的服务 <code>emqx restart</code><br>然后就可以使用 MQTTX 去测试一下是否生效了，随便输个密码报错了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1653968851905-e9074489-5743-457b-8028-64c0c51adecf.png#clientId=ua8061cea-07b4-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=238&id=uff77fcc6&margin=%5Bobject%20Object%5D&name=image.png&originHeight=297&originWidth=814&originalType=binary∶=1&rotation=0&showTitle=false&size=25759&status=done&style=none&taskId=u5bb625af-3dfe-4dfd-b8b0-fee08217951&title=&width=651.2" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>MQTTX 这个软件的输入框上面那个 Retain 是保留消息的意思，勾上这个之后发出去的消息当再次连接上就会收到，重复发送会覆盖，broker 为每个主题仅存储一条保留消息</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1653988276486-1fcbb7ac-7e44-4216-aa94-6846dbec48dd.png#clientId=ua3289919-936f-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=114&id=x94Ep&margin=%5Bobject%20Object%5D&name=image.png&originHeight=143&originWidth=342&originalType=binary∶=1&rotation=0&showTitle=false&size=6860&status=done&style=none&taskId=uaa758d83-6992-476e-9c2e-da1c5be475a&title=&width=273.6" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>除了保留消息还有遗嘱消息，遗嘱消息是针对客户端可能因为未知的原因掉线、连接不正常的，客户端指定一条消息作为遗嘱消息发送给 broker 后，当 broker 检测到客户端连接不正常断开的话会将它的遗嘱消息发送给所在主题的所有客户端，如果是正确的 disconnect 则 broker 会丢弃存储的遗嘱消息<br>在 MQTTX 里面遗嘱消息在建立连接时设置</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1654156035529-f6ce5913-6bd0-4d0b-a610-31a259629b70.png#clientId=u58a8683b-5df5-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=638&id=u1a90efa9&margin=%5Bobject%20Object%5D&name=image.png&originHeight=798&originWidth=817&originalType=binary∶=1&rotation=0&showTitle=false&size=31755&status=done&style=none&taskId=ufb833701-24b7-4d5c-8492-bafbed39ec5&title=&width=653.6" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>还有一个 keep live 的报文，过一段时间双方确认一下是不是还在线，MQTTX 也是在连接时设置即可</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1654156519249-dac6b2eb-ccd8-4bf9-a171-d346f67e5799.png#clientId=u58a8683b-5df5-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=83&id=u9c0e8375&margin=%5Bobject%20Object%5D&name=image.png&originHeight=104&originWidth=875&originalType=binary∶=1&rotation=0&showTitle=false&size=12234&status=done&style=none&taskId=u6f79342b-ce43-4a2d-8c98-6a756edc020&title=&width=700" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>接下来抓包分析一下，客户端向服务器（broker）建立连接的请求，除了图中标出来的，还有 keep alive 的时间</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1654130762561-73a83aa7-ea9b-4470-868d-ae7ce7d9eeeb.png#clientId=u3043f5f1-c9c0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=577&id=u18838bff&margin=%5Bobject%20Object%5D&name=image.png&originHeight=721&originWidth=965&originalType=binary∶=1&rotation=0&showTitle=false&size=144266&status=done&style=none&taskId=u44f3fa24-cbf2-4e98-bc7c-5fb514aac36&title=&width=772" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>这是包含遗嘱消息建立连接的流量包</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1654156732464-1e6f920b-086e-458b-b515-f56e7ba69368.png#clientId=u58a8683b-5df5-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=626&id=ub5dc14cc&margin=%5Bobject%20Object%5D&name=image.png&originHeight=783&originWidth=1079&originalType=binary∶=1&rotation=0&showTitle=false&size=105035&status=done&style=none&taskId=u2f5b188f-8e20-4c81-a797-0579e8f37d3&title=&width=863.2" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>服务端返回的响应</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1654130904444-a20d23a5-6bef-4bd4-bd74-abd2b1e64923.png#clientId=u3043f5f1-c9c0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=394&id=ua43f8bac&margin=%5Bobject%20Object%5D&name=image.png&originHeight=492&originWidth=930&originalType=binary∶=1&rotation=0&showTitle=false&size=43086&status=done&style=none&taskId=uc7689437-95a4-46f4-899f-c8be3f8e105&title=&width=744" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>主要是看这个 return code</p>
+<table>
+<thead>
+<tr>
+<th>返回码</th>
+<th>返回码响应</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>已接受连接</td>
+</tr>
+<tr>
+<td>1</td>
+<td>连接被拒绝，协议版本不可接受</td>
+</tr>
+<tr>
+<td>2</td>
+<td>连接被拒绝，标识符被拒绝</td>
+</tr>
+<tr>
+<td>3</td>
+<td>连接被拒绝，服务器不可用</td>
+</tr>
+<tr>
+<td>4</td>
+<td>连接被拒绝，用户名或密码错误</td>
+</tr>
+<tr>
+<td>5</td>
+<td>连接被拒绝，未授权</td>
+</tr>
+</tbody></table>
+<p>发布消息</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1654132374526-ef36cf4d-0ca8-413b-ac4e-29f451a3213f.png#clientId=u3043f5f1-c9c0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=502&id=u5a314338&margin=%5Bobject%20Object%5D&name=image.png&originHeight=628&originWidth=1191&originalType=binary∶=1&rotation=0&showTitle=false&size=121291&status=done&style=none&taskId=u3196ba64-2917-4219-a907-c234986af58&title=&width=952.8" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>这里的 Message Identifier 与 <a href="https://www.hivemq.com/blog/mqtt-essentials-part-4-mqtt-publish-subscribe-unsubscribe/" target="_blank" rel="noopener">HiveMQ 这篇文章</a>中的 packetId 应该是一个东西我觉着？用来唯一的标识一条消息<br>这里的 QoS 是服务质量，为 0 时最多发送一次，发送方不保证能发到，接收方也不确认收到消息，消息也不会被存储和重新发送<br>QoS 为 1 时保证一条消息至少一次发送给接收方，发送方会保存消息，直到从接收方收到了确认收到消息的 ACK 包，就像上面那个截图一样<br>QoS 为 2 时保证每条消息仅由预期接收者接收一次，双方之间有四次握手（这里面夹杂的那条从 broker 发回来的消息是在他们四次握手结束之前就发回来了？）</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1654153945802-b9ff1330-742d-46fe-a3d8-2dd85d70e9cc.png#clientId=ucffbd8a0-2430-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=131&id=u48a29b35&margin=%5Bobject%20Object%5D&name=image.png&originHeight=164&originWidth=973&originalType=binary∶=1&rotation=0&showTitle=false&size=22610&status=done&style=none&taskId=u7037a0c8-4454-403e-8699-dbc14d3300f&title=&width=778.4" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>客户端订阅，这里面有订阅的主题和请求订阅的质量，服务端也会给一个 ACK</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1654132763918-14850306-d020-4450-8922-9cce07c37644.png#clientId=u3043f5f1-c9c0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=512&id=u431a863e&margin=%5Bobject%20Object%5D&name=image.png&originHeight=640&originWidth=1079&originalType=binary∶=1&rotation=0&showTitle=false&size=66840&status=done&style=none&taskId=uaa1b4fd7-da9a-46b3-8553-9f429167871&title=&width=863.2" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>取消订阅也一样</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1654148225405-0981554e-4eb9-4f10-a074-50454d4edb41.png#clientId=ufbf6f20e-bc95-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=474&id=u53b111fc&margin=%5Bobject%20Object%5D&name=image.png&originHeight=593&originWidth=1093&originalType=binary∶=1&rotation=0&showTitle=false&size=60189&status=done&style=none&taskId=u61337ace-c361-43ca-8039-94d33534eab&title=&width=874.4" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>在 MQTT 中，客户端发布或订阅之前不需要事先创建主题，服务端（broker）接受每个有效的主题而无需事先初始化<br>主题必须至少包含一个字符，区分大小写，一些主题的示例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">myhome/livingroom/temperature</span><br><span class="line"><span class="number">5</span>ff4a2ce-e485<span class="number">-40</span>f4<span class="number">-826</span>c-b1a5d81be9b6/status</span><br><span class="line">BMW/Control/car/<span class="number">2382340923453</span>/status</span><br></pre></td></tr></table></figure>
+
+<h1 id="MQTTS"><a href="#MQTTS" class="headerlink" title="MQTTS"></a>MQTTS</h1><p>根据 <a href="https://www.emqx.com/zh/blog/emqx-server-ssl-tls-secure-connection-configuration-guide" target="_blank" rel="noopener">官方文档</a> 中的自签名做就行<br>首先生成一个自签名的 CA 证书，生成一个长度为 2048 的密钥保存在 ca.key 中<br><code>openssl genrsa -out ca.key 2048</code><br>生成 emqx 根证书<br><code>openssl req -x509 -new -nodes -key ca.key -sha256 -days 3650 -out ca.pem</code><br>有了根证书就可以用来给其他实体签发实体证书<br>先给 emqx 生成一个私钥<br><code>openssl genrsa -out emqx.key 2048</code><br>建立一个 openssl.cnf 文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[req]</span><br><span class="line">default_bits  = <span class="number">2048</span></span><br><span class="line">distinguished_name = req_distinguished_name</span><br><span class="line">req_extensions = req_ext</span><br><span class="line">x509_extensions = v3_req</span><br><span class="line">prompt = no</span><br><span class="line">[req_distinguished_name]</span><br><span class="line">countryName = CN</span><br><span class="line">stateOrProvinceName = Zhejiang</span><br><span class="line">localityName = Hangzhou</span><br><span class="line">organizationName = EMQX</span><br><span class="line">commonName = Server certificate</span><br><span class="line">[req_ext]</span><br><span class="line">subjectAltName = @alt_names</span><br><span class="line">[v3_req]</span><br><span class="line">subjectAltName = @alt_names</span><br><span class="line">[alt_names]</span><br><span class="line">IP<span class="number">.1</span> = BROKER_ADDRESS   <span class="comment">#主要改这里</span></span><br><span class="line">DNS<span class="number">.1</span> = BROKER_ADDRESS  <span class="comment">#主要改这里</span></span><br></pre></td></tr></table></figure>
+
+<p>以私钥和配置文件签发一个证书<br><code>openssl req -new -key ./emqx.key -config openssl.cnf -out emqx.csr</code><br>以根证书签发 emqx 实体证书<br><code>openssl x509 -req -in ./emqx.csr -CA ca.pem -CAkey ca.key -CAcreateserial -out emqx.pem -days 3650 -sha256 -extensions v3_req -extfile openssl.cnf</code><br>将生成的 emqx.pem、emqx.key、ca.pem 放在 emqx 的 etc/certs 目录下，修改 etc 目录下的 emqx.conf</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">listener.ssl.external = <span class="number">8883</span></span><br><span class="line">...</span><br><span class="line">listener.ssl.external.keyfile = etc/certs/emqx.key</span><br><span class="line">...</span><br><span class="line">listener.ssl.external.certfile = etc/certs/emqx.pem</span><br><span class="line">...</span><br><span class="line">listener.ssl.external.cacertfile = etc/certs/ca.pem</span><br></pre></td></tr></table></figure>
+
+<p>然后打开 MQTTX 配置好就可以连接了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1654083472492-42699252-e08b-4e60-b7e4-314ae6198640.png#clientId=ua2dd964c-a042-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=421&id=uf4e1d22b&margin=%5Bobject%20Object%5D&name=image.png&originHeight=526&originWidth=602&originalType=binary∶=1&rotation=0&showTitle=false&size=24714&status=done&style=none&taskId=ub6e8720c-f276-49f2-8224-0c607a72121&title=&width=481.6" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>这样再连接后就是加密的了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1654083628102-4df5ace0-717a-4942-a475-7dac90443320.png#clientId=ua2dd964c-a042-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=208&id=u0fb339da&margin=%5Bobject%20Object%5D&name=image.png&originHeight=260&originWidth=751&originalType=binary∶=1&rotation=0&showTitle=false&size=22386&status=done&style=none&taskId=uc1f8f6ae-9a5f-48eb-a47e-4a94bd5e9f7&title=&width=600.8" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>问题在于，我密钥证书啥的都有，我该怎么解密 Orz。知道了，麻了，用了 ECDHE，即使有私钥也解不了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1654085327049-58489a5c-f14c-4a7e-a637-38bda4cfb0eb.png#clientId=uea783b4d-856c-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=305&id=u1a7e35fb&margin=%5Bobject%20Object%5D&name=image.png&originHeight=381&originWidth=938&originalType=binary∶=1&rotation=0&showTitle=false&size=39418&status=done&style=none&taskId=uf3dcf751-eda5-421a-93dd-5e594283f4c&title=&width=750.4" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>[<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://www.wangan.com/p/7fy7f67838fafafb" alt="image.png](https://cdn.nlark.com/yuque/0/2022/png/268938/1654086368564-2bf50a0c-c7a8-4215-9f20-be89ec74810c.png#clientId=uea783b4d-856c-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=512&id=u70ec40d6&margin=%5Bobject%20Object%5D&name=image.png&originHeight=640&originWidth=1004&originalType=binary∶=1&rotation=0&showTitle=false&size=94348&status=done&style=stroke&taskId=u417fe1b6-8ee2-469a-ba74-88db05bc914&title=&width=803.2)" title="">
+                </div>
+                <div class="image-caption">image.png](https://cdn.nlark.com/yuque/0/2022/png/268938/1654086368564-2bf50a0c-c7a8-4215-9f20-be89ec74810c.png#clientId=uea783b4d-856c-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=512&id=u70ec40d6&margin=%5Bobject%20Object%5D&name=image.png&originHeight=640&originWidth=1004&originalType=binary∶=1&rotation=0&showTitle=false&size=94348&status=done&style=stroke&taskId=u417fe1b6-8ee2-469a-ba74-88db05bc914&title=&width=803.2)</div>
+            </figure></p>
+<h1 id="WS"><a href="#WS" class="headerlink" title="WS"></a>WS</h1><p>MQTT-WebSoket 统一使用 /path 作为连接路径，连接时需指明，在 EMQX 上使用的路径为 /mqtt</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1654089110308-4ce68ee8-83c3-4fa3-b477-f1b91e136872.png#clientId=ud628be43-4f89-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=310&id=u92f2048e&margin=%5Bobject%20Object%5D&name=image.png&originHeight=388&originWidth=730&originalType=binary∶=1&rotation=0&showTitle=false&size=16921&status=done&style=stroke&taskId=ufb06ef3b-b10e-4766-aad2-9d14f451077&title=&width=584" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="WSS"><a href="#WSS" class="headerlink" title="WSS"></a>WSS</h1><p>需要用域名访问，直接改 hosts 文件就行，（把 MQTTX 的 SSL 安全给关掉）</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1654089394789-dfb7c416-744b-4d8f-a9cd-3357516031f0.png#clientId=ud628be43-4f89-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=558&id=u93c614c5&margin=%5Bobject%20Object%5D&name=image.png&originHeight=697&originWidth=1093&originalType=binary∶=1&rotation=0&showTitle=false&size=48575&status=done&style=stroke&taskId=u8b7b735f-f75e-4f3d-87c3-75b4c34b62d&title=&width=874.4" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="用-Python-连接"><a href="#用-Python-连接" class="headerlink" title="用 Python 连接"></a>用 Python 连接</h1><p>使用的库：<code>pip install paho-mqtt</code><br>里面用的 broker.emqx.io 是 emqx 提供的公共服务器，免费试用<br>发布：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">from</span> paho.mqtt <span class="keyword">import</span> client <span class="keyword">as</span> mqtt_client</span><br><span class="line"></span><br><span class="line">broker = <span class="string">'broker.emqx.io'</span></span><br><span class="line">port = <span class="number">1883</span></span><br><span class="line">topic = <span class="string">"/python/mqtt"</span></span><br><span class="line"><span class="comment"># generate client ID with pub prefix randomly</span></span><br><span class="line">client_id = <span class="string">f'python-mqtt-<span class="subst">&#123;random.randint(<span class="number">0</span>, <span class="number">1000</span>)&#125;</span>'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">connect_mqtt</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">on_connect</span><span class="params">(client, userdata, flags, rc)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> rc == <span class="number">0</span>:</span><br><span class="line">            print(<span class="string">"Connected to MQTT Broker!"</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(<span class="string">"Failed to connect, return code %d\n"</span>, rc)</span><br><span class="line"></span><br><span class="line">    client = mqtt_client.Client(client_id)</span><br><span class="line">    client.on_connect = on_connect</span><br><span class="line">    client.connect(broker, port)</span><br><span class="line">    <span class="keyword">return</span> client</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">publish</span><span class="params">(client)</span>:</span></span><br><span class="line">    msg_count = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line">        msg = <span class="string">f"messages: <span class="subst">&#123;msg_count&#125;</span>"</span></span><br><span class="line">        result = client.publish(topic, msg)</span><br><span class="line">        <span class="comment"># result: [0, 1]</span></span><br><span class="line">        status = result[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">if</span> status == <span class="number">0</span>:</span><br><span class="line">            print(<span class="string">f"Send `<span class="subst">&#123;msg&#125;</span>` to topic `<span class="subst">&#123;topic&#125;</span>`"</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(<span class="string">f"Failed to send message to topic <span class="subst">&#123;topic&#125;</span>"</span>)</span><br><span class="line">            msg_count += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">()</span>:</span></span><br><span class="line">    client = connect_mqtt()</span><br><span class="line">    client.loop_start()</span><br><span class="line">    publish(client)</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    run()</span><br></pre></td></tr></table></figure>
+
+<p>订阅：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> paho.mqtt <span class="keyword">import</span> client <span class="keyword">as</span> mqtt_client</span><br><span class="line"></span><br><span class="line">broker = <span class="string">'broker.emqx.io'</span></span><br><span class="line">port = <span class="number">1883</span></span><br><span class="line">topic = <span class="string">"/python/mqtt"</span></span><br><span class="line"><span class="comment"># generate client ID with pub prefix randomly</span></span><br><span class="line">client_id = <span class="string">f'python-mqtt-<span class="subst">&#123;random.randint(<span class="number">0</span>, <span class="number">100</span>)&#125;</span>'</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">connect_mqtt</span><span class="params">()</span> -&gt; mqtt_client:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">on_connect</span><span class="params">(client, userdata, flags, rc)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> rc == <span class="number">0</span>:</span><br><span class="line">            print(<span class="string">"Connected to MQTT Broker!"</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(<span class="string">"Failed to connect, return code %d\n"</span>, rc)</span><br><span class="line">    client = mqtt_client.Client(client_id)</span><br><span class="line">    client.on_connect = on_connect</span><br><span class="line">    client.connect(broker, port)</span><br><span class="line">    <span class="keyword">return</span> client</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">subscribe</span><span class="params">(client: mqtt_client)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">on_message</span><span class="params">(client, userdata, msg)</span>:</span></span><br><span class="line">        print(<span class="string">f"Received `<span class="subst">&#123;msg.payload.decode()&#125;</span>` from `<span class="subst">&#123;msg.topic&#125;</span>` topic"</span>)</span><br><span class="line">    client.subscribe(topic)</span><br><span class="line">    client.on_message = on_message</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">()</span>:</span></span><br><span class="line">    client = connect_mqtt()</span><br><span class="line">    subscribe(client)</span><br><span class="line">    client.loop_forever()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    run()</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1653977135315-a4cf7711-7a28-4e00-8cc1-78d19923db6a.png#clientId=ua8061cea-07b4-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=226&id=KzyHF&margin=%5Bobject%20Object%5D&name=image.png&originHeight=283&originWidth=1043&originalType=binary∶=1&rotation=0&showTitle=false&size=92209&status=done&style=none&taskId=ub69d4e4f-af97-4af0-b5f4-6fea8a3b809&title=&width=834.4" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>如果是像上面那样开启了认证的话，可以在 connect 之前加上</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">client.username_pw_set(username=<span class="string">'admin'</span>, password=<span class="string">'public'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>比如我上面那个自己搭建的</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1653977439399-2647aa70-86a8-4e5c-9f81-939830377503.png#clientId=ua8061cea-07b4-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=594&id=cwKjS&margin=%5Bobject%20Object%5D&name=image.png&originHeight=743&originWidth=1370&originalType=binary∶=1&rotation=0&showTitle=false&size=224613&status=done&style=none&taskId=u689da26c-8f09-45cb-b3b0-6a90c1a898a&title=&width=1096" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>如果使用 ws 的话，直接加上个 transport 改好端口即可</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">client = mqtt_client.Client(client_id,transport=<span class="string">"websockets"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>想要用 tls 的话，需要导入 ssl 库，端口需要改到对应的端口，这里面的 ssl.CERT_NONE 主要是取消一些验证</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">client.tls_set(ca_certs=<span class="string">"./emqx/ca.pem"</span>,cert_reqs = ssl.CERT_NONE)</span><br></pre></td></tr></table></figure>
+
+<p>如果使用 wss 的话，就两个缝合一下</p>
+<p>参考：<br><a href="https://www.hivemq.com/blog/mqtt-essentials-wrap-up/" target="_blank" rel="noopener">mqtt-essentials-wrap-up</a> （HiveMQ 团队写的 MQTT 要点总结）</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2022-10-03T13:52:43.790Z" itemprop="dateUpdated">2022-10-03 21:52:43</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2022/05/30/pqfymw/&title=《MQTT协议》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2022/05/30/pqfymw/&title=《MQTT协议》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2022/05/30/pqfymw/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MQTT协议》 — yichen's blog&url=https://yichen115.github.io/2022/05/30/pqfymw/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2022/05/30/pqfymw/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2022/06/09/owswf4/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">BLE中继攻击</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2022/04/25/hmwh7e/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">蓝牙CTF题目汇总</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020 - 2022</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2022/05/30/pqfymw/&title=《MQTT协议》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2022/05/30/pqfymw/&title=《MQTT协议》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2022/05/30/pqfymw/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MQTT协议》 — yichen's blog&url=https://yichen115.github.io/2022/05/30/pqfymw/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2022/05/30/pqfymw/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2022/05/30/pqfymw/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>杂项随记（汇总） | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="常见编码对常见的编码进行整理，原文本与编码后进行对比，直观一点参考：CTF 中那些脑洞大开的编码与加密CTF 中那些脑洞大开的编码和加密.md ASCII 编码   ASCII HEX DEC    flag{hello_ctfer} 66 6c 61 67 7b 68 65 6c 6c 6f 5f 63 74 66 65 72 7d 102 108 97 103 123 104 101 108">
+<meta property="og:type" content="article">
+<meta property="og:title" content="杂项随记（汇总）">
+<meta property="og:url" content="https://yichen115.github.io/2019/11/10/uew75k/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="常见编码对常见的编码进行整理，原文本与编码后进行对比，直观一点参考：CTF 中那些脑洞大开的编码与加密CTF 中那些脑洞大开的编码和加密.md ASCII 编码   ASCII HEX DEC    flag{hello_ctfer} 66 6c 61 67 7b 68 65 6c 6c 6f 5f 63 74 66 65 72 7d 102 108 97 103 123 104 101 108">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yichen115.github.io/2019/11/10/uew75k/!+[]+!+[]+[+!+[]])[+!+[]]+(!![]+[])[!+[]+!+[]+!+[]]+([][]]+[]">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567172238156-354bb9da-04b7-403d-852a-c8ea2b5477ec.png#align=left&display=inline&height=530&name=image.png&originHeight=621&originWidth=1294&size=81371&status=done&style=none&width=1104.2133333333334">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567165442893-464c4f58-d908-47a5-8fd5-634ba2a4eb67.png#align=left&display=inline&height=288&name=image.png&originHeight=337&originWidth=723&size=32779&status=done&style=none&width=616.96">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1575086852035-092de3b1-ca79-47d8-bced-c07067993e54.png#align=left&display=inline&height=427&name=image.png&originHeight=853&originWidth=1458&size=100353&status=done&style=none&width=729">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1575086897546-f92c1ce6-ab60-49bd-9807-427b62aa126d.png#align=left&display=inline&height=287&name=image.png&originHeight=414&originWidth=1021&size=30259&status=done&style=none&width=709">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1575086957741-d29ddbd6-cbc9-4cd1-bab6-bd6db280fff9.png#align=left&display=inline&height=427&name=image.png&originHeight=853&originWidth=1458&size=297689&status=done&style=none&width=729">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567167857257-3fe4637c-dae1-496b-9f9c-28355804361d.png#align=left&display=inline&height=614&name=image.png&originHeight=720&originWidth=672&size=368384&status=done&style=none&width=573.44">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567171060656-78335963-22f5-4dcd-a716-ad28904092db.png#align=left&display=inline&height=786&name=image.png&originHeight=921&originWidth=1271&size=302722&status=done&style=none&width=1084.5866666666666">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567161962704-41d3c616-0ded-4483-8cbf-320843db45be.png#align=left&display=inline&height=728&name=image.png&originHeight=853&originWidth=1001&size=505852&status=done&style=none&width=854.1866666666666">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567162073401-2e4a759a-d4b4-47ea-92b8-f9dca5ad074b.png#align=left&display=inline&height=590&name=image.png&originHeight=691&originWidth=1555&size=407814&status=done&style=none&width=1326.9333333333334">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567164221868-105cfbe6-30d7-4b3d-a84e-223c1de28bae.png#align=left&display=inline&height=641&name=image.png&originHeight=751&originWidth=1067&size=289884&status=done&style=none&width=910.5066666666667">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567165033125-11580e03-67ff-4361-848a-00ef3ea6f0fc.png#align=left&display=inline&height=343&name=image.png&originHeight=402&originWidth=883&size=61260&status=done&style=none&width=753.4933333333333">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567141475266-23af32ac-a263-44d2-8786-e746c71cc2d4.png#align=left&display=inline&height=400&name=image.png&originHeight=521&originWidth=1103&size=46236&status=done&style=none&width=847.1039741484383">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567142590422-c5a9d6c1-29ba-4e1c-8bb6-5c9685134a2e.png#align=left&display=inline&height=367&name=image.png&originHeight=478&originWidth=1285&size=158276&status=done&style=none&width=986.8799698828134">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567142951306-77d27447-1f2b-409b-b0a3-17f2b954968e.png#align=left&display=inline&height=776&name=image.png&originHeight=1011&originWidth=1271&size=103219&status=done&style=none&width=976.1279702109384">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567142890127-41f6ff63-638a-47d0-87cb-bcb77e4d0462.png#align=left&display=inline&height=710&name=image.png&originHeight=924&originWidth=1111&size=165178&status=done&style=none&width=853.2479739609383">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567143044501-b1008685-8149-4789-b39a-f3f1c2f8d9ef.png#align=left&display=inline&height=504&name=image.png&originHeight=656&originWidth=1111&size=86363&status=done&style=none&width=853.2479739609383">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567152857082-88dd932b-24e1-4750-9bfb-46557cee3b27.png#align=left&display=inline&height=591&name=image.png&originHeight=769&originWidth=1789&size=133283&status=done&style=none&width=1373.9519580703138">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567151708808-bcf67967-52c9-453d-a6a5-dd443715a989.png#align=left&display=inline&height=577&name=image.png&originHeight=751&originWidth=1091&size=143871&status=done&style=none&width=837.8879744296883">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567151791673-ee553209-3148-4916-8754-894fb833cdaa.png#align=left&display=inline&height=613&name=image.png&originHeight=798&originWidth=729&size=81034&status=done&style=none&width=559.871982914063">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2019/png/268938/1567151343348-ecfa7abf-6222-4d68-8abd-6ad10edcc35b.png#align=left&display=inline&height=419&name=image.png&originHeight=546&originWidth=731&size=60436&status=done&style=none&width=561.407982867188">
+<meta property="article:published_time" content="2019-11-10T05:39:36.000Z">
+<meta property="article:modified_time" content="2022-10-03T13:52:43.665Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yichen115.github.io/2019/11/10/uew75k/!+[]+!+[]+[+!+[]])[+!+[]]+(!![]+[])[!+[]+!+[]+!+[]]+([][]]+[]">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-grav"></i>
+                语雀
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://passport.kanxue.com/user-center-837755.htm" target="_blank" >
+                <i class="icon icon-lg icon-snowflake-o"></i>
+                看雪
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://sighttp.qq.com/msgrd?v=1&uin=1097179511" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://img2020.cnblogs.com/blog/1558534/202003/1558534-20200331231408805-256812285.jpg" target="_blank" >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">杂项随记（汇总）</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">杂项随记（汇总）</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2019-11-10T05:39:36.000Z" itemprop="datePublished" class="page-time">
+  2019-11-10
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#常见编码"><span class="post-toc-number">1.</span> <span class="post-toc-text">常见编码</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ASCII-编码"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">ASCII 编码</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Base64-58-32-16-编码"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">Base64&#x2F;58&#x2F;32&#x2F;16 编码</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#shellcode-编码"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">shellcode 编码</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Quoted-printable-编码"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">Quoted-printable 编码</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Xxencode-编码"><span class="post-toc-number">1.5.</span> <span class="post-toc-text">Xxencode 编码</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#UUencode-编码"><span class="post-toc-number">1.6.</span> <span class="post-toc-text">UUencode 编码</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#URL-编码"><span class="post-toc-number">1.7.</span> <span class="post-toc-text">URL 编码</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Unicode-编码"><span class="post-toc-number">1.8.</span> <span class="post-toc-text">Unicode 编码</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Escape-Unescape-编码"><span class="post-toc-number">1.9.</span> <span class="post-toc-text">Escape&#x2F;Unescape 编码</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#HTML-实体编码"><span class="post-toc-number">1.10.</span> <span class="post-toc-text">HTML 实体编码</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#敲击码-Tap-code"><span class="post-toc-number">1.11.</span> <span class="post-toc-text">敲击码(Tap code)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#莫尔斯电码-Morse-Code"><span class="post-toc-number">1.12.</span> <span class="post-toc-text">莫尔斯电码(Morse Code)</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Ook-编码"><span class="post-toc-number">1.13.</span> <span class="post-toc-text">Ook 编码</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#brainfuck"><span class="post-toc-number">1.14.</span> <span class="post-toc-text">brainfuck</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#社会主义价值观编码"><span class="post-toc-number">1.15.</span> <span class="post-toc-text">社会主义价值观编码</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Handycode"><span class="post-toc-number">1.16.</span> <span class="post-toc-text">Handycode</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#BubbleBabble"><span class="post-toc-number">1.17.</span> <span class="post-toc-text">BubbleBabble</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#AAencode"><span class="post-toc-number">1.18.</span> <span class="post-toc-text">AAencode</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Jsfuck"><span class="post-toc-number">1.19.</span> <span class="post-toc-text">Jsfuck</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#与佛论禅"><span class="post-toc-number">1.20.</span> <span class="post-toc-text">与佛论禅</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#常见文件头汇总"><span class="post-toc-number">2.</span> <span class="post-toc-text">常见文件头汇总</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Word-隐写"><span class="post-toc-number">3.</span> <span class="post-toc-text">Word 隐写</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#图片相关"><span class="post-toc-number">4.</span> <span class="post-toc-text">图片相关</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#PNG-格式简介"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">PNG  格式简介</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#修改图片高度"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">修改图片高度</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#文件尾追加文件"><span class="post-toc-number">4.3.</span> <span class="post-toc-text">文件尾追加文件</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#图片元数据"><span class="post-toc-number">4.4.</span> <span class="post-toc-text">图片元数据</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#outguess"><span class="post-toc-number">4.5.</span> <span class="post-toc-text">outguess</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Beyond-Compare"><span class="post-toc-number">4.6.</span> <span class="post-toc-text">Beyond Compare</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#IDAT-信息隐藏"><span class="post-toc-number">4.7.</span> <span class="post-toc-text">IDAT 信息隐藏</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#LSB-信息隐藏"><span class="post-toc-number">4.8.</span> <span class="post-toc-text">LSB 信息隐藏</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#GIF-信息隐藏"><span class="post-toc-number">4.9.</span> <span class="post-toc-text">GIF 信息隐藏</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#NTFS-流隐写"><span class="post-toc-number">4.10.</span> <span class="post-toc-text">NTFS 流隐写</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ZIP-相关"><span class="post-toc-number">5.</span> <span class="post-toc-text">ZIP 相关</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ZIP-介绍"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">ZIP 介绍</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#格式缺失"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">格式缺失</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ZIP-伪加密"><span class="post-toc-number">5.3.</span> <span class="post-toc-text">ZIP 伪加密</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#密码爆破"><span class="post-toc-number">5.4.</span> <span class="post-toc-text">密码爆破</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#ZIP-明文攻击"><span class="post-toc-number">5.5.</span> <span class="post-toc-text">ZIP 明文攻击</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#CRC-爆破"><span class="post-toc-number">5.6.</span> <span class="post-toc-text">CRC 爆破</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#流量分析"><span class="post-toc-number">6.</span> <span class="post-toc-text">流量分析</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#wireshark-介绍"><span class="post-toc-number">6.1.</span> <span class="post-toc-text">wireshark 介绍</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#捕捉过滤器"><span class="post-toc-number">6.1.1.</span> <span class="post-toc-text">捕捉过滤器</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#显示过滤器"><span class="post-toc-number">6.1.2.</span> <span class="post-toc-text">显示过滤器</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#基本语法"><span class="post-toc-number">6.1.2.1.</span> <span class="post-toc-text">基本语法</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#实际使用"><span class="post-toc-number">6.1.2.2.</span> <span class="post-toc-text">实际使用</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#过滤数据"><span class="post-toc-number">6.1.2.3.</span> <span class="post-toc-text">过滤数据</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#wireshark-着色规则"><span class="post-toc-number">6.1.3.</span> <span class="post-toc-text">wireshark 着色规则</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Tshark"><span class="post-toc-number">6.2.</span> <span class="post-toc-text">Tshark</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#键盘流量分析"><span class="post-toc-number">6.3.</span> <span class="post-toc-text">键盘流量分析</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-uew75k"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">杂项随记（汇总）</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2019-11-10 13:39:36" datetime="2019-11-10T05:39:36.000Z"  itemprop="datePublished">2019-11-10</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="常见编码"><a href="#常见编码" class="headerlink" title="常见编码"></a>常见编码</h1><p>对常见的编码进行整理，原文本与编码后进行对比，直观一点<br>参考：<a href="https://www.tuicool.com/articles/2E3INnm" target="_blank" rel="noopener">CTF 中那些脑洞大开的编码</a><a href="https://www.tuicool.com/articles/2E3INnm" target="_blank" rel="noopener">与加密</a><br><a href="https://www.yuque.com/attachments/yuque/0/2019/md/268938/1567171245383-6136aa53-cadd-4f26-81db-3c699e3dac8c.md?_lake_card=%7B%22uid%22%3A%22rc-upload-1566091842376-4%22%2C%22src%22%3A%22https%3A%2F%2Fwww.yuque.com%2Fattachments%2Fyuque%2F0%2F2019%2Fmd%2F268938%2F1567171245383-6136aa53-cadd-4f26-81db-3c699e3dac8c.md%22%2C%22name%22%3A%22CTF%E4%B8%AD%E9%82%A3%E4%BA%9B%E8%84%91%E6%B4%9E%E5%A4%A7%E5%BC%80%E7%9A%84%E7%BC%96%E7%A0%81%E5%92%8C%E5%8A%A0%E5%AF%86.md%22%2C%22size%22%3A58968%2C%22type%22%3A%22%22%2C%22ext%22%3A%22md%22%2C%22progress%22%3A%7B%22percent%22%3A0%7D%2C%22status%22%3A%22done%22%2C%22percent%22%3A0%2C%22id%22%3A%22bDTMg%22%2C%22refSrc%22%3A%22https%3A%2F%2Fwww.yuque.com%2Fattachments%2Fyuque%2F0%2F2019%2Fmd%2F268938%2F1566091854155-e514e931-3a13-4b31-beda-bf3c072fabba.md%22%2C%22card%22%3A%22file%22%7D" target="_blank" rel="noopener">CTF 中那些脑洞大开的编码和加密.md</a></p>
+<h2 id="ASCII-编码"><a href="#ASCII-编码" class="headerlink" title="ASCII 编码"></a>ASCII 编码</h2><table>
+<thead>
+<tr>
+<th>ASCII</th>
+<th>HEX</th>
+<th>DEC</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>flag{hello_ctfer}</td>
+<td>66 6c 61 67 7b 68 65 6c 6c 6f 5f 63 74 66 65 72 7d</td>
+<td>102 108 97 103 123 104 101 108 108 111 95 99 116 102 101 114 125</td>
+</tr>
+</tbody></table>
+<h2 id="Base64-58-32-16-编码"><a href="#Base64-58-32-16-编码" class="headerlink" title="Base64/58/32/16 编码"></a>Base64/58/32/16 编码</h2><table>
+<thead>
+<tr>
+<th>原文</th>
+<th>base64</th>
+<th>base58</th>
+<th>base32</th>
+<th>base16</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>flag{hello_ctfer}</td>
+<td>ZmxhZ3toZWxsb19jdGZlcn0=</td>
+<td>xpoetRPM7vtSVFL9Lrjejfr</td>
+<td>MZWGCZ33NBSWY3DPL5RXIZTFOJ6Q====</td>
+<td>666c61677b68656c6c6f5f63746665727d</td>
+</tr>
+</tbody></table>
+<h2 id="shellcode-编码"><a href="#shellcode-编码" class="headerlink" title="shellcode 编码"></a>shellcode 编码</h2><table>
+<thead>
+<tr>
+<th>原文</th>
+<th>shellcode 编码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>flag{hello_ctfer}</td>
+<td>\x66\x6c\x61\x67\x7b\x68\x65\x6c\x6c\x6f\x5f\x63\x74\x66\x65\x72\x7d</td>
+</tr>
+</tbody></table>
+<h2 id="Quoted-printable-编码"><a href="#Quoted-printable-编码" class="headerlink" title="Quoted-printable 编码"></a>Quoted-printable 编码</h2><table>
+<thead>
+<tr>
+<th>原文</th>
+<th>Quoted-printable 编码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>你好希提爱抚选手</td>
+<td>=E4=BD=A0=E5=A5=BD=E5=B8=8C=E6=8F=90=E7=88=B1=E6=8A=9A=E9=80=89=E6=89=8B</td>
+</tr>
+</tbody></table>
+<h2 id="Xxencode-编码"><a href="#Xxencode-编码" class="headerlink" title="Xxencode 编码"></a>Xxencode 编码</h2><table>
+<thead>
+<tr>
+<th>原文</th>
+<th>Xxencode 编码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>flag{welcome_yichen}</td>
+<td>INalVNrhrNKlXPqpZLrZdMqVZPbo+</td>
+</tr>
+</tbody></table>
+<h2 id="UUencode-编码"><a href="#UUencode-编码" class="headerlink" title="UUencode 编码"></a>UUencode 编码</h2><table>
+<thead>
+<tr>
+<th>原文</th>
+<th>Uuencode</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>flag{welcome_yichen}</td>
+<td>49FQA9WMW96QC;VUE7WEI8VAE;GT</td>
+</tr>
+</tbody></table>
+<h2 id="URL-编码"><a href="#URL-编码" class="headerlink" title="URL 编码"></a>URL 编码</h2><table>
+<thead>
+<tr>
+<th>原文</th>
+<th>URLencode</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>flag{welcome_yichen}</td>
+<td>%66%6c%61%67%7b%77%65%6c%63%6f%6d%65%5f%79%69%63%68%65%6e%7d</td>
+</tr>
+</tbody></table>
+<h2 id="Unicode-编码"><a href="#Unicode-编码" class="headerlink" title="Unicode 编码"></a>Unicode 编码</h2><table>
+<thead>
+<tr>
+<th>原文</th>
+<th>unicode</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>flag{welcome_yichen}</td>
+<td>\u0066006c00610067007b00770065006c0063006f006d0065005f00790069006300680065006e007d</td>
+</tr>
+</tbody></table>
+<h2 id="Escape-Unescape-编码"><a href="#Escape-Unescape-编码" class="headerlink" title="Escape/Unescape 编码"></a>Escape/Unescape 编码</h2><p>这是一个 js 函数，该方法不会对 ASCII 字母和数字进行编码，也不会对下面这些 ASCII 标点符号进行编码： * @ - _ + . / 。其他所有的字符都会被转义序列替换。</p>
+<table>
+<thead>
+<tr>
+<th>原文</th>
+<th>Escape</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>flag{welcome_yichen}</td>
+<td>flag%7Bwelcome_yichen%7D</td>
+</tr>
+</tbody></table>
+<h2 id="HTML-实体编码"><a href="#HTML-实体编码" class="headerlink" title="HTML 实体编码"></a>HTML 实体编码</h2><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>flag{welcome_yichen}</td>
+<td>flag{welcome_yichen}</td>
+</tr>
+</tbody></table>
+<h2 id="敲击码-Tap-code"><a href="#敲击码-Tap-code" class="headerlink" title="敲击码(Tap code)"></a>敲击码(Tap code)</h2><table>
+<thead>
+<tr>
+<th>原文</th>
+<th>Tap code</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>flag{welcome_yichen}</td>
+<td>2131112252153113343215542413231533</td>
+</tr>
+</tbody></table>
+<h2 id="莫尔斯电码-Morse-Code"><a href="#莫尔斯电码-Morse-Code" class="headerlink" title="莫尔斯电码(Morse Code)"></a>莫尔斯电码(Morse Code)</h2><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>welocme yichen</td>
+<td>·– · ·-·· — -·-· – ·/-·– ·· -·-· ···· · -·</td>
+</tr>
+</tbody></table>
+<h2 id="Ook-编码"><a href="#Ook-编码" class="headerlink" title="Ook 编码"></a>Ook 编码</h2><table>
+<thead>
+<tr>
+<th>原文</th>
+<th>Ook</th>
+<th>short Ook</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>yichen</td>
+<td>Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook.</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook! Ook? Ook! Ook! Ook. Ook? Ook. Ook.<br>Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook.<br>Ook. Ook. Ook. Ook. Ook. Ook? Ook. Ook? Ook! Ook. Ook? Ook! Ook. Ook? Ook.<br>Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook! Ook? Ook! Ook! Ook. Ook? Ook!<br>Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook? Ook. Ook? Ook! Ook. Ook? Ook! Ook.<br>Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook! Ook. Ook.<br>Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook! Ook. Ook! Ook! Ook! Ook!<br>Ook! Ook! Ook! Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook.<br>Ook. Ook. Ook. Ook. Ook. Ook. Ook. Ook! Ook. Ook? Ook.  | ….. ….. ….. ….. ..!?! !.?.. ….. ….. ….. ….. ?.?!. ?!.?.<br>….. …!? !!.?! !!!!! !!?.? !.?!. !!!!! !!!!! !!!.. ….. ….! .!!!!<br>!!!.. ….. ….. ….. ..!.? . |</p>
+<h2 id="brainfuck"><a href="#brainfuck" class="headerlink" title="brainfuck"></a>brainfuck</h2><table>
+<thead>
+<tr>
+<th>原文</th>
+<th>brainfuck</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>flag{welcome_to_misc_world}</td>
+<td>–[—–&gt;+&lt;]&gt;.++++++.———–.++++++.[—–&gt;+&lt;]&gt;.—-.[-&gt;+++&lt;]&gt;.+++++++.———.++++++++++++.–.——–.——.[—&gt;+&lt;]&gt;-.—–.+[—–&gt;++&lt;]&gt;-.++++++++++++++.—-.++++++++++.+++[-&gt;+++&lt;]&gt;+.—-.[—&gt;+&lt;]&gt;++.——–.+++.——.——–.&gt;–[–&gt;+++&lt;]&gt;.</td>
+</tr>
+</tbody></table>
+<h2 id="社会主义价值观编码"><a href="#社会主义价值观编码" class="headerlink" title="社会主义价值观编码"></a>社会主义价值观编码</h2><table>
+<thead>
+<tr>
+<th>原文</th>
+<th>社会主义价值观编码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>flag{welcome_to_misc_world}</td>
+<td>公正公正公正诚信文明公正民主公正法治法治诚信民主法治法治公正平等公正诚信文明公正和谐公正友善敬业公正诚信和谐公正平等平等诚信平等法治自由公正诚信平等平等诚信平等公正诚信和谐公正敬业法治和谐公正和谐平等友善敬业法治法治公正诚信平等法治文明公正友善公正公正自由法治友善法治</td>
+</tr>
+</tbody></table>
+<h2 id="Handycode"><a href="#Handycode" class="headerlink" title="Handycode"></a>Handycode</h2><table>
+<thead>
+<tr>
+<th>原文</th>
+<th>Handycode</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>flag{welcome_to_misc_world}</td>
+<td>333 555 2 4 9 33 555 222 666 6 33 8 666 6 444 7777 222 9 666 777 555 3</td>
+</tr>
+</tbody></table>
+<h2 id="BubbleBabble"><a href="#BubbleBabble" class="headerlink" title="BubbleBabble"></a>BubbleBabble</h2><table>
+<thead>
+<tr>
+<th>原文</th>
+<th>BubbleBabble</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>flag{welcome_to_misc_world}</td>
+<td>xinik-samak-luval-lanek-semyk-zerek-helol-gireh-ziryk-nusak-filol-luril-derik-gyzox</td>
+</tr>
+</tbody></table>
+<h2 id="AAencode"><a href="#AAencode" class="headerlink" title="AAencode"></a>AAencode</h2><table>
+<thead>
+<tr>
+<th>原文</th>
+<th>AAencode</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>yichen</td>
+<td>ﾟ ω ﾟﾉ= /｀ｍ ´）ﾉ ~┻━┻   //<em>´∇ ｀</em>/ [‘<em>‘]; o=(ﾟｰﾟ)  =</em>=3; c=(ﾟ Θ ﾟ) =(ﾟｰﾟ)-(ﾟｰﾟ); (ﾟ Д ﾟ) =(ﾟ Θ ﾟ)= (o^<em>^o)/ (o^</em>^o);(ﾟ Д ﾟ)={ﾟ Θ ﾟ: ‘<em>‘ ,ﾟ ω ﾟﾉ : ((ﾟ ω ﾟﾉ==3) +’</em>‘) [ﾟ Θ ﾟ] ,ﾟｰﾟﾉ :(ﾟ ω ﾟﾉ+ ‘<em>‘)[o^</em>^o -(ﾟ Θ ﾟ)] ,ﾟ Д ﾟﾉ:((ﾟｰﾟ==3) +’<em>‘)[ﾟｰﾟ] }; (ﾟ Д ﾟ) [ﾟ Θ ﾟ] =((ﾟ ω ﾟﾉ==3) +’</em>‘) [c^<em>^o];(ﾟ Д ﾟ) [‘c’] = ((ﾟ Д ﾟ)+’</em>‘) [ (ﾟｰﾟ)+(ﾟｰﾟ)-(ﾟ Θ ﾟ) ];(ﾟ Д ﾟ) [‘o’] = ((ﾟ Д ﾟ)+’<em>‘) [ﾟ Θ ﾟ];(ﾟ o ﾟ)=(ﾟ Д ﾟ) [‘c’]+(ﾟ Д ﾟ) [‘o’]+(ﾟ ω ﾟﾉ +’</em>‘)[ﾟ Θ ﾟ]+ ((ﾟ ω ﾟﾉ==3) +’<em>‘) [ﾟｰﾟ] + ((ﾟ Д ﾟ) +’</em>‘) [(ﾟｰﾟ)+(ﾟｰﾟ)]+ ((ﾟｰﾟ==3) +’<em>‘) [ﾟ Θ ﾟ]+((ﾟｰﾟ==3) +’</em>‘) [(ﾟｰﾟ) - (ﾟ Θ ﾟ)]+(ﾟ Д ﾟ) [‘c’]+((ﾟ Д ﾟ)+’<em>‘) [(ﾟｰﾟ)+(ﾟｰﾟ)]+ (ﾟ Д ﾟ) [‘o’]+((ﾟｰﾟ==3) +’</em>‘) [ﾟ Θ ﾟ];(ﾟ Д ﾟ) [‘<em>‘] =(o^</em>^o) [ﾟ o ﾟ] [ﾟ o ﾟ];(ﾟ ε ﾟ)=((ﾟｰﾟ==3) +’<em>‘) [ﾟ Θ ﾟ]+ (ﾟ Д ﾟ) .ﾟ Д ﾟﾉ+((ﾟ Д ﾟ)+’</em>‘) [(ﾟｰﾟ) + (ﾟｰﾟ)]+((ﾟｰﾟ==3) +’<em>‘) [o^</em>^o -ﾟ Θ ﾟ]+((ﾟｰﾟ==3) +’<em>‘) [ﾟ Θ ﾟ]+ (ﾟ ω ﾟﾉ +’</em>‘) [ﾟ Θ ﾟ]; (ﾟｰﾟ)+=(ﾟ Θ ﾟ); (ﾟ Д ﾟ)[ﾟ ε ﾟ]=’\‘; (ﾟ Д ﾟ).ﾟ Θ ﾟﾉ=(ﾟ Д ﾟ+ ﾟｰﾟ)[o^<em>^o -(ﾟ Θ ﾟ)];(o ﾟｰﾟ o)=(ﾟ ω ﾟﾉ +’</em>‘)[c^<em>^o];(ﾟ Д ﾟ) [ﾟ o ﾟ]=’&quot;‘;(ﾟ Д ﾟ) [‘</em>‘] ( (ﾟ Д ﾟ) [‘<em>‘] (ﾟ ε ﾟ+(ﾟ Д ﾟ)[ﾟ o ﾟ]+ (ﾟ Д ﾟ)[ﾟ ε ﾟ]+(ﾟ Θ ﾟ)+ ((ﾟｰﾟ) + (o^</em>^o))+ (ﾟ Θ ﾟ)+ (ﾟ Д ﾟ)[ﾟ ε ﾟ]+(ﾟ Θ ﾟ)+ ((ﾟｰﾟ) + (ﾟ Θ ﾟ))+ (ﾟ Θ ﾟ)+ (ﾟ Д ﾟ)[ﾟ ε ﾟ]+(ﾟ Θ ﾟ)+ (ﾟｰﾟ)+ (o^<em>^o)+ (ﾟ Д ﾟ)[ﾟ ε ﾟ]+(ﾟ Θ ﾟ)+ ((ﾟｰﾟ) + (ﾟ Θ ﾟ))+ (c^</em>^o)+ (ﾟ Д ﾟ)[ﾟ ε ﾟ]+(ﾟ Θ ﾟ)+ (ﾟｰﾟ)+ ((ﾟｰﾟ) + (ﾟ Θ ﾟ))+ (ﾟ Д ﾟ)[ﾟ ε ﾟ]+(ﾟ Θ ﾟ)+ ((ﾟｰﾟ) + (ﾟ Θ ﾟ))+ ((o^<em>^o) +(o^</em>^o))+ (ﾟ Д ﾟ)[ﾟ o ﾟ]) (ﾟ Θ ﾟ)) (‘_’);</td>
+</tr>
+</tbody></table>
+<h2 id="Jsfuck"><a href="#Jsfuck" class="headerlink" title="Jsfuck"></a>Jsfuck</h2><table>
+<thead>
+<tr>
+<th>原文</th>
+<th>jsfuck</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>yichen</td>
+<td>(+[<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="!+[]+!+[]+[+!+[]])[+!+[]]+(!![]+[])[!+[]+!+[]+!+[]]+([][]]+[]" alt="]]+[+(+!+[]+(!+[]+[])[!+[]+!+[]+!+[]]+[+!+[]]+[+[]]+[+[]]+[+[]])])[+!+[]+[+[]]]+([![]]+[][]])[+!+[]+[+[]]]+([](![]+[])[+[]]+([![]]+[][]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]]+[])[!+[]+!+[]+!+[]]+(+(+!+[]+[+[]]+[+!+[]]))[(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]])[+!+[]+[+[]]]+([]+[])[([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]][([][[]]+[])[+!+[]]+(![]+[])[+!+[]]+((+[])[([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]+[])[+!+[]+[+!+[]]]+(!![]+[])[!+[]+!+[]+!+[]]]" title="">
+                </div>
+                <div class="image-caption">]]+[+(+!+[]+(!+[]+[])[!+[]+!+[]+!+[]]+[+!+[]]+[+[]]+[+[]]+[+[]])])[+!+[]+[+[]]]+([![]]+[][]])[+!+[]+[+[]]]+([](![]+[])[+[]]+([![]]+[][]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]]+[])[!+[]+!+[]+!+[]]+(+(+!+[]+[+[]]+[+!+[]]))[(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]])[+!+[]+[+[]]]+([]+[])[([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]][([][[]]+[])[+!+[]]+(![]+[])[+!+[]]+((+[])[([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]+[])[+!+[]+[+!+[]]]+(!![]+[])[!+[]+!+[]+!+[]]]</div>
+            </figure>[+!+[]]</td>
+</tr>
+</tbody></table>
+<h2 id="与佛论禅"><a href="#与佛论禅" class="headerlink" title="与佛论禅"></a>与佛论禅</h2><table>
+<thead>
+<tr>
+<th>原文</th>
+<th>与佛论禅</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>flag{hello_world}</td>
+<td>佛曰：侄藝顛冥耨俱度哆所皤伽冥槃彌俱彌侄怛侄寫摩皤離冥蘇梵礙得怯真侄槃佛俱遮諳提知寫奢滅無究都依俱是呐依喝菩。殿智三集朋栗俱蒙僧侄輸冥大諳尼三冥栗侄是漫</td>
+</tr>
+</tbody></table>
+<h1 id="常见文件头汇总"><a href="#常见文件头汇总" class="headerlink" title="常见文件头汇总"></a>常见文件头汇总</h1><p>JPEG (jpg)，文件头：FFD8FF    文件尾：AE 42 60 82<br>PNG (png)，文件头：89504E470D0A1A0A<br>GIF (gif)，文件头：47494638<br>TIFF (tif)，文件头：49492A00<br>Windows Bitmap (bmp)，文件头：424D<br>CAD (dwg)，文件头：41433130<br>Adobe Photoshop (psd)，文件头：38425053<br>Rich Text Format (rtf)，文件头：7B5C727466<br>XML (xml)，文件头：3C3F786D6C<br>HTML (html)，文件头：68746D6C3E<br>Email [thorough only] (eml)，文件头：44656C69766572792D646174653A<br>Outlook Express (dbx)，文件头：CFAD12FEC5FD746F<br>Outlook (pst)，文件头：2142444E<br>MS Word/Excel (xls.or.doc)，文件头：D0CF11E0<br>MS Access (mdb)，文件头：5374616E64617264204A<br>WordPerfect (wpd)，文件头：FF575043<br>Adobe Acrobat (pdf)，文件头：255044462D312E<br>Quicken (qdf)，文件头：AC9EBD8F<br>Windows Password (pwl)，文件头：E3828596<br>ZIP Archive (zip)，文件头：504B0304<br>RAR Archive (rar)，文件头：52617221<br>Wave (wav)，文件头：57415645<br>AVI (avi)，文件头：41564920<br>Real Audio (ram)，文件头：2E7261FD<br>Real Media (rm)，文件头：2E524D46<br>MPEG (mpg)，文件头：000001BA<br>MPEG (mpg)，文件头：000001B3<br>Quicktime (mov)，文件头：6D6F6F76<br>Windows Media (asf)，文件头：3026B2758E66CF11<br>MIDI (mid)，文件头：4D546864</p>
+<h1 id="Word-隐写"><a href="#Word-隐写" class="headerlink" title="Word 隐写"></a>Word 隐写</h1><p>word 本质是一个压缩包，可以隐藏图片或 txt</p>
+<p>显示隐藏内容：文件-&gt;显示-&gt;隐藏文字</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567172238156-354bb9da-04b7-403d-852a-c8ea2b5477ec.png#align=left&display=inline&height=530&name=image.png&originHeight=621&originWidth=1294&size=81371&status=done&style=none&width=1104.2133333333334" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="图片相关"><a href="#图片相关" class="headerlink" title="图片相关"></a>图片相关</h1><h2 id="PNG-格式简介"><a href="#PNG-格式简介" class="headerlink" title="PNG  格式简介"></a>PNG  格式简介</h2><p><strong>文件格式</strong>：对于 PNG 文件来说，其文件头总是由固定的字节来描述的，剩余的部分由 3 个以上的 PNG 数据（Chunk）按照特定的顺序组成。</p>
+<p><strong>文件头</strong>：89 50 4E 47 0D 0A 1A 0A + 数据块 + 数据块 + 数据<br>块…..</p>
+<h2 id="修改图片高度"><a href="#修改图片高度" class="headerlink" title="修改图片高度"></a>修改图片高度</h2><p>如果 linux 下打不开，windows 下打得开可能就是该高度了<br>左边是宽度，圈起来的是高度，，把高度改成跟宽一样的</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567165442893-464c4f58-d908-47a5-8fd5-634ba2a4eb67.png#align=left&display=inline&height=288&name=image.png&originHeight=337&originWidth=723&size=32779&status=done&style=none&width=616.96" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h2 id="文件尾追加文件"><a href="#文件尾追加文件" class="headerlink" title="文件尾追加文件"></a>文件尾追加文件</h2><p>直接十六进制编辑器</p>
+<h2 id="图片元数据"><a href="#图片元数据" class="headerlink" title="图片元数据"></a>图片元数据</h2><p>元数据（Metadata），又称中介数据、中继数据，为描述数据的数据（Data about<br>data），主要是描述数据属性（property）的信息，用来支持如指示存储位置、历史数据、资源查找、文件记录等功能。</p>
+<p>元数据中隐藏信息在比赛中是最基本的一种手法，通常用来隐藏一些关键的 Hint 信息<br>或者一些重要的比如 password 等信息。</p>
+<p><strong>这类元数据可以 右键 -&gt; 属性 查看</strong></p>
+<h2 id="outguess"><a href="#outguess" class="headerlink" title="outguess"></a>outguess</h2><p>kali 下使用<code>outguess -r avatar.jpg -t 1.txt</code><br>把  avatar.jpg  图片破解信息的数据输出到 1.txt</p>
+<h2 id="Beyond-Compare"><a href="#Beyond-Compare" class="headerlink" title="Beyond Compare"></a>Beyond Compare</h2><p>使用软件：<a href="https://pan.baidu.com/s/1IajuX2HQVSVONkbCfjobfQ" target="_blank" rel="noopener">Beyond Compare</a>  提取码: uuch</p>
+<p>安装打开后界面是这样的：点击红框框出来的</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1575086852035-092de3b1-ca79-47d8-bced-c07067993e54.png#align=left&display=inline&height=427&name=image.png&originHeight=853&originWidth=1458&size=100353&status=done&style=none&width=729" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>选择图片比较</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1575086897546-f92c1ce6-ab60-49bd-9807-427b62aa126d.png#align=left&display=inline&height=287&name=image.png&originHeight=414&originWidth=1021&size=30259&status=done&style=none&width=709" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>上面还有一些选项可以试试</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1575086957741-d29ddbd6-cbc9-4cd1-bab6-bd6db280fff9.png#align=left&display=inline&height=427&name=image.png&originHeight=853&originWidth=1458&size=297689&status=done&style=none&width=729" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h2 id="IDAT-信息隐藏"><a href="#IDAT-信息隐藏" class="headerlink" title="IDAT 信息隐藏"></a>IDAT 信息隐藏</h2><p>IDAT：存储实际的数据，在数据流中可包含多<br>个连续顺序的图像数据块，储存图像像数数据。</p>
+<p>在数据流中可包含多个连续顺序的图像数据块。</p>
+<p>采用 LZ77 算法的派生算法进行压缩。</p>
+<p>可以用 zlib 解压缩。</p>
+<p><strong>IDAT 块只有当上一个块充满时，才会继续下<br>一个新块</strong><br>如果有 IDAT  还没填满就填充了下一个就要考虑是不是有问题</p>
+<p>命令：<code>pngcheck.exe -v sctf.png</code>  可以查看</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567167857257-3fe4637c-dae1-496b-9f9c-28355804361d.png#align=left&display=inline&height=614&name=image.png&originHeight=720&originWidth=672&size=368384&status=done&style=none&width=573.44" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>也可以使用 <strong>Stegsolve -&gt; Analysis -&gt;</strong> ** File Format **有详细介绍</p>
+<p>这就说明这 138  是认为添加的，把这个位置的内容串保存出来，在进行其他操作（文本进制转换、写图片）</p>
+<h2 id="LSB-信息隐藏"><a href="#LSB-信息隐藏" class="headerlink" title="LSB 信息隐藏"></a>LSB 信息隐藏</h2><p>PNG 文件中的图像像数一般是由 RGB 三原色组成，每一种颜色占用 8 位，取值范围为<br>0×00~0xFF，即 256 种颜色，一共包含了 256 的三次方的颜色，即 16777216（1 千 677W）种<br>颜色。人类的眼睛可以区分约 1000 万种不同的颜色，这就意味着人类的眼睛无法区分余下的颜色大约有 6777216（677W）种</p>
+<p>LSB 隐写就是修改 RGB 颜色分量的最低二进制位（LSB），每个颜色都会有 8bit，LSB 隐写就是修改了像数中的最低的 1Bit，而人类的眼睛不会注意到这前后的区别，每个像数可以携带<br>3Bit 的信息，这样就把信息隐藏起来了</p>
+<p>使用  <strong>Stegsolve *<em>各个通道都看看，或者  *</em>Analysis -&gt; Data Extract</strong> 合起来看看，有什么熟悉的保存出来</p>
+<h2 id="GIF-信息隐藏"><a href="#GIF-信息隐藏" class="headerlink" title="GIF 信息隐藏"></a>GIF 信息隐藏</h2><p>在某一帧图片藏着信息，用 ps 或者爱奇艺万能播放器也可以一帧一帧的看</p>
+<p>每一帧图片间隔时间，可能藏着规律，或许是二进制编码、或许是摩斯密码</p>
+<h2 id="NTFS-流隐写"><a href="#NTFS-流隐写" class="headerlink" title="NTFS 流隐写"></a>NTFS 流隐写</h2><p>安恒的一道题：<strong>猫片</strong>，先是 LSB 提取一个 png，然后改高度得到完整的取反色，下载文件，得到 RAR，使用 NTFS 流隐写，打开软件，然后<strong>用 winrar 解压缩</strong>，然后扫描一下，发现一些其他的东西，导出就可以了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567171060656-78335963-22f5-4dcd-a716-ad28904092db.png#align=left&display=inline&height=786&name=image.png&originHeight=921&originWidth=1271&size=302722&status=done&style=none&width=1084.5866666666666" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="ZIP-相关"><a href="#ZIP-相关" class="headerlink" title="ZIP 相关"></a>ZIP 相关</h1><h2 id="ZIP-介绍"><a href="#ZIP-介绍" class="headerlink" title="ZIP 介绍"></a>ZIP 介绍</h2><p>ZIP 文件格式的组成：<br>压缩源文件数据区[文件头+文件数据+数据描述符]{此处可重复多次} +核心目录 +目录结束标识</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567161962704-41d3c616-0ded-4483-8cbf-320843db45be.png#align=left&display=inline&height=728&name=image.png&originHeight=853&originWidth=1001&size=505852&status=done&style=none&width=854.1866666666666" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567162073401-2e4a759a-d4b4-47ea-92b8-f9dca5ad074b.png#align=left&display=inline&height=590&name=image.png&originHeight=691&originWidth=1555&size=407814&status=done&style=none&width=1326.9333333333334" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h2 id="格式缺失"><a href="#格式缺失" class="headerlink" title="格式缺失"></a>格式缺失</h2><p>文件头删掉的，但不开，但是用 binwalk 分析可以查出有 zip 个文件尾，可以用 winhex  添上文件头</p>
+<h2 id="ZIP-伪加密"><a href="#ZIP-伪加密" class="headerlink" title="ZIP 伪加密"></a>ZIP 伪加密</h2><p>全局方式位标记，如果是 09 00  就会提示需要密码</p>
+<h2 id="密码爆破"><a href="#密码爆破" class="headerlink" title="密码爆破"></a>密码爆破</h2><p>。。。ARCHPR</p>
+<p>RAR 会比其他格式慢，RAR 不管密码对不对，直接去试，解不出来就不对，而 ZIP 是先检验密码是不是正确的</p>
+<h2 id="ZIP-明文攻击"><a href="#ZIP-明文攻击" class="headerlink" title="ZIP 明文攻击"></a>ZIP 明文攻击</h2><p>手里有原压缩包和压缩包内部分文件，可以使用明文攻击方式。<br>可以将压缩包内的文件进行压缩，然后用 ARCHPR 这个工具进行明文攻击</p>
+<p>举个例子，已知 <strong>明文攻击.zip</strong> 中存在的文件 <strong>明文.txt</strong></p>
+<p><em>*<br>因此将 <strong>明文*</strong>\</em>.txt** 压缩，这里需要判断明文压缩后的<strong>CRC32</strong>是否与加密文件中的一致，若不<br>一致可以换一个压缩工具。</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567164221868-105cfbe6-30d7-4b3d-a84e-223c1de28bae.png#align=left&display=inline&height=641&name=image.png&originHeight=751&originWidth=1067&size=289884&status=done&style=none&width=910.5066666666667" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>当明文的大小比较小时，攻击速度会比较慢；即使有时没有恢复密码，也可以使用明文攻<br>击，最后点保存还是能得到压缩包里内容的。</p>
+<p><strong>如果做题的时候，压缩包里有五个文件，是加密的，但是你有四个文件是直接可以查看的，就可以猜测是不是明文攻击</strong></p>
+<h2 id="CRC-爆破"><a href="#CRC-爆破" class="headerlink" title="CRC 爆破"></a>CRC 爆破</h2><p>CRC32:CRC 本身是“冗余校验码”的意思，CRC32 则表示会产生一个 32bit（8 位十六进制数）的校验值</p>
+<p>在产生 CRC32 时，源数据块的每一位都参与了运算，因此即使数据块中只有一位发生改变也<br>会得到不同的 CRC32 值，利用这个原理我们可以直接爆破出加密文件的内容</p>
+<p><a href="https://github.com/theonlypwner/crc32" target="_blank" rel="noopener">https://github.com/theonlypwner/crc32</a></p>
+<p>python crc32.py reverse crc 值     根据爆破出来的看看有是不是有啥特殊意思</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567165033125-11580e03-67ff-4361-848a-00ef3ea6f0fc.png#align=left&display=inline&height=343&name=image.png&originHeight=402&originWidth=883&size=61260&status=done&style=none&width=753.4933333333333" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="流量分析"><a href="#流量分析" class="headerlink" title="流量分析"></a>流量分析</h1><h2 id="wireshark-介绍"><a href="#wireshark-介绍" class="headerlink" title="wireshark 介绍"></a>wireshark 介绍</h2><p>Wireshark（前称 Ethereal）是一个网络封包分析软件</p>
+<p>网络封包分析软件的功能是撷取网络封包，并尽可能显示出最为详细的网络封包资料。Wireshark 使用 WinPCAP 作为接口，直接与网卡进行数据报文交换</p>
+<h3 id="捕捉过滤器"><a href="#捕捉过滤器" class="headerlink" title="捕捉过滤器"></a>捕捉过滤器</h3><p>数据经过的第一层过滤器，  它用于控制捕捉数据的数量，以避免产生过大的日志文件，用于决定将什么样的信息记录在捕捉结果中，需要在开始捕捉前设置</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567141475266-23af32ac-a263-44d2-8786-e746c71cc2d4.png#align=left&display=inline&height=400&name=image.png&originHeight=521&originWidth=1103&size=46236&status=done&style=none&width=847.1039741484383" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h3 id="显示过滤器"><a href="#显示过滤器" class="headerlink" title="显示过滤器"></a>显示过滤器</h3><p>在 CTF  中基本都是给一个数据包，所以基本都是用显示过滤器来筛选</p>
+<h4 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h4><table>
+<thead>
+<tr>
+<th>语法</th>
+<th>protocol</th>
+<th>.</th>
+<th>string1</th>
+<th>.</th>
+<th>string2</th>
+<th>comparison operator</th>
+<th>value</th>
+<th>logical operations</th>
+<th>other expression</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>例子</td>
+<td>http</td>
+<td>.</td>
+<td>request</td>
+<td>.</td>
+<td>method</td>
+<td>==</td>
+<td>“post”</td>
+<td>or</td>
+<td>icmp.type</td>
+</tr>
+</tbody></table>
+<p>string1 和 string2 是可选的，依据协议过滤时，可直接通过协议来进行过滤，也能依据协议属性值进行过滤</p>
+<h4 id="实际使用"><a href="#实际使用" class="headerlink" title="实际使用"></a>实际使用</h4><p>打开一个数据包，点击** 表达式  **会看到很多字段</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567142590422-c5a9d6c1-29ba-4e1c-8bb6-5c9685134a2e.png#align=left&display=inline&height=367&name=image.png&originHeight=478&originWidth=1285&size=158276&status=done&style=none&width=986.8799698828134" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567142951306-77d27447-1f2b-409b-b0a3-17f2b954968e.png#align=left&display=inline&height=776&name=image.png&originHeight=1011&originWidth=1271&size=103219&status=done&style=none&width=976.1279702109384" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>也可以直接输入 http  就会自动过滤</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567142890127-41f6ff63-638a-47d0-87cb-bcb77e4d0462.png#align=left&display=inline&height=710&name=image.png&originHeight=924&originWidth=1111&size=165178&status=done&style=none&width=853.2479739609383" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p><code>http.request.method==GET</code><br>这样就可以过滤用 GET  方式请求的数据</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567143044501-b1008685-8149-4789-b39a-f3f1c2f8d9ef.png#align=left&display=inline&height=504&name=image.png&originHeight=656&originWidth=1111&size=86363&status=done&style=none&width=853.2479739609383" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h4 id="过滤数据"><a href="#过滤数据" class="headerlink" title="过滤数据"></a>过滤数据</h4><p><strong>按照协议过滤：</strong><br>snmp || dns || icmp</p>
+<p><strong>按照协议属性值：</strong></p>
+<p>ip.src == 10.230.0.0/16    显示来自 10..230 网段的封包</p>
+<p>tcp.port == 25    显示来源或目的 TCP 端口号为 25 的封包</p>
+<p>tcp.dstport == 25    显示目的 TCP 端口号为 25 的封包</p>
+<p>http.request.method == “POST”    显示 post 请求方式的 http 封包</p>
+<p>http.host == “example.com”      显示请求域名为 example.com 的 http 封包</p>
+<p><strong>内容过滤语法：</strong></p>
+<p>tcp contains “http”    显示 payload 中包含”http”字符串封包</p>
+<p>http.request.url contains “online”    显示请求的 url 包含”online”的 http 封包</p>
+<p>还有个 matches 来做正则匹配，以后补充</p>
+<p>搜索字符串：ctrl+F  选择分组详情、字符串，然后输入想找的查找就可以</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567152857082-88dd932b-24e1-4750-9bfb-46557cee3b27.png#align=left&display=inline&height=591&name=image.png&originHeight=769&originWidth=1789&size=133283&status=done&style=none&width=1373.9519580703138" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>右键 -&gt;  追踪 -&gt; TCP 流，可以跟踪 TCP 会话的过程</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567151708808-bcf67967-52c9-453d-a6a5-dd443715a989.png#align=left&display=inline&height=577&name=image.png&originHeight=751&originWidth=1091&size=143871&status=done&style=none&width=837.8879744296883" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567151791673-ee553209-3148-4916-8754-894fb833cdaa.png#align=left&display=inline&height=613&name=image.png&originHeight=798&originWidth=729&size=81034&status=done&style=none&width=559.871982914063" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>有时候这里会有一些 zip、png、jpg 的信息，如果熟悉文件头的话一眼就能看出来，用下面的 save as…就可以保存成出来，然后用 winhex  保存成图片或压缩包</p>
+<h3 id="wireshark-着色规则"><a href="#wireshark-着色规则" class="headerlink" title="wireshark 着色规则"></a>wireshark 着色规则</h3><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2019/png/268938/1567151343348-ecfa7abf-6222-4d68-8abd-6ad10edcc35b.png#align=left&display=inline&height=419&name=image.png&originHeight=546&originWidth=731&size=60436&status=done&style=none&width=561.407982867188" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h2 id="Tshark"><a href="#Tshark" class="headerlink" title="Tshark"></a>Tshark</h2><p>在 wireshark 命令行里的工具<br>常用参数： -r 设置读取本地文件<br>-R</p>
+<h2 id="键盘流量分析"><a href="#键盘流量分析" class="headerlink" title="键盘流量分析"></a>键盘流量分析</h2><p>数据长度为八个字节</p>
+<p>USB 流量分为键盘流量和鼠标流量。</p>
+<p>键盘数据包的数据长度为 8 个字节，击键信息集中在第 3 个字节</p>
+<p>映射关系</p>
+<p><a href="https://usb.org/sites/default/files/documents/hut1_12v2.pdf" target="_blank" rel="noopener">https://usb.org/sites/default/files/documents/hut1_12v2.pdf</a></p>
+<p>可以用 tshark 命令可以将 leftover capture data 进行提取</p>
+<p>tshark -r 流量包 -T fields -e usb.capdata &gt; usbdata.txt</p>
+<p>提取出来后根据映射关系还原即可</p>
+<p>状态不好，以后再弄</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2022-10-03T13:52:43.665Z" itemprop="dateUpdated">2022-10-03 21:52:43</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2019/11/10/uew75k/&title=《杂项随记（汇总）》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2019/11/10/uew75k/&title=《杂项随记（汇总）》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2019/11/10/uew75k/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《杂项随记（汇总）》 — yichen's blog&url=https://yichen115.github.io/2019/11/10/uew75k/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2019/11/10/uew75k/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2019/11/10/cyr73s/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">正则</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2019/11/10/iai2tr/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">XXE相关</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020 - 2022</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2019/11/10/uew75k/&title=《杂项随记（汇总）》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2019/11/10/uew75k/&title=《杂项随记（汇总）》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2019/11/10/uew75k/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《杂项随记（汇总）》 — yichen's blog&url=https://yichen115.github.io/2019/11/10/uew75k/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2019/11/10/uew75k/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2019/11/10/uew75k/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

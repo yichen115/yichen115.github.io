@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>nRF Sniffer+wireshark嗅探蓝牙数据 | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="这应该是性价比最高的方案了，同时三个信道的广播包，还能选择某一个设备去抓https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_33475105&#x2F;article&#x2F;details&#x2F;115058045 正常抓包配置下载地址 https:&#x2F;&#x2F;www.nordicsemi.com&#x2F;Products&#x2F;Development-tools&#x2F;nRF-Sniffer-for-Bluetooth-LE&#x2F;Download?l">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nRF Sniffer+wireshark嗅探蓝牙数据">
+<meta property="og:url" content="https://yichen115.github.io/2022/03/17/pet5rg/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="这应该是性价比最高的方案了，同时三个信道的广播包，还能选择某一个设备去抓https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_33475105&#x2F;article&#x2F;details&#x2F;115058045 正常抓包配置下载地址 https:&#x2F;&#x2F;www.nordicsemi.com&#x2F;Products&#x2F;Development-tools&#x2F;nRF-Sniffer-for-Bluetooth-LE&#x2F;Download?l">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1647587600964-fb4a2a73-809d-4255-a8c1-0e8205f55814.png#clientId=u9b5fb072-87db-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=458&id=ufe9038e6&margin=%5Bobject%20Object%5D&name=image.png&originHeight=597&originWidth=1076&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=77721&status=done&style=none&taskId=u492fd618-217b-4de9-bfa2-0f949670616&title=&width=826.3679747812507">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1647587714786-ecdfd696-704e-44f6-8fb4-baaec4faf7ef.png#clientId=u9b5fb072-87db-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=186&id=ItCyb&margin=%5Bobject%20Object%5D&name=image.png&originHeight=242&originWidth=494&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=19618&status=done&style=none&taskId=u1ef8e52e-e8c0-4c69-92a1-53325729624&title=&width=379.39198842187534">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1647589712266-d858d0e2-1631-49e3-8f09-fbe662752fbd.png#clientId=u9b5fb072-87db-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=518&id=ue0219903&margin=%5Bobject%20Object%5D&name=image.png&originHeight=675&originWidth=1200&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=167402&status=done&style=none&taskId=u55f3f2d6-f208-4e70-b426-1dddbc6640c&title=&width=921.5999718750008">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1647589806083-28cb9ef9-a4c8-41d5-814d-4f4b7506778d.png#clientId=u9b5fb072-87db-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=588&id=u80d9057c&margin=%5Bobject%20Object%5D&name=image.png&originHeight=766&originWidth=615&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=68090&status=done&style=none&taskId=uab4e2a65-e0d5-48c0-b16c-d6874df93d9&title=&width=472.31998558593796">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1647939806576-5a50dc46-64ff-452f-97b5-df75c2494965.png#clientId=u4e77c029-ea09-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=126&id=u7ccaff1f&margin=%5Bobject%20Object%5D&name=image.png&originHeight=164&originWidth=679&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=16963&status=done&style=none&taskId=u417fe44e-5852-4d09-9e70-48bc028a509&title=&width=521.471984085938">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1647940196801-88361073-6f37-4269-a71b-bb3922940048.png#clientId=u4e77c029-ea09-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=319&id=uc845c307&margin=%5Bobject%20Object%5D&name=image.png&originHeight=415&originWidth=1652&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=71442&status=done&style=none&taskId=u986caa9d-95dc-40c0-b772-70fd634bb3d&title=&width=1268.735961281251">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1647944413154-e848274a-0af5-484d-aee9-0750b98099b8.png#clientId=u4e77c029-ea09-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=639&id=u629ef5e4&margin=%5Bobject%20Object%5D&name=image.png&originHeight=832&originWidth=1381&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=111943&status=done&style=none&taskId=uae1a3bbe-1f68-4264-83db-071d7e2ab3a&title=&width=1060.6079676328136">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1647944702544-f4cff705-5760-40b2-9c98-900b38a685bc.png#clientId=u4e77c029-ea09-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=701&id=XLTYo&margin=%5Bobject%20Object%5D&name=image.png&originHeight=913&originWidth=1513&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=106650&status=done&style=none&taskId=u8a718904-3c53-4121-80eb-dfb8aee270d&title=&width=1161.9839645390637">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1659951519154-298c7608-0285-4e7d-8154-38e71c52c316.png#clientId=uc6bd97e6-f0b0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=84&id=ua2e73f83&margin=%5Bobject%20Object%5D&name=image.png&originHeight=105&originWidth=396&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=10578&status=done&style=none&taskId=u7c6fddbd-eafe-46be-85c6-6f6e2f65dc3&title=&width=316.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1659951650510-2e4db4a3-522a-47c5-b42f-76d5e3c7331b.png#clientId=uc6bd97e6-f0b0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=281&id=u48dd0232&margin=%5Bobject%20Object%5D&name=image.png&originHeight=351&originWidth=327&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=22770&status=done&style=none&taskId=u347d232a-952e-4e0a-9024-40d9cc3b50b&title=&width=261.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1659952372119-a9812bcf-c760-4655-a857-f712b10fddda.png#clientId=uc6bd97e6-f0b0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=192&id=u2829f896&margin=%5Bobject%20Object%5D&name=image.png&originHeight=462&originWidth=1124&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=712555&status=done&style=none&taskId=uebb9b468-0ab0-4e0d-b21e-c4f3063c027&title=&width=468">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1659951691284-596c9c64-dc6e-46d7-bba1-247a28ca54a3.png#clientId=uc6bd97e6-f0b0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=780&id=u26b94490&margin=%5Bobject%20Object%5D&name=image.png&originHeight=975&originWidth=1323&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=120393&status=done&style=none&taskId=ucb871b06-5703-468e-95b6-d5c24292069&title=&width=1058.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1659951379555-2955fd3c-776d-4e16-8c30-a749eb4cf10e.png#clientId=uc6bd97e6-f0b0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=195&id=ua856ea6f&margin=%5Bobject%20Object%5D&name=image.png&originHeight=244&originWidth=415&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=18595&status=done&style=none&taskId=u78365bf7-3fb1-4039-8c01-1a05b2e3d24&title=&width=332">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1659952238350-48ffa407-188e-4f6d-bbf8-a8618f575c2d.png#clientId=uc6bd97e6-f0b0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=791&id=u1e51c4a0&margin=%5Bobject%20Object%5D&name=image.png&originHeight=989&originWidth=1337&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=123140&status=done&style=none&taskId=u4d636bda-90fb-4aca-aeb5-d3648d17b56&title=&width=1069.6">
+<meta property="article:published_time" content="2022-03-17T09:33:58.000Z">
+<meta property="article:modified_time" content="2022-10-03T13:52:43.806Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1647587600964-fb4a2a73-809d-4255-a8c1-0e8205f55814.png#clientId=u9b5fb072-87db-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=458&id=ufe9038e6&margin=%5Bobject%20Object%5D&name=image.png&originHeight=597&originWidth=1076&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=77721&status=done&style=none&taskId=u492fd618-217b-4de9-bfa2-0f949670616&title=&width=826.3679747812507">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-grav"></i>
+                语雀
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://passport.kanxue.com/user-center-837755.htm" target="_blank" >
+                <i class="icon icon-lg icon-snowflake-o"></i>
+                看雪
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://sighttp.qq.com/msgrd?v=1&uin=1097179511" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://img2020.cnblogs.com/blog/1558534/202003/1558534-20200331231408805-256812285.jpg" target="_blank" >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">nRF Sniffer+wireshark嗅探蓝牙数据</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">nRF Sniffer+wireshark嗅探蓝牙数据</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2022-03-17T09:33:58.000Z" itemprop="datePublished" class="page-time">
+  2022-03-17
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#正常抓包配置"><span class="post-toc-number">1.</span> <span class="post-toc-text">正常抓包配置</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#nRF-52840-sniffer-烧写"><span class="post-toc-number">2.</span> <span class="post-toc-text">﻿nRF 52840 sniffer 烧写</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-pet5rg"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">nRF Sniffer+wireshark嗅探蓝牙数据</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2022-03-17 17:33:58" datetime="2022-03-17T09:33:58.000Z"  itemprop="datePublished">2022-03-17</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>这应该是性价比最高的方案了，同时三个信道的广播包，还能选择某一个设备去抓<br><a href="https://blog.csdn.net/qq_33475105/article/details/115058045" target="_blank" rel="noopener">https://blog.csdn.net/qq_33475105/article/details/115058045</a></p>
+<h1 id="正常抓包配置"><a href="#正常抓包配置" class="headerlink" title="正常抓包配置"></a>正常抓包配置</h1><p>下载地址 <a href="https://www.nordicsemi.com/Products/Development-tools/nRF-Sniffer-for-Bluetooth-LE/Download?lang=en#infotabs" target="_blank" rel="noopener">https://www.nordicsemi.com/Products/Development-tools/nRF-Sniffer-for-Bluetooth-LE/Download?lang=en#infotabs</a><br>在解压出来的目录里的 extcap 目录中 <code>pip3 install -r requirements.txt</code><br>然后打开你的 wireshrak，在 帮助 -&gt; 关于 wireshark -&gt; 文件夹 -&gt; Extcap 路径下</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1647587600964-fb4a2a73-809d-4255-a8c1-0e8205f55814.png#clientId=u9b5fb072-87db-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=458&id=ufe9038e6&margin=%5Bobject%20Object%5D&name=image.png&originHeight=597&originWidth=1076&originalType=binary∶=1&rotation=0&showTitle=false&size=77721&status=done&style=none&taskId=u492fd618-217b-4de9-bfa2-0f949670616&title=&width=826.3679747812507" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>把刚才的 extcap 文件夹里的内容拷贝过去到 Global Extcap path 里面的路径里</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1647587714786-ecdfd696-704e-44f6-8fb4-baaec4faf7ef.png#clientId=u9b5fb072-87db-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=186&id=ItCyb&margin=%5Bobject%20Object%5D&name=image.png&originHeight=242&originWidth=494&originalType=binary∶=1&rotation=0&showTitle=false&size=19618&status=done&style=none&taskId=u1ef8e52e-e8c0-4c69-92a1-53325729624&title=&width=379.39198842187534" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>运行这条命令<code>nrf_sniffer_ble.bat --extcap-interfaces</code>，这样就是成功了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1647589712266-d858d0e2-1631-49e3-8f09-fbe662752fbd.png#clientId=u9b5fb072-87db-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=518&id=ue0219903&margin=%5Bobject%20Object%5D&name=image.png&originHeight=675&originWidth=1200&originalType=binary∶=1&rotation=0&showTitle=false&size=167402&status=done&style=none&taskId=u55f3f2d6-f208-4e70-b426-1dddbc6640c&title=&width=921.5999718750008" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>连接上 nRF Connect 之后在 wireshark 的捕获-&gt;刷新接口列表就可以看到 nRF Sniffer for Buletooth LE 这个接口</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1647589806083-28cb9ef9-a4c8-41d5-814d-4f4b7506778d.png#clientId=u9b5fb072-87db-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=588&id=u80d9057c&margin=%5Bobject%20Object%5D&name=image.png&originHeight=766&originWidth=615&originalType=binary∶=1&rotation=0&showTitle=false&size=68090&status=done&style=none&taskId=uab4e2a65-e0d5-48c0-b16c-d6874df93d9&title=&width=472.31998558593796" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>捕获就行了，另外，在 视图 -&gt; 接口工具栏 中有个工具，可以指定捕获哪些地址的数据，以及指定配对码之类的 key，配对了 key 之后就能正常的解析 BLE 的通信（以我的理解是）</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1647939806576-5a50dc46-64ff-452f-97b5-df75c2494965.png#clientId=u4e77c029-ea09-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=126&id=u7ccaff1f&margin=%5Bobject%20Object%5D&name=image.png&originHeight=164&originWidth=679&originalType=binary∶=1&rotation=0&showTitle=false&size=16963&status=done&style=none&taskId=u417fe44e-5852-4d09-9e70-48bc028a509&title=&width=521.471984085938" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1647940196801-88361073-6f37-4269-a71b-bb3922940048.png#clientId=u4e77c029-ea09-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=319&id=uc845c307&margin=%5Bobject%20Object%5D&name=image.png&originHeight=415&originWidth=1652&originalType=binary∶=1&rotation=0&showTitle=false&size=71442&status=done&style=none&taskId=u986caa9d-95dc-40c0-b772-70fd634bb3d&title=&width=1268.735961281251" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>（蓝牙设备打个屁的码？）比如我抓的这个开发板的流量，没有设置 passkey 显示的是 Encrypted</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1647944413154-e848274a-0af5-484d-aee9-0750b98099b8.png#clientId=u4e77c029-ea09-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=639&id=u629ef5e4&margin=%5Bobject%20Object%5D&name=image.png&originHeight=832&originWidth=1381&originalType=binary∶=1&rotation=0&showTitle=false&size=111943&status=done&style=none&taskId=uae1a3bbe-1f68-4264-83db-071d7e2ab3a&title=&width=1060.6079676328136" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>配置好 key 之后就可以正常的看到数据了<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1647944702544-f4cff705-5760-40b2-9c98-900b38a685bc.png#clientId=u4e77c029-ea09-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=701&id=XLTYo&margin=%5Bobject%20Object%5D&name=image.png&originHeight=913&originWidth=1513&originalType=binary∶=1&rotation=0&showTitle=false&size=106650&status=done&style=none&taskId=u8a718904-3c53-4121-80eb-dfb8aee270d&title=&width=1161.9839645390637" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure></p>
+<h1 id="nRF-52840-sniffer-烧写"><a href="#nRF-52840-sniffer-烧写" class="headerlink" title="﻿nRF 52840 sniffer 烧写"></a>﻿nRF 52840 sniffer 烧写</h1><p>打开 nRF Connect for Desktop，找到这个 Programmer 打开</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1659951519154-298c7608-0285-4e7d-8154-38e71c52c316.png#clientId=uc6bd97e6-f0b0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=84&id=ua2e73f83&margin=%5Bobject%20Object%5D&name=image.png&originHeight=105&originWidth=396&originalType=binary∶=1&rotation=0&showTitle=false&size=10578&status=done&style=none&taskId=u7c6fddbd-eafe-46be-85c6-6f6e2f65dc3&title=&width=316.8" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>下拉选择设备，多试试吧（第一个是我的蓝牙适配器）</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1659951650510-2e4db4a3-522a-47c5-b42f-76d5e3c7331b.png#clientId=uc6bd97e6-f0b0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=281&id=u48dd0232&margin=%5Bobject%20Object%5D&name=image.png&originHeight=351&originWidth=327&originalType=binary∶=1&rotation=0&showTitle=false&size=22770&status=done&style=none&taskId=u347d232a-952e-4e0a-9024-40d9cc3b50b&title=&width=261.6" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>如果设备读不出来内存布局，可以摁一下一个小摁扭，注意是紧贴着板子的那个</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1659952372119-a9812bcf-c760-4655-a857-f712b10fddda.png#clientId=uc6bd97e6-f0b0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=192&id=u2829f896&margin=%5Bobject%20Object%5D&name=image.png&originHeight=462&originWidth=1124&originalType=binary∶=1&rotation=0&showTitle=false&size=712555&status=done&style=none&taskId=uebb9b468-0ab0-4e0d-b21e-c4f3063c027&title=&width=468" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>选择要烧写的文件</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1659951691284-596c9c64-dc6e-46d7-bba1-247a28ca54a3.png#clientId=uc6bd97e6-f0b0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=780&id=u26b94490&margin=%5Bobject%20Object%5D&name=image.png&originHeight=975&originWidth=1323&originalType=binary∶=1&rotation=0&showTitle=false&size=120393&status=done&style=none&taskId=ucb871b06-5703-468e-95b6-d5c24292069&title=&width=1058.4" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>找到下载的那个压缩包，在 hex 文件夹里面，选 sniffer_nrf52840dongle_nrf52840_4.1.0.hex</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1659951379555-2955fd3c-776d-4e16-8c30-a749eb4cf10e.png#clientId=uc6bd97e6-f0b0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=195&id=ua856ea6f&margin=%5Bobject%20Object%5D&name=image.png&originHeight=244&originWidth=415&originalType=binary∶=1&rotation=0&showTitle=false&size=18595&status=done&style=none&taskId=u78365bf7-3fb1-4039-8c01-1a05b2e3d24&title=&width=332" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>点击 Write 烧进去就行了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1659952238350-48ffa407-188e-4f6d-bbf8-a8618f575c2d.png#clientId=uc6bd97e6-f0b0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=791&id=u1e51c4a0&margin=%5Bobject%20Object%5D&name=image.png&originHeight=989&originWidth=1337&originalType=binary∶=1&rotation=0&showTitle=false&size=123140&status=done&style=none&taskId=u4d636bda-90fb-4aca-aeb5-d3648d17b56&title=&width=1069.6" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2022-10-03T13:52:43.806Z" itemprop="dateUpdated">2022-10-03 21:52:43</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2022/03/17/pet5rg/&title=《nRF Sniffer+wireshark嗅探蓝牙数据》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2022/03/17/pet5rg/&title=《nRF Sniffer+wireshark嗅探蓝牙数据》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2022/03/17/pet5rg/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《nRF Sniffer+wireshark嗅探蓝牙数据》 — yichen's blog&url=https://yichen115.github.io/2022/03/17/pet5rg/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2022/03/17/pet5rg/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2022/04/07/nkd6cf/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">QNX</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2022/03/14/nzqr99/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">MIPS汇编基础</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020 - 2022</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2022/03/17/pet5rg/&title=《nRF Sniffer+wireshark嗅探蓝牙数据》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2022/03/17/pet5rg/&title=《nRF Sniffer+wireshark嗅探蓝牙数据》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2022/03/17/pet5rg/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《nRF Sniffer+wireshark嗅探蓝牙数据》 — yichen's blog&url=https://yichen115.github.io/2022/03/17/pet5rg/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2022/03/17/pet5rg/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2022/03/17/pet5rg/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

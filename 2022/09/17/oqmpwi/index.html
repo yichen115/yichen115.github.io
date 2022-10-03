@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>esp32ctf_thu学习 | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="环境搭建硬件esp32、micro-usb、杜邦线、usb-&gt;ttl、支持嗅探的无线网卡、BLE Sniffer 软件这是源码：esp32 的 windows 烧录环境：，直接点进来下载离线安装包[                                                                                             image">
+<meta property="og:type" content="article">
+<meta property="og:title" content="esp32ctf_thu学习">
+<meta property="og:url" content="https://yichen115.github.io/2022/09/17/oqmpwi/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="环境搭建硬件esp32、micro-usb、杜邦线、usb-&gt;ttl、支持嗅探的无线网卡、BLE Sniffer 软件这是源码：esp32 的 windows 烧录环境：，直接点进来下载离线安装包[                                                                                             image">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://dl.espressif.com/dl/esp-idf/?idf=4.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663401961582-a5a645d1-4c58-4b25-93d6-aae72bcb94d6.png#clientId=u5b2aaab0-268b-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=118&id=ue4d77c3d&margin=%5Bobject%20Object%5D&name=image.png&originHeight=147&originWidth=391&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=5024&status=error&style=none&taskId=u0dcf747f-2cfd-4fd0-b579-0474a937d22&title=&width=312.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663402036469-21523c33-b291-43f4-a5cf-8b255b41da21.png#clientId=u5b2aaab0-268b-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=49&id=u9a31187f&margin=%5Bobject%20Object%5D&name=image.png&originHeight=61&originWidth=541&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=27798&status=error&style=none&taskId=u711d7ee1-3fb7-46ab-b1f2-1df0579620d&title=&width=432.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663402294888-caf41bc4-481f-439a-95c5-21ca9c949f04.png#clientId=u5b2aaab0-268b-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=206&id=ue2643535&margin=%5Bobject%20Object%5D&name=image.png&originHeight=258&originWidth=1048&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=44763&status=error&style=none&taskId=ue43bbda3-9565-4118-b4e8-8153c848f97&title=&width=838.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663402370898-3eed033c-1e8b-4151-8aeb-329cc5b97174.png#clientId=u5b2aaab0-268b-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=206&id=u96c2e708&margin=%5Bobject%20Object%5D&name=image.png&originHeight=258&originWidth=917&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=41060&status=error&style=none&taskId=u66982cdd-cf95-4d1b-bb76-414da1aec3a&title=&width=733.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663402432662-1bb995b5-25a9-4615-9330-b03932686ade.png#clientId=u5b2aaab0-268b-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=470&id=u23dcc43e&margin=%5Bobject%20Object%5D&name=image.png&originHeight=587&originWidth=1200&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=78367&status=error&style=none&taskId=ubd392fac-027d-43d5-94eb-e838d9a7d14&title=&width=960">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663402583249-266c8ec6-d36d-44c5-80e2-1aa415357bcf.png#clientId=u5b2aaab0-268b-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=470&id=uf05f1067&margin=%5Bobject%20Object%5D&name=image.png&originHeight=588&originWidth=1200&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=62762&status=error&style=none&taskId=u9a184e65-797b-497b-9f9b-3283a621e62&title=&width=960">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663402993713-7632bd14-b14b-4b96-bf4e-fedb58296b73.png#clientId=u5b2aaab0-268b-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=658&id=ud61d99dc&margin=%5Bobject%20Object%5D&name=image.png&originHeight=822&originWidth=884&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=98875&status=error&style=none&taskId=u4de27d61-1956-425e-a341-d6505d045bf&title=&width=707.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663422356545-ded8b28f-9077-42fd-8162-2a3977d4728a.png#clientId=u91c0b768-ebd8-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=300&id=ubfc023e7&margin=%5Bobject%20Object%5D&name=image.png&originHeight=435&originWidth=616&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=277835&status=error&style=none&taskId=uf8052c6f-aa31-4569-9587-f85e7843d22&title=&width=424.8000183105469">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663422439837-27234f7a-a502-485d-bae9-74120af6b489.png#clientId=u91c0b768-ebd8-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=120&id=u4d452d93&margin=%5Bobject%20Object%5D&name=image.png&originHeight=150&originWidth=530&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=15321&status=error&style=none&taskId=u165ef8d4-1991-4e6d-8ef3-72f85b1b9ba&title=&width=424">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663423088413-9806b8b3-cf2d-44bb-9758-60662c9c7749.png#clientId=u5579aece-4fe6-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=69&id=u0b431ad9&margin=%5Bobject%20Object%5D&name=image.png&originHeight=86&originWidth=608&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=9310&status=error&style=none&taskId=u16513f31-96d5-42f2-ba1f-a8f741623fa&title=&width=486.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663424431142-ac0514c9-56ba-49a9-8921-25ec638ce677.png#clientId=u5579aece-4fe6-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=164&id=u1f38267e&margin=%5Bobject%20Object%5D&name=image.png&originHeight=205&originWidth=621&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=24698&status=error&style=none&taskId=u50a8481d-6b2e-4a7c-8172-9ba6627ba09&title=&width=496.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663464167141-2542de13-242f-4e65-9e8a-9b32caf1c3c1.png#clientId=u93b7ff4a-5210-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=325&id=u4b64b3f5&margin=%5Bobject%20Object%5D&name=image.png&originHeight=616&originWidth=820&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=858081&status=error&style=none&taskId=u614ecdf9-ca6b-4498-beff-c7cdaebb479&title=&width=432">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663464321221-1b358f19-fddc-47b9-8b5c-89564481dc14.png#clientId=u93b7ff4a-5210-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=409&id=u139a7643&margin=%5Bobject%20Object%5D&name=image.png&originHeight=694&originWidth=883&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=301174&status=error&style=none&taskId=uf2a55cfd-7de3-4015-83eb-26826649f96&title=&width=520.4000244140625">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663468246528-b7658834-cd5c-4f3a-a095-5e77c4bba78f.png#clientId=udd105514-05b6-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=87&id=u2d4be45c&margin=%5Bobject%20Object%5D&name=image.png&originHeight=109&originWidth=788&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=17123&status=error&style=none&taskId=udc0981bb-8b76-4a50-bc49-d606567f1da&title=&width=630.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663468313965-ffdc9a21-bc2c-4d4a-9a65-e76b825ce593.png#clientId=udd105514-05b6-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=116&id=u7d662a3c&margin=%5Bobject%20Object%5D&name=image.png&originHeight=145&originWidth=903&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=25291&status=error&style=none&taskId=u8c13c968-20a4-403e-b269-43e79b85ba8&title=&width=722.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663468509188-0bc598ff-f205-45b7-8c28-cc55d347644b.png#clientId=udd105514-05b6-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=137&id=u5f4b4651&margin=%5Bobject%20Object%5D&name=image.png&originHeight=171&originWidth=934&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=25827&status=error&style=none&taskId=u9cbd5985-3bf4-4ddd-a556-ed19cb1367a&title=&width=747.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663468674689-64674887-08ac-473f-889f-421499447354.png#clientId=uaa33e873-17eb-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=238&id=u6b636d7d&margin=%5Bobject%20Object%5D&name=image.png&originHeight=298&originWidth=612&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=28102&status=error&style=none&taskId=u2bd57407-e914-4bb6-949c-eaafe7b1476&title=&width=489.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663469043873-d25f2250-0618-4456-8c39-855556eb1593.png#clientId=u6c454f82-98dd-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=134&id=uc1bd7bed&margin=%5Bobject%20Object%5D&name=image.png&originHeight=167&originWidth=946&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=27692&status=error&style=none&taskId=u9928796a-d0a5-4c48-8ac9-adab3ec71bf&title=&width=756.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663469130367-202f4c8c-6b5c-4ec9-bc62-41b45b28c461.png#clientId=u6c454f82-98dd-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=63&id=u33b4aa57&margin=%5Bobject%20Object%5D&name=image.png&originHeight=79&originWidth=320&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=8781&status=error&style=none&taskId=ucb7cb8e6-92e4-4bbd-9234-d2abda89ed9&title=&width=256">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663469182870-f53830fb-a789-4c0d-b323-aadcc23789a0.png#clientId=u6c454f82-98dd-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=346&id=u043f7338&margin=%5Bobject%20Object%5D&name=image.png&originHeight=433&originWidth=860&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=55099&status=error&style=none&taskId=u76c38113-b58b-4b78-a6c4-832c41983cf&title=&width=688">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663469414936-904aa8a7-418e-44d1-9908-f4091aea9dd3.png#clientId=u6c454f82-98dd-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=53&id=u240cee41&margin=%5Bobject%20Object%5D&name=image.png&originHeight=66&originWidth=706&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=9921&status=error&style=none&taskId=u01a388d5-25a5-468b-ada1-67adf22a704&title=&width=564.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663471371588-bd267804-0dc5-45da-a875-1b80fc966eff.png#clientId=u6c454f82-98dd-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=26&id=u6f8d92f9&margin=%5Bobject%20Object%5D&name=image.png&originHeight=32&originWidth=731&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=3462&status=error&style=none&taskId=u2bf8989c-d699-415b-8fd9-0de82dac98c&title=&width=584.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663471536239-76f1b565-aaf4-44c2-bdc3-637effd17748.png#clientId=u6c454f82-98dd-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=198&id=u6d7155ad&margin=%5Bobject%20Object%5D&name=image.png&originHeight=338&originWidth=557&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=53914&status=error&style=none&taskId=u47c21004-11bb-44e5-ab54-383526f1712&title=&width=325.6000061035156">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663471496530-e47c613b-7194-4cbd-b11c-ad09575bac65.png#clientId=u6c454f82-98dd-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=38&id=u60573e3e&margin=%5Bobject%20Object%5D&name=image.png&originHeight=47&originWidth=722&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=7719&status=error&style=none&taskId=u3dc214b3-d261-424c-b187-c11180c040b&title=&width=577.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663471771481-66cee620-36a1-4ae4-9f07-fdfce90abba2.png#clientId=u6c454f82-98dd-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=646&id=ub80e9eb8&margin=%5Bobject%20Object%5D&name=image.png&originHeight=807&originWidth=1252&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=87719&status=error&style=none&taskId=ubc955446-a0cf-4ecb-ad55-e85bf62d1e3&title=&width=1001.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663472681416-6ca6f906-9e63-44b0-ad41-0f5a5d59b6d4.png#clientId=u06a596a4-2c4d-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=237&id=u32f73c19&margin=%5Bobject%20Object%5D&name=image.png&originHeight=528&originWidth=760&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=114732&status=error&style=none&taskId=u3d267c6e-f0c2-4f62-aad1-d9f4720400f&title=&width=341">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663472758689-93f20f90-6f37-4edc-b93d-fc1929d0874f.png#clientId=u06a596a4-2c4d-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=258&id=u672cd0f1&margin=%5Bobject%20Object%5D&name=image.png&originHeight=323&originWidth=1430&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=104315&status=error&style=none&taskId=uc27ee9df-99bb-41c5-91cd-1b5f67ec47d&title=&width=1144">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663472824539-fe259d58-8b23-49d4-b77f-857a6735103d.png#clientId=u06a596a4-2c4d-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=210&id=ubfd404ef&margin=%5Bobject%20Object%5D&name=image.png&originHeight=321&originWidth=895&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=58784&status=error&style=none&taskId=u50fa7bde-4bd2-43d8-9bd0-1261641614e&title=&width=586">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663472524087-2f203cb1-b446-4466-808a-a8e2156e8535.png#clientId=u6c454f82-98dd-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=283&id=ufa16d9f1&margin=%5Bobject%20Object%5D&name=image.png&originHeight=487&originWidth=517&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=71125&status=error&style=none&taskId=u62150526-2027-462e-986d-0278284b24a&title=&width=300.6000061035156">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663472536660-885fccaa-01f1-4b7a-83fc-396256a37f79.png#clientId=u6c454f82-98dd-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=223&id=u245b2c0c&margin=%5Bobject%20Object%5D&name=image.png&originHeight=356&originWidth=465&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=65940&status=error&style=none&taskId=uaedea910-336a-45c2-9374-dcff041e20d&title=&width=291">
+<meta property="article:published_time" content="2022-09-17T08:01:53.000Z">
+<meta property="article:modified_time" content="2022-10-03T13:52:43.744Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://dl.espressif.com/dl/esp-idf/?idf=4.4">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-grav"></i>
+                语雀
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://passport.kanxue.com/user-center-837755.htm" target="_blank" >
+                <i class="icon icon-lg icon-snowflake-o"></i>
+                看雪
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://sighttp.qq.com/msgrd?v=1&uin=1097179511" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://img2020.cnblogs.com/blog/1558534/202003/1558534-20200331231408805-256812285.jpg" target="_blank" >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">esp32ctf_thu学习</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">esp32ctf_thu学习</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2022-09-17T08:01:53.000Z" itemprop="datePublished" class="page-time">
+  2022-09-17
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#环境搭建"><span class="post-toc-number">1.</span> <span class="post-toc-text">环境搭建</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#硬件"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">硬件</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#软件"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">软件</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#注意"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">注意</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#开搞"><span class="post-toc-number">2.</span> <span class="post-toc-text">开搞</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#硬件题目"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">硬件题目</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#task1"><span class="post-toc-number">2.1.1.</span> <span class="post-toc-text">task1</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#task2"><span class="post-toc-number">2.1.2.</span> <span class="post-toc-text">task2</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#task3"><span class="post-toc-number">2.1.3.</span> <span class="post-toc-text">task3</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#网络题目"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">网络题目</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#task1-1"><span class="post-toc-number">2.2.1.</span> <span class="post-toc-text">task1</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#task2-1"><span class="post-toc-number">2.2.2.</span> <span class="post-toc-text">task2</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#task3-1"><span class="post-toc-number">2.2.3.</span> <span class="post-toc-text">task3</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#蓝牙题目"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">蓝牙题目</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#task1-2"><span class="post-toc-number">2.3.1.</span> <span class="post-toc-text">task1</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#task2-2"><span class="post-toc-number">2.3.2.</span> <span class="post-toc-text">task2</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#task3-2"><span class="post-toc-number">2.3.3.</span> <span class="post-toc-text">task3</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-oqmpwi"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">esp32ctf_thu学习</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2022-09-17 16:01:53" datetime="2022-09-17T08:01:53.000Z"  itemprop="datePublished">2022-09-17</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><h2 id="硬件"><a href="#硬件" class="headerlink" title="硬件"></a>硬件</h2><p>esp32、micro-usb、杜邦线、usb-&gt;ttl、支持嗅探的无线网卡、BLE Sniffer</p>
+<h2 id="软件"><a href="#软件" class="headerlink" title="软件"></a>软件</h2><p>这是源码：<br>esp32 的 windows 烧录环境：，直接点进来下载离线安装包<br>[<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://dl.espressif.com/dl/esp-idf/?idf=4.4" alt="image.png](https://cdn.nlark.com/yuque/0/2022/png/268938/1663401939422-92048e0d-64e1-4672-8e71-5fc4562289c9.png#clientId=u5b2aaab0-268b-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=331&id=u3cf42c8c&margin=%5Bobject%20Object%5D&name=image.png&originHeight=414&originWidth=760&originalType=binary∶=1&rotation=0&showTitle=false&size=37035&status=error&style=none&taskId=u69341c37-925e-4dec-b77b-218a93422d9&title=&width=608)" title="">
+                </div>
+                <div class="image-caption">image.png](https://cdn.nlark.com/yuque/0/2022/png/268938/1663401939422-92048e0d-64e1-4672-8e71-5fc4562289c9.png#clientId=u5b2aaab0-268b-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=331&id=u3cf42c8c&margin=%5Bobject%20Object%5D&name=image.png&originHeight=414&originWidth=760&originalType=binary∶=1&rotation=0&showTitle=false&size=37035&status=error&style=none&taskId=u69341c37-925e-4dec-b77b-218a93422d9&title=&width=608)</div>
+            </figure><br>我下载的是这个，无脑安装</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663401961582-a5a645d1-4c58-4b25-93d6-aae72bcb94d6.png#clientId=u5b2aaab0-268b-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=118&id=ue4d77c3d&margin=%5Bobject%20Object%5D&name=image.png&originHeight=147&originWidth=391&originalType=binary∶=1&rotation=0&showTitle=false&size=5024&status=error&style=none&taskId=u0dcf747f-2cfd-4fd0-b579-0474a937d22&title=&width=312.8" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>完事之后出来了两个快捷方式</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663402036469-21523c33-b291-43f4-a5cf-8b255b41da21.png#clientId=u5b2aaab0-268b-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=49&id=u9a31187f&margin=%5Bobject%20Object%5D&name=image.png&originHeight=61&originWidth=541&originalType=binary∶=1&rotation=0&showTitle=false&size=27798&status=error&style=none&taskId=u711d7ee1-3fb7-46ab-b1f2-1df0579620d&title=&width=432.8" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>这俩用哪个都行，打开之后切换目录到源码的文件夹，cd esp32ctf_thu/thuctf/<br>输入命令：<code>idf.py menuconfig</code>，稍等片刻会打开一个新界面，设置 Serial flasher config 的 Flash size 为 4MB</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663402294888-caf41bc4-481f-439a-95c5-21ca9c949f04.png#clientId=u5b2aaab0-268b-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=206&id=ue2643535&margin=%5Bobject%20Object%5D&name=image.png&originHeight=258&originWidth=1048&originalType=binary∶=1&rotation=0&showTitle=false&size=44763&status=error&style=none&taskId=ue43bbda3-9565-4118-b4e8-8153c848f97&title=&width=838.4" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>设置 Partition Table 的 Partition Table 为 Custom partition table CSV</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663402370898-3eed033c-1e8b-4151-8aeb-329cc5b97174.png#clientId=u5b2aaab0-268b-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=206&id=u96c2e708&margin=%5Bobject%20Object%5D&name=image.png&originHeight=258&originWidth=917&originalType=binary∶=1&rotation=0&showTitle=false&size=41060&status=error&style=none&taskId=u66982cdd-cf95-4d1b-bb76-414da1aec3a&title=&width=733.6" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>选完之后 Q 保存退出<br>然后<code>idf.py build</code>编译代码</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663402432662-1bb995b5-25a9-4615-9330-b03932686ade.png#clientId=u5b2aaab0-268b-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=470&id=u23dcc43e&margin=%5Bobject%20Object%5D&name=image.png&originHeight=587&originWidth=1200&originalType=binary∶=1&rotation=0&showTitle=false&size=78367&status=error&style=none&taskId=ubd392fac-027d-43d5-94eb-e838d9a7d14&title=&width=960" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>等它编译一阵，完事之后就可以<code>idf.py flash</code>了，出现 Connecting….. 的时候要摁住板子上的 BOOT 键</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663402583249-266c8ec6-d36d-44c5-80e2-1aa415357bcf.png#clientId=u5b2aaab0-268b-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=470&id=uf05f1067&margin=%5Bobject%20Object%5D&name=image.png&originHeight=588&originWidth=1200&originalType=binary∶=1&rotation=0&showTitle=false&size=62762&status=error&style=none&taskId=u9a184e65-797b-497b-9f9b-3283a621e62&title=&width=960" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>烧写完成之就可以关掉了，随便找个串口工具，选择波特率 115200 就能看到 log 了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663402993713-7632bd14-b14b-4b96-bf4e-fedb58296b73.png#clientId=u5b2aaab0-268b-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=658&id=ud61d99dc&margin=%5Bobject%20Object%5D&name=image.png&originHeight=822&originWidth=884&originalType=binary∶=1&rotation=0&showTitle=false&size=98875&status=error&style=none&taskId=u4de27d61-1956-425e-a341-d6505d045bf&title=&width=707.2" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>题目其实是这里，烧录好之后拿着这个文件夹里的内容做题，里面有个 tar 包，是删掉了真实 flag 的源码，有些关卡需要分析源码才知道咋做，源码按照不同的题目方向分开了，很友好！</p>
+<h1 id="开搞"><a href="#开搞" class="headerlink" title="开搞"></a>开搞</h1><p>咱从头开始，先把 GND 和 23 号引脚连起来，如果前面已经供电了在连 GND 和 23 引脚需要断电重新供电，或者摁一下板子上的 EN 摁扭才能切换到硬件的题目这一方向</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663422356545-ded8b28f-9077-42fd-8162-2a3977d4728a.png#clientId=u91c0b768-ebd8-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=300&id=ubfc023e7&margin=%5Bobject%20Object%5D&name=image.png&originHeight=435&originWidth=616&originalType=binary∶=1&rotation=0&showTitle=false&size=277835&status=error&style=none&taskId=uf8052c6f-aa31-4569-9587-f85e7843d22&title=&width=424.8000183105469" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h2 id="硬件题目"><a href="#硬件题目" class="headerlink" title="硬件题目"></a>硬件题目</h2><h3 id="task1"><a href="#task1" class="headerlink" title="task1"></a>task1</h3><p><strong>题目：将 GPIO18 抬高，持续 3s 即可获得 flag</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> GPIO_INPUT_IO_0     18</span></span><br><span class="line">....</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">hardware_task1</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> hit = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"[+] hardware task I : hit %d\n"</span>,hit);</span><br><span class="line">        <span class="keyword">if</span>(gpio_get_level(GPIO_INPUT_IO_0))&#123;   <span class="comment">//gpio_get_level是获取GPIO电平值，低电平是0，高电平是1</span></span><br><span class="line">            hit ++ ;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            hit = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(hit&gt;<span class="number">3</span>)&#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"[+] hardware task I : %s\n"</span>,hardware_flag_1);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        vTaskDelay(<span class="number">1000</span> / portTICK_RATE_MS);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时日志如下</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663422439837-27234f7a-a502-485d-bae9-74120af6b489.png#clientId=u91c0b768-ebd8-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=120&id=u4d452d93&margin=%5Bobject%20Object%5D&name=image.png&originHeight=150&originWidth=530&originalType=binary∶=1&rotation=0&showTitle=false&size=15321&status=error&style=none&taskId=u165ef8d4-1991-4e6d-8ef3-72f85b1b9ba&title=&width=424" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>GPIO 是指板子上的一组引脚。这些引脚可以发送或接收电信号，但它们不是为任何特定目的而设计的，可以由我们通过编程来实现任意功能。这就是为什么它们被称为通用 IO（General-purpose input/output）<br>抬高就是给它供电，把板子上的 3.3V 或 5V 与他接起来就行了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663423088413-9806b8b3-cf2d-44bb-9758-60662c9c7749.png#clientId=u5579aece-4fe6-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=69&id=u0b431ad9&margin=%5Bobject%20Object%5D&name=image.png&originHeight=86&originWidth=608&originalType=binary∶=1&rotation=0&showTitle=false&size=9310&status=error&style=none&taskId=u16513f31-96d5-42f2-ba1f-a8f741623fa&title=&width=486.4" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h3 id="task2"><a href="#task2" class="headerlink" title="task2"></a>task2</h3><p><strong>题目：在 GPIO18 处构造出 1w 个上升沿</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> GPIO_INPUT_IO_0     18</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> GPIO_INPUT_PIN_SEL  ((1ULL&lt;&lt;GPIO_INPUT_IO_0) )</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ESP_INTR_FLAG_DEFAULT 0</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> IRAM_ATTR <span class="title">gpio_isr_handler</span><span class="params">(<span class="keyword">void</span>* arg)</span></span>&#123;  <span class="comment">//GPIO中断处理程序，中断了就执行这个</span></span><br><span class="line">    trigger++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">hardware_gpio_setup</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">gpio_config_t</span> io_conf;  <span class="comment">//GPIO的配置参数</span></span><br><span class="line">    io_conf.pin_bit_mask = GPIO_INPUT_PIN_SEL; <span class="comment">//要配置的GPIO引脚</span></span><br><span class="line">    io_conf.mode = GPIO_MODE_INPUT;   <span class="comment">//仅输入</span></span><br><span class="line">    io_conf.intr_type = GPIO_INTR_POSEDGE;  <span class="comment">//GPIO中断类型，上升沿</span></span><br><span class="line">    io_conf.pull_up_en = <span class="number">0</span>;  <span class="comment">//禁止上拉使能</span></span><br><span class="line">    gpio_config(&amp;io_conf);</span><br><span class="line">    gpio_install_isr_service(ESP_INTR_FLAG_DEFAULT);</span><br><span class="line">    gpio_isr_handler_add(GPIO_INPUT_IO_0, gpio_isr_handler, (<span class="keyword">void</span>*) GPIO_INPUT_IO_0);  <span class="comment">//注册GPIO_INPUT_IO_0，也就是GPIO18中断处理程序</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">hardware_task2</span><span class="params">()</span></span>&#123;</span><br><span class="line">    trigger = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"[+] hardware task II : trigger %d\n"</span>,trigger);</span><br><span class="line">        <span class="keyword">if</span>(trigger &gt; <span class="number">10000</span>)&#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">"[+] hardware task II : %s\n"</span>,hardware_flag_2);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        vTaskDelay(<span class="number">1000</span> / portTICK_RATE_MS);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上升沿指的是数字电路中数字电平从低电平（数字 0）到高电平（数字 1）的一瞬间，下降沿同理<br>借助一个 TX 的引脚会一直输出这一特点来与 GPIO18 连起来，这样就可以啦</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663424431142-ac0514c9-56ba-49a9-8921-25ec638ce677.png#clientId=u5579aece-4fe6-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=164&id=u1f38267e&margin=%5Bobject%20Object%5D&name=image.png&originHeight=205&originWidth=621&originalType=binary∶=1&rotation=0&showTitle=false&size=24698&status=error&style=none&taskId=u50a8481d-6b2e-4a7c-8172-9ba6627ba09&title=&width=496.8" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>补充：上下拉是给 IO 一个默认的状态，上拉和下拉是指 GPIO 输出高电位(上拉)还是低电位(下拉)，从程序设计的角度讲，上拉就是如果没有输入信号则此时 I/O 状态为 1，下拉相反<br><a href="">关于上下拉电阻看一下这个</a></p>
+<p>试着理解一下代码的意思，给 GPIO18 注册了一个上升沿中断处理函数，函数的功能是 trigger+1，同时把 GPIO18 的上拉关掉，这样没有输入时候的 I/O 状态就不是 1，有输入的时候就会触发上升沿，这样 trigger 就会增加了</p>
+<h3 id="task3"><a href="#task3" class="headerlink" title="task3"></a>task3</h3><p><strong>题目：在另一个串口处寻找第三个 flag</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ECHO_TEST_TXD  (GPIO_NUM_4)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ECHO_TEST_RXD  (GPIO_NUM_5)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ECHO_TEST_RTS  (UART_PIN_NO_CHANGE)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ECHO_TEST_CTS  (UART_PIN_NO_CHANGE)</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">hardware_uart_setup</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">uart_config_t</span> uart_config = &#123;</span><br><span class="line">        .baud_rate = <span class="number">115200</span>,</span><br><span class="line">        .data_bits = UART_DATA_8_BITS,</span><br><span class="line">        .parity    = UART_PARITY_DISABLE,</span><br><span class="line">        .stop_bits = UART_STOP_BITS_1,</span><br><span class="line">        .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,</span><br><span class="line">        .source_clk = UART_SCLK_APB,</span><br><span class="line">    &#125;;</span><br><span class="line">    uart_driver_install(UART_NUM_1, <span class="number">1024</span> * <span class="number">2</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="literal">NULL</span>, <span class="number">0</span>);</span><br><span class="line">    uart_param_config(UART_NUM_1, &amp;uart_config);</span><br><span class="line">    uart_set_pin(UART_NUM_1, ECHO_TEST_TXD, ECHO_TEST_RXD, ECHO_TEST_RTS, ECHO_TEST_CTS);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">hardware_task3</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"[+] hardware task III : find the third flag in another UART\n"</span>);</span><br><span class="line">    <span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">        uart_write_bytes(UART_NUM_1, hardware_flag_3, <span class="built_in">strlen</span>(hardware_flag_3));</span><br><span class="line">        vTaskDelay(<span class="number">1000</span> / portTICK_RATE_MS);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>被晃了呜呜呜，这个板子上有个 TX2 我以为是这个呐，结果等了半天啥也没有，这个是让你分析代码，看一下用的哪一个 GPIO 作为 TX，通过 define 可以看到，TXD 是 GPIO4，那就把 GPIO4 接到 USB-&gt;TTL 的 RX 上就可以看到了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663464167141-2542de13-242f-4e65-9e8a-9b32caf1c3c1.png#clientId=u93b7ff4a-5210-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=325&id=u4b64b3f5&margin=%5Bobject%20Object%5D&name=image.png&originHeight=616&originWidth=820&originalType=binary∶=1&rotation=0&showTitle=false&size=858081&status=error&style=none&taskId=u614ecdf9-ca6b-4498-beff-c7cdaebb479&title=&width=432" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663464321221-1b358f19-fddc-47b9-8b5c-89564481dc14.png#clientId=u93b7ff4a-5210-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=409&id=u139a7643&margin=%5Bobject%20Object%5D&name=image.png&originHeight=694&originWidth=883&originalType=binary∶=1&rotation=0&showTitle=false&size=301174&status=error&style=none&taskId=uf2a55cfd-7de3-4015-83eb-26826649f96&title=&width=520.4000244140625" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h2 id="网络题目"><a href="#网络题目" class="headerlink" title="网络题目"></a>网络题目</h2><h3 id="task1-1"><a href="#task1-1" class="headerlink" title="task1"></a>task1</h3><p><strong>题目：连接板子目标端口，尝试获得 flag</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">network_init</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> ssid[<span class="number">0x10</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="keyword">char</span> pass[<span class="number">0x10</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">    get_random(ssid,<span class="number">6</span>);</span><br><span class="line">    get_random(pass,<span class="number">8</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"[+] network task I: I will connect a wifi -&gt; ssid: %s , password %s \n"</span>,ssid,pass);</span><br><span class="line">    connect_wifi(ssid,pass);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">network_tcp</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">char</span> addr_str[<span class="number">128</span>];</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">dest_addr</span>;</span></span><br><span class="line"></span><br><span class="line">    dest_addr.sin_addr.s_addr = htonl(INADDR_ANY);</span><br><span class="line">    dest_addr.sin_family = AF_INET;</span><br><span class="line">    dest_addr.sin_port = htons(<span class="number">3333</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> listen_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_IP);</span><br><span class="line"></span><br><span class="line">    ESP_LOGI(TAG, <span class="string">"Socket created"</span>);</span><br><span class="line"></span><br><span class="line">    bind(listen_sock, (struct sockaddr *)&amp;dest_addr, <span class="keyword">sizeof</span>(dest_addr));</span><br><span class="line">    ESP_LOGI(TAG, <span class="string">"Socket bound, port %d"</span>, <span class="number">3333</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">listen</span>(listen_sock, <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line"></span><br><span class="line">        ESP_LOGI(TAG, <span class="string">"Socket listening"</span>);</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_storage</span> <span class="title">source_addr</span>;</span></span><br><span class="line">        <span class="keyword">socklen_t</span> addr_len = <span class="keyword">sizeof</span>(source_addr);</span><br><span class="line">        <span class="keyword">int</span> sock = accept(listen_sock, (struct sockaddr *)&amp;source_addr, &amp;addr_len);</span><br><span class="line">        inet_ntoa_r(((struct sockaddr_in *)&amp;source_addr)-&gt;sin_addr, addr_str, <span class="keyword">sizeof</span>(addr_str) - <span class="number">1</span>);</span><br><span class="line">        ESP_LOGI(TAG, <span class="string">"Socket accepted ip address: %s"</span>, addr_str);</span><br><span class="line">        <span class="keyword">char</span> <span class="built_in">buffer</span>[<span class="number">100</span>];</span><br><span class="line">        <span class="keyword">while</span>(recv(sock,<span class="built_in">buffer</span>,<span class="number">0x10</span>,<span class="number">0</span>))&#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">strstr</span>(<span class="built_in">buffer</span>,<span class="string">"getflag"</span>))&#123;</span><br><span class="line">                send(sock, network_flag_1, <span class="built_in">strlen</span>(network_flag_1), <span class="number">0</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                send(sock, <span class="string">"error\n"</span>, <span class="built_in">strlen</span>(<span class="string">"error\n"</span>), <span class="number">0</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            vTaskDelay(<span class="number">1000</span> / portTICK_RATE_MS);</span><br><span class="line">        &#125;</span><br><span class="line">        open_next_tasks = <span class="number">1</span>;</span><br><span class="line">        <span class="built_in">shutdown</span>(sock, <span class="number">0</span>);</span><br><span class="line">        <span class="built_in">close</span>(sock);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里得往上翻日志了，他随机指定了一个 wifi 名和密码，会去连接那个密码，用手机开个热点即可<br>ssid: kbmxet , password svtujgjb</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663468246528-b7658834-cd5c-4f3a-a095-5e77c4bba78f.png#clientId=udd105514-05b6-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=87&id=u2d4be45c&margin=%5Bobject%20Object%5D&name=image.png&originHeight=109&originWidth=788&originalType=binary∶=1&rotation=0&showTitle=false&size=17123&status=error&style=none&taskId=udc0981bb-8b76-4a50-bc49-d606567f1da&title=&width=630.4" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663468313965-ffdc9a21-bc2c-4d4a-9a65-e76b825ce593.png#clientId=udd105514-05b6-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=116&id=u7d662a3c&margin=%5Bobject%20Object%5D&name=image.png&originHeight=145&originWidth=903&originalType=binary∶=1&rotation=0&showTitle=false&size=25291&status=error&style=none&taskId=u8c13c968-20a4-403e-b269-43e79b85ba8&title=&width=722.4" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>日志里给出了 IP 和端口，用电脑也连接上开的热点</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663468509188-0bc598ff-f205-45b7-8c28-cc55d347644b.png#clientId=udd105514-05b6-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=137&id=u5f4b4651&margin=%5Bobject%20Object%5D&name=image.png&originHeight=171&originWidth=934&originalType=binary∶=1&rotation=0&showTitle=false&size=25827&status=error&style=none&taskId=u9cbd5985-3bf4-4ddd-a556-ed19cb1367a&title=&width=747.2" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>nc 一下，连上之后根据源码里的逻辑，发送 getflag 即可</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663468674689-64674887-08ac-473f-889f-421499447354.png#clientId=uaa33e873-17eb-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=238&id=u6b636d7d&margin=%5Bobject%20Object%5D&name=image.png&originHeight=298&originWidth=612&originalType=binary∶=1&rotation=0&showTitle=false&size=28102&status=error&style=none&taskId=u2bd57407-e914-4bb6-949c-eaafe7b1476&title=&width=489.6" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h3 id="task2-1"><a href="#task2-1" class="headerlink" title="task2"></a>task2</h3><p><strong>题目：你知道他发给百度的 flag 么</strong></p>
+<blockquote>
+<p>此部分代码不完善，可能会因死循环爆栈导致重启，请见谅…（确实容易重启 🤣）</p>
+</blockquote>
+<p>改为用电脑开这个热点，然后直接抓取网卡的流量，嗯，，他好像不会切换，得重新做一遍</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663469043873-d25f2250-0618-4456-8c39-855556eb1593.png#clientId=u6c454f82-98dd-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=134&id=uc1bd7bed&margin=%5Bobject%20Object%5D&name=image.png&originHeight=167&originWidth=946&originalType=binary∶=1&rotation=0&showTitle=false&size=27692&status=error&style=none&taskId=u9928796a-d0a5-4c48-8ac9-adab3ec71bf&title=&width=756.8" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>电脑开启热点后会有一个新的网卡，就抓这个网卡即可</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663469130367-202f4c8c-6b5c-4ec9-bc62-41b45b28c461.png#clientId=u6c454f82-98dd-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=63&id=u33b4aa57&margin=%5Bobject%20Object%5D&name=image.png&originHeight=79&originWidth=320&originalType=binary∶=1&rotation=0&showTitle=false&size=8781&status=error&style=none&taskId=ucb7cb8e6-92e4-4bbd-9234-d2abda89ed9&title=&width=256" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>追踪 HTTP 流发现 flag</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663469182870-f53830fb-a789-4c0d-b323-aadcc23789a0.png#clientId=u6c454f82-98dd-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=346&id=u043f7338&margin=%5Bobject%20Object%5D&name=image.png&originHeight=433&originWidth=860&originalType=binary∶=1&rotation=0&showTitle=false&size=55099&status=error&style=none&taskId=u76c38113-b58b-4b78-a6c4-832c41983cf&title=&width=688" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h3 id="task3-1"><a href="#task3-1" class="headerlink" title="task3"></a>task3</h3><p><strong>题目：flag 在空中</strong><br>同时日志如下：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663469414936-904aa8a7-418e-44d1-9908-f4091aea9dd3.png#clientId=u6c454f82-98dd-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=53&id=u240cee41&margin=%5Bobject%20Object%5D&name=image.png&originHeight=66&originWidth=706&originalType=binary∶=1&rotation=0&showTitle=false&size=9921&status=error&style=none&taskId=u01a388d5-25a5-468b-ada1-67adf22a704&title=&width=564.8" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>把无线网卡插到 kali 里面，得搞到无线网卡再做</p>
+<h2 id="蓝牙题目"><a href="#蓝牙题目" class="headerlink" title="蓝牙题目"></a>蓝牙题目</h2><h3 id="task1-2"><a href="#task1-2" class="headerlink" title="task1"></a>task1</h3><p><strong>题目：修改蓝牙名称并设置可被发现即可获得 flag</strong><br>也是刚开始的日志中随机指定了蓝牙设备的名字</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663471371588-bd267804-0dc5-45da-a875-1b80fc966eff.png#clientId=u6c454f82-98dd-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=26&id=u6f8d92f9&margin=%5Bobject%20Object%5D&name=image.png&originHeight=32&originWidth=731&originalType=binary∶=1&rotation=0&showTitle=false&size=3462&status=error&style=none&taskId=u2bf8989c-d699-415b-8fd9-0de82dac98c&title=&width=584.8" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>直接改手机的名字就行了，现在手机好像默认不被发现？在手机上点击扫描周围设备就可以了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663471536239-76f1b565-aaf4-44c2-bdc3-637effd17748.png#clientId=u6c454f82-98dd-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=198&id=u6d7155ad&margin=%5Bobject%20Object%5D&name=image.png&originHeight=338&originWidth=557&originalType=binary∶=1&rotation=0&showTitle=false&size=53914&status=error&style=none&taskId=u47c21004-11bb-44e5-ab54-383526f1712&title=&width=325.6000061035156" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663471496530-e47c613b-7194-4cbd-b11c-ad09575bac65.png#clientId=u6c454f82-98dd-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=38&id=u60573e3e&margin=%5Bobject%20Object%5D&name=image.png&originHeight=47&originWidth=722&originalType=binary∶=1&rotation=0&showTitle=false&size=7719&status=error&style=none&taskId=u3dc214b3-d261-424c-b187-c11180c040b&title=&width=577.6" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h3 id="task2-2"><a href="#task2-2" class="headerlink" title="task2"></a>task2</h3><p><strong>题目：flag 在空中</strong><br>那就抓包吧，开启 Hollong，直接全选广播包中就有，同时也确定了他的 MAC 地址和设备名</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663471771481-66cee620-36a1-4ae4-9f07-fdfce90abba2.png#clientId=u6c454f82-98dd-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=646&id=ub80e9eb8&margin=%5Bobject%20Object%5D&name=image.png&originHeight=807&originWidth=1252&originalType=binary∶=1&rotation=0&showTitle=false&size=87719&status=error&style=none&taskId=ubc955446-a0cf-4ecb-ad55-e85bf62d1e3&title=&width=1001.6" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h3 id="task3-2"><a href="#task3-2" class="headerlink" title="task3"></a>task3</h3><p><strong>题目：分析 GATT 业务并获得 flag</strong><br>用 nRF Connect 连接，一开始读，只有 DEEDBEEF</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663472681416-6ca6f906-9e63-44b0-ad41-0f5a5d59b6d4.png#clientId=u06a596a4-2c4d-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=237&id=u32f73c19&margin=%5Bobject%20Object%5D&name=image.png&originHeight=528&originWidth=760&originalType=binary∶=1&rotation=0&showTitle=false&size=114732&status=error&style=none&taskId=u3d267c6e-f0c2-4f62-aad1-d9f4720400f&title=&width=341" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>搜索源码里的 [+] bluetooth task III 定位到这里，我们写入的值与 flag2 进行了对比，通过则 open_task3 = 1</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663472758689-93f20f90-6f37-4edc-b93d-fc1929d0874f.png#clientId=u06a596a4-2c4d-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=258&id=u672cd0f1&margin=%5Bobject%20Object%5D&name=image.png&originHeight=323&originWidth=1430&originalType=binary∶=1&rotation=0&showTitle=false&size=104315&status=error&style=none&taskId=uc27ee9df-99bb-41c5-91cd-1b5f67ec47d&title=&width=1144" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>只有当 open_task3 = 1 时才会把真正的 flag 拷贝过去</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663472824539-fe259d58-8b23-49d4-b77f-857a6735103d.png#clientId=u06a596a4-2c4d-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=210&id=ubfd404ef&margin=%5Bobject%20Object%5D&name=image.png&originHeight=321&originWidth=895&originalType=binary∶=1&rotation=0&showTitle=false&size=58784&status=error&style=none&taskId=u50fa7bde-4bd2-43d8-9bd0-1261641614e&title=&width=586" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>发送 task2 的 flag</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663472524087-2f203cb1-b446-4466-808a-a8e2156e8535.png#clientId=u6c454f82-98dd-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=283&id=ufa16d9f1&margin=%5Bobject%20Object%5D&name=image.png&originHeight=487&originWidth=517&originalType=binary∶=1&rotation=0&showTitle=false&size=71125&status=error&style=none&taskId=u62150526-2027-462e-986d-0278284b24a&title=&width=300.6000061035156" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>再次读取，转成 ASCII 码即可 THUCTF{WrItE_4_gA7T}</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663472536660-885fccaa-01f1-4b7a-83fc-396256a37f79.png#clientId=u6c454f82-98dd-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=223&id=u245b2c0c&margin=%5Bobject%20Object%5D&name=image.png&originHeight=356&originWidth=465&originalType=binary∶=1&rotation=0&showTitle=false&size=65940&status=error&style=none&taskId=uaedea910-336a-45c2-9374-dcff041e20d&title=&width=291" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2022-10-03T13:52:43.744Z" itemprop="dateUpdated">2022-10-03 21:52:43</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2022/09/17/oqmpwi/&title=《esp32ctf_thu学习》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2022/09/17/oqmpwi/&title=《esp32ctf_thu学习》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2022/09/17/oqmpwi/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《esp32ctf_thu学习》 — yichen's blog&url=https://yichen115.github.io/2022/09/17/oqmpwi/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2022/09/17/oqmpwi/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2022/09/28/gdswg6/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Transport层</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2022/09/16/ze45bw/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">crackle学习</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020 - 2022</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2022/09/17/oqmpwi/&title=《esp32ctf_thu学习》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2022/09/17/oqmpwi/&title=《esp32ctf_thu学习》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2022/09/17/oqmpwi/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《esp32ctf_thu学习》 — yichen's blog&url=https://yichen115.github.io/2022/09/17/oqmpwi/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2022/09/17/oqmpwi/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2022/09/17/oqmpwi/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

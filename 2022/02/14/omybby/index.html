@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>BLE_CTF低功耗蓝牙CTF挑战 | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="在搜东西的时候发现了这个：ble_ctf · github，拿来做做玩玩呀首先得把环境弄好，你得有一块 ESP32 的板子，淘宝买就行了，笔记本自带的蓝牙适配器如果不行的话（后面会说怎么判断）也得自己买一个蓝牙适配器，我用的是 CSR4.0 这个，直接去淘宝搜就行 配置环境123456sudo apt-get install esptool 首先得安装 esptool 用来烧录 esp32 git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BLE_CTF低功耗蓝牙CTF挑战">
+<meta property="og:url" content="https://yichen115.github.io/2022/02/14/omybby/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="在搜东西的时候发现了这个：ble_ctf · github，拿来做做玩玩呀首先得把环境弄好，你得有一块 ESP32 的板子，淘宝买就行了，笔记本自带的蓝牙适配器如果不行的话（后面会说怎么判断）也得自己买一个蓝牙适配器，我用的是 CSR4.0 这个，直接去淘宝搜就行 配置环境123456sudo apt-get install esptool 首先得安装 esptool 用来烧录 esp32 git">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1644995470410-bc6e03b5-b940-41bf-8f8b-338d61462029.png#clientId=u2a4543e6-adcb-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=500&id=u64ba4f8b&margin=%5Bobject%20Object%5D&name=image.png&originHeight=525&originWidth=806&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=159547&status=error&style=none&taskId=u206d619f-0558-4266-84f2-49f7099f8f8&title=&width=767.0079345703125">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1645011211450-d95d30c4-cd7b-41a6-86c3-89900a3084d4.png#clientId=u95bb309c-4519-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=77&id=u5b0024df&margin=%5Bobject%20Object%5D&name=image.png&originHeight=68&originWidth=297&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=10129&status=error&style=none&taskId=u86d8d31b-15c4-4322-b63c-9ecd2ad0d2d&title=&width=335.0959777832031">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1645011351711-5cb028de-f30d-4573-a851-64cb5f6d143c.png#clientId=u95bb309c-4519-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=52&id=u7a92b378&margin=%5Bobject%20Object%5D&name=image.png&originHeight=56&originWidth=891&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=16366&status=error&style=none&taskId=u0c639722-27f2-4875-b9b0-ab64616f25f&title=&width=821.0039672851562">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1645012874670-b4d1be01-26d0-4664-80f7-be64efe12f32.png#clientId=u95bb309c-4519-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=108&id=ua6f1b643&margin=%5Bobject%20Object%5D&name=image.png&originHeight=122&originWidth=891&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=34358&status=error&style=none&taskId=u820dfff9-f511-4433-8e58-cb5a3bb6273&title=&width=786.2879638671875">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1645013222863-5f9d5d3e-b10d-42e6-b3d9-591eb01a4c60.png#clientId=u95bb309c-4519-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=186&id=uf92e32f1&margin=%5Bobject%20Object%5D&name=image.png&originHeight=182&originWidth=891&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=51523&status=error&style=none&taskId=u14f0ac27-d0ea-48b4-8f96-b3c0553908d&title=&width=908.2879638671875">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1645013529079-9e09ad3b-92ea-46de-87eb-3cefdbc5cf3f.png#clientId=u95bb309c-4519-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=178&id=u4ffe4ffe&margin=%5Bobject%20Object%5D&name=image.png&originHeight=186&originWidth=888&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=51868&status=error&style=none&taskId=ua2f3f546-20fe-4cfd-94f6-ac953d67369&title=&width=851.9839477539062">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1645014466933-cde5f18b-230f-4ab3-88a9-56b79a2a861f.png#clientId=u95bb309c-4519-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=149&id=u49096226&margin=%5Bobject%20Object%5D&name=image.png&originHeight=183&originWidth=1033&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=55838&status=error&style=none&taskId=ud7f61472-af29-4240-a2ac-10b90608c8e&title=&width=841.0039672851562">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1645014834151-039fde85-397b-4033-a0a3-993fa7e0edd8.png#clientId=u95bb309c-4519-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=499&id=u50bb670f&margin=%5Bobject%20Object%5D&name=image.png&originHeight=568&originWidth=892&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=179891&status=error&style=none&taskId=uf195b649-8719-4ba2-bcf5-2407bf84197&title=&width=783.0559692382812">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1645015311889-af0b872c-423f-4fc9-8130-dfb28ef729fb.png#clientId=u95bb309c-4519-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=269&id=u4743897d&margin=%5Bobject%20Object%5D&name=image.png&originHeight=313&originWidth=1016&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=97770&status=error&style=none&taskId=ucf1f21a2-7d35-4e48-9f26-ff3ec43a867&title=&width=874.0039672851562">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1645015616207-0ffc0a71-2f13-423a-a23b-05d174eaad76.png#clientId=u95bb309c-4519-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=289&id=u07ff225a&margin=%5Bobject%20Object%5D&name=image.png&originHeight=310&originWidth=963&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=95232&status=error&style=none&taskId=ua4a39b19-e966-46e7-b51a-e765d33d5e8&title=&width=896.5839233398438">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1645015860266-9e08d6cc-b245-4330-a141-364aa5b1c1c0.png#clientId=u95bb309c-4519-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=288&id=uc6615609&margin=%5Bobject%20Object%5D&name=image.png&originHeight=317&originWidth=893&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=90503&status=error&style=none&taskId=ub572d405-437b-43c1-b96e-d33dd064690&title=&width=811.823974609375">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1645018428488-0924edd6-6fdc-40fc-b7e7-331e8fed8c96.png#clientId=u95bb309c-4519-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=369&id=u7f9eb816&margin=%5Bobject%20Object%5D&name=image.png&originHeight=416&originWidth=970&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=154673&status=error&style=none&taskId=ue9aaa3b3-0a0d-4175-8384-25a3c88999b&title=&width=860.9599609375">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1645019047261-c43f839e-2653-4173-90f0-1982d92f358b.png#clientId=u95bb309c-4519-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=342&id=u6094b63b&margin=%5Bobject%20Object%5D&name=image.png&originHeight=355&originWidth=892&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=125564&status=error&style=none&taskId=u4a60e194-abc6-4e21-b59c-dae36595a09&title=&width=860.0559692382812">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1645019605167-b175ecbb-cc7e-4884-9f64-0a22d9f39481.png#clientId=u95bb309c-4519-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=227&id=uae91267a&margin=%5Bobject%20Object%5D&name=image.png&originHeight=295&originWidth=1025&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=103211&status=error&style=none&taskId=u73c0d618-33af-4012-ae28-5d85fdf4856&title=&width=787.1999759765632">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1645020578260-abdcbd97-01c1-43ec-b3ae-18d34b95ca9a.png#clientId=u95bb309c-4519-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=232&id=ube6207a4&margin=%5Bobject%20Object%5D&name=image.png&originHeight=302&originWidth=1024&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=104804&status=error&style=none&taskId=u8aca6fd5-1607-4805-b725-2737850792b&title=&width=786.4319760000008">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1645020894221-a3ac5cca-c467-4c4e-ae06-bfd2fde57469.png#clientId=u84b6df99-7b9c-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=306&id=ue9ea7cde&margin=%5Bobject%20Object%5D&name=image.png&originHeight=399&originWidth=1026&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=165608&status=error&style=none&taskId=u384b3bd9-3fdd-498c-8a9a-e118e8e55eb&title=&width=787.9679759531257">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1645065697634-a9404bc3-ffac-4c52-9139-9f67a315f9b3.png#clientId=u52fd1f9c-136e-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=276&id=uf230b902&margin=%5Bobject%20Object%5D&name=image.png&originHeight=360&originWidth=1203&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=119377&status=error&style=none&taskId=u5650c668-106a-417c-978f-9f37c1b0275&title=&width=923.9039718046884">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1645065180341-adede9cd-9f75-4491-aa65-d08e36c744fd.png#clientId=u52fd1f9c-136e-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=217&id=ued9cd294&margin=%5Bobject%20Object%5D&name=image.png&originHeight=282&originWidth=385&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=61476&status=error&style=none&taskId=udf0786c6-6533-4f79-aefa-baaa1466588&title=&width=295.67999097656275">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1645065325390-f41ea757-c71f-4b46-8bbf-16699d774810.png#clientId=u52fd1f9c-136e-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=154&id=u75888eae&margin=%5Bobject%20Object%5D&name=image.png&originHeight=200&originWidth=1203&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=64223&status=error&style=none&taskId=u7c6ae9ad-c277-4b2c-a06d-fffd355c470&title=&width=923.9039718046884">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1645066698103-a22dd884-c5dd-4b0f-9fea-e02d0d22717b.png#clientId=u52fd1f9c-136e-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=465&id=udc8a6d95&margin=%5Bobject%20Object%5D&name=image.png&originHeight=491&originWidth=893&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=159688&status=error&style=none&taskId=u8c1971e9-066a-44f8-b004-16032966e01&title=&width=844.823974609375">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1645067998795-afa5d328-7557-4170-a0b5-934c0ab48bb1.png#clientId=u52fd1f9c-136e-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=268&id=u67fc82c2&margin=%5Bobject%20Object%5D&name=image.png&originHeight=310&originWidth=894&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=111001&status=error&style=none&taskId=ucde03069-a100-4332-b520-f5eee2e8b65&title=&width=772.5919799804688">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1645068529099-4153689b-1959-4d45-9b15-5631179b1a29.png#clientId=u52fd1f9c-136e-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=240&id=u774efe1d&margin=%5Bobject%20Object%5D&name=image.png&originHeight=281&originWidth=989&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=84878&status=error&style=none&taskId=u211600b2-8c2d-4597-8b25-0a0c1dbc503&title=&width=843.0039672851562">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1645069038453-c011d431-a3af-4a58-b13c-f1e3e6f61a56.png#clientId=u52fd1f9c-136e-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=124&id=ueb0ebb1e&margin=%5Bobject%20Object%5D&name=image.png&originHeight=126&originWidth=541&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=28409&status=error&style=none&taskId=u31d7a888-5791-441a-9bd5-ae9e1ef265a&title=&width=534.4879760742188">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1645069097536-8434dcfa-0062-43ca-9d85-615ce7db141d.png#clientId=u52fd1f9c-136e-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=83&id=uc08896ca&margin=%5Bobject%20Object%5D&name=image.png&originHeight=91&originWidth=614&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=18918&status=error&style=none&taskId=uc27bb987-9266-4c4e-87c4-7b0b1d4d7a8&title=&width=558.5519714355469">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1645069168541-d1c7e66b-0ae7-4fdd-ba1c-3177f33112c9.png#clientId=u52fd1f9c-136e-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=108&id=ua1c58ebe&margin=%5Bobject%20Object%5D&name=image.png&originHeight=121&originWidth=896&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=37810&status=error&style=none&taskId=u7fa4ea68-9ede-413f-beea-c48b64be38c&title=&width=801.1279296875">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1645069274682-7aec219f-72e3-475a-ae42-43f69e809c81.png#clientId=u52fd1f9c-136e-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=169&id=u075dc292&margin=%5Bobject%20Object%5D&name=image.png&originHeight=220&originWidth=386&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=13402&status=error&style=none&taskId=u5dd7d646-333f-4652-a176-370cca98bcc&title=&width=296.44799095312527">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1645069383109-7a001f24-7d23-4e30-9174-c9c0379efb90.png#clientId=u52fd1f9c-136e-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=147&id=u4756bdc0&margin=%5Bobject%20Object%5D&name=image.png&originHeight=187&originWidth=988&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=58992&status=error&style=none&taskId=u86595419-0d61-4748-b4a8-f30ab33aa5d&title=&width=777.0039672851562">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663572958708-bda92d22-4686-4fd8-8d40-6f015b8fe9d4.png#clientId=u113de43d-a16e-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=413&id=u2d705f62&margin=%5Bobject%20Object%5D&name=image.png&originHeight=516&originWidth=934&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=106478&status=done&style=none&taskId=u80a199f4-35cb-4d9c-b5da-ea8e2d57ad5&title=&width=747.2">
+<meta property="article:published_time" content="2022-02-14T11:13:17.000Z">
+<meta property="article:modified_time" content="2022-10-03T13:52:43.728Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1644995470410-bc6e03b5-b940-41bf-8f8b-338d61462029.png#clientId=u2a4543e6-adcb-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=500&id=u64ba4f8b&margin=%5Bobject%20Object%5D&name=image.png&originHeight=525&originWidth=806&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=159547&status=error&style=none&taskId=u206d619f-0558-4266-84f2-49f7099f8f8&title=&width=767.0079345703125">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-grav"></i>
+                语雀
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://passport.kanxue.com/user-center-837755.htm" target="_blank" >
+                <i class="icon icon-lg icon-snowflake-o"></i>
+                看雪
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://sighttp.qq.com/msgrd?v=1&uin=1097179511" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://img2020.cnblogs.com/blog/1558534/202003/1558534-20200331231408805-256812285.jpg" target="_blank" >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">BLE_CTF低功耗蓝牙CTF挑战</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">BLE_CTF低功耗蓝牙CTF挑战</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2022-02-14T11:13:17.000Z" itemprop="datePublished" class="page-time">
+  2022-02-14
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#配置环境"><span class="post-toc-number">1.</span> <span class="post-toc-text">配置环境</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#第一关-0x002c"><span class="post-toc-number">2.</span> <span class="post-toc-text">第一关 0x002c</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#第二关-0x002e"><span class="post-toc-number">3.</span> <span class="post-toc-text">第二关 0x002e</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#第三关-0x0030"><span class="post-toc-number">4.</span> <span class="post-toc-text">第三关 0x0030</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#第四关-0x0016"><span class="post-toc-number">5.</span> <span class="post-toc-text">第四关 0x0016</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#第五关-0x0032"><span class="post-toc-number">6.</span> <span class="post-toc-text">第五关 0x0032</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#第六关-0x0034"><span class="post-toc-number">7.</span> <span class="post-toc-text">第六关 0x0034</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#第七关-0x0036"><span class="post-toc-number">8.</span> <span class="post-toc-text">第七关 0x0036</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#第八关-0x0038"><span class="post-toc-number">9.</span> <span class="post-toc-text">第八关 0x0038</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#第九关-0x003c"><span class="post-toc-number">10.</span> <span class="post-toc-text">第九关 0x003c</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#第十关-0x003e"><span class="post-toc-number">11.</span> <span class="post-toc-text">第十关 0x003e</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#第十一关-0x0040"><span class="post-toc-number">12.</span> <span class="post-toc-text">第十一关 0x0040</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#第十二关-0x0042"><span class="post-toc-number">13.</span> <span class="post-toc-text">第十二关 0x0042</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#第十三关-0x0046"><span class="post-toc-number">14.</span> <span class="post-toc-text">第十三关 0x0046</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#第十四关-0x0048"><span class="post-toc-number">15.</span> <span class="post-toc-text">第十四关 0x0048</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#第十五关-0x004c"><span class="post-toc-number">16.</span> <span class="post-toc-text">第十五关 0x004c</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#第十六关-0x004e"><span class="post-toc-number">17.</span> <span class="post-toc-text">第十六关 0x004e</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#第十七关-0x0050"><span class="post-toc-number">18.</span> <span class="post-toc-text">第十七关 0x0050</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#第十八关-0x0052"><span class="post-toc-number">19.</span> <span class="post-toc-text">第十八关 0x0052</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#第十九关-0x0054"><span class="post-toc-number">20.</span> <span class="post-toc-text">第十九关 0x0054</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#第二十关-0x0056"><span class="post-toc-number">21.</span> <span class="post-toc-text">第二十关 0x0056</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#编译源码"><span class="post-toc-number">22.</span> <span class="post-toc-text">编译源码</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-omybby"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">BLE_CTF低功耗蓝牙CTF挑战</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2022-02-14 19:13:17" datetime="2022-02-14T11:13:17.000Z"  itemprop="datePublished">2022-02-14</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>在搜东西的时候发现了这个：<a href="https://github.com/hackgnar/ble_ctf" target="_blank" rel="noopener">ble_ctf · github</a>，拿来做做玩玩呀<br>首先得把环境弄好，你得有一块 ESP32 的板子，淘宝买就行了，笔记本自带的蓝牙适配器如果不行的话（后面会说怎么判断）也得自己买一个蓝牙适配器，我用的是 CSR4.0 这个，直接去淘宝搜就行</p>
+<h1 id="配置环境"><a href="#配置环境" class="headerlink" title="配置环境"></a>配置环境</h1><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install esptool 首先得安装 esptool 用来烧录 esp32 git clone</span><br><span class="line">https://github.com/hackgnar/ble_ctf cd ble_ctf esptool --chip esp32 --port</span><br><span class="line">/dev/ttyUSB0 \ --baud 115200 --before default_reset --after hard_reset</span><br><span class="line">write_flash \ -z --flash_mode dio --flash_freq 40m --flash_size detect \ 0x1000</span><br><span class="line">build/bootloader/bootloader.bin \ 0x10000</span><br><span class="line">build/gatt_server_service_table_demo.bin \ 0x8000 build/partitions_singleapp.bin</span><br></pre></td></tr></table></figure>
+
+<p><strong>出现 connecting 的时候按住板子上的 boot 按键，直到进行下一步，再松开</strong></p>
+<p>kali 我用的官方的虚拟机（2022.1），可能报错： kali connect to bluez failed<br>先安装：<code>apt-get install bluetooth</code><br>再重启：<code>service bluetooth restart</code><br>查看蓝牙设备：<code>hciconfig</code><br>激活：<code>hciconfig hci0 up</code><br>查看蓝牙信息：<code>sudo hciconfig hci0 lestates</code>，如果返回：<code>Read LE supported states on hci0 returned status 1</code> 表示你的蓝牙适配器不支持 BLE，正常的应该是这样的</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1644995470410-bc6e03b5-b940-41bf-8f8b-338d61462029.png#clientId=u2a4543e6-adcb-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=500&id=u64ba4f8b&margin=%5Bobject%20Object%5D&name=image.png&originHeight=525&originWidth=806&originalType=binary∶=1&rotation=0&showTitle=false&size=159547&status=error&style=none&taskId=u206d619f-0558-4266-84f2-49f7099f8f8&title=&width=767.0079345703125" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>另外补充一些情况：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># hciconfig hci0 up Can't init device hci0: Operation not possible due to</span><br><span class="line">RF-kill (132)</span><br></pre></td></tr></table></figure>
+
+<p>运行 <code>rfkill unblock all</code> 再 <code>hciconfig hci0 up</code> 即可解决</p>
+<p>扫描周围低功耗设备：<code>hcitool lescan</code>会看到一个名为 BLECTF 的设备</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1645011211450-d95d30c4-cd7b-41a6-86c3-89900a3084d4.png#clientId=u95bb309c-4519-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=77&id=u5b0024df&margin=%5Bobject%20Object%5D&name=image.png&originHeight=68&originWidth=297&originalType=binary∶=1&rotation=0&showTitle=false&size=10129&status=error&style=none&taskId=u86d8d31b-15c4-4322-b63c-9ecd2ad0d2d&title=&width=335.0959777832031" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>接下来，根据 README 使用 gatttool 来从设备上的句柄 42 中读取分数，一共 20 关，目前是 0 分</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gatttool -b 08:3a:f2:b9:85:92 --char-read -a 0x002a|awk -F':' '&#123;print $2&#125;'|tr -d</span><br><span class="line">' '|xxd -r -p;printf '\n'</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1645011351711-5cb028de-f30d-4573-a851-64cb5f6d143c.png#clientId=u95bb309c-4519-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=52&id=u7a92b378&margin=%5Bobject%20Object%5D&name=image.png&originHeight=56&originWidth=891&originalType=binary∶=1&rotation=0&showTitle=false&size=16366&status=error&style=none&taskId=u0c639722-27f2-4875-b9b0-ab64616f25f&title=&width=821.0039672851562" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>介绍一下 gatttool 的用法参考：<a href="https://blog.csdn.net/u010764600/article/details/119685484" target="_blank" rel="noopener">https://blog.csdn.net/u010764600/article/details/119685484</a></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">GATT commands --primary 发现GATT服务 --characteristics</span><br><span class="line">发现设备上所有的characteristics --char-read</span><br><span class="line">读某个characteristics，需要指定一个handle（句柄） --char-write</span><br><span class="line">写某个characteristics，需要指定一个handle，使用Write Without Response的方式</span><br><span class="line">--char-write-req 写某个characteristics，需要指定一个handle，使用Write</span><br><span class="line">Request的方式 --char-desc 发现所有的Characteristics Descriptor --listen</span><br><span class="line">监听Characteristics的notification或者indication Primary Services/Characteristics</span><br><span class="line">arguments -s, --start=0x0001 起始handle -e, --end=0xffff 结束handle -u,</span><br><span class="line">--uuid=0x1801 16比特或者128比特的UUID Characteristics Value/Descriptor</span><br><span class="line">Read/Write arguments -a, --handle=0x0001</span><br><span class="line">通过handle来读写characteristic，后面接handle值 -n, --value=0x0001</span><br><span class="line">写characteristic时候的参数，后面接具体的值 Application Options: -i,</span><br><span class="line">--adapter=hciX 后面接设备描述， 如hci0等 -b, --device=MAC 远端设备的蓝牙地址 -t,</span><br><span class="line">--addr-type=[public | random] 远端设备蓝牙地址的类型，默认为public -m, --mtu=MTU</span><br><span class="line">att协议的MTU大小 -p, --psm=PSM 制定gatt的PSM，默认值为0 -l, --sec-level=[low |</span><br><span class="line">medium | high] 安全等级，默认为low -I, --interactive 交互式模式</span><br></pre></td></tr></table></figure>
+
+<h1 id="第一关-0x002c"><a href="#第一关-0x002c" class="headerlink" title="第一关 0x002c"></a>第一关 0x002c</h1><blockquote>
+<p>Flag one is a gift! You can only obtain it by reading this document or peaking at the source code. In short, this flag is to get you familiar with doing a simple write to a BLE handle. Do the following to get your first flag. Make sure you replace the MAC address in the examples below with your devices mac address!</p>
+<p>First, check out your score:<br>gatttool -b de:ad:be:ef:be:f1 –char-read -a 0x002a|awk -F’:’ ‘{print $2}’|tr -d ‘ ‘|xxd -r -p;printf ‘\n’</p>
+<p>Next, lets sumbmit the following flag. gatttool -b de:ad:be:ef:be:f1 –char-write-req -a 0x002c -n $(echo -n “12345678901234567890”|xxd -ps)</p>
+<p>Finaly, check out your score again to see your flag got accepted:<br>gatttool -b de:ad:be:ef:be:f1 –char-read -a 0x002a|awk -F’:’ ‘{print $2}’|tr -d ‘ ‘|xxd -r -p;printf ‘\n’</p>
+</blockquote>
+<p>送分题，教你怎么提交 flag 的，使用 –char-write-req 向句柄 44 提交 12345678901234567890 即可</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gatttool -b 08:3a:f2:b9:85:92 --char-write-req -a 0x002c -n $(echo -n</span><br><span class="line">"12345678901234567890"|xxd -ps)</span><br></pre></td></tr></table></figure>
+
+<p>再次查看分数已经是 1/20 了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1645012874670-b4d1be01-26d0-4664-80f7-be64efe12f32.png#clientId=u95bb309c-4519-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=108&id=ua6f1b643&margin=%5Bobject%20Object%5D&name=image.png&originHeight=122&originWidth=891&originalType=binary∶=1&rotation=0&showTitle=false&size=34358&status=error&style=none&taskId=u820dfff9-f511-4433-8e58-cb5a3bb6273&title=&width=786.2879638671875" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="第二关-0x002e"><a href="#第二关-0x002e" class="headerlink" title="第二关 0x002e"></a>第二关 0x002e</h1><blockquote>
+<p>Check out the ascii value of handle 0x002e and submit it to the flag submision handle 0x002c. If you are using gatttool, make sure you convert it to hex with xxd. If you are using bleah, you can send it as a string value.</p>
+</blockquote>
+<p>想让你查看 0x002e 句柄的 ASCII 码值，那就是用 –char-read 了</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gatttool -b 08:3a:f2:b9:85:92 --char-read -a 0x002e</span><br></pre></td></tr></table></figure>
+
+<p>可以看到输出了一些十六进制的 ASCII，转成 ASCII 后即是 flag</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1645013222863-5f9d5d3e-b10d-42e6-b3d9-591eb01a4c60.png#clientId=u95bb309c-4519-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=186&id=uf92e32f1&margin=%5Bobject%20Object%5D&name=image.png&originHeight=182&originWidth=891&originalType=binary∶=1&rotation=0&showTitle=false&size=51523&status=error&style=none&taskId=u14f0ac27-d0ea-48b4-8f96-b3c0553908d&title=&width=908.2879638671875" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="第三关-0x0030"><a href="#第三关-0x0030" class="headerlink" title="第三关 0x0030"></a>第三关 0x0030</h1><blockquote>
+<p>Check out the ascii value of handle 0x0030. Do what it tells you and submit the flag you find to 0x002c.</p>
+</blockquote>
+<p>让我们检查 0x0030 这个句柄的值，看看想让我们做啥，查看后转为 ASCII 是 <strong>MD5 of Device Name</strong>，设备名称自然就是 <strong>BLECTF</strong> 了，取前其 MD5 值的 20 个字符</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gatttool -b 08:3a:f2:b9:85:92 --char-read -a 0x0030</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1645013529079-9e09ad3b-92ea-46de-87eb-3cefdbc5cf3f.png#clientId=u95bb309c-4519-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=178&id=u4ffe4ffe&margin=%5Bobject%20Object%5D&name=image.png&originHeight=186&originWidth=888&originalType=binary∶=1&rotation=0&showTitle=false&size=51868&status=error&style=none&taskId=ua2f3f546-20fe-4cfd-94f6-ac953d67369&title=&width=851.9839477539062" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="第四关-0x0016"><a href="#第四关-0x0016" class="headerlink" title="第四关 0x0016"></a>第四关 0x0016</h1><blockquote>
+<p>Bluetooth GATT services provide some extra device attributes. Try finding the value of the Generic Access -&gt; Device Name.</p>
+</blockquote>
+<p>这个没明白啥意思</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gatttool -b 08:3a:f2:b9:85:92 --char-read -a 0x0016</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1645014466933-cde5f18b-230f-4ab3-88a9-56b79a2a861f.png#clientId=u95bb309c-4519-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=149&id=u49096226&margin=%5Bobject%20Object%5D&name=image.png&originHeight=183&originWidth=1033&originalType=binary∶=1&rotation=0&showTitle=false&size=55838&status=error&style=none&taskId=ud7f61472-af29-4240-a2ac-10b90608c8e&title=&width=841.0039672851562" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="第五关-0x0032"><a href="#第五关-0x0032" class="headerlink" title="第五关 0x0032"></a>第五关 0x0032</h1><blockquote>
+<p>Read handle 0032 and do what it says. Notice that its not telling you to write to the flag handle as you have been. When you find the flag, go ahead and write it to the flag handle you have used in the past flags.</p>
+</blockquote>
+<p>先读 0x0032 句柄的内容是 <strong>Write anything here</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gatttool -b 08:3a:f2:b9:85:92 --char-read -a 0x0032</span><br></pre></td></tr></table></figure>
+
+<p>那就随便写点东西</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gatttool -b 08:3a:f2:b9:85:92 --char-write-req -a 0x0032 -n $(echo -n</span><br><span class="line">"hello"|xxd -ps)</span><br></pre></td></tr></table></figure>
+
+<p>再次查看就是 flag 了，这里我傻了，一开始写了个 hello，结果查看没得分，没明白咋回事以为做错了，又去写 anything，然后才想起来写完之后再去看到的应该是 flag 了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1645014834151-039fde85-397b-4033-a0a3-993fa7e0edd8.png#clientId=u95bb309c-4519-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=499&id=u50bb670f&margin=%5Bobject%20Object%5D&name=image.png&originHeight=568&originWidth=892&originalType=binary∶=1&rotation=0&showTitle=false&size=179891&status=error&style=none&taskId=uf195b649-8719-4ba2-bcf5-2407bf84197&title=&width=783.0559692382812" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="第六关-0x0034"><a href="#第六关-0x0034" class="headerlink" title="第六关 0x0034"></a>第六关 0x0034</h1><blockquote>
+<p>Follow the instructions found from reading handle 0x0034. Keep in mind that some tools only write hex values while other provide methods for writing either hex or ascii</p>
+</blockquote>
+<p>查看 0x0034：<strong>Write the ascii value “yo” here</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gatttool -b 08:3a:f2:b9:85:92 --char-read -a 0x0034</span><br></pre></td></tr></table></figure>
+
+<p>让写 yo 到 0x0034 去</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gatttool -b 08:3a:f2:b9:85:92 --char-write-req -a 0x0034 -n $(echo -n "yo"|xxd</span><br><span class="line">-ps)</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1645015311889-af0b872c-423f-4fc9-8130-dfb28ef729fb.png#clientId=u95bb309c-4519-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=269&id=u4743897d&margin=%5Bobject%20Object%5D&name=image.png&originHeight=313&originWidth=1016&originalType=binary∶=1&rotation=0&showTitle=false&size=97770&status=error&style=none&taskId=ucf1f21a2-7d35-4e48-9f26-ff3ec43a867&title=&width=874.0039672851562" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="第七关-0x0036"><a href="#第七关-0x0036" class="headerlink" title="第七关 0x0036"></a>第七关 0x0036</h1><blockquote>
+<p>Follow the instructions found from reading handle 0x0036. Keep in mind that some tools only write hex values while other provide methods for writing either hex or ascii</p>
+</blockquote>
+<p>查看 0x0036 句柄，让我们写 0x07 到该句柄，直接 -n 后面跟着就行</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gatttool -b 08:3a:f2:b9:85:92 --char-write-req -a 0x0036 -n 07</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1645015616207-0ffc0a71-2f13-423a-a23b-05d174eaad76.png#clientId=u95bb309c-4519-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=289&id=u07ff225a&margin=%5Bobject%20Object%5D&name=image.png&originHeight=310&originWidth=963&originalType=binary∶=1&rotation=0&showTitle=false&size=95232&status=error&style=none&taskId=ua4a39b19-e966-46e7-b51a-e765d33d5e8&title=&width=896.5839233398438" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="第八关-0x0038"><a href="#第八关-0x0038" class="headerlink" title="第八关 0x0038"></a>第八关 0x0038</h1><blockquote>
+<p>Follow the instructions found from reading handle 0x0038. Pay attention to handles here. Keep in mind handles can be refrenced by integer or hex. Most tools such as gatttool and bleah allow you to specify handles both ways.</p>
+</blockquote>
+<p>查看句柄 0x0038 得到提示：<strong>Write 0xC9 to handle 58</strong> 他想告诉我们可以大多数工具的句柄可以用十进制或十六进制表示</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gatttool -b 08:3a:f2:b9:85:92 --char-write-req -a 58 -n C9</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1645015860266-9e08d6cc-b245-4330-a141-364aa5b1c1c0.png#clientId=u95bb309c-4519-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=288&id=uc6615609&margin=%5Bobject%20Object%5D&name=image.png&originHeight=317&originWidth=893&originalType=binary∶=1&rotation=0&showTitle=false&size=90503&status=error&style=none&taskId=ub572d405-437b-43c1-b96e-d33dd064690&title=&width=811.823974609375" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="第九关-0x003c"><a href="#第九关-0x003c" class="headerlink" title="第九关 0x003c"></a>第九关 0x003c</h1><blockquote>
+<p>Take a look at handle 0x003c and do what it says. You should script up a solution for this one. Also keep in mind that some tools write faster than others.</p>
+</blockquote>
+<p>句柄 0x003c 显示：*<em>Brute force my value 00 to ff *</em>让我们对它进行暴力破解，直接用 python 写个循环就行了<br>python 中有一个 zfill 方法用来给字符串前面补 0，n.zfill(2) 表示 n 要是不足两个字符的话就左边补零</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import os import time for i in range(256): x = str(hex(i))[2:] x = x.zfill(2)</span><br><span class="line">payload = "gatttool -b 08:3a:f2:b9:85:92 --char-write-req -a 0x003c -n "+ x</span><br><span class="line">print(payload) time.sleep(0.5) os.system(payload)</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1645018428488-0924edd6-6fdc-40fc-b7e7-331e8fed8c96.png#clientId=u95bb309c-4519-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=369&id=u7f9eb816&margin=%5Bobject%20Object%5D&name=image.png&originHeight=416&originWidth=970&originalType=binary∶=1&rotation=0&showTitle=false&size=154673&status=error&style=none&taskId=ue9aaa3b3-0a0d-4175-8384-25a3c88999b&title=&width=860.9599609375" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="第十关-0x003e"><a href="#第十关-0x003e" class="headerlink" title="第十关 0x003e"></a>第十关 0x003e</h1><blockquote>
+<p>Talke a look at handle 0x003e and do what it says. Keep in mind that some tools have better connection speeds than other for doing reads and writes. This has to do with the functionality the tool provides or how it uses cached BT connections on the host OS. Try testing different tools for this flag. Once you find the fastest one, whip up a script or bash 1 liner to complete the task. FYI, once running, this task takes roughly 90 seconds to complete if done right.</p>
+</blockquote>
+<p>先看一下 0x003e 说啥：*<em>Read me 1000 times *</em>读 1000 次？还是用 python 循环执行系统命令不就行了？</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import os import time for i in range(1001): payload = "gatttool -b</span><br><span class="line">08:3a:f2:b9:85:92 --char-read -a 0x003e" #print(payload) time.sleep(0.1)</span><br><span class="line">os.system(payload)</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1645019047261-c43f839e-2653-4173-90f0-1982d92f358b.png#clientId=u95bb309c-4519-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=342&id=u6094b63b&margin=%5Bobject%20Object%5D&name=image.png&originHeight=355&originWidth=892&originalType=binary∶=1&rotation=0&showTitle=false&size=125564&status=error&style=none&taskId=u4a60e194-abc6-4e21-b59c-dae36595a09&title=&width=860.0559692382812" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="第十一关-0x0040"><a href="#第十一关-0x0040" class="headerlink" title="第十一关 0x0040"></a>第十一关 0x0040</h1><blockquote>
+<p>Check out handle 0x0040 and google search gatt notify. Some tools like gatttool have the ability to subsribe to gatt notifications</p>
+</blockquote>
+<p>0x0040 这个句柄给出的提示信息是：<strong>Listen to me for a single notification</strong>，用 gatttool 监听从蓝牙发送过来通知（notification）的数据</p>
+<blockquote>
+<p>这个需要在 characteristic 的 client config 配置为 Enable Notification/Indication 的时候才行，向某个 Characteristic 写数据，他会把数据从另外一个 Characteristic 再原样发回</p>
+</blockquote>
+<p>涉及到 GATT 的通知，客户端（kali）可以向服务端（esp32）请求通知一项特征值，当该特征可用时服务端会通知客户端，通知（notification）不需要客户端回应 ACK</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gatttool -b 08:3a:f2:b9:85:92 --char-write-req -a 0x0040 -n 00 --listen</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1645019605167-b175ecbb-cc7e-4884-9f64-0a22d9f39481.png#clientId=u95bb309c-4519-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=227&id=uae91267a&margin=%5Bobject%20Object%5D&name=image.png&originHeight=295&originWidth=1025&originalType=binary∶=1&rotation=0&showTitle=false&size=103211&status=error&style=none&taskId=u73c0d618-33af-4012-ae28-5d85fdf4856&title=&width=787.1999759765632" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="第十二关-0x0042"><a href="#第十二关-0x0042" class="headerlink" title="第十二关 0x0042"></a>第十二关 0x0042</h1><blockquote>
+<p>Check out handle 0x0042 and google search gatt indicate. For single response indicate messages, like this chalange, tools such as gatttool will work just fine.</p>
+</blockquote>
+<p>0x0042 句柄说：<strong>Listen to handle 0x0044 for a single indication</strong><br>这个会从 ESP32 发送指示给我们，与上一个的区别在于这一个需要回应 ACK</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gatttool -b 08:3a:f2:b9:85:92 --char-write-req -a 0x0044 -n 00 --listen</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1645020578260-abdcbd97-01c1-43ec-b3ae-18d34b95ca9a.png#clientId=u95bb309c-4519-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=232&id=ube6207a4&margin=%5Bobject%20Object%5D&name=image.png&originHeight=302&originWidth=1024&originalType=binary∶=1&rotation=0&showTitle=false&size=104804&status=error&style=none&taskId=u8aca6fd5-1607-4805-b725-2737850792b&title=&width=786.4319760000008" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="第十三关-0x0046"><a href="#第十三关-0x0046" class="headerlink" title="第十三关 0x0046"></a>第十三关 0x0046</h1><blockquote>
+<p>Check out handle 0x0046 and do what it says. Keep in mind that this notification clallange requires you to recieve multiple responses in order to complete.</p>
+</blockquote>
+<p>0x0046 说：<strong>Listen to me for multi notifications</strong><br>这一个监听的时候会发送多个通知，等一下就能看到 flag</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gatttool -b 08:3a:f2:b9:85:92 --char-write-req -a 0x0046 -n 00 --listen</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1645020894221-a3ac5cca-c467-4c4e-ae06-bfd2fde57469.png#clientId=u84b6df99-7b9c-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=306&id=ue9ea7cde&margin=%5Bobject%20Object%5D&name=image.png&originHeight=399&originWidth=1026&originalType=binary∶=1&rotation=0&showTitle=false&size=165608&status=error&style=none&taskId=u384b3bd9-3fdd-498c-8a9a-e118e8e55eb&title=&width=787.9679759531257" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="第十四关-0x0048"><a href="#第十四关-0x0048" class="headerlink" title="第十四关 0x0048"></a>第十四关 0x0048</h1><blockquote>
+<p>Check out handle 0x0042（源文件应该写错了，0x0048） and google search gatt indicate. Keep in mind that this chalange will require you to parse multiple indicate responses in order to complete the chalange.</p>
+</blockquote>
+<p>0x0048 说：<strong>Listen to handle 0x004a for multi indications</strong><br>跟十二关一样，就是等一会就出来了</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gatttool -b 08:3a:f2:b9:85:92 --char-write-req -a 0x004a -n 00 --listen</span><br></pre></td></tr></table></figure>
+
+<p>另外，出了些问题，出租房突然断电了，然后这个不知道为啥就是连接不上了，有时候是这样 Device or resource busy (16)，有时候是这样 connection refused (111) 还有时候是 Function not implemented (38) 重新烧录也不行，但是我用 bettercap 连接之后再尝试就又行了，有时候连接之后也不行，又是啥玄学问题？</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1645065697634-a9404bc3-ffac-4c52-9139-9f67a315f9b3.png#clientId=u52fd1f9c-136e-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=276&id=uf230b902&margin=%5Bobject%20Object%5D&name=image.png&originHeight=360&originWidth=1203&originalType=binary∶=1&rotation=0&showTitle=false&size=119377&status=error&style=none&taskId=u5650c668-106a-417c-978f-9f37c1b0275&title=&width=923.9039718046884" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="第十五关-0x004c"><a href="#第十五关-0x004c" class="headerlink" title="第十五关 0x004c"></a>第十五关 0x004c</h1><blockquote>
+<p>Check out handle 0x004c and do what it says. Much like ethernet or wifi devices, you can also change your bluetooth devices mac address.</p>
+</blockquote>
+<p>0x004c 这个句柄说：*<em>Connect with BT MAC address 11:22:33:44:55:66 *</em>希望我们用指定的 MAC 地址去连接<br>网上搜到可以使用 <a href="https://github.com/thxomas/bdaddr" target="_blank" rel="noopener">bdaddr</a> 去修改 MAC 地址，如果 make 的时候报错了，缺少 bluetooth/bluetooth.h 去安装依赖：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libbluetooth-dev</span><br></pre></td></tr></table></figure>
+
+<p>但是我失败了 Orz，尽管这个工具说成功了，但并没有改掉，这个工具的 <a href="https://github.com/thxomas/bdaddr/issues/1" target="_blank" rel="noopener">issue</a> 也说 CSR 的设备有这个问题，暂时没有得到解决，另外 spooftooph 这个工具也不行</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1645065180341-adede9cd-9f75-4491-aa65-d08e36c744fd.png#clientId=u52fd1f9c-136e-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=217&id=ued9cd294&margin=%5Bobject%20Object%5D&name=image.png&originHeight=282&originWidth=385&originalType=binary∶=1&rotation=0&showTitle=false&size=61476&status=error&style=none&taskId=udf0786c6-6533-4f79-aefa-baaa1466588&title=&width=295.67999097656275" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>直接按照源码里的 flag 提交吧</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gatttool -b 08:3a:f2:b9:85:92 --char-write-req -a 0x002c -n $(echo -n</span><br><span class="line">"aca16920583e42bdcf5f"|xxd -ps)</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1645065325390-f41ea757-c71f-4b46-8bbf-16699d774810.png#clientId=u52fd1f9c-136e-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=154&id=u75888eae&margin=%5Bobject%20Object%5D&name=image.png&originHeight=200&originWidth=1203&originalType=binary∶=1&rotation=0&showTitle=false&size=64223&status=error&style=none&taskId=u7c6ae9ad-c277-4b2c-a06d-fffd355c470&title=&width=923.9039718046884" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="第十六关-0x004e"><a href="#第十六关-0x004e" class="headerlink" title="第十六关 0x004e"></a>第十六关 0x004e</h1><blockquote>
+<p>Read handle 0x0048（源文件应该写错了，0x004e）and do what it says. Setting MTU can be a tricky thing. Some tools may provide mtu flags, but they dont seem to really trigger MTU negotiations on servers. Try using gatttool’s interactive mode for this task. By default, the BLECTF server is set to force an MTU size of 20. The server will listen for MTU negotiations, and look at them, but we dont really change the MTU in the code. We just trigger the flag code if you trigger an MTU event with the value specified in handle 0x0048. GLHF!</p>
+</blockquote>
+<p>句柄 0x004e 说：<strong>Set your connection MTU to 444</strong><br>使用 -m 参数 指定 MTU 大小为 444，但是不起效果，使用交互模式指定</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gatttool -b 08:3a:f2:b9:85:92 --char-write-req -a 0x002c -n $(echo -n</span><br><span class="line">"b1e409e5a4eaf9fe5158"|xxd -ps)</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1645066698103-a22dd884-c5dd-4b0f-9fea-e02d0d22717b.png#clientId=u52fd1f9c-136e-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=465&id=udc8a6d95&margin=%5Bobject%20Object%5D&name=image.png&originHeight=491&originWidth=893&originalType=binary∶=1&rotation=0&showTitle=false&size=159688&status=error&style=none&taskId=u8c1971e9-066a-44f8-b004-16032966e01&title=&width=844.823974609375" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="第十七关-0x0050"><a href="#第十七关-0x0050" class="headerlink" title="第十七关 0x0050"></a>第十七关 0x0050</h1><blockquote>
+<p>Check out handle 0x0050 and do what it says. This chalange differs from other write chalanges as your tool that does the write needs to have write response ack messages implemente correctly. This flag is also tricky as the flag will come back as notification response data even though there is no “NOTIFY” property.</p>
+</blockquote>
+<p>句柄 0x0050 说：Write+resp ‘hello’</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gatttool -b 08:3a:f2:b9:85:92 --char-write-req -a 0x0050 -n $(echo -n</span><br><span class="line">"hello"|xxd -ps)</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1645067998795-afa5d328-7557-4170-a0b5-934c0ab48bb1.png#clientId=u52fd1f9c-136e-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=268&id=u67fc82c2&margin=%5Bobject%20Object%5D&name=image.png&originHeight=310&originWidth=894&originalType=binary∶=1&rotation=0&showTitle=false&size=111001&status=error&style=none&taskId=ucde03069-a100-4332-b520-f5eee2e8b65&title=&width=772.5919799804688" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="第十八关-0x0052"><a href="#第十八关-0x0052" class="headerlink" title="第十八关 0x0052"></a>第十八关 0x0052</h1><blockquote>
+<p>Take a look at handle 0x0052. Notice it does not have a notify property. Do a write here and listen for notifications anyways! Things are not always what they seem!</p>
+</blockquote>
+<p>0x0052 句柄说：<strong>No notifications here! really?</strong><br>说是没有，实际还是可以监听得到</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gatttool -b 08:3a:f2:b9:85:92 --char-write-req -a 0x0052 -n 00 --listen</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1645068529099-4153689b-1959-4d45-9b15-5631179b1a29.png#clientId=u52fd1f9c-136e-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=240&id=u774efe1d&margin=%5Bobject%20Object%5D&name=image.png&originHeight=281&originWidth=989&originalType=binary∶=1&rotation=0&showTitle=false&size=84878&status=error&style=none&taskId=u211600b2-8c2d-4597-8b25-0a0c1dbc503&title=&width=843.0039672851562" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="第十九关-0x0054"><a href="#第十九关-0x0054" class="headerlink" title="第十九关 0x0054"></a>第十九关 0x0054</h1><blockquote>
+<p>Check out all of the handle properties on 0x0054! Poke around with all of them and find pieces to your flag.</p>
+</blockquote>
+<p>0x0054 给的提示是：<strong>So many properties!</strong><br>随便写点东西，获得一部分 flag</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gatttool -b 08:3a:f2:b9:85:92 --char-write-req -a 0x0054 -n 00</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1645069038453-c011d431-a3af-4a58-b13c-f1e3e6f61a56.png#clientId=u52fd1f9c-136e-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=124&id=ueb0ebb1e&margin=%5Bobject%20Object%5D&name=image.png&originHeight=126&originWidth=541&originalType=binary∶=1&rotation=0&showTitle=false&size=28409&status=error&style=none&taskId=u31d7a888-5791-441a-9bd5-ae9e1ef265a&title=&width=534.4879760742188" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>监听获得一部分 flag</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gatttool -b 08:3a:f2:b9:85:92 --char-write-req -a 0x0054 -n 00 --listen</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1645069097536-8434dcfa-0062-43ca-9d85-615ce7db141d.png#clientId=u52fd1f9c-136e-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=83&id=uc08896ca&margin=%5Bobject%20Object%5D&name=image.png&originHeight=91&originWidth=614&originalType=binary∶=1&rotation=0&showTitle=false&size=18918&status=error&style=none&taskId=uc27bb987-9266-4c4e-87c4-7b0b1d4d7a8&title=&width=558.5519714355469" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1645069168541-d1c7e66b-0ae7-4fdd-ba1c-3177f33112c9.png#clientId=u52fd1f9c-136e-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=108&id=ua1c58ebe&margin=%5Bobject%20Object%5D&name=image.png&originHeight=121&originWidth=896&originalType=binary∶=1&rotation=0&showTitle=false&size=37810&status=error&style=none&taskId=u7fa4ea68-9ede-413f-beea-c48b64be38c&title=&width=801.1279296875" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="第二十关-0x0056"><a href="#第二十关-0x0056" class="headerlink" title="第二十关 0x0056"></a>第二十关 0x0056</h1><blockquote>
+<p>Figure out the authors twitter handle and do what 0x0056 tells you to do!</p>
+</blockquote>
+<p>0x0056 说：<strong>md5 of author’s twitter handle</strong><br>作者的 twitter 在 README 就有</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1645069274682-7aec219f-72e3-475a-ae42-43f69e809c81.png#clientId=u52fd1f9c-136e-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=169&id=u075dc292&margin=%5Bobject%20Object%5D&name=image.png&originHeight=220&originWidth=386&originalType=binary∶=1&rotation=0&showTitle=false&size=13402&status=error&style=none&taskId=u5dd7d646-333f-4652-a176-370cca98bcc&title=&width=296.44799095312527" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gatttool -b 08:3a:f2:b9:85:92 --char-write-req -a 0x002c -n $(echo -n</span><br><span class="line">"d953bfb9846acc2e15ee"|xxd -ps)</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1645069383109-7a001f24-7d23-4e30-9174-c9c0379efb90.png#clientId=u52fd1f9c-136e-4&crop=0&crop=0&crop=1&crop=1&errorMessage=unknown%20error&from=paste&height=147&id=u4756bdc0&margin=%5Bobject%20Object%5D&name=image.png&originHeight=187&originWidth=988&originalType=binary∶=1&rotation=0&showTitle=false&size=58992&status=error&style=none&taskId=u86595419-0d61-4748-b4a8-f30ab33aa5d&title=&width=777.0039672851562" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>放一个总的 flag 表</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">gatttool -b 08:3a:f2:b9:85:92 --char-write-req -a 0x002c -n $(echo -n</span><br><span class="line">"12345678901234567890"|xxd -ps) gatttool -b 08:3a:f2:b9:85:92 --char-write-req</span><br><span class="line">-a 0x002c -n $(echo -n "d205303e099ceff44835"|xxd -ps) gatttool -b</span><br><span class="line">08:3a:f2:b9:85:92 --char-write-req -a 0x002c -n $(echo -n</span><br><span class="line">"5cd56d74049ae40f442e"|xxd -ps) gatttool -b 08:3a:f2:b9:85:92 --char-write-req</span><br><span class="line">-a 0x002c -n $(echo -n "2b00042f7481c7b056c4"|xxd -ps) gatttool -b</span><br><span class="line">08:3a:f2:b9:85:92 --char-write-req -a 0x002c -n $(echo -n</span><br><span class="line">"3873c0270763568cf7aa"|xxd -ps) gatttool -b 08:3a:f2:b9:85:92 --char-write-req</span><br><span class="line">-a 0x002c -n $(echo -n "c55c6314b3db0a6128af"|xxd -ps) gatttool -b</span><br><span class="line">08:3a:f2:b9:85:92 --char-write-req -a 0x002c -n $(echo -n</span><br><span class="line">"1179080b29f8da16ad66"|xxd -ps) gatttool -b 08:3a:f2:b9:85:92 --char-write-req</span><br><span class="line">-a 0x002c -n $(echo -n "f8b136d937fad6a2be9f"|xxd -ps) gatttool -b</span><br><span class="line">08:3a:f2:b9:85:92 --char-write-req -a 0x002c -n $(echo -n</span><br><span class="line">"933c1fcfa8ed52d2ec05"|xxd -ps) gatttool -b 08:3a:f2:b9:85:92 --char-write-req</span><br><span class="line">-a 0x002c -n $(echo -n "6ffcd214ffebdc0d069e"|xxd -ps) gatttool -b</span><br><span class="line">08:3a:f2:b9:85:92 --char-write-req -a 0x002c -n $(echo -n</span><br><span class="line">"5ec3772bcd00cf06d8eb"|xxd -ps) gatttool -b 08:3a:f2:b9:85:92 --char-write-req</span><br><span class="line">-a 0x002c -n $(echo -n "c7b86dd121848c77c113"|xxd -ps) gatttool -b</span><br><span class="line">08:3a:f2:b9:85:92 --char-write-req -a 0x002c -n $(echo -n</span><br><span class="line">"c9457de5fd8cafe349fd"|xxd -ps) gatttool -b 08:3a:f2:b9:85:92 --char-write-req</span><br><span class="line">-a 0x002c -n $(echo -n "b6f3a47f207d38e16ffa"|xxd -ps) gatttool -b</span><br><span class="line">08:3a:f2:b9:85:92 --char-write-req -a 0x002c -n $(echo -n</span><br><span class="line">"aca16920583e42bdcf5f"|xxd -ps) gatttool -b 08:3a:f2:b9:85:92 --char-write-req</span><br><span class="line">-a 0x002c -n $(echo -n "b1e409e5a4eaf9fe5158"|xxd -ps) gatttool -b</span><br><span class="line">08:3a:f2:b9:85:92 --char-write-req -a 0x002c -n $(echo -n</span><br><span class="line">"d41d8cd98f00b204e980"|xxd -ps) gatttool -b 08:3a:f2:b9:85:92 --char-write-req</span><br><span class="line">-a 0x002c -n $(echo -n "fc920c68b6006169477b"|xxd -ps) gatttool -b</span><br><span class="line">08:3a:f2:b9:85:92 --char-write-req -a 0x002c -n $(echo -n</span><br><span class="line">"fbb966958f07e4a0cc48"|xxd -ps) gatttool -b 08:3a:f2:b9:85:92 --char-write-req</span><br><span class="line">-a 0x002c -n $(echo -n "d953bfb9846acc2e15ee"|xxd -ps)</span><br></pre></td></tr></table></figure>
+
+<h1 id="编译源码"><a href="#编译源码" class="headerlink" title="编译源码"></a>编译源码</h1><p>如果想重新改一下源码，可以在 Docker 里面打包，官方的打包镜像好难用，有个老哥在 github 上建了一个，用这个把</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull <span class="number">1</span>c3t0rm/ble_ctf:fluproject</span><br><span class="line">docker <span class="built_in">run</span> --rm -it --privileged -v /dev:/dev <span class="number">1</span>c3t0rm/ble_ctf:fluproject</span><br></pre></td></tr></table></figure>
+
+<p>进去之后把原来的 ble_ctf 删了，把自己的源码放进去</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker cp ble_ctf <span class="number">165e659</span>e711e:/esp/ble_ctf</span><br></pre></td></tr></table></figure>
+
+<p>使用 make menuconfig 在 Component config 里面把蓝牙勾上</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663572958708-bda92d22-4686-4fd8-8d40-6f015b8fe9d4.png#clientId=u113de43d-a16e-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=413&id=u2d705f62&margin=%5Bobject%20Object%5D&name=image.png&originHeight=516&originWidth=934&originalType=binary∶=1&rotation=0&showTitle=false&size=106478&status=done&style=none&taskId=u80a199f4-35cb-4d9c-b5da-ea8e2d57ad5&title=&width=747.2" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>然后 make，完事之后 make flash 刷进去就行了，刷的时候也得注意出现 connecting 的时候按住板子上的 boot 按键</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2022-10-03T13:52:43.728Z" itemprop="dateUpdated">2022-10-03 21:52:43</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2022/02/14/omybby/&title=《BLE_CTF低功耗蓝牙CTF挑战》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2022/02/14/omybby/&title=《BLE_CTF低功耗蓝牙CTF挑战》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2022/02/14/omybby/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《BLE_CTF低功耗蓝牙CTF挑战》 — yichen's blog&url=https://yichen115.github.io/2022/02/14/omybby/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2022/02/14/omybby/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2022/02/17/kaw1o8/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">BLE相关知识拓展</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2022/02/12/vkbggq/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">TI Packet Sniffer抓蓝牙包</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020 - 2022</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2022/02/14/omybby/&title=《BLE_CTF低功耗蓝牙CTF挑战》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2022/02/14/omybby/&title=《BLE_CTF低功耗蓝牙CTF挑战》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2022/02/14/omybby/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《BLE_CTF低功耗蓝牙CTF挑战》 — yichen's blog&url=https://yichen115.github.io/2022/02/14/omybby/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2022/02/14/omybby/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2022/02/14/omybby/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

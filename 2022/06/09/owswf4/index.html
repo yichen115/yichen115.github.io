@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>BLE中继攻击 | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="测试工具https:&#x2F;&#x2F;github.com&#x2F;securing&#x2F;gattackerhttps:&#x2F;&#x2F;github.com&#x2F;DigitalSecurity&#x2F;btlejuice 环境安装需要两个蓝牙适配器，均采用 CSR4.0软件方面我用的 ubuntu 18.04 一个安装好之后直接克隆一个 12345678curl -sL https:&#x2F;&#x2F;deb.nodesource.com&#x2F;setup\_8.x">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BLE中继攻击">
+<meta property="og:url" content="https://yichen115.github.io/2022/06/09/owswf4/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="测试工具https:&#x2F;&#x2F;github.com&#x2F;securing&#x2F;gattackerhttps:&#x2F;&#x2F;github.com&#x2F;DigitalSecurity&#x2F;btlejuice 环境安装需要两个蓝牙适配器，均采用 CSR4.0软件方面我用的 ubuntu 18.04 一个安装好之后直接克隆一个 12345678curl -sL https:&#x2F;&#x2F;deb.nodesource.com&#x2F;setup\_8.x">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://github.com/DigitalSecurity/btlejuice/raw/master/doc/images/btlejuice-main-ui.png#crop=0&crop=0&crop=1&crop=1&from=url&id=W6HQo&margin=%5Bobject%20Object%5D&originHeight=265&originWidth=867&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1654757886437-db017c82-9df8-4da6-9f24-3c4576d06935.png#clientId=u149409b7-b556-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=520&id=u674f75b0&margin=%5Bobject%20Object%5D&name=image.png&originHeight=650&originWidth=1264&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=56095&status=done&style=none&taskId=ub42228f3-5aaf-4ebb-9ad7-008066837af&title=&width=1011.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/jpeg/268938/1654758386522-5454123f-6029-4993-896c-9c02595d5109.jpeg#clientId=u149409b7-b556-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=257&id=ua69fb634&margin=%5Bobject%20Object%5D&name=8ea23d60538a835d3a421fb7ad84f2d.jpg&originHeight=666&originWidth=1080&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=140339&status=done&style=none&taskId=ua838fef8-52ef-41b7-89a1-914272bd0c4&title=&width=416">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1654759810906-ebfe1528-1804-4774-aa8d-e4a9ff328087.png#clientId=u66fe7c91-76d3-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=413&id=u44bcea76&margin=%5Bobject%20Object%5D&name=image.png&originHeight=516&originWidth=1278&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=86023&status=done&style=none&taskId=u46443ebc-0c18-4281-b7aa-6b50ac481b0&title=&width=1022.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1654760146672-c4fea938-e3f5-4bb6-a97d-7b0b971e0ebe.png#clientId=u66fe7c91-76d3-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=362&id=u6c3ef607&margin=%5Bobject%20Object%5D&name=image.png&originHeight=452&originWidth=991&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=60510&status=done&style=none&taskId=u7820c658-3391-4d76-a44f-86ece29d6a6&title=&width=792.8">
+<meta property="article:published_time" content="2022-06-09T06:35:32.000Z">
+<meta property="article:modified_time" content="2022-10-03T13:52:43.790Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/DigitalSecurity/btlejuice/raw/master/doc/images/btlejuice-main-ui.png#crop=0&crop=0&crop=1&crop=1&from=url&id=W6HQo&margin=%5Bobject%20Object%5D&originHeight=265&originWidth=867&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&status=done&style=none&title=">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-grav"></i>
+                语雀
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://passport.kanxue.com/user-center-837755.htm" target="_blank" >
+                <i class="icon icon-lg icon-snowflake-o"></i>
+                看雪
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://sighttp.qq.com/msgrd?v=1&uin=1097179511" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://img2020.cnblogs.com/blog/1558534/202003/1558534-20200331231408805-256812285.jpg" target="_blank" >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">BLE中继攻击</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">BLE中继攻击</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2022-06-09T06:35:32.000Z" itemprop="datePublished" class="page-time">
+  2022-06-09
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#测试工具"><span class="post-toc-number">1.</span> <span class="post-toc-text">测试工具</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#环境安装"><span class="post-toc-number">2.</span> <span class="post-toc-text">环境安装</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#btlejuice"><span class="post-toc-number">3.</span> <span class="post-toc-text">btlejuice</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-owswf4"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">BLE中继攻击</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2022-06-09 14:35:32" datetime="2022-06-09T06:35:32.000Z"  itemprop="datePublished">2022-06-09</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h1 id="测试工具"><a href="#测试工具" class="headerlink" title="测试工具"></a>测试工具</h1><p><a href="https://github.com/securing/gattacker" target="_blank" rel="noopener">https://github.com/securing/gattacker</a><br><a href="https://github.com/DigitalSecurity/btlejuice" target="_blank" rel="noopener">https://github.com/DigitalSecurity/btlejuice</a></p>
+<h1 id="环境安装"><a href="#环境安装" class="headerlink" title="环境安装"></a>环境安装</h1><p>需要两个蓝牙适配器，均采用 CSR4.0<br>软件方面我用的 ubuntu 18.04 一个安装好之后直接克隆一个</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">curl -sL https://deb.nodesource.com/setup\_8.x | sudo -E bash</span><br><span class="line">apt install nodejs</span><br><span class="line">apt-get install bluetooth bluez libbluetooth-dev libudev-dev</span><br><span class="line">apt install npm</span><br><span class="line">npm install bleno</span><br><span class="line">npm install noble</span><br><span class="line">npm install gattacker</span><br><span class="line">npm install -g btlejuice</span><br></pre></td></tr></table></figure>
+
+<h1 id="btlejuice"><a href="#btlejuice" class="headerlink" title="btlejuice"></a>btlejuice</h1><p>第一台机器执行：<code>sudo btlejuice-proxy</code><br>第二台机器运行：<code>sudo btlejuice -u 192.168.127.139 -w</code>（ip 是第一台机器的）<br>然后在第二台机器上就可以打开浏览器访问 <a href="http://127.0.0.1:8080/#" target="_blank" rel="noopener">http://127.0.0.1:8080</a> 了<br>上面的四个标志依次是：拦截开关、导出数据、选择目标、设置</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://github.com/DigitalSecurity/btlejuice/raw/master/doc/images/btlejuice-main-ui.png#crop=0&crop=0&crop=1&crop=1&from=url&id=W6HQo&margin=%5Bobject%20Object%5D&originHeight=265&originWidth=867&originalType=binary∶=1&rotation=0&showTitle=false&status=done&style=none&title=" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>选择目标后会用第一台机器的适配器与目标连接，获取目标的服务与特征，然后用第二台机器的适配器为造出一个假的目标，因为目标已经与第一台设备的适配器连接了，所以你就扫描不到了，再扫描出来的就是第二台设备伪造的假目标了<br>扫描出来的目标，双击选中</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1654757886437-db017c82-9df8-4da6-9f24-3c4576d06935.png#clientId=u149409b7-b556-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=520&id=u674f75b0&margin=%5Bobject%20Object%5D&name=image.png&originHeight=650&originWidth=1264&originalType=binary∶=1&rotation=0&showTitle=false&size=56095&status=done&style=none&taskId=ub42228f3-5aaf-4ebb-9ad7-008066837af&title=&width=1011.2" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>过一小会再扫描就是适配器模拟的假目标了，我这个不知道为啥，只探测到了一个服务</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/jpeg/268938/1654758386522-5454123f-6029-4993-896c-9c02595d5109.jpeg#clientId=u149409b7-b556-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=257&id=ua69fb634&margin=%5Bobject%20Object%5D&name=8ea23d60538a835d3a421fb7ad84f2d.jpg&originHeight=666&originWidth=1080&originalType=binary∶=1&rotation=0&showTitle=false&size=140339&status=done&style=none&taskId=ua838fef8-52ef-41b7-89a1-914272bd0c4&title=&width=416" alt="8ea23d60538a835d3a421fb7ad84f2d.jpg" title="">
+                </div>
+                <div class="image-caption">8ea23d60538a835d3a421fb7ad84f2d.jpg</div>
+            </figure>
+<p>试一下蓝牙灯泡，基本都探测出来了，用 APP 也能扫描到，但是连接上之后会断开，再点击 APP 就没法连接到它了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1654759810906-ebfe1528-1804-4774-aa8d-e4a9ff328087.png#clientId=u66fe7c91-76d3-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=413&id=u44bcea76&margin=%5Bobject%20Object%5D&name=image.png&originHeight=516&originWidth=1278&originalType=binary∶=1&rotation=0&showTitle=false&size=86023&status=done&style=none&taskId=u46443ebc-0c18-4281-b7aa-6b50ac481b0&title=&width=1022.4" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>开启拦截开关会在收到数据的时候先展示给你，由你选择是发出去还是扔掉，也可以在发的时候修改，类似 burp 的抓包改包</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1654760146672-c4fea938-e3f5-4bb6-a97d-7b0b971e0ebe.png#clientId=u66fe7c91-76d3-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=362&id=u6c3ef607&margin=%5Bobject%20Object%5D&name=image.png&originHeight=452&originWidth=991&originalType=binary∶=1&rotation=0&showTitle=false&size=60510&status=done&style=none&taskId=u7820c658-3391-4d76-a44f-86ece29d6a6&title=&width=792.8" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2022-10-03T13:52:43.790Z" itemprop="dateUpdated">2022-10-03 21:52:43</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2022/06/09/owswf4/&title=《BLE中继攻击》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2022/06/09/owswf4/&title=《BLE中继攻击》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2022/06/09/owswf4/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《BLE中继攻击》 — yichen's blog&url=https://yichen115.github.io/2022/06/09/owswf4/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2022/06/09/owswf4/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2022/06/14/bk93qr/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">使用bluetoothctl模拟BLE设备</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2022/05/30/pqfymw/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">MQTT协议</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020 - 2022</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2022/06/09/owswf4/&title=《BLE中继攻击》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2022/06/09/owswf4/&title=《BLE中继攻击》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2022/06/09/owswf4/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《BLE中继攻击》 — yichen's blog&url=https://yichen115.github.io/2022/06/09/owswf4/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2022/06/09/owswf4/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2022/06/09/owswf4/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

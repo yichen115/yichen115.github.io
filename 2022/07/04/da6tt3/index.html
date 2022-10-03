@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>使用HD_OBD模拟器 | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="HD_OBD 模拟器                                                                                              image.png              OBD 线，接出来两根线，红高蓝低">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用HD_OBD模拟器">
+<meta property="og:url" content="https://yichen115.github.io/2022/07/04/da6tt3/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="HD_OBD 模拟器                                                                                              image.png              OBD 线，接出来两根线，红高蓝低">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1656903632168-1a34bc73-4ed7-4e04-9825-13296e39a794.png#clientId=u7e360a65-56c5-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=198&id=ub151378f&margin=%5Bobject%20Object%5D&name=image.png&originHeight=697&originWidth=1156&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=226636&status=done&style=none&taskId=ub5fb2527-2965-4c2d-b05c-625ace7f83f&title=&width=328">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663227965471-8cb4b80f-17f6-42a2-b214-47d43eb71c06.png#clientId=ufa0be87a-630a-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=197&id=u22bb4683&margin=%5Bobject%20Object%5D&name=image.png&originHeight=532&originWidth=680&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=374693&status=done&style=none&taskId=u663e913f-40ec-4241-966b-4723ee33c44&title=&width=252">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1656903767725-38f1cf1d-1831-49dc-b0bf-05ef2c2041a0.png#clientId=u7e360a65-56c5-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=234&id=uc333fe84&margin=%5Bobject%20Object%5D&name=image.png&originHeight=366&originWidth=720&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=26837&status=done&style=none&taskId=u16b738ec-3da7-4f32-9916-d63827a2d22&title=&width=461">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1656903805310-b9b92a28-9742-45e7-97bf-270d7e2ebff3.png#clientId=u7e360a65-56c5-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=342&id=uf7cfbfed&margin=%5Bobject%20Object%5D&name=image.png&originHeight=561&originWidth=1005&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=94489&status=done&style=none&taskId=ud0d72757-53d5-4e97-8453-822320b0b15&title=&width=613">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1656903833570-38eadd52-c627-49a1-a238-f88145b2421b.png#clientId=u7e360a65-56c5-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=349&id=u20344e43&margin=%5Bobject%20Object%5D&name=image.png&originHeight=664&originWidth=1070&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=97780&status=done&style=none&taskId=uadbf13df-9625-4dbf-a687-361c58b06cd&title=&width=562">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1656903880025-4eb8706c-dc73-4e50-8d77-cb9cc363e6be.png#clientId=u7e360a65-56c5-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=292&id=u5fc538c2&margin=%5Bobject%20Object%5D&name=image.png&originHeight=580&originWidth=992&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=73198&status=done&style=none&taskId=ucc38ad36-80bc-44fb-b5e0-86ad7137e08&title=&width=500">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663118782636-be97f757-477c-4ab2-b263-1875f95b04cf.png#clientId=uab421fa6-79a9-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=98&id=uf29beac6&margin=%5Bobject%20Object%5D&name=image.png&originHeight=123&originWidth=1006&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=15498&status=done&style=none&taskId=u7bb2372b-d7f6-4938-8784-6c7559e890a&title=&width=804.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663118639018-006b006a-a0cf-4db8-a250-d51c56d6a8e3.png#clientId=uab421fa6-79a9-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=103&id=u78fe5c8f&margin=%5Bobject%20Object%5D&name=image.png&originHeight=129&originWidth=1006&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=18278&status=done&style=none&taskId=ue11b7d56-9e60-4211-98e9-bb353bc3131&title=&width=804.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1656924673682-cdb45c91-6167-4f72-a477-383244847825.png#clientId=ube91fcb6-93b6-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=331&id=ue50fa56c&margin=%5Bobject%20Object%5D&name=image.png&originHeight=500&originWidth=1070&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=126815&status=done&style=none&taskId=u1d02a479-0bfe-47a0-adb1-f0916c394ef&title=&width=709">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663117318514-e627c6cb-1100-4c7b-9aab-51ad515f1e1a.png#clientId=uab421fa6-79a9-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=451&id=u64514708&margin=%5Bobject%20Object%5D&name=image.png&originHeight=564&originWidth=883&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=80267&status=done&style=none&taskId=u78efb560-8e33-4f3f-9ecc-f2dc6f107f9&title=&width=706.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663117352555-933e29d3-d816-4b06-959b-433b5a3f5064.png#clientId=uab421fa6-79a9-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=451&id=u25851a0d&margin=%5Bobject%20Object%5D&name=image.png&originHeight=564&originWidth=883&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=84379&status=done&style=none&taskId=u6c4e218b-33cb-49f9-a645-b2515d7bbdc&title=&width=706.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663117381810-08141942-77a5-4e50-bcce-573affe8ad6c.png#clientId=uab421fa6-79a9-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=451&id=ua22a991c&margin=%5Bobject%20Object%5D&name=image.png&originHeight=564&originWidth=883&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=88525&status=done&style=none&taskId=ua1351dbf-8fa4-4aba-b83b-b9f3f273849&title=&width=706.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663068111752-e0996a88-6ee4-4e1c-95a0-0816375fef97.png#clientId=u9752cdf8-a925-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=225&id=u351b2545&margin=%5Bobject%20Object%5D&name=image.png&originHeight=901&originWidth=1341&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=1701061&status=done&style=none&taskId=ucf398923-e0c1-4032-afa0-4ad42158487&title=&width=335">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663068162146-db93cb73-f897-4356-bdd9-ed5d7ae135b7.png#clientId=u9752cdf8-a925-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=308&id=u49ded9f1&margin=%5Bobject%20Object%5D&name=image.png&originHeight=385&originWidth=358&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=16182&status=done&style=none&taskId=u625774e1-bd9d-4833-9dd7-640c7198382&title=&width=286.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663067445689-48799db5-f403-4f12-a186-33f0b64c8be3.png#clientId=u9752cdf8-a925-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=398&id=ub075ca33&margin=%5Bobject%20Object%5D&name=image.png&originHeight=498&originWidth=863&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=46551&status=done&style=none&taskId=u80cc790e-ab44-4059-88c3-46f5ca066f6&title=&width=690.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663067448288-3d5cc952-6a7f-4a4d-a990-390beec728a4.png#clientId=u9752cdf8-a925-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=648&id=u36dc5eca&margin=%5Bobject%20Object%5D&name=image.png&originHeight=810&originWidth=1145&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=95731&status=done&style=none&taskId=uaa2a248f-eb2f-43ab-9d0d-408cf48a6c8&title=&width=916">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663067780642-afa7fea7-d5cb-4e25-abf3-29f1ac4551fd.png#clientId=u9752cdf8-a925-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=113&id=u17205a74&margin=%5Bobject%20Object%5D&name=image.png&originHeight=141&originWidth=264&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=7170&status=done&style=none&taskId=ue3089a1f-d232-4bac-a716-7e203361eec&title=&width=211.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1663067757089-7a5c497e-127e-44a2-a034-66bc5208ee67.png#clientId=u9752cdf8-a925-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=214&id=u2cf65312&margin=%5Bobject%20Object%5D&name=image.png&originHeight=267&originWidth=434&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=19931&status=done&style=none&taskId=u959386c0-4d6a-4659-b224-ea0d3347b42&title=&width=347.2">
+<meta property="article:published_time" content="2022-07-04T02:58:55.000Z">
+<meta property="article:modified_time" content="2022-10-03T13:52:43.744Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1656903632168-1a34bc73-4ed7-4e04-9825-13296e39a794.png#clientId=u7e360a65-56c5-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=198&id=ub151378f&margin=%5Bobject%20Object%5D&name=image.png&originHeight=697&originWidth=1156&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=226636&status=done&style=none&taskId=ub5fb2527-2965-4c2d-b05c-625ace7f83f&title=&width=328">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-grav"></i>
+                语雀
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://passport.kanxue.com/user-center-837755.htm" target="_blank" >
+                <i class="icon icon-lg icon-snowflake-o"></i>
+                看雪
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://sighttp.qq.com/msgrd?v=1&uin=1097179511" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://img2020.cnblogs.com/blog/1558534/202003/1558534-20200331231408805-256812285.jpg" target="_blank" >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">使用HD_OBD模拟器</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">使用HD_OBD模拟器</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2022-07-04T02:58:55.000Z" itemprop="datePublished" class="page-time">
+  2022-07-04
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#读取故障码"><span class="post-toc-number">1.</span> <span class="post-toc-text">读取故障码</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#读-VIN-码"><span class="post-toc-number">2.</span> <span class="post-toc-text">读 VIN 码</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#读取车速"><span class="post-toc-number">3.</span> <span class="post-toc-text">读取车速</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#使用-AT-指令设置-VIN-码"><span class="post-toc-number">4.</span> <span class="post-toc-text">使用 AT 指令设置 VIN 码</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#使用-AT-指令设置故障码"><span class="post-toc-number">5.</span> <span class="post-toc-text">使用 AT 指令设置故障码</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#提取固件测试"><span class="post-toc-number">6.</span> <span class="post-toc-text">提取固件测试</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#刷写固件测试"><span class="post-toc-number">7.</span> <span class="post-toc-text">刷写固件测试</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-da6tt3"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">使用HD_OBD模拟器</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2022-07-04 10:58:55" datetime="2022-07-04T02:58:55.000Z"  itemprop="datePublished">2022-07-04</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>HD_OBD 模拟器</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1656903632168-1a34bc73-4ed7-4e04-9825-13296e39a794.png#clientId=u7e360a65-56c5-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=198&id=ub151378f&margin=%5Bobject%20Object%5D&name=image.png&originHeight=697&originWidth=1156&originalType=binary∶=1&rotation=0&showTitle=false&size=226636&status=done&style=none&taskId=ub5fb2527-2965-4c2d-b05c-625ace7f83f&title=&width=328" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>OBD 线，接出来两根线，红高蓝低</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663227965471-8cb4b80f-17f6-42a2-b214-47d43eb71c06.png#clientId=ufa0be87a-630a-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=197&id=u22bb4683&margin=%5Bobject%20Object%5D&name=image.png&originHeight=532&originWidth=680&originalType=binary∶=1&rotation=0&showTitle=false&size=374693&status=done&style=none&taskId=u663e913f-40ec-4241-966b-4723ee33c44&title=&width=252" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>用一个 12v 的电源适配器给他供电，用 usb 线连电脑使用配套软件设置相关数据，首先是要配置好协议</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1656903767725-38f1cf1d-1831-49dc-b0bf-05ef2c2041a0.png#clientId=u7e360a65-56c5-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=234&id=uc333fe84&margin=%5Bobject%20Object%5D&name=image.png&originHeight=366&originWidth=720&originalType=binary∶=1&rotation=0&showTitle=false&size=26837&status=done&style=none&taskId=u16b738ec-3da7-4f32-9916-d63827a2d22&title=&width=461" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>设置故障码，具体的含义在 ISO_15031-6</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1656903805310-b9b92a28-9742-45e7-97bf-270d7e2ebff3.png#clientId=u7e360a65-56c5-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=342&id=uf7cfbfed&margin=%5Bobject%20Object%5D&name=image.png&originHeight=561&originWidth=1005&originalType=binary∶=1&rotation=0&showTitle=false&size=94489&status=done&style=none&taskId=ud0d72757-53d5-4e97-8453-822320b0b15&title=&width=613" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>设置数据流</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1656903833570-38eadd52-c627-49a1-a238-f88145b2421b.png#clientId=u7e360a65-56c5-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=349&id=u20344e43&margin=%5Bobject%20Object%5D&name=image.png&originHeight=664&originWidth=1070&originalType=binary∶=1&rotation=0&showTitle=false&size=97780&status=done&style=none&taskId=uadbf13df-9625-4dbf-a687-361c58b06cd&title=&width=562" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>设置版本信息</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1656903880025-4eb8706c-dc73-4e50-8d77-cb9cc363e6be.png#clientId=u7e360a65-56c5-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=292&id=u5fc538c2&margin=%5Bobject%20Object%5D&name=image.png&originHeight=580&originWidth=992&originalType=binary∶=1&rotation=0&showTitle=false&size=73198&status=done&style=none&taskId=ucc38ad36-80bc-44fb-b5e0-86ad7137e08&title=&width=500" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>再用 OBD 的接头连接好 pcan 的 can 高和低，用 pcanview 操作，读取数据，使用的是 15765 这个协议的，这里有个整理了一些操作指令的 pdf<br><a href="https://www.yuque.com/attachments/yuque/0/2022/pdf/268938/1656903992277-e6e5ba7d-72ad-4fd2-bcba-66e0a256b2e9.pdf" target="_blank" rel="noopener">OBD2_iso15765_protol_incomplete.pdf</a></p>
+<h1 id="读取故障码"><a href="#读取故障码" class="headerlink" title="读取故障码"></a>读取故障码</h1><p>根据 ISO 15031-5 的 6.3 节，使用 7DF 01 03 查看<br>因为设置的大于三个因为还没有读完全，再次发送 7E0 30</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663118782636-be97f757-477c-4ab2-b263-1875f95b04cf.png#clientId=uab421fa6-79a9-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=98&id=uf29beac6&margin=%5Bobject%20Object%5D&name=image.png&originHeight=123&originWidth=1006&originalType=binary∶=1&rotation=0&showTitle=false&size=15498&status=done&style=none&taskId=u7bb2372b-d7f6-4938-8784-6c7559e890a&title=&width=804.8" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="读-VIN-码"><a href="#读-VIN-码" class="headerlink" title="读 VIN 码"></a>读 VIN 码</h1><p>根据 ISO 15031-5 的 6.9 节，使用 02 09 02 查看，然后再发 30 …. 查看剩下的</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663118639018-006b006a-a0cf-4db8-a250-d51c56d6a8e3.png#clientId=uab421fa6-79a9-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=103&id=u78fe5c8f&margin=%5Bobject%20Object%5D&name=image.png&originHeight=129&originWidth=1006&originalType=binary∶=1&rotation=0&showTitle=false&size=18278&status=done&style=none&taskId=ue11b7d56-9e60-4211-98e9-bb353bc3131&title=&width=804.8" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="读取车速"><a href="#读取车速" class="headerlink" title="读取车速"></a>读取车速</h1><p>在上面文档找的，具体在哪里定义的还不知道</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1656924673682-cdb45c91-6167-4f72-a477-383244847825.png#clientId=ube91fcb6-93b6-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=331&id=ue50fa56c&margin=%5Bobject%20Object%5D&name=image.png&originHeight=500&originWidth=1070&originalType=binary∶=1&rotation=0&showTitle=false&size=126815&status=done&style=none&taskId=u1d02a479-0bfe-47a0-adb1-f0916c394ef&title=&width=709" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="使用-AT-指令设置-VIN-码"><a href="#使用-AT-指令设置-VIN-码" class="headerlink" title="使用 AT 指令设置 VIN 码"></a>使用 AT 指令设置 VIN 码</h1><p>使用前需要先激活协议</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663117318514-e627c6cb-1100-4c7b-9aab-51ad515f1e1a.png#clientId=uab421fa6-79a9-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=451&id=u64514708&margin=%5Bobject%20Object%5D&name=image.png&originHeight=564&originWidth=883&originalType=binary∶=1&rotation=0&showTitle=false&size=80267&status=done&style=none&taskId=u78efb560-8e33-4f3f-9ecc-f2dc6f107f9&title=&width=706.4" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>连接 usb 后不用 OBD 模拟器打开，使用串口工具选择波特率 256000<br>设置 VIN 码：AT+VIN:12345678901234567</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663117352555-933e29d3-d816-4b06-959b-433b5a3f5064.png#clientId=uab421fa6-79a9-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=451&id=u25851a0d&margin=%5Bobject%20Object%5D&name=image.png&originHeight=564&originWidth=883&originalType=binary∶=1&rotation=0&showTitle=false&size=84379&status=done&style=none&taskId=u6c4e218b-33cb-49f9-a645-b2515d7bbdc&title=&width=706.4" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="使用-AT-指令设置故障码"><a href="#使用-AT-指令设置故障码" class="headerlink" title="使用 AT 指令设置故障码"></a>使用 AT 指令设置故障码</h1><p>AT+DTC02:P1012;P1013<br>前面是数量，后面是具体的故障码</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663117381810-08141942-77a5-4e50-bcce-573affe8ad6c.png#clientId=uab421fa6-79a9-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=451&id=ua22a991c&margin=%5Bobject%20Object%5D&name=image.png&originHeight=564&originWidth=883&originalType=binary∶=1&rotation=0&showTitle=false&size=88525&status=done&style=none&taskId=ua1351dbf-8fa4-4aba-b83b-b9f3f273849&title=&width=706.4" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="提取固件测试"><a href="#提取固件测试" class="headerlink" title="提取固件测试"></a>提取固件测试</h1><p>使用 Jlink 或 Jlink OB 连接 OBD 模拟器</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663068111752-e0996a88-6ee4-4e1c-95a0-0816375fef97.png#clientId=u9752cdf8-a925-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=225&id=u351b2545&margin=%5Bobject%20Object%5D&name=image.png&originHeight=901&originWidth=1341&originalType=binary∶=1&rotation=0&showTitle=false&size=1701061&status=done&style=none&taskId=ucf398923-e0c1-4032-afa0-4ad42158487&title=&width=335" alt="image.png](https://cdn.nlark.com/yuque/0/2022/png/268938/1663066591552-35337a59-7985-43e3-be27-de4c0efb7446.png#clientId=u9752cdf8-a925-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=224&id=u291f7fab&margin=%5Bobject%20Object%5D&name=image.png&originHeight=943&originWidth=1334&originalType=binary∶=1&rotation=0&showTitle=false&size=1499761&status=done&style=none&taskId=uc5a2f13f-f639-47a5-acda-d58b591b886&title=&width=317)![image.png" title="">
+                </div>
+                <div class="image-caption">image.png](https://cdn.nlark.com/yuque/0/2022/png/268938/1663066591552-35337a59-7985-43e3-be27-de4c0efb7446.png#clientId=u9752cdf8-a925-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=224&id=u291f7fab&margin=%5Bobject%20Object%5D&name=image.png&originHeight=943&originWidth=1334&originalType=binary∶=1&rotation=0&showTitle=false&size=1499761&status=done&style=none&taskId=uc5a2f13f-f639-47a5-acda-d58b591b886&title=&width=317)![image.png</div>
+            </figure>
+<p>然后打开 JFlash，这样设置</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663068162146-db93cb73-f897-4356-bdd9-ed5d7ae135b7.png#clientId=u9752cdf8-a925-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=308&id=u49ded9f1&margin=%5Bobject%20Object%5D&name=image.png&originHeight=385&originWidth=358&originalType=binary∶=1&rotation=0&showTitle=false&size=16182&status=done&style=none&taskId=u625774e1-bd9d-4833-9dd7-640c7198382&title=&width=286.4" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>点击 Options 的 Connect 即可连接设备，选择 Target -&gt; Manual Programming -&gt; Read back -&gt; Entire chip</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663067445689-48799db5-f403-4f12-a186-33f0b64c8be3.png#clientId=u9752cdf8-a925-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=398&id=ub075ca33&margin=%5Bobject%20Object%5D&name=image.png&originHeight=498&originWidth=863&originalType=binary∶=1&rotation=0&showTitle=false&size=46551&status=done&style=none&taskId=u80cc790e-ab44-4059-88c3-46f5ca066f6&title=&width=690.4" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>成功提取固件</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663067448288-3d5cc952-6a7f-4a4d-a990-390beec728a4.png#clientId=u9752cdf8-a925-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=648&id=u36dc5eca&margin=%5Bobject%20Object%5D&name=image.png&originHeight=810&originWidth=1145&originalType=binary∶=1&rotation=0&showTitle=false&size=95731&status=done&style=none&taskId=uaa2a248f-eb2f-43ab-9d0d-408cf48a6c8&title=&width=916" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="刷写固件测试"><a href="#刷写固件测试" class="headerlink" title="刷写固件测试"></a>刷写固件测试</h1><p>File -&gt; Open data file 打开固件</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663067780642-afa7fea7-d5cb-4e25-abf3-29f1ac4551fd.png#clientId=u9752cdf8-a925-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=113&id=u17205a74&margin=%5Bobject%20Object%5D&name=image.png&originHeight=141&originWidth=264&originalType=binary∶=1&rotation=0&showTitle=false&size=7170&status=done&style=none&taskId=ue3089a1f-d232-4bac-a716-7e203361eec&title=&width=211.2" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>选择 Target Production Programming 就能烧写进去了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1663067757089-7a5c497e-127e-44a2-a034-66bc5208ee67.png#clientId=u9752cdf8-a925-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=214&id=u2cf65312&margin=%5Bobject%20Object%5D&name=image.png&originHeight=267&originWidth=434&originalType=binary∶=1&rotation=0&showTitle=false&size=19931&status=done&style=none&taskId=u959386c0-4d6a-4659-b224-ea0d3347b42&title=&width=347.2" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2022-10-03T13:52:43.744Z" itemprop="dateUpdated">2022-10-03 21:52:43</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2022/07/04/da6tt3/&title=《使用HD_OBD模拟器》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2022/07/04/da6tt3/&title=《使用HD_OBD模拟器》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2022/07/04/da6tt3/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《使用HD_OBD模拟器》 — yichen's blog&url=https://yichen115.github.io/2022/07/04/da6tt3/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2022/07/04/da6tt3/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2022/08/10/prhu44/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">RF、RFID、NFC区别</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2022/07/03/xozk7x/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">jtagulator探测JTAG接口</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020 - 2022</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2022/07/04/da6tt3/&title=《使用HD_OBD模拟器》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2022/07/04/da6tt3/&title=《使用HD_OBD模拟器》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2022/07/04/da6tt3/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《使用HD_OBD模拟器》 — yichen's blog&url=https://yichen115.github.io/2022/07/04/da6tt3/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2022/07/04/da6tt3/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2022/07/04/da6tt3/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>MIPS汇编基础 | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="看的《揭秘家用路由器 0day 漏洞挖掘技术》这本书 寄存器MIPPS32 为例，指令中使用了大量的寄存器，除了加载&#x2F;存储指令以外，都是用寄存器或者立即数作为操作数MIPS32 中寄存器分为两类 通用寄存器32 个，以 $ 表示    编号 寄存器名称 寄存器描述    0 $zero 始终为 0   1 $at 保留寄存器，用作暂时变量   2~3 $v0-$v1 保存表达式或函数的返回值，当两">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MIPS汇编基础">
+<meta property="og:url" content="https://yichen115.github.io/2022/03/14/nzqr99/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="看的《揭秘家用路由器 0day 漏洞挖掘技术》这本书 寄存器MIPPS32 为例，指令中使用了大量的寄存器，除了加载&#x2F;存储指令以外，都是用寄存器或者立即数作为操作数MIPS32 中寄存器分为两类 通用寄存器32 个，以 $ 表示    编号 寄存器名称 寄存器描述    0 $zero 始终为 0   1 $at 保留寄存器，用作暂时变量   2~3 $v0-$v1 保存表达式或函数的返回值，当两">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1647336219077-f0fd51c0-97f4-4890-91e2-1ffdedcf3d13.png#clientId=u67bd5eec-4100-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=406&id=u9fe36947&margin=%5Bobject%20Object%5D&name=image.png&originHeight=528&originWidth=1297&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=247593&status=done&style=stroke&taskId=u7f4bd75b-7160-42fd-98cf-6f7896bd232&title=&width=996.0959696015634">
+<meta property="article:published_time" content="2022-03-14T00:43:41.000Z">
+<meta property="article:modified_time" content="2022-10-03T13:52:43.728Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1647336219077-f0fd51c0-97f4-4890-91e2-1ffdedcf3d13.png#clientId=u67bd5eec-4100-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=406&id=u9fe36947&margin=%5Bobject%20Object%5D&name=image.png&originHeight=528&originWidth=1297&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=247593&status=done&style=stroke&taskId=u7f4bd75b-7160-42fd-98cf-6f7896bd232&title=&width=996.0959696015634">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-grav"></i>
+                语雀
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://passport.kanxue.com/user-center-837755.htm" target="_blank" >
+                <i class="icon icon-lg icon-snowflake-o"></i>
+                看雪
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://sighttp.qq.com/msgrd?v=1&uin=1097179511" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://img2020.cnblogs.com/blog/1558534/202003/1558534-20200331231408805-256812285.jpg" target="_blank" >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">MIPS汇编基础</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">MIPS汇编基础</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2022-03-14T00:43:41.000Z" itemprop="datePublished" class="page-time">
+  2022-03-14
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#寄存器"><span class="post-toc-number">1.</span> <span class="post-toc-text">寄存器</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#通用寄存器"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">通用寄存器</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#特殊寄存器"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">特殊寄存器</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#指令格式"><span class="post-toc-number">2.</span> <span class="post-toc-text">指令格式</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#R-型"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">R 型</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#I-型"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">I 型</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#J-型"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">J 型</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#汇编指令"><span class="post-toc-number">3.</span> <span class="post-toc-text">汇编指令</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#LOAD-STORE-指令"><span class="post-toc-number">3.1.</span> <span class="post-toc-text">LOAD&#x2F;STORE 指令</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#算术运算指令"><span class="post-toc-number">3.2.</span> <span class="post-toc-text">算术运算指令</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#类比较指令"><span class="post-toc-number">3.3.</span> <span class="post-toc-text">类比较指令</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-nzqr99"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">MIPS汇编基础</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2022-03-14 08:43:41" datetime="2022-03-14T00:43:41.000Z"  itemprop="datePublished">2022-03-14</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>看的《揭秘家用路由器 0day 漏洞挖掘技术》这本书</p>
+<h1 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h1><p>MIPPS32 为例，指令中使用了大量的寄存器，除了加载/存储指令以外，都是用寄存器或者立即数作为操作数<br>MIPS32 中寄存器分为两类</p>
+<h2 id="通用寄存器"><a href="#通用寄存器" class="headerlink" title="通用寄存器"></a>通用寄存器</h2><p>32 个，以 $ 表示</p>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>寄存器名称</th>
+<th>寄存器描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>$zero</td>
+<td>始终为 0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>$at</td>
+<td>保留寄存器，用作暂时变量</td>
+</tr>
+<tr>
+<td>2~3</td>
+<td>$v0-$v1</td>
+<td>保存表达式或函数的返回值，当两个寄存器不够用时通过内存来完成</td>
+</tr>
+<tr>
+<td>4~7</td>
+<td>$a0~$a3</td>
+<td>作为函数的前四个参数，不够的用栈处理</td>
+</tr>
+<tr>
+<td>8~15</td>
+<td>$t0~$t7</td>
+<td>供汇编程序使用放入临时寄存器</td>
+</tr>
+<tr>
+<td>16~23</td>
+<td>$s0~$s7</td>
+<td>供子程序使用时保存原寄存器的值</td>
+</tr>
+<tr>
+<td>24~25</td>
+<td>$t8~$t9</td>
+<td>供汇编程序使用的临时寄存器（补充 $t0~$t7）</td>
+</tr>
+<tr>
+<td>26~27</td>
+<td>$k0~$k1</td>
+<td>保留，供中断或异常处理函数使用</td>
+</tr>
+<tr>
+<td>28</td>
+<td>$gp</td>
+<td>全局指针</td>
+</tr>
+<tr>
+<td>29</td>
+<td>$sp</td>
+<td>栈指针，指向栈顶</td>
+</tr>
+<tr>
+<td>30</td>
+<td>$fp</td>
+<td>保存栈指针</td>
+</tr>
+<tr>
+<td>31</td>
+<td>$ra</td>
+<td>返回地址寄存器</td>
+</tr>
+</tbody></table>
+<p>MIPS 并不直接支持栈，发生函数调用时调用者把函数调用之后的寄存器压入栈，被调用者把返回地址 $ra 和保留寄存器压入栈同时调整栈指针，返回时从栈中恢复寄存器</p>
+<p>流水线效应：在跳转分支后面的语句叫分支延迟槽，程序还没有执行跳转，知识把跳转的地址填充好的时候，下一条语句就已经执行了<br>例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mov $a0,$s2</span><br><span class="line">jalr strrchr</span><br><span class="line">move $a0,$s0</span><br></pre></td></tr></table></figure>
+
+<p>在执行第二行的时候，第三行的 move 指令就已经完成了，所以第二行的跳转实际上是受第三行的 $s0 影响的</p>
+<h2 id="特殊寄存器"><a href="#特殊寄存器" class="headerlink" title="特殊寄存器"></a>特殊寄存器</h2><p>3 个 PC(程序计数器)、HI(乘除结果高位寄存器)、LO(乘除结果低位寄存器)）<br>乘法运算中 HI 保存高 32 位，LO 保存低 32 位，除法运算中 HI 保存余数，LO 保存商</p>
+<h1 id="指令格式"><a href="#指令格式" class="headerlink" title="指令格式"></a>指令格式</h1><p>MIPS 所有指令长度相同，都是 32 位，高六位都是 Opcode 码，剩下的 24 位可以将指令分为 3 类</p>
+<h2 id="R-型"><a href="#R-型" class="headerlink" title="R 型"></a>R 型</h2><p>连续 3 个 5 位的二进制码表示 3 个寄存器的地址，然后 1 个 5 位的二进制码表示移位位数（未使用移位则全为 0），最后六位是 Function 码与 Opcode 码共同决定 R 型指令的具体操作方式</p>
+<h2 id="I-型"><a href="#I-型" class="headerlink" title="I 型"></a>I 型</h2><p>连续 2 个 5 位二进制码表示 2 个寄存器的地址，然后是 1 个 16 位二进制码表示的 1 个立即数二进制码</p>
+<h2 id="J-型"><a href="#J-型" class="headerlink" title="J 型"></a>J 型</h2><p>26 位二进制码表示跳转目标的指令地址（实际的指令地址位 32 位，其中最低 2 位为 00，高四位由 PC 当前地址决定）</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>格式（位）</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>R</td>
+<td>Opcode (6)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>操作码</td>
+<td>Rs (5)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>第一个源操作数</td>
+<td>Rt (5)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>第二个源操作数</td>
+<td>Rd (5)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>目的操作数</td>
+<td>Shamt (5)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>位移量</td>
+<td>Funct (6)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>函数</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>I</td>
+<td>Opcode (6)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>操作码</td>
+<td>Rs (5)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>第一个源操作数</td>
+<td>Rt (5)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>第二个源操作数</td>
+<td>Immediate (16)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>立即数</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>J</td>
+<td>Opcode (6)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>操作码</td>
+<td>Address (26)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>跳转目标的指令地址</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h1 id="汇编指令"><a href="#汇编指令" class="headerlink" title="汇编指令"></a>汇编指令</h1><p>寄存器都是用 $ 标注，imm 表示立即数，MEM[] 表示内存，offset 表示偏移量</p>
+<h2 id="LOAD-STORE-指令"><a href="#LOAD-STORE-指令" class="headerlink" title="LOAD/STORE 指令"></a>LOAD/STORE 指令</h2><p>以 l 开头的是加载指令，以 s 开头的 hi 存储指令，用来读取或存储数据<br>la 表示将地址或标签存入寄存器，la $Rd, Label，例如<code>la $t0,val_1</code>表示把 val_1 复制到 $t0 寄存器<br>li 表示将一个立即数存入寄存器，li $Rd, imm，例如<code>li $t1,40</code>表示把 $t1 赋值位 40<br>lw 表示从一个指定地址加载 word 类型的值到寄存器：lw $Rt, offset($Rs)，例如<code>lw $s0,0($sp)</code>表示 $s0 = MEM[$sp+0]，相当于取堆栈地址偏移为 0 内存长度值到 $s0 中<br>sw 表示将源寄存器的值存入指定地址，sw $Rt, offset($Rs)，例如<code>sw $a0,0($sp)</code>表示 MEM[$sp+0] = $a0，将 $a0 中 word 大小的值放在堆栈中，且 $sp 自动抬栈<br>move 用于寄存器之间传值，move $Rt, $Rs 例如<code>move $t5,$t1</code>表示把 $t1 的值赋给 $t5</p>
+<h2 id="算术运算指令"><a href="#算术运算指令" class="headerlink" title="算术运算指令"></a>算术运算指令</h2><p>算术运算指令的所有操作数都是寄存器，不能直接使用 RAM 地址或间接寻址，操作数大小都是 word<br>正常的是带符号的，后面带 i 的立即数，带 u 的是无符号的</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1647336219077-f0fd51c0-97f4-4890-91e2-1ffdedcf3d13.png#clientId=u67bd5eec-4100-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=406&id=u9fe36947&margin=%5Bobject%20Object%5D&name=image.png&originHeight=528&originWidth=1297&originalType=binary∶=1&rotation=0&showTitle=false&size=247593&status=done&style=stroke&taskId=u7f4bd75b-7160-42fd-98cf-6f7896bd232&title=&width=996.0959696015634" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h2 id="类比较指令"><a href="#类比较指令" class="headerlink" title="类比较指令"></a>类比较指令</h2><p>SLT 系列指令可以通过比较设置某个寄存器的值与分支跳转指令联合使用<br>SLT （有符号比较）表示 $Rs 小于 $Rt 时设置寄存器 $Rd 为 1，否则设置为 $Rd 为 0，slt $Rd, $Rs, $Rt<br>例如：<code>slt $v0,$a0,$s0</code>表示如果如果 $a0 小于 $s0，则把 $v0 设置为 1<br>SLTI （有符号比较）表示 $Rs 小于立即数时设置 $Rt 为 1，否则为 0，stli $Rt, $Rs, imm<br>例如：<code>stli $v0,$a0,255</code>表示如果 $a0 小于 255 就把 $v0 设置为 1 SLTU （无符号比较）表示 $Rs 小于 $Rt 时设置 $Rd 为 1，slt $Rd, $Rs, $Rt 例如：<code>stlu $v0,$a0,$s0</code>表示在 $a0 小于 $s0 时设置 $v0 为 1<br>SLTIU（无符号比较）表示 $Rs 小于立即数时设置 $Rt 为 1，否则为 0，stli $Rt, $Rs, imm<br>例如：<code>stli $v0,$a0,255</code>表示如果 $a0 小于 255 就把 $v0 设置为 1</p>
+<p>看麻了，这指令名字起的多少有点…</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2022-10-03T13:52:43.728Z" itemprop="dateUpdated">2022-10-03 21:52:43</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2022/03/14/nzqr99/&title=《MIPS汇编基础》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2022/03/14/nzqr99/&title=《MIPS汇编基础》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2022/03/14/nzqr99/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MIPS汇编基础》 — yichen's blog&url=https://yichen115.github.io/2022/03/14/nzqr99/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2022/03/14/nzqr99/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2022/03/17/pet5rg/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">nRF Sniffer+wireshark嗅探蓝牙数据</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2022/03/05/czhqlu/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">找调试口</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020 - 2022</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2022/03/14/nzqr99/&title=《MIPS汇编基础》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2022/03/14/nzqr99/&title=《MIPS汇编基础》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2022/03/14/nzqr99/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MIPS汇编基础》 — yichen's blog&url=https://yichen115.github.io/2022/03/14/nzqr99/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2022/03/14/nzqr99/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2022/03/14/nzqr99/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

