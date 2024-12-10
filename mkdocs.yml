@@ -4,6 +4,9 @@ site_url:  "https://yichen115.github.io/"
 site_author: "yichen"
 theme:
   name: 'material'
+  font:
+    text: 'Roboto'
+    code: 'Roboto Mono'
   palette:
     primary: 'red'
     accent: 'red'
@@ -28,9 +31,7 @@ theme:
     - content.action.edit
     - content.action.view
     - content.code.annotate
-  font:
-    text: Roboto
-    code: Roboto Mono
+
 
 plugins:
   - search
