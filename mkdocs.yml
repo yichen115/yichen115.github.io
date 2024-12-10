@@ -28,8 +28,6 @@ theme:
     - content.action.edit
     - content.action.view
     - content.code.annotate
-    - navigation.instant.prefetch # 预加载
-    - navigation.instant.progress # 进度条
 
 plugins:
   - search
