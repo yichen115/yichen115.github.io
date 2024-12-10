@@ -9,6 +9,7 @@
 ## 推荐硬件设备清单
 
 - STM32F103 核心板（Blue Pill）
+- STLink
 - Pico 示波器
 - PowerShorter 电压短路故障注入设备
 - USB 转 TTL 小板
