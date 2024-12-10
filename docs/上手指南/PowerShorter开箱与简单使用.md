@@ -1,6 +1,6 @@
-# PowerShorter：给国内安全爱好者的故障注入设备
 
-<font style="color:#DF2A3F;background-color:#FBDE28;">设备已上架淘宝，搜索设备名就可找到</font>
+
+<font style="color:#DF2A3F;background-color:#FBDE28;">设备已上架淘宝，搜索 PowerShorter，在纽创信安店铺购买即可</font>
 
 
 
@@ -10,7 +10,7 @@
 
 设备具有两路短路引擎，可以同时拉两个位置的短路毛刺，同时配有两路GPIO，一路固态继电器，一路电磁继电器
 
-购买方式：淘宝搜索 PowerShorter，在纽创信安店铺购买即可
+
 
 ![1726279150263-0a47ae60-66e4-4c1e-8776-42b7661f64de.png](./img/1726279150263-0a47ae60-66e4-4c1e-8776-42b7661f64de-369109.png)
 
