@@ -4,9 +4,6 @@ site_url:  "https://yichen115.github.io/"
 site_author: "yichen"
 theme:
   name: 'material'
-  font:
-    text: 'Roboto'
-    code: 'Roboto Mono'
   palette:
     primary: 'red'
     accent: 'red'
@@ -43,3 +40,6 @@ markdown_extensions:
   - md_in_html
   - nl2br
 
+extra_css:
+  - stylesheets/extra.css # 自定义CSS
+  - https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css
