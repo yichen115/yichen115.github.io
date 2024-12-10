@@ -146,7 +146,7 @@ DEC1 的下降沿位置恰好被故障毛刺命中，不再表现为下降沿，
 
 导入 Python 库
 
-```
+```python
 from power_shorter import *
 import time, os, random, subprocess
 import serial
@@ -155,13 +155,13 @@ import faultviz
 
 初始化设备
 
-```
+```python
 ps_dev = PowerShorter('com55')
 ```
 
 测试设备上下电
 
-```
+```python
 ps_dev.gpio(GPIO.GPIO1, 0)
 time.sleep(1)
 ps_dev.gpio(GPIO.GPIO1, 1)
@@ -169,14 +169,14 @@ ps_dev.gpio(GPIO.GPIO1, 1)
 
 初始化 faultviz 服务与表单
 
-```
+```python
 faultviz.start_view_service(port=12345) 
 vt = faultviz.ViewWidget()
 ```
 
 定义攻击函数
 
-```
+```python
 def nrf52_attack():
     ps_dev.gpio(GPIO.GPIO1, 0)
     time.sleep(1)
@@ -205,19 +205,19 @@ def nrf52_attack():
 
 执行一次攻击函数，检查代码是否有问题
 
-```
+```python
 nrf52_attack()
 ```
 
 查看表单，检查刚才的攻击是否将结果添加到表单中
 
-```
+```python
 vt.show()
 ```
 
 写个循环，直到成功绕过 APPROTECT 才停止攻击，循环过程中故障参数及结果会不断添加到 vt 表单中，配合示波器调整参数，优化毛刺位置
 
-```
+```python
 doAttack = 1
 while(doAttack):
     doAttack = nrf52_attack()
