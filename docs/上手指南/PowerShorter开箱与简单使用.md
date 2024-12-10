@@ -14,7 +14,7 @@
 
 ![1726279150263-0a47ae60-66e4-4c1e-8776-42b7661f64de.png](./img/1726279150263-0a47ae60-66e4-4c1e-8776-42b7661f64de-369109.png)
 
-
+# 开箱
 
 贴两张设备实物图，收纳包中有一个 PowerShorter 本体，一排杜邦线及一根 Type-C 数据线
 
@@ -46,6 +46,8 @@
 
 
 
+# Python 库
+
 设备使用 Python 进行控制，控制脚本在 gitee 开源了，地址如下：
 
 [深圳市纽创信安科技开发有限公司/powershorter](https://gitee.com/osr-tech/powershorter)
@@ -61,6 +63,8 @@
 ![1726280982527-57a9b33f-4a63-40ca-8fa1-b3fbdfa598f4.png](./img/1726280982527-57a9b33f-4a63-40ca-8fa1-b3fbdfa598f4-763648.png)
 
 
+
+# 简单使用
 
 对于打故障来说，我更习惯于使用 jupyter lab 这个交互式的运行环境，所以我还要装一下 jupyter
 
@@ -82,13 +86,15 @@ pip install jupyter
 
 
 
+## 导入设备库
+
 然后就可以执行 Python 代码了，首先导入控制代码库：`from power_shorter import *`
 
 然后需要初始化设备，因为控制脚本是通过串口与 PowerShorter 进行通信的，因此初始化时需要指定串口号，可以在设备管理器中找到一个 CH340 的串口设备（若识别不到需要安装 CH340 串口驱动：https://www.wch.cn/products/CH340.html）
 
 ![1726281734671-0be48569-5e89-47d8-ab4d-6afd17d44c1c.png](./img/1726281734671-0be48569-5e89-47d8-ab4d-6afd17d44c1c-935156.png)
 
-
+## 初始化设备
 
 在 jupyter 网页环境中点击菜单栏的开始按钮就可以一条一条的执行代码，代码前面的中括号如果是星号 [ * ] 表示正在执行，如果是数字表示已经执行过了，如果是空的表示没有执行
 
@@ -107,6 +113,8 @@ pip install jupyter
 ![1726282093885-417c3ed0-81b5-481b-9e8c-6308e269823a.png](./img/1726282093885-417c3ed0-81b5-481b-9e8c-6308e269823a-694010.png)
 
 
+
+## 控制继电器
 
 设备经过初始化后就可以做各种操作啦，  如果想要控制电磁继电器的话可以使用 RELAY2，执行这两条语句后会听到啪嗒啪嗒的声音，这就是电磁继电器吸合的响动
 
@@ -130,6 +138,8 @@ ps.relay(RELAY.RELAY1, 0)  # 固态继电器断开
 
 
 
+## 控制GPIO
+
 同理，控制 GPIO 的方式是：
 
 ```plain
@@ -142,6 +152,8 @@ ps.gpio(GPIO.GPIO2, 0)  # GPIO2拉低
 ![1726711931987-5dd5ee52-bcdf-45b1-99e8-bf8aba59f04e.png](./img/1726711931987-5dd5ee52-bcdf-45b1-99e8-bf8aba59f04e-675294.png)
 
 
+
+## 配置短路引擎
 
 接下来介绍一下故障注入最重要的参数控制，延时和毛刺宽度的配置，在 PowerShorter 中，使用 engine_cfg 来进行配置
 
@@ -190,6 +202,8 @@ ps.state(Engine.E1)
 
 
 
+## 统计故障参数
+
 对于故障注入来说，统计故障参数及结果是很有必要的，这样我们可以有参考的调整参数，统计结果可以使用 FaultViz 这个库
 
 [深圳市纽创信安科技开发有限公司/FaultViz](https://gitee.com/osr-tech/faultviz)
@@ -213,9 +227,3 @@ faultviz.start_view_service(port=12345)
 vt.update() 往表里添加数据，这里面的数据完全是由你自己定义的，键值对的形式，键会作为列名，值会放在表中作为数据，执行过第一次 update() 函数后表中才有了实际数据，这时候就可以使用 vt.show() 查看记录了，可以对数据进行筛选、排序、导出等操作
 
 ![1726713219865-7e48ae4e-e614-4814-a62d-e369bd43b81d.png](./img/1726713219865-7e48ae4e-e614-4814-a62d-e369bd43b81d-570008.png)
-
-
-
-
-
-> 原文: <https://www.yuque.com/hxfqg9/iot/zlf2dfx8fsbxb0ek>
