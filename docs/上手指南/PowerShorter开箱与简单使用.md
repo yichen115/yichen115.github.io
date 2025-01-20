@@ -127,7 +127,7 @@ ps.relay(RELAY.RELAY2, 0)  # 电磁继电器断开
 
 
 
-控制固态继电器通断只需要修改为 RELAY1 即可
+控制固态继电器通断只需要修改为 RELAY1 即可，**需要注意的是，固态继电器是通过电路实现的通断控制，并不是物理上的通断，因此需要额外将 PowerShorter 的 GND 引脚接到目标 GND 上！**
 
 ```plain
 ps.relay(RELAY.RELAY1, 1)  # 固态继电器接通
