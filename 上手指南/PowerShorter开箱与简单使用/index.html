@@ -1,0 +1,911 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="yichen">
+      
+      
+        <link rel="canonical" href="https://yichen115.github.io/%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97/PowerShorter%E5%BC%80%E7%AE%B1%E4%B8%8E%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/">
+      
+      
+        <link rel="prev" href="../..">
+      
+      
+        <link rel="next" href="../../%E6%95%85%E9%9A%9C%E6%A1%88%E4%BE%8B/STM32F1x%20%E7%94%B5%E5%8E%8B%E6%95%85%E9%9A%9C%E6%B3%A8%E5%85%A5%E7%BB%95%E8%BF%87%20RDP1%20%E5%9B%BA%E4%BB%B6%E8%AF%BB%E4%BF%9D%E6%8A%A4/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.50">
+    
+    
+      
+        <title>PowerShorter开箱与简单使用 - 故障注入wiki 测试</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.a40c8224.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="red">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="故障注入wiki 测试" class="md-header__button md-logo" aria-label="故障注入wiki 测试" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            故障注入wiki 测试
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              PowerShorter开箱与简单使用
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+    
+  
+  上手指南
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../%E6%95%85%E9%9A%9C%E6%A1%88%E4%BE%8B/STM32F1x%20%E7%94%B5%E5%8E%8B%E6%95%85%E9%9A%9C%E6%B3%A8%E5%85%A5%E7%BB%95%E8%BF%87%20RDP1%20%E5%9B%BA%E4%BB%B6%E8%AF%BB%E4%BF%9D%E6%8A%A4/" class="md-tabs__link">
+          
+  
+    
+  
+  故障案例
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="故障注入wiki 测试" class="md-nav__button md-logo" aria-label="故障注入wiki 测试" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    故障注入wiki 测试
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    上手指南
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            上手指南
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    PowerShorter开箱与简单使用
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    PowerShorter开箱与简单使用
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      开箱
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python" class="md-nav__link">
+    <span class="md-ellipsis">
+      Python 库
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      简单使用
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="简单使用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      导入设备库
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      初始化设备
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      控制继电器
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gpio" class="md-nav__link">
+    <span class="md-ellipsis">
+      控制GPIO
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      配置短路引擎
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      统计故障参数
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    故障案例
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            故障案例
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%95%85%E9%9A%9C%E6%A1%88%E4%BE%8B/STM32F1x%20%E7%94%B5%E5%8E%8B%E6%95%85%E9%9A%9C%E6%B3%A8%E5%85%A5%E7%BB%95%E8%BF%87%20RDP1%20%E5%9B%BA%E4%BB%B6%E8%AF%BB%E4%BF%9D%E6%8A%A4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    STM32F1x 电压故障注入绕过 RDP1 固件读保护
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E6%95%85%E9%9A%9C%E6%A1%88%E4%BE%8B/nRF52%20%E7%94%B5%E5%8E%8B%E6%95%85%E9%9A%9C%E6%B3%A8%E5%85%A5%E7%BB%95%E8%BF%87%20APPROTECT%20%E5%9B%BA%E4%BB%B6%E8%AF%BB%E4%BF%9D%E6%8A%A4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    nRF52 电压故障注入绕过 APPROTECT 固件读保护
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      开箱
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python" class="md-nav__link">
+    <span class="md-ellipsis">
+      Python 库
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      简单使用
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="简单使用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      导入设备库
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      初始化设备
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      控制继电器
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gpio" class="md-nav__link">
+    <span class="md-ellipsis">
+      控制GPIO
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      配置短路引擎
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      统计故障参数
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>PowerShorter开箱与简单使用</h1>
+
+<p><font style="color:#DF2A3F;background-color:#FBDE28;">设备已上架淘宝，搜索 PowerShorter，在纽创信安店铺购买即可</font></p>
+<blockquote>
+<p>PowerShorter 是为电压短路故障注入攻击测试定制的一款专用设备。通过 PowerShorter 可实现被测设备的瞬时短路，干扰设备正常运行</p>
+</blockquote>
+<p>设备具有两路短路引擎，可以同时拉两个位置的短路毛刺，同时配有两路GPIO，一路固态继电器，一路电磁继电器</p>
+<p><img alt="1726279150263-0a47ae60-66e4-4c1e-8776-42b7661f64de.png" src="../img/1726279150263-0a47ae60-66e4-4c1e-8776-42b7661f64de-369109.png" /></p>
+<h2 id="_1">开箱</h2>
+<p>贴两张设备实物图，收纳包中有一个 PowerShorter 本体，一排杜邦线及一根 Type-C 数据线</p>
+<p><img alt="1726279181747-43d229a9-84a5-470e-b55f-f3ff87c1889a.png" src="../img/1726279181747-43d229a9-84a5-470e-b55f-f3ff87c1889a-665481.png" /></p>
+<p><img alt="1726279358807-ada5057d-8eb5-475e-a665-b369ae42e27a.png" src="../img/1726279358807-ada5057d-8eb5-475e-a665-b369ae42e27a-352228.png" /></p>
+<p>一侧是 Type-C 接口及杜邦线排针，这一侧主要负责控制 GPIO 输出及触发引脚</p>
+<p>其中 E1-Tri 和 E2-Tri 分别对应了短路引擎 E1 和 E2 的触发引脚；IO1 和 IO2 即为 GPIO 输出，可用来作为触发或供电 </p>
+<p><img alt="1726279494056-938bfb54-ef4d-4379-b229-e7453a8bd777.png" src="../img/1726279494056-938bfb54-ef4d-4379-b229-e7453a8bd777-425066.png" /></p>
+<p>另一侧中的 Relay1 是固态继电器，Relay2 是电磁继电器，可以用来控制目标设备的重启复位等逻辑；E1 和 E2 是短路引擎做短路的位置，在实际操作中需要把目标设备的核心供电引脚接到 + 标记的位置，目标设备的 GND 接到 - 标记的位置（当然 - 这个位置和 PowerShorter 的 GND 是相连的，因此目标设备 GND 引脚与 PowerShorter GND 连接后也可以不接这个位置）；SMA-E1 和 SMA-E2 是用来观察短接毛刺使用的</p>
+<p><img alt="1726279635554-e9aa1539-22eb-45ad-a743-eb1e89929baa.png" src="../img/1726279635554-e9aa1539-22eb-45ad-a743-eb1e89929baa-462832.png" /></p>
+<p>其中的插线端子可以取下，这样就可以直接插杜邦线了，省了一个螺丝刀，但遇到质量不好的杜邦线就不如插线端子稳定了，大家看情况选择吧</p>
+<p><img alt="1726279936609-14afb30d-ae04-4c24-8bbf-0e12a22b3688.png" src="../img/1726279936609-14afb30d-ae04-4c24-8bbf-0e12a22b3688-522653.png" /></p>
+<h2 id="python">Python 库</h2>
+<p>设备使用 Python 进行控制，控制脚本在 gitee 开源了，地址如下：</p>
+<p><a href="https://gitee.com/osr-tech/powershorter">深圳市纽创信安科技开发有限公司/powershorter</a></p>
+<p>点击此处的发行版就可以下载 .whl 文件，使用 pip 进行安装</p>
+<p><img alt="1726280108402-f9db1a44-dfa5-4fbe-92d3-1636ad8cb425.png" src="../img/1726280108402-f9db1a44-dfa5-4fbe-92d3-1636ad8cb425-056949.png" /></p>
+<p><img alt="1726280982527-57a9b33f-4a63-40ca-8fa1-b3fbdfa598f4.png" src="../img/1726280982527-57a9b33f-4a63-40ca-8fa1-b3fbdfa598f4-763648.png" /></p>
+<h2 id="_2">简单使用</h2>
+<p>对于打故障来说，我更习惯于使用 jupyter lab 这个交互式的运行环境，所以我还要装一下 jupyter</p>
+<pre><code class="language-plain">pip install jupyter
+</code></pre>
+<p>安装完成后就可以在终端中输入<code>jupyter lab</code>这条命令，正常情况下会自动打开浏览器窗口，如果你电脑做了什么设置无法打开的话可以在浏览器手动访问 URL</p>
+<p><img alt="1726281421827-019a26a5-a9a8-4ac7-89d2-d18d8a6e1bab.png" src="../img/1726281421827-019a26a5-a9a8-4ac7-89d2-d18d8a6e1bab-998556.png" /></p>
+<p>点击新建一个 Notebook</p>
+<p><img alt="1726281500567-256d75f0-f23b-4276-980e-00d860d4c87a.png" src="../img/1726281500567-256d75f0-f23b-4276-980e-00d860d4c87a-534164.png" /></p>
+<h3 id="_3">导入设备库</h3>
+<p>然后就可以执行 Python 代码了，首先导入控制代码库：<code>from power_shorter import *</code></p>
+<p>然后需要初始化设备，因为控制脚本是通过串口与 PowerShorter 进行通信的，因此初始化时需要指定串口号，可以在设备管理器中找到一个 CH340 的串口设备（若识别不到需要安装 CH340 串口驱动：https://www.wch.cn/products/CH340.html）</p>
+<p><img alt="1726281734671-0be48569-5e89-47d8-ab4d-6afd17d44c1c.png" src="../img/1726281734671-0be48569-5e89-47d8-ab4d-6afd17d44c1c-935156.png" /></p>
+<h3 id="_4">初始化设备</h3>
+<p>在 jupyter 网页环境中点击菜单栏的开始按钮就可以一条一条的执行代码，代码前面的中括号如果是星号 [ * ] 表示正在执行，如果是数字表示已经执行过了，如果是空的表示没有执行</p>
+<p><img alt="1726707544796-6d6c48b5-a959-44aa-8eae-a7f09eed1678.png" src="../img/1726707544796-6d6c48b5-a959-44aa-8eae-a7f09eed1678-605242.png" /></p>
+<p>可以通过 tab 键查看提示</p>
+<p><img alt="1726282032456-bd1c97ad-6d12-4728-9e4a-fefab748b60a.png" src="../img/1726282032456-bd1c97ad-6d12-4728-9e4a-fefab748b60a-848567.png" /> </p>
+<p>在函数上按 shift+tab 键查看函数注释</p>
+<p><img alt="1726282093885-417c3ed0-81b5-481b-9e8c-6308e269823a.png" src="../img/1726282093885-417c3ed0-81b5-481b-9e8c-6308e269823a-694010.png" /></p>
+<h3 id="_5">控制继电器</h3>
+<p>设备经过初始化后就可以做各种操作啦，  如果想要控制电磁继电器的话可以使用 RELAY2，执行这两条语句后会听到啪嗒啪嗒的声音，这就是电磁继电器吸合的响动</p>
+<pre><code class="language-plain">ps.relay(RELAY.RELAY2, 1)  # 电磁继电器接通
+ps.relay(RELAY.RELAY2, 0)  # 电磁继电器断开
+</code></pre>
+<p><img alt="1726711318583-c9ad43cf-9615-486b-b1c9-6287f74b6303.png" src="../img/1726711318583-c9ad43cf-9615-486b-b1c9-6287f74b6303-966288.png" /></p>
+<p>控制固态继电器通断只需要修改为 RELAY1 即可，<strong>需要注意的是，固态继电器是通过电路实现的通断控制，并不是物理上的通断，因此需要额外将 PowerShorter 的 GND 引脚接到目标 GND 上！</strong></p>
+<pre><code class="language-plain">ps.relay(RELAY.RELAY1, 1)  # 固态继电器接通
+ps.relay(RELAY.RELAY1, 0)  # 固态继电器断开
+</code></pre>
+<p><img alt="1726711344661-ded4aa74-0905-460a-b17b-a76c101b9324.png" src="../img/1726711344661-ded4aa74-0905-460a-b17b-a76c101b9324-251895.png" /></p>
+<h3 id="gpio">控制GPIO</h3>
+<p>同理，控制 GPIO 的方式是：</p>
+<pre><code class="language-plain">ps.gpio(GPIO.GPIO1, 1)  # GPIO1拉高
+ps.gpio(GPIO.GPIO1, 0)  # GPIO1拉低
+ps.gpio(GPIO.GPIO2, 1)  # GPIO2拉高
+ps.gpio(GPIO.GPIO2, 0)  # GPIO2拉低
+</code></pre>
+<p><img alt="1726711931987-5dd5ee52-bcdf-45b1-99e8-bf8aba59f04e.png" src="../img/1726711931987-5dd5ee52-bcdf-45b1-99e8-bf8aba59f04e-675294.png" /></p>
+<h3 id="_6">配置短路引擎</h3>
+<p>接下来介绍一下故障注入最重要的参数控制，延时和毛刺宽度的配置，在 PowerShorter 中，使用 engine_cfg 来进行配置</p>
+<pre><code class="language-plain">ps.engine_cfg(Engine.E1, [(0, 3000), (1, 200), (0, 1)], TRIGGER_MODE.RISE, 1, 1)
+</code></pre>
+<p><img alt="1726712033556-0d55586d-9f42-4738-b4a2-645ea1b78e49.png" src="../img/1726712033556-0d55586d-9f42-4738-b4a2-645ea1b78e49-215733.png" /></p>
+<p>解释一下各个参数，首先需要指定配置的短路引擎，这里配置为 E1</p>
+<p>然后通过一个参数列表来配置毛刺的延时和宽度，列表里面元组的第一个值 0 表示断开、1 表示短接；第二个值表示保持时间，单位是 10ns</p>
+<p>例如这里的 [(0, 3000), (1, 200), (0, 1)] 就表示收到触发信号后，保持断开状态 3000 * 10ns，然后短接 200 * 10ns，最后保持断开 1 * 10ns，如果后续不再操作将一直保持断开状态。这背后实际是控制 MOS 管对 E1 的 + 和 - 进行断开或短接，从而实现电压短路故障注入</p>
+<p>后面三个参数分别是：</p>
+<p>配置触发边沿是上升沿还是下降沿（默认为上升沿触发，可以不填写）</p>
+<p>毛刺参数的重复次数，可以重复执行参数列表中配置的毛刺（默认配置为 1，可以不填写）</p>
+<p>毛刺边沿检测次数，可以配置检测到多次边沿再触发毛刺（默认配置为 1，可以不填写）</p>
+<p>那再回头看我们配置的参数，整体的含义是：配置短路引擎 E1 的触发引脚（E1-Tri）检测到上升沿后先等 3000 * 10ns，再拉一个 200 * 10ns 的短路毛刺，然后保持断开</p>
+<p>配置完毛刺的参数后需要使用 arm 函数激活毛刺，可以使用 state 函数查看当前状态，armed 表示毛刺已经被激活了，正在等待触发，同时设备红色的 LED 灯会熄灭</p>
+<pre><code class="language-plain">ps.arm(Engine.E1)
+ps.state(Engine.E1)
+</code></pre>
+<p><img alt="1726708949310-0c62b951-78c2-4338-889f-7acaf640c358.png" src="../img/1726708949310-0c62b951-78c2-4338-889f-7acaf640c358-715135.png" /></p>
+<p>此时如果用杜邦线将设备的 GPIO1 和 E1-Tri 连接，然后将 GPIO1 拉高提供一个上升沿将毛刺触发，再看毛刺的状态就已经是 glitched 表示已经毛刺已经打出去了，E1 的 + 和 - 做了一次 200 * 10ns 的短路，红灯也又亮了起来</p>
+<p><img alt="1726709029649-dc2498db-f7bc-4aa4-a553-ed5b1fed6a77.png" src="../img/1726709029649-dc2498db-f7bc-4aa4-a553-ed5b1fed6a77-601531.png" /></p>
+<h3 id="_7">统计故障参数</h3>
+<p>对于故障注入来说，统计故障参数及结果是很有必要的，这样我们可以有参考的调整参数，统计结果可以使用 FaultViz 这个库</p>
+<p><a href="https://gitee.com/osr-tech/faultviz">深圳市纽创信安科技开发有限公司/FaultViz</a></p>
+<p>这个库的使用需要配置 JAVA 环境，具体配置网上搜吧不细说了，安装完成后直接导入库，启用服务时需要指定端口（默认为 12345，可以不填写）</p>
+<pre><code class="language-plain">faultviz.start_view_service(port=12345)
+</code></pre>
+<p>然后通过 faultviz.ViewWidget() 创建一张表</p>
+<p><img alt="1726713099115-50ed54c7-a18e-4906-a486-aee41f83e757.png" src="../img/1726713099115-50ed54c7-a18e-4906-a486-aee41f83e757-595756.png" /></p>
+<p>vt.update() 往表里添加数据，这里面的数据完全是由你自己定义的，键值对的形式，键会作为列名，值会放在表中作为数据，执行过第一次 update() 函数后表中才有了实际数据，这时候就可以使用 vt.show() 查看记录了，可以对数据进行筛选、排序、导出等操作</p>
+<p><img alt="1726713219865-7e48ae4e-e614-4814-a62d-e369bd43b81d.png" src="../img/1726713219865-7e48ae4e-e614-4814-a62d-e369bd43b81d-570008.png" /></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../.." class="md-footer__link md-footer__link--prev" aria-label="上一页: Home">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                Home
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../%E6%95%85%E9%9A%9C%E6%A1%88%E4%BE%8B/STM32F1x%20%E7%94%B5%E5%8E%8B%E6%95%85%E9%9A%9C%E6%B3%A8%E5%85%A5%E7%BB%95%E8%BF%87%20RDP1%20%E5%9B%BA%E4%BB%B6%E8%AF%BB%E4%BF%9D%E6%8A%A4/" class="md-footer__link md-footer__link--next" aria-label="下一页: STM32F1x 电压故障注入绕过 RDP1 固件读保护">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                STM32F1x 电压故障注入绕过 RDP1 固件读保护
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["announce.dismiss", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "search.share", "navigation.indexes", "content.tabs.link", "content.tooltips", "content.code.copy", "content.action.edit", "content.action.view", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.60a45f97.min.js"></script>
+      
+    
+  </body>
+</html>

